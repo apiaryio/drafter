@@ -4,7 +4,7 @@
       'target_name': 'drafter',
       'type': 'executable',
       'sources': [
-        'src/Drafter.cc',
+        'src/drafter.cc',
       ],
       'dependencies': [
 	'./ext/snowcrash/snowcrash.gyp:libsnowcrash',
