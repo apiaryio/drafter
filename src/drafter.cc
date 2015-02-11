@@ -10,7 +10,11 @@
 
 #include <string>
 
+#include "cmdline.h"
+
 namespace config {
+    static const std::string Program        = "drafter";
+
     static const std::string Output         = "output";
     static const std::string Format         = "format";
     static const std::string Render         = "render";
@@ -23,8 +27,10 @@ namespace config {
 struct Config {
 };
 
-void ParseCommadLineOptions(int argc, const char *argv[], /* out */Config& config)
+void ParseCommadLineOptions(int argc, const char *argv[], /* out */Config& conf)
 {
+//    cmdline::parser parser;
+//    parser.set_program_name(config::Program);
 }
 
 //using sc = snowcrash;
