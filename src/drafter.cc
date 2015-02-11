@@ -1,6 +1,6 @@
+// vi:cin:et:sw=4 ts=4
 //
-//  snowcrash.cc
-//  snowcrash
+//  drafter.cc
 //
 //  Created by Jiri Kratochvil on 2015-02-11
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
