@@ -1,0 +1,3 @@
+[submodule "ext/snowcrash"]
+	path = ext/snowcrash
+	url = https://github.com/apiaryio/snowcrash.git
