@@ -6,13 +6,11 @@ PYTHON ?= python
 GYP ?= ./ext/snowcrash/tools/gyp/gyp
 DESTDIR ?= /usr/local/bin
 
-SNOWCRASHPATH ?= ./ext/snowcrash/build/out/$(BUILDTYPE)/
-
 # Default to verbose builds
 V ?= 1
 
 # Targets
-all: drafter libsnowcrash
+all: drafter
 
 .PHONY: all
 
@@ -20,9 +18,6 @@ drafter: config.gypi $(BUILD_DIR)/Makefile
 	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
 	mkdir -p ./bin
 	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/$@ ./bin/$@
-
-libsnowcrash: 
-	$(MAKE) -C ext/snowcrash
 
 config.gypi: configure
 	$(PYTHON) ./configure
@@ -39,5 +34,4 @@ distclean:
 	rm -f ./config.mk
 	rm -f ./config.gypi
 	rm -rf ./bin
-	$(MAKE) -C ext/snowcrash distclean
 
