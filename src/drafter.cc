@@ -127,15 +127,15 @@ struct std_io_selector<std::istream>{
     std::istream* operator()() { return &std::cin; }
 };
 
-template <typename Stream> struct fstream_selector;
+template <typename Stream> struct to_fstream;
 
 template<> 
-struct fstream_selector<std::istream>{
+struct to_fstream<std::istream>{
   typedef std::ifstream stream_type;
 };
 
 template<> 
-struct fstream_selector<std::ostream>{
+struct to_fstream<std::ostream>{
   typedef std::ofstream stream_type;
 };
 
@@ -163,7 +163,7 @@ std::tr1::shared_ptr<T> CreateStreamFromName(const std::string& file)
         );
     }
 
-    typedef typename fstream_selector<T>::stream_type stream_type;
+    typedef typename to_fstream<T>::stream_type stream_type;
     std::tr1::shared_ptr<stream_type>stream(
         file_io_selector<stream_type>()(file.c_str())
     );
