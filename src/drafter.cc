@@ -167,7 +167,6 @@ std::tr1::shared_ptr<T> CreateStreamFromName(const std::string& file)
     std::tr1::shared_ptr<stream_type>stream(
         file_io_selector<stream_type>()(file.c_str())
     );
-    stream->open(file.c_str());
 
     if (!stream->is_open()) {
       std::cerr << "fatal: unable to open file '" << file << "'\n";
