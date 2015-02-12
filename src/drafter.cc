@@ -177,7 +177,7 @@ std::tr1::shared_ptr<T> CreateStreamFromName(const std::string& file)
     return stream;
 }
 
-void Serialize(const std::string& out, 
+void Serialization(const std::string& out, 
     const sos::Object& object, 
     sos::Serialize* serializer) 
 {
@@ -366,12 +366,12 @@ int main(int argc, const char *argv[])
     if (!config.validate) {
         sos::Serialize* serializer = CreateSerializer(config.format);
 
-        Serialize(config.output, 
+        Serialization(config.output, 
             snowcrash::WrapBlueprint(blueprint.node), 
             serializer
             );
 
-        Serialize(config.sourceMap, 
+        Serialization(config.sourceMap, 
             snowcrash::WrapBlueprintSourcemap(blueprint.sourceMap),
             serializer
             );
