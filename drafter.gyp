@@ -21,10 +21,10 @@
       ],
 
       "dependencies": [
-	"ext/snowcrash/snowcrash.gyp:libsnowcrash",
-	"ext/snowcrash/snowcrash.gyp:libmarkdownparser",
-	"ext/snowcrash/snowcrash.gyp:libsundown",
-	"ext/snowcrash/snowcrash.gyp:libsos",
+        "ext/snowcrash/snowcrash.gyp:libsnowcrash",
+        "ext/snowcrash/snowcrash.gyp:libmarkdownparser",
+        "ext/snowcrash/snowcrash.gyp:libsundown",
+        "ext/snowcrash/snowcrash.gyp:libsos",
       ],
     },
   ],
