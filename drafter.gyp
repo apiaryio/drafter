@@ -11,8 +11,13 @@
         "src/drafter.cc",
       ],
 
+      # FIXME: replace by direct dependecies
       "include_dirs": [
         "ext/snowcrash/ext/cmdline",
+        "ext/snowcrash/ext/markdown-parser/src",
+        "ext/snowcrash/ext/markdown-parser/ext/sundown/src",
+        "ext/snowcrash/ext/sos/src",
+        "ext/snowcrash/src",
       ],
 
       "dependencies": [

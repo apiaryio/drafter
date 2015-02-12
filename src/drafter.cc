@@ -11,8 +11,22 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <fstream>
+
+#include <tr1/memory>
+#include <tr1/shared_ptr.h>
 
 #include "cmdline.h"
+
+#include "snowcrash.h"
+#include "SectionParserData.h"  // snowcrash::BlueprintParserOptions
+
+#include "sos.h"
+#include "sosJSON.h"
+#include "sosYAML.h"
+
+#include "SerializeAST.h"
+#include "SerializeSourcemap.h"
 
 namespace config {
     static const std::string Program        = "drafter";
@@ -27,11 +41,12 @@ namespace config {
 };
 
 struct Config {
-  std::string input;
-  bool lineNumbers;
-  std::string format;
-  std::string sourceMap;
-  std::string output;
+    std::string input;
+    bool lineNumbers;
+    bool validate;
+    std::string format;
+    std::string sourceMap;
+    std::string output;
 };
 
 void PrepareCommanLineParser(cmdline::parser& parser)
@@ -85,27 +100,145 @@ void ParseCommadLineOptions(int argc, const char *argv[], /* out */Config& conf)
     }
 
     conf.lineNumbers = parser.exist(config::UseLineNumbers);
-    conf.format      = parser.exist(config::Format);
+    conf.validate    = parser.exist(config::Validate);
+    conf.format      = parser.get<std::string>(config::Format);
     conf.output      = parser.get<std::string>(config::Output);
     conf.sourceMap   = parser.get<std::string>(config::Sourcemap);
 }
 
-//using sc = snowcrash;
+void PrintReport(const snowcrash::Report& report,
+                 const std::string& source,
+                 const Config& conf)
+{
+}
+
+template<typename T>
+struct dummy_deleter {
+    void operator()(T* obj) const {
+      // do nothing
+    }
+};
+
+template<typename T> struct std_io_selector;
+
+template<> 
+struct std_io_selector<std::ostream>{
+    std::ostream* operator()() { return &std::cout; }
+};
+
+template<> 
+struct std_io_selector<std::istream>{
+    std::istream* operator()() { return &std::cin; }
+};
+
+template <typename Stream> struct fstream_selector;
+
+template<> 
+struct fstream_selector<std::istream>{
+  typedef std::ifstream stream_type;
+};
+
+template<> 
+struct fstream_selector<std::ostream>{
+  typedef std::ofstream stream_type;
+};
+
+
+
+template<typename T> struct file_io_selector;
+
+template<> 
+struct file_io_selector<std::ofstream>{
+    std::ofstream* operator()(const char* name) { return new std::ofstream(name); }
+};
+
+template<> 
+struct file_io_selector<std::ifstream>{
+    std::ifstream* operator()(const char* name) { return new std::ifstream(name); }
+};
+
+template<typename T>
+std::tr1::shared_ptr<T> CreateStreamFromName(const std::string& file)
+{
+    if(file.empty()) {
+        return std::tr1::shared_ptr<T>(
+            std_io_selector<T>()(), 
+            dummy_deleter<T>()
+        );
+    }
+
+    typedef typename fstream_selector<T>::stream_type stream_type;
+    std::tr1::shared_ptr<stream_type>stream(
+        file_io_selector<stream_type>()(file.c_str())
+    );
+    stream->open(file.c_str());
+
+    if (!stream->is_open()) {
+      std::cerr << "fatal: unable to open file '" << file << "'\n";
+      exit(EXIT_FAILURE);
+    }
+
+    return stream;
+}
+
+void Serialize(const std::string& out, 
+    const sos::Object& object, 
+    sos::Serialize* serializer) 
+{
+    std::tr1::shared_ptr<std::ostream> stream = CreateStreamFromName<std::ostream>(out);
+    serializer->process(object, *stream);
+    *stream << std::endl;
+}
+
+sos::Serialize* CreateSerializer(const std::string& format)
+{
+    if(format == "json") {
+        return new sos::SerializeJSON;
+    } else if(format == "yaml") {
+        return new sos::SerializeYAML;
+    }
+
+    std::cerr << "fatal: unknow serialization format: '" << format << "'\n";
+    exit(EXIT_FAILURE);
+}
+
+namespace sc = snowcrash;
 
 int main(int argc, const char *argv[])
 {
     Config config; 
     ParseCommadLineOptions(argc, argv, config);
 
-#if 0
+    sc::BlueprintParserOptions options = 0;  // Or snowcrash::RequireBlueprintNameOption
+    if(!config.sourceMap.empty()) {
+        options |= snowcrash::ExportSourcemapOption;
+    }
+
+    std::stringstream inputStream;
+    std::tr1::shared_ptr<std::istream> in = CreateStreamFromName<std::istream>(config.input);
+    inputStream << in->rdbuf();
+
     sc::ParseResult<sc::Blueprint> blueprint;
     sc::parse(inputStream.str(), options, blueprint);
 
-    if (!config.ValidateOnly) {
+    if (!config.validate) {
+        sos::Serialize* serializer = CreateSerializer(config.format);
+
+        Serialize(config.output, 
+            snowcrash::WrapBlueprint(blueprint.node), 
+            serializer
+            );
+
+        Serialize(config.sourceMap, 
+            snowcrash::WrapBlueprintSourcemap(blueprint.sourceMap),
+            serializer
+            );
+
+        delete serializer;
     }
 
-    //PrintReport(blueprint.report, inputStream.str(), isUseLineNumbers);
+    PrintReport(blueprint.report, inputStream.str(), config);
+
     return blueprint.report.error.code;
-#endif
 
 }
