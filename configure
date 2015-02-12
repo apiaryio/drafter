@@ -115,7 +115,7 @@ def host_arch_win():
 
 def configure_drafter(o):
   # Build configuration
-  #o['default_configuration'] = 'Debug' if options.debug else 'Release'
+  o['default_configuration'] = 'Debug' if options.debug else 'Release'
 
   # Architecture
   host_arch = host_arch_win() if os.name == 'nt' else host_arch_cc()
