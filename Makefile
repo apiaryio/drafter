@@ -12,7 +12,6 @@ V ?= 1
 # Targets
 all: drafter
 
-.PHONY: all
 
 drafter: config.gypi $(BUILD_DIR)/Makefile
 	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
@@ -35,3 +34,10 @@ distclean:
 	rm -f ./config.gypi
 	rm -rf ./bin
 
+test: drafter
+
+ifdef INTEGRATION_TESTS
+	bundle exec cucumber
+endif
+
+.PHONY: all drafter test
