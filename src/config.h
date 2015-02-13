@@ -1,5 +1,15 @@
 #ifndef CONFIG_H_PIBRI8ND
 #define CONFIG_H_PIBRI8ND
+//
+// vi:cin:et:sw=4 ts=4
+//
+//  config.h - part of drafter
+//
+//  Created by Jiri Kratochvil on 2015-02-13
+//  Copyright (c) 2015 Apiary Inc. All rights reserved.
+//
+//
+//
 
 #include <string>
 

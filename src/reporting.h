@@ -1,6 +1,17 @@
 #ifndef REPORTING_H_JHA2MUHM
 #define REPORTING_H_JHA2MUHM
 
+//
+// vi:cin:et:sw=4 ts=4
+//
+//  reporting.h - part of drafter
+//
+//  Created by Jiri Kratochvil on 2015-02-13
+//  Copyright (c) 2015 Apiary Inc. All rights reserved.
+//
+//
+//
+
 #include "SourceAnnotation.h"
 
 /**

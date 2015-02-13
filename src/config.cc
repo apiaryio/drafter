@@ -1,5 +1,17 @@
+// vi:cin:et:sw=4 ts=4
+//
+//  config.cc - part of drafter
+//
+//  Created by Jiri Kratochvil on 2015-02-13
+//  Copyright (c) 2015 Apiary Inc. All rights reserved.
+//
+//
+//
+
 #include "config.h"
 #include "cmdline.h"
+
+#include "Version.h"
 
 void PrepareCommanLineParser(cmdline::parser& parser)
 {
@@ -22,8 +34,6 @@ void PrepareCommanLineParser(cmdline::parser& parser)
     parser.footer(ss.str());
 }
 
-#define DRAFTER_VERSION_STRING "x.x.x"
-
 void ValidateParsedCommandLine(const cmdline::parser& parser)
 {
     if (parser.rest().size() > 1) {
@@ -38,13 +48,6 @@ void ValidateParsedCommandLine(const cmdline::parser& parser)
 
 }
 
-/**
- *  \brief parse commandline params
- *
- *  \param argc argc as received to main()
- *  \param argv argv as received to main()
- *  \param conf output - parsed parameters
- */
 void ParseCommadLineOptions(int argc, const char *argv[], /* out */Config& conf)
 {
     cmdline::parser parser;
