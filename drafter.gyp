@@ -9,6 +9,8 @@
       "type": "executable",
       "sources": [
         "src/drafter.cc",
+        "src/reporting.cc",
+        "src/reporting.h",
       ],
 
       # FIXME: replace by direct dependecies
