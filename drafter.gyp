@@ -8,6 +8,8 @@
       "target_name": "drafter",
       "type": "executable",
       "sources": [
+        "src/config.cc",
+        "src/config.h",
         "src/drafter.cc",
         "src/reporting.cc",
         "src/reporting.h",
