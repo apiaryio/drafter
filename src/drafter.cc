@@ -38,16 +38,21 @@ struct dummy_deleter {
     }
 };
 
-template<typename T> struct std_io_selector;
+template<typename T> struct std_io;
 
-template<> 
-struct std_io_selector<std::ostream>{
-    std::ostream* operator()() { return &std::cout; }
+template<> struct std_io<std::istream> {
+    static std::istream* io() { return &std::cin; }
 };
 
-template<> 
-struct std_io_selector<std::istream>{
-    std::istream* operator()() { return &std::cin; }
+template<> struct std_io<std::ostream> {
+    static std::ostream* io() { return &std::cout; }
+};
+
+template<typename T> struct std_io_selector {
+    typedef T stream_type;
+    typedef std::tr1::shared_ptr<stream_type> return_type;
+
+    return_type operator()() { return return_type(std_io<T>::io(), dummy_deleter<stream_type>()); }
 };
 
 template <typename Stream> struct to_fstream;
@@ -62,34 +67,26 @@ struct to_fstream<std::ostream>{
   typedef std::ofstream stream_type;
 };
 
+template<typename T> struct file_io_selector{
+    typedef typename to_fstream<T>::stream_type stream_type;
+    typedef std::tr1::shared_ptr<stream_type> return_type;
 
-
-template<typename T> struct file_io_selector;
-
-template<> 
-struct file_io_selector<std::ofstream>{
-    std::ofstream* operator()(const char* name) { return new std::ofstream(name); }
-};
-
-template<> 
-struct file_io_selector<std::ifstream>{
-    std::ifstream* operator()(const char* name) { return new std::ifstream(name); }
+    return_type operator()(const char* name) const 
+    { 
+        return return_type(new stream_type(name)); 
+    }
 };
 
 template<typename T>
 std::tr1::shared_ptr<T> CreateStreamFromName(const std::string& file)
 {
     if(file.empty()) {
-        return std::tr1::shared_ptr<T>(
-            std_io_selector<T>()(), 
-            dummy_deleter<T>()
-        );
+        return std_io_selector<T>()();
     }
 
-    typedef typename to_fstream<T>::stream_type stream_type;
-    std::tr1::shared_ptr<stream_type>stream(
-        file_io_selector<stream_type>()(file.c_str())
-    );
+    typedef typename file_io_selector<T>::return_type return_type;
+
+    return_type stream = file_io_selector<T>()(file.c_str());
 
     if (!stream->is_open()) {
       std::cerr << "fatal: unable to open file '" << file << "'\n";
