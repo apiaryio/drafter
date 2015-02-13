@@ -38,6 +38,13 @@ void ValidateParsedCommandLine(const cmdline::parser& parser)
 
 }
 
+/**
+ *  \brief parse commandline params
+ *
+ *  \param argc argc as received to main()
+ *  \param argv argv as received to main()
+ *  \param conf output - parsed parameters
+ */
 void ParseCommadLineOptions(int argc, const char *argv[], /* out */Config& conf)
 {
     cmdline::parser parser;

@@ -25,6 +25,15 @@ struct Config {
     std::string output;
 };
 
+/**
+ *  \brief parse commandline params
+ *
+ *  \param argc argc as received to main()
+ *  \param argv argv as received to main()
+ *  \param conf output - parsed parameters
+ *
+ *  side effect - can call exit() if wrong params are sent to program
+ */
 void ParseCommadLineOptions(int argc, const char *argv[], /** out */Config& conf);
 
 
