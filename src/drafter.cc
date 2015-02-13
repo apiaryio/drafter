@@ -154,6 +154,17 @@ sos::Serialize* CreateSerializer(const std::string& format)
     exit(EXIT_FAILURE);
 }
 
+/**
+ * \brief Serialize sos::Object into stream
+ */
+void Serialization(std::tr1::shared_ptr<std::ostream> stream,
+        const sos::Object& object,
+        sos::Serialize* serializer)
+{
+        serializer->process(object, *stream);
+        *stream << "\n";
+}
+
 
 int main(int argc, const char *argv[])
 {
@@ -175,15 +186,13 @@ int main(int argc, const char *argv[])
     if (!config.validate) {  // not just validate -> we will serialize
         sos::Serialize* serializer = CreateSerializer(config.format);
 
-        serializer->process(
+        Serialization(CreateStreamFromName<std::ostream>(config.output),
             snowcrash::WrapBlueprint(blueprint.node), 
-            *CreateStreamFromName<std::ostream>(config.output)
-            );
+            serializer);
 
-        serializer->process(
+        Serialization(CreateStreamFromName<std::ostream>(config.sourceMap),
             snowcrash::WrapBlueprintSourcemap(blueprint.sourceMap),
-            *CreateStreamFromName<std::ostream>(config.sourceMap)
-            );
+            serializer);
 
         delete serializer;
     }
