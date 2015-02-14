@@ -1,5 +1,3 @@
-#ifndef CONFIG_H_PIBRI8ND
-#define CONFIG_H_PIBRI8ND
 //
 // vi:cin:et:sw=4 ts=4
 //
@@ -8,23 +6,10 @@
 //  Created by Jiri Kratochvil on 2015-02-13
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-//
-//
+#ifndef DRAFTER_CONFIG_H
+#define DRAFTER_CONFIG_H
 
 #include <string>
-
-
-namespace config {
-    static const std::string Program        = "drafter";
-
-    static const std::string Output         = "output";
-    static const std::string Format         = "format";
-    static const std::string Render         = "render";
-    static const std::string Sourcemap      = "sourcemap";
-    static const std::string Validate       = "validate";
-    static const std::string Version        = "version";
-    static const std::string UseLineNumbers = "use-line-num";
-};
 
 struct Config {
     std::string input;
@@ -47,4 +32,4 @@ struct Config {
 void ParseCommadLineOptions(int argc, const char *argv[], /** out */Config& conf);
 
 
-#endif /* end of include guard: CONFIG_H_PIBRI8ND */
+#endif /* end of include guard: DRAFTER_CONFIG_H */

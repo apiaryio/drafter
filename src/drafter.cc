@@ -5,8 +5,6 @@
 //  Created by Jiri Kratochvil on 2015-02-11
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-//
-//
 
 #include <string>
 #include <iostream>
@@ -78,7 +76,7 @@ template<typename T> struct std_io_selector {
 /**
  *  \brief functor select fstream based on iostream
  */
-template <typename Stream> struct to_fstream;
+template <typename T> struct to_fstream;
 
 template<> 
 struct to_fstream<std::istream>{
@@ -120,7 +118,7 @@ template<typename T> struct fstream_io_selector{
 template<typename T>
 std::tr1::shared_ptr<T> CreateStreamFromName(const std::string& file)
 {
-    if(file.empty()) {
+    if (file.empty()) {
         return std_io_selector<T>()();
     }
 
@@ -144,9 +142,9 @@ std::tr1::shared_ptr<T> CreateStreamFromName(const std::string& file)
 
 sos::Serialize* CreateSerializer(const std::string& format)
 {
-    if(format == "json") {
+    if (format == "json") {
         return new sos::SerializeJSON;
-    } else if(format == "yaml") {
+    } else if (format == "yaml") {
         return new sos::SerializeYAML;
     }
 
@@ -158,11 +156,11 @@ sos::Serialize* CreateSerializer(const std::string& format)
  * \brief Serialize sos::Object into stream
  */
 void Serialization(std::tr1::shared_ptr<std::ostream> stream,
-        const sos::Object& object,
-        sos::Serialize* serializer)
+                   const sos::Object& object,
+                   sos::Serialize* serializer)
 {
-        serializer->process(object, *stream);
-        *stream << "\n";
+    serializer->process(object, *stream);
+    *stream << "\n";
 }
 
 
@@ -172,7 +170,7 @@ int main(int argc, const char *argv[])
     ParseCommadLineOptions(argc, argv, config);
 
     sc::BlueprintParserOptions options = 0;  // Or snowcrash::RequireBlueprintNameOption
-    if(!config.sourceMap.empty()) {
+    if (!config.sourceMap.empty()) {
         options |= snowcrash::ExportSourcemapOption;
     }
 
@@ -187,12 +185,12 @@ int main(int argc, const char *argv[])
         sos::Serialize* serializer = CreateSerializer(config.format);
 
         Serialization(CreateStreamFromName<std::ostream>(config.output),
-            snowcrash::WrapBlueprint(blueprint.node), 
-            serializer);
+                      snowcrash::WrapBlueprint(blueprint.node), 
+                      serializer);
 
         Serialization(CreateStreamFromName<std::ostream>(config.sourceMap),
-            snowcrash::WrapBlueprintSourcemap(blueprint.sourceMap),
-            serializer);
+                      snowcrash::WrapBlueprintSourcemap(blueprint.sourceMap),
+                      serializer);
 
         delete serializer;
     }

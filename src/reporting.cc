@@ -1,8 +1,3 @@
-#include "reporting.h"
-
-#include <algorithm>
-#include <iostream>
-
 //
 // vi:cin:et:sw=4 ts=4
 //
@@ -11,8 +6,11 @@
 //  Created by Jiri Kratochvil on 2015-02-13
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-//
-//
+
+#include "reporting.h"
+
+#include <algorithm>
+#include <iostream>
 
 namespace sc = snowcrash;
 

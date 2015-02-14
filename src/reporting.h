@@ -1,6 +1,3 @@
-#ifndef REPORTING_H_JHA2MUHM
-#define REPORTING_H_JHA2MUHM
-
 //
 // vi:cin:et:sw=4 ts=4
 //
@@ -9,8 +6,10 @@
 //  Created by Jiri Kratochvil on 2015-02-13
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-//
-//
+
+#ifndef DRAFTER_REPORTING_H
+#define DRAFTER_REPORTING_H
+
 
 #include "SourceAnnotation.h"
 
@@ -21,10 +20,9 @@
  *  \param source Source data
  *  \param isUseLineNumbers True if the annotations needs to be printed by line and column number
  */
-
 void PrintReport(const snowcrash::Report& report,
                  const std::string& source,
                  const bool isUseLineNumbers);
 
 
-#endif /* end of include guard: REPORTING_H_JHA2MUHM */
+#endif /* end of include guard: DRAFTER_REPORTING_H */

@@ -1,3 +1,4 @@
+// 
 // vi:cin:et:sw=4 ts=4
 //
 //  config.cc - part of drafter
@@ -5,13 +6,23 @@
 //  Created by Jiri Kratochvil on 2015-02-13
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-//
-//
 
 #include "config.h"
 #include "cmdline.h"
 
 #include "Version.h"
+
+namespace config {
+    static const std::string Program        = "drafter";
+
+    static const std::string Output         = "output";
+    static const std::string Format         = "format";
+    static const std::string Render         = "render";
+    static const std::string Sourcemap      = "sourcemap";
+    static const std::string Validate       = "validate";
+    static const std::string Version        = "version";
+    static const std::string UseLineNumbers = "use-line-num";
+};
 
 void PrepareCommanLineParser(cmdline::parser& parser)
 {
