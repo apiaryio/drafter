@@ -208,7 +208,6 @@ sos::Object WrapPropertyName(const mson::PropertyName& propertyName)
 
 // Forward declarations
 sos::Array WrapTypeSections(const mson::TypeSections& typeSections);
-sos::Array WrapMSONElements(const mson::Elements& elements);
 
 sos::Object WrapPropertyMember(const mson::PropertyMember& propertyMember)
 {
@@ -250,11 +249,6 @@ sos::Object WrapMixin(const mson::Mixin& mixin)
     return WrapTypeDefinition(mixin);
 }
 
-sos::Array WrapOneOf(const mson::OneOf& oneOf)
-{
-    return WrapMSONElements(oneOf);
-}
-
 sos::Object WrapMSONElement(const mson::Element& element)
 {
     sos::Object elementObject;
@@ -286,14 +280,16 @@ sos::Object WrapMSONElement(const mson::Element& element)
         case mson::Element::OneOfClass:
         {
             klass = "oneOf";
-            elementObject.set(SerializeKey::Content, WrapOneOf(element.content.oneOf()));
+            elementObject.set(SerializeKey::Content, 
+                              CollectionPushWrapper<mson::Elements>()(element.content.oneOf(), WrapMSONElement));
             break;
         }
 
         case mson::Element::GroupClass:
         {
             klass = "group";
-            elementObject.set(SerializeKey::Content, WrapMSONElements(element.content.elements()));
+            elementObject.set(SerializeKey::Content, 
+                              CollectionPushWrapper<mson::Elements>()(element.content.elements(), WrapMSONElement));
             break;
         }
 
@@ -304,11 +300,6 @@ sos::Object WrapMSONElement(const mson::Element& element)
     elementObject.set(SerializeKey::Class, sos::String(klass));
 
     return elementObject;
-}
-
-sos::Array WrapMSONElements(const mson::Elements& elements)
-{
-    return CollectionPushWrapper<mson::Elements>()(elements, WrapMSONElement);
 }
 
 sos::Array WrapTypeSections(const mson::TypeSections& sections)
@@ -353,7 +344,8 @@ sos::Array WrapTypeSections(const mson::TypeSections& sections)
             section.set(SerializeKey::Content, sos::String(it->content.value));
         }
         else if (!it->content.elements().empty()) {
-            section.set(SerializeKey::Content, WrapMSONElements(it->content.elements()));
+            section.set(SerializeKey::Content, 
+                        CollectionPushWrapper<mson::Elements>()(it->content.elements(), WrapMSONElement));
         }
 
         sectionsArray.push(section);
