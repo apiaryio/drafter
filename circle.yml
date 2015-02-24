@@ -1,0 +1,12 @@
+checkout:
+  post:
+    - git submodule update --init --recursive
+
+dependencies:
+  pre:
+    
+test:
+  pre:
+    - ./configure -i
+  override:
+    - make test
