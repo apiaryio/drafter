@@ -40,14 +40,14 @@ using snowcrash::Actions;
 using snowcrash::Resource;
 using snowcrash::Blueprint;
 
-template<typename T, typename S = sos::Array>
+template<typename T, typename R = sos::Array>
 struct CollectionPushWrapper {
     typedef typename T::const_iterator iterator_type;
     typedef typename T::value_type value_type;
 
     template<typename Functor>
-    S operator()(const T& collection, Functor &wrapper) const {
-        S array;
+    R operator()(const T& collection, Functor &wrapper) const {
+        R array;
         for( iterator_type it = collection.begin() ; it != collection.end() ; ++it ) {
             array.push(wrapper(*it));
         }
