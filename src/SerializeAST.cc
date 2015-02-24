@@ -40,6 +40,20 @@ using snowcrash::Actions;
 using snowcrash::Resource;
 using snowcrash::Blueprint;
 
+/**
+ * \brief functor pattern to translate Collection<> into sos::Array on serialization 
+ *
+ * usage:
+ *
+ *  sos::Array elements = WrapCollection<mson::Elements>()(getSomeListOfElements(), WrapMSONElement));
+ *
+ *  operator()(const T& collection, Functor &wrapper)
+ *  \param collection - it come typicaly from snowcrash
+ *  \param wrapper - adaptee element before push to collection
+ *         you have to write your own, for example \see SeriallizeAST.cc
+ *
+ */
+
 template<typename T, typename R = sos::Array>
 struct WrapCollection {
     typedef typename T::const_iterator iterator_type;
