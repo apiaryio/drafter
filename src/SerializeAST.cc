@@ -29,6 +29,7 @@ using snowcrash::DataStructure;
 using snowcrash::Payload;
 using snowcrash::Headers;
 using snowcrash::Parameters;
+using snowcrash::Parameter;
 using snowcrash::Values;
 using snowcrash::TransactionExample;
 using snowcrash::TransactionExamples;
@@ -43,12 +44,6 @@ template<typename T, typename S = sos::Array>
 struct CollectionPushWrapper {
     typedef typename T::const_iterator iterator_type;
     typedef typename T::value_type value_type;
-
-    void operator()(const T& collection, S& target) const {
-        for( iterator_type it = collection.begin() ; it != collection.end() ; ++it ) {
-            target.push(*it);
-        }
-    }
 
     template<typename Functor>
     void operator()(const T& collection, S& target, Functor &wrapper) const {
@@ -561,48 +556,50 @@ sos::Object WrapPayload(const Payload& payload)
     return payloadObject;
 }
 
+sos::Object WrapParameter(const Parameter& parameter)
+{
+
+    sos::Object parameterObject;
+
+    // Name
+    parameterObject.set(SerializeKey::Name, sos::String(parameter.name));
+
+    // Description
+    parameterObject.set(SerializeKey::Description, sos::String(parameter.description));
+
+    // Type
+    parameterObject.set(SerializeKey::Type, sos::String(parameter.type));
+
+    // Use
+    parameterObject.set(SerializeKey::Required, sos::Boolean(parameter.use != snowcrash::OptionalParameterUse));
+
+    // Default Value
+    parameterObject.set(SerializeKey::Default, sos::String(parameter.defaultValue));
+
+    // Example Value
+    parameterObject.set(SerializeKey::Example, sos::String(parameter.exampleValue));
+
+    // Values
+    sos::Array values;
+
+    for (Values::const_iterator it = parameter.values.begin(); it != parameter.values.end(); ++it) {
+
+        sos::Object value;
+
+        value.set(SerializeKey::Value, sos::String(it->c_str()));
+
+        values.push(value);
+    }
+
+    parameterObject.set(SerializeKey::Values, values);
+
+    return parameterObject;
+}
+
 sos::Array WrapParameters(const Parameters& parameters)
 {
     sos::Array parametersArray;
-
-    for (Parameters::const_iterator it = parameters.begin(); it != parameters.end(); ++it) {
-
-        sos::Object parameter;
-
-        // Name
-        parameter.set(SerializeKey::Name, sos::String(it->name));
-
-        // Description
-        parameter.set(SerializeKey::Description, sos::String(it->description));
-
-        // Type
-        parameter.set(SerializeKey::Type, sos::String(it->type));
-
-        // Use
-        parameter.set(SerializeKey::Required, sos::Boolean(it->use != snowcrash::OptionalParameterUse));
-
-        // Default Value
-        parameter.set(SerializeKey::Default, sos::String(it->defaultValue));
-
-        // Example Value
-        parameter.set(SerializeKey::Example, sos::String(it->exampleValue));
-
-        // Values
-        sos::Array values;
-
-        for (Values::const_iterator valIt = it->values.begin(); valIt != it->values.end(); ++valIt) {
-
-            sos::Object value;
-
-            value.set(SerializeKey::Value, sos::String(valIt->c_str()));
-
-            values.push(value);
-        }
-
-        parameter.set(SerializeKey::Values, values);
-
-        parametersArray.push(parameter);
-    }
+    CollectionPushWrapper<Parameters>()(parameters, parametersArray, WrapParameter);
 
     return parametersArray;
 }
@@ -644,7 +641,9 @@ sos::Object WrapAction(const Action& action)
     actionObject.set(SerializeKey::Method, sos::String(action.method));
 
     // Parameters
-    actionObject.set(SerializeKey::Parameters, WrapParameters(action.parameters));
+    sos::Array parameters;
+    CollectionPushWrapper<Parameters>()(action.parameters, parameters, WrapParameter);
+    actionObject.set(SerializeKey::Parameters, parameters);
 
     // Content
     sos::Array content;
@@ -684,7 +683,9 @@ sos::Object WrapResource(const Resource& resource)
     resourceObject.set(SerializeKey::Model, model);
 
     // Parameters
-    resourceObject.set(SerializeKey::Parameters, WrapParameters(resource.parameters));
+    sos::Array parameters;
+    CollectionPushWrapper<Parameters>()(resource.parameters, parameters, WrapParameter);
+    resourceObject.set(SerializeKey::Parameters, parameters);
 
     // Actions
     sos::Array actions;
