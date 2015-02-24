@@ -9,6 +9,8 @@
 #include "StringUtility.h"
 #include "SerializeAST.h"
 
+#include <tr1/functional>
+
 using namespace drafter;
 
 using snowcrash::AssetRole;
@@ -36,6 +38,26 @@ using snowcrash::Action;
 using snowcrash::Actions;
 using snowcrash::Resource;
 using snowcrash::Blueprint;
+
+template<typename T, typename S = sos::Array>
+struct CollectionPushWrapper {
+    typedef typename T::const_iterator iterator_type;
+    typedef typename T::value_type value_type;
+
+    void operator()(const T& collection, S& target) const {
+        for( iterator_type it = collection.begin() ; it != collection.end() ; ++it ) {
+            target.push(*it);
+        }
+    }
+
+    template<typename Functor>
+    void operator()(const T& collection, S& target, Functor &wrapper) const {
+        for( iterator_type it = collection.begin() ; it != collection.end() ; ++it ) {
+            target.push(wrapper(*it));
+        }
+    }
+
+};
 
 sos::Object WrapValue(const mson::Value& value)
 {
@@ -118,14 +140,7 @@ sos::Object WrapTypeSpecification(const mson::TypeSpecification& typeSpecificati
 
     // Nested Types
     sos::Array nestedTypes;
-
-    for (mson::TypeNames::const_iterator it = typeSpecification.nestedTypes.begin();
-         it != typeSpecification.nestedTypes.end();
-         ++it) {
-
-        nestedTypes.push(WrapTypeName(*it));
-    }
-
+    CollectionPushWrapper<mson::TypeNames>()(typeSpecification.nestedTypes, nestedTypes, WrapTypeName);
     typeSpecificationObject.set(SerializeKey::NestedTypes, nestedTypes);
 
     return typeSpecificationObject;
@@ -173,14 +188,7 @@ sos::Object WrapValueDefinition(const mson::ValueDefinition& valueDefinition)
 
     // Values
     sos::Array values;
-
-    for (mson::Values::const_iterator it = valueDefinition.values.begin();
-         it != valueDefinition.values.end();
-         ++it) {
-
-        values.push(WrapValue(*it));
-    }
-
+    CollectionPushWrapper<mson::Values>()(valueDefinition.values, values, WrapValue);
     valueDefinitionObject.set(SerializeKey::Values, values);
 
     // Type Definition
@@ -307,9 +315,7 @@ sos::Array WrapMSONElements(const mson::Elements& elements)
 {
     sos::Array elementsArray;
 
-    for (mson::Elements::const_iterator it = elements.begin(); it != elements.end(); ++it) {
-        elementsArray.push(WrapMSONElement(*it));
-    }
+    CollectionPushWrapper<mson::Elements>()(elements, elementsArray, WrapMSONElement);
 
     return elementsArray;
 }
@@ -523,14 +529,7 @@ sos::Object WrapPayload(const Payload& payload)
 
     // Headers
     sos::Array headers;
-
-    for (Headers::const_iterator it = payload.headers.begin();
-         it != payload.headers.end();
-         ++it) {
-
-        headers.push(WrapHeader(*it));
-    }
-
+    CollectionPushWrapper<Headers>()(payload.headers, headers, WrapHeader);
     payloadObject.set(SerializeKey::Headers, headers);
 
     // Body
@@ -620,26 +619,12 @@ sos::Object WrapTransactionExample(const TransactionExample& example)
 
     // Requests
     sos::Array requests;
-
-    for (Requests::const_iterator it = example.requests.begin();
-         it != example.requests.end();
-         ++it) {
-
-        requests.push(WrapPayload(*it));
-    }
-
+    CollectionPushWrapper<Requests>()(example.requests, requests, WrapPayload);
     exampleObject.set(SerializeKey::Requests, requests);
 
     // Responses
     sos::Array responses;
-
-    for (Responses::const_iterator it = example.responses.begin();
-         it != example.responses.end();
-         ++it) {
-
-        responses.push(WrapPayload(*it));
-    }
-
+    CollectionPushWrapper<Responses>()(example.responses, responses, WrapPayload);
     exampleObject.set(SerializeKey::Responses, responses);
 
     return exampleObject;
@@ -672,14 +657,7 @@ sos::Object WrapAction(const Action& action)
 
     // Transaction Examples
     sos::Array transactionExamples;
-
-    for (TransactionExamples::const_iterator it = action.examples.begin();
-         it != action.examples.end();
-         ++it) {
-
-        transactionExamples.push(WrapTransactionExample(*it));
-    }
-
+    CollectionPushWrapper<TransactionExamples>()(action.examples, transactionExamples, WrapTransactionExample);
     actionObject.set(SerializeKey::Examples, transactionExamples);
 
     return actionObject;
@@ -710,14 +688,7 @@ sos::Object WrapResource(const Resource& resource)
 
     // Actions
     sos::Array actions;
-
-    for (Actions::const_iterator it = resource.actions.begin();
-         it != resource.actions.end();
-         ++it) {
-
-        actions.push(WrapAction(*it));
-    }
-
+    CollectionPushWrapper<Actions>()(resource.actions, actions, WrapAction);
     resourceObject.set(SerializeKey::Actions, actions);
 
     // Content
@@ -790,14 +761,7 @@ sos::Object WrapElement(const Element& element)
         case Element::CategoryElement:
         {
             sos::Array content;
-
-            for (Elements::const_iterator it = element.content.elements().begin();
-                 it != element.content.elements().end();
-                 ++it) {
-
-                content.push(WrapElement(*it));
-            }
-
+            CollectionPushWrapper<Elements>()(element.content.elements(), content, WrapElement);
             elementObject.set(SerializeKey::Content, content);
             break;
         }
@@ -819,6 +783,8 @@ sos::Object WrapElement(const Element& element)
     return elementObject;
 }
 
+
+
 sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
 {
     sos::Object blueprintObject;
@@ -829,12 +795,7 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
     // Metadata
     sos::Array metadata;
 
-    for (MetadataCollection::const_iterator it = blueprint.metadata.begin();
-         it != blueprint.metadata.end();
-         ++it) {
-
-        metadata.push(WrapMetadata(*it));
-    }
+    CollectionPushWrapper<MetadataCollection>()(blueprint.metadata, metadata, WrapKeyValue);
 
     blueprintObject.set(SerializeKey::Metadata, metadata);
 
@@ -865,14 +826,7 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
 
     // Content
     sos::Array content;
-
-    for (Elements::const_iterator it = blueprint.content.elements().begin();
-         it != blueprint.content.elements().end();
-         ++it) {
-
-        content.push(WrapElement(*it));
-    }
-
+    CollectionPushWrapper<Elements>()(blueprint.content.elements(), content, WrapElement);
     blueprintObject.set(SerializeKey::Content, content);
 
     return blueprintObject;
