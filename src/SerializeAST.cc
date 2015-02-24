@@ -46,10 +46,12 @@ struct CollectionPushWrapper {
     typedef typename T::value_type value_type;
 
     template<typename Functor>
-    void operator()(const T& collection, S& target, Functor &wrapper) const {
+    S operator()(const T& collection, Functor &wrapper) const {
+        S array;
         for( iterator_type it = collection.begin() ; it != collection.end() ; ++it ) {
-            target.push(wrapper(*it));
+            array.push(wrapper(*it));
         }
+        return array;
     }
 
 };
@@ -134,9 +136,8 @@ sos::Object WrapTypeSpecification(const mson::TypeSpecification& typeSpecificati
     typeSpecificationObject.set(SerializeKey::Name, WrapTypeName(typeSpecification.name));
 
     // Nested Types
-    sos::Array nestedTypes;
-    CollectionPushWrapper<mson::TypeNames>()(typeSpecification.nestedTypes, nestedTypes, WrapTypeName);
-    typeSpecificationObject.set(SerializeKey::NestedTypes, nestedTypes);
+    typeSpecificationObject.set(SerializeKey::NestedTypes, 
+                                CollectionPushWrapper<mson::TypeNames>()(typeSpecification.nestedTypes, WrapTypeName));
 
     return typeSpecificationObject;
 }
@@ -182,9 +183,8 @@ sos::Object WrapValueDefinition(const mson::ValueDefinition& valueDefinition)
     sos::Object valueDefinitionObject;
 
     // Values
-    sos::Array values;
-    CollectionPushWrapper<mson::Values>()(valueDefinition.values, values, WrapValue);
-    valueDefinitionObject.set(SerializeKey::Values, values);
+    valueDefinitionObject.set(SerializeKey::Values,
+                              CollectionPushWrapper<mson::Values>()(valueDefinition.values, WrapValue));
 
     // Type Definition
     valueDefinitionObject.set(SerializeKey::TypeDefinition, WrapTypeDefinition(valueDefinition.typeDefinition));
@@ -308,11 +308,7 @@ sos::Object WrapMSONElement(const mson::Element& element)
 
 sos::Array WrapMSONElements(const mson::Elements& elements)
 {
-    sos::Array elementsArray;
-
-    CollectionPushWrapper<mson::Elements>()(elements, elementsArray, WrapMSONElement);
-
-    return elementsArray;
+    return CollectionPushWrapper<mson::Elements>()(elements, WrapMSONElement);
 }
 
 sos::Array WrapTypeSections(const mson::TypeSections& sections)
@@ -523,9 +519,8 @@ sos::Object WrapPayload(const Payload& payload)
     payloadObject.set(SerializeKey::Description, sos::String(payload.description));
 
     // Headers
-    sos::Array headers;
-    CollectionPushWrapper<Headers>()(payload.headers, headers, WrapHeader);
-    payloadObject.set(SerializeKey::Headers, headers);
+    payloadObject.set(SerializeKey::Headers,
+                      CollectionPushWrapper<Headers>()(payload.headers, WrapHeader));
 
     // Body
     payloadObject.set(SerializeKey::Body, sos::String(payload.body));
@@ -598,10 +593,7 @@ sos::Object WrapParameter(const Parameter& parameter)
 
 sos::Array WrapParameters(const Parameters& parameters)
 {
-    sos::Array parametersArray;
-    CollectionPushWrapper<Parameters>()(parameters, parametersArray, WrapParameter);
-
-    return parametersArray;
+    return CollectionPushWrapper<Parameters>()(parameters, WrapParameter);
 }
 
 sos::Object WrapTransactionExample(const TransactionExample& example)
@@ -615,14 +607,12 @@ sos::Object WrapTransactionExample(const TransactionExample& example)
     exampleObject.set(SerializeKey::Description, sos::String(example.description));
 
     // Requests
-    sos::Array requests;
-    CollectionPushWrapper<Requests>()(example.requests, requests, WrapPayload);
-    exampleObject.set(SerializeKey::Requests, requests);
+    exampleObject.set(SerializeKey::Requests,
+                      CollectionPushWrapper<Requests>()(example.requests, WrapPayload));
 
     // Responses
-    sos::Array responses;
-    CollectionPushWrapper<Responses>()(example.responses, responses, WrapPayload);
-    exampleObject.set(SerializeKey::Responses, responses);
+    exampleObject.set(SerializeKey::Responses,
+                      CollectionPushWrapper<Responses>()(example.responses, WrapPayload));
 
     return exampleObject;
 }
@@ -641,9 +631,8 @@ sos::Object WrapAction(const Action& action)
     actionObject.set(SerializeKey::Method, sos::String(action.method));
 
     // Parameters
-    sos::Array parameters;
-    CollectionPushWrapper<Parameters>()(action.parameters, parameters, WrapParameter);
-    actionObject.set(SerializeKey::Parameters, parameters);
+    actionObject.set(SerializeKey::Parameters,
+                     CollectionPushWrapper<Parameters>()(action.parameters, WrapParameter));
 
     // Content
     sos::Array content;
@@ -655,9 +644,8 @@ sos::Object WrapAction(const Action& action)
     actionObject.set(SerializeKey::Content, content);
 
     // Transaction Examples
-    sos::Array transactionExamples;
-    CollectionPushWrapper<TransactionExamples>()(action.examples, transactionExamples, WrapTransactionExample);
-    actionObject.set(SerializeKey::Examples, transactionExamples);
+    actionObject.set(SerializeKey::Examples,
+                     CollectionPushWrapper<TransactionExamples>()(action.examples, WrapTransactionExample));
 
     return actionObject;
 }
@@ -683,14 +671,12 @@ sos::Object WrapResource(const Resource& resource)
     resourceObject.set(SerializeKey::Model, model);
 
     // Parameters
-    sos::Array parameters;
-    CollectionPushWrapper<Parameters>()(resource.parameters, parameters, WrapParameter);
-    resourceObject.set(SerializeKey::Parameters, parameters);
+    resourceObject.set(SerializeKey::Parameters,
+                       CollectionPushWrapper<Parameters>()(resource.parameters, WrapParameter));
 
     // Actions
-    sos::Array actions;
-    CollectionPushWrapper<Actions>()(resource.actions, actions, WrapAction);
-    resourceObject.set(SerializeKey::Actions, actions);
+    resourceObject.set(SerializeKey::Actions,
+                       CollectionPushWrapper<Actions>()(resource.actions, WrapAction));
 
     // Content
     sos::Array content;
@@ -761,9 +747,8 @@ sos::Object WrapElement(const Element& element)
 
         case Element::CategoryElement:
         {
-            sos::Array content;
-            CollectionPushWrapper<Elements>()(element.content.elements(), content, WrapElement);
-            elementObject.set(SerializeKey::Content, content);
+            elementObject.set(SerializeKey::Content,
+                              CollectionPushWrapper<Elements>()(element.content.elements(), WrapElement));
             break;
         }
 
@@ -794,11 +779,9 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
     blueprintObject.set(SerializeKey::ASTVersion, sos::String(AST_SERIALIZATION_VERSION));
 
     // Metadata
-    sos::Array metadata;
 
-    CollectionPushWrapper<MetadataCollection>()(blueprint.metadata, metadata, WrapKeyValue);
-
-    blueprintObject.set(SerializeKey::Metadata, metadata);
+    blueprintObject.set(SerializeKey::Metadata, 
+                        CollectionPushWrapper<MetadataCollection>()(blueprint.metadata, WrapKeyValue));
 
     // Name
     blueprintObject.set(SerializeKey::Name, sos::String(blueprint.name));
@@ -826,9 +809,8 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
     blueprintObject.set(SerializeKey::ResourceGroups, resourceGroups);
 
     // Content
-    sos::Array content;
-    CollectionPushWrapper<Elements>()(blueprint.content.elements(), content, WrapElement);
-    blueprintObject.set(SerializeKey::Content, content);
+    blueprintObject.set(SerializeKey::Content,
+                        CollectionPushWrapper<Elements>()(blueprint.content.elements(), WrapElement));
 
     return blueprintObject;
 }
