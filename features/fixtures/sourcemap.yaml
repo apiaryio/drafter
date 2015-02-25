@@ -68,7 +68,43 @@ resourceGroups:
                 -
                   - 470
                   - 28
-        parameters: []
+        parameters:
+          -
+            name:
+              -
+                - 518
+                - 86
+            description:
+              -
+                - 518
+                - 86
+            type:
+              -
+                - 518
+                - 86
+            required:
+              -
+                - 518
+                - 86
+            example:
+              -
+                - 518
+                - 86
+            default:
+              -
+                - 518
+                - 86
+            values:
+              -
+                value:
+                  -
+                    - 634
+                    - 20
+              -
+                value:
+                  -
+                    - 666
+                    - 20
         actions:
           -
             name:
@@ -83,7 +119,43 @@ resourceGroups:
               -
                 - 734
                 - 25
-            parameters: []
+            parameters:
+              -
+                name:
+                  -
+                    - 800
+                    - 86
+                description:
+                  -
+                    - 800
+                    - 86
+                type:
+                  -
+                    - 800
+                    - 86
+                required:
+                  -
+                    - 800
+                    - 86
+                example:
+                  -
+                    - 800
+                    - 86
+                default:
+                  -
+                    - 800
+                    - 86
+                values:
+                  -
+                    value:
+                      -
+                        - 916
+                        - 20
+                  -
+                    value:
+                      -
+                        - 948
+                        - 20
             examples:
               -
                 name: []
@@ -340,7 +412,43 @@ content:
                 -
                   - 470
                   - 28
-        parameters: []
+        parameters:
+          -
+            name:
+              -
+                - 518
+                - 86
+            description:
+              -
+                - 518
+                - 86
+            type:
+              -
+                - 518
+                - 86
+            required:
+              -
+                - 518
+                - 86
+            example:
+              -
+                - 518
+                - 86
+            default:
+              -
+                - 518
+                - 86
+            values:
+              -
+                value:
+                  -
+                    - 634
+                    - 20
+              -
+                value:
+                  -
+                    - 666
+                    - 20
         actions:
           -
             name:
@@ -355,7 +463,43 @@ content:
               -
                 - 734
                 - 25
-            parameters: []
+            parameters:
+              -
+                name:
+                  -
+                    - 800
+                    - 86
+                description:
+                  -
+                    - 800
+                    - 86
+                type:
+                  -
+                    - 800
+                    - 86
+                required:
+                  -
+                    - 800
+                    - 86
+                example:
+                  -
+                    - 800
+                    - 86
+                default:
+                  -
+                    - 800
+                    - 86
+                values:
+                  -
+                    value:
+                      -
+                        - 916
+                        - 20
+                  -
+                    value:
+                      -
+                        - 948
+                        - 20
             examples:
               -
                 name: []

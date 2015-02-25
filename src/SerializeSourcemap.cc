@@ -233,40 +233,38 @@ sos::Object WrapValueSourceMap(const SourceMap<Value>& value)
     return object;
 }
 
+sos::Object WrapParameterSourcemap(const SourceMap<Parameter>& parameter) 
+{
+    sos::Object object;
+
+    // Name
+    object.set(SerializeKey::Name, WrapSourcemap(parameter.name));
+
+    // Description
+    object.set(SerializeKey::Description, WrapSourcemap(parameter.description));
+
+    // Type
+    object.set(SerializeKey::Type, WrapSourcemap(parameter.type));
+
+    // Use
+    object.set(SerializeKey::Required, WrapSourcemap(parameter.use));
+
+    // Example Value
+    object.set(SerializeKey::Example, WrapSourcemap(parameter.exampleValue));
+
+    // Default Value
+    object.set(SerializeKey::Default, WrapSourcemap(parameter.defaultValue));
+
+    // Values
+    object.set(SerializeKey::Values,
+               WrapCollection<Value>()(parameter.values.collection, WrapValueSourceMap));
+
+    return object;
+}
+
 sos::Array WrapParametersSourcemap(const SourceMap<Parameters>& parameters)
 {
-    sos::Array parametersArray;
-
-    for (Collection<SourceMap<Parameter> >::const_iterator it = parameters.collection.begin();
-         it != parameters.collection.end();
-         ++it) {
-
-        sos::Object parameter;
-
-        // Name
-        parameter.set(SerializeKey::Name, WrapSourcemap(it->name));
-
-        // Description
-        parameter.set(SerializeKey::Description, WrapSourcemap(it->description));
-
-        // Type
-        parameter.set(SerializeKey::Type, WrapSourcemap(it->type));
-
-        // Use
-        parameter.set(SerializeKey::Required, WrapSourcemap(it->use));
-
-        // Example Value
-        parameter.set(SerializeKey::Example, WrapSourcemap(it->exampleValue));
-
-        // Default Value
-        parameter.set(SerializeKey::Default, WrapSourcemap(it->defaultValue));
-
-        // Values
-        parameter.set(SerializeKey::Values,
-                      WrapCollection<Value>()(it->values.collection, WrapValueSourceMap));
-    }
-
-    return parametersArray;
+    return WrapCollection<Parameter>()(parameters.collection, WrapParameterSourcemap);
 }
 
 sos::Object WrapTransactionExampleSourcemap(const SourceMap<TransactionExample>& example)
