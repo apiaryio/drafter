@@ -51,7 +51,6 @@ sos::Array WrapSourcemap(const SourceMapBase& value)
 
 // Forward declarations
 sos::Array WrapTypeSectionSourcemap(const SourceMap<mson::TypeSection>& typeSection);
-sos::Array WrapElementsSourcemap(const SourceMap<mson::Elements>& elements);
 
 sos::Object WrapPropertyMemberSourcemap(const SourceMap<mson::PropertyMember>& propertyMember)
 {
@@ -99,7 +98,7 @@ sos::Base WrapElementSourcemapBase(const SourceMap<mson::Element>& element)
 {
     if (!element.elements().collection.empty()) {
         // Same for oneOf
-        return WrapElementsSourcemap(element.elements());     // return sos::Array
+        return WrapCollection<mson::Element>()(element.elements().collection, WrapElementSourcemapBase);
     }
     else if (!element.mixin.sourceMap.empty()) {
         return WrapMixinSourcemap(element.mixin);             // return sos::Array
@@ -114,11 +113,6 @@ sos::Base WrapElementSourcemapBase(const SourceMap<mson::Element>& element)
     return sos::Null();                                       // return sos::Null
 }
 
-sos::Array WrapElementsSourcemap(const SourceMap<mson::Elements>& elements)
-{
-    return WrapCollection<mson::Element>()(elements.collection, WrapElementSourcemapBase);
-}
-
 sos::Array WrapTypeSectionSourcemap(const SourceMap<mson::TypeSection>& section)
 {
     if (!section.description.sourceMap.empty()) {
@@ -128,7 +122,7 @@ sos::Array WrapTypeSectionSourcemap(const SourceMap<mson::TypeSection>& section)
         return WrapSourcemap(section.value);
     }
     else if (!section.elements().collection.empty()) {
-        return WrapElementsSourcemap(section.elements());
+        return WrapCollection<mson::Element>()(section.elements().collection, WrapElementSourcemapBase);
     }
     return sos::Array();
 }
