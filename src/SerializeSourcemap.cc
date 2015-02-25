@@ -18,7 +18,6 @@ using snowcrash::DataStructure;
 using snowcrash::Asset;
 using snowcrash::Payload;
 using snowcrash::Header;
-using snowcrash::Parameters;
 using snowcrash::Parameter;
 using snowcrash::Value;
 using snowcrash::TransactionExample;
@@ -262,11 +261,6 @@ sos::Object WrapParameterSourcemap(const SourceMap<Parameter>& parameter)
     return object;
 }
 
-sos::Array WrapParametersSourcemap(const SourceMap<Parameters>& parameters)
-{
-    return WrapCollection<Parameter>()(parameters.collection, WrapParameterSourcemap);
-}
-
 sos::Object WrapTransactionExampleSourcemap(const SourceMap<TransactionExample>& example)
 {
     sos::Object exampleObject;
@@ -302,7 +296,8 @@ sos::Object WrapActionSourcemap(const SourceMap<Action>& action)
     actionObject.set(SerializeKey::Method, WrapSourcemap(action.method));
 
     // Parameters
-    actionObject.set(SerializeKey::Parameters, WrapParametersSourcemap(action.parameters));
+    actionObject.set(SerializeKey::Parameters, 
+                     WrapCollection<Parameter>()(action.parameters.collection, WrapParameterSourcemap));
 
     // Transaction Examples
     actionObject.set(SerializeKey::Examples, 
@@ -339,7 +334,8 @@ sos::Object WrapResourceSourcemap(const SourceMap<Resource>& resource)
     resourceObject.set(SerializeKey::Model, model);
 
     // Parameters
-    resourceObject.set(SerializeKey::Parameters, WrapParametersSourcemap(resource.parameters));
+    resourceObject.set(SerializeKey::Parameters, 
+                       WrapCollection<Parameter>()(resource.parameters.collection, WrapParameterSourcemap));
 
     // Actions
     resourceObject.set(SerializeKey::Actions, 
@@ -474,5 +470,6 @@ sos::Object drafter::WrapBlueprintSourcemap(const SourceMap<Blueprint>& blueprin
     // Content
     blueprintObject.set(SerializeKey::Content, 
                         WrapCollection<Element>()(blueprint.content.elements().collection, WrapElementSourcemap));
+
     return blueprintObject;
 }
