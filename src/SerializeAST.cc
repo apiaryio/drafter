@@ -9,8 +9,6 @@
 #include "StringUtility.h"
 #include "SerializeAST.h"
 
-#include <tr1/functional>
-
 using namespace drafter;
 
 using snowcrash::AssetRole;
