@@ -31,6 +31,7 @@ using snowcrash::Headers;
 using snowcrash::Parameters;
 using snowcrash::Parameter;
 using snowcrash::Values;
+using snowcrash::Value;
 using snowcrash::TransactionExample;
 using snowcrash::TransactionExamples;
 using snowcrash::Response;
@@ -287,6 +288,7 @@ sos::Object WrapMSONElement(const mson::Element& element)
     return elementObject;
 }
 
+// REFACTOR
 sos::Array WrapTypeSections(const mson::TypeSections& sections)
 {
     sos::Array sectionsArray;
@@ -528,6 +530,13 @@ sos::Object WrapPayload(const Payload& payload)
     return payloadObject;
 }
 
+sos::Object WrapParameterValue(const Value& value)
+{
+    sos::Object object;
+    object.set(SerializeKey::Value, sos::String(value.c_str()));
+    return object;
+}
+
 sos::Object WrapParameter(const Parameter& parameter)
 {
 
@@ -552,18 +561,9 @@ sos::Object WrapParameter(const Parameter& parameter)
     parameterObject.set(SerializeKey::Example, sos::String(parameter.exampleValue));
 
     // Values
-    sos::Array values;
-
-    for (Values::const_iterator it = parameter.values.begin(); it != parameter.values.end(); ++it) {
-
-        sos::Object value;
-
-        value.set(SerializeKey::Value, sos::String(it->c_str()));
-
-        values.push(value);
-    }
-
-    parameterObject.set(SerializeKey::Values, values);
+    
+    parameterObject.set(SerializeKey::Values, 
+                        WrapCollection<Value>()(parameter.values, WrapParameterValue));
 
     return parameterObject;
 }
