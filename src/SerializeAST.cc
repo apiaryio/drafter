@@ -114,6 +114,7 @@ sos::Base WrapTypeName(const mson::TypeName& typeName)
     return WrapSymbol(typeName.symbol);
 }
 
+
 sos::Object WrapTypeSpecification(const mson::TypeSpecification& typeSpecification)
 {
     sos::Object typeSpecificationObject;
@@ -194,6 +195,131 @@ sos::Object WrapPropertyName(const mson::PropertyName& propertyName)
 
 // Forward declarations
 sos::Object WrapTypeSection(const mson::TypeSection& typeSection);
+
+
+const sos::String TypeSectionToString(const mson::TypeSection& section)
+{
+    switch (section.klass) {
+        case mson::TypeSection::BlockDescriptionClass:
+            return sos::String("blockDescription");
+
+        case mson::TypeSection::MemberTypeClass:
+            return sos::String("memberType");
+
+        case mson::TypeSection::SampleClass:
+            return sos::String("sample");
+
+        case mson::TypeSection::DefaultClass:
+            return sos::String("default");
+
+        default:
+            return sos::String();
+    }
+    return sos::String();
+}
+
+sos::String AssetRoleToString(const AssetRole& role)
+{
+    std::string str;
+
+    switch (role) {
+        case BodyExampleAssetRole:
+            str = "bodyExample";
+            break;
+
+        case BodySchemaAssetRole:
+            str = "bodySchema";
+            break;
+
+        default:
+            break;
+    }
+
+    return sos::String(str);
+}
+
+sos::String ElementClassToString(const Element::Class& element)
+{
+    std::string str;
+
+    switch (element) {
+        case Element::CategoryElement:
+            str = "category";
+            break;
+
+        case Element::CopyElement:
+            str = "copy";
+            break;
+
+        case Element::ResourceElement:
+            str = "resource";
+            break;
+
+        case Element::DataStructureElement:
+            str = "dataStructure";
+            break;
+
+        case Element::AssetElement:
+            str = "asset";
+            break;
+
+        default:
+            break;
+    }
+
+    return sos::String(str);
+}
+
+sos::Object WrapNamedType(const mson::NamedType& namedType)
+{
+    sos::Object namedTypeObject;
+
+    // Name
+    namedTypeObject.set(SerializeKey::Name, WrapTypeName(namedType.name));
+
+    // Type Definition
+    namedTypeObject.set(SerializeKey::TypeDefinition, WrapTypeDefinition(namedType.typeDefinition));
+
+    // Type Sections
+    namedTypeObject.set(SerializeKey::Sections, 
+                        WrapCollection<mson::TypeSection>()(namedType.sections, WrapTypeSection));
+
+    return namedTypeObject;
+}
+
+
+sos::Object WrapKeyValue(const KeyValuePair& keyValue)
+{
+    sos::Object keyValueObject;
+
+    // Name
+    keyValueObject.set(SerializeKey::Name, sos::String(keyValue.first));
+
+    // Value
+    keyValueObject.set(SerializeKey::Value, sos::String(keyValue.second));
+
+    return keyValueObject;
+}
+
+sos::Object WrapMetadata(const Metadata& metadata)
+{
+    return WrapKeyValue(metadata);
+}
+
+sos::Object WrapHeader(const Header& header)
+{
+    return WrapKeyValue(header);
+}
+
+sos::Object WrapReference(const Reference& reference)
+{
+    sos::Object referenceObject;
+
+    // Id
+    referenceObject.set(SerializeKey::Id, sos::String(reference.id));
+
+    return referenceObject;
+}
 
 sos::Object WrapPropertyMember(const mson::PropertyMember& propertyMember)
 {
@@ -290,27 +416,6 @@ sos::Object WrapMSONElement(const mson::Element& element)
     return elementObject;
 }
 
-const sos::String TypeSectionToString(const mson::TypeSection& section)
-{
-    switch (section.klass) {
-        case mson::TypeSection::BlockDescriptionClass:
-            return sos::String("blockDescription");
-
-        case mson::TypeSection::MemberTypeClass:
-            return sos::String("memberType");
-
-        case mson::TypeSection::SampleClass:
-            return sos::String("sample");
-
-        case mson::TypeSection::DefaultClass:
-            return sos::String("default");
-
-        default:
-            return sos::String();
-    }
-    return sos::String();
-}
-
 sos::Object WrapTypeSection(const mson::TypeSection& section)
 {
     sos::Object object;
@@ -333,135 +438,13 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
     return object;
 }
 
-sos::Object WrapNamedType(const mson::NamedType& namedType)
-{
-    sos::Object namedTypeObject;
-
-    // Name
-    namedTypeObject.set(SerializeKey::Name, WrapTypeName(namedType.name));
-
-    // Type Definition
-    namedTypeObject.set(SerializeKey::TypeDefinition, WrapTypeDefinition(namedType.typeDefinition));
-
-    // Type Sections
-    namedTypeObject.set(SerializeKey::Sections, 
-                        WrapCollection<mson::TypeSection>()(namedType.sections, WrapTypeSection));
-
-    return namedTypeObject;
-}
-
-sos::String WrapAssetRole(const AssetRole& role)
-{
-    std::string str;
-
-    switch (role) {
-        case BodyExampleAssetRole:
-            str = "bodyExample";
-            break;
-
-        case BodySchemaAssetRole:
-            str = "bodySchema";
-            break;
-
-        default:
-            break;
-    }
-
-    return sos::String(str);
-}
-
-sos::String WrapElementClass(const Element::Class& element)
-{
-    std::string str;
-
-    switch (element) {
-        case Element::CategoryElement:
-            str = "category";
-            break;
-
-        case Element::CopyElement:
-            str = "copy";
-            break;
-
-        case Element::ResourceElement:
-            str = "resource";
-            break;
-
-        case Element::DataStructureElement:
-            str = "dataStructure";
-            break;
-
-        case Element::AssetElement:
-            str = "asset";
-            break;
-
-        default:
-            break;
-    }
-
-    return sos::String(str);
-}
-
-sos::Object WrapKeyValue(const KeyValuePair& keyValue)
-{
-    sos::Object keyValueObject;
-
-    // Name
-    keyValueObject.set(SerializeKey::Name, sos::String(keyValue.first));
-
-    // Value
-    keyValueObject.set(SerializeKey::Value, sos::String(keyValue.second));
-
-    return keyValueObject;
-}
-
-sos::Object WrapMetadata(const Metadata& metadata)
-{
-    return WrapKeyValue(metadata);
-}
-
-sos::Object WrapHeader(const Header& header)
-{
-    return WrapKeyValue(header);
-}
-
-sos::Object WrapReference(const Reference& reference)
-{
-    sos::Object referenceObject;
-
-    // Id
-    referenceObject.set(SerializeKey::Id, sos::String(reference.id));
-
-    return referenceObject;
-}
-
-sos::Object WrapAsset(const Asset& asset, const AssetRole& role)
-{
-    sos::Object assetObject;
-
-    // Element
-    assetObject.set(SerializeKey::Element, WrapElementClass(Element::AssetElement));
-
-    // Attributes
-    sos::Object attributes;
-
-    /// Role
-    attributes.set(SerializeKey::Role, WrapAssetRole(role));
-
-    assetObject.set(SerializeKey::Attributes, attributes);
-
-    // Content
-    assetObject.set(SerializeKey::Content, sos::String(asset));
-
-    return assetObject;
-}
 
 sos::Object WrapDataStructure(const DataStructure& dataStructure)
 {
     sos::Object dataStructureObject;
 
     // Element
-    dataStructureObject.set(SerializeKey::Element, WrapElementClass(Element::DataStructureElement));
+    dataStructureObject.set(SerializeKey::Element, ElementClassToString(Element::DataStructureElement));
 
     // Name
     dataStructureObject.set(SerializeKey::Name, WrapTypeName(dataStructure.name));
@@ -474,6 +457,27 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
                             WrapCollection<mson::TypeSection>()(dataStructure.sections, WrapTypeSection));
 
     return dataStructureObject;
+}
+
+sos::Object WrapAsset(const Asset& asset, const AssetRole& role)
+{
+    sos::Object assetObject;
+
+    // Element
+    assetObject.set(SerializeKey::Element, ElementClassToString(Element::AssetElement));
+
+    // Attributes
+    sos::Object attributes;
+
+    /// Role
+    attributes.set(SerializeKey::Role, AssetRoleToString(role));
+
+    assetObject.set(SerializeKey::Attributes, attributes);
+
+    // Content
+    assetObject.set(SerializeKey::Content, sos::String(asset));
+
+    return assetObject;
 }
 
 sos::Object WrapPayload(const Payload& payload)
@@ -620,7 +624,7 @@ sos::Object WrapResource(const Resource& resource)
     sos::Object resourceObject;
 
     // Element
-    resourceObject.set(SerializeKey::Element, WrapElementClass(Element::ResourceElement));
+    resourceObject.set(SerializeKey::Element, ElementClassToString(Element::ResourceElement));
 
     // Name
     resourceObject.set(SerializeKey::Name, sos::String(resource.name));
@@ -693,7 +697,7 @@ sos::Object WrapElement(const Element& element)
 {
     sos::Object elementObject;
 
-    elementObject.set(SerializeKey::Element, WrapElementClass(element.element));
+    elementObject.set(SerializeKey::Element, ElementClassToString(element.element));
 
     if (!element.attributes.name.empty()) {
 
@@ -757,7 +761,7 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
     blueprintObject.set(SerializeKey::Description, sos::String(blueprint.description));
 
     // Element
-    blueprintObject.set(SerializeKey::Element, WrapElementClass(blueprint.element));
+    blueprintObject.set(SerializeKey::Element, ElementClassToString(blueprint.element));
 
     // Resource Groups
     blueprintObject.set(SerializeKey::ResourceGroups, 

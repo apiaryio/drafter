@@ -94,11 +94,11 @@ sos::Array WrapMixinSourcemap(const SourceMap<mson::Mixin>& mixin)
     return WrapSourcemap(mixin);
 }
 
-sos::Base WrapElementSourcemapBase(const SourceMap<mson::Element>& element)
+sos::Base WrapMSONElementSourcemap(const SourceMap<mson::Element>& element)
 {
     if (!element.elements().collection.empty()) {
         // Same for oneOf
-        return WrapCollection<mson::Element>()(element.elements().collection, WrapElementSourcemapBase);
+        return WrapCollection<mson::Element>()(element.elements().collection, WrapMSONElementSourcemap);
     }
     else if (!element.mixin.sourceMap.empty()) {
         return WrapMixinSourcemap(element.mixin);             // return sos::Array
@@ -122,26 +122,9 @@ sos::Array WrapTypeSectionSourcemap(const SourceMap<mson::TypeSection>& section)
         return WrapSourcemap(section.value);
     }
     else if (!section.elements().collection.empty()) {
-        return WrapCollection<mson::Element>()(section.elements().collection, WrapElementSourcemapBase);
+        return WrapCollection<mson::Element>()(section.elements().collection, WrapMSONElementSourcemap);
     }
     return sos::Array();
-}
-
-sos::Object WrapNamedTypeSourcemap(const SourceMap<mson::NamedType>& namedType)
-{
-    sos::Object namedTypeObject;
-
-    // Name
-    namedTypeObject.set(SerializeKey::Name, WrapSourcemap(namedType.name));
-
-    // Type Definition
-    namedTypeObject.set(SerializeKey::TypeDefinition, WrapSourcemap(namedType.typeDefinition));
-
-    // Type Sections
-    namedTypeObject.set(SerializeKey::Sections, 
-                        WrapCollection<mson::TypeSection>()(namedType.sections.collection, WrapTypeSectionSourcemap));
-
-    return namedTypeObject;
 }
 
 sos::Object WrapDataStructureSourcemap(const SourceMap<DataStructure>& dataStructure)
@@ -375,17 +358,6 @@ sos::Object WrapResourceGroupSourcemap(const SourceMap<Element>& resourceGroup)
     resourceGroupObject.set(SerializeKey::Resources, resources);
 
     return resourceGroupObject;
-}
-
-
-sos::Object WrapDataStructureContent(const SourceMap<DataStructure>& dataStructure)
-{
-    sos::Object dataStructureObject;
-
-    // Source
-    dataStructureObject.set(SerializeKey::Source, WrapNamedTypeSourcemap(dataStructure));
-
-    return dataStructureObject;
 }
 
 sos::Object WrapElementSourcemap(const SourceMap<Element>& element)
