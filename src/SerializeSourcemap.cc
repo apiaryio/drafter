@@ -226,6 +226,13 @@ sos::Object WrapPayloadSourcemap(const SourceMap<Payload>& payload)
     return payloadObject;
 }
 
+sos::Object WrapValueSourceMap(const SourceMap<Value>& value)
+{
+    sos::Object object;
+    object.set(SerializeKey::Value, WrapSourcemap(value));
+    return object;
+}
+
 sos::Array WrapParametersSourcemap(const SourceMap<Parameters>& parameters)
 {
     sos::Array parametersArray;
@@ -255,20 +262,8 @@ sos::Array WrapParametersSourcemap(const SourceMap<Parameters>& parameters)
         parameter.set(SerializeKey::Default, WrapSourcemap(it->defaultValue));
 
         // Values
-        sos::Array values;
-
-        for (Collection<SourceMap<Value> >::const_iterator valIt = it->values.collection.begin();
-             valIt != it->values.collection.end();
-             ++valIt) {
-
-            sos::Object value;
-
-            value.set(SerializeKey::Value, WrapSourcemap(*valIt));
-
-            values.push(value);
-        }
-
-        parameter.set(SerializeKey::Values, values);
+        parameter.set(SerializeKey::Values,
+                      WrapCollection<Value>()(it->values.collection, WrapValueSourceMap));
     }
 
     return parametersArray;
