@@ -118,26 +118,22 @@ sos::Array WrapElementsSourcemap(const SourceMap<mson::Elements>& elements)
     return WrapCollection<mson::Element>()(elements.collection, WrapElementSourcemapBase);
 }
 
+sos::Array WrapTypeSectionSourcemap(const SourceMap<mson::TypeSection>& section)
+{
+    if (!section.description.sourceMap.empty()) {
+        return WrapSourcemap(section.description);
+    }
+    else if (!section.value.sourceMap.empty()) {
+        return WrapSourcemap(section.value);
+    }
+    else if (!section.elements().collection.empty()) {
+        return WrapElementsSourcemap(section.elements());
+    }
+}
+
 sos::Array WrapTypeSectionsSourcemap(const SourceMap<mson::TypeSections>& sections)
 {
-    sos::Array sectionsArray;
-
-    for (Collection<SourceMap<mson::TypeSection> >::const_iterator it = sections.collection.begin();
-         it != sections.collection.end();
-         ++it) {
-
-        if (!it->description.sourceMap.empty()) {
-            sectionsArray.push(WrapSourcemap(it->description));
-        }
-        else if (!it->value.sourceMap.empty()) {
-            sectionsArray.push(WrapSourcemap(it->value));
-        }
-        else if (!it->elements().collection.empty()) {
-            sectionsArray.push(WrapElementsSourcemap(it->elements()));
-        }
-    }
-
-    return sectionsArray;
+    return WrapCollection<mson::TypeSection>()(sections.collection, WrapTypeSectionSourcemap);
 }
 
 sos::Object WrapNamedTypeSourcemap(const SourceMap<mson::NamedType>& namedType)
