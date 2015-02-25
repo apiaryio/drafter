@@ -193,7 +193,7 @@ sos::Object WrapPropertyName(const mson::PropertyName& propertyName)
 }
 
 // Forward declarations
-sos::Array WrapTypeSections(const mson::TypeSections& typeSections);
+sos::Object WrapTypeSection(const mson::TypeSection& typeSection);
 
 sos::Object WrapPropertyMember(const mson::PropertyMember& propertyMember)
 {
@@ -209,7 +209,8 @@ sos::Object WrapPropertyMember(const mson::PropertyMember& propertyMember)
     propertyMemberObject.set(SerializeKey::ValueDefinition, WrapValueDefinition(propertyMember.valueDefinition));
 
     // Type Sections
-    propertyMemberObject.set(SerializeKey::Sections, WrapTypeSections(propertyMember.sections));
+    propertyMemberObject.set(SerializeKey::Sections,
+                             WrapCollection<mson::TypeSection>()(propertyMember.sections, WrapTypeSection));
 
     return propertyMemberObject;
 }
@@ -225,7 +226,8 @@ sos::Object WrapValueMember(const mson::ValueMember& valueMember)
     valueMemberObject.set(SerializeKey::ValueDefinition, WrapValueDefinition(valueMember.valueDefinition));
 
     // Type Sections
-    valueMemberObject.set(SerializeKey::Sections, WrapTypeSections(valueMember.sections));
+    valueMemberObject.set(SerializeKey::Sections,
+                          WrapCollection<mson::TypeSection>()(valueMember.sections, WrapTypeSection));
 
     return valueMemberObject;
 }
@@ -309,37 +311,26 @@ const sos::String TypeSectionToString(const mson::TypeSection& section)
     return sos::String();
 }
 
-sos::Array WrapTypeSection(const mson::TypeSection& section)
+sos::Object WrapTypeSection(const mson::TypeSection& section)
 {
-}
+    sos::Object object;
 
-sos::Array WrapTypeSections(const mson::TypeSections& sections)
-{
-    sos::Array sectionsArray;
+    // Class
+    object.set(SerializeKey::Class, TypeSectionToString(section));
 
-    for (mson::TypeSections::const_iterator it = sections.begin(); it != sections.end(); ++it) {
-
-        sos::Object section;
-
-        // Class
-        section.set(SerializeKey::Class, TypeSectionToString(*it));
-
-        // Content
-        if (!it->content.description.empty()) {
-            section.set(SerializeKey::Content, sos::String(it->content.description));
-        }
-        else if (!it->content.value.empty()) {
-            section.set(SerializeKey::Content, sos::String(it->content.value));
-        }
-        else if (!it->content.elements().empty()) {
-            section.set(SerializeKey::Content, 
-                        WrapCollection<mson::Element>()(it->content.elements(), WrapMSONElement));
-        }
-
-        sectionsArray.push(section);
+    // Content
+    if (!section.content.description.empty()) {
+        object.set(SerializeKey::Content, sos::String(section.content.description));
+    }
+    else if (!section.content.value.empty()) {
+        object.set(SerializeKey::Content, sos::String(section.content.value));
+    }
+    else if (!section.content.elements().empty()) {
+        object.set(SerializeKey::Content, 
+                   WrapCollection<mson::Element>()(section.content.elements(), WrapMSONElement));
     }
 
-    return sectionsArray;
+    return object;
 }
 
 sos::Object WrapNamedType(const mson::NamedType& namedType)
@@ -353,7 +344,8 @@ sos::Object WrapNamedType(const mson::NamedType& namedType)
     namedTypeObject.set(SerializeKey::TypeDefinition, WrapTypeDefinition(namedType.typeDefinition));
 
     // Type Sections
-    namedTypeObject.set(SerializeKey::Sections, WrapTypeSections(namedType.sections));
+    namedTypeObject.set(SerializeKey::Sections, 
+                        WrapCollection<mson::TypeSection>()(namedType.sections, WrapTypeSection));
 
     return namedTypeObject;
 }
@@ -478,7 +470,8 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     dataStructureObject.set(SerializeKey::TypeDefinition, WrapTypeDefinition(dataStructure.typeDefinition));
 
     // Type Sections
-    dataStructureObject.set(SerializeKey::Sections, WrapTypeSections(dataStructure.sections));
+    dataStructureObject.set(SerializeKey::Sections,
+                            WrapCollection<mson::TypeSection>()(dataStructure.sections, WrapTypeSection));
 
     return dataStructureObject;
 }
