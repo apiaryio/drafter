@@ -69,6 +69,39 @@ namespace drafter {
         static const std::string Element;
         static const std::string Role;
     };
+
+/**
+ * \brief functor pattern to translate _collection_ into sos::Array on serialization 
+ * \requests for collection - must define typedef member ::const_iterator
+ *
+ * usage:
+ *
+ *  sos::Array elements = WrapCollection<mson::Element>()(getSomeListOfElements(), WrapMSONElement));
+ *
+ *  operator()(const T& collection, Functor &wrapper)
+ *  \param collection - it come typicaly from snowcrash
+ *  \param wrapper - adaptee element before push to collection
+ *         you have to write your own, for example \see SeriallizeAST.cc
+ *
+ *
+ */
+
+template<typename T, typename R = sos::Array>
+struct WrapCollection {
+    typedef T value_type;
+
+    template<typename Collection, typename Functor>
+    R operator()(const Collection& collection, Functor &wrapper) const {
+        typedef typename Collection::const_iterator iterator_type;
+        R array;
+        for( iterator_type it = collection.begin() ; it != collection.end() ; ++it ) {
+            array.push(wrapper(*it));
+        }
+        return array;
+    }
+
+};
+
 }
 
 #endif

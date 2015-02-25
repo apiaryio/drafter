@@ -13,6 +13,7 @@ using namespace drafter;
 using snowcrash::SourceMapBase;
 using snowcrash::SourceMap;
 using snowcrash::Collection;
+
 using snowcrash::DataStructure;
 using snowcrash::Asset;
 using snowcrash::Payload;
@@ -29,36 +30,6 @@ using snowcrash::Element;
 using snowcrash::Description;
 using snowcrash::Blueprint;
 using snowcrash::Metadata;
-
-/**
- * \brief functor pattern to translate Collection<> into sos::Array on serialization 
- *
- * usage:
- *
- *  sos::Array elements = WrapCollection<mson::Elements>()(getSomeListOfElements(), WrapMSONElement));
- *
- *  operator()(const T& collection, Functor &wrapper)
- *  \param collection - it come typicaly from snowcrash
- *  \param wrapper - adaptee element before push to collection
- *         you have to write your own, for example \see SeriallizeAST.cc
- *
- */
-
-template<typename T, typename R = sos::Array>
-struct WrapSourceMapCollection {
-    typedef Collection<SourceMap<T> > collection_type;
-    typedef typename collection_type::const_iterator iterator_type;
-
-    template<typename Arg1, typename Functor>
-    R operator()(const Arg1& collection, Functor &wrapper) const {
-        R array;
-        for( iterator_type it = collection.begin() ; it != collection.end() ; ++it ) {
-            array.push(wrapper(*it));
-        }
-        return array;
-    }
-
-};
 
 sos::Array WrapSourcemap(const SourceMapBase& value)
 {
@@ -123,33 +94,28 @@ sos::Array WrapMixinSourcemap(const SourceMap<mson::Mixin>& mixin)
     return WrapSourcemap(mixin);
 }
 
-sos::Array WrapOneOf(const SourceMap<mson::OneOf>& oneOf)
-{
-    return WrapElementsSourcemap(oneOf);
-}
-
-sos::Base WrapElementSourcemap(const SourceMap<mson::Element>& element)
+sos::Base WrapElementSourcemapBase(const SourceMap<mson::Element>& element)
 {
     if (!element.elements().collection.empty()) {
         // Same for oneOf
-        return WrapElementsSourcemap(element.elements());
+        return WrapElementsSourcemap(element.elements());     // return sos::Array
     }
     else if (!element.mixin.sourceMap.empty()) {
-        return WrapMixinSourcemap(element.mixin);
+        return WrapMixinSourcemap(element.mixin);             // return sos::Array
     }
     else if (!element.value.empty()) {
-        return WrapValueMemberSourcemap(element.value);
+        return WrapValueMemberSourcemap(element.value);       // return sos::Object
     }
     else if (!element.property.empty()) {
-        return WrapPropertyMemberSourcemap(element.property);
+        return WrapPropertyMemberSourcemap(element.property); // return sos::Object
     }
 
-    return sos::Null();
+    return sos::Null();                                       // return sos::Null
 }
 
 sos::Array WrapElementsSourcemap(const SourceMap<mson::Elements>& elements)
 {
-    return WrapSourceMapCollection<mson::Element>()(elements.collection, WrapElementSourcemap);
+    return WrapCollection<mson::Element>()(elements.collection, WrapElementSourcemapBase);
 }
 
 sos::Array WrapTypeSectionsSourcemap(const SourceMap<mson::TypeSections>& sections)
@@ -233,7 +199,7 @@ sos::Object WrapPayloadSourcemap(const SourceMap<Payload>& payload)
 
     // Headers
     payloadObject.set(SerializeKey::Headers, 
-                      WrapSourceMapCollection<Header>()(payload.headers.collection, WrapSourcemap));
+                      WrapCollection<Header>()(payload.headers.collection, WrapSourcemap));
 
     // Body
     payloadObject.set(SerializeKey::Body, WrapSourcemap(payload.body));
@@ -324,11 +290,11 @@ sos::Object WrapTransactionExampleSourcemap(const SourceMap<TransactionExample>&
 
     // Requests
     exampleObject.set(SerializeKey::Requests, 
-                      WrapSourceMapCollection<Request>()(example.requests.collection, WrapPayloadSourcemap));
+                      WrapCollection<Request>()(example.requests.collection, WrapPayloadSourcemap));
 
     // Responses
     exampleObject.set(SerializeKey::Responses, 
-                      WrapSourceMapCollection<Response>()(example.responses.collection, WrapPayloadSourcemap));
+                      WrapCollection<Response>()(example.responses.collection, WrapPayloadSourcemap));
 
     return exampleObject;
 }
@@ -351,7 +317,7 @@ sos::Object WrapActionSourcemap(const SourceMap<Action>& action)
 
     // Transaction Examples
     actionObject.set(SerializeKey::Examples, 
-                     WrapSourceMapCollection<TransactionExample>()(action.examples.collection, WrapTransactionExampleSourcemap));
+                     WrapCollection<TransactionExample>()(action.examples.collection, WrapTransactionExampleSourcemap));
 
     // Content
     sos::Array content;
@@ -388,7 +354,7 @@ sos::Object WrapResourceSourcemap(const SourceMap<Resource>& resource)
 
     // Actions
     resourceObject.set(SerializeKey::Actions, 
-                       WrapSourceMapCollection<Action>()(resource.actions.collection, WrapActionSourcemap));
+                       WrapCollection<Action>()(resource.actions.collection, WrapActionSourcemap));
 
     // Content
     sos::Array content;
@@ -474,20 +440,8 @@ sos::Object WrapElementSourcemap(const SourceMap<Element>& element)
 
         case Element::CategoryElement:
         {
-            sos::Array content;
-
-            for (Collection<SourceMap<Element> >::const_iterator it = element.content.elements().collection.begin();
-                 it != element.content.elements().collection.end();
-                 ++it) {
-
-                content.push(WrapElementSourcemap(*it));
-            }
-
-            elementObject.set(SerializeKey::Content, content);
-            /*
             elementObject.set(SerializeKey::Content, 
-                              WrapSourceMapCollection<Element>()(element.content.elements().collection, WrapElementSourcemap));
-            */
+                              WrapCollection<Element>()(element.content.elements().collection, WrapElementSourcemap));
             break;
         }
 
@@ -504,7 +458,7 @@ sos::Object drafter::WrapBlueprintSourcemap(const SourceMap<Blueprint>& blueprin
 
     // Metadata
     blueprintObject.set(SerializeKey::Metadata, 
-                        WrapSourceMapCollection<Metadata>()(blueprint.metadata.collection, WrapSourcemap));
+                        WrapCollection<Metadata>()(blueprint.metadata.collection, WrapSourcemap));
 
     // Name
     blueprintObject.set(SerializeKey::Name, WrapSourcemap(blueprint.name));
@@ -529,19 +483,7 @@ sos::Object drafter::WrapBlueprintSourcemap(const SourceMap<Blueprint>& blueprin
     blueprintObject.set(SerializeKey::ResourceGroups, resourceGroups);
 
     // Content
-    sos::Array content;
-
-    for (Collection<SourceMap<Element> >::const_iterator it = blueprint.content.elements().collection.begin();
-         it != blueprint.content.elements().collection.end();
-         ++it) {
-
-        content.push(WrapElementSourcemap(*it));
-    }
-
-    blueprintObject.set(SerializeKey::Content, content);
-    /*
     blueprintObject.set(SerializeKey::Content, 
-                        WrapSourceMapCollection<Element>()(blueprint.content.elements().collection, WrapElementSourcemap));
-    */
+                        WrapCollection<Element>()(blueprint.content.elements().collection, WrapElementSourcemap));
     return blueprintObject;
 }
