@@ -555,7 +555,6 @@ sos::Object WrapParameter(const Parameter& parameter)
     parameterObject.set(SerializeKey::Example, sos::String(parameter.exampleValue));
 
     // Values
-    
     parameterObject.set(SerializeKey::Values, 
                         WrapCollection<Value>()(parameter.values, WrapParameterValue));
 
@@ -748,7 +747,6 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
     blueprintObject.set(SerializeKey::ASTVersion, sos::String(AST_SERIALIZATION_VERSION));
 
     // Metadata
-
     blueprintObject.set(SerializeKey::Metadata, 
                         WrapCollection<Metadata>()(blueprint.metadata, WrapKeyValue));
 

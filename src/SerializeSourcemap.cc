@@ -127,11 +127,6 @@ sos::Array WrapTypeSectionSourcemap(const SourceMap<mson::TypeSection>& section)
     return sos::Array();
 }
 
-sos::Array WrapTypeSectionsSourcemap(const SourceMap<mson::TypeSections>& sections)
-{
-    return WrapCollection<mson::TypeSection>()(sections.collection, WrapTypeSectionSourcemap);
-}
-
 sos::Object WrapNamedTypeSourcemap(const SourceMap<mson::NamedType>& namedType)
 {
     sos::Object namedTypeObject;
