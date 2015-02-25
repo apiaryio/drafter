@@ -100,6 +100,18 @@ struct WrapCollection {
         return array;
     }
 
+    template<typename Collection, typename Functor, typename Predicate>
+    R operator()(const Collection& collection, Functor &wrapper, Predicate &predicate) const {
+        typedef typename Collection::const_iterator iterator_type;
+        R array;
+        for( iterator_type it = collection.begin() ; it != collection.end() ; ++it ) {
+            if (predicate(*it)) {
+                array.push(wrapper(*it));
+            }
+        }
+        return array;
+    }
+
 };
 
 }

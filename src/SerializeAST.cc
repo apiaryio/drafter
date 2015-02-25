@@ -735,7 +735,10 @@ sos::Object WrapElement(const Element& element)
     return elementObject;
 }
 
-
+bool IsElementResourceGroup(const Element& element)
+{
+    return element.element == Element::CategoryElement && element.category == Element::ResourceGroupCategory;
+}
 
 sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
 {
@@ -759,20 +762,8 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
     blueprintObject.set(SerializeKey::Element, WrapElementClass(blueprint.element));
 
     // Resource Groups
-    sos::Array resourceGroups;
-
-    for (Elements::const_iterator it = blueprint.content.elements().begin();
-         it != blueprint.content.elements().end();
-         ++it) {
-
-        if (it->element == Element::CategoryElement &&
-            it->category == Element::ResourceGroupCategory) {
-
-            resourceGroups.push(WrapResourceGroup(*it));
-        }
-    }
-
-    blueprintObject.set(SerializeKey::ResourceGroups, resourceGroups);
+    blueprintObject.set(SerializeKey::ResourceGroups, 
+                        WrapCollection<Element>()(blueprint.content.elements(), WrapResourceGroup, IsElementResourceGroup));
 
     // Content
     blueprintObject.set(SerializeKey::Content,

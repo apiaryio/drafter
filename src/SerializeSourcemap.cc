@@ -437,6 +437,11 @@ sos::Object WrapElementSourcemap(const SourceMap<Element>& element)
     return elementObject;
 }
 
+bool IsElementResourceGroup(const SourceMap<Element>& element)
+{
+    return element.element == Element::CategoryElement && element.category == Element::ResourceGroupCategory;
+}
+
 sos::Object drafter::WrapBlueprintSourcemap(const SourceMap<Blueprint>& blueprint)
 {
     sos::Object blueprintObject;
@@ -452,20 +457,8 @@ sos::Object drafter::WrapBlueprintSourcemap(const SourceMap<Blueprint>& blueprin
     blueprintObject.set(SerializeKey::Description, WrapSourcemap(blueprint.description));
 
     // Resource Groups
-    sos::Array resourceGroups;
-
-    for (Collection<SourceMap<Element> >::const_iterator it = blueprint.content.elements().collection.begin();
-         it != blueprint.content.elements().collection.end();
-         ++it) {
-
-        if (it->element == Element::CategoryElement &&
-            it->category == Element::ResourceGroupCategory) {
-
-            resourceGroups.push(WrapResourceGroupSourcemap(*it));
-        }
-    }
-
-    blueprintObject.set(SerializeKey::ResourceGroups, resourceGroups);
+    blueprintObject.set(SerializeKey::ResourceGroups, 
+                        WrapCollection<Element>()(blueprint.content.elements().collection, WrapResourceGroupSourcemap, IsElementResourceGroup));
 
     // Content
     blueprintObject.set(SerializeKey::Content, 
