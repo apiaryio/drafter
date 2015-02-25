@@ -288,7 +288,31 @@ sos::Object WrapMSONElement(const mson::Element& element)
     return elementObject;
 }
 
-// REFACTOR
+const sos::String TypeSectionToString(const mson::TypeSection& section)
+{
+    switch (section.klass) {
+        case mson::TypeSection::BlockDescriptionClass:
+            return sos::String("blockDescription");
+
+        case mson::TypeSection::MemberTypeClass:
+            return sos::String("memberType");
+
+        case mson::TypeSection::SampleClass:
+            return sos::String("sample");
+
+        case mson::TypeSection::DefaultClass:
+            return sos::String("default");
+
+        default:
+            return sos::String();
+    }
+    return sos::String();
+}
+
+sos::Array WrapTypeSection(const mson::TypeSection& section)
+{
+}
+
 sos::Array WrapTypeSections(const mson::TypeSections& sections)
 {
     sos::Array sectionsArray;
@@ -298,30 +322,7 @@ sos::Array WrapTypeSections(const mson::TypeSections& sections)
         sos::Object section;
 
         // Class
-        std::string klass;
-
-        switch (it->klass) {
-            case mson::TypeSection::BlockDescriptionClass:
-                klass = "blockDescription";
-                break;
-
-            case mson::TypeSection::MemberTypeClass:
-                klass = "memberType";
-                break;
-
-            case mson::TypeSection::SampleClass:
-                klass = "sample";
-                break;
-
-            case mson::TypeSection::DefaultClass:
-                klass = "default";
-                break;
-
-            default:
-                break;
-        }
-
-        section.set(SerializeKey::Class, sos::String(klass));
+        section.set(SerializeKey::Class, TypeSectionToString(*it));
 
         // Content
         if (!it->content.description.empty()) {
