@@ -50,7 +50,7 @@ sos::Array WrapSourcemap(const SourceMapBase& value)
 }
 
 // Forward declarations
-sos::Array WrapTypeSectionsSourcemap(const SourceMap<mson::TypeSections>& typeSections);
+sos::Array WrapTypeSectionSourcemap(const SourceMap<mson::TypeSection>& typeSection);
 sos::Array WrapElementsSourcemap(const SourceMap<mson::Elements>& elements);
 
 sos::Object WrapPropertyMemberSourcemap(const SourceMap<mson::PropertyMember>& propertyMember)
@@ -67,7 +67,8 @@ sos::Object WrapPropertyMemberSourcemap(const SourceMap<mson::PropertyMember>& p
     propertyMemberObject.set(SerializeKey::ValueDefinition, WrapSourcemap(propertyMember.valueDefinition));
 
     // Type Sections
-    propertyMemberObject.set(SerializeKey::Sections, WrapTypeSectionsSourcemap(propertyMember.sections));
+    propertyMemberObject.set(SerializeKey::Sections, 
+                             WrapCollection<mson::TypeSection>()(propertyMember.sections.collection, WrapTypeSectionSourcemap));
 
     return propertyMemberObject;
 }
@@ -83,7 +84,8 @@ sos::Object WrapValueMemberSourcemap(const SourceMap<mson::ValueMember>& valueMe
     valueMemberObject.set(SerializeKey::ValueDefinition, WrapSourcemap(valueMember.valueDefinition));
 
     // Type Sections
-    valueMemberObject.set(SerializeKey::Sections, WrapTypeSectionsSourcemap(valueMember.sections));
+    valueMemberObject.set(SerializeKey::Sections, 
+                          WrapCollection<mson::TypeSection>()(valueMember.sections.collection, WrapTypeSectionSourcemap));
 
     return valueMemberObject;
 }
@@ -128,6 +130,7 @@ sos::Array WrapTypeSectionSourcemap(const SourceMap<mson::TypeSection>& section)
     else if (!section.elements().collection.empty()) {
         return WrapElementsSourcemap(section.elements());
     }
+    return sos::Array();
 }
 
 sos::Array WrapTypeSectionsSourcemap(const SourceMap<mson::TypeSections>& sections)
@@ -146,7 +149,8 @@ sos::Object WrapNamedTypeSourcemap(const SourceMap<mson::NamedType>& namedType)
     namedTypeObject.set(SerializeKey::TypeDefinition, WrapSourcemap(namedType.typeDefinition));
 
     // Type Sections
-    namedTypeObject.set(SerializeKey::Sections, WrapTypeSectionsSourcemap(namedType.sections));
+    namedTypeObject.set(SerializeKey::Sections, 
+                        WrapCollection<mson::TypeSection>()(namedType.sections.collection, WrapTypeSectionSourcemap));
 
     return namedTypeObject;
 }
@@ -162,7 +166,8 @@ sos::Object WrapDataStructureSourcemap(const SourceMap<DataStructure>& dataStruc
     dataStructureObject.set(SerializeKey::TypeDefinition, WrapSourcemap(dataStructure.typeDefinition));
 
     // Type Sections
-    dataStructureObject.set(SerializeKey::Sections, WrapTypeSectionsSourcemap(dataStructure.sections));
+    dataStructureObject.set(SerializeKey::Sections, 
+                            WrapCollection<mson::TypeSection>()(dataStructure.sections.collection, WrapTypeSectionSourcemap));
 
     return dataStructureObject;
 }
