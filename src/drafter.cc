@@ -185,11 +185,11 @@ int main(int argc, const char *argv[])
         sos::Serialize* serializer = CreateSerializer(config.format);
 
         Serialization(CreateStreamFromName<std::ostream>(config.output),
-                      snowcrash::WrapBlueprint(blueprint.node), 
+                      drafter::WrapBlueprint(blueprint.node), 
                       serializer);
 
         Serialization(CreateStreamFromName<std::ostream>(config.sourceMap),
-                      snowcrash::WrapBlueprintSourcemap(blueprint.sourceMap),
+                      drafter::WrapBlueprintSourcemap(blueprint.sourceMap),
                       serializer);
 
         delete serializer;

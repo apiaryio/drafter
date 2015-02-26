@@ -13,6 +13,14 @@
         "src/drafter.cc",
         "src/reporting.cc",
         "src/reporting.h",
+        "src/Version.h",
+
+        "src/Serialize.h",
+        "src/Serialize.cc",
+        "src/SerializeAST.h",
+        "src/SerializeAST.cc",
+        "src/SerializeSourcemap.h",
+        "src/SerializeSourcemap.cc",
       ],
 
       # FIXME: replace by direct dependecies
