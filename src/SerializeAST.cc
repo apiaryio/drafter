@@ -187,10 +187,9 @@ sos::Object WrapPropertyName(const mson::PropertyName& propertyName)
 // Forward declarations
 sos::Object WrapTypeSection(const mson::TypeSection& typeSection);
 
-
-const sos::String TypeSectionToString(const mson::TypeSection& section)
+const sos::String TypeSectionClassToString(const mson::TypeSection::Class& klass)
 {
-    switch (section.klass) {
+    switch (klass) {
         case mson::TypeSection::BlockDescriptionClass:
             return sos::String("blockDescription");
 
@@ -206,6 +205,7 @@ const sos::String TypeSectionToString(const mson::TypeSection& section)
         default:
             return sos::String();
     }
+
     return sos::String();
 }
 
@@ -277,7 +277,6 @@ sos::Object WrapNamedType(const mson::NamedType& namedType)
 
     return namedTypeObject;
 }
-
 
 sos::Object WrapKeyValue(const KeyValuePair& keyValue)
 {
@@ -412,7 +411,7 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
     sos::Object object;
 
     // Class
-    object.set(SerializeKey::Class, TypeSectionToString(section));
+    object.set(SerializeKey::Class, TypeSectionClassToString(section.klass));
 
     // Content
     if (!section.content.description.empty()) {
@@ -428,7 +427,6 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
 
     return object;
 }
-
 
 sos::Object WrapDataStructure(const DataStructure& dataStructure)
 {
@@ -523,12 +521,12 @@ sos::Object WrapParameterValue(const Value& value)
 {
     sos::Object object;
     object.set(SerializeKey::Value, sos::String(value.c_str()));
+
     return object;
 }
 
 sos::Object WrapParameter(const Parameter& parameter)
 {
-
     sos::Object parameterObject;
 
     // Name

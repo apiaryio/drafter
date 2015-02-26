@@ -124,6 +124,7 @@ sos::Array WrapTypeSectionSourcemap(const SourceMap<mson::TypeSection>& section)
     else if (!section.elements().collection.empty()) {
         return WrapCollection<mson::Element>()(section.elements().collection, WrapMSONElementSourcemap);
     }
+
     return sos::Array();
 }
 
@@ -202,7 +203,7 @@ sos::Object WrapPayloadSourcemap(const SourceMap<Payload>& payload)
     return payloadObject;
 }
 
-sos::Object WrapValueSourceMap(const SourceMap<Value>& value)
+sos::Object WrapParameterValueSourceMap(const SourceMap<Value>& value)
 {
     sos::Object object;
     object.set(SerializeKey::Value, WrapSourcemap(value));
