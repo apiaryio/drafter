@@ -234,7 +234,7 @@ sos::Object WrapParameterSourcemap(const SourceMap<Parameter>& parameter)
 
     // Values
     object.set(SerializeKey::Values,
-               WrapCollection<Value>()(parameter.values.collection, WrapValueSourceMap));
+               WrapCollection<Value>()(parameter.values.collection, WrapParameterValueSourceMap));
 
     return object;
 }
