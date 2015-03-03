@@ -13,6 +13,7 @@
         "src/config.h",
         "src/reporting.cc",
         "src/reporting.h",
+        "src/stream.h",
         "src/Version.h",
 
         "src/Serialize.h",
