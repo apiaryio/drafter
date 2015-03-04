@@ -15,7 +15,12 @@ all: drafter
 libdrafter: config.gypi $(BUILD_DIR)/Makefile
 	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
 
-drafter: config.gypi $(BUILD_DIR)/Makefile libdrafter
+test-libdrafter: config.gypi $(BUILD_DIR)/Makefile
+	$(MAKE) -C $(BUILD_DIR) V=$(V) test-libdrafter
+	mkdir -p ./bin
+	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/$@ ./bin/$@
+
+drafter: config.gypi $(BUILD_DIR)/Makefile
 	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
 	mkdir -p ./bin
 	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/$@ ./bin/$@
@@ -36,7 +41,8 @@ distclean:
 	rm -f ./config.gypi
 	rm -rf ./bin
 
-test: drafter
+test: libdrafter test-libdrafter drafter
+	./bin/test-libdrafter
 
 ifdef INTEGRATION_TESTS
 	bundle exec cucumber

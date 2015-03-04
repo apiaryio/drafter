@@ -56,3 +56,14 @@ const std::string SerializeKey::ValueDefinition = "valueDefinition";
 
 const std::string SerializeKey::Element = "element";
 const std::string SerializeKey::Role = "role";
+
+const std::string SerializeKey::AnnotationsVersion = "_version";
+const std::string SerializeKey::Ast = "ast";
+const std::string SerializeKey::SourceMap= "sourcemap";
+const std::string SerializeKey::Error = "error";
+const std::string SerializeKey::Warnings = "warnings";
+const std::string SerializeKey::AnnotationCode = "code";
+const std::string SerializeKey::AnnotationMessage = "message";
+const std::string SerializeKey::AnnotationLocation = "location";
+const std::string SerializeKey::AnnotationLocationIndex = "index";
+const std::string SerializeKey::AnnotationLocationLength = "length";
