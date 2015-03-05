@@ -23,12 +23,8 @@ public:
         return strStream.str();
     }
 
-    const std::string apib() const {
-        return fetchContent(base_ + ".apib");
-    }
-
-    const std::string json() const {
-        return fetchContent(base_ + ".json");
+    const std::string get(const std::string& ext) const {
+        return fetchContent(base_ + ext);
     }
 
 };

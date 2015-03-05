@@ -16,6 +16,9 @@
         "src/stream.h",
         "src/Version.h",
 
+        "src/cdrafter.h",
+        "src/cdrafter.cc",
+
         "src/Serialize.h",
         "src/Serialize.cc",
         "src/SerializeAST.h",
@@ -58,6 +61,7 @@
       'sources': [
         "test/test-main.cc",
         "test/test-SerializeSourceAnnotations.cc",
+        "test/test-cdrafter.cc",
       ],
       'dependencies': [
         "libdrafter",
