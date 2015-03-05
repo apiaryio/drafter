@@ -9,6 +9,8 @@
       'type': '<(libdrafter_type)',
 
       "sources": [
+        "src/drafter.h",
+        "src/drafter.cc",
         "src/cdrafter.h",
         "src/cdrafter.cc",
 
