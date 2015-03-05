@@ -9,15 +9,11 @@
       'type': '<(libdrafter_type)',
 
       "sources": [
-        "src/config.cc",
-        "src/config.h",
-        "src/reporting.cc",
-        "src/reporting.h",
-        "src/stream.h",
-        "src/Version.h",
-
         "src/cdrafter.h",
         "src/cdrafter.cc",
+
+        "src/stream.h",
+        "src/Version.h",
 
         "src/Serialize.h",
         "src/Serialize.cc",
@@ -77,6 +73,10 @@
       "type": "executable",
       "sources": [
         "src/main.cc",
+        "src/config.cc",
+        "src/config.h",
+        "src/reporting.cc",
+        "src/reporting.h",
       ],
 
       # FIXME: replace by direct dependecies
