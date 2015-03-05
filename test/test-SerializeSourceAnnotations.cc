@@ -13,7 +13,7 @@ TEST_CASE("integration test for result parse serialization","[result serializati
     it_fixture_files fixture = it_fixture_files("test/fixtures/annotations-with-warning");
 
     snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
-    int result = snowcrash::parse(fixture.apib(), snowcrash::ExportSourcemapOption, blueprint);
+    int result = snowcrash::parse(fixture.get(".apib"), snowcrash::ExportSourcemapOption, blueprint);
 
     REQUIRE(result == snowcrash::Error::OK);
 
@@ -23,5 +23,5 @@ TEST_CASE("integration test for result parse serialization","[result serializati
     serializer.process(drafter::WrapSourceAnnotations(blueprint.report, blueprint.sourceMap), outStream);
     outStream << "\n";
 
-    REQUIRE(outStream.str() == fixture.json());
+    REQUIRE(outStream.str() == fixture.get(".result.json"));
 }
