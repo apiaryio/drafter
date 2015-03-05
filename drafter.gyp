@@ -76,7 +76,7 @@
       "target_name": "drafter",
       "type": "executable",
       "sources": [
-        "src/drafter.cc",
+        "src/main.cc",
       ],
 
       # FIXME: replace by direct dependecies
