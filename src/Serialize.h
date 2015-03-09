@@ -36,6 +36,7 @@ namespace drafter {
         static const std::string Assets;
         static const std::string Actions;
         static const std::string Action;
+        static const std::string Relation;
         static const std::string Attributes;
         static const std::string Examples;
         static const std::string Transaction;

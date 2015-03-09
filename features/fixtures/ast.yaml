@@ -67,6 +67,9 @@ resourceGroups:
                     value: "<default value>"
                   -
                     value: "<example value>"
+            attributes:
+              relation: "relation-name"
+              uriTemplate: ""
             content: []
             examples:
               -
@@ -284,6 +287,9 @@ content:
                     value: "<default value>"
                   -
                     value: "<example value>"
+            attributes:
+              relation: "relation-name"
+              uriTemplate: ""
             content: []
             examples:
               -

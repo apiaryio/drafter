@@ -88,6 +88,10 @@
                   ]
                 }
               ],
+              "attributes": {
+                "relation": "relation-name",
+                "uriTemplate": ""
+              },
               "content": [],
               "examples": [
                 {
@@ -394,6 +398,10 @@
                   ]
                 }
               ],
+              "attributes": {
+                "relation": "relation-name",
+                "uriTemplate": ""
+              },
               "content": [],
               "examples": [
                 {

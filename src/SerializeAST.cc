@@ -592,6 +592,17 @@ sos::Object WrapAction(const Action& action)
     actionObject.set(SerializeKey::Parameters,
                      WrapCollection<Parameter>()(action.parameters, WrapParameter));
 
+    // Attributes
+    sos::Object attributes;
+
+    /// Relation
+    attributes.set(SerializeKey::Relation, sos::String(action.relation.str));
+
+    /// URI Template
+    attributes.set(SerializeKey::URITemplate, sos::String(action.uriTemplate));
+
+    actionObject.set(SerializeKey::Attributes, attributes);
+
     // Content
     sos::Array content;
 

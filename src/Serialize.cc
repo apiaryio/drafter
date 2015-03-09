@@ -24,6 +24,7 @@ const std::string SerializeKey::URITemplate = "uriTemplate";
 const std::string SerializeKey::Assets = "assets";
 const std::string SerializeKey::Actions = "actions";
 const std::string SerializeKey::Action = "action";
+const std::string SerializeKey::Relation = "relation";
 const std::string SerializeKey::Attributes = "attributes";
 const std::string SerializeKey::Method = "method";
 const std::string SerializeKey::Examples = "examples";
