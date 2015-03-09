@@ -11,10 +11,15 @@
 
 #include "Serialize.h"
 
-namespace snowcrash { struct Report; }
+namespace snowcrash { 
+    struct Blueprint;
+    template <typename T> struct ParseResult; 
+}
 
 namespace drafter {
-    sos::Object WrapSourceAnnotations(const snowcrash::Report& report, const snowcrash::SourceMap<snowcrash::Blueprint>& sourceMap);
+    
+    sos::Object WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint);
+
 }
 
 #endif

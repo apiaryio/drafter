@@ -23,7 +23,6 @@
 
 namespace sc = snowcrash;
 
-
 /**
  *  \brief  return instance sos::Serializer based on \param `format`
  *
@@ -51,7 +50,6 @@ void Serialization(std::tr1::shared_ptr<std::ostream> stream,
     serializer->process(object, *stream);
     *stream << "\n";
 }
-
 
 int main(int argc, const char *argv[])
 {
@@ -87,5 +85,4 @@ int main(int argc, const char *argv[])
     PrintReport(blueprint.report, inputStream.str(), config.lineNumbers);
 
     return blueprint.report.error.code;
-
 }

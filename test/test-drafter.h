@@ -5,18 +5,36 @@
 
 #include "stream.h"
 
-class it_fixture_files {
+class ITFixtureFiles {
 
     const std::string base_;
 
+#ifdef WIN
+    struct slashToBackslash {
+        char operator()(const char& c) { 
+            return c == '/' ? '\\' : c; 
+        }
+    };
+#endif        
+
+    std::string normalizePath(const std::string& path) const {
+        std::string normalized = path;
+
+#ifdef WIN
+        std::transform(path.begin(), path.end(), normalized.begin(), slashToBackslash());
+#endif        
+
+        return normalized;
+    }
+
 public:
-    it_fixture_files(const std::string& base) : base_(base) {} 
+    ITFixtureFiles(const std::string& base) : base_(base) {} 
 
     typedef std::tr1::shared_ptr<std::istream> stream_type;
 
     const std::string fetchContent(const std::string& filename) const {
 
-        stream_type in = CreateStreamFromName<std::istream>(filename);
+        stream_type in = CreateStreamFromName<std::istream>(normalizePath(filename));
         std::stringstream strStream;
         strStream << in->rdbuf();
 
