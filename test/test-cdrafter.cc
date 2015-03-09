@@ -4,38 +4,33 @@
 
 #include <string.h>
 
-
 TEST_CASE("c-interface parses blueprint correctly","[c-interface]")
 {
-    it_fixture_files fixture = it_fixture_files("test/fixtures/annotations-with-warning");
+    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/annotations-with-warning");
 
     std::string source = fixture.get(".apib");
 
-    char *ast = NULL, *report = NULL;
+    char *result = NULL;
 
-    int ret = drafter_c_parse(source.c_str(), 0, &report, &ast);
+    int ret = drafter_c_parse(source.c_str(), 0, &result);
 
     REQUIRE(ret == 0);
 
-    REQUIRE(report != NULL);
-    REQUIRE(ast != NULL);
+    REQUIRE(result != NULL);
+    REQUIRE(strcmp(result, fixture.get(".result.json").c_str()) == 0);
 
-    REQUIRE(strcmp(ast, fixture.get(".ast.json").c_str()) == 0);
-    REQUIRE(strcmp(report, fixture.get(".result.json").c_str()) == 0);
-
-    free(ast);
-    free(report);
+    free(result);
 }
 
-TEST_CASE("just check result, no memory alloc","[c-interface]")
+TEST_CASE("c-interface check result, without memory alloc","[c-interface]")
 {
-    it_fixture_files fixture = it_fixture_files("test/fixtures/annotations-with-warning");
+    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/annotations-with-warning");
 
     std::string source = fixture.get(".apib");
 
     char *ast = NULL, *report = NULL;
 
-    int ret = drafter_c_parse(source.c_str(), 0, NULL, NULL);
+    int ret = drafter_c_parse(source.c_str(), 0, NULL);
 
     REQUIRE(ret == 0);
 }

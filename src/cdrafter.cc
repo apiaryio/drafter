@@ -4,7 +4,8 @@
 #include "sosJSON.h"
 
 #include "SerializeAST.h"
-#include "SerializeSourceAnnotations.h"
+#include "SerializeSourcemap.h"
+#include "SerializeResult.h"
 
 #include <string.h>
 
@@ -20,15 +21,12 @@ static char* ToString(const std::stringstream& stream)
 
 SC_API int drafter_c_parse(const char* source, 
                            sc_blueprint_parser_options options, 
-                           char** report, 
-                           char** ast)
+                           char** result) 
 {
 
     std::stringstream inputStream;
 
-    if (report) {
-        options |= snowcrash::ExportSourcemapOption;
-    } 
+    options |= snowcrash::ExportSourcemapOption;
 
     inputStream << source;
 
@@ -37,19 +35,11 @@ SC_API int drafter_c_parse(const char* source,
 
     sos::SerializeJSON serializer;
 
-    if (ast) {
-        std::stringstream astStream;
-        serializer.process(drafter::WrapBlueprint(blueprint.node), astStream);
-        astStream << "\n";
-        *ast = ToString(astStream);
-    }
-
-
-    if (report) {
-        std::stringstream reportStream;
-        serializer.process(drafter::WrapSourceAnnotations(blueprint.report, blueprint.sourceMap), reportStream);
-        reportStream << "\n";
-        *report = ToString(reportStream);
+    if (result) {
+        std::stringstream resultStream;
+        serializer.process(drafter::WrapResult(blueprint), resultStream);
+        resultStream << "\n";
+        *result = ToString(resultStream);
     }
 
     return blueprint.report.error.code;

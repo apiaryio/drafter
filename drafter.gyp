@@ -23,8 +23,8 @@
         "src/SerializeAST.cc",
         "src/SerializeSourcemap.h",
         "src/SerializeSourcemap.cc",
-        "src/SerializeSourceAnnotations.h",
-        "src/SerializeSourceAnnotations.cc",
+        "src/SerializeResult.h",
+        "src/SerializeResult.cc",
       ],
 
       # FIXME: replace by direct dependecies
@@ -58,7 +58,7 @@
       ],
       'sources': [
         "test/test-main.cc",
-        "test/test-SerializeSourceAnnotations.cc",
+        "test/test-SerializeResult.cc",
         "test/test-cdrafter.cc",
       ],
       'dependencies': [
@@ -67,7 +67,10 @@
         "ext/snowcrash/snowcrash.gyp:libmarkdownparser",
         "ext/snowcrash/snowcrash.gyp:libsundown",
         "ext/snowcrash/snowcrash.gyp:libsos",
-      ]
+      ],
+      'conditions': [
+         [ 'OS=="win"', { 'defines' : [ 'WIN' ] } ]
+      ],
     },
 
     {

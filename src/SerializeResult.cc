@@ -1,6 +1,11 @@
-#include "SerializeSourceAnnotations.h"
-#include "SourceAnnotation.h"
+#include "SerializeResult.h"
 #include "SerializeSourcemap.h"
+#include "SerializeAST.h"
+
+#include "SourceAnnotation.h"
+
+#include "SectionProcessor.h"
+#include "Blueprint.h"
 
 #include <stdio.h>
 
@@ -27,15 +32,18 @@ static sos::Object WrapAnnotation(const snowcrash::SourceAnnotation& annotation)
     return object;
 }
 
-sos::Object drafter::WrapSourceAnnotations(const snowcrash::Report& report, const snowcrash::SourceMap<snowcrash::Blueprint>& sourceMap)
+sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint)
 {
     sos::Object object;
 
+    using namespace snowcrash;
+
+    const Report& report = blueprint.report;
+    const SourceMap<Blueprint>& sourceMap = blueprint.sourceMap;
+
     object.set(SerializeKey::AnnotationsVersion, sos::String(AST_ANNOTATION_SERIALIZATION_VERSION));
     
-    sos::Object ast;
-    ast.set(SerializeKey::ASTVersion, sos::String(AST_SERIALIZATION_VERSION));
-    object.set(SerializeKey::Ast, ast);
+    object.set(SerializeKey::Ast, WrapBlueprint(blueprint.node));
 
     object.set(SerializeKey::SourceMap, WrapBlueprintSourcemap(sourceMap));
 

@@ -21,19 +21,17 @@ extern "C" {
  *
  *  \param source        A textual source data to be parsed.
  *  \param options       Parser options. Use 0 for no addtional options.
- *  \param report        parse result with source map and 
- *  \param ast           parsed source as blueprint AST in JSON format
+ *  \param result        parse result with ast, source map and annotations
+ *
+ *  for more info about Result format JSON \see https://github.com/apiaryio/api-blueprint-ast/blob/master/Parse%20Result.md
  *
  *  \return Error status code. Zero represents success, non-zero a failure.
  *
- *  This function will allocate memory and returns pointers to 
- *  ast and sourceMap you have to free allocated memory 
- *  by calling standard free() function
+ *  This function will allocate memory and returns pointer to 
+ *  resul. Free allocated memory is responsibility of calling function.
+ *  You have to release it by calling standard free() function
  *
- *  Report should be free by calling drafter_report_free
- *
- *  if any of `report`, `ast`, or `sourceMap` input is NULL 
- *  output is not created for param
+ *  if `result` input is NULL output is not created for param and parsed `source` is just validated
  */
 
 typedef unsigned int sc_blueprint_parser_options;
@@ -47,8 +45,7 @@ enum sc_blueprint_parser_option {
 
 SC_API int drafter_c_parse(const char* source, 
                            sc_blueprint_parser_options option, 
-                           char** report, 
-                           char** ast);
+                           char** result);
 
 #ifdef __cplusplus
 }
