@@ -16,7 +16,7 @@ libdrafter: config.gypi $(BUILD_DIR)/Makefile
 	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
 
 test-libdrafter: config.gypi $(BUILD_DIR)/Makefile
-	$(MAKE) -C $(BUILD_DIR) V=$(V) test-libdrafter
+	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
 	mkdir -p ./bin
 	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/$@ ./bin/$@
 
@@ -48,4 +48,4 @@ ifdef INTEGRATION_TESTS
 	bundle exec cucumber
 endif
 
-.PHONY: all libdrafter drafter test
+.PHONY: all libdrafter drafter test test-libdrafter
