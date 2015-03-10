@@ -26,3 +26,12 @@
 *.exe
 *.out
 *.app
+
+# Generated files
+config.mk
+config.gypi
+bin/
+build/
+vendor/
+.vagrant/
+tmp/
