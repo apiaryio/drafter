@@ -13,13 +13,13 @@
 
 #include "SectionParserData.h" // required by BlueprintParserOptions
 
-namespace snowcrash { 
+namespace snowcrash {
     struct Blueprint;
     template <typename T> struct ParseResult; 
 }
 
 namespace drafter {
-              
+
     sos::Object WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const snowcrash::BlueprintParserOptions options);
 }
 
