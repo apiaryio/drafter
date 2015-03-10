@@ -1,13 +1,13 @@
-////
-//  SerializeSourceAnnotations.h
+//
+//  SerializeResult.h
 //  drafter
-////
+//
 //  Created by Jiri Kratochvil on 27-02-2015
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
-#ifndef DRAFTER_SERIALIZE_SOURCE_ANNOTATIONS_H
-#define DRAFTER_SERIALIZE_SOURCE_ANNOTATIONS_H
+#ifndef DRAFTER_SERIALIZE_RESULT_H
+#define DRAFTER_SERIALIZE_RESULT_H
 
 #include "Serialize.h"
 
@@ -21,7 +21,6 @@ namespace snowcrash {
 namespace drafter {
               
     sos::Object WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const snowcrash::BlueprintParserOptions options);
-
 }
 
-#endif
+#endif // #ifndef DRAFTER_SERIALIZE_RESULT_H
