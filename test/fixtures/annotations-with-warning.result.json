@@ -1,0 +1,74 @@
+{
+  "_version": "2.1",
+  "ast": {
+    "_version": "2.1",
+    "metadata": [
+      {
+        "name": "FORMAT",
+        "value": "1A"
+      }
+    ],
+    "name": "test api",
+    "description": "this is a description of the test api\n",
+    "element": "category",
+    "resourceGroups": [
+      {
+        "name": "test",
+        "description": "A test group\n",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "test",
+            "description": "A test uri template\n",
+            "uriTemplate": "/test/{id}[2]",
+            "model": {},
+            "parameters": [],
+            "actions": [],
+            "content": []
+          }
+        ]
+      }
+    ],
+    "content": [
+      {
+        "element": "category",
+        "attributes": {
+          "name": "test"
+        },
+        "content": [
+          {
+            "element": "copy",
+            "content": "A test group\n"
+          },
+          {
+            "element": "resource",
+            "name": "test",
+            "description": "A test uri template\n",
+            "uriTemplate": "/test/{id}[2]",
+            "model": {},
+            "parameters": [],
+            "actions": [],
+            "content": []
+          }
+        ]
+      }
+    ]
+  },
+  "error": {
+    "code": 0,
+    "message": "",
+    "location": []
+  },
+  "warnings": [
+    {
+      "code": 12,
+      "message": "The URI template contains square brackets, please percent encode square brackets as %5B and %5D",
+      "location": [
+        {
+          "index": 87,
+          "length": 24
+        }
+      ]
+    }
+  ]
+}
