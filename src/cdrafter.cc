@@ -26,8 +26,6 @@ SC_API int drafter_c_parse(const char* source,
 
     std::stringstream inputStream;
 
-    options |= snowcrash::ExportSourcemapOption;
-
     inputStream << source;
 
     sc::ParseResult<sc::Blueprint> blueprint;
@@ -37,7 +35,7 @@ SC_API int drafter_c_parse(const char* source,
 
     if (result) {
         std::stringstream resultStream;
-        serializer.process(drafter::WrapResult(blueprint), resultStream);
+        serializer.process(drafter::WrapResult(blueprint, options), resultStream);
         resultStream << "\n";
         *result = ToString(resultStream);
     }

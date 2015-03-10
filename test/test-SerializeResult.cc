@@ -21,8 +21,8 @@ TEST_CASE("integration test for result parse serialization","[result serializati
     std::stringstream outStream;
     sos::SerializeJSON serializer;
 
-    serializer.process(drafter::WrapResult(blueprint), outStream);
+    serializer.process(drafter::WrapResult(blueprint, snowcrash::ExportSourcemapOption), outStream);
     outStream << "\n";
 
-    REQUIRE(outStream.str() == fixture.get(".result.json"));
+    REQUIRE(outStream.str() == fixture.get(".result-with-sourcemap.json"));
 }

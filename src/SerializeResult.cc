@@ -32,20 +32,22 @@ static sos::Object WrapAnnotation(const snowcrash::SourceAnnotation& annotation)
     return object;
 }
 
-sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint)
+sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const snowcrash::BlueprintParserOptions options)
 {
     sos::Object object;
 
     using namespace snowcrash;
 
     const Report& report = blueprint.report;
-    const SourceMap<Blueprint>& sourceMap = blueprint.sourceMap;
 
     object.set(SerializeKey::AnnotationsVersion, sos::String(AST_ANNOTATION_SERIALIZATION_VERSION));
     
     object.set(SerializeKey::Ast, WrapBlueprint(blueprint.node));
 
-    object.set(SerializeKey::SourceMap, WrapBlueprintSourcemap(sourceMap));
+    if (options & ExportSourcemapOption) {
+        const SourceMap<Blueprint>& sourceMap = blueprint.sourceMap;
+        object.set(SerializeKey::SourceMap, WrapBlueprintSourcemap(sourceMap));
+    }
 
     object.set(SerializeKey::Error, WrapAnnotation(report.error));
 
