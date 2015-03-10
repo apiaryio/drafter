@@ -7,3 +7,6 @@
 [submodule "ext/sos"]
 	path = ext/sos
 	url = https://github.com/apiaryio/sos.git
+[submodule "ext/cmdline"]
+	path = ext/cmdline
+	url = https://github.com/apiaryio/cmdline.git

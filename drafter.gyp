@@ -5,6 +5,19 @@
   
   "targets" : [
     {
+      'target_name': 'libsos',
+      'type': 'static_library',
+      'include_dirs': [
+        'ext/sos/src'
+      ],
+      'sources': [
+        'ext/sos/src/sos.cc',
+        'ext/sos/src/sos.h',
+        'ext/sos/src/sosJSON.h',
+        'ext/sos/src/sosYAML.h'
+      ]
+    },
+    {
       "target_name": "libdrafter",
       'type': '<(libdrafter_type)',
 
@@ -29,18 +42,17 @@
 
       # FIXME: replace by direct dependecies
       "include_dirs": [
-        "ext/snowcrash/ext/cmdline",
         "ext/snowcrash/ext/markdown-parser/src",
         "ext/snowcrash/ext/markdown-parser/ext/sundown/src",
-        "ext/snowcrash/ext/sos/src",
+        "ext/sos/src",
         "ext/snowcrash/src",
       ],
 
       "dependencies": [
+	"libsos",
         "ext/snowcrash/snowcrash.gyp:libsnowcrash",
         "ext/snowcrash/snowcrash.gyp:libmarkdownparser",
         "ext/snowcrash/snowcrash.gyp:libsundown",
-        "ext/snowcrash/snowcrash.gyp:libsos",
       ],
     },
 
@@ -54,7 +66,7 @@
         "ext/snowcrash/src",
         "ext/snowcrash/ext/markdown-parser/src",
         "ext/snowcrash/ext/markdown-parser/ext/sundown/src",
-        "ext/snowcrash/ext/sos/src",
+        "ext/sos/src",
       ],
       'sources': [
         "test/test-main.cc",
@@ -63,10 +75,10 @@
       ],
       'dependencies': [
         "libdrafter",
+        "libsos",
         "ext/snowcrash/snowcrash.gyp:libsnowcrash",
         "ext/snowcrash/snowcrash.gyp:libmarkdownparser",
         "ext/snowcrash/snowcrash.gyp:libsundown",
-        "ext/snowcrash/snowcrash.gyp:libsos",
       ],
       'conditions': [
          [ 'OS=="win"', { 'defines' : [ 'WIN' ] } ]
@@ -86,19 +98,19 @@
 
       # FIXME: replace by direct dependecies
       "include_dirs": [
-        "ext/snowcrash/ext/cmdline",
+        "ext/cmdline",
         "ext/snowcrash/ext/markdown-parser/src",
         "ext/snowcrash/ext/markdown-parser/ext/sundown/src",
-        "ext/snowcrash/ext/sos/src",
+        "ext/sos/src",
         "ext/snowcrash/src",
       ],
 
       "dependencies": [
         "libdrafter",
+        "libsos",
         "ext/snowcrash/snowcrash.gyp:libsnowcrash",
         "ext/snowcrash/snowcrash.gyp:libmarkdownparser",
         "ext/snowcrash/snowcrash.gyp:libsundown",
-        "ext/snowcrash/snowcrash.gyp:libsos",
       ],
     },
 
