@@ -1,3 +1,11 @@
+//
+//  SerializeResult.cc
+//  drafter
+//
+//  Created by Jiri Kratochvil on 27-02-2015
+//  Copyright (c) 2015 Apiary Inc. All rights reserved.
+//
+
 #include "SerializeResult.h"
 #include "SerializeSourcemap.h"
 #include "SerializeAST.h"
