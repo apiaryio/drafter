@@ -123,38 +123,38 @@ resourceGroups:
               -
                 name:
                   -
-                    - 800
+                    - 827
                     - 86
                 description:
                   -
-                    - 800
+                    - 827
                     - 86
                 type:
                   -
-                    - 800
+                    - 827
                     - 86
                 required:
                   -
-                    - 800
+                    - 827
                     - 86
                 example:
                   -
-                    - 800
+                    - 827
                     - 86
                 default:
                   -
-                    - 800
+                    - 827
                     - 86
                 values:
                   -
                     value:
                       -
-                        - 916
+                        - 943
                         - 20
                   -
                     value:
                       -
-                        - 948
+                        - 975
                         - 20
             examples:
               -
@@ -164,11 +164,11 @@ resourceGroups:
                   -
                     name:
                       -
-                        - 1018
+                        - 1045
                         - 37
                     description:
                       -
-                        - 1059
+                        - 1086
                         - 22
                     headers:
                       -
@@ -177,44 +177,44 @@ resourceGroups:
                           - 31
                       -
                         -
-                          - 984
+                          - 1011
                           - 31
                       -
                         -
-                          - 1018
+                          - 1045
                           - 37
                       -
                         -
-                          - 1109
+                          - 1132
                           - 31
                     body:
                       -
-                        - 1161
+                        - 1184
                         - 19
                     schema:
                       -
-                        - 1203
+                        - 1226
                         - 21
                     content:
                       -
                         content:
                           -
-                            - 1161
+                            - 1184
                             - 19
                       -
                         content:
                           -
-                            - 1203
+                            - 1226
                             - 21
                 responses:
                   -
                     name:
                       -
-                        - 1227
+                        - 1250
                         - 27
                     description:
                       -
-                        - 1258
+                        - 1281
                         - 23
                     headers:
                       -
@@ -223,43 +223,43 @@ resourceGroups:
                           - 31
                       -
                         -
-                          - 984
+                          - 1011
                           - 31
                       -
                         -
-                          - 1227
+                          - 1250
                           - 27
                       -
                         -
-                          - 1305
+                          - 1328
                           - 31
                     body:
                       -
-                        - 1357
+                        - 1380
                         - 20
                     schema:
                       -
-                        - 1400
+                        - 1423
                         - 22
                     content:
                       -
                         content:
                           -
-                            - 1357
+                            - 1380
                             - 20
                       -
                         content:
                           -
-                            - 1400
+                            - 1423
                             - 22
                   -
                     reference:
                       -
-                        - 1443
+                        - 1466
                         - 20
                     name:
                       -
-                        - 1425
+                        - 1448
                         - 14
                     description:
                       -
@@ -272,7 +272,7 @@ resourceGroups:
                           - 31
                       -
                         -
-                          - 984
+                          - 1011
                           - 31
                       -
                         -
@@ -300,7 +300,7 @@ resourceGroups:
                   -
                     name:
                       -
-                        - 1466
+                        - 1489
                         - 32
                     description: []
                     headers:
@@ -310,11 +310,11 @@ resourceGroups:
                           - 31
                       -
                         -
-                          - 984
+                          - 1011
                           - 31
                       -
                         -
-                          - 1466
+                          - 1489
                           - 32
                     body: []
                     schema: []
@@ -323,9 +323,15 @@ resourceGroups:
                         name: []
                         typeDefinition:
                           -
-                            - 1505
+                            - 1528
                             - 35
                         sections: []
+            attributes:
+              relation:
+                -
+                  - 783
+                  - 24
+              uriTemplate: []
             content: []
         content:
           -
@@ -467,38 +473,38 @@ content:
               -
                 name:
                   -
-                    - 800
+                    - 827
                     - 86
                 description:
                   -
-                    - 800
+                    - 827
                     - 86
                 type:
                   -
-                    - 800
+                    - 827
                     - 86
                 required:
                   -
-                    - 800
+                    - 827
                     - 86
                 example:
                   -
-                    - 800
+                    - 827
                     - 86
                 default:
                   -
-                    - 800
+                    - 827
                     - 86
                 values:
                   -
                     value:
                       -
-                        - 916
+                        - 943
                         - 20
                   -
                     value:
                       -
-                        - 948
+                        - 975
                         - 20
             examples:
               -
@@ -508,11 +514,11 @@ content:
                   -
                     name:
                       -
-                        - 1018
+                        - 1045
                         - 37
                     description:
                       -
-                        - 1059
+                        - 1086
                         - 22
                     headers:
                       -
@@ -521,44 +527,44 @@ content:
                           - 31
                       -
                         -
-                          - 984
+                          - 1011
                           - 31
                       -
                         -
-                          - 1018
+                          - 1045
                           - 37
                       -
                         -
-                          - 1109
+                          - 1132
                           - 31
                     body:
                       -
-                        - 1161
+                        - 1184
                         - 19
                     schema:
                       -
-                        - 1203
+                        - 1226
                         - 21
                     content:
                       -
                         content:
                           -
-                            - 1161
+                            - 1184
                             - 19
                       -
                         content:
                           -
-                            - 1203
+                            - 1226
                             - 21
                 responses:
                   -
                     name:
                       -
-                        - 1227
+                        - 1250
                         - 27
                     description:
                       -
-                        - 1258
+                        - 1281
                         - 23
                     headers:
                       -
@@ -567,43 +573,43 @@ content:
                           - 31
                       -
                         -
-                          - 984
+                          - 1011
                           - 31
                       -
                         -
-                          - 1227
+                          - 1250
                           - 27
                       -
                         -
-                          - 1305
+                          - 1328
                           - 31
                     body:
                       -
-                        - 1357
+                        - 1380
                         - 20
                     schema:
                       -
-                        - 1400
+                        - 1423
                         - 22
                     content:
                       -
                         content:
                           -
-                            - 1357
+                            - 1380
                             - 20
                       -
                         content:
                           -
-                            - 1400
+                            - 1423
                             - 22
                   -
                     reference:
                       -
-                        - 1443
+                        - 1466
                         - 20
                     name:
                       -
-                        - 1425
+                        - 1448
                         - 14
                     description:
                       -
@@ -616,7 +622,7 @@ content:
                           - 31
                       -
                         -
-                          - 984
+                          - 1011
                           - 31
                       -
                         -
@@ -644,7 +650,7 @@ content:
                   -
                     name:
                       -
-                        - 1466
+                        - 1489
                         - 32
                     description: []
                     headers:
@@ -654,11 +660,11 @@ content:
                           - 31
                       -
                         -
-                          - 984
+                          - 1011
                           - 31
                       -
                         -
-                          - 1466
+                          - 1489
                           - 32
                     body: []
                     schema: []
@@ -667,9 +673,15 @@ content:
                         name: []
                         typeDefinition:
                           -
-                            - 1505
+                            - 1528
                             - 35
                         sections: []
+            attributes:
+              relation:
+                -
+                  - 783
+                  - 24
+              uriTemplate: []
             content: []
         content:
           -
@@ -702,26 +714,26 @@ content:
       -
         name:
           -
-            - 1560
+            - 1583
             - 25
         typeDefinition: []
         sections:
           -
             -
-              - 1585
+              - 1608
               - 30
           -
             -
               name:
                 -
-                  - 1632
+                  - 1655
                   - 117
               description:
                 -
-                  - 1632
+                  - 1655
                   - 117
               valueDefinition:
                 -
-                  - 1632
+                  - 1655
                   - 117
               sections: []

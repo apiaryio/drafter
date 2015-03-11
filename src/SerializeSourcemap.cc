@@ -281,6 +281,17 @@ sos::Object WrapActionSourcemap(const SourceMap<Action>& action)
     actionObject.set(SerializeKey::Examples, 
                      WrapCollection<TransactionExample>()(action.examples.collection, WrapTransactionExampleSourcemap));
 
+    // Attributes
+    sos::Object attributes;
+
+    /// Relation
+    attributes.set(SerializeKey::Relation, WrapSourcemap(action.relation));
+
+    /// URI Template
+    attributes.set(SerializeKey::URITemplate, WrapSourcemap(action.uriTemplate));
+
+    actionObject.set(SerializeKey::Attributes, attributes);
+
     // Content
     sos::Array content;
 
