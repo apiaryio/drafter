@@ -16,7 +16,7 @@ TEST_CASE("c-interface parse blueprint ","[c-interface]")
 
     REQUIRE(ret == 0);
 
-    REQUIRE(result != NULL);
+    REQUIRE(result);
     REQUIRE(strcmp(result, fixture.get(".result.json").c_str()) == 0);
 
     free(result);
@@ -34,7 +34,7 @@ TEST_CASE("c-interface parse blueprint with sourceMap","[c-interface]")
 
     REQUIRE(ret == 0);
 
-    REQUIRE(result != NULL);
+    REQUIRE(result);
     REQUIRE(strcmp(result, fixture.get(".result-with-sourcemap.json").c_str()) == 0);
 
     free(result);
