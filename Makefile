@@ -25,6 +25,9 @@ drafter: config.gypi $(BUILD_DIR)/Makefile
 	mkdir -p ./bin
 	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/$@ ./bin/$@
 
+install: drafter
+	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/drafter $(DESTDIR)/drafter
+
 config.gypi: configure
 	$(PYTHON) ./configure
 
@@ -48,4 +51,4 @@ ifdef INTEGRATION_TESTS
 	bundle exec cucumber
 endif
 
-.PHONY: all libdrafter drafter test test-libdrafter
+.PHONY: all libdrafter drafter test test-libdrafter install
