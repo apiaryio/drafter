@@ -43,12 +43,13 @@ sos::Serialize* CreateSerializer(const std::string& format)
 /**
  * \brief Serialize sos::Object into stream
  */
-void Serialization(std::tr1::shared_ptr<std::ostream> stream,
+void Serialization(std::ostream *stream,
                    const sos::Object& object,
                    sos::Serialize* serializer)
 {
     serializer->process(object, *stream);
     *stream << "\n";
+    *stream << std::flush;
 }
 
 int main(int argc, const char *argv[])
@@ -62,7 +63,7 @@ int main(int argc, const char *argv[])
     }
 
     std::stringstream inputStream;
-    std::tr1::shared_ptr<std::istream> in = CreateStreamFromName<std::istream>(config.input);
+    std::auto_ptr<std::istream> in(CreateStreamFromName<std::istream>(config.input));
     inputStream << in->rdbuf();
 
     sc::ParseResult<sc::Blueprint> blueprint;
