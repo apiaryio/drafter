@@ -8,8 +8,7 @@
 #ifndef _DRAFTER_STREAM_H_
 #define _DRAFTER_STREAM_H_
 
-#include <tr1/memory>
-#include <tr1/shared_ptr.h>
+#include <memory>
 
 #include <string>
 
@@ -18,33 +17,46 @@
 #include <fstream>
 
 /**
- *  \brief deleter functor to shared_ptr<> which does nothing
- *  usefull to get system resource like std::cin, std::cout to shared_ptr<>
+ *  \brief proxy redirect i/o operations to stdin/stdout
+ *  and avoid close stdin/stdout while delete
  */
-template<typename T>
-struct dummy_deleter {
-    void operator()(T* obj) const 
+template <typename T> struct std_io_proxy;
+
+template <> struct std_io_proxy<std::ostream> : public std::ostream {
+    std::streambuf* saved;
+
+    std_io_proxy() 
     {
-      // do nothing
+        saved = rdbuf(std::cout.rdbuf());
     }
-};
+
+    virtual ~std_io_proxy() 
+    {
+        rdbuf(saved);
+    }
+}; 
+
+template <> struct std_io_proxy<std::istream> : public std::istream {
+    std::streambuf* saved;
+
+    std_io_proxy() 
+    {
+        saved = rdbuf(std::cin.rdbuf());
+    }
+
+    virtual ~std_io_proxy() 
+    {
+        rdbuf(saved);
+    }
+}; 
 
 /**
  *  \brief functor returns cin/cout ptr in based on istream or ostream
  */
-template<typename T> struct std_io;
-
-template<> struct std_io<std::istream> {
-    std::istream* operator()() const
+template<typename T> struct std_io {
+    T* operator()() const
     { 
-        return &std::cin; 
-    }
-};
-
-template<> struct std_io<std::ostream> {
-    std::ostream* operator()() const
-    { 
-        return &std::cout; 
+        return new std_io_proxy<T>(); 
     }
 };
 
@@ -53,11 +65,11 @@ template<> struct std_io<std::ostream> {
  */
 template<typename T> struct std_io_selector {
     typedef T stream_type;
-    typedef std::tr1::shared_ptr<stream_type> return_type;
+    typedef stream_type* return_type;
 
     return_type operator()() const
     { 
-        return return_type(std_io<T>()(), dummy_deleter<stream_type>()); 
+        return return_type(std_io<T>()()); 
     }
 };
 
@@ -81,7 +93,7 @@ struct to_fstream<std::ostream>{
  */
 template<typename T> struct fstream_io_selector{
     typedef typename to_fstream<T>::stream_type stream_type;
-    typedef std::tr1::shared_ptr<stream_type> return_type;
+    typedef stream_type* return_type;
 
     return_type operator()(const char* name) const 
     { 
@@ -90,7 +102,10 @@ template<typename T> struct fstream_io_selector{
 };
 
 /**
- *  \brief return writable stream or report error and exit()
+ *  \brief return pointer to readable/writable stream or report error and exit()
+ *
+ *  free allocated memory must be released by calling `delete` 
+ *  optionaly you can use std::auto_ptr<>
  *
  *  return is based on \template param T (must be std::ostream or std::istream)
  *
@@ -105,7 +120,7 @@ template<typename T> struct fstream_io_selector{
  */
 
 template<typename T>
-std::tr1::shared_ptr<T> CreateStreamFromName(const std::string& file)
+T* CreateStreamFromName(const std::string& file)
 {
     if (file.empty()) {
         return std_io_selector<T>()();

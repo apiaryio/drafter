@@ -30,11 +30,11 @@ class ITFixtureFiles {
 public:
     ITFixtureFiles(const std::string& base) : base_(base) {} 
 
-    typedef std::tr1::shared_ptr<std::istream> stream_type;
+    typedef std::auto_ptr<std::istream> stream_type;
 
     const std::string fetchContent(const std::string& filename) const {
 
-        stream_type in = CreateStreamFromName<std::istream>(normalizePath(filename));
+        stream_type in(CreateStreamFromName<std::istream>(normalizePath(filename)));
         std::stringstream strStream;
         strStream << in->rdbuf();
 
