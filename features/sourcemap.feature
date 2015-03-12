@@ -4,8 +4,7 @@ Feature: Validate SourceMap output
 
     When I run `drafter -s sourcemap blueprint.apib`
     Then a file named "sourcemap" should exist
-    When I run `cat sourcemap`
-    Then the output should contain the content of file "sourcemap.yaml"
+    And the file "sourcemap" should be equal to file "sourcemap.yaml"
     When I remove the file "sourcemap"
     Then a file named "sourcemap" should not exist
 
@@ -13,8 +12,7 @@ Feature: Validate SourceMap output
 
     When I run `drafter -s sourcemap --format json blueprint.apib`
     Then a file named "sourcemap" should exist
-    When I run `cat sourcemap`
-    Then the output should contain the content of file "sourcemap.json"
+    And the file "sourcemap" should be equal to file "sourcemap.json"
     When I remove the file "sourcemap"
     Then a file named "sourcemap" should not exist
 
