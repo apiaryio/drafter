@@ -23,30 +23,32 @@
 template <typename T> struct std_io_proxy;
 
 template <> struct std_io_proxy<std::ostream> : public std::ostream {
-    std::streambuf* saved;
+    //std::streambuf dummy;
+    std::stringbuf dummy;
 
-    std_io_proxy() 
+    std_io_proxy() : std::ostream(std::cout.rdbuf())
     {
-        saved = rdbuf(std::cout.rdbuf());
+        //rdbuf(std::cout.rdbuf());
     }
 
     virtual ~std_io_proxy() 
     {
-        rdbuf(saved);
+        rdbuf(&dummy);
     }
 }; 
 
 template <> struct std_io_proxy<std::istream> : public std::istream {
-    std::streambuf* saved;
+    //std::streambuf dummy;
+    std::stringbuf dummy;
 
-    std_io_proxy() 
+    std_io_proxy() : std::istream(std::cin.rdbuf())
     {
-        saved = rdbuf(std::cin.rdbuf());
+        //saved = rdbuf(std::cin.rdbuf());
     }
 
     virtual ~std_io_proxy() 
     {
-        rdbuf(saved);
+        rdbuf(&dummy);
     }
 }; 
 

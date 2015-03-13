@@ -1,0 +1,9 @@
+version: 1.0.{build}
+
+build_script:
+  - git submodule update --init --recursive
+  - gem install bundler
+  - vcbuild.bat MSVC2013
+
+test_script:
+  - vcbuild.bat MSVC2013 inttest
