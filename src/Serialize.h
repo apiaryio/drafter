@@ -13,9 +13,9 @@
 #include "BlueprintSourcemap.h"
 #include "sos.h"
 
-/** Version of API Blueprint AST serialization */
+/** Version of API Blueprint serialization */
 #define AST_SERIALIZATION_VERSION "2.1"
-#define AST_ANNOTATION_SERIALIZATION_VERSION "2.1"
+#define PARSE_RESULT_SERIALIZATION_VERSION "2.1"
 
 namespace drafter {
 
@@ -23,7 +23,6 @@ namespace drafter {
      *  AST entities serialization keys
      */
     struct SerializeKey {
-        static const std::string ASTVersion;
         static const std::string Metadata;
         static const std::string Reference;
         static const std::string Id;
@@ -71,7 +70,7 @@ namespace drafter {
         static const std::string Element;
         static const std::string Role;
 
-        static const std::string AnnotationsVersion;
+        static const std::string Version;
         static const std::string Ast;
         static const std::string SourceMap;
         static const std::string Error;

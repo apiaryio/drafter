@@ -48,7 +48,7 @@ sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprin
 
     const Report& report = blueprint.report;
 
-    object.set(SerializeKey::AnnotationsVersion, sos::String(AST_ANNOTATION_SERIALIZATION_VERSION));
+    object.set(SerializeKey::Version, sos::String(PARSE_RESULT_SERIALIZATION_VERSION));
     
     object.set(SerializeKey::Ast, WrapBlueprint(blueprint.node));
 
