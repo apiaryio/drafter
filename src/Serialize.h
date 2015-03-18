@@ -14,7 +14,7 @@
 #include "sos.h"
 
 /** Version of API Blueprint serialization */
-#define AST_SERIALIZATION_VERSION "2.1"
+#define AST_SERIALIZATION_VERSION "3.0"
 #define PARSE_RESULT_SERIALIZATION_VERSION "2.1"
 
 namespace drafter {
