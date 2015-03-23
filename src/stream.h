@@ -83,11 +83,13 @@ template <typename T> struct to_fstream;
 template<> 
 struct to_fstream<std::istream>{
   typedef std::ifstream stream_type;
+  static std::ios_base::openmode open_flags() { return std::ios_base::in | std::ios_base::binary; }
 };
 
 template<> 
 struct to_fstream<std::ostream>{
   typedef std::ofstream stream_type;
+  static std::ios_base::openmode open_flags() { return std::ios_base::out | std::ios_base::binary; }
 };
 
 /**
@@ -99,7 +101,7 @@ template<typename T> struct fstream_io_selector{
 
     return_type operator()(const char* name) const 
     { 
-        return return_type(new stream_type(name)); 
+        return return_type(new stream_type(name, to_fstream<T>::open_flags())); 
     }
 };
 
