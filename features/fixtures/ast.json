@@ -24,7 +24,7 @@
             "description": "<resource model description>\n",
             "headers": [
               {
-                "name": "<header1>",
+                "name": "header1",
                 "value": "<header1 value>"
               }
             ],
@@ -103,11 +103,11 @@
                       "description": "<request description>\n",
                       "headers": [
                         {
-                          "name": "<header2>",
+                          "name": "header2",
                           "value": "<header2 value>"
                         },
                         {
-                          "name": "<header3>",
+                          "name": "header3",
                           "value": "<header3 value>"
                         },
                         {
@@ -115,7 +115,7 @@
                           "value": "text/plain"
                         },
                         {
-                          "name": "<header4>",
+                          "name": "header4",
                           "value": "<header4 value>"
                         }
                       ],
@@ -145,11 +145,11 @@
                       "description": "<response description>\n",
                       "headers": [
                         {
-                          "name": "<header2>",
+                          "name": "header2",
                           "value": "<header2 value>"
                         },
                         {
-                          "name": "<header3>",
+                          "name": "header3",
                           "value": "<header3 value>"
                         },
                         {
@@ -157,7 +157,7 @@
                           "value": "text/plain"
                         },
                         {
-                          "name": "<header5>",
+                          "name": "header5",
                           "value": "<header5 value>"
                         }
                       ],
@@ -188,15 +188,15 @@
                       "description": "<resource model description>\n",
                       "headers": [
                         {
-                          "name": "<header2>",
+                          "name": "header2",
                           "value": "<header2 value>"
                         },
                         {
-                          "name": "<header3>",
+                          "name": "header3",
                           "value": "<header3 value>"
                         },
                         {
-                          "name": "<header1>",
+                          "name": "header1",
                           "value": "<header1 value>"
                         }
                       ],
@@ -224,11 +224,11 @@
                       "description": "",
                       "headers": [
                         {
-                          "name": "<header2>",
+                          "name": "header2",
                           "value": "<header2 value>"
                         },
                         {
-                          "name": "<header3>",
+                          "name": "header3",
                           "value": "<header3 value>"
                         },
                         {
@@ -334,7 +334,7 @@
             "description": "<resource model description>\n",
             "headers": [
               {
-                "name": "<header1>",
+                "name": "header1",
                 "value": "<header1 value>"
               }
             ],
@@ -413,11 +413,11 @@
                       "description": "<request description>\n",
                       "headers": [
                         {
-                          "name": "<header2>",
+                          "name": "header2",
                           "value": "<header2 value>"
                         },
                         {
-                          "name": "<header3>",
+                          "name": "header3",
                           "value": "<header3 value>"
                         },
                         {
@@ -425,7 +425,7 @@
                           "value": "text/plain"
                         },
                         {
-                          "name": "<header4>",
+                          "name": "header4",
                           "value": "<header4 value>"
                         }
                       ],
@@ -455,11 +455,11 @@
                       "description": "<response description>\n",
                       "headers": [
                         {
-                          "name": "<header2>",
+                          "name": "header2",
                           "value": "<header2 value>"
                         },
                         {
-                          "name": "<header3>",
+                          "name": "header3",
                           "value": "<header3 value>"
                         },
                         {
@@ -467,7 +467,7 @@
                           "value": "text/plain"
                         },
                         {
-                          "name": "<header5>",
+                          "name": "header5",
                           "value": "<header5 value>"
                         }
                       ],
@@ -498,15 +498,15 @@
                       "description": "<resource model description>\n",
                       "headers": [
                         {
-                          "name": "<header2>",
+                          "name": "header2",
                           "value": "<header2 value>"
                         },
                         {
-                          "name": "<header3>",
+                          "name": "header3",
                           "value": "<header3 value>"
                         },
                         {
-                          "name": "<header1>",
+                          "name": "header1",
                           "value": "<header1 value>"
                         }
                       ],
@@ -534,11 +534,11 @@
                       "description": "",
                       "headers": [
                         {
-                          "name": "<header2>",
+                          "name": "header2",
                           "value": "<header2 value>"
                         },
                         {
-                          "name": "<header3>",
+                          "name": "header3",
                           "value": "<header3 value>"
                         },
                         {
