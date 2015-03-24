@@ -748,7 +748,7 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
     sos::Object blueprintObject;
 
     // Version
-    blueprintObject.set(SerializeKey::ASTVersion, sos::String(AST_SERIALIZATION_VERSION));
+    blueprintObject.set(SerializeKey::Version, sos::String(AST_SERIALIZATION_VERSION));
 
     // Metadata
     blueprintObject.set(SerializeKey::Metadata, 

@@ -11,7 +11,6 @@
 
 using namespace drafter;
 
-const std::string SerializeKey::ASTVersion = "_version";
 const std::string SerializeKey::Metadata = "metadata";
 const std::string SerializeKey::Reference = "reference";
 const std::string SerializeKey::Id = "id";
@@ -58,7 +57,7 @@ const std::string SerializeKey::ValueDefinition = "valueDefinition";
 const std::string SerializeKey::Element = "element";
 const std::string SerializeKey::Role = "role";
 
-const std::string SerializeKey::AnnotationsVersion = "_version";
+const std::string SerializeKey::Version = "_version";
 const std::string SerializeKey::Ast = "ast";
 const std::string SerializeKey::SourceMap= "sourcemap";
 const std::string SerializeKey::Error = "error";
