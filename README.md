@@ -12,7 +12,7 @@ API Blueprint is Web API documentation language. You can find API Blueprint docu
 Additionally Drafter provide set of Wrappers for serialization, of parsing result, via  [SOS library](https://github.com/apiaryio/sos) into JSON and YAML format.
 
 ## Status
-- [Format 1A7](https://github.com/apiaryio/api-blueprint/releases/tag/format-1A7) fully implemented 
+- [Format 1A8](https://github.com/apiaryio/api-blueprint/releases/tag/format-1A8) fully implemented
 
 ## Install
 OS X using Homebrew:
