@@ -76,9 +76,11 @@ int main(int argc, const char *argv[])
                       drafter::WrapBlueprint(blueprint.node), 
                       serializer);
 
-        Serialization(CreateStreamFromName<std::ostream>(config.sourceMap),
-                      drafter::WrapBlueprintSourcemap(blueprint.sourceMap),
-                      serializer);
+        if (options & snowcrash::ExportSourcemapOption) {
+            Serialization(CreateStreamFromName<std::ostream>(config.sourceMap),
+                          drafter::WrapBlueprintSourcemap(blueprint.sourceMap),
+                          serializer);
+        }
 
         delete serializer;
     }
