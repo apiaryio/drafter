@@ -21,7 +21,7 @@ resourceGroups:
           description: "<resource model description>\n"
           headers:
             -
-              name: "<header1>"
+              name: "header1"
               value: "<header1 value>"
           body: "<resource model body>\n"
           schema: "<resource model schema>\n"
@@ -81,16 +81,16 @@ resourceGroups:
                     description: "<request description>\n"
                     headers:
                       -
-                        name: "<header2>"
+                        name: "header2"
                         value: "<header2 value>"
                       -
-                        name: "<header3>"
+                        name: "header3"
                         value: "<header3 value>"
                       -
                         name: "Content-Type"
                         value: "text/plain"
                       -
-                        name: "<header4>"
+                        name: "header4"
                         value: "<header4 value>"
                     body: "<request body>\n"
                     schema: "<request schema>\n"
@@ -111,16 +111,16 @@ resourceGroups:
                     description: "<response description>\n"
                     headers:
                       -
-                        name: "<header2>"
+                        name: "header2"
                         value: "<header2 value>"
                       -
-                        name: "<header3>"
+                        name: "header3"
                         value: "<header3 value>"
                       -
                         name: "Content-Type"
                         value: "text/plain"
                       -
-                        name: "<header5>"
+                        name: "header5"
                         value: "<header5 value>"
                     body: "<response body>\n"
                     schema: "<response schema>\n"
@@ -142,13 +142,13 @@ resourceGroups:
                     description: "<resource model description>\n"
                     headers:
                       -
-                        name: "<header2>"
+                        name: "header2"
                         value: "<header2 value>"
                       -
-                        name: "<header3>"
+                        name: "header3"
                         value: "<header3 value>"
                       -
-                        name: "<header1>"
+                        name: "header1"
                         value: "<header1 value>"
                     body: "<resource model body>\n"
                     schema: "<resource model schema>\n"
@@ -168,10 +168,10 @@ resourceGroups:
                     description: ""
                     headers:
                       -
-                        name: "<header2>"
+                        name: "header2"
                         value: "<header2 value>"
                       -
-                        name: "<header3>"
+                        name: "header3"
                         value: "<header3 value>"
                       -
                         name: "Content-Type"
@@ -241,7 +241,7 @@ content:
           description: "<resource model description>\n"
           headers:
             -
-              name: "<header1>"
+              name: "header1"
               value: "<header1 value>"
           body: "<resource model body>\n"
           schema: "<resource model schema>\n"
@@ -301,16 +301,16 @@ content:
                     description: "<request description>\n"
                     headers:
                       -
-                        name: "<header2>"
+                        name: "header2"
                         value: "<header2 value>"
                       -
-                        name: "<header3>"
+                        name: "header3"
                         value: "<header3 value>"
                       -
                         name: "Content-Type"
                         value: "text/plain"
                       -
-                        name: "<header4>"
+                        name: "header4"
                         value: "<header4 value>"
                     body: "<request body>\n"
                     schema: "<request schema>\n"
@@ -331,16 +331,16 @@ content:
                     description: "<response description>\n"
                     headers:
                       -
-                        name: "<header2>"
+                        name: "header2"
                         value: "<header2 value>"
                       -
-                        name: "<header3>"
+                        name: "header3"
                         value: "<header3 value>"
                       -
                         name: "Content-Type"
                         value: "text/plain"
                       -
-                        name: "<header5>"
+                        name: "header5"
                         value: "<header5 value>"
                     body: "<response body>\n"
                     schema: "<response schema>\n"
@@ -362,13 +362,13 @@ content:
                     description: "<resource model description>\n"
                     headers:
                       -
-                        name: "<header2>"
+                        name: "header2"
                         value: "<header2 value>"
                       -
-                        name: "<header3>"
+                        name: "header3"
                         value: "<header3 value>"
                       -
-                        name: "<header1>"
+                        name: "header1"
                         value: "<header1 value>"
                     body: "<resource model body>\n"
                     schema: "<resource model schema>\n"
@@ -388,10 +388,10 @@ content:
                     description: ""
                     headers:
                       -
-                        name: "<header2>"
+                        name: "header2"
                         value: "<header2 value>"
                       -
-                        name: "<header3>"
+                        name: "header3"
                         value: "<header3 value>"
                       -
                         name: "Content-Type"
