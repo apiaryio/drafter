@@ -1,12 +1,22 @@
+machine:
+  node:
+    version: 0.10.34
+
 checkout:
   post:
     - git submodule update --init --recursive
 
 dependencies:
+  cache_directories:
+    - emsdk
   pre:
-    
+    - if [[ ! -e emsdk/emscripten/master/emcc ]]; then ./circle_emsdk.sh; fi
+
 test:
   pre:
     - ./configure -i
   override:
     - make test
+  post:
+    - cp ./emsdk/.emscripten ~/.emscripten && cd ./emsdk && source ./emsdk_env.sh && cd ../; ./emcc/emcclean.sh && ./emcc/emcbuild.sh
+    - cd ./emcc/ && ./test-jsdrafter;

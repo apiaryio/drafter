@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Drafter/Emscripten Test</title>
+  <script src=jsdrafter.js></script>
+  <style>
+    body {
+      max-width: 600px;
+      margin: 40px auto;
+    }
+    textarea {
+      width: 100%;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <textarea id=input rows=24 placeholder="API Blueprint here...">
+# My API
+
+## GET /message
+
++ Response 200 (text/plain)
+
+    Hello World.
+
+</textarea>
+  <div id=output>XXX</div>
+  <script>
+    function parse() {
+        var res = parseAPIBlueprint(input.value);
+        if (0 == res.err) {
+            apib = JSON.parse(res.result);
+            if (apib['warnings']) {
+                output.innerHTML = apib.warnings[0].message;
+            } else {
+                output.innerHTML = "OK";
+            }
+        }
+    }
+    input.addEventListener('input', parse);
+    parse();
+  </script>
+</body>
+</html>
