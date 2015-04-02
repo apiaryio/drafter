@@ -72,14 +72,14 @@ int main(int argc, const char *argv[])
     if (!config.validate) {  // not just validate -> we will serialize
         sos::Serialize* serializer = CreateSerializer(config.format);
 
-        Serialization(CreateStreamFromName<std::ostream>(config.output),
-                      drafter::WrapBlueprint(blueprint.node), 
-                      serializer);
+        std::ostream *out = CreateStreamFromName<std::ostream>(config.output);
+        Serialization(out, drafter::WrapBlueprint(blueprint.node), serializer);
+        delete out;
 
         if (options & snowcrash::ExportSourcemapOption) {
-            Serialization(CreateStreamFromName<std::ostream>(config.sourceMap),
-                          drafter::WrapBlueprintSourcemap(blueprint.sourceMap),
-                          serializer);
+            std::ostream *sourcemap = CreateStreamFromName<std::ostream>(config.sourceMap);
+            Serialization(sourcemap, drafter::WrapBlueprintSourcemap(blueprint.sourceMap), serializer);
+            delete sourcemap;
         }
 
         delete serializer;
