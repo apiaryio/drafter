@@ -1,37 +1,11 @@
 #!/usr/bin/env node
 
-function objectEquals(x, y) {
-
-    if (x === null || x === undefined || y === null || y === undefined) { return x === y; }
-    // after this just checking type of one would be enough
-    if (x.constructor !== y.constructor) { return false; }
-    // if they are functions, they should exactly refer to same one (because of closures)
-    if (x instanceof Function) { return x === y; }
-    // if they are regexps, they should exactly refer to same one (it is hard to better equality check on current ES)
-    if (x instanceof RegExp) { return x === y; }
-    if (x === y || x.valueOf() === y.valueOf()) { return true; }
-    if (Array.isArray(x) && x.length !== y.length) { return false; }
-
-    // if they are dates, they must had equal valueOf
-    if (x instanceof Date) { return false; }
-
-    // if they are strictly equal, they both need to be object at least
-    if (!(x instanceof Object)) { return false; }
-    if (!(y instanceof Object)) { return false; }
-
-    // recursive object equality check
-    var p = Object.keys(x);
-    return Object.keys(y).every(function (i) { return p.indexOf(i) !== -1; }) &&
-        p.every(function (i) { return objectEquals(x[i], y[i]); });
-}
-
+var assert = require('chai').assert
 var fs = require('fs')
 var path = require('path')
 var jsdrafter = require('./jsdrafter.js');
 
 var fixtures = '../test/fixtures/'
-
-var testRun = {total:0, pass:0, fail:0};
 
 var apibs = [];
 fs.readdirSync(fixtures).forEach(function(file) {
@@ -41,13 +15,12 @@ fs.readdirSync(fixtures).forEach(function(file) {
             if (fs.statSync(path.join(fixtures, p+".result.json")).isFile()) {
                 apibs.push({apib:path.join(fixtures,file),
                             result:path.join(fixtures, p+".result.json")});
-                testRun.total++;
             } else {
                 console.error("Found "+path.join(fixtures,file)+" but not result!");
             }
         }
         catch (err) {
-            console.error("Found "+path.join(fixtures,file)+" but not result!");
+            assert.fail(true, false, err);
         }
     }
 });
@@ -56,27 +29,11 @@ apibs.forEach(function(t) {
     var data = fs.readFileSync(t.apib, 'utf8');
     var expect = JSON.parse(fs.readFileSync(t.result, 'utf8'));
     var drafterRes = jsdrafter.parseAPIBlueprint(data);
+    var x = 0;
 
-    if (!drafterRes.err){
-        var res = JSON.parse(drafterRes.result);
-        if (objectEquals(res, expect)) {
-            console.log("OK "+t.apib);
-            testRun.pass++;
-        } else {
-            console.log("FAIL "+t.apib);
-            testRun.fail++;
-        }
-    } else {
-        console.error("Error parsing "+t.apib);
-        testRun.fail++;
-    }
+    assert.equal(drafterRes.err, 0, "Prase "+t.apib);
+    var res = JSON.parse(drafterRes.result);
+    assert.deepEqual(res, expect, "Parsed correctly as expected");
 });
-
-console.log("\nTest run result:\n================");
-console.log("Total:  "+testRun.total);
-console.log("Passed: "+testRun.pass);
-console.log("Failed: "+testRun.fail);
-
-if (testRun.fail > 0) return -1;
 
 return 0;

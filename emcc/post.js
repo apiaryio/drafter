@@ -1,13 +1,14 @@
 Module['parseAPIBlueprint'] = function(text) {
 
     if (false === this.ready) {
-        return {err: -1, result: ""};
+        return {err: -1, result: null};
     }
 
     chptr = _malloc(4);
     buffer = _malloc(text.length+1);
     writeStringToMemory(text, buffer);
     res = _drafter_c_parse(buffer, 0, chptr);
+    console.log(res);
     _free(buffer);
     ptrstr = getValue(chptr, '*');
     parse = Pointer_stringify(ptrstr);
