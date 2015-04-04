@@ -11,6 +11,7 @@ dependencies:
     - emsdk
   pre:
     - if [[ ! -e emsdk/emscripten/master/emcc ]]; then ./circle_emsdk.sh; fi
+    - npm install chai
 
 test:
   pre:
