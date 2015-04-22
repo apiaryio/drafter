@@ -11,10 +11,8 @@ curl -sO https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portab
 mkdir -p emsdk
 tar -xzf emsdk-portable.tar.gz -C emsdk --strip-components=1
 cd emsdk
-cp ../emsdk.patch .
-patch < emsdk.patch
 ./emsdk update
-./emsdk install latest
+./emsdk install latest -j1
 ./emsdk activate latest
 cp ~/.emscripten .
 cd ../
