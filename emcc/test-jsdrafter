@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
-var assert = require('chai').assert
-var fs = require('fs')
-var path = require('path')
+var assert = require('chai').assert;
+var fs = require('fs');
+var path = require('path');
 var jsdrafter = require('./jsdrafter.js');
 
-var fixtures = '../test/fixtures/'
+var fixtures = '../test/fixtures/';
+
+var testRun = {total:0, pass:0, fail:0};
 
 var apibs = [];
 fs.readdirSync(fixtures).forEach(function(file) {
@@ -15,11 +17,11 @@ fs.readdirSync(fixtures).forEach(function(file) {
             if (fs.statSync(path.join(fixtures, p+".result.json")).isFile()) {
                 apibs.push({apib:path.join(fixtures,file),
                             result:path.join(fixtures, p+".result.json")});
+                testRun.total++;
             } else {
                 console.error("Found "+path.join(fixtures,file)+" but not result!");
             }
-        }
-        catch (err) {
+        } catch (err) {
             assert.fail(true, false, err);
         }
     }
@@ -29,11 +31,25 @@ apibs.forEach(function(t) {
     var data = fs.readFileSync(t.apib, 'utf8');
     var expect = JSON.parse(fs.readFileSync(t.result, 'utf8'));
     var drafterRes = jsdrafter.parseAPIBlueprint(data);
-    var x = 0;
 
-    assert.equal(drafterRes.err, 0, "Prase "+t.apib);
-    var res = JSON.parse(drafterRes.result);
-    assert.deepEqual(res, expect, "Parsed correctly as expected");
+    try {
+        assert.equal(drafterRes.err, 0, "Parse "+t.apib);
+        var res = JSON.parse(drafterRes.result);
+        assert.deepEqual(res, expect, "Parsed correctly as expected");
+        console.log("OK "+t.apib);
+        testRun.pass++;
+    } catch (err) {
+        console.log("FAIL "+t.apib);
+        console.log(err);
+        testRun.fail++;
+    }
 });
+
+console.log("\nTest run result:\n================");
+console.log("Total:  "+testRun.total);
+console.log("Passed: "+testRun.pass);
+console.log("Failed: "+testRun.fail);
+
+if (testRun.fail > 0) return -1;
 
 return 0;
