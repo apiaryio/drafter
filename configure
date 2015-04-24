@@ -8,7 +8,12 @@
 import sys
 
 
-if sys.version_info.major != 2:
+def get_major_version():
+    if isinstance(sys.version_info, tuple):
+        return sys.version_info[0]
+    return sys.version_info.major
+
+if get_major_version() != 2:
     # Since various Linux distros and OS X doesn't properly follow PEP 394,
     # We've set the shebang line to `python` and erroring when it isn't
     # Python 2.
