@@ -8,7 +8,6 @@ Module['parseAPIBlueprint'] = function(text) {
     buffer = _malloc(text.length+1);
     writeStringToMemory(text, buffer);
     res = _drafter_c_parse(buffer, 0, chptr);
-    console.log(res);
     _free(buffer);
     ptrstr = getValue(chptr, '*');
     parse = Pointer_stringify(ptrstr);
