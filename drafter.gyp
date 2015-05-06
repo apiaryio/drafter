@@ -38,6 +38,11 @@
         "src/SerializeSourcemap.cc",
         "src/SerializeResult.h",
         "src/SerializeResult.cc",
+
+        "src/refract/Element.h",
+        "src/refract/Element.cc",
+        "src/refract/Typelist.h",
+        "src/refract/VisitableBy.h",
       ],
 
       # FIXME: replace by direct dependecies
@@ -72,6 +77,7 @@
         "test/test-main.cc",
         "test/test-SerializeResult.cc",
         "test/test-cdrafter.cc",
+        "test/test-RefractTest.cc",
       ],
       'dependencies': [
         "libdrafter",

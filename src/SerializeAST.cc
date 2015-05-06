@@ -9,6 +9,8 @@
 #include "StringUtility.h"
 #include "SerializeAST.h"
 
+#include "refract/Element.h"
+
 using namespace drafter;
 
 using snowcrash::AssetRole;
@@ -428,8 +430,24 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
     return object;
 }
 
+refract::IElement* ToRefract(const DataStructure& ds) {
+    return new refract::NullElement;
+}
+
+
 sos::Object WrapDataStructure(const DataStructure& dataStructure)
 {
+#define _WITH_REFRACT_ 1
+#if _WITH_REFRACT_
+    using namespace refract;
+    IElement* element = ToRefract(dataStructure);
+    ElementSerializer serializer;
+    serializer.visit(*element);
+    delete element;
+
+    return serializer.get();
+#else
+
     sos::Object dataStructureObject;
 
     // Element
@@ -444,8 +462,10 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     // Type Sections
     dataStructureObject.set(SerializeKey::Sections,
                             WrapCollection<mson::TypeSection>()(dataStructure.sections, WrapTypeSection));
+                            
 
     return dataStructureObject;
+#endif    
 }
 
 sos::Object WrapAsset(const Asset& asset, const AssetRole& role)
