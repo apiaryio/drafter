@@ -3,67 +3,37 @@
 
 namespace refract {
 
-void SerializaleVisitor::visit(const IElement& e) {
+void SerializeVisitor::visit(const IElement& e) {
     result.set("element", sos::String(e.element()));
 
     typedef IElement::MemberElementCollection::const_iterator iterator;
 
     // FIXME : refactoring
     if(!e.meta.empty()) {
-        sos::Array array;
+        sos::Object obj;
         for( iterator it = e.meta.begin() ; it != e.meta.end() ; ++it ) {
-          SerializaleVisitor s;
-          s.visit((IElement&)*(*it));
-          array.push(s.get());
+          SerializeCompactVisitor s;
+          s.visit(*(*it));
+          obj.set(s.key(), s.value());
         }
-        result.set("meta", array);
+        result.set("meta", obj);
     }
 
     if(!e.attributes.empty()) {
-        sos::Array array;
-        for( iterator it = e.meta.begin() ; it != e.meta.end() ; ++it ) {
-          SerializaleVisitor s;
-          s.visit((IElement&)*(*it));
-          array.push(s.get());
+        sos::Object obj;
+        for( iterator it = e.attributes.begin() ; it != e.attributes.end() ; ++it ) {
+          SerializeCompactVisitor s;
+          s.visit(*(*it));
+          obj.set(s.key(), s.value());
         }
-        result.set("attributes", array);
+        result.set("attributes", obj);
     }
 
     e.content(*this);
     result.set("content", partial);
-    
-    
-    /*
-    std::stringstream s;
-    Stringify f;
-    e.content(f);
-
-    s << "{\n  \"element\": \"" << e.element() << "\",\n";
-    // FIXME: refactoring
-    if(!e.meta.empty()) {
-        s << "  \"meta\": [\n";
-        for( IElement::MemberElementCollection::const_iterator it = e.meta.begin() ; it != e.meta.end() ; ++it ) {
-          Stringify f;
-          f.visit((IElement&)*(*it));
-          s << f.get();
-        }
-        s << "  ],\n";
-    }
-    if(!e.attributes.empty()) {
-        s << "  \"attributes\": [\n";
-        for( IElement::MemberElementCollection::const_iterator it = e.attributes.begin() ; it != e.attributes.end() ; ++it ) {
-          Stringify f;
-          f.visit((IElement&)*(*it));
-          s << f.get();
-        }
-        s << "  ],\n";
-    }
-    s << "  \"content\": " << f.get() << "\n}";
-    value = s.str();
-    */
 }
 
-static void SetSerializerValue(SerializaleVisitor& s, sos::Base& value) {
+static void SetSerializerValue(SerializeVisitor& s, sos::Base& value) {
     if(!s.key.empty()) {
         s.result.set(s.key, value);
         s.key.clear();
@@ -72,68 +42,101 @@ static void SetSerializerValue(SerializaleVisitor& s, sos::Base& value) {
     }
 }
 
-void SerializaleVisitor::visit(const NullElement& e) {
+void SerializeVisitor::visit(const NullElement& e) {
     sos::Base value = sos::Null();
     SetSerializerValue(*this, value);
 }
 
-void SerializaleVisitor::visit(const StringElement& e) {
+void SerializeVisitor::visit(const StringElement& e) {
     sos::Base value = sos::String(e.value);
     SetSerializerValue(*this, value);
 }
 
-void SerializaleVisitor::visit(const NumberElement& e) {
+void SerializeVisitor::visit(const NumberElement& e) {
     sos::Base value = sos::Number(e.value);
     SetSerializerValue(*this, value);
 }
 
-void SerializaleVisitor::visit(const BooleanElement& e) {
+void SerializeVisitor::visit(const BooleanElement& e) {
     sos::Base value = sos::Boolean(e.value);
     SetSerializerValue(*this, value);
 }
 
-void SerializaleVisitor::visit(const ArrayElement& e) {
+void SerializeVisitor::visit(const ArrayElement& e) {
     sos::Array array;
 
     typedef ArrayElement::value_type::const_iterator iterator;
     for(iterator it = e.value.begin() ; it != e.value.end() ; ++it ) {
-        SerializaleVisitor s;
+        SerializeVisitor s;
         s.visit(*(*it));
         array.push(s.get());
     }
     SetSerializerValue(*this, array);
 }
 
-void SerializaleVisitor::visit(const MemberElement& e) {
-    sos::Object object;
-
-    NullElement null;
-
-    IElement* k = e.value.first ? e.value.first : &null;
-    SerializaleVisitor sk;
-    sk.visit(*k);
-    object.set("key", sk.get());
-
-
-    k = e.value.second ? e.value.second : &null;
-    SerializaleVisitor sv;
-    sv.visit(*k);
-    object.set("value", sv.get());
-
-    SetSerializerValue(*this, object);
+void SerializeVisitor::visit(const MemberElement& e) {
+    throw std::runtime_error("Not Implemented");
 }
 
-void SerializaleVisitor::visit(const ObjectElement& e) {
+void SerializeVisitor::visit(const ObjectElement& e) {
     sos::Array array;
 
     typedef ObjectElement::value_type::const_iterator iterator;
     for(iterator it = e.value.begin() ; it != e.value.end() ; ++it ) {
-        SerializaleVisitor s;
+        SerializeVisitor s;
         s.visit(static_cast<IElement&>(*(*it)));
         array.push(s.get());
     }
     SetSerializerValue(*this, array);
 }
+
+void SerializeCompactVisitor::visit(const IElement& e) {
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+}
+
+void SerializeCompactVisitor::visit(const NullElement& e) {
+    value_ = sos::Null();
+}
+
+void SerializeCompactVisitor::visit(const StringElement& e) {
+    value_ = sos::String(e.value);
+}
+
+void SerializeCompactVisitor::visit(const NumberElement& e) {
+    value_ = sos::Number(e.value);
+}
+
+void SerializeCompactVisitor::visit(const BooleanElement& e) {
+    value_ = sos::Boolean(e.value);
+}
+
+void SerializeCompactVisitor::visit(const ArrayElement& e) {
+    sos::Array array;
+    typedef ArrayElement::value_type::const_iterator iterator;
+    for( iterator it = e.value.begin() ; it != e.value.end() ; ++it ) {
+        SerializeCompactVisitor s;
+        (*it)->content(s);
+        array.push(s.value());
+    }
+    value_ = array;
+}
+
+void SerializeCompactVisitor::visit(const MemberElement& e) {
+    if(e.value.first) {
+        SerializeCompactVisitor s;
+        e.value.first->content(s);
+        key_ = s.value().str;
+    }
+
+    if(e.value.second) {
+        e.value.second->content(*this);
+    }
+}
+
+void SerializeCompactVisitor::visit(const ObjectElement& e) {
+    throw std::runtime_error("Not Implemented");
+}
+
 
 IElement::MemberElementCollection::const_iterator IElement::MemberElementCollection::find(const std::string& name) const {
     ComparableVisitor v(name);

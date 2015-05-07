@@ -29,7 +29,8 @@ struct ObjectElement;
 struct MemberElement;
 
 struct ComparableVisitor;
-struct SerializaleVisitor;
+struct SerializeVisitor;
+struct SerializeCompactVisitor;
 
 /*
 template<typename T>
@@ -64,7 +65,8 @@ struct IElement {
      */
     typedef typelist::cons<
         ComparableVisitor,
-        SerializaleVisitor
+        SerializeVisitor,
+        SerializeCompactVisitor
         >::type Visitors;
 
     struct MemberElementCollection : std::vector<MemberElement*> {
@@ -123,7 +125,7 @@ struct ComparableVisitor : IVisitor {
     }
 };
 
-struct SerializaleVisitor : IVisitor {
+struct SerializeVisitor : IVisitor {
 
     sos::Object result; 
     sos::Base partial;
@@ -143,6 +145,54 @@ struct SerializaleVisitor : IVisitor {
     }
 };
 
+struct SerializeCompactVisitor : IVisitor {
+    /*
+    template <typename T>
+    void visit(const T& e) {
+        std::cout << __PRETTY_FUNCTION__ << std::endl;
+    }
+    */
+    std::string key_;
+    sos::Base value_;
+
+    void visit(const IElement& e);
+    void visit(const NullElement& e); 
+    void visit(const StringElement& e); 
+    void visit(const NumberElement& e); 
+    void visit(const BooleanElement& e); 
+    void visit(const ArrayElement& e); 
+    void visit(const MemberElement& e); 
+    void visit(const ObjectElement& e); 
+
+    std::string key() {
+        return key_;
+    }
+
+    sos::Base value() {
+        return value_;
+    }
+
+    /*
+
+    sos::Object result; 
+    sos::Base partial;
+    std::string key;
+
+    void visit(const IElement& e);
+    void visit(const NullElement& e); 
+    void visit(const StringElement& e); 
+    void visit(const NumberElement& e); 
+    void visit(const BooleanElement& e); 
+    void visit(const ArrayElement& e); 
+    void visit(const MemberElement& e); 
+    void visit(const ObjectElement& e); 
+
+    sos::Object get() {
+        return result;
+    }
+    */
+};
+
 template<typename T, typename Trait>
 struct Element : public IElement, public VisitableBy<IElement::Visitors> {
 
@@ -154,7 +204,16 @@ struct Element : public IElement, public VisitableBy<IElement::Visitors> {
     typedef typename trait_type::value_type value_type;
     value_type value;
 
-    std::string element() const { return trait.element(); }
+    std::string element_;
+
+    // FIXME return const reference
+    std::string element() const { 
+        return element_.empty() ? trait.element() : element_; 
+    }
+
+    void element(const std::string& name) { 
+        element_ = name;
+    }
 
     void set(const value_type& val) {
         value = val;
@@ -165,60 +224,69 @@ struct Element : public IElement, public VisitableBy<IElement::Visitors> {
     }
 
     virtual void content(IVisitor& v) const {
-        std::cout << __PRETTY_FUNCTION__ << std::endl;
         InvokeVisit(v, static_cast<const T&>(*this));
     }
 };
 
-struct ElementTrait {
-    const std::string element() const { return "element"; }
-};
-
-struct NullElementTrait : public ElementTrait {
+struct NullElementTrait {
     const std::string element() const { return "null"; }
     struct null_type {};
     typedef null_type value_type;
 };
 
-struct StringElementTrait : public ElementTrait {
+struct StringElementTrait {
     const std::string element() const { return "string"; }
     typedef std::string value_type;
 };
 
-struct NumberElementTrait : public ElementTrait {
+struct NumberElementTrait {
     const std::string element() const { return "number"; }
     typedef double value_type;
 };
 
-struct BooleanElementTrait : public ElementTrait {
+struct BooleanElementTrait {
     const std::string element() const { return "boolean"; }
     typedef bool value_type;
 };
 
-struct ArrayElementTrait : public ElementTrait {
+struct ArrayElementTrait {
     const std::string element() const { return "array"; }
     typedef std::vector<IElement*> value_type;
 };
 
-struct MemberElementTrait : public ElementTrait {
+struct MemberElementTrait {
     const std::string element()  const{ return "member"; }
-    typedef std::pair<IElement*, IElement*> value_type;
+    typedef std::pair<StringElement*, IElement*> value_type;
 };
 
-struct ObjectElementTrait : public ElementTrait {
+struct ObjectElementTrait {
     const std::string element() const { return "object"; }
     typedef std::vector<MemberElement*> value_type;
 };
-
-//
-// NOTE: maybe use typedef instead of Inheritance
-// 
 
 struct NullElement : Element<NullElement, NullElementTrait> {};
 struct StringElement : Element<StringElement, StringElementTrait> {};
 struct NumberElement : Element<NumberElement, NumberElementTrait> {};
 struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {};
-struct MemberElement : Element<MemberElement, MemberElementTrait> {};
+
+struct MemberElement : Element<MemberElement, MemberElementTrait> {
+    void set(const std::string& name, IElement* val) {
+
+        if(value.first != NULL) {
+            delete value.first;
+            value.first = NULL;
+        }
+        StringElement* k = new StringElement;
+        k->set(name);
+        value.first = k;
+
+        if(value.second != NULL) {
+            delete value.second;
+            value.second = NULL;
+        }
+        value.second = val;
+    }
+};
 
 struct ArrayElement : Element<ArrayElement, ArrayElementTrait> {
     void push_back(IElement* e) {

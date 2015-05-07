@@ -9,6 +9,8 @@
 #include "StringUtility.h"
 #include "SerializeAST.h"
 
+#define _WITH_REFRACT_ 1
+
 #include "refract/Element.h"
 
 using namespace drafter;
@@ -430,9 +432,120 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
     return object;
 }
 
-refract::IElement* ToRefract(const DataStructure& ds) {
-    refract::ObjectElement* e = new refract::ObjectElement;
+static refract::MemberElement* RefractMember(const std::string& name, const std::string &value) {
+    using namespace refract;
+    StringElement* v = new StringElement;
+    v->set(value);
+    MemberElement* m = new refract::MemberElement;
+    m->set(name, v);
+    return m;
+}
 
+static refract::MemberElement* GetRefractMSONElement(const mson::Element& mse) {
+    using namespace refract;
+
+    //MemberElement* m = new refract::MemberElement;
+    std::string klass;
+    
+
+    switch (mse.klass) {
+        case mson::Element::PropertyClass:
+        {
+            MemberElement* m = RefractMember(
+                    mse.content.property.name.literal,
+                    // FIXME: check count
+                    mse.content.property.valueDefinition.values[0].literal
+                    );
+
+            // FIXME : add meta && attr here
+
+            return m;
+            //StringElement* name = new StringElement;
+            //name->set(mse.content.property.name)
+            //elementObject.set(SerializeKey::Content, WrapPropertyMember(element.content.property));
+            break;
+        }
+
+        case mson::Element::ValueClass:
+        {
+            klass = "value";
+            //elementObject.set(SerializeKey::Content, WrapValueMember(element.content.value));
+            break;
+        }
+
+        case mson::Element::MixinClass:
+        {
+            klass = "mixin";
+            //elementObject.set(SerializeKey::Content, WrapMixin(element.content.mixin));
+            break;
+        }
+
+        case mson::Element::OneOfClass:
+        {
+            klass = "oneOf";
+            //elementObject.set(SerializeKey::Content, 
+            //                  WrapCollection<mson::Element>()(element.content.oneOf(), WrapMSONElement));
+            break;
+        }
+
+        case mson::Element::GroupClass:
+        {
+            klass = "group";
+            //elementObject.set(SerializeKey::Content, 
+            //                  WrapCollection<mson::Element>()(element.content.elements(), WrapMSONElement));
+            break;
+        }
+
+        default:
+            break;
+    }
+
+    return RefractMember("klass",klass);
+
+    //return m;
+
+}
+
+
+refract::IElement* ToRefract(const DataStructure& ds) {
+    using namespace refract;
+    StringElement* se = new StringElement;
+    se->set("42");
+    se->meta.push_back(RefractMember("name", "foo"));
+    MemberElement* m = new MemberElement;
+    ArrayElement* n = new ArrayElement;
+    StringElement* s1 = new StringElement;
+    s1->set("test");
+    n->push_back(s1);
+    StringElement* s2 = new StringElement;
+    s2->set("...");
+    n->push_back(s2);
+
+    m->set("id",n);
+
+    se->meta.push_back(m);
+    return se;
+
+
+    ObjectElement* e = new ObjectElement;
+
+    //e->element(ds.typeDefinition.typeSpecification.name.symbol.literal);
+    
+    // meta id
+    e->meta.push_back(RefractMember("id",ds.name.symbol.literal));
+    e->meta.push_back(RefractMember("title",ds.name.symbol.literal));
+
+    /*
+    for ( mson::TypeSections::const_iterator it = ds.sections.begin() ; it != ds.sections.end() ; ++it ) {
+        for( mson::Elements::const_iterator eit = (*it).content.elements().begin() ; eit != (*it).content.elements().end() ; ++eit ) {
+            e->push_back(GetRefractMSONElement(*eit));
+        }
+    }
+    */
+
+    
+
+    /*
     refract::MemberElement* m = new refract::MemberElement;
 
     refract::StringElement* k = new refract::StringElement;
@@ -447,17 +560,17 @@ refract::IElement* ToRefract(const DataStructure& ds) {
 
     e->push_back(m);
     e->meta.push_back(meta);
+    */
     return e;
 }
 
 
 sos::Object WrapDataStructure(const DataStructure& dataStructure)
 {
-#define _WITH_REFRACT_ 1
 #if _WITH_REFRACT_
     using namespace refract;
     IElement* element = ToRefract(dataStructure);
-    SerializaleVisitor serializer;
+    SerializeVisitor serializer;
     serializer.visit(*element);
     delete element;
 
