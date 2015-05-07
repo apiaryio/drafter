@@ -27,11 +27,9 @@ struct BooleanElement;
 struct ArrayElement;
 struct ObjectElement;
 struct MemberElement;
-struct RefElement;
 
-struct Stringify;
 struct ComparableVisitor;
-struct ElementSerializer;
+struct SerializaleVisitor;
 
 /*
 template<typename T>
@@ -65,9 +63,8 @@ struct IElement {
      * via. `content()` method
      */
     typedef typelist::cons<
-        Stringify,
         ComparableVisitor,
-        ElementSerializer
+        SerializaleVisitor
         >::type Visitors;
 
     struct MemberElementCollection : std::vector<MemberElement*> {
@@ -94,25 +91,6 @@ struct IElement {
 
 struct IVisitor {
     virtual ~IVisitor(){};
-};
-
-
-struct Stringify : IVisitor {
-    std::string value;
-
-    void visit(const IElement& e);
-    void visit(const NullElement& e); 
-    void visit(const StringElement& e); 
-    void visit(const NumberElement& e); 
-    void visit(const BooleanElement& e); 
-    void visit(const ArrayElement& e); 
-    void visit(const MemberElement& e); 
-    void visit(const ObjectElement& e); 
-    void visit(const RefElement& e); 
-
-    const std::string& get() const {
-        return value;
-    }
 };
 
 struct ComparableVisitor : IVisitor {
@@ -145,9 +123,11 @@ struct ComparableVisitor : IVisitor {
     }
 };
 
-struct ElementSerializer : IVisitor {
+struct SerializaleVisitor : IVisitor {
 
-    sos::Object result;
+    sos::Object result; 
+    sos::Base partial;
+    std::string key;
 
     void visit(const IElement& e);
     void visit(const NullElement& e); 
@@ -157,9 +137,8 @@ struct ElementSerializer : IVisitor {
     void visit(const ArrayElement& e); 
     void visit(const MemberElement& e); 
     void visit(const ObjectElement& e); 
-    void visit(const RefElement& e); 
 
-    sos::Object get() const {
+    sos::Object get() {
         return result;
     }
 };
@@ -176,14 +155,6 @@ struct Element : public IElement, public VisitableBy<IElement::Visitors> {
     value_type value;
 
     std::string element() const { return trait.element(); }
-
-    //void initAttributes() {}
-    //void initMeta() {}
-
-    //Element() {
-    //    static_cast<T*>(this)->initAttributes();
-    //    static_cast<T*>(this)->initMeta();
-    //}
 
     void set(const value_type& val) {
         value = val;
@@ -239,18 +210,6 @@ struct ObjectElementTrait : public ElementTrait {
     typedef std::vector<MemberElement*> value_type;
 };
 
-struct RefElementTrait : public ElementTrait {
-    const std::string element() const { return "ref"; }
-
-    struct link {
-        std::string href;
-        std::string prefix;
-        std::string path; // FIXME: probably will be IElement in future
-    };
-
-    typedef link value_type;
-};
-
 //
 // NOTE: maybe use typedef instead of Inheritance
 // 
@@ -259,6 +218,7 @@ struct NullElement : Element<NullElement, NullElementTrait> {};
 struct StringElement : Element<StringElement, StringElementTrait> {};
 struct NumberElement : Element<NumberElement, NumberElementTrait> {};
 struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {};
+struct MemberElement : Element<MemberElement, MemberElementTrait> {};
 
 struct ArrayElement : Element<ArrayElement, ArrayElementTrait> {
     void push_back(IElement* e) {
@@ -266,53 +226,9 @@ struct ArrayElement : Element<ArrayElement, ArrayElementTrait> {
     }
 };
 
-struct MemberElement : Element<MemberElement, MemberElementTrait> {
-    //void set(IElement* key, IElement* value) {
-    //}
-};
-
 struct ObjectElement : Element<ObjectElement, ObjectElementTrait> {
     void push_back(MemberElement* e) {
         value.push_back(e);
-    }
-};
-
-struct RefElement : Element<RefElement, RefElementTrait> {
-    void href(const std::string href) {
-        value.href = href;
-    }
-
-    /**
-     * An alias for href()
-     */
-    void set(const std::string href) {
-        value.href = href;
-    }
-
-    void prefix(const std::string prefix) {
-        value.prefix = prefix;
-    }
-
-    void path(const std::string path) {
-        value.path = path;
-    }
-};
-
-
-
-//
-// FIXME:
-// - `Serializer` will use libsos in future instead of direct building output
-// - use `sos` inside `class Stringify`
-//
-
-struct Serializer {
-
-    std::string Accept(const IElement& element) {
-
-        Stringify s;
-        s.visit(element);
-        return s.get();
     }
 };
 

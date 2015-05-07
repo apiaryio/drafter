@@ -431,7 +431,23 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
 }
 
 refract::IElement* ToRefract(const DataStructure& ds) {
-    return new refract::NullElement;
+    refract::ObjectElement* e = new refract::ObjectElement;
+
+    refract::MemberElement* m = new refract::MemberElement;
+
+    refract::StringElement* k = new refract::StringElement;
+    k->set("bar");
+
+    refract::NumberElement* v = new refract::NumberElement;
+    v->set(3.14);
+
+    m->set(std::make_pair(k,v));
+
+    refract::MemberElement* meta = new refract::MemberElement;
+
+    e->push_back(m);
+    e->meta.push_back(meta);
+    return e;
 }
 
 
@@ -441,7 +457,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
 #if _WITH_REFRACT_
     using namespace refract;
     IElement* element = ToRefract(dataStructure);
-    ElementSerializer serializer;
+    SerializaleVisitor serializer;
     serializer.visit(*element);
     delete element;
 
