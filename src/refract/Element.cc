@@ -29,6 +29,7 @@ void SerializeVisitor::visit(const IElement& e) {
         result.set("attributes", obj);
     }
 
+    // FIXME: allow parametric (non)rendering of unset content
     e.content(*this);
     result.set("content", partial);
 }
@@ -48,17 +49,26 @@ void SerializeVisitor::visit(const NullElement& e) {
 }
 
 void SerializeVisitor::visit(const StringElement& e) {
-    sos::Base value = sos::String(e.value);
+    sos::Base value = sos::Null();
+    if(!e.empty()) {
+        value = sos::String(e.value);
+    }
     SetSerializerValue(*this, value);
 }
 
 void SerializeVisitor::visit(const NumberElement& e) {
-    sos::Base value = sos::Number(e.value);
+    sos::Base value = sos::Null();
+    if(!e.empty()) {
+        value = sos::Number(e.value);
+    }
     SetSerializerValue(*this, value);
 }
 
 void SerializeVisitor::visit(const BooleanElement& e) {
-    sos::Base value = sos::Boolean(e.value);
+    sos::Base value = sos::Null();
+    if(!e.empty()) {
+        value = sos::Boolean(e.value);
+    }
     SetSerializerValue(*this, value);
 }
 
@@ -75,7 +85,18 @@ void SerializeVisitor::visit(const ArrayElement& e) {
 }
 
 void SerializeVisitor::visit(const MemberElement& e) {
-    throw std::runtime_error("Not Implemented");
+    throw std::runtime_error("MemberElement is DEPRECATED use Meta[\"name\"] instead");
+    /*
+    sos::Array array;
+
+    typedef ObjectElement::value_type::const_iterator iterator;
+    for(iterator it = e.value.begin() ; it != e.value.end() ; ++it ) {
+        SerializeVisitor s;
+        s.visit(static_cast<IElement&>(*(*it)));
+        array.push(s.get());
+    }
+    SetSerializerValue(*this, array);
+    */
 }
 
 void SerializeVisitor::visit(const ObjectElement& e) {
@@ -91,7 +112,7 @@ void SerializeVisitor::visit(const ObjectElement& e) {
 }
 
 void SerializeCompactVisitor::visit(const IElement& e) {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    throw std::runtime_error("NI: IElement Compact Serialization");
 }
 
 void SerializeCompactVisitor::visit(const NullElement& e) {
@@ -134,7 +155,7 @@ void SerializeCompactVisitor::visit(const MemberElement& e) {
 }
 
 void SerializeCompactVisitor::visit(const ObjectElement& e) {
-    throw std::runtime_error("Not Implemented");
+    throw std::runtime_error("NI: ObjectElement Compact serializaion");
 }
 
 
@@ -148,28 +169,29 @@ IElement::MemberElementCollection::const_iterator IElement::MemberElementCollect
     return it;
 }
 
-/*
-IElement& IElement::MemberElementCollection::operator[](const std::string& name) {
+IElement* IElement::Create(const char* value) {
+   StringElement* element = new StringElement;
+   element->set(value);
+   return element;
+};
+
+MemberElement& IElement::MemberElementCollection::operator[](const std::string& name) {
     const_iterator it = find(name);
     if(it != end()) {
-        return *(*it)->value.second;
+        return *(*it);
     }
 
-    if(it == end()) { // create new member
-        StringElement* key = new StringElement;
-        key->set(name);
-        MemberElement* e = new MemberElement;
-        push_back(e);
-    }
-
-    //return e
-    //if (e.end()) return NULL;
-    //return e->value.second;
+    StringElement* key = new StringElement;
+    key->set(name);
+    MemberElement* member = new MemberElement;
+    member->value.first = key;
+    push_back(member);
+    return *member;
 }
 
-IElement& IElement::MemberElementCollection::operator[](const int index) {
-    //return static_cast<std::vector<MemberElement*> >(*this)[index];
+MemberElement& IElement::MemberElementCollection::operator[](const int index) {
+    // FIXME: static assert;
+    throw std::runtime_error("Do nor use number index");
 }
-*/
 
 }; // namespace refract

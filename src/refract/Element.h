@@ -32,6 +32,8 @@ struct ComparableVisitor;
 struct SerializeVisitor;
 struct SerializeCompactVisitor;
 
+#if 0
+
 /*
 template<typename T>
 bool operator==(const BaseContentProxy& self, const T& other) {
@@ -40,7 +42,6 @@ bool operator==(const BaseContentProxy& self, const T& other) {
 }
 */
 
-#if 0
 
 // NOTE: assign must be solved by function, we cannot declare operator
 // out of class declaration
@@ -51,11 +52,37 @@ bool operator==(const BaseContentProxy& self, const T& other) {
 //    static_cast<ContentProxy<T>*>(proxy)->value = &value;
 //}
 
-template <typename T>
-struct ElementTypeSelector {
-};
 
 #endif
+
+template <typename T> struct ElementTypeSelector;
+
+// FIXME: find in Element* for value_type
+// instead of specialization templates
+template <>
+struct ElementTypeSelector<std::string> {
+    typedef StringElement ElementType;
+};
+
+template <>
+struct ElementTypeSelector<char*> {
+    typedef StringElement ElementType;
+};
+
+template <>
+struct ElementTypeSelector<double> {
+    typedef NumberElement ElementType;
+};
+
+template <>
+struct ElementTypeSelector<int> {
+    typedef NumberElement ElementType;
+};
+
+template <>
+struct ElementTypeSelector<bool> {
+    typedef BooleanElement ElementType;
+};
 
 struct IVisitor;
 struct IElement {
@@ -69,10 +96,25 @@ struct IElement {
         SerializeCompactVisitor
         >::type Visitors;
 
+
+    bool hasContent;
+    IElement() : hasContent(false) {}
+
+
+    template<typename T> 
+    static IElement* Create(const T& value) {
+        typedef typename ElementTypeSelector<T>::ElementType ElementType;
+        ElementType* element = new ElementType;
+        element->set(value);
+        return element;
+    };
+
+    static IElement* Create(const char* value);
+
     struct MemberElementCollection : std::vector<MemberElement*> {
         const_iterator find(const std::string& name) const;
-        //IElement& operator[](const std::string& name);
-        //IElement& operator[](const int index);
+        MemberElement& operator[](const std::string& name);
+        MemberElement& operator[](const int index);
     };
 
     MemberElementCollection meta;
@@ -86,7 +128,9 @@ struct IElement {
     //  - create overrided virtual function for every one `Visitor`
     virtual void content(IVisitor& v) const = 0;
 
-    //virtual const MemberElementCollection& meta() const = 0;
+    virtual bool empty() const {
+        return !hasContent;
+    }
 
     virtual ~IElement(){}
 };
@@ -130,6 +174,8 @@ struct SerializeVisitor : IVisitor {
     sos::Object result; 
     sos::Base partial;
     std::string key;
+
+    SerializeVisitor() : partial(sos::Null()) {}
 
     void visit(const IElement& e);
     void visit(const NullElement& e); 
@@ -193,6 +239,8 @@ struct SerializeCompactVisitor : IVisitor {
     */
 };
 
+
+
 template<typename T, typename Trait>
 struct Element : public IElement, public VisitableBy<IElement::Visitors> {
 
@@ -203,6 +251,7 @@ struct Element : public IElement, public VisitableBy<IElement::Visitors> {
 
     typedef typename trait_type::value_type value_type;
     value_type value;
+
 
     std::string element_;
 
@@ -216,6 +265,7 @@ struct Element : public IElement, public VisitableBy<IElement::Visitors> {
     }
 
     void set(const value_type& val) {
+        hasContent = true;
         value = val;
     }
 
@@ -261,7 +311,7 @@ struct MemberElementTrait {
 
 struct ObjectElementTrait {
     const std::string element() const { return "object"; }
-    typedef std::vector<MemberElement*> value_type;
+    typedef std::vector<IElement*> value_type;
 };
 
 struct NullElement : Element<NullElement, NullElementTrait> {};
@@ -270,7 +320,7 @@ struct NumberElement : Element<NumberElement, NumberElementTrait> {};
 struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {};
 
 struct MemberElement : Element<MemberElement, MemberElementTrait> {
-    void set(const std::string& name, IElement* val) {
+    void set(const std::string& name, IElement* element) {
 
         if(value.first != NULL) {
             delete value.first;
@@ -284,18 +334,29 @@ struct MemberElement : Element<MemberElement, MemberElementTrait> {
             delete value.second;
             value.second = NULL;
         }
-        value.second = val;
+        value.second = element;
+    }
+
+    MemberElement& operator=(IElement* element) {
+        if(value.second != NULL) {
+            delete value.second;
+            value.second = NULL;
+        }
+        value.second = element;
+        return *this;
     }
 };
 
 struct ArrayElement : Element<ArrayElement, ArrayElementTrait> {
     void push_back(IElement* e) {
+        hasContent = true;
         value.push_back(e);
     }
 };
 
 struct ObjectElement : Element<ObjectElement, ObjectElementTrait> {
-    void push_back(MemberElement* e) {
+    void push_back(IElement* e) {
+        hasContent = true;
         value.push_back(e);
     }
 };

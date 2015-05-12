@@ -7,9 +7,9 @@
 #include "sosJSON.h"
 #include "SerializeAST.h"
 
-TEST_CASE("Testing refract serialization","[refract]")
+TEST_CASE("Testing refract serialization for primitive types","[refract]")
 {
-    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/mson1");
+    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/mson-primitives");
 
     snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
     int result = snowcrash::parse(fixture.get(".apib"), 0, blueprint);

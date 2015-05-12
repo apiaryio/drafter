@@ -13,6 +13,8 @@
 
 #include "refract/Element.h"
 
+#include <stdlib.h>
+
 using namespace drafter;
 
 using snowcrash::AssetRole;
@@ -432,37 +434,168 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
     return object;
 }
 
-static refract::MemberElement* RefractMember(const std::string& name, const std::string &value) {
-    using namespace refract;
-    StringElement* v = new StringElement;
-    v->set(value);
-    MemberElement* m = new refract::MemberElement;
-    m->set(name, v);
-    return m;
+static refract::ArrayElement* MsAttributesToRefract(const mson::TypeAttributes& ta)
+{
+    refract::ArrayElement* attr = new refract::ArrayElement;
+
+    if (ta & mson::RequiredTypeAttribute) {
+        attr->push_back(refract::IElement::Create("required"));
+    }
+    if (ta & mson::OptionalTypeAttribute) {
+        attr->push_back(refract::IElement::Create("optional"));
+    }
+    if (ta & mson::DefaultTypeAttribute) {
+        attr->push_back(refract::IElement::Create("default"));
+    }
+    if (ta & mson::SampleTypeAttribute) {
+        attr->push_back(refract::IElement::Create("sample"));
+    }
+    if (ta & mson::FixedTypeAttribute) {
+        attr->push_back(refract::IElement::Create("fixed"));
+    }
+    
+    if(attr->value.empty()) {
+        delete attr;
+        attr = NULL;
+    }
+
+    return attr;
 }
 
-static refract::MemberElement* GetRefractMSONElement(const mson::Element& mse) {
+template <int N>
+struct IntToType {
+    enum { value = N };
+};
+
+template <typename T> T LiteralTo(const mson::Literal& literal);
+
+template <> bool LiteralTo<bool>(const mson::Literal& literal) {
+    return literal == "true";
+}
+
+template <> double LiteralTo<double>(const mson::Literal& literal) {
+    return atof(literal.c_str());
+}
+
+template <> std::string LiteralTo<std::string>(const mson::Literal& literal) {
+    return literal;
+}
+
+static refract::IElement* SimplifyRefractContainer(const std::vector<refract::IElement*>& container) {
+    if(container.empty()) {
+        return NULL;
+    }
+
+    if(container.size() == 1) {
+        return container[0];
+    }
+
+    refract::ArrayElement* array = new refract::ArrayElement;
+    for(std::vector<refract::IElement*>::const_iterator it = container.begin() ; it != container.end() ; ++ it ) {
+        array->push_back(*it);
+    }
+    return array;
+}
+
+template <typename T> 
+refract::IElement* RefractElementFromProperty(const mson::PropertyMember& property) {
+    using namespace refract;
+    typedef T ElementType;
+    if(property.valueDefinition.values.size() > 1) {
+        throw std::runtime_error("just one value supported");
+    }
+
+    ElementType* element = new ElementType;
+
+    if(property.valueDefinition.values.size() == 1) {
+        element->set(LiteralTo<typename ElementType::value_type>(property.valueDefinition.values[0].literal));
+    }
+
+    element->meta["name"] = IElement::Create(property.name.literal);
+
+    if(IElement* attrs = MsAttributesToRefract(property.valueDefinition.typeDefinition.attributes)) {
+        element->meta["typeAttributes"] = attrs;
+    }
+
+    if(!property.description.empty()) {
+        element->meta["description"] = IElement::Create(property.description);
+    }
+
+    if (!property.sections.empty()) {
+        typedef std::vector<refract::IElement*> Elements;
+
+        std::vector<refract::IElement*> defaults;
+        std::vector<refract::IElement*> samples;
+
+        for(mson::TypeSections::const_iterator it = property.sections.begin() ; 
+            it != property.sections.end() ; 
+            ++it) {
+
+            IElement* e = IElement::Create(LiteralTo<typename ElementType::value_type>(it->content.value));
+            if (it->klass == mson::TypeSection::SampleClass) {
+                samples.push_back(e);
+            } else if(it->klass == mson::TypeSection::DefaultClass) {
+                defaults.push_back(e);
+            } else {
+                throw std::runtime_error("Unexpected section for property");
+            }
+        }
+
+        if(IElement* e = SimplifyRefractContainer(samples)) {
+            element->meta["sample"] = e;
+        }
+
+        if(IElement* e = SimplifyRefractContainer(defaults)) {
+            element->meta["default"] = e;
+        }
+
+    }
+
+    return element;
+}
+
+template<int N> refract::IElement* RefractElementFromProperty(const mson::PropertyMember& property, IntToType<N>);
+
+#define REFRACT_FROM_PROPERTY_IMPL(MSON_BASE_TYPE,REFRACT_TYPE) \
+template<> refract::IElement* RefractElementFromProperty<MSON_BASE_TYPE>(const mson::PropertyMember& property, IntToType<MSON_BASE_TYPE>) {\
+    return RefractElementFromProperty<REFRACT_TYPE>(property);\
+}
+
+REFRACT_FROM_PROPERTY_IMPL(mson::BooleanTypeName, refract::BooleanElement)
+REFRACT_FROM_PROPERTY_IMPL(mson::NumberTypeName,  refract::NumberElement)
+REFRACT_FROM_PROPERTY_IMPL(mson::StringTypeName,  refract::StringElement)
+
+#undef REFRACT_FROM_PROPERTY_IMPL
+
+static refract::IElement* MsonPropertyToRefract(const mson::PropertyMember& property) {
+    refract::IElement *element = NULL;
+    switch (property.valueDefinition.typeDefinition.typeSpecification.name.base) {
+        case mson::BooleanTypeName :
+            element = RefractElementFromProperty(property, IntToType<mson::BooleanTypeName>());
+            break;
+        case mson::NumberTypeName : 
+            element = RefractElementFromProperty(property, IntToType<mson::NumberTypeName>());
+            break;
+        case mson::StringTypeName :
+            element = RefractElementFromProperty(property, IntToType<mson::StringTypeName>());
+        break;
+        default:
+            throw std::runtime_error("NI: complex type of Property member");
+
+    }
+    return element;
+}
+
+static refract::IElement* MsElementToRefract(const mson::Element& mse) {
     using namespace refract;
 
-    //MemberElement* m = new refract::MemberElement;
     std::string klass;
-    
 
     switch (mse.klass) {
         case mson::Element::PropertyClass:
         {
-            MemberElement* m = RefractMember(
-                    mse.content.property.name.literal,
-                    // FIXME: check count
-                    mse.content.property.valueDefinition.values[0].literal
-                    );
-
-            // FIXME : add meta && attr here
-
-            return m;
-            //StringElement* name = new StringElement;
-            //name->set(mse.content.property.name)
             //elementObject.set(SerializeKey::Content, WrapPropertyMember(element.content.property));
+            return MsonPropertyToRefract(mse.content.property);
             break;
         }
 
@@ -500,67 +633,27 @@ static refract::MemberElement* GetRefractMSONElement(const mson::Element& mse) {
             break;
     }
 
-    return RefractMember("klass",klass);
-
-    //return m;
-
+    throw std::runtime_error("NI unhandled element");
 }
 
 
 refract::IElement* ToRefract(const DataStructure& ds) {
     using namespace refract;
-    StringElement* se = new StringElement;
-    se->set("42");
-    se->meta.push_back(RefractMember("name", "foo"));
-    MemberElement* m = new MemberElement;
-    ArrayElement* n = new ArrayElement;
-    StringElement* s1 = new StringElement;
-    s1->set("test");
-    n->push_back(s1);
-    StringElement* s2 = new StringElement;
-    s2->set("...");
-    n->push_back(s2);
-
-    m->set("id",n);
-
-    se->meta.push_back(m);
-    return se;
-
 
     ObjectElement* e = new ObjectElement;
 
     //e->element(ds.typeDefinition.typeSpecification.name.symbol.literal);
     
     // meta id
-    e->meta.push_back(RefractMember("id",ds.name.symbol.literal));
-    e->meta.push_back(RefractMember("title",ds.name.symbol.literal));
+    e->meta["id"] = IElement::Create(ds.name.symbol.literal);
+    e->meta["title"] = IElement::Create(ds.name.symbol.literal);
 
-    /*
     for ( mson::TypeSections::const_iterator it = ds.sections.begin() ; it != ds.sections.end() ; ++it ) {
         for( mson::Elements::const_iterator eit = (*it).content.elements().begin() ; eit != (*it).content.elements().end() ; ++eit ) {
-            e->push_back(GetRefractMSONElement(*eit));
+            e->push_back(MsElementToRefract(*eit));
         }
     }
-    */
 
-    
-
-    /*
-    refract::MemberElement* m = new refract::MemberElement;
-
-    refract::StringElement* k = new refract::StringElement;
-    k->set("bar");
-
-    refract::NumberElement* v = new refract::NumberElement;
-    v->set(3.14);
-
-    m->set(std::make_pair(k,v));
-
-    refract::MemberElement* meta = new refract::MemberElement;
-
-    e->push_back(m);
-    e->meta.push_back(meta);
-    */
     return e;
 }
 

@@ -1,0 +1,76 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "object",
+          "meta": {
+            "id": "User",
+            "title": "User"
+          },
+          "content": [
+            {
+              "element": "number",
+              "meta": {
+                "name": "id",
+                "typeAttributes": [
+                  "required"
+                ]
+              },
+              "content": 42
+            },
+            {
+              "element": "string",
+              "meta": {
+                "name": "login"
+              },
+              "content": "name"
+            },
+            {
+              "element": "boolean",
+              "meta": {
+                "name": "banned",
+                "typeAttributes": [
+                  "optional"
+                ],
+                "description": "description of property"
+              },
+              "content": true
+            },
+            {
+              "element": "number",
+              "meta": {
+                "name": "uid",
+                "typeAttributes": [
+                  "optional"
+                ],
+                "default": -1
+              },
+              "content": 5
+            },
+            {
+              "element": "string",
+              "meta": {
+                "name": "motto",
+                "description": "blaaaa blaa",
+                "sample": [
+                  "diem perdidi",
+                  "humppa forever"
+                ],
+                "default": "carpe diem"
+              },
+              "content": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
