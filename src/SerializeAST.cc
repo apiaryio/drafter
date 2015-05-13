@@ -652,9 +652,16 @@ refract::IElement* ToRefract(const DataStructure& ds) {
     e->meta["title"] = IElement::Create(ds.name.symbol.literal);
 
     for ( mson::TypeSections::const_iterator it = ds.sections.begin() ; it != ds.sections.end() ; ++it ) {
+
+        if(it->klass == mson::TypeSection::BlockDescriptionClass) {
+            e->meta["description"] = IElement::Create(it->content.description);
+            continue;
+        }
+
         for( mson::Elements::const_iterator eit = (*it).content.elements().begin() ; eit != (*it).content.elements().end() ; ++eit ) {
             e->push_back(MsElementToRefract(*eit));
         }
+
     }
 
     return e;
