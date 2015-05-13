@@ -7,9 +7,9 @@
 #include "sosJSON.h"
 #include "SerializeAST.h"
 
-TEST_CASE("Testing refract serialization for primitive types","[refract]")
-{
-    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/mson-primitives");
+
+bool HandleFixtureTest(const std::string& basepath) {
+    ITFixtureFiles fixture = ITFixtureFiles(basepath);
 
     snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
     int result = snowcrash::parse(fixture.get(".apib"), 0, blueprint);
@@ -22,5 +22,15 @@ TEST_CASE("Testing refract serialization for primitive types","[refract]")
     serializer.process(drafter::WrapBlueprint(blueprint.node), outStream);
     outStream << "\n";
 
-    REQUIRE(outStream.str() == fixture.get(".json"));
+    return (outStream.str() == fixture.get(".json"));
+}
+
+TEST_CASE("Testing refract serialization for primitive types","[refract]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-primitives"));
+}
+
+TEST_CASE("Testing refract serialization for named types with inheritance","[refract]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-inheritance"));
 }

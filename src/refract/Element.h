@@ -121,6 +121,7 @@ struct IElement {
     MemberElementCollection attributes;
 
     virtual std::string element() const = 0;
+    virtual void element(const std::string&) = 0;
 
     // FIXME: probably rename to Accept
     // depends on decision:
@@ -256,11 +257,11 @@ struct Element : public IElement, public VisitableBy<IElement::Visitors> {
     std::string element_;
 
     // FIXME return const reference
-    std::string element() const { 
+    virtual std::string element() const { 
         return element_.empty() ? trait.element() : element_; 
     }
 
-    void element(const std::string& name) { 
+    virtual void element(const std::string& name) { 
         element_ = name;
     }
 

@@ -554,10 +554,12 @@ refract::IElement* RefractElementFromProperty(const mson::PropertyMember& proper
     return element;
 }
 
-template<int N> refract::IElement* RefractElementFromProperty(const mson::PropertyMember& property, IntToType<N>);
+template<int N> 
+refract::IElement* RefractElementFromProperty(const mson::PropertyMember& property, IntToType<N>);
 
 #define REFRACT_FROM_PROPERTY_IMPL(MSON_BASE_TYPE,REFRACT_TYPE) \
-template<> refract::IElement* RefractElementFromProperty<MSON_BASE_TYPE>(const mson::PropertyMember& property, IntToType<MSON_BASE_TYPE>) {\
+template<> refract::IElement* RefractElementFromProperty<MSON_BASE_TYPE>\
+(const mson::PropertyMember& property, IntToType<MSON_BASE_TYPE>) {\
     return RefractElementFromProperty<REFRACT_TYPE>(property);\
 }
 
@@ -642,9 +644,10 @@ refract::IElement* ToRefract(const DataStructure& ds) {
 
     ObjectElement* e = new ObjectElement;
 
-    //e->element(ds.typeDefinition.typeSpecification.name.symbol.literal);
+    if (!ds.typeDefinition.typeSpecification.name.symbol.literal.empty()) {
+        e->element(ds.typeDefinition.typeSpecification.name.symbol.literal);
+    }
     
-    // meta id
     e->meta["id"] = IElement::Create(ds.name.symbol.literal);
     e->meta["title"] = IElement::Create(ds.name.symbol.literal);
 
