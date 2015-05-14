@@ -39,3 +39,13 @@ TEST_CASE("Testing refract serialization for array[type]","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-typed-array"));
 }
+
+TEST_CASE("Testing refract serialization for typed object","[refract]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-typed-object"));
+}
+
+TEST_CASE("Testing refract serialization for nontypped object","[refract]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-nontyped-object"));
+}

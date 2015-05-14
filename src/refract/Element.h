@@ -357,6 +357,7 @@ struct ArrayElement : Element<ArrayElement, ArrayElementTrait> {
 
 struct ObjectElement : Element<ObjectElement, ObjectElementTrait> {
     void push_back(IElement* e) {
+        // FIXME:  check for meta["name"]
         hasContent = true;
         value.push_back(e);
     }

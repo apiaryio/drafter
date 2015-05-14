@@ -462,11 +462,6 @@ static refract::ArrayElement* MsAttributesToRefract(const mson::TypeAttributes& 
     return attr;
 }
 
-template <int N>
-struct IntToType {
-    enum { value = N };
-};
-
 template <typename T> T LiteralTo(const mson::Literal& literal);
 
 template <> bool LiteralTo<bool>(const mson::Literal& literal) {
@@ -627,6 +622,19 @@ refract::IElement* RefractElementFromProperty(const mson::PropertyMember& proper
     return element;
 }
 
+static bool hasMembers(const mson::ValueMember& value) {
+    for (mson::TypeSections::const_iterator it = value.sections.begin() ; it != value.sections.end() ; ++it ) {
+        if (it->klass == mson::TypeSection::MemberTypeClass) {
+            return true;
+        }
+    }
+    return false;
+}
+
+static bool hasChildren(const mson::ValueMember& value) {
+    return (value.valueDefinition.values.size() > 1) || hasMembers(value);
+}
+
 static refract::IElement* MsonPropertyToRefract(const mson::PropertyMember& property) {
     refract::IElement *element = NULL;
     mson::BaseTypeName nameType = property.valueDefinition.typeDefinition.typeSpecification.name.base;
@@ -650,11 +658,15 @@ static refract::IElement* MsonPropertyToRefract(const mson::PropertyMember& prop
             //printf("=A\n");
             element = RefractElementFromProperty<refract::ArrayElement>(property);
         break;
-        //case mson::UndefinedTypeName :
-        //    //printf("=U");
         case mson::ObjectTypeName :
             //printf("=O\n");
             element = RefractElementFromProperty<refract::ObjectElement>(property);
+        break;
+        case mson::UndefinedTypeName :
+            //printf("=U");
+            element = hasChildren(property) 
+                ? RefractElementFromProperty<refract::ObjectElement>(property)
+                : RefractElementFromProperty<refract::StringElement>(property);
         break;
 
         default:
