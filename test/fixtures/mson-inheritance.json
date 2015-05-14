@@ -51,8 +51,8 @@
             {
               "element": "number",
               "meta": {
-                "name": "discount",
-                "description": "in percent 0 - 100"
+                "description": "in percent 0 - 100",
+                "name": "discount"
               },
               "content": null
             }
