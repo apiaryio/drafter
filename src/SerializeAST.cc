@@ -535,6 +535,7 @@ struct ExtractValues { // This will handle primitive elements
     }
 
     operator V() {
+        //printf("EVp\n");
         if(vd.values.empty()) {
             throw std::logic_error("Cannot extract values from empty container");
         }
@@ -554,6 +555,7 @@ struct ExtractValues<T, std::vector<refract::IElement*> > { // this will handle 
     }
 
     operator V() {
+        //printf("EVc\n");
         if(vd.values.empty()) {
             throw std::logic_error("Cannot extract values from empty container");
         }
@@ -586,6 +588,7 @@ struct ExtractTypeSection { // This will handle primitive elements
     ExtractTypeSection(const mson::TypeSection& v) : ts(v) {}
 
     operator V() {
+        //printf("ETs\n");
         return LiteralTo<V>(ts.content.value);
     }
 };
@@ -598,6 +601,7 @@ struct ExtractTypeSection<T, std::vector<refract::IElement*> > { // this will ha
     ExtractTypeSection(const mson::TypeSection& v) : ts(v) {}
 
     operator V() {
+        //printf("ETc\n");
         const mson::Elements& e = ts.content.elements();
         if(e.empty()) {
             throw std::logic_error("Cannot extract values from empty container");
@@ -623,49 +627,34 @@ refract::IElement* RefractElementFromProperty(const mson::PropertyMember& proper
     return element;
 }
 
-template<int N> 
-refract::IElement* RefractElementFromProperty(const mson::PropertyMember& property, IntToType<N>);
-
-#define REFRACT_FROM_PROPERTY_IMPL(MSON_BASE_TYPE,REFRACT_TYPE) \
-template<> refract::IElement* RefractElementFromProperty<MSON_BASE_TYPE>\
-(const mson::PropertyMember& property, IntToType<MSON_BASE_TYPE>) {\
-    return RefractElementFromProperty<REFRACT_TYPE>(property);\
-}
-
-REFRACT_FROM_PROPERTY_IMPL(mson::BooleanTypeName, refract::BooleanElement)
-REFRACT_FROM_PROPERTY_IMPL(mson::NumberTypeName,  refract::NumberElement)
-REFRACT_FROM_PROPERTY_IMPL(mson::StringTypeName,  refract::StringElement)
-REFRACT_FROM_PROPERTY_IMPL(mson::ArrayTypeName,   refract::ArrayElement)
-REFRACT_FROM_PROPERTY_IMPL(mson::ObjectTypeName,  refract::ObjectElement)
-
-#undef REFRACT_FROM_PROPERTY_IMPL
-
 static refract::IElement* MsonPropertyToRefract(const mson::PropertyMember& property) {
     refract::IElement *element = NULL;
-    switch (property.valueDefinition.typeDefinition.typeSpecification.name.base) {
+    mson::BaseTypeName nameType = property.valueDefinition.typeDefinition.typeSpecification.name.base;
+    //printf("P[%d]", nameType);
+    switch (nameType) {
         case mson::BooleanTypeName :
             //printf("=B\n");
-            element = RefractElementFromProperty(property, IntToType<mson::BooleanTypeName>());
+            element = RefractElementFromProperty<refract::BooleanElement>(property);
             break;
         case mson::NumberTypeName : 
             //printf("=N\n");
-            element = RefractElementFromProperty(property, IntToType<mson::NumberTypeName>());
+            element = RefractElementFromProperty<refract::NumberElement>(property);
             break;
         case mson::StringTypeName :
             //printf("=S\n");
-            element = RefractElementFromProperty(property, IntToType<mson::StringTypeName>());
+            element = RefractElementFromProperty<refract::StringElement>(property);
         break;
         //case mson::EnumTypeName : 
-        //    printf("=E\n");
+        //    //printf("=E\n");
         case mson::ArrayTypeName : 
             //printf("=A\n");
-            element = RefractElementFromProperty(property, IntToType<mson::ArrayTypeName>());
+            element = RefractElementFromProperty<refract::ArrayElement>(property);
         break;
         //case mson::UndefinedTypeName :
-        //    printf("=U\n");
-        //case mson::ObjectTypeName :
-        //    printf("=O\n");
-        //    element = RefractElementFromProperty(property, IntToType<mson::ObjectTypeName>());
+        //    //printf("=U");
+        case mson::ObjectTypeName :
+            //printf("=O\n");
+            element = RefractElementFromProperty<refract::ObjectElement>(property);
         break;
 
         default:
@@ -713,6 +702,15 @@ refract::IElement* RefractElementFromValue(const mson::ValueMember& value) {
             ++it) {
             ElementType* e = new ElementType;
 
+            if (it->klass == mson::TypeSection::MemberTypeClass) {
+                delete e;
+                if(!element->empty()) {
+                    throw std::logic_error("Element content was already set, you cannot fill it from 'memberType'");
+                }
+                element->set(ExtractTypeSection<T>(*it));
+                continue;
+            }
+
             e->set(ExtractTypeSection<T>(*it));
             
             if (it->klass == mson::TypeSection::SampleClass) {
@@ -720,6 +718,7 @@ refract::IElement* RefractElementFromValue(const mson::ValueMember& value) {
             } else if(it->klass == mson::TypeSection::DefaultClass) {
                 defaults.push_back(e);
             } else { // FIXME: description is not handled
+                //printf("S[%d]\n",it->klass);
                 throw std::logic_error("Unexpected section for property");
             }
         }
@@ -731,6 +730,7 @@ refract::IElement* RefractElementFromValue(const mson::ValueMember& value) {
         if(IElement* e = SimplifyRefractContainer(defaults)) {
             element->meta["default"] = e;
         }
+
 
     }
 
@@ -759,14 +759,14 @@ refract::IElement* MsonValueToRefract(const mson::ValueMember& value) {
             element = RefractElementFromValue<refract::StringElement>(value);
             break;
         //case mson::EnumTypeName : 
-        //    printf("=E\n");
+        //    //printf("=E\n");
         //case mson::ArrayTypeName : 
-        //    printf("=A\n");
+        //    //printf("=A\n");
         //    // FIXME: switch to ArrayElement
         //    element = RefractElementFromValue<refract::StringElement>(value);
         //    break;
         //case mson::ObjectTypeName :
-        //    printf("=O\n");
+        //    //printf("=O\n");
         //    // FIXME: switch to ObjectElement
         //    element = RefractElementFromValue<refract::StringElement>(value);
         //    break;

@@ -1,0 +1,103 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "object",
+          "meta": {
+            "id": "User",
+            "title": "User",
+            "description": "Description of User going there\n\n"
+          },
+          "content": [
+            {
+              "element": "string",
+              "meta": {
+                "name": "name"
+              },
+              "content": null
+            },
+            {
+              "element": "object",
+              "meta": {
+                "name": "address"
+              },
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "name": "street"
+                  },
+                  "content": [
+                    {
+                      "element": "string",
+                      "meta": {
+                        "name": "name"
+                      },
+                      "content": null
+                    },
+                    {
+                      "element": "number",
+                      "meta": {
+                        "name": "house number"
+                      },
+                      "content": null
+                    }
+                  ]
+                },
+                {
+                  "element": "string",
+                  "meta": {
+                    "name": "city"
+                  },
+                  "content": null
+                },
+                {
+                  "element": "number",
+                  "meta": {
+                    "name": "zip"
+                  },
+                  "content": null
+                }
+              ]
+            },
+            {
+              "element": "number",
+              "meta": {
+                "name": "id"
+              },
+              "content": null
+            },
+            {
+              "element": "array",
+              "meta": {
+                "name": "hobby"
+              },
+              "content": [
+                {
+                  "element": "string",
+                  "content": "sex"
+                },
+                {
+                  "element": "string",
+                  "content": "drugs"
+                },
+                {
+                  "element": "string",
+                  "content": "rock'n'roll"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
