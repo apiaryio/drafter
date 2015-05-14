@@ -20,8 +20,7 @@
               "element": "string",
               "meta": {
                 "name": "login"
-              },
-              "content": null
+              }
             }
           ]
         },
@@ -36,8 +35,7 @@
               "element": "number",
               "meta": {
                 "name": "id"
-              },
-              "content": null
+              }
             }
           ]
         },
@@ -53,8 +51,7 @@
               "meta": {
                 "description": "in percent 0 - 100",
                 "name": "discount"
-              },
-              "content": null
+              }
             }
           ]
         }

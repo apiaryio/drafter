@@ -30,8 +30,10 @@ void SerializeVisitor::visit(const IElement& e) {
     }
 
     // FIXME: allow parametric (non)rendering of unset content
-    e.content(*this);
-    result.set("content", partial);
+    if(!e.empty()) {
+        e.content(*this);
+        result.set("content", partial);
+    }
 }
 
 static void SetSerializerValue(SerializeVisitor& s, sos::Base& value) {

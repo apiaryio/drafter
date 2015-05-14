@@ -65,8 +65,7 @@
                 ],
                 "default": "carpe diem",
                 "name": "motto"
-              },
-              "content": null
+              }
             }
           ]
         }
