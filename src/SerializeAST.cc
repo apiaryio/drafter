@@ -615,8 +615,8 @@ template <typename T> refract::IElement* RefractElementFromValue(const mson::Val
 
 template <typename T> 
 refract::IElement* RefractElementFromProperty(const mson::PropertyMember& property) {
-    refract::IElement* element = RefractElementFromValue<T>(property);
 
+    refract::IElement* element = RefractElementFromValue<T>(property);
     element->meta["name"] = refract::IElement::Create(property.name.literal);
 
     return element;
@@ -633,6 +633,14 @@ static bool hasMembers(const mson::ValueMember& value) {
 
 static bool hasChildren(const mson::ValueMember& value) {
     return (value.valueDefinition.values.size() > 1) || hasMembers(value);
+}
+
+static refract::IElement* ArrayToEnum(refract::IElement* array) {
+    if (!array) return array;
+    array->element("enum");
+    refract::ObjectElement* obj = new refract::ObjectElement;
+    obj->push_back(array);
+    return obj;
 }
 
 static refract::IElement* MsonPropertyToRefract(const mson::PropertyMember& property) {
@@ -652,8 +660,10 @@ static refract::IElement* MsonPropertyToRefract(const mson::PropertyMember& prop
             //printf("=S\n");
             element = RefractElementFromProperty<refract::StringElement>(property);
         break;
-        //case mson::EnumTypeName : 
-        //    //printf("=E\n");
+        case mson::EnumTypeName : 
+            //printf("=E\n");
+            element = ArrayToEnum(RefractElementFromProperty<refract::ArrayElement>(property));
+            break;
         case mson::ArrayTypeName : 
             //printf("=A\n");
             element = RefractElementFromProperty<refract::ArrayElement>(property);
