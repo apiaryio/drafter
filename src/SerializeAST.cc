@@ -697,7 +697,7 @@ refract::IElement* RefractElementFromValue(const mson::ValueMember& value) {
     }
 
     if(IElement* attrs = MsAttributesToRefract(value.valueDefinition.typeDefinition.attributes)) {
-        element->meta["typeAttributes"] = attrs;
+        element->attributes["typeAttributes"] = attrs;
     }
 
     if(!value.description.empty()) {
@@ -746,11 +746,11 @@ refract::IElement* RefractElementFromValue(const mson::ValueMember& value) {
         }
 
         if(IElement* e = SimplifyRefractContainer(samples)) {
-            element->meta["sample"] = e;
+            element->attributes["sample"] = e;
         }
 
         if(IElement* e = SimplifyRefractContainer(defaults)) {
-            element->meta["default"] = e;
+            element->attributes["default"] = e;
         }
 
 

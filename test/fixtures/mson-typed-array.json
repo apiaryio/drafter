@@ -20,8 +20,10 @@
             {
               "element": "string",
               "meta": {
-                "sample": "quido",
                 "name": "login"
+              },
+              "attributes": {
+                "sample": "quido"
               },
               "content": "nobody"
             },
@@ -29,6 +31,9 @@
               "element": "array",
               "meta": {
                 "description": "Fibbonaci sequence",
+                "name": "fibbonaci"
+              },
+              "attributes": {
                 "sample": [
                   [
                     "5",
@@ -49,8 +54,7 @@
                   "8",
                   "13",
                   "21"
-                ],
-                "name": "fibbonaci"
+                ]
               },
               "content": [
                 {

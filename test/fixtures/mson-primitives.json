@@ -19,10 +19,12 @@
             {
               "element": "number",
               "meta": {
+                "name": "id"
+              },
+              "attributes": {
                 "typeAttributes": [
                   "required"
-                ],
-                "name": "id"
+                ]
               },
               "content": 42
             },
@@ -36,22 +38,26 @@
             {
               "element": "boolean",
               "meta": {
-                "typeAttributes": [
-                  "optional"
-                ],
                 "description": "description of property",
                 "name": "banned"
+              },
+              "attributes": {
+                "typeAttributes": [
+                  "optional"
+                ]
               },
               "content": true
             },
             {
               "element": "number",
               "meta": {
+                "name": "uid"
+              },
+              "attributes": {
                 "typeAttributes": [
                   "optional"
                 ],
-                "default": -1,
-                "name": "uid"
+                "default": -1
               },
               "content": 5
             },
@@ -59,12 +65,14 @@
               "element": "string",
               "meta": {
                 "description": "blaaaa blaa",
+                "name": "motto"
+              },
+              "attributes": {
                 "sample": [
                   "diem perdidi",
                   "humppa forever"
                 ],
-                "default": "carpe diem",
-                "name": "motto"
+                "default": "carpe diem"
               }
             }
           ]
