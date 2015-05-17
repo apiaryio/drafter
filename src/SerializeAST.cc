@@ -800,6 +800,18 @@ refract::IElement* MsonValueToRefract(const mson::ValueMember& value) {
     return element;
 }
 
+static refract::IElement* MsonOneofToRefract(const mson::OneOf& oneOf) {
+    refract::ArrayElement* select = new refract::ArrayElement;
+    select->element("select");
+    for (mson::Elements::const_iterator it = oneOf.begin() ; it != oneOf.end() ; ++it) {
+        refract::ObjectElement* option = new refract::ObjectElement;
+        option->element("option");
+        option->push_back(MsonElementToRefract(*it));
+        select->push_back(option);
+    }
+    return select;
+}
+
 static refract::IElement* MsonElementToRefract(const mson::Element& mse) {
     using namespace refract;
 
@@ -831,6 +843,7 @@ static refract::IElement* MsonElementToRefract(const mson::Element& mse) {
         case mson::Element::OneOfClass:
         {
             klass = "oneOf";
+            return MsonOneofToRefract(mse.content.oneOf());
             //elementObject.set(SerializeKey::Content, 
             //                  WrapCollection<mson::Element>()(element.content.oneOf(), WrapMSONElement));
             break;
