@@ -1,3 +1,13 @@
+//
+//  refract/Typelist.h
+//  librefract
+//
+//  Based on concept of typelist introduced in
+//  http://www.drdobbs.com/generic-programmingtypelists-and-applica/184403813
+//  
+//  Created by Jiri Kratochvil on 18/05/15.
+//  Copyright (c) 2015 Apiary Inc. All rights reserved.
+//
 #if !defined _REFRACT_TYPELIST_H_
 #define _REFRACT_TYPELIST_H_
 

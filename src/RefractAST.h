@@ -1,5 +1,5 @@
 //
-//  SerializeAST.h
+//  RefractAST.h
 //  drafter
 //
 //  Created by Jiri Kratochvil on 18/05/15.
@@ -10,7 +10,6 @@
 #define DRAFTER_REFRACT_AST_H
 
 #include "Serialize.h"
-#include "refract/Element.h"
 
 namespace snowcrash {
     struct DataStructure;
