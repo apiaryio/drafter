@@ -38,6 +38,8 @@
         "src/SerializeSourcemap.cc",
         "src/SerializeResult.h",
         "src/SerializeResult.cc",
+        "src/RefractAST.h",
+        "src/RefractAST.cc",
 
         "src/refract/Element.h",
         "src/refract/Element.cc",
