@@ -29,11 +29,10 @@ void SerializeVisitor::visit(const IElement& e) {
         result.set("attributes", obj);
     }
 
-    // FIXME: allow parametric (non)rendering of unset content
-    if(!e.empty()) {
-        e.content(*this);
-        result.set("content", partial);
-    }
+    if (e.empty()) return;
+
+    e.content(*this);
+    result.set("content", partial);
 }
 
 static void SetSerializerValue(SerializeVisitor& s, sos::Base& value) {
@@ -88,17 +87,6 @@ void SerializeVisitor::visit(const ArrayElement& e) {
 
 void SerializeVisitor::visit(const MemberElement& e) {
     throw std::runtime_error("MemberElement is DEPRECATED use Meta[\"name\"] instead");
-    /*
-    sos::Array array;
-
-    typedef ObjectElement::value_type::const_iterator iterator;
-    for(iterator it = e.value.begin() ; it != e.value.end() ; ++it ) {
-        SerializeVisitor s;
-        s.visit(static_cast<IElement&>(*(*it)));
-        array.push(s.get());
-    }
-    SetSerializerValue(*this, array);
-    */
 }
 
 void SerializeVisitor::visit(const ObjectElement& e) {
@@ -189,6 +177,13 @@ MemberElement& IElement::MemberElementCollection::operator[](const std::string& 
     member->value.first = key;
     push_back(member);
     return *member;
+}
+
+IElement::MemberElementCollection::~MemberElementCollection() {
+    for(iterator it = begin() ; it != end() ; ++it) {
+        delete (*it);
+    }
+    clear();
 }
 
 MemberElement& IElement::MemberElementCollection::operator[](const int index) {

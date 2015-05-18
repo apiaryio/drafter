@@ -98,7 +98,8 @@ struct IElement {
 
 
     bool hasContent;
-    IElement() : hasContent(false) {}
+    bool compactContent;
+    IElement() : hasContent(false), compactContent(false) {}
 
 
     template<typename T> 
@@ -115,6 +116,7 @@ struct IElement {
         const_iterator find(const std::string& name) const;
         MemberElement& operator[](const std::string& name);
         MemberElement& operator[](const int index);
+        virtual ~MemberElementCollection();
     };
 
     MemberElementCollection meta;
@@ -131,6 +133,14 @@ struct IElement {
 
     virtual bool empty() const {
         return !hasContent;
+    }
+
+    virtual bool renderCompactContent() const {
+        return compactContent;
+    }
+
+    virtual void renderCompactContent(bool compact) {
+        compactContent = compact;
     }
 
     virtual ~IElement(){}
@@ -277,48 +287,74 @@ struct Element : public IElement, public VisitableBy<IElement::Visitors> {
     virtual void content(IVisitor& v) const {
         InvokeVisit(v, static_cast<const T&>(*this));
     }
+
+    virtual ~Element() {
+        trait.release(value);
+    }
+
 };
 
 struct NullElementTrait {
     const std::string element() const { return "null"; }
     struct null_type {};
     typedef null_type value_type;
+    void release(value_type&) {}
 };
+struct NullElement : Element<NullElement, NullElementTrait> {};
 
 struct StringElementTrait {
     const std::string element() const { return "string"; }
     typedef std::string value_type;
+    void release(value_type&) {}
 };
+struct StringElement : Element<StringElement, StringElementTrait> {};
 
 struct NumberElementTrait {
     const std::string element() const { return "number"; }
     typedef double value_type;
+    void release(value_type&) {}
 };
+struct NumberElement : Element<NumberElement, NumberElementTrait> {};
 
 struct BooleanElementTrait {
     const std::string element() const { return "boolean"; }
     typedef bool value_type;
+    void release(value_type&) {}
 };
+struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {};
 
 struct ArrayElementTrait {
     const std::string element() const { return "array"; }
     typedef std::vector<IElement*> value_type;
+    void release(value_type& array) {
+        for (value_type::iterator it = array.begin() ; it != array.end() ; ++it) {
+            delete (*it);
+        }
+        array.clear();
+    }
+};
+
+struct ArrayElement : Element<ArrayElement, ArrayElementTrait> {
+    void push_back(IElement* e) {
+        hasContent = true;
+        value.push_back(e);
+    }
 };
 
 struct MemberElementTrait {
     const std::string element()  const{ return "member"; }
     typedef std::pair<StringElement*, IElement*> value_type;
+    void release(value_type& member) {
+        if (member.first) {
+            delete member.first;
+            member.first = NULL;
+        }
+        if (member.second) {
+            delete member.second;
+            member.second = NULL;
+        }
+    }
 };
-
-struct ObjectElementTrait {
-    const std::string element() const { return "object"; }
-    typedef std::vector<IElement*> value_type;
-};
-
-struct NullElement : Element<NullElement, NullElementTrait> {};
-struct StringElement : Element<StringElement, StringElementTrait> {};
-struct NumberElement : Element<NumberElement, NumberElementTrait> {};
-struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {};
 
 struct MemberElement : Element<MemberElement, MemberElementTrait> {
     void set(const std::string& name, IElement* element) {
@@ -348,10 +384,14 @@ struct MemberElement : Element<MemberElement, MemberElementTrait> {
     }
 };
 
-struct ArrayElement : Element<ArrayElement, ArrayElementTrait> {
-    void push_back(IElement* e) {
-        hasContent = true;
-        value.push_back(e);
+struct ObjectElementTrait {
+    const std::string element() const { return "object"; }
+    typedef std::vector<IElement*> value_type;
+    void release(value_type& obj) {
+        for (value_type::iterator it = obj.begin() ; it != obj.end() ; ++it) {
+            delete (*it);
+        }
+        obj.clear();
     }
 };
 
