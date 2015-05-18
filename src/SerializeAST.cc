@@ -501,7 +501,7 @@ template <typename E>
 struct RefractElementFactoryImpl : RefractElementFactory {
     virtual refract::IElement* Create(const std::string& literal) {
         E* element = new E;
-        element->set(LiteralTo<typename E::value_type>(literal));
+        element->set(LiteralTo<typename E::ValueType>(literal));
         return element;
     }
 };
@@ -522,7 +522,7 @@ RefractElementFactory& FactoryFromType(const mson::BaseTypeName typeName) {
 }
 
 
-template <typename T, typename V = typename T::value_type>
+template <typename T, typename V = typename T::ValueType>
 struct ExtractValues { // This will handle primitive elements
     const mson::ValueDefinition& vd;
 
@@ -576,7 +576,7 @@ struct ExtractValues<T, std::vector<refract::IElement*> > { // this will handle 
 static refract::IElement* MsonElementToRefract(const mson::Element& mse);
 
 // FIXME: check against original behavioration
-template <typename T, typename V = typename T::value_type>
+template <typename T, typename V = typename T::ValueType>
 struct ExtractTypeSection { // This will handle primitive elements
     const mson::TypeSection& ts;
 

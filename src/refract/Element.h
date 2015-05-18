@@ -17,391 +17,409 @@
 
 #include "sos.h"
 
-namespace refract {
+namespace refract
+{
+
+    // Forward declarations of Elements
+    struct StringElement;
+    struct NullElement;
+    struct NumberElement;
+    struct BooleanElement;
+    struct ArrayElement;
+    struct ObjectElement;
+    struct MemberElement;
 
 
-struct StringElement;
-struct NullElement;
-struct NumberElement;
-struct BooleanElement;
-struct ArrayElement;
-struct ObjectElement;
-struct MemberElement;
+    // Forward declarations of Visitors
+    // if you want add new one, do not forget add IElement::Visitors
+    struct ComparableVisitor;
+    struct SerializeVisitor;
+    struct SerializeCompactVisitor;
 
-struct ComparableVisitor;
-struct SerializeVisitor;
-struct SerializeCompactVisitor;
+    template <typename T> struct ElementTypeSelector;
 
-#if 0
+    // NOTE: alternative soulution:
+    // find in Element* for ValueType instead of specialized templates
+    template <>
+    struct ElementTypeSelector<std::string>
+    {
+        typedef StringElement ElementType;
+    };
 
-/*
-template<typename T>
-bool operator==(const BaseContentProxy& self, const T& other) {
-    const ContentProxy<T>& obj = static_cast<const ContentProxy<T>&>(self);
-    return obj == other;
-}
-*/
+    template <>
+    struct ElementTypeSelector<char*>
+    {
+        typedef StringElement ElementType;
+    };
 
+    template <>
+    struct ElementTypeSelector<double>
+    {
+        typedef NumberElement ElementType;
+    };
 
-// NOTE: assign must be solved by function, we cannot declare operator
-// out of class declaration
+    template <>
+    struct ElementTypeSelector<int>
+    {
+        typedef NumberElement ElementType;
+    };
 
-// IDEA: prepare convertor for basic types like "const char*"
-// to avoid calling like `assign(e.meta["id"], std::string("str"));`
-//template<typename T> void assign(BaseContentProxy* proxy, T* value) {
-//    static_cast<ContentProxy<T>*>(proxy)->value = &value;
-//}
+    template <>
+    struct ElementTypeSelector<bool>
+    {
+        typedef BooleanElement ElementType;
+    };
 
+    struct IVisitor;
+    struct IElement
+    {
+        /**
+         * define __visitors__ which can visit element
+         * via. `content()` method
+         */
+        typedef typelist::cons<ComparableVisitor, SerializeVisitor, SerializeCompactVisitor>::type Visitors;
 
-#endif
+        bool hasContent; ///< was content of element already set? \see empty()
+        bool useCompactContent;  ///< should be content serialized in compact form? \see compactContent()
 
-template <typename T> struct ElementTypeSelector;
+        IElement() : hasContent(false), useCompactContent(false)
+        {
+        }
 
-// FIXME: find in Element* for value_type
-// instead of specialization templates
-template <>
-struct ElementTypeSelector<std::string> {
-    typedef StringElement ElementType;
-};
+        template <typename T>
+        static IElement* Create(const T& value)
+        {
+            typedef typename ElementTypeSelector<T>::ElementType ElementType;
+            ElementType* element = new ElementType;
+            element->set(value);
+            return element;
+        };
 
-template <>
-struct ElementTypeSelector<char*> {
-    typedef StringElement ElementType;
-};
+        static IElement* Create(const char* value);
 
-template <>
-struct ElementTypeSelector<double> {
-    typedef NumberElement ElementType;
-};
+        struct MemberElementCollection : std::vector<MemberElement*>
+        {
+            const_iterator find(const std::string& name) const;
+            MemberElement& operator[](const std::string& name);
+            MemberElement& operator[](const int index);
+            virtual ~MemberElementCollection();
+        };
 
-template <>
-struct ElementTypeSelector<int> {
-    typedef NumberElement ElementType;
-};
+        MemberElementCollection meta;
+        MemberElementCollection attributes;
 
-template <>
-struct ElementTypeSelector<bool> {
-    typedef BooleanElement ElementType;
-};
+        /**
+         * return "name" of element
+         * usualy injected by "trait", but you can set own
+         * via pair method `element(std::string)`
+         */
+        virtual std::string element() const = 0;
+        virtual void element(const std::string&) = 0;
 
-struct IVisitor;
-struct IElement {
+        // NOTE: Visiting is now handled by inheritance from `VisitableBy`
+        // it uses internally C++ RTTI via `dynamic_cast<>`. 
+        // And accepts all visitors declared in typelist IElement::Visitors
+        //
+        // Alternative solution to avoid RTTI:
+        // Add overrided virtual function `content` for every one type of `Visitor`
+        
+        // NOTE: probably rename to Accept
+        virtual void content(IVisitor& v) const = 0;
+
+        virtual bool empty() const
+        {
+            return !hasContent;
+        }
+
+        virtual bool compactContent() const
+        {
+            return useCompactContent;
+        }
+
+        virtual void renderCompactContent(bool compact)
+        {
+            useCompactContent = compact;
+        }
+
+        virtual ~IElement()
+        {
+        }
+    };
+
+    struct IVisitor
+    {
+        virtual ~IVisitor(){};
+    };
+
+    struct ComparableVisitor : IVisitor
+    {
+        std::string compare_to;
+        bool result;
+
+        ComparableVisitor(const std::string& str) : compare_to(str), result(false)
+        {
+        }
+
+        template <typename T, typename U>
+        bool IsEqual(const T& first, const U& second)
+        {
+            return false;
+        }
+
+        template <typename T>
+        bool IsEqual(const T& first, const T& second)
+        {
+            return first == second;
+        }
+
+        template <typename E>
+        void visit(const E& e)
+        {
+            result = IsEqual(compare_to, e.value);
+        }
+
+        virtual void visit(const IElement& e)
+        {
+            throw std::runtime_error("Fallback impl - behavioration for Base class IElement is not defined");
+        }
+
+        operator bool() const
+        {
+            return result;
+        }
+    };
+
+    struct SerializeVisitor : IVisitor
+    {
+
+        sos::Object result;
+        sos::Base partial;
+        std::string key;
+
+        SerializeVisitor() : partial(sos::Null())
+        {
+        }
+
+        void visit(const IElement& e);
+        void visit(const NullElement& e);
+        void visit(const StringElement& e);
+        void visit(const NumberElement& e);
+        void visit(const BooleanElement& e);
+        void visit(const ArrayElement& e);
+        void visit(const MemberElement& e);
+        void visit(const ObjectElement& e);
+
+        sos::Object get()
+        {
+            return result;
+        }
+    };
+
+    struct SerializeCompactVisitor : IVisitor
+    {
+        std::string key_;
+        sos::Base value_;
+
+        void visit(const IElement& e);
+        void visit(const NullElement& e);
+        void visit(const StringElement& e);
+        void visit(const NumberElement& e);
+        void visit(const BooleanElement& e);
+        void visit(const ArrayElement& e);
+        void visit(const MemberElement& e);
+        void visit(const ObjectElement& e);
+
+        std::string key()
+        {
+            return key_;
+        }
+
+        sos::Base value()
+        {
+            return value_;
+        }
+
+    };
+
     /**
-     * define visitors which can work with element
-     * via. `content()` method
+     * CRTP implementation of RefractElement
+     *
      */
-    typedef typelist::cons<
-        ComparableVisitor,
-        SerializeVisitor,
-        SerializeCompactVisitor
-        >::type Visitors;
+    template <typename T, typename Trait>
+    struct Element : public IElement, public VisitableBy<IElement::Visitors>
+    {
 
+        typedef Element<T, Trait> Type;
 
-    bool hasContent;
-    bool useCompactContent;
-    IElement() : hasContent(false), useCompactContent(false) {}
+        typedef Trait TraitType;
+        TraitType trait;
 
+        typedef typename TraitType::ValueType ValueType;
+        ValueType value;
 
-    template<typename T> 
-    static IElement* Create(const T& value) {
-        typedef typename ElementTypeSelector<T>::ElementType ElementType;
-        ElementType* element = new ElementType;
-        element->set(value);
-        return element;
+        std::string element_;
+
+        virtual std::string element() const
+        {
+            return element_.empty() ? trait.element() : element_;
+        }
+
+        virtual void element(const std::string& name)
+        {
+            element_ = name;
+        }
+
+        void set(const ValueType& val)
+        {
+            hasContent = true;
+            value = val;
+        }
+
+        const ValueType& get() const
+        {
+            return value;
+        }
+
+        virtual void content(IVisitor& v) const
+        {
+            InvokeVisit(v, static_cast<const T&>(*this));
+        }
+
+        virtual ~Element()
+        {
+            trait.release(value);
+        }
     };
 
-    static IElement* Create(const char* value);
+    struct NullElementTrait
+    {
+        const std::string element() const { return "null"; }
+        struct null_type {}; 
+        typedef null_type ValueType;
+        void release(ValueType&) {}
+    };
+    struct NullElement : Element<NullElement, NullElementTrait> {};
 
-    struct MemberElementCollection : std::vector<MemberElement*> {
-        const_iterator find(const std::string& name) const;
-        MemberElement& operator[](const std::string& name);
-        MemberElement& operator[](const int index);
-        virtual ~MemberElementCollection();
+    struct StringElementTrait
+    {
+        const std::string element() const { return "string"; }
+        typedef std::string ValueType;
+        void release(ValueType&) {}
+    };
+    struct StringElement : Element<StringElement, StringElementTrait> {};
+
+    struct NumberElementTrait
+    {
+        const std::string element() const { return "number"; }
+        typedef double ValueType;
+        void release(ValueType&) {}
+    };
+    struct NumberElement : Element<NumberElement, NumberElementTrait> {};
+
+    struct BooleanElementTrait
+    {
+        const std::string element() const { return "boolean"; }
+        typedef bool ValueType;
+        void release(ValueType&) {}
+    };
+    struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {};
+
+    struct ArrayElementTrait
+    {
+        const std::string element() const { return "array"; }
+        typedef std::vector<IElement*> ValueType;
+        void release(ValueType& array)
+        {
+            for (ValueType::iterator it = array.begin(); it != array.end(); ++it) {
+                delete (*it);
+            }
+            array.clear();
+        }
     };
 
-    MemberElementCollection meta;
-    MemberElementCollection attributes;
-
-    virtual std::string element() const = 0;
-    virtual void element(const std::string&) = 0;
-
-    // FIXME: probably rename to Accept
-    // depends on decision:
-    //  - visitable actions `VisitableBy` 
-    //  - create overrided virtual function for every one `Visitor`
-    virtual void content(IVisitor& v) const = 0;
-
-    virtual bool empty() const {
-        return !hasContent;
-    }
-
-    virtual bool compactContent() const {
-        return useCompactContent;
-    }
-
-    virtual void renderCompactContent(bool compact) {
-        useCompactContent = compact;
-    }
-
-    virtual ~IElement(){}
-};
-
-struct IVisitor {
-    virtual ~IVisitor(){};
-};
-
-struct ComparableVisitor : IVisitor {
-    std::string compare_to;
-    bool result;
-
-    ComparableVisitor(const std::string& str) : compare_to(str), result(false) {}
-
-    template <typename T, typename U>
-    bool IsEqual(const T& first, const U& second) {
-        return false;
-    }
-
-    template <typename T>
-    bool IsEqual(const T& first, const T& second) {
-        return first == second;
-    }
-
-    template<typename E> 
-    void visit(const E& e) {
-        result = IsEqual(compare_to, e.value);
-    }
-
-    virtual void visit(const IElement& e) {
-        throw std::runtime_error("Fallback impl");
-    }
-
-    operator bool() const {
-        return result;
-    }
-};
-
-struct SerializeVisitor : IVisitor {
-
-    sos::Object result; 
-    sos::Base partial;
-    std::string key;
-
-    SerializeVisitor() : partial(sos::Null()) {}
-
-    void visit(const IElement& e);
-    void visit(const NullElement& e); 
-    void visit(const StringElement& e); 
-    void visit(const NumberElement& e); 
-    void visit(const BooleanElement& e); 
-    void visit(const ArrayElement& e); 
-    void visit(const MemberElement& e); 
-    void visit(const ObjectElement& e); 
-
-    sos::Object get() {
-        return result;
-    }
-};
-
-struct SerializeCompactVisitor : IVisitor {
-    /*
-    template <typename T>
-    void visit(const T& e) {
-        std::cout << __PRETTY_FUNCTION__ << std::endl;
-    }
-    */
-    std::string key_;
-    sos::Base value_;
-
-    void visit(const IElement& e);
-    void visit(const NullElement& e); 
-    void visit(const StringElement& e); 
-    void visit(const NumberElement& e); 
-    void visit(const BooleanElement& e); 
-    void visit(const ArrayElement& e); 
-    void visit(const MemberElement& e); 
-    void visit(const ObjectElement& e); 
-
-    std::string key() {
-        return key_;
-    }
-
-    sos::Base value() {
-        return value_;
-    }
-
-    /*
-
-    sos::Object result; 
-    sos::Base partial;
-    std::string key;
-
-    void visit(const IElement& e);
-    void visit(const NullElement& e); 
-    void visit(const StringElement& e); 
-    void visit(const NumberElement& e); 
-    void visit(const BooleanElement& e); 
-    void visit(const ArrayElement& e); 
-    void visit(const MemberElement& e); 
-    void visit(const ObjectElement& e); 
-
-    sos::Object get() {
-        return result;
-    }
-    */
-};
-
-
-
-template<typename T, typename Trait>
-struct Element : public IElement, public VisitableBy<IElement::Visitors> {
-
-    typedef Element<T, Trait> type;
-
-    typedef Trait trait_type;
-    trait_type trait;
-
-    typedef typename trait_type::value_type value_type;
-    value_type value;
-
-
-    std::string element_;
-
-    // FIXME return const reference
-    virtual std::string element() const { 
-        return element_.empty() ? trait.element() : element_; 
-    }
-
-    virtual void element(const std::string& name) { 
-        element_ = name;
-    }
-
-    void set(const value_type& val) {
-        hasContent = true;
-        value = val;
-    }
-
-    const value_type& get() const {
-        return value;
-    }
-
-    virtual void content(IVisitor& v) const {
-        InvokeVisit(v, static_cast<const T&>(*this));
-    }
-
-    virtual ~Element() {
-        trait.release(value);
-    }
-
-};
-
-struct NullElementTrait {
-    const std::string element() const { return "null"; }
-    struct null_type {};
-    typedef null_type value_type;
-    void release(value_type&) {}
-};
-struct NullElement : Element<NullElement, NullElementTrait> {};
-
-struct StringElementTrait {
-    const std::string element() const { return "string"; }
-    typedef std::string value_type;
-    void release(value_type&) {}
-};
-struct StringElement : Element<StringElement, StringElementTrait> {};
-
-struct NumberElementTrait {
-    const std::string element() const { return "number"; }
-    typedef double value_type;
-    void release(value_type&) {}
-};
-struct NumberElement : Element<NumberElement, NumberElementTrait> {};
-
-struct BooleanElementTrait {
-    const std::string element() const { return "boolean"; }
-    typedef bool value_type;
-    void release(value_type&) {}
-};
-struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {};
-
-struct ArrayElementTrait {
-    const std::string element() const { return "array"; }
-    typedef std::vector<IElement*> value_type;
-    void release(value_type& array) {
-        for (value_type::iterator it = array.begin() ; it != array.end() ; ++it) {
-            delete (*it);
+    struct ArrayElement : Element<ArrayElement, ArrayElementTrait>
+    {
+        void push_back(IElement* e)
+        {
+            hasContent = true;
+            value.push_back(e);
         }
-        array.clear();
-    }
-};
+    };
 
-struct ArrayElement : Element<ArrayElement, ArrayElementTrait> {
-    void push_back(IElement* e) {
-        hasContent = true;
-        value.push_back(e);
-    }
-};
-
-struct MemberElementTrait {
-    const std::string element()  const{ return "member"; }
-    typedef std::pair<StringElement*, IElement*> value_type;
-    void release(value_type& member) {
-        if (member.first) {
-            delete member.first;
-            member.first = NULL;
+    struct MemberElementTrait
+    {
+        const std::string element() const { return "member"; }
+        typedef std::pair<StringElement*, IElement*> ValueType;
+        void release(ValueType& member)
+        {
+            if (member.first) {
+                delete member.first;
+                member.first = NULL;
+            }
+            if (member.second) {
+                delete member.second;
+                member.second = NULL;
+            }
         }
-        if (member.second) {
-            delete member.second;
-            member.second = NULL;
+    };
+
+    struct MemberElement : Element<MemberElement, MemberElementTrait>
+    {
+        void set(const std::string& name, IElement* element)
+        {
+
+            if (value.first != NULL) {
+                delete value.first;
+                value.first = NULL;
+            }
+            StringElement* k = new StringElement;
+            k->set(name);
+            value.first = k;
+
+            if (value.second != NULL) {
+                delete value.second;
+                value.second = NULL;
+            }
+            value.second = element;
         }
-    }
-};
 
-struct MemberElement : Element<MemberElement, MemberElementTrait> {
-    void set(const std::string& name, IElement* element) {
-
-        if(value.first != NULL) {
-            delete value.first;
-            value.first = NULL;
+        MemberElement& operator=(IElement* element)
+        {
+            if (value.second != NULL) {
+                delete value.second;
+                value.second = NULL;
+            }
+            value.second = element;
+            return *this;
         }
-        StringElement* k = new StringElement;
-        k->set(name);
-        value.first = k;
+    };
 
-        if(value.second != NULL) {
-            delete value.second;
-            value.second = NULL;
+    struct ObjectElementTrait
+    {
+        const std::string element() const { return "object"; }
+        typedef std::vector<IElement*> ValueType;
+        void release(ValueType& obj)
+        {
+            for (ValueType::iterator it = obj.begin(); it != obj.end(); ++it) {
+                delete (*it);
+            }
+            obj.clear();
         }
-        value.second = element;
-    }
+    };
 
-    MemberElement& operator=(IElement* element) {
-        if(value.second != NULL) {
-            delete value.second;
-            value.second = NULL;
+    struct ObjectElement : Element<ObjectElement, ObjectElementTrait>
+    {
+        void push_back(IElement* e)
+        {
+            // NOTE: 
+            // basic diff between ObjectElement and ArrayElement
+            // every member of ObjectElement should contain meta["name"] 
+            // which can be in compact form of element as "key" of object
+            // do we should check for `meta['name']??
+            hasContent = true;
+            value.push_back(e);
         }
-        value.second = element;
-        return *this;
-    }
-};
-
-struct ObjectElementTrait {
-    const std::string element() const { return "object"; }
-    typedef std::vector<IElement*> value_type;
-    void release(value_type& obj) {
-        for (value_type::iterator it = obj.begin() ; it != obj.end() ; ++it) {
-            delete (*it);
-        }
-        obj.clear();
-    }
-};
-
-struct ObjectElement : Element<ObjectElement, ObjectElementTrait> {
-    void push_back(IElement* e) {
-        // FIXME:  check for meta["name"]
-        hasContent = true;
-        value.push_back(e);
-    }
-};
+    };
 
 }; // namespace refract
 
