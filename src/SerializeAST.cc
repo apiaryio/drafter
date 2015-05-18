@@ -812,6 +812,24 @@ static refract::IElement* MsonOneofToRefract(const mson::OneOf& oneOf) {
     return select;
 }
 
+static refract::IElement* MsonMixinToRefract(const mson::Mixin& mixin) {
+    refract::ObjectElement* ref = new refract::ObjectElement;
+    ref->element("ref");
+    ref->renderCompactContent(true);
+
+    refract::StringElement* path = new refract::StringElement;
+    path->set("content");
+    path->meta["name"] = refract::IElement::Create("path");
+    ref->push_back(path);
+
+    refract::StringElement* href = new refract::StringElement;
+    href->set(mixin.typeSpecification.name.symbol.literal);
+    href->meta["name"] = refract::IElement::Create("href");
+    ref->push_back(href);
+
+    return ref;
+}
+
 static refract::IElement* MsonElementToRefract(const mson::Element& mse) {
     using namespace refract;
 
@@ -837,6 +855,7 @@ static refract::IElement* MsonElementToRefract(const mson::Element& mse) {
         {
             klass = "mixin";
             //elementObject.set(SerializeKey::Content, WrapMixin(element.content.mixin));
+            return MsonMixinToRefract(mse.content.mixin);
             break;
         }
 

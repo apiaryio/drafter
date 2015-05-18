@@ -98,8 +98,8 @@ struct IElement {
 
 
     bool hasContent;
-    bool compactContent;
-    IElement() : hasContent(false), compactContent(false) {}
+    bool useCompactContent;
+    IElement() : hasContent(false), useCompactContent(false) {}
 
 
     template<typename T> 
@@ -135,12 +135,12 @@ struct IElement {
         return !hasContent;
     }
 
-    virtual bool renderCompactContent() const {
-        return compactContent;
+    virtual bool compactContent() const {
+        return useCompactContent;
     }
 
     virtual void renderCompactContent(bool compact) {
-        compactContent = compact;
+        useCompactContent = compact;
     }
 
     virtual ~IElement(){}

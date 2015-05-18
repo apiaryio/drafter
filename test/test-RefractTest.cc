@@ -59,3 +59,8 @@ TEST_CASE("Testing refract serialization for oneof","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-enum"));
 }
+
+TEST_CASE("Testing refract serialization for mixin","[refract]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-mixin"));
+}
