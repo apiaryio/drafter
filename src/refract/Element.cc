@@ -102,7 +102,7 @@ namespace refract
 
     void SerializeVisitor::visit(const MemberElement& e)
     {
-        throw std::runtime_error("MemberElement is DEPRECATED use Meta[\"name\"] instead");
+        throw Deprecated("MemberElement is DEPRECATED use Meta[\"name\"] instead");
     }
 
     void SerializeVisitor::visit(const ObjectElement& e)
@@ -120,7 +120,7 @@ namespace refract
 
     void SerializeCompactVisitor::visit(const IElement& e)
     {
-        throw std::runtime_error("NI: IElement Compact Serialization");
+        throw NotImplemented("NI: IElement Compact Serialization");
     }
 
     void SerializeCompactVisitor::visit(const NullElement& e)
@@ -178,13 +178,13 @@ namespace refract
 
             IElement::MemberElementCollection::const_iterator name = (*it)->meta.find("name");
             if (name == (*it)->meta.end() || (*name)->value.second == NULL) {
-                throw std::logic_error("Object has not set name");
+                throw LogicError("Object has not set name");
             }
 
             SerializeCompactVisitor sk;
             (*name)->content(sk);
             if (sk.value().type != sos::Base::StringType) {
-                throw std::logic_error("Metadata element 'name' does not contain string type");
+                throw LogicError("Metadata element 'name' does not contain string type");
             }
 
             obj.set(sk.value().str, sv.value());
@@ -237,8 +237,8 @@ namespace refract
 
     MemberElement& IElement::MemberElementCollection::operator[](const int index)
     {
-        // FIXME: static assert;
-        throw std::runtime_error("Do nor use number index");
+        // IDEA : use static assert;
+        throw LogicError("Do not use number index");
     }
 
 }; // namespace refract

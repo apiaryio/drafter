@@ -36,6 +36,17 @@ namespace refract
     struct SerializeVisitor;
     struct SerializeCompactVisitor;
 
+    struct LogicError : std::logic_error {
+        explicit LogicError(const std::string& msg) : std::logic_error(msg) {}
+    };
+    // will be removed in future
+    struct NotImplemented : std::runtime_error {
+        explicit NotImplemented(const std::string& msg) : std::runtime_error(msg) {}
+    }; 
+    struct Deprecated : std::logic_error {
+        explicit Deprecated(const std::string& msg) : std::logic_error(msg) {}
+    }; 
+
     template <typename T> struct ElementTypeSelector;
 
     // NOTE: alternative soulution:
@@ -180,7 +191,7 @@ namespace refract
 
         virtual void visit(const IElement& e)
         {
-            throw std::runtime_error("Fallback impl - behavioration for Base class IElement is not defined");
+            throw LogicError("Fallback impl - behavioration for Base class IElement is not defined");
         }
 
         operator bool() const
