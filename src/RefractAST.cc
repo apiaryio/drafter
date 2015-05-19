@@ -115,62 +115,6 @@ namespace drafter
         throw std::logic_error("Out of scope - ElementFactory for type not implemted");
     }
 
-    template <typename T, typename V = typename T::ValueType>
-    struct ExtractValues
-    { // This will handle primitive elements
-        const mson::ValueDefinition& vd;
-
-        ExtractValues(const mson::ValueDefinition& v) : vd(v)
-        {
-        }
-
-        operator V()
-        {
-            // printf("EVp\n");
-            if (vd.values.empty()) {
-                throw std::logic_error("Cannot extract values from empty container");
-            }
-            if (vd.values.size() > 1) {
-                throw std::logic_error("For primitive types is just one value supported");
-            }
-            return LiteralTo<V>(vd.values.begin()->literal);
-        }
-    };
-
-    template <typename T>
-    struct ExtractValues<T, std::vector<refract::IElement*> >
-    { // this will handle Array && Object because of underlaying type
-        const mson::ValueDefinition& vd;
-        typedef std::vector<refract::IElement*> V;
-
-        ExtractValues(const mson::ValueDefinition& v) : vd(v)
-        {
-        }
-
-        operator V()
-        {
-            if (vd.values.empty()) {
-                throw std::logic_error("Cannot extract values from empty container");
-            }
-
-            mson::BaseTypeName type = mson::StringTypeName;
-            // Found if type of element is specified.
-            // if more types is used - fallback to "StringType"
-            if (vd.typeDefinition.typeSpecification.nestedTypes.size() == 1) {
-                type = vd.typeDefinition.typeSpecification.nestedTypes.begin()->base;
-            }
-
-            RefractElementFactory& elementFactory = FactoryFromType(type);
-
-            V result;
-            for (mson::Values::const_iterator it = vd.values.begin(); it != vd.values.end(); ++it) {
-                result.push_back(elementFactory.Create(it->literal));
-            }
-
-            return result;
-        }
-    };
-
     static refract::IElement* MsonElementToRefract(const mson::Element& mse);
 
     // FIXME: check against original behavioration
@@ -215,21 +159,92 @@ namespace drafter
         }
     };
 
+    template <typename T, typename V = typename T::ValueType>
+    struct ExtractValueMember
+    { // This will handle primitive elements
+        const mson::ValueMember& vm;
+        typedef T ElementType;
+
+        ExtractValueMember(const mson::ValueMember& v) : vm(v) {}
+
+        operator T*()
+        {
+            ElementType* element = new ElementType;
+            mson::TypeAttributes attrs = vm.valueDefinition.typeDefinition.attributes;
+
+            if (vm.valueDefinition.values.size() > 1) {
+                throw std::logic_error("For primitive types is just one value supported");
+            } 
+            else if(!vm.valueDefinition.values.empty()) {
+                const mson::Value& value = *vm.valueDefinition.values.begin();
+                element->set(LiteralTo<V>(value.literal));
+                if (value.variable) {
+                    attrs |= mson::SampleTypeAttribute;
+                }
+            }
+
+            if (refract::IElement* attributes = MsonAttributesToRefract(attrs)) {
+                element->attributes["typeAttributes"] = attributes;
+            }
+
+            return element;
+        }
+    };
+
+    static mson::BaseTypeName SelectNestedTypeSpecification(const mson::TypeNames& nestedTypes) {
+        mson::BaseTypeName type = mson::StringTypeName;
+        // Found if type of element is specified.
+        // if more types is used - fallback to "StringType"
+        if (nestedTypes.size() == 1) {
+            type = nestedTypes.begin()->base;
+        }
+        return type;
+    }
+
+
+
+    template <typename T>
+    struct ExtractValueMember<T, std::vector<refract::IElement*> >
+    { // this will handle Array && Object because of underlaying type
+        const mson::ValueMember& vm;
+        typedef std::vector<refract::IElement*> V;
+        typedef T ElementType;
+
+        ExtractValueMember(const mson::ValueMember& v) : vm(v) {}
+
+        operator T*()
+        {
+            ElementType* element = new ElementType;
+
+            if (!vm.valueDefinition.values.empty()) {
+                mson::BaseTypeName type = SelectNestedTypeSpecification(vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes);
+
+                RefractElementFactory& elementFactory = FactoryFromType(type);
+                const mson::Values& values = vm.valueDefinition.values;
+
+                V result;
+                for (mson::Values::const_iterator it = values.begin(); it != values.end(); ++it) {
+                    result.push_back(elementFactory.Create(it->literal));
+                }
+                element->set(result);
+
+            }
+
+            mson::TypeAttributes attrs = vm.valueDefinition.typeDefinition.attributes;
+            if (refract::IElement* attributes = MsonAttributesToRefract(attrs)) {
+                element->attributes["typeAttributes"] = attributes;
+            }
+
+            return element;
+        }
+    };
+
     template <typename T>
     refract::IElement* RefractElementFromValue(const mson::ValueMember& value)
     {
         using namespace refract;
         typedef T ElementType;
-
-        ElementType* element = new ElementType;
-
-        if (!value.valueDefinition.values.empty()) {
-            element->set(ExtractValues<T>(value.valueDefinition));
-        }
-
-        if (IElement* attrs = MsonAttributesToRefract(value.valueDefinition.typeDefinition.attributes)) {
-            element->attributes["typeAttributes"] = attrs;
-        }
+        ElementType* element = ExtractValueMember<ElementType>(value);
 
         if (!value.description.empty()) {
             element->meta["description"] = IElement::Create(value.description);
@@ -346,6 +361,8 @@ namespace drafter
                 return RefractElementFromProperty<refract::ObjectElement>(property);
 
             case mson::UndefinedTypeName:
+                // FIXME: check how to resolve MSON untyped array?
+                // - a: 1,2,3
                 return ValueHasChildren(property) 
                     ? RefractElementFromProperty<refract::ObjectElement>(property)
                     : RefractElementFromProperty<refract::StringElement>(property);
