@@ -69,3 +69,8 @@ TEST_CASE("Testing refract serialization for primitive with samples","[refract]"
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-string-sample"));
 }
+
+TEST_CASE("Testing refract serialization for typed array samples","[refract]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-typed-array-sample"));
+}
