@@ -58,7 +58,7 @@
               ]
             },
             {
-              "element": "object",
+              "element": "array",
               "meta": {
                 "name": "hobby"
               },

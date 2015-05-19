@@ -323,7 +323,7 @@ namespace drafter
 
     static bool ValueHasChildren(const mson::ValueMember& value)
     {
-        return (value.valueDefinition.values.size() > 1) || ValueHasMembers(value);
+        return value.valueDefinition.values.size() > 1;
     }
 
     static refract::IElement* ArrayToEnum(refract::IElement* array)
@@ -361,11 +361,13 @@ namespace drafter
                 return RefractElementFromProperty<refract::ObjectElement>(property);
 
             case mson::UndefinedTypeName:
-                // FIXME: check how to resolve MSON untyped array?
-                // - a: 1,2,3
-                return ValueHasChildren(property) 
-                    ? RefractElementFromProperty<refract::ObjectElement>(property)
-                    : RefractElementFromProperty<refract::StringElement>(property);
+                if (ValueHasChildren(property)) {
+                    return RefractElementFromProperty<refract::ArrayElement>(property);
+                }
+                else if (ValueHasMembers(property)) {
+                    return RefractElementFromProperty<refract::ObjectElement>(property);
+                }
+                return RefractElementFromProperty<refract::StringElement>(property);
 
             default:
                 throw std::runtime_error("Unhandled type of PropertyMember");
