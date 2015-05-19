@@ -399,14 +399,30 @@ namespace drafter
         }
     }
 
+    static std::vector<refract::IElement*> MsonGroupToRefract(const mson::Elements& group)
+    {
+        std::vector<refract::IElement*> value;
+        for (mson::Elements::const_iterator it = group.begin(); it != group.end(); ++it) {
+            value.push_back(MsonElementToRefract(*it));
+        }
+        return value;
+    }
+
     static refract::IElement* MsonOneofToRefract(const mson::OneOf& oneOf)
     {
         refract::ArrayElement* select = new refract::ArrayElement;
         select->element("select");
         for (mson::Elements::const_iterator it = oneOf.begin(); it != oneOf.end(); ++it) {
-            refract::ObjectElement* option = new refract::ObjectElement;
+            refract::ArrayElement* option = new refract::ArrayElement;
             option->element("option");
-            option->push_back(MsonElementToRefract(*it));
+            // we can not use MsonElementToRefract() for groups, 
+            // "option" element handles directly all elements in group
+            if(it->klass == mson::Element::GroupClass) { 
+                option->set(MsonGroupToRefract(it->content.elements()));
+            }
+            else {
+                option->push_back(MsonElementToRefract(*it));
+            }
             select->push_back(option);
         }
         return select;
@@ -431,6 +447,7 @@ namespace drafter
         return ref;
     }
 
+
     static refract::IElement* MsonElementToRefract(const mson::Element& mse)
     {
         switch (mse.klass) {
@@ -447,8 +464,9 @@ namespace drafter
                 return MsonOneofToRefract(mse.content.oneOf());
 
             case mson::Element::GroupClass:
-                // elementObject.set(SerializeKey::Content,
-                //                  WrapCollection<mson::Element>()(element.content.elements(), WrapMSONElement));
+                throw std::logic_error("Group must be handled individualy");
+                
+
             default:
                 throw std::runtime_error("NI unhandled element");
         }
@@ -476,7 +494,8 @@ namespace drafter
             }
 
             for (mson::Elements::const_iterator eit = (*it).content.elements().begin();
-                 eit != (*it).content.elements().end(); ++eit) {
+                 eit != (*it).content.elements().end();
+                 ++eit) {
                 e->push_back(MsonElementToRefract(*eit));
             }
         }
