@@ -146,9 +146,6 @@ namespace drafter
         operator V()
         {
             const mson::Elements& e = ts.content.elements();
-            if (e.empty()) {
-                throw std::logic_error("Cannot extract values from empty container");
-            }
 
             V result;
             for (mson::Elements::const_iterator it = e.begin(); it != e.end(); ++it) {
@@ -304,7 +301,6 @@ namespace drafter
     template <typename T>
     refract::IElement* RefractElementFromProperty(const mson::PropertyMember& property)
     {
-
         refract::IElement* element = RefractElementFromValue<T>(property);
         element->meta["name"] = refract::IElement::Create(property.name.literal);
 
