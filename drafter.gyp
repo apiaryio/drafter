@@ -45,6 +45,13 @@
         "src/refract/Element.cc",
         "src/refract/Typelist.h",
         "src/refract/VisitableBy.h",
+        "src/refract/Visitor.h",
+        "src/refract/SerializeCompactVisitor.h",
+        "src/refract/SerializeCompactVisitor.cc",
+        "src/refract/SerializeVisitor.h",
+        "src/refract/SerializeVisitor.cc",
+        "src/refract/ComparableVisitor.h",
+
       ],
 
       # FIXME: replace by direct dependecies

@@ -8,7 +8,7 @@
 //  Created by Jiri Kratochvil on 18/05/15.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-#if !defined _REFRACT_TYPELIST_H_
+#ifndef _REFRACT_TYPELIST_H_
 #define _REFRACT_TYPELIST_H_
 
 namespace typelist {
@@ -79,4 +79,4 @@ namespace typelist {
     };
 };
 
-#endif // #if !defined _REFRACT_TYPELIST_H_
+#endif // #ifndef _REFRACT_TYPELIST_H_

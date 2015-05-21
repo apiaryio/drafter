@@ -8,7 +8,8 @@
 #include "SerializeAST.h"
 
 
-bool HandleFixtureTest(const std::string& basepath) {
+bool HandleFixtureTest(const std::string& basepath) 
+{
     ITFixtureFiles fixture = ITFixtureFiles(basepath);
 
     snowcrash::ParseResult<snowcrash::Blueprint> blueprint;

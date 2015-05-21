@@ -455,7 +455,6 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     dataStructureObject.set(SerializeKey::Sections,
                             WrapCollection<mson::TypeSection>()(dataStructure.sections, WrapTypeSection));
                             
-
     return dataStructureObject;
 #endif    
 }

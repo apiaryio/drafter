@@ -5,24 +5,23 @@
 //  Created by Jiri Kratochvil on 18/05/15.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-#if !defined _REFRACT_ELEMENT_H_
+#ifndef _REFRACT_ELEMENT_H_
 #define _REFRACT_ELEMENT_H_
 
-#include <stdio.h>
-
 #include <string>
-#include <map>
 #include <vector>
-
-#include <sstream>
-#include <iostream>
 
 #include <stdexcept>
 
 #include "Typelist.h"
 #include "VisitableBy.h"
 
-#include "sos.h"
+
+#include "Exception.h"
+#include "Visitor.h"
+#include "SerializeVisitor.h"
+#include "SerializeCompactVisitor.h"
+#include "ComparableVisitor.h"
 
 namespace refract
 {
@@ -35,24 +34,6 @@ namespace refract
     struct ArrayElement;
     struct ObjectElement;
     struct MemberElement;
-
-
-    // Forward declarations of Visitors
-    // if you want add new one, do not forget add IElement::Visitors
-    struct ComparableVisitor;
-    struct SerializeVisitor;
-    struct SerializeCompactVisitor;
-
-    struct LogicError : std::logic_error {
-        explicit LogicError(const std::string& msg) : std::logic_error(msg) {}
-    };
-    // will be removed in future
-    struct NotImplemented : std::runtime_error {
-        explicit NotImplemented(const std::string& msg) : std::runtime_error(msg) {}
-    }; 
-    struct Deprecated : std::logic_error {
-        explicit Deprecated(const std::string& msg) : std::logic_error(msg) {}
-    }; 
 
     template <typename T> struct ElementTypeSelector;
 
@@ -88,17 +69,17 @@ namespace refract
         typedef BooleanElement ElementType;
     };
 
-    struct IVisitor;
     struct IElement
     {
+        bool hasContent; ///< was content of element already set? \see empty()
+        bool useCompactContent;  ///< should be content serialized in compact form? \see compactContent()
+
         /**
          * define __visitors__ which can visit element
          * via. `content()` method
          */
         typedef typelist::cons<ComparableVisitor, SerializeVisitor, SerializeCompactVisitor>::type Visitors;
 
-        bool hasContent; ///< was content of element already set? \see empty()
-        bool useCompactContent;  ///< should be content serialized in compact form? \see compactContent()
 
         IElement() : hasContent(false), useCompactContent(false)
         {
@@ -164,101 +145,6 @@ namespace refract
         }
     };
 
-    struct IVisitor
-    {
-        virtual ~IVisitor(){};
-    };
-
-    struct ComparableVisitor : IVisitor
-    {
-        std::string compare_to;
-        bool result;
-
-        ComparableVisitor(const std::string& str) : compare_to(str), result(false)
-        {
-        }
-
-        template <typename T, typename U>
-        bool IsEqual(const T& first, const U& second)
-        {
-            return false;
-        }
-
-        template <typename T>
-        bool IsEqual(const T& first, const T& second)
-        {
-            return first == second;
-        }
-
-        template <typename E>
-        void visit(const E& e)
-        {
-            result = IsEqual(compare_to, e.value);
-        }
-
-        virtual void visit(const IElement& e)
-        {
-            throw LogicError("Fallback impl - behavioration for Base class IElement is not defined");
-        }
-
-        operator bool() const
-        {
-            return result;
-        }
-    };
-
-    struct SerializeVisitor : IVisitor
-    {
-
-        sos::Object result;
-        sos::Base partial;
-        std::string key;
-
-        SerializeVisitor() : partial(sos::Null())
-        {
-        }
-
-        void visit(const IElement& e);
-        void visit(const NullElement& e);
-        void visit(const StringElement& e);
-        void visit(const NumberElement& e);
-        void visit(const BooleanElement& e);
-        void visit(const ArrayElement& e);
-        void visit(const MemberElement& e);
-        void visit(const ObjectElement& e);
-
-        sos::Object get()
-        {
-            return result;
-        }
-    };
-
-    struct SerializeCompactVisitor : IVisitor
-    {
-        std::string key_;
-        sos::Base value_;
-
-        void visit(const IElement& e);
-        void visit(const NullElement& e);
-        void visit(const StringElement& e);
-        void visit(const NumberElement& e);
-        void visit(const BooleanElement& e);
-        void visit(const ArrayElement& e);
-        void visit(const MemberElement& e);
-        void visit(const ObjectElement& e);
-
-        std::string key()
-        {
-            return key_;
-        }
-
-        sos::Base value()
-        {
-            return value_;
-        }
-
-    };
-
     /**
      * CRTP implementation of RefractElement
      *
@@ -268,14 +154,13 @@ namespace refract
     {
 
         typedef Element<T, Trait> Type;
-
         typedef Trait TraitType;
-        TraitType trait;
-
         typedef typename TraitType::ValueType ValueType;
-        ValueType value;
 
+        TraitType trait;
+        ValueType value;
         std::string element_;
+
 
         virtual std::string element() const
         {
@@ -441,4 +326,4 @@ namespace refract
 
 }; // namespace refract
 
-#endif // #if !defined _REFRACT_ELEMENT_H_
+#endif // #ifndef _REFRACT_ELEMENT_H_

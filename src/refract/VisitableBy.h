@@ -5,7 +5,7 @@
 //  Created by Jiri Kratochvil on 18/05/15.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-#if !defined _REFRACT_VISITABLE_BY_H_
+#ifndef _REFRACT_VISITABLE_BY_H_
 #define _REFRACT_VISITABLE_BY_H_
 
 #include <stdexcept>
@@ -38,4 +38,4 @@ struct VisitableBy< typelist::typelist<H, typelist::null_type> > {
     }
 };
 
-#endif // #if !defined _REFRACT_VISITABLE_BY_H_
+#endif // #ifndef _REFRACT_VISITABLE_BY_H_
