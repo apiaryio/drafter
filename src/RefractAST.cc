@@ -326,18 +326,6 @@ namespace drafter
         return value.valueDefinition.values.size() > 1;
     }
 
-    static refract::IElement* ArrayToEnum(refract::IElement* array)
-    {
-        if (!array) {
-            return array;
-        }
-
-        array->element("enum");
-        refract::ObjectElement* obj = new refract::ObjectElement;
-        obj->push_back(array);
-        return obj;
-    }
-
     static refract::IElement* MsonPropertyToRefract(const mson::PropertyMember& property)
     {
         mson::BaseTypeName nameType = property.valueDefinition.typeDefinition.typeSpecification.name.base;
@@ -351,8 +339,13 @@ namespace drafter
             case mson::StringTypeName:
                 return RefractElementFromProperty<refract::StringElement>(property);
 
-            case mson::EnumTypeName:
-                return ArrayToEnum(RefractElementFromProperty<refract::ArrayElement>(property));
+            case mson::EnumTypeName: {
+                refract::IElement* element = RefractElementFromProperty<refract::ArrayElement>(property);
+                if(element) {
+                    element->element("enum");
+                }
+                return element;
+            }
 
             case mson::ArrayTypeName:
                 return RefractElementFromProperty<refract::ArrayElement>(property);

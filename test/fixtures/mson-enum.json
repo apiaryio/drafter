@@ -17,27 +17,22 @@
           },
           "content": [
             {
-              "element": "object",
+              "element": "enum",
+              "meta": {
+                "name": "tag"
+              },
               "content": [
                 {
-                  "element": "enum",
-                  "meta": {
-                    "name": "tag"
-                  },
-                  "content": [
-                    {
-                      "element": "string",
-                      "content": "red"
-                    },
-                    {
-                      "element": "string",
-                      "content": "yellow"
-                    },
-                    {
-                      "element": "string",
-                      "content": "green"
-                    }
-                  ]
+                  "element": "string",
+                  "content": "red"
+                },
+                {
+                  "element": "string",
+                  "content": "yellow"
+                },
+                {
+                  "element": "string",
+                  "content": "green"
                 }
               ]
             }
