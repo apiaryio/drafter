@@ -247,6 +247,10 @@ namespace drafter
             element->meta["description"] = IElement::Create(value.description);
         }
 
+        if(!value.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal.empty()) {
+            element->element(value.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal);
+        }
+
         if (!value.sections.empty()) {
             typedef std::vector<refract::IElement*> Elements;
 

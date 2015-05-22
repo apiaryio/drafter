@@ -1,0 +1,53 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "object",
+          "meta": {
+            "id": "User",
+            "title": "User"
+          },
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "name": "A"
+              },
+              "content": [
+                {
+                  "element": "string",
+                  "meta": {
+                    "name": "a"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "object",
+          "meta": {
+            "id": "Person",
+            "title": "Person"
+          },
+          "content": [
+            {
+              "element": "User",
+              "meta": {
+                "name": "C"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
