@@ -1,0 +1,76 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "object",
+          "meta": {
+            "id": "User",
+            "title": "User"
+          },
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "name": "person"
+              },
+              "attributes": {
+                "sample": [
+                  {
+                    "full_name": "Jiri Kratochvil"
+                  },
+                  {
+                    "first_name": "Jiri",
+                    "last_name": "Kratochvil"
+                  }
+                ]
+              },
+              "content": [
+                {
+                  "element": "select",
+                  "content": [
+                    {
+                      "element": "option",
+                      "content": [
+                        {
+                          "element": "string",
+                          "meta": {
+                            "name": "full_name"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "element": "option",
+                      "content": [
+                        {
+                          "element": "string",
+                          "meta": {
+                            "name": "first_name"
+                          }
+                        },
+                        {
+                          "element": "string",
+                          "meta": {
+                            "name": "last_name"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -90,3 +90,8 @@ TEST_CASE("Testing refract serialization with inner inheritance","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-inheritance"));
 }
+
+TEST_CASE("Testing refract serialization oneof w/ sample","[refract]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-oneof-sample"));
+}
