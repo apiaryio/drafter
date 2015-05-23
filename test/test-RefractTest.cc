@@ -95,3 +95,8 @@ TEST_CASE("Testing refract serialization oneof w/ sample","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-oneof-sample"));
 }
+
+TEST_CASE("Testing refract serialization with multiline comments","[refract]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-multiline-description"));
+}

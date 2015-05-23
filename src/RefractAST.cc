@@ -242,9 +242,10 @@ namespace drafter
         using namespace refract;
         typedef T ElementType;
         ElementType* element = ExtractValueMember<ElementType>(value);
+        std::string description;
 
         if (!value.description.empty()) {
-            element->meta["description"] = IElement::Create(value.description);
+            description = value.description;
         }
 
         if(!value.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal.empty()) {
@@ -267,10 +268,8 @@ namespace drafter
             std::vector<refract::IElement*> samples;
 
             for (mson::TypeSections::const_iterator it = value.sections.begin(); it != value.sections.end(); ++it) {
-                ElementType* e = new ElementType;
 
                 if (it->klass == mson::TypeSection::MemberTypeClass) {
-                    delete e;
                     if (!element->empty()) {
                         throw std::logic_error("Element content was already set, you cannot fill it from 'memberType'");
                     }
@@ -278,14 +277,24 @@ namespace drafter
                     continue;
                 }
 
+                if (it->klass == mson::TypeSection::BlockDescriptionClass){ 
+                    const std::string& desc = it->content.description;
+                    description.reserve(desc.length() + 1); // +1 for newline
+                    description.append("\n");
+                    description.append(desc);
+                    continue;
+                }
+
+                ElementType* e = new ElementType;
                 e->set(ExtractTypeSection<T>(*it));
 
                 if (it->klass == mson::TypeSection::SampleClass) {
                     samples.push_back(e);
-                } else if (it->klass == mson::TypeSection::DefaultClass) {
+                } 
+                else if (it->klass == mson::TypeSection::DefaultClass) {
                     defaults.push_back(e);
-                } else { // FIXME: description is not handled
-                    // printf("S[%d]\n",it->klass);
+                }
+                else {
                     throw std::logic_error("Unexpected section for property");
                 }
             }
@@ -297,6 +306,10 @@ namespace drafter
             if (IElement* e = SimplifyRefractContainer(defaults)) {
                 element->attributes["default"] = e;
             }
+        }
+
+        if(!description.empty()) {
+            element->meta["description"] = IElement::Create(description);
         }
 
         return element;
