@@ -141,9 +141,7 @@ namespace refract
 
     IElement* IElement::Create(const char* value)
     {
-        StringElement* element = new StringElement;
-        element->set(value);
-        return element;
+        return Create(std::string(value));
     };
 
     MemberElement& IElement::MemberElementCollection::operator[](const std::string& name)
