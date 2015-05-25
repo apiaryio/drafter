@@ -319,7 +319,17 @@ namespace drafter
     refract::IElement* RefractElementFromProperty(const mson::PropertyMember& property)
     {
         refract::IElement* element = RefractElementFromValue<T>(property);
-        element->meta["name"] = refract::IElement::Create(property.name.literal);
+        if (!property.name.literal.empty()) {
+            element->meta["name"] = refract::IElement::Create(property.name.literal);
+        }
+        else if (!property.name.variable.values.empty()) {
+            if (property.name.variable.values.size() > 1) {
+                // FIXME: is there example for multiple variables?
+                throw std::logic_error("Multiple variables in property definition");
+            }
+            element->meta["name"] = refract::IElement::Create(property.name.variable.values[0].literal);
+            element->attributes["variable"] = refract::IElement::Create(true);
+        }
 
         return element;
     }
@@ -391,8 +401,6 @@ namespace drafter
                 return RefractElementFromValue<refract::NumberElement>(value);
 
             case mson::StringTypeName:
-                return RefractElementFromValue<refract::StringElement>(value);
-
             case mson::UndefinedTypeName:
                 return RefractElementFromValue<refract::StringElement>(value);
 

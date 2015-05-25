@@ -1,0 +1,126 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "object",
+          "meta": {
+            "id": "Color",
+            "title": "Color"
+          },
+          "content": [
+            {
+              "element": "string",
+              "meta": {
+                "name": "hex"
+              }
+            }
+          ]
+        },
+        {
+          "element": "object",
+          "meta": {
+            "id": "User",
+            "title": "User"
+          },
+          "content": [
+            {
+              "element": "string",
+              "meta": {
+                "description": "not variable",
+                "name": "c1"
+              }
+            },
+            {
+              "element": "string",
+              "meta": {
+                "description": "this one is",
+                "name": "c2"
+              },
+              "attributes": {
+                "variable": true
+              }
+            },
+            {
+              "element": "string",
+              "meta": {
+                "description": "var w/ value",
+                "name": "c3"
+              },
+              "attributes": {
+                "variable": true
+              },
+              "content": "color value"
+            },
+            {
+              "element": "number",
+              "meta": {
+                "description": "var w/ type",
+                "name": "c4"
+              },
+              "attributes": {
+                "variable": true
+              }
+            },
+            {
+              "element": "number",
+              "meta": {
+                "description": "var w/ type and value",
+                "name": "c5"
+              },
+              "attributes": {
+                "variable": true
+              },
+              "content": 3.14
+            },
+            {
+              "element": "string",
+              "meta": {
+                "description": "var w/ sample",
+                "name": "c6"
+              },
+              "attributes": {
+                "typeAttributes": [
+                  "sample"
+                ],
+                "variable": true
+              },
+              "content": "example"
+            },
+            {
+              "element": "number",
+              "meta": {
+                "description": "var w/ type and value and sample",
+                "name": "c7"
+              },
+              "attributes": {
+                "typeAttributes": [
+                  "sample"
+                ],
+                "variable": true
+              },
+              "content": 3.14
+            },
+            {
+              "element": "string",
+              "meta": {
+                "description": "var w/ variable type\nFIXME: there is no way to translate to refract,\nwaiting for Refract MSON-namespace update",
+                "name": "c8"
+              },
+              "attributes": {
+                "variable": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

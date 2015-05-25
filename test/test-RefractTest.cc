@@ -100,3 +100,8 @@ TEST_CASE("Testing refract serialization with multiline comments","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-multiline-description"));
 }
+
+TEST_CASE("Testing refract serialization for primitive variables","[refract]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-primitive-variables"));
+}
