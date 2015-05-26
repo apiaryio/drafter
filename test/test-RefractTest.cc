@@ -115,3 +115,8 @@ TEST_CASE("Testing refract serialization for nontypes array","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-nontyped-array"));
 }
+
+TEST_CASE("Testing refract serialization for wrong number value","[refract]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-number-wrong-value"));
+}
