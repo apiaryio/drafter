@@ -1,0 +1,77 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "enum",
+          "meta": {
+            "id": "EnumType",
+            "title": "EnumType"
+          },
+          "content": [
+            {
+              "element": "string",
+              "content": "m1"
+            }
+          ]
+        },
+        {
+          "element": "array",
+          "meta": {
+            "id": "ArrayType",
+            "title": "ArrayType"
+          },
+          "content": [
+            {
+              "element": "string",
+              "content": "m1"
+            }
+          ]
+        },
+        {
+          "element": "object",
+          "meta": {
+            "id": "ObjectType",
+            "title": "ObjectType"
+          },
+          "content": [
+            {
+              "element": "string",
+              "meta": {
+                "name": "m1"
+              }
+            }
+          ]
+        },
+        {
+          "element": "string",
+          "meta": {
+            "id": "StringType",
+            "title": "StringType"
+          }
+        },
+        {
+          "element": "boolean",
+          "meta": {
+            "id": "BooleanType",
+            "title": "BooleanType"
+          }
+        },
+        {
+          "element": "number",
+          "meta": {
+            "id": "NumberType",
+            "title": "NumberType"
+          }
+        }
+      ]
+    }
+  ]
+}

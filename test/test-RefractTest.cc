@@ -105,3 +105,8 @@ TEST_CASE("Testing refract serialization for primitive variables","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-primitive-variables"));
 }
+
+TEST_CASE("Testing refract serialization for NamedTypes w/ type specification","[refract]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-named-with-types"));
+}

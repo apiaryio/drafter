@@ -244,6 +244,8 @@ namespace refract
     {
         void push_back(IElement* e)
         {
+            // FIXME: warn if meta["name"] is NOT presented
+            // \see comment on ObjectElement::push_bask()
             hasContent = true;
             value.push_back(e);
         }
@@ -314,7 +316,7 @@ namespace refract
     {
         void push_back(IElement* e)
         {
-            // NOTE: 
+            // FIXME: 
             // basic diff between ObjectElement and ArrayElement
             // every member of ObjectElement should contain meta["name"] 
             // which can be in compact form of element as "key" of object
