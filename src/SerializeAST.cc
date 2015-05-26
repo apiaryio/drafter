@@ -9,6 +9,12 @@
 #include "StringUtility.h"
 #include "SerializeAST.h"
 
+#define _WITH_REFRACT_ 1
+
+#include <stdlib.h>
+
+#include "RefractAST.h"
+
 using namespace drafter;
 
 using snowcrash::AssetRole;
@@ -430,6 +436,10 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
 
 sos::Object WrapDataStructure(const DataStructure& dataStructure)
 {
+#if _WITH_REFRACT_
+    return DataStructureToRefract(dataStructure);
+#else
+
     sos::Object dataStructureObject;
 
     // Element
@@ -444,8 +454,9 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     // Type Sections
     dataStructureObject.set(SerializeKey::Sections,
                             WrapCollection<mson::TypeSection>()(dataStructure.sections, WrapTypeSection));
-
+                            
     return dataStructureObject;
+#endif    
 }
 
 sos::Object WrapAsset(const Asset& asset, const AssetRole& role)

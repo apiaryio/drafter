@@ -1,0 +1,55 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "object",
+          "meta": {
+            "id": "User",
+            "title": "User"
+          },
+          "content": [
+            {
+              "element": "string",
+              "meta": {
+                "description": "A Description\nAn additional\nmulti-line description.\n\n- here\n\n- there\n",
+                "name": "name"
+              },
+              "content": "Andrew"
+            },
+            {
+              "element": "object",
+              "meta": {
+                "description": "address description\nmultilined object\ndescription\n",
+                "name": "address"
+              },
+              "content": [
+                {
+                  "element": "string",
+                  "meta": {
+                    "description": "this should be member of address",
+                    "name": "m1"
+                  }
+                }
+              ]
+            },
+            {
+              "element": "string",
+              "meta": {
+                "description": "this should ...\nbe member of user\n",
+                "name": "m2"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

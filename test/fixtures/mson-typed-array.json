@@ -1,0 +1,79 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "object",
+          "meta": {
+            "id": "User",
+            "title": "User",
+            "description": "Description of User going there\n\n"
+          },
+          "content": [
+            {
+              "element": "string",
+              "meta": {
+                "name": "login"
+              },
+              "attributes": {
+                "sample": "quido"
+              },
+              "content": "nobody"
+            },
+            {
+              "element": "array",
+              "meta": {
+                "description": "Fibbonaci sequence",
+                "name": "fibbonaci"
+              },
+              "attributes": {
+                "sample": [
+                  [
+                    "5",
+                    "8",
+                    "13"
+                  ],
+                  [
+                    "8",
+                    "13",
+                    "21"
+                  ]
+                ],
+                "default": [
+                  "1",
+                  "2",
+                  "3",
+                  "5",
+                  "8",
+                  "13",
+                  "21"
+                ]
+              },
+              "content": [
+                {
+                  "element": "number",
+                  "content": 1
+                },
+                {
+                  "element": "number",
+                  "content": 2
+                },
+                {
+                  "element": "number",
+                  "content": 3
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

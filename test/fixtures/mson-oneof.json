@@ -1,0 +1,74 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "object",
+          "meta": {
+            "id": "User",
+            "title": "User"
+          },
+          "content": [
+            {
+              "element": "string",
+              "meta": {
+                "name": "city"
+              }
+            },
+            {
+              "element": "select",
+              "content": [
+                {
+                  "element": "option",
+                  "content": [
+                    {
+                      "element": "array",
+                      "meta": {
+                        "name": "state"
+                      },
+                      "content": [
+                        {
+                          "element": "string",
+                          "content": "cz"
+                        },
+                        {
+                          "element": "string",
+                          "content": "sk"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "element": "option",
+                  "content": [
+                    {
+                      "element": "string",
+                      "meta": {
+                        "name": "province"
+                      },
+                      "attributes": {
+                        "sample": [
+                          "one",
+                          "uno",
+                          "jedna"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

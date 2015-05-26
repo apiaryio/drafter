@@ -1,0 +1,111 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "object",
+          "meta": {
+            "id": "User",
+            "title": "User",
+            "description": "Following sample is not correctly handled\n\n- ta2: *1,2,3* (array)\n\n"
+          },
+          "content": [
+            {
+              "element": "array",
+              "meta": {
+                "name": "ta1"
+              },
+              "attributes": {
+                "typeAttributes": [
+                  "sample"
+                ]
+              },
+              "content": [
+                {
+                  "element": "string",
+                  "content": "1"
+                },
+                {
+                  "element": "string",
+                  "content": "2"
+                },
+                {
+                  "element": "string",
+                  "content": "3"
+                }
+              ]
+            },
+            {
+              "element": "array",
+              "meta": {
+                "name": "ta3"
+              },
+              "content": [
+                {
+                  "element": "string",
+                  "attributes": {
+                    "typeAttributes": [
+                      "sample"
+                    ]
+                  },
+                  "content": "1"
+                },
+                {
+                  "element": "string",
+                  "attributes": {
+                    "typeAttributes": [
+                      "sample"
+                    ]
+                  },
+                  "content": "2"
+                },
+                {
+                  "element": "string",
+                  "attributes": {
+                    "typeAttributes": [
+                      "sample"
+                    ]
+                  },
+                  "content": "3"
+                }
+              ]
+            },
+            {
+              "element": "array",
+              "meta": {
+                "name": "ta4"
+              },
+              "attributes": {
+                "sample": [
+                  "1",
+                  "2",
+                  "3"
+                ]
+              }
+            },
+            {
+              "element": "array",
+              "meta": {
+                "name": "ta5"
+              },
+              "attributes": {
+                "sample": [
+                  "1",
+                  "2",
+                  "3"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

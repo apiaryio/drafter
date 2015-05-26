@@ -1,0 +1,126 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "object",
+          "meta": {
+            "id": "User",
+            "title": "User"
+          },
+          "content": [
+            {
+              "element": "array",
+              "meta": {
+                "name": "na1"
+              },
+              "attributes": {
+                "typeAttributes": [
+                  "sample"
+                ]
+              },
+              "content": [
+                {
+                  "element": "string",
+                  "content": "1"
+                },
+                {
+                  "element": "string",
+                  "content": "2"
+                },
+                {
+                  "element": "string",
+                  "content": "3"
+                }
+              ]
+            },
+            {
+              "element": "array",
+              "meta": {
+                "description": "\nFIXME: clarify, it is string sample, or array sample?\nshowcrash this parses as array with samp",
+                "name": "na2"
+              },
+              "content": [
+                {
+                  "element": "string",
+                  "content": "*1"
+                },
+                {
+                  "element": "string",
+                  "content": "2"
+                },
+                {
+                  "element": "string",
+                  "content": "3*"
+                }
+              ]
+            },
+            {
+              "element": "array",
+              "meta": {
+                "description": "array of string samples",
+                "name": "na3"
+              },
+              "content": [
+                {
+                  "element": "string",
+                  "attributes": {
+                    "typeAttributes": [
+                      "sample"
+                    ]
+                  },
+                  "content": "1"
+                },
+                {
+                  "element": "string",
+                  "attributes": {
+                    "typeAttributes": [
+                      "sample"
+                    ]
+                  },
+                  "content": "2"
+                },
+                {
+                  "element": "string",
+                  "attributes": {
+                    "typeAttributes": [
+                      "sample"
+                    ]
+                  },
+                  "content": "3"
+                }
+              ]
+            },
+            {
+              "element": "string",
+              "meta": {
+                "description": "should be string w/ sample",
+                "name": "na4"
+              },
+              "attributes": {
+                "sample": "1,2,3"
+              }
+            },
+            {
+              "element": "string",
+              "meta": {
+                "description": "string w/ multiline sample",
+                "name": "na5"
+              },
+              "attributes": {
+                "sample": "- 1\n\n- 2\n\n- 3\n"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

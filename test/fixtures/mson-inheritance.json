@@ -1,0 +1,61 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "object",
+          "meta": {
+            "id": "User",
+            "title": "User"
+          },
+          "content": [
+            {
+              "element": "string",
+              "meta": {
+                "name": "login"
+              }
+            }
+          ]
+        },
+        {
+          "element": "User",
+          "meta": {
+            "id": "Customer",
+            "title": "Customer"
+          },
+          "content": [
+            {
+              "element": "number",
+              "meta": {
+                "name": "id"
+              }
+            }
+          ]
+        },
+        {
+          "element": "Customer",
+          "meta": {
+            "id": "Vip Customer",
+            "title": "Vip Customer"
+          },
+          "content": [
+            {
+              "element": "number",
+              "meta": {
+                "description": "in percent 0 - 100",
+                "name": "discount"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

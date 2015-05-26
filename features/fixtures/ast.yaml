@@ -180,48 +180,23 @@ resourceGroups:
                     schema: ""
                     content:
                       -
-                        element: "dataStructure"
-                        name: null
-                        typeDefinition:
-                          typeSpecification:
-                            name:
-                              literal: "<data structure name>"
-                              variable: false
-                            nestedTypes: []
-                          attributes: []
-                        sections: []
+                        element: "<data structure name>"
+                        meta:
+                          id: ""
+                          title: ""
         content:
           -
-            element: "dataStructure"
-            name:
-              literal: "<resource name>"
-              variable: false
-            typeDefinition:
-              typeSpecification:
-                name: "object"
-                nestedTypes: []
-              attributes: []
-            sections:
+            element: "object"
+            meta:
+              id: "<resource name>"
+              title: "<resource name>"
+            content:
               -
-                class: "memberType"
-                content:
-                  -
-                    content:
-                      name:
-                        literal: "<attribute property name>"
-                      description: "<attribute property description>"
-                      valueDefinition:
-                        values:
-                          -
-                            literal: "<attribute property value>"
-                            variable: false
-                        typeDefinition:
-                          typeSpecification:
-                            name: "number"
-                            nestedTypes: []
-                          attributes: []
-                      sections: []
-                    class: "property"
+                element: "number"
+                meta:
+                  description: "<attribute property description>"
+                  name: "<attribute property name>"
+                content: 0
 content:
   -
     element: "category"
@@ -400,82 +375,36 @@ content:
                     schema: ""
                     content:
                       -
-                        element: "dataStructure"
-                        name: null
-                        typeDefinition:
-                          typeSpecification:
-                            name:
-                              literal: "<data structure name>"
-                              variable: false
-                            nestedTypes: []
-                          attributes: []
-                        sections: []
+                        element: "<data structure name>"
+                        meta:
+                          id: ""
+                          title: ""
         content:
           -
-            element: "dataStructure"
-            name:
-              literal: "<resource name>"
-              variable: false
-            typeDefinition:
-              typeSpecification:
-                name: "object"
-                nestedTypes: []
-              attributes: []
-            sections:
+            element: "object"
+            meta:
+              id: "<resource name>"
+              title: "<resource name>"
+            content:
               -
-                class: "memberType"
-                content:
-                  -
-                    content:
-                      name:
-                        literal: "<attribute property name>"
-                      description: "<attribute property description>"
-                      valueDefinition:
-                        values:
-                          -
-                            literal: "<attribute property value>"
-                            variable: false
-                        typeDefinition:
-                          typeSpecification:
-                            name: "number"
-                            nestedTypes: []
-                          attributes: []
-                      sections: []
-                    class: "property"
+                element: "number"
+                meta:
+                  description: "<attribute property description>"
+                  name: "<attribute property name>"
+                content: 0
   -
     element: "category"
     content:
       -
-        element: "dataStructure"
-        name:
-          literal: "<data structure name>"
-          variable: false
-        typeDefinition:
-          typeSpecification:
-            name: null
-            nestedTypes: []
-          attributes: []
-        sections:
+        element: "object"
+        meta:
+          id: "<data structure name>"
+          title: "<data structure name>"
+          description: "<data structure description>\n\n"
+        content:
           -
-            class: "blockDescription"
-            content: "<data structure description>\n\n"
-          -
-            class: "memberType"
-            content:
-              -
-                content:
-                  name:
-                    literal: "<data structure property name>"
-                  description: "<data structure property description>"
-                  valueDefinition:
-                    values:
-                      -
-                        literal: "<data structure property value>"
-                        variable: false
-                    typeDefinition:
-                      typeSpecification:
-                        name: "number"
-                        nestedTypes: []
-                      attributes: []
-                  sections: []
-                class: "property"
+            element: "number"
+            meta:
+              description: "<data structure property description>"
+              name: "<data structure property name>"
+            content: 0

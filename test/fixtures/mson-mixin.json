@@ -1,0 +1,58 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "object",
+          "meta": {
+            "id": "Address",
+            "title": "Address"
+          },
+          "content": [
+            {
+              "element": "string",
+              "meta": {
+                "name": "city"
+              }
+            },
+            {
+              "element": "string",
+              "meta": {
+                "name": "street"
+              }
+            }
+          ]
+        },
+        {
+          "element": "object",
+          "meta": {
+            "id": "User",
+            "title": "User"
+          },
+          "content": [
+            {
+              "element": "string",
+              "meta": {
+                "name": "id"
+              }
+            },
+            {
+              "element": "ref",
+              "content": {
+                "path": "content",
+                "href": "Address"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

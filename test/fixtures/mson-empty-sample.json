@@ -1,0 +1,33 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "object",
+          "meta": {
+            "id": "User",
+            "title": "User"
+          },
+          "content": [
+            {
+              "element": "array",
+              "meta": {
+                "name": "a"
+              },
+              "attributes": {
+                "sample": []
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
