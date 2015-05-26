@@ -8,14 +8,16 @@
 #include "SerializeAST.h"
 
 
-bool HandleFixtureTest(const std::string& basepath) 
+bool HandleFixtureTest(const std::string& basepath, bool mustBeOk = true) 
 {
     ITFixtureFiles fixture = ITFixtureFiles(basepath);
 
     snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
     int result = snowcrash::parse(fixture.get(".apib"), 0, blueprint);
 
-    REQUIRE(result == snowcrash::Error::OK);
+    if (mustBeOk) {
+        REQUIRE(result == snowcrash::Error::OK);
+    }
 
     std::stringstream outStream;
     sos::SerializeJSON serializer;
@@ -128,7 +130,7 @@ TEST_CASE("Testing refract serialization for enum samples","[refract]")
 
 TEST_CASE("Testing refract serialization primitive elements w/ members","[refract]")
 {
-    REQUIRE(HandleFixtureTest("test/fixtures/mson-primitive-with-members"));
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-primitive-with-members", false));
 }
 
 TEST_CASE("Testing refract serialization of nontyped array w/ samples","[refract]")
