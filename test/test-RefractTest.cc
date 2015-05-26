@@ -110,3 +110,8 @@ TEST_CASE("Testing refract serialization for NamedTypes w/ type specification","
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-named-with-types"));
 }
+
+TEST_CASE("Testing refract serialization for nontypes array","[refract]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-nontyped-array"));
+}
