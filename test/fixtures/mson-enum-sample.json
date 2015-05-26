@@ -1,0 +1,74 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "object",
+          "meta": {
+            "id": "User",
+            "title": "User"
+          },
+          "content": [
+            {
+              "element": "enum",
+              "meta": {
+                "name": "e1"
+              },
+              "attributes": {
+                "typeAttributes": [
+                  "sample"
+                ]
+              },
+              "content": [
+                {
+                  "element": "string",
+                  "content": "3"
+                },
+                {
+                  "element": "string",
+                  "content": "4"
+                }
+              ]
+            },
+            {
+              "element": "enum",
+              "meta": {
+                "description": "FIXME: must be handled by different way in snowcrash",
+                "name": "e2"
+              },
+              "content": [
+                {
+                  "element": "string",
+                  "content": "*3"
+                },
+                {
+                  "element": "string",
+                  "content": "4*"
+                }
+              ]
+            },
+            {
+              "element": "enum",
+              "meta": {
+                "name": "e3"
+              },
+              "attributes": {
+                "sample": [
+                  "3",
+                  "4"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

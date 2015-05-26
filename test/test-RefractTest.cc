@@ -120,3 +120,8 @@ TEST_CASE("Testing refract serialization for wrong number value","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-number-wrong-value"));
 }
+
+TEST_CASE("Testing refract serialization for enum samples","[refract]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-enum-sample"));
+}
