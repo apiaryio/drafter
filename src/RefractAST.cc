@@ -234,7 +234,12 @@ namespace drafter
 
                 V result;
                 for (mson::Values::const_iterator it = values.begin(); it != values.end(); ++it) {
-                    result.push_back(elementFactory.Create(it->literal));
+                    refract::IElement* element = elementFactory.Create(it->literal);
+                    if(it->variable) {
+                        element->attributes["typeAttributes"] = MsonAttributesToRefract(mson::SampleTypeAttribute);
+                    }
+
+                    result.push_back(element);
                 }
                 element->set(result);
 

@@ -13,14 +13,13 @@
           "element": "object",
           "meta": {
             "id": "User",
-            "title": "User",
-            "description": "Following sample is not correctly handled\n\n- ta2: *1,2,3* (array)\n\n"
+            "title": "User"
           },
           "content": [
             {
               "element": "array",
               "meta": {
-                "name": "ta1"
+                "name": "na1"
               },
               "attributes": {
                 "typeAttributes": [
@@ -45,7 +44,29 @@
             {
               "element": "array",
               "meta": {
-                "name": "ta3"
+                "description": "\nFIXME: clarify, it is string sample, or array sample?\nshowcrash this parses as array with samp",
+                "name": "na2"
+              },
+              "content": [
+                {
+                  "element": "string",
+                  "content": "*1"
+                },
+                {
+                  "element": "string",
+                  "content": "2"
+                },
+                {
+                  "element": "string",
+                  "content": "3*"
+                }
+              ]
+            },
+            {
+              "element": "array",
+              "meta": {
+                "description": "array of string samples",
+                "name": "na3"
               },
               "content": [
                 {
@@ -78,29 +99,23 @@
               ]
             },
             {
-              "element": "array",
+              "element": "string",
               "meta": {
-                "name": "ta4"
+                "description": "should be string w/ sample",
+                "name": "na4"
               },
               "attributes": {
-                "sample": [
-                  "1",
-                  "2",
-                  "3"
-                ]
+                "sample": "1,2,3"
               }
             },
             {
-              "element": "array",
+              "element": "string",
               "meta": {
-                "name": "ta5"
+                "description": "string w/ multiline sample",
+                "name": "na5"
               },
               "attributes": {
-                "sample": [
-                  "1",
-                  "2",
-                  "3"
-                ]
+                "sample": "- 1\n\n- 2\n\n- 3\n"
               }
             }
           ]
