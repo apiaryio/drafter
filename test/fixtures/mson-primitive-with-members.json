@@ -1,0 +1,44 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "string",
+          "meta": {
+            "id": "StringType",
+            "title": "StringType"
+          }
+        },
+        {
+          "element": "boolean",
+          "meta": {
+            "id": "BooleanType",
+            "title": "BooleanType"
+          }
+        },
+        {
+          "element": "number",
+          "meta": {
+            "id": "NumberType",
+            "title": "NumberType"
+          }
+        },
+        {
+          "element": "number",
+          "meta": {
+            "id": "NumberType",
+            "title": "NumberType",
+            "description": "FIXME: After following `### Properties` section showcrash finnish parsing\ndue to this `NonpasedObject` is not parsed :)\n\n"
+          }
+        }
+      ]
+    }
+  ]
+}
