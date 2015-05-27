@@ -33,8 +33,8 @@
         {
           "element": "number",
           "meta": {
-            "id": "NumberType",
-            "title": "NumberType",
+            "id": "NumericType",
+            "title": "NumericType",
             "description": "FIXME: After following `### Properties` section showcrash finnish parsing\ndue to this `NonpasedObject` is not parsed :)\n\n"
           }
         }
