@@ -84,6 +84,7 @@ namespace drafter
         }
 
         refract::ArrayElement* array = new refract::ArrayElement;
+       
         for (std::vector<refract::IElement*>::const_iterator it = container.begin(); it != container.end(); ++it) {
             array->push_back(*it);
         }
@@ -242,7 +243,6 @@ namespace drafter
                     result.push_back(element);
                 }
                 element->set(result);
-
             }
 
             mson::TypeAttributes attrs = vm.valueDefinition.typeDefinition.attributes;
@@ -541,10 +541,10 @@ namespace drafter
 
         void append(const ValueType& value)
         {
-            for(std::vector<refract::IElement*>::const_iterator it = value.begin() ; it != value.end() ; ++it) {
-                element->value.push_back(*it);
+            std::copy(value.begin(), value.end(), std::back_inserter(element->value));
+            if(!value.empty()) {
+                element->hasContent = true;
             }
-            element->hasContent = true;
         }
     };
 
