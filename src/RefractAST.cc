@@ -631,7 +631,8 @@ namespace drafter
         return e;
     }
 
-    sos::Object DataStructureToRefract(const snowcrash::DataStructure& dataStructure)
+
+    refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure)
     {
         using namespace refract;
         IElement* element = NULL;
@@ -671,15 +672,21 @@ namespace drafter
                 throw std::runtime_error("Unhandled type of DataStructure");
         }
 
-        if (!element) {
+        //ExpandVisitor v;
+
+        return element;
+    }
+
+    sos::Object SerializeRefract(refract::IElement* element) {
+
+        if(!element) {
             return sos::Object();
         }
 
-
-        SerializeVisitor serializer;
+        refract::SerializeVisitor serializer;
         serializer.visit(*element);
-        delete element;
 
         return serializer.get();
     }
-}
+
+} // namespace drafter
