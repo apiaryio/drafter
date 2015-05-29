@@ -437,8 +437,13 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
 sos::Object WrapDataStructure(const DataStructure& dataStructure)
 {
 #if _WITH_REFRACT_
-    return DataStructureToRefract(dataStructure);
-#else
+    refract::IElement* element = DataStructureToRefract(dataStructure);
+    sos::Object object = SerializeRefract(element);
+    if(element) {
+        delete element;
+    }
+    return object;
+#endif
 
     sos::Object dataStructureObject;
 
@@ -456,7 +461,6 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
                             WrapCollection<mson::TypeSection>()(dataStructure.sections, WrapTypeSection));
                             
     return dataStructureObject;
-#endif    
 }
 
 sos::Object WrapAsset(const Asset& asset, const AssetRole& role)
@@ -754,9 +758,38 @@ bool IsElementResourceGroup(const Element& element)
     return element.element == Element::CategoryElement && element.category == Element::ResourceGroupCategory;
 }
 
+
+typedef std::vector<const snowcrash::DataStructure*> DataStructures;
+
+void findNamedDataStructures(const snowcrash::Elements& elements, DataStructures& found) {
+    for (snowcrash::Elements::const_iterator i = elements.begin()
+       ; i != elements.end()
+       ; ++i) {
+
+        if (i->element == snowcrash::Element::DataStructureElement) {
+            found.push_back(&(i->content.dataStructure));
+        }
+        else if (!i->content.resource.attributes.empty()) {
+            found.push_back(&i->content.resource.attributes);
+        }
+        else if (i->element == snowcrash::Element::CategoryElement) {
+            findNamedDataStructures(i->content.elements(), found);
+        }
+
+    }
+}
+
 sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
 {
     sos::Object blueprintObject;
+
+    DataStructures found;
+    findNamedDataStructures(blueprint.content.elements(), found);
+
+    for(DataStructures::const_iterator i = found.begin() ; i != found.end() ; ++i) {
+        refract::IElement* element = drafter::DataStructureToRefract(*(*i));
+        DSRegistry.add(element);
+    }
 
     // Version
     blueprintObject.set(SerializeKey::Version, sos::String(AST_SERIALIZATION_VERSION));
@@ -781,6 +814,8 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
     // Content
     blueprintObject.set(SerializeKey::Content,
                         WrapCollection<Element>()(blueprint.content.elements(), WrapElement));
+
+    DSRegistry.clearAll(true);
 
     return blueprintObject;
 }
