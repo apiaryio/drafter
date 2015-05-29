@@ -125,6 +125,8 @@ namespace refract
         // NOTE: probably rename to Accept
         virtual void content(IVisitor& v) const = 0;
 
+        virtual IElement* clone() const = 0;
+
         virtual bool empty() const
         {
             return !hasContent;
@@ -143,11 +145,11 @@ namespace refract
         virtual ~IElement()
         {
         }
+
     };
 
     /**
      * CRTP implementation of RefractElement
-     *
      */
     template <typename T, typename Trait>
     struct Element : public IElement, public VisitableBy<IElement::Visitors>
@@ -157,14 +159,12 @@ namespace refract
         typedef Trait TraitType;
         typedef typename TraitType::ValueType ValueType;
 
-        TraitType trait;
         ValueType value;
         std::string element_;
 
-
         virtual std::string element() const
         {
-            return element_.empty() ? trait.element() : element_;
+            return element_.empty() ? TraitType::element() : element_;
         }
 
         virtual void element(const std::string& name)
@@ -188,55 +188,82 @@ namespace refract
             InvokeVisit(v, static_cast<const T&>(*this));
         }
 
+        virtual IElement* clone() const {
+            const Type* self = static_cast<const Type*>(this);
+            Type* element =  new Type(static_cast<Type const &>(*self));
+            TraitType::cloneValue(value, element->value);
+            return element;
+        }
+
         virtual ~Element()
         {
-            trait.release(value);
+            TraitType::release(value);
         }
     };
 
     struct NullElementTrait
     {
-        const std::string element() const { return "null"; }
         struct null_type {}; 
         typedef null_type ValueType;
-        void release(ValueType&) {}
+
+        static const std::string element() { return "null"; }
+        static void release(ValueType&) {}
+        static void cloneValue(const ValueType&, ValueType&) {}
     };
     struct NullElement : Element<NullElement, NullElementTrait> {};
 
     struct StringElementTrait
     {
-        const std::string element() const { return "string"; }
         typedef std::string ValueType;
-        void release(ValueType&) {}
+
+        static const std::string element() { return "string"; }
+        static void release(ValueType&) {}
+        static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
     };
     struct StringElement : Element<StringElement, StringElementTrait> {};
 
     struct NumberElementTrait
     {
-        const std::string element() const { return "number"; }
         typedef double ValueType;
-        void release(ValueType&) {}
+
+        static const std::string element() { return "number"; }
+        static void release(ValueType&) {}
+        static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
     };
     struct NumberElement : Element<NumberElement, NumberElementTrait> {};
 
     struct BooleanElementTrait
     {
-        const std::string element() const { return "boolean"; }
         typedef bool ValueType;
-        void release(ValueType&) {}
+
+        static const std::string element() { return "boolean"; }
+        static void release(ValueType&) {}
+        static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
     };
     struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {};
 
     struct ArrayElementTrait
     {
-        const std::string element() const { return "array"; }
         typedef std::vector<IElement*> ValueType;
-        void release(ValueType& array)
+
+        static const std::string element() { return "array"; }
+
+        static void release(ValueType& array)
         {
             for (ValueType::iterator it = array.begin(); it != array.end(); ++it) {
                 delete (*it);
             }
             array.clear();
+        }
+
+        static void cloneValue(const ValueType& self, ValueType& other) {
+            for(ValueType::const_iterator i = self.begin() ; i != self.end() ; ++i) {
+                IElement* e = NULL;
+                if((*i)) {
+                  e = (*i)->clone();
+                }
+                other.push_back(e);
+            }
         }
     };
 
@@ -253,9 +280,11 @@ namespace refract
 
     struct MemberElementTrait
     {
-        const std::string element() const { return "member"; }
         typedef std::pair<IElement*, IElement*> ValueType;
-        void release(ValueType& member)
+
+        static const std::string element() { return "member"; }
+
+        static void release(ValueType& member)
         {
             if (member.first) {
                 delete member.first;
@@ -265,6 +294,16 @@ namespace refract
                 delete member.second;
                 member.second = NULL;
             }
+        }
+
+        static void cloneValue(const ValueType& self, ValueType& other) {
+            other.first = self.first
+                ? static_cast<ValueType::first_type>(self.first->clone())
+                : NULL;
+
+            other.second = self.second
+                ? self.second->clone()
+                : NULL;
         }
     };
 
@@ -305,8 +344,8 @@ namespace refract
 
     struct ObjectElementTrait
     {
-        const std::string element() const { return "object"; }
         typedef std::vector<IElement*> ValueType;
+
         // We dont use std::vector<MemberElement*> there, because
         // ObjectElement can contain:
         // - (object)
@@ -315,12 +354,22 @@ namespace refract
         // - (Select Element)
         // - (Ref Element)
         //
-        void release(ValueType& obj)
+
+        static const std::string element() { return "object"; }
+
+        static void release(ValueType& obj)
         {
             for (ValueType::iterator it = obj.begin(); it != obj.end(); ++it) {
                 delete (*it);
             }
             obj.clear();
+        }
+
+        static void cloneValue(const ValueType& self, ValueType& other) {
+            for(ValueType::const_iterator i = self.begin() ; i != self.end() ; ++i) {
+                IElement* e = (*i)->clone();
+                other.push_back(e);
+            }
         }
     };
 
