@@ -12,14 +12,19 @@
         {
           "element": "object",
           "meta": {
-            "id": "User",
-            "title": "User"
+            "id": "User"
           },
           "content": [
             {
-              "element": "string",
-              "meta": {
-                "name": "login"
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "login"
+                },
+                "value": {
+                  "element": "string"
+                }
               }
             }
           ]
@@ -27,14 +32,19 @@
         {
           "element": "User",
           "meta": {
-            "id": "Customer",
-            "title": "Customer"
+            "id": "Customer"
           },
           "content": [
             {
-              "element": "number",
-              "meta": {
-                "name": "id"
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "id"
+                },
+                "value": {
+                  "element": "number"
+                }
               }
             }
           ]
@@ -42,15 +52,22 @@
         {
           "element": "Customer",
           "meta": {
-            "id": "Vip Customer",
-            "title": "Vip Customer"
+            "id": "Vip Customer"
           },
           "content": [
             {
-              "element": "number",
+              "element": "member",
               "meta": {
-                "description": "in percent 0 - 100",
-                "name": "discount"
+                "description": "in percent 0 - 100"
+              },
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "discount"
+                },
+                "value": {
+                  "element": "number"
+                }
               }
             }
           ]

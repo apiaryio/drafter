@@ -755,7 +755,7 @@ namespace drafter
         SetElementType(ds.typeDefinition, e);
 
         e->meta["id"] = IElement::Create(ds.name.symbol.literal);
-        e->meta["title"] = IElement::Create(ds.name.symbol.literal);
+        //e->meta["title"] = IElement::Create(ds.name.symbol.literal);
 
         AppendDecorator<T> ae = AppendDecorator<T>(e);
 
