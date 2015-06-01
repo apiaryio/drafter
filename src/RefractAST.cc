@@ -471,8 +471,8 @@ namespace drafter
 
             case mson::EnumTypeName: {
                 refract::MemberElement* element = RefractElementFromProperty<refract::ArrayElement>(property);
-                if(element) {
-                    element->element("enum");
+                if(element && element->value.second) {
+                    element->value.second->element("enum");
                 }
                 return element;
             }
