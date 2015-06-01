@@ -273,7 +273,7 @@ namespace drafter
 
     template <typename T>
     struct ExtractValueMember<T, std::vector<refract::IElement*> >
-    { // this will handle Array && Object because of underlaying type
+    { 
         const mson::ValueMember& vm;
         typedef std::vector<refract::IElement*> V;
         typedef T ElementType;
@@ -313,44 +313,16 @@ namespace drafter
 
     template <typename T>
     struct ExtractValueMember<T, std::vector<refract::MemberElement*> >
-    { // this will handle Array && Object because of underlaying type
+    { 
         const mson::ValueMember& vm;
-        typedef std::vector<refract::IElement*> V;
         typedef T ElementType;
 
         ExtractValueMember(const mson::ValueMember& v, RefractElements& defaults, RefractElements& samples) : vm(v) {}
 
         operator T*()
         {
-            throw std::runtime_error("NI extract value");
-#if 0
             ElementType* element = new ElementType;
-
-            if (!vm.valueDefinition.values.empty()) {
-                mson::BaseTypeName type = SelectNestedTypeSpecification(vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes);
-
-                RefractElementFactory& elementFactory = FactoryFromType(type);
-                const mson::Values& values = vm.valueDefinition.values;
-
-                V result;
-                for (mson::Values::const_iterator it = values.begin(); it != values.end(); ++it) {
-                    refract::IElement* element = elementFactory.Create(it->literal);
-                    if(it->variable) {
-                        element->attributes["typeAttributes"] = MsonAttributesToRefract(mson::SampleTypeAttribute);
-                    }
-
-                    result.push_back(element);
-                }
-                element->set(result);
-            }
-
-            mson::TypeAttributes attrs = vm.valueDefinition.typeDefinition.attributes;
-            if (refract::IElement* attributes = MsonAttributesToRefract(attrs)) {
-                element->attributes["typeAttributes"] = attributes;
-            }
-
             return element;
-#endif
         }
     };
 
