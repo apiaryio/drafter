@@ -12,70 +12,111 @@
         {
           "element": "object",
           "meta": {
-            "id": "User",
-            "title": "User"
+            "id": "User"
           },
           "content": [
             {
-              "element": "object",
-              "meta": {
-                "name": "address"
-              },
-              "content": [
-                {
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "address"
+                },
+                "value": {
                   "element": "object",
-                  "meta": {
-                    "name": "street"
-                  },
                   "content": [
                     {
-                      "element": "string",
-                      "meta": {
-                        "name": "name"
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "street"
+                        },
+                        "value": {
+                          "element": "object",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "name"
+                                },
+                                "value": {
+                                  "element": "string"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "house number"
+                                },
+                                "value": {
+                                  "element": "string"
+                                }
+                              }
+                            }
+                          ]
+                        }
                       }
                     },
                     {
-                      "element": "string",
-                      "meta": {
-                        "name": "house number"
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "city"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "zip"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "34567"
+                        }
                       }
                     }
                   ]
-                },
-                {
-                  "element": "string",
-                  "meta": {
-                    "name": "city"
-                  }
-                },
-                {
-                  "element": "string",
-                  "meta": {
-                    "name": "zip"
-                  },
-                  "content": "34567"
                 }
-              ]
+              }
             },
             {
-              "element": "array",
-              "meta": {
-                "name": "hobby"
-              },
-              "content": [
-                {
+              "element": "member",
+              "content": {
+                "key": {
                   "element": "string",
-                  "content": "inlining"
+                  "content": "hobby"
                 },
-                {
-                  "element": "string",
-                  "content": "swimming"
-                },
-                {
-                  "element": "string",
-                  "content": "run"
+                "value": {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "string",
+                      "content": "inlining"
+                    },
+                    {
+                      "element": "string",
+                      "content": "swimming"
+                    },
+                    {
+                      "element": "string",
+                      "content": "run"
+                    }
+                  ]
                 }
-              ]
+              }
             }
           ]
         }

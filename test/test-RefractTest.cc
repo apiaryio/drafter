@@ -47,12 +47,12 @@ TEST_CASE("Testing refract serialization for typed object","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-typed-object"));
 }
-#if 0
 
 TEST_CASE("Testing refract serialization for nontypped object","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-nontyped-object"));
 }
+#if 0
 
 TEST_CASE("Testing refract serialization for enums","[refract]")
 {
