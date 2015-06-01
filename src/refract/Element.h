@@ -254,7 +254,7 @@ namespace refract
     struct MemberElementTrait
     {
         const std::string element() const { return "member"; }
-        typedef std::pair<StringElement*, IElement*> ValueType;
+        typedef std::pair<IElement*, IElement*> ValueType;
         void release(ValueType& member)
         {
             if (member.first) {
@@ -272,7 +272,6 @@ namespace refract
     {
         void set(const std::string& name, IElement* element)
         {
-
             if (value.first != NULL) {
                 delete value.first;
                 value.first = NULL;
@@ -286,6 +285,8 @@ namespace refract
                 value.second = NULL;
             }
             value.second = element;
+
+            hasContent = true;
         }
 
         MemberElement& operator=(IElement* element)
@@ -302,7 +303,7 @@ namespace refract
     struct ObjectElementTrait
     {
         const std::string element() const { return "object"; }
-        typedef std::vector<IElement*> ValueType;
+        typedef std::vector<MemberElement*> ValueType;
         void release(ValueType& obj)
         {
             for (ValueType::iterator it = obj.begin(); it != obj.end(); ++it) {
@@ -314,7 +315,7 @@ namespace refract
 
     struct ObjectElement : Element<ObjectElement, ObjectElementTrait>
     {
-        void push_back(IElement* e)
+        void push_back(MemberElement* e)
         {
             // FIXME: 
             // basic diff between ObjectElement and ArrayElement

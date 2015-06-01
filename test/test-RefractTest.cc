@@ -33,6 +33,7 @@ TEST_CASE("Testing refract serialization for primitive types","[refract]")
     REQUIRE(HandleFixtureTest("test/fixtures/mson-primitives"));
 }
 
+#if 0
 TEST_CASE("Testing refract serialization for named types with inheritance","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-inheritance"));
@@ -137,3 +138,4 @@ TEST_CASE("Testing refract serialization of nontyped array w/ samples","[refract
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-nontyped-array-sample"));
 }
+#endif
