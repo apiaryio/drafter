@@ -108,7 +108,19 @@ namespace refract
 
     void SerializeVisitor::visit(const MemberElement& e)
     {
-        throw Deprecated("MemberElement is DEPRECATED use Meta[\"name\"] instead");
+        sos::Object object;
+        if(e.value.first) {
+            SerializeVisitor s;
+            s.visit(*e.value.first);
+            object.set("key",s.get());
+        }
+
+        if(e.value.second) {
+            SerializeVisitor s;
+            s.visit(*e.value.second);
+            object.set("value",s.get());
+        }
+        SetSerializerValue(*this, object);
     }
 
     void SerializeVisitor::visit(const ObjectElement& e)

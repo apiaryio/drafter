@@ -57,18 +57,21 @@ TEST_CASE("Testing refract serialization for enums","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-enum"));
 }
-#if 0
 
+#if 0
 TEST_CASE("Testing refract serialization for oneof","[refract]")
 {
-    REQUIRE(HandleFixtureTest("test/fixtures/mson-enum"));
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-oneof"));
 }
+
+#endif
 
 TEST_CASE("Testing refract serialization for mixin","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-mixin"));
 }
 
+#if 0
 TEST_CASE("Testing refract serialization for primitive with samples","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-string-sample"));

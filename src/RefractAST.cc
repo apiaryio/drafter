@@ -35,14 +35,6 @@ namespace drafter
         if (ta & mson::OptionalTypeAttribute) {
             attr->push_back(refract::IElement::Create("optional"));
         }
-#if 0   // removed because of sample && default are now removed from "typeAttributes"
-        if (ta & mson::DefaultTypeAttribute) {
-            attr->push_back(refract::IElement::Create("default"));
-        }
-        if (ta & mson::SampleTypeAttribute) {
-            attr->push_back(refract::IElement::Create("sample"));
-        }
-#endif
         if (ta & mson::FixedTypeAttribute) {
             attr->push_back(refract::IElement::Create("fixed"));
         }
@@ -159,7 +151,7 @@ namespace drafter
         throw std::logic_error("Out of scope - ElementFactory for type not implemted");
     }
 
-    template <typename R> R MsonElementToRefract(const mson::Element& mse);
+    refract::IElement* MsonElementToRefract(const mson::Element& mse);
 
     // FIXME: check against original behavioration
     template <typename T, typename V = typename T::ValueType>
@@ -178,13 +170,11 @@ namespace drafter
     };
 
 
-    template <typename R>
-    //std::vector<refract::IElement*> MsonElementsToRefract(const mson::Elements& elements) {
-    R MsonElementsToRefract(const mson::Elements& elements) {
+    RefractElements MsonElementsToRefract(const mson::Elements& elements) {
         //std::vector<refract::IElement*> result;
-        R result;
+        RefractElements result;
         for (mson::Elements::const_iterator it = elements.begin(); it != elements.end(); ++it) {
-            result.push_back(MsonElementToRefract<typename R::value_type>(*it));
+            result.push_back(MsonElementToRefract(*it));
         }
         return result;
     }
@@ -201,10 +191,11 @@ namespace drafter
 
         operator V()
         {
-            return MsonElementsToRefract<V>(ts.content.elements());
+            return MsonElementsToRefract(ts.content.elements());
         }
     };
 
+#if 0
     template <typename T>
     struct ExtractTypeSection<T, std::vector<refract::MemberElement*> >
     { // this will handle Object 
@@ -220,6 +211,7 @@ namespace drafter
             return MsonElementsToRefract<V>(ts.content.elements());
         }
     };
+#endif
 
     template <typename T, typename V = typename T::ValueType>
     struct ExtractValueMember
@@ -455,8 +447,7 @@ namespace drafter
         return value.valueDefinition.values.size() > 1;
     }
 
-    //static refract::IElement* MsonPropertyToRefract(const mson::PropertyMember& property)
-    static refract::MemberElement* MsonPropertyToRefract(const mson::PropertyMember& property)
+    static refract::IElement* MsonPropertyToRefract(const mson::PropertyMember& property)
     {
         mson::BaseTypeName nameType = GetType(property.valueDefinition);
         switch (nameType) {
@@ -522,8 +513,8 @@ namespace drafter
 
     static refract::IElement* MsonOneofToRefract(const mson::OneOf& oneOf)
     {
-        throw std::runtime_error("NI OneOf");
-#if 0
+        refract::MemberElement* oneof = new refract::MemberElement;
+        
         refract::ArrayElement* select = new refract::ArrayElement;
         select->element("select");
         for (mson::Elements::const_iterator it = oneOf.begin(); it != oneOf.end(); ++it) {
@@ -539,65 +530,32 @@ namespace drafter
             }
             select->push_back(option);
         }
-        return select;
-#endif
+        return oneof;
     }
 
     static refract::IElement* MsonMixinToRefract(const mson::Mixin& mixin)
     {
-        throw std::runtime_error("NI mixin");
-#if 0
         refract::ObjectElement* ref = new refract::ObjectElement;
         ref->element("ref");
         ref->renderCompactContent(true);
 
-        refract::StringElement* path = new refract::StringElement;
-        path->set("content");
-        path->meta["name"] = refract::IElement::Create("path");
-        ref->push_back(path);
-
-        refract::StringElement* href = new refract::StringElement;
-        href->set(mixin.typeSpecification.name.symbol.literal);
-        href->meta["name"] = refract::IElement::Create("href");
+        refract::MemberElement* href = new refract::MemberElement;
+        href->set("href", refract::IElement::Create(mixin.typeSpecification.name.symbol.literal));
         ref->push_back(href);
 
+        refract::MemberElement* path = new refract::MemberElement;
+        path->set("path",refract::IElement::Create("content"));
+        ref->push_back(path);
+
         return ref;
-#endif
     }
 
 
-#if 0
-    template<typename R>
-    R MsonElementToRefract(const mson::Element& mse)
-    {
-        switch (mse.klass) {
-            case mson::Element::PropertyClass:
-                return MsonPropertyToRefract(mse.content.property);
-
-            case mson::Element::ValueClass:
-                return MsonValueToRefract(mse.content.value);
-
-            case mson::Element::MixinClass:
-                return MsonMixinToRefract(mse.content.mixin);
-
-            case mson::Element::OneOfClass:
-                return MsonOneofToRefract(mse.content.oneOf());
-
-            case mson::Element::GroupClass:
-                throw std::logic_error("Group must be handled individualy");
-
-            default:
-                throw std::logic_error("Unhandled type of MSON element");
-        }
-    }
-#endif
-
-    template<>
     refract::IElement* MsonElementToRefract(const mson::Element& mse)
     {
         switch (mse.klass) {
-            //case mson::Element::PropertyClass:
-            //    return MsonPropertyToRefract(mse.content.property);
+            case mson::Element::PropertyClass:
+                return MsonPropertyToRefract(mse.content.property);
 
             case mson::Element::ValueClass:
                 return MsonValueToRefract(mse.content.value);
@@ -614,34 +572,8 @@ namespace drafter
             default:
                 throw std::logic_error("Unhandled type of MSON element");
         }
-
     }
 
-    template<>
-    refract::MemberElement* MsonElementToRefract(const mson::Element& mse)
-    {
-        switch (mse.klass) {
-            case mson::Element::PropertyClass:
-                return MsonPropertyToRefract(mse.content.property);
-#if 0
-
-            case mson::Element::ValueClass:
-                return MsonValueToRefract(mse.content.value);
-
-            case mson::Element::MixinClass:
-                return MsonMixinToRefract(mse.content.mixin);
-
-            case mson::Element::OneOfClass:
-                return MsonOneofToRefract(mse.content.oneOf());
-
-            case mson::Element::GroupClass:
-                throw std::logic_error("Group must be handled individualy");
-#endif
-            default:
-                throw std::logic_error("NI MSON member element");
-        }
-
-    }
 
     template <typename T, typename V = typename T::ValueType>
     struct AppendDecorator {

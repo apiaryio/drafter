@@ -303,7 +303,15 @@ namespace refract
     struct ObjectElementTrait
     {
         const std::string element() const { return "object"; }
-        typedef std::vector<MemberElement*> ValueType;
+        typedef std::vector<IElement*> ValueType;
+        // We dont use std::vector<MemberElement*> there, because
+        // ObjectElement can contain:
+        // - (object)
+        // - (array[Member Element])
+        // - (Extend Element)
+        // - (Select Element)
+        // - (Ref Element)
+        //
         void release(ValueType& obj)
         {
             for (ValueType::iterator it = obj.begin(); it != obj.end(); ++it) {
@@ -315,13 +323,10 @@ namespace refract
 
     struct ObjectElement : Element<ObjectElement, ObjectElementTrait>
     {
-        void push_back(MemberElement* e)
+        void push_back(IElement* e)
         {
             // FIXME: 
-            // basic diff between ObjectElement and ArrayElement
-            // every member of ObjectElement should contain meta["name"] 
-            // which can be in compact form of element as "key" of object
-            // do we should check for `meta['name']??
+            // probably add check for allowed type
             hasContent = true;
             value.push_back(e);
         }

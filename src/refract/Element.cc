@@ -11,6 +11,7 @@
 namespace refract
 {
 
+#if 0
     void SerializeVisitor::visit(const IElement& e)
     {
         result.set("element", sos::String(e.element()));
@@ -136,6 +137,7 @@ namespace refract
         }
         SetSerializerValue(*this, array);
     }
+#endif
 
 
     IElement::MemberElementCollection::const_iterator
