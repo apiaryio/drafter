@@ -77,12 +77,12 @@ TEST_CASE("Testing refract serialization for typed array samples","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-typed-array-sample"));
 }
-#if 0
 
 TEST_CASE("Testing refract serialization for 'One Of' with grouped elements","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-group"));
 }
+#if 0
 
 TEST_CASE("Testing refract serialization array with empty sample","[refract]")
 {
