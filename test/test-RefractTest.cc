@@ -87,12 +87,13 @@ TEST_CASE("Testing refract serialization array with empty sample","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-empty-sample"));
 }
-#if 0
 
 TEST_CASE("Testing refract serialization with inner inheritance","[refract]")
 {
-    REQUIRE(HandleFixtureTest("test/fixtures/mson-inheritance"));
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-inner-inheritance"));
 }
+
+#if 0
 
 TEST_CASE("Testing refract serialization oneof w/ sample","[refract]")
 {

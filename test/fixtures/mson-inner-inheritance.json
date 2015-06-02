@@ -12,37 +12,53 @@
         {
           "element": "object",
           "meta": {
-            "id": "User",
-            "title": "User"
+            "id": "User"
           },
           "content": [
             {
-              "element": "object",
-              "meta": {
-                "name": "A"
-              },
-              "content": [
-                {
+              "element": "member",
+              "content": {
+                "key": {
                   "element": "string",
-                  "meta": {
-                    "name": "a"
-                  }
+                  "content": "A"
+                },
+                "value": {
+                  "element": "object",
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "a"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
+                    }
+                  ]
                 }
-              ]
+              }
             }
           ]
         },
         {
           "element": "object",
           "meta": {
-            "id": "Person",
-            "title": "Person"
+            "id": "Person"
           },
           "content": [
             {
-              "element": "User",
-              "meta": {
-                "name": "C"
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "C"
+                },
+                "value": {
+                  "element": "User"
+                }
               }
             }
           ]
