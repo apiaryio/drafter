@@ -117,16 +117,21 @@ namespace drafter
     struct RefractElementFactory
     {
         virtual ~RefractElementFactory() {}
-        virtual refract::IElement* Create(const std::string& literal) = 0;
+        virtual refract::IElement* Create(const std::string& literal, bool) = 0;
     };
 
     template <typename E>
     struct RefractElementFactoryImpl : RefractElementFactory
     {
-        virtual refract::IElement* Create(const std::string& literal)
+        virtual refract::IElement* Create(const std::string& literal, bool sample = false)
         {
             E* element = new E;
-            element->set(LiteralTo<typename E::ValueType>(literal));
+            if(sample) {
+                element->attributes["sample"] = refract::IElement::Create(LiteralTo<typename E::ValueType>(literal));
+            }
+            else {
+                element->set(LiteralTo<typename E::ValueType>(literal));
+            }
             return element;
         }
     };
@@ -270,7 +275,10 @@ namespace drafter
         typedef std::vector<refract::IElement*> V;
         typedef T ElementType;
 
-        ExtractValueMember(const mson::ValueMember& v, RefractElements& defaults, RefractElements& samples) : vm(v) {}
+        RefractElements& defaults;
+        RefractElements& samples;
+
+        ExtractValueMember(const mson::ValueMember& v, RefractElements& defaults, RefractElements& samples) : vm(v), defaults(defaults), samples(samples) {}
 
         operator T*()
         {
@@ -284,17 +292,21 @@ namespace drafter
 
                 V result;
                 for (mson::Values::const_iterator it = values.begin(); it != values.end(); ++it) {
-                    refract::IElement* element = elementFactory.Create(it->literal);
-                    if(it->variable) {
-                        element->attributes["typeAttributes"] = MsonAttributesToRefract(mson::SampleTypeAttribute);
-                    }
-
+                    refract::IElement* element = elementFactory.Create(it->literal, it->variable);
                     result.push_back(element);
                 }
-                element->set(result);
+
+                mson::TypeAttributes attrs = vm.valueDefinition.typeDefinition.attributes;
+                if (attrs & mson::SampleTypeAttribute) {
+                    ElementType* s = new ElementType;
+                    s->set(result);
+                    samples.push_back(s);
+                }
+                else {
+                    element->set(result);
+                }
             }
 
-            //mson::TypeAttributes attrs = vm.valueDefinition.typeDefinition.attributes;
             //if (refract::IElement* attributes = MsonAttributesToRefract(attrs)) {
             //    element->attributes["typeAttributes"] = attributes;
             //}
