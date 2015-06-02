@@ -12,39 +12,70 @@
         {
           "element": "object",
           "meta": {
-            "id": "User",
-            "title": "User"
+            "id": "User"
           },
           "content": [
             {
-              "element": "string",
+              "element": "member",
               "meta": {
-                "description": "A Description\nAn additional\nmulti-line description.\n\n- here\n\n- there\n",
-                "name": "name"
+                "description": "An additional\nmulti-line description.\n\n- here\n\n- there\n"
               },
-              "content": "Andrew"
-            },
-            {
-              "element": "object",
-              "meta": {
-                "description": "address description\nmultilined object\ndescription\n",
-                "name": "address"
-              },
-              "content": [
-                {
+              "content": {
+                "key": {
                   "element": "string",
-                  "meta": {
-                    "description": "this should be member of address",
-                    "name": "m1"
-                  }
+                  "content": "name"
+                },
+                "value": {
+                  "element": "string",
+                  "content": "Andrew"
                 }
-              ]
+              }
             },
             {
-              "element": "string",
+              "element": "member",
               "meta": {
-                "description": "this should ...\nbe member of user\n",
-                "name": "m2"
+                "description": "address description\nmultilined object\ndescription\n"
+              },
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "address"
+                },
+                "value": {
+                  "element": "object",
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "this should be member of address"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "m1"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "element": "member",
+              "meta": {
+                "description": "this should ...\nbe member of user\n"
+              },
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "m2"
+                },
+                "value": {
+                  "element": "string"
+                }
               }
             }
           ]

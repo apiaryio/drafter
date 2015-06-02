@@ -366,15 +366,11 @@ namespace drafter
                     continue;
                 }
 
-#if 0
                 if (it->klass == mson::TypeSection::BlockDescriptionClass){ 
-                    const std::string& desc = it->content.description;
-                    description.reserve(desc.length() + 1); // +1 for newline
-                    description.append("\n");
-                    description.append(desc);
+                    // do nothing, Description must be handled one more level up
+                    // it is part of Property (not Value)
                     continue;
                 }
-#endif
 
                 ElementType* e = new ElementType;
                 e->set(ExtractTypeSection<T>(*it));
@@ -435,6 +431,18 @@ namespace drafter
         std::string description;
         if (!property.description.empty()) {
             description = property.description;
+        }
+
+        for (mson::TypeSections::const_iterator it = property.sections.begin(); it != property.sections.end(); ++it) {
+            if (it->klass == mson::TypeSection::BlockDescriptionClass){ 
+                const std::string& desc = it->content.description;
+                if(!description.empty()) {
+                  description.reserve(desc.length() + 1); // +1 for newline
+                  description.append("\n");
+                }
+                description.append(desc);
+                continue;
+            }
         }
 
         if(!description.empty()) {
