@@ -82,12 +82,12 @@ TEST_CASE("Testing refract serialization for 'One Of' with grouped elements","[r
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-group"));
 }
-#if 0
 
 TEST_CASE("Testing refract serialization array with empty sample","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-empty-sample"));
 }
+#if 0
 
 TEST_CASE("Testing refract serialization with inner inheritance","[refract]")
 {
