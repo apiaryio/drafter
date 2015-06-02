@@ -513,8 +513,6 @@ namespace drafter
 
     static refract::IElement* MsonOneofToRefract(const mson::OneOf& oneOf)
     {
-        refract::MemberElement* oneof = new refract::MemberElement;
-        
         refract::ArrayElement* select = new refract::ArrayElement;
         select->element("select");
         for (mson::Elements::const_iterator it = oneOf.begin(); it != oneOf.end(); ++it) {
@@ -530,7 +528,7 @@ namespace drafter
             }
             select->push_back(option);
         }
-        return oneof;
+        return select;
     }
 
     static refract::IElement* MsonMixinToRefract(const mson::Mixin& mixin)

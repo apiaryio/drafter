@@ -12,14 +12,19 @@
         {
           "element": "object",
           "meta": {
-            "id": "User",
-            "title": "User"
+            "id": "User"
           },
           "content": [
             {
-              "element": "string",
-              "meta": {
-                "name": "city"
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "city"
+                },
+                "value": {
+                  "element": "string"
+                }
               }
             },
             {
@@ -29,20 +34,26 @@
                   "element": "option",
                   "content": [
                     {
-                      "element": "array",
-                      "meta": {
-                        "name": "state"
-                      },
-                      "content": [
-                        {
+                      "element": "member",
+                      "content": {
+                        "key": {
                           "element": "string",
-                          "content": "cz"
+                          "content": "state"
                         },
-                        {
-                          "element": "string",
-                          "content": "sk"
+                        "value": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "cz"
+                            },
+                            {
+                              "element": "string",
+                              "content": "sk"
+                            }
+                          ]
                         }
-                      ]
+                      }
                     }
                   ]
                 },
@@ -50,16 +61,22 @@
                   "element": "option",
                   "content": [
                     {
-                      "element": "string",
-                      "meta": {
-                        "name": "province"
-                      },
-                      "attributes": {
-                        "sample": [
-                          "one",
-                          "uno",
-                          "jedna"
-                        ]
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "province"
+                        },
+                        "value": {
+                          "element": "string",
+                          "attributes": {
+                            "sample": [
+                              "one",
+                              "uno",
+                              "jedna"
+                            ]
+                          }
+                        }
                       }
                     }
                   ]
