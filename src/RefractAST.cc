@@ -240,7 +240,7 @@ namespace drafter
                 if (attrs & mson::DefaultTypeAttribute) {
                     defaults.push_back(refract::IElement::Create(LiteralTo<V>(value.literal)));
                 }
-                else if (attrs & mson::SampleTypeAttribute) {
+                else if ((attrs & mson::SampleTypeAttribute) || (value.variable)) {
                     samples.push_back(refract::IElement::Create(LiteralTo<V>(value.literal)));
                 }
                 else {
