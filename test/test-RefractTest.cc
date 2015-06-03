@@ -132,10 +132,8 @@ TEST_CASE("Testing refract serialization primitive elements w/ members","[refrac
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-primitive-with-members", false));
 }
-#if 0
 
 TEST_CASE("Testing refract serialization of nontyped array w/ samples","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-nontyped-array-sample"));
 }
-#endif
