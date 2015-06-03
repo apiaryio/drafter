@@ -127,12 +127,12 @@ TEST_CASE("Testing refract serialization for enum samples","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-enum-sample"));
 }
-#if 0
 
 TEST_CASE("Testing refract serialization primitive elements w/ members","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-primitive-with-members", false));
 }
+#if 0
 
 TEST_CASE("Testing refract serialization of nontyped array w/ samples","[refract]")
 {

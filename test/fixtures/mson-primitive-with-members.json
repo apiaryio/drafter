@@ -12,29 +12,25 @@
         {
           "element": "string",
           "meta": {
-            "id": "StringType",
-            "title": "StringType"
+            "id": "StringType"
           }
         },
         {
           "element": "boolean",
           "meta": {
-            "id": "BooleanType",
-            "title": "BooleanType"
+            "id": "BooleanType"
           }
         },
         {
           "element": "number",
           "meta": {
-            "id": "NumberType",
-            "title": "NumberType"
+            "id": "NumberType"
           }
         },
         {
           "element": "number",
           "meta": {
             "id": "NumericType",
-            "title": "NumericType",
             "description": "FIXME: After following `### Properties` section showcrash finnish parsing\ndue to this `NonpasedObject` is not parsed :)\n\n"
           }
         }
