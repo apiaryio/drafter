@@ -13,16 +13,21 @@
           "element": "object",
           "meta": {
             "id": "User",
-            "title": "User",
             "description": "It is number type, but input is string, we will convert it into\nNumber Element, without content set.\n\nFIXME: in future will try parse, but it is relative problematic\nbecause of localized input (decimal point, thousand separators, etc.)\n\n"
           },
           "content": [
             {
-              "element": "number",
-              "meta": {
-                "name": "some_number"
-              },
-              "content": 0
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "some_number"
+                },
+                "value": {
+                  "element": "number",
+                  "content": 0
+                }
+              }
             }
           ]
         }

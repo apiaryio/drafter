@@ -117,12 +117,12 @@ TEST_CASE("Testing refract serialization for nontypes array","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-nontyped-array"));
 }
-#if 0
 
 TEST_CASE("Testing refract serialization for wrong number value","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-number-wrong-value"));
 }
+#if 0
 
 TEST_CASE("Testing refract serialization for enum samples","[refract]")
 {
