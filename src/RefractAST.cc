@@ -47,34 +47,6 @@ namespace drafter
         return attr;
     }
 
-    static refract::ArrayElement* MsonAttributesToRefract(const mson::TypeAttributes& ta)
-    {
-        refract::ArrayElement* attr = new refract::ArrayElement;
-
-        if (ta & mson::RequiredTypeAttribute) {
-            attr->push_back(refract::IElement::Create("required"));
-        }
-        if (ta & mson::OptionalTypeAttribute) {
-            attr->push_back(refract::IElement::Create("optional"));
-        }
-        if (ta & mson::DefaultTypeAttribute) {
-            attr->push_back(refract::IElement::Create("default"));
-        }
-        if (ta & mson::SampleTypeAttribute) {
-            attr->push_back(refract::IElement::Create("sample"));
-        }
-        if (ta & mson::FixedTypeAttribute) {
-            attr->push_back(refract::IElement::Create("fixed"));
-        }
-
-        if (attr->value.empty()) {
-            delete attr;
-            attr = NULL;
-        }
-
-        return attr;
-    }
-
     template <typename T>
     T LiteralTo(const mson::Literal& literal);
 
@@ -156,7 +128,7 @@ namespace drafter
         throw std::logic_error("Out of scope - ElementFactory for type not implemted");
     }
 
-    refract::IElement* MsonElementToRefract(const mson::Element& mse);
+    static refract::IElement* MsonElementToRefract(const mson::Element& mse);
 
     // FIXME: check against original behavioration
     template <typename T, typename V = typename T::ValueType>
@@ -186,7 +158,7 @@ namespace drafter
 
     template <typename T>
     struct ExtractTypeSection<T, std::vector<refract::IElement*> >
-    { // this will handle Array
+    { // this will handle Array && Object because of underlaying type
         const mson::TypeSection& ts;
         typedef std::vector<refract::IElement*> V;
 
@@ -199,24 +171,6 @@ namespace drafter
             return MsonElementsToRefract(ts.content.elements());
         }
     };
-
-#if 0
-    template <typename T>
-    struct ExtractTypeSection<T, std::vector<refract::MemberElement*> >
-    { // this will handle Object 
-        const mson::TypeSection& ts;
-        typedef std::vector<refract::MemberElement*> V;
-
-        ExtractTypeSection(const mson::TypeSection& v) : ts(v)
-        {
-        }
-
-        operator V()
-        {
-            return MsonElementsToRefract<V>(ts.content.elements());
-        }
-    };
-#endif
 
     template <typename T, typename V = typename T::ValueType>
     struct ExtractValueMember
@@ -306,26 +260,13 @@ namespace drafter
                     element->set(result);
                 }
             }
+            else if(!vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes.empty() 
+                    && vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes.begin()->symbol.variable) {
+               refract::IElement* s = refract::IElement::Create(vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes.begin()->symbol.literal);
+               s->element("generic");
+               element->push_back(s);
+            }
 
-            //if (refract::IElement* attributes = MsonAttributesToRefract(attrs)) {
-            //    element->attributes["typeAttributes"] = attributes;
-            //}
-
-            return element;
-        }
-    };
-
-    template <typename T>
-    struct ExtractValueMember<T, std::vector<refract::MemberElement*> >
-    { 
-        const mson::ValueMember& vm;
-        typedef T ElementType;
-
-        ExtractValueMember(const mson::ValueMember& v, RefractElements& defaults, RefractElements& samples) : vm(v) {}
-
-        operator T*()
-        {
-            ElementType* element = new ElementType;
             return element;
         }
     };
@@ -409,19 +350,34 @@ namespace drafter
 
         refract::MemberElement* element = new refract::MemberElement;
         refract::IElement* value = RefractElementFromValue<T>(property);
-        element->set(property.name.literal, value);
 
-        /*
+        if(!property.name.literal.empty()) {
+            element->set(property.name.literal, value);
+        }
         else if (!property.name.variable.values.empty()) {
             if (property.name.variable.values.size() > 1) {
                 // FIXME: is there example for multiple variables?
                 throw std::logic_error("Multiple variables in property definition");
             }
-            element->meta["name"] = refract::IElement::Create(property.name.variable.values[0].literal);
-            element->attributes["variable"] = refract::IElement::Create(true);
+            element->set(property.name.variable.values.begin()->literal, value);
+            element->value.first->attributes["variable"] = refract::IElement::Create(true);
+            SetElementType(property.name.variable.typeDefinition, element->value.first);
+            // FIXME: 
+            // https://github.com/refractproject/refract-spec/blob/master/namespaces/mson-namespace.md#variable-property-name
+            // ["object", {}, {}, [
+            //   ["member", {}, {}, {
+            //       "key": ["Relation", {}, {"variable": true}, "rel"],
+            //       "value": ["string", {}, {"typeAttributes": ["sample"]}, null]
+            //   }]
+            // ]]}
+            //
+            // but typeAttributes.sample -  is proposed for remove
+            // 
+        } 
+        else {
+            throw ("No property name");
         }
 
-        */
 
         mson::TypeAttributes attrs = property.valueDefinition.typeDefinition.attributes;
         if (refract::IElement* attributes = MsonTypeAttributesToRefract(attrs)) {
@@ -569,7 +525,7 @@ namespace drafter
     }
 
 
-    refract::IElement* MsonElementToRefract(const mson::Element& mse)
+    static refract::IElement* MsonElementToRefract(const mson::Element& mse)
     {
         switch (mse.klass) {
             case mson::Element::PropertyClass:
@@ -590,8 +546,8 @@ namespace drafter
             default:
                 throw std::logic_error("Unhandled type of MSON element");
         }
-    }
 
+    }
 
     template <typename T, typename V = typename T::ValueType>
     struct AppendDecorator {
@@ -631,25 +587,6 @@ namespace drafter
 
     template <typename T>
     struct AppendDecorator<T, std::vector<refract::IElement*> > {
-        typedef T ElementType;
-        typedef typename T::ValueType ValueType;
-        ElementType*& element;
-
-        AppendDecorator(ElementType*& e) : element(e) 
-        {
-        }
-
-        void append(const ValueType& value)
-        {
-            std::copy(value.begin(), value.end(), std::back_inserter(element->value));
-            if(!value.empty()) {
-                element->hasContent = true;
-            }
-        }
-    };
-
-    template <typename T>
-    struct AppendDecorator<T, std::vector<refract::MemberElement*> > {
         typedef T ElementType;
         typedef typename T::ValueType ValueType;
         ElementType*& element;

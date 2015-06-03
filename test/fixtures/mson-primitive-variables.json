@@ -12,14 +12,19 @@
         {
           "element": "object",
           "meta": {
-            "id": "Color",
-            "title": "Color"
+            "id": "Color"
           },
           "content": [
             {
-              "element": "string",
-              "meta": {
-                "name": "hex"
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "hex"
+                },
+                "value": {
+                  "element": "string"
+                }
               }
             }
           ]
@@ -27,95 +32,177 @@
         {
           "element": "object",
           "meta": {
-            "id": "User",
-            "title": "User"
+            "id": "User"
           },
           "content": [
             {
-              "element": "string",
+              "element": "member",
               "meta": {
-                "description": "not variable",
-                "name": "c1"
+                "description": "not variable"
+              },
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "c1"
+                },
+                "value": {
+                  "element": "string"
+                }
               }
             },
             {
-              "element": "string",
+              "element": "member",
               "meta": {
-                "description": "this one is",
-                "name": "c2"
+                "description": "this one is"
               },
-              "attributes": {
-                "variable": true
+              "content": {
+                "key": {
+                  "element": "string",
+                  "attributes": {
+                    "variable": true
+                  },
+                  "content": "c2"
+                },
+                "value": {
+                  "element": "string"
+                }
               }
             },
             {
-              "element": "string",
+              "element": "member",
               "meta": {
-                "description": "var w/ value",
-                "name": "c3"
+                "description": "var w/ value"
               },
-              "attributes": {
-                "variable": true
-              },
-              "content": "color value"
-            },
-            {
-              "element": "number",
-              "meta": {
-                "description": "var w/ type",
-                "name": "c4"
-              },
-              "attributes": {
-                "variable": true
+              "content": {
+                "key": {
+                  "element": "string",
+                  "attributes": {
+                    "variable": true
+                  },
+                  "content": "c3"
+                },
+                "value": {
+                  "element": "string",
+                  "content": "color value"
+                }
               }
             },
             {
-              "element": "number",
+              "element": "member",
               "meta": {
-                "description": "var w/ type and value",
-                "name": "c5"
+                "description": "var w/ type"
               },
-              "attributes": {
-                "variable": true
-              },
-              "content": 3.14
+              "content": {
+                "key": {
+                  "element": "string",
+                  "attributes": {
+                    "variable": true
+                  },
+                  "content": "c4"
+                },
+                "value": {
+                  "element": "number"
+                }
+              }
             },
             {
-              "element": "string",
+              "element": "member",
               "meta": {
-                "description": "var w/ sample",
-                "name": "c6"
+                "description": "var w/ type and value"
               },
-              "attributes": {
-                "typeAttributes": [
-                  "sample"
-                ],
-                "variable": true
-              },
-              "content": "example"
+              "content": {
+                "key": {
+                  "element": "string",
+                  "attributes": {
+                    "variable": true
+                  },
+                  "content": "c5"
+                },
+                "value": {
+                  "element": "number",
+                  "content": 3.14
+                }
+              }
             },
             {
-              "element": "number",
+              "element": "member",
               "meta": {
-                "description": "var w/ type and value and sample",
-                "name": "c7"
+                "description": "var w/ sample"
               },
-              "attributes": {
-                "typeAttributes": [
-                  "sample"
-                ],
-                "variable": true
-              },
-              "content": 3.14
+              "content": {
+                "key": {
+                  "element": "string",
+                  "attributes": {
+                    "variable": true
+                  },
+                  "content": "c6"
+                },
+                "value": {
+                  "element": "string",
+                  "attributes": {
+                    "sample": "example"
+                  }
+                }
+              }
             },
             {
-              "element": "string",
+              "element": "member",
               "meta": {
-                "description": "var w/ variable type\nFIXME: there is no way to translate to refract,\nwaiting for Refract MSON-namespace update",
-                "name": "c8"
+                "description": "var w/ type and value and sample"
               },
-              "attributes": {
-                "variable": true
+              "content": {
+                "key": {
+                  "element": "string",
+                  "attributes": {
+                    "variable": true
+                  },
+                  "content": "c7"
+                },
+                "value": {
+                  "element": "number",
+                  "attributes": {
+                    "sample": 3.14
+                  }
+                }
+              }
+            },
+            {
+              "element": "member",
+              "meta": {
+                "description": "var w/ variable type"
+              },
+              "content": {
+                "key": {
+                  "element": "Color",
+                  "attributes": {
+                    "variable": true
+                  },
+                  "content": "c8"
+                },
+                "value": {
+                  "element": "string"
+                }
+              }
+            },
+            {
+              "element": "member",
+              "meta": {
+                "description": "generic variable"
+              },
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "c9"
+                },
+                "value": {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "generic",
+                      "content": "T"
+                    }
+                  ]
+                }
               }
             }
           ]

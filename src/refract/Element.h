@@ -270,15 +270,18 @@ namespace refract
 
     struct MemberElement : Element<MemberElement, MemberElementTrait>
     {
-        void set(const std::string& name, IElement* element)
+        void set(const std::string& key, IElement* element)
+        {
+            set(IElement::Create(key) ,element);
+        }
+
+        void set(IElement* key, IElement* element)
         {
             if (value.first != NULL) {
                 delete value.first;
                 value.first = NULL;
             }
-            StringElement* k = new StringElement;
-            k->set(name);
-            value.first = k;
+            value.first = key;
 
             if (value.second != NULL) {
                 delete value.second;
