@@ -12,58 +12,68 @@
         {
           "element": "object",
           "meta": {
-            "id": "User",
-            "title": "User"
+            "id": "User"
           },
           "content": [
             {
-              "element": "enum",
-              "meta": {
-                "name": "e1"
-              },
-              "attributes": {
-                "typeAttributes": [
-                  "sample"
-                ]
-              },
-              "content": [
-                {
+              "element": "member",
+              "content": {
+                "key": {
                   "element": "string",
-                  "content": "3"
+                  "content": "e1"
                 },
-                {
-                  "element": "string",
-                  "content": "4"
+                "value": {
+                  "element": "enum",
+                  "attributes": {
+                    "sample": [
+                      "3",
+                      "4"
+                    ]
+                  }
                 }
-              ]
+              }
             },
             {
-              "element": "enum",
+              "element": "member",
               "meta": {
-                "description": "FIXME: must be handled by different way in snowcrash",
-                "name": "e2"
+                "description": "FIXME: must be handled by different way in snowcrash"
               },
-              "content": [
-                {
+              "content": {
+                "key": {
                   "element": "string",
-                  "content": "*3"
+                  "content": "e2"
                 },
-                {
-                  "element": "string",
-                  "content": "4*"
+                "value": {
+                  "element": "enum",
+                  "content": [
+                    {
+                      "element": "string",
+                      "content": "*3"
+                    },
+                    {
+                      "element": "string",
+                      "content": "4*"
+                    }
+                  ]
                 }
-              ]
+              }
             },
             {
-              "element": "enum",
-              "meta": {
-                "name": "e3"
-              },
-              "attributes": {
-                "sample": [
-                  "3",
-                  "4"
-                ]
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "e3"
+                },
+                "value": {
+                  "element": "enum",
+                  "attributes": {
+                    "sample": [
+                      "3",
+                      "4"
+                    ]
+                  }
+                }
               }
             }
           ]
