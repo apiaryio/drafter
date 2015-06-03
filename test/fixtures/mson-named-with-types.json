@@ -12,8 +12,7 @@
         {
           "element": "enum",
           "meta": {
-            "id": "EnumType",
-            "title": "EnumType"
+            "id": "EnumType"
           },
           "content": [
             {
@@ -25,8 +24,7 @@
         {
           "element": "array",
           "meta": {
-            "id": "ArrayType",
-            "title": "ArrayType"
+            "id": "ArrayType"
           },
           "content": [
             {
@@ -38,14 +36,19 @@
         {
           "element": "object",
           "meta": {
-            "id": "ObjectType",
-            "title": "ObjectType"
+            "id": "ObjectType"
           },
           "content": [
             {
-              "element": "string",
-              "meta": {
-                "name": "m1"
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "m1"
+                },
+                "value": {
+                  "element": "string"
+                }
               }
             }
           ]
@@ -53,22 +56,19 @@
         {
           "element": "string",
           "meta": {
-            "id": "StringType",
-            "title": "StringType"
+            "id": "StringType"
           }
         },
         {
           "element": "boolean",
           "meta": {
-            "id": "BooleanType",
-            "title": "BooleanType"
+            "id": "BooleanType"
           }
         },
         {
           "element": "number",
           "meta": {
-            "id": "NumberType",
-            "title": "NumberType"
+            "id": "NumberType"
           }
         }
       ]
