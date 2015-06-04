@@ -23,6 +23,8 @@
 #include "SerializeCompactVisitor.h"
 #include "ComparableVisitor.h"
 
+#include <iostream>
+
 namespace refract
 {
 
@@ -34,6 +36,8 @@ namespace refract
     struct ArrayElement;
     struct ObjectElement;
     struct MemberElement;
+
+    struct ExpandVisitor;
 
     template <typename T> struct ElementTypeSelector;
 
@@ -78,7 +82,7 @@ namespace refract
          * define __visitors__ which can visit element
          * via. `content()` method
          */
-        typedef typelist::cons<ComparableVisitor, SerializeVisitor, SerializeCompactVisitor>::type Visitors;
+        typedef typelist::cons<ComparableVisitor, SerializeVisitor, SerializeCompactVisitor, ExpandVisitor>::type Visitors;
 
 
         IElement() : hasContent(false), useCompactContent(false)
@@ -125,6 +129,8 @@ namespace refract
         // NOTE: probably rename to Accept
         virtual void content(IVisitor& v) const = 0;
 
+        virtual IElement* clone() const = 0;
+
         virtual bool empty() const
         {
             return !hasContent;
@@ -143,11 +149,15 @@ namespace refract
         virtual ~IElement()
         {
         }
+
     };
+
+
+    bool isReserved(const std::string& element);
+
 
     /**
      * CRTP implementation of RefractElement
-     *
      */
     template <typename T, typename Trait>
     struct Element : public IElement, public VisitableBy<IElement::Visitors>
@@ -157,14 +167,12 @@ namespace refract
         typedef Trait TraitType;
         typedef typename TraitType::ValueType ValueType;
 
-        TraitType trait;
         ValueType value;
         std::string element_;
 
-
         virtual std::string element() const
         {
-            return element_.empty() ? trait.element() : element_;
+            return element_.empty() ? TraitType::element() : element_;
         }
 
         virtual void element(const std::string& name)
@@ -188,55 +196,88 @@ namespace refract
             InvokeVisit(v, static_cast<const T&>(*this));
         }
 
+        virtual IElement* clone() const {
+            // FIXME: what about meta && attributes?
+            const Type* self = static_cast<const T*>(this);
+            Type* element =  new Type;
+
+            element->hasContent = self->hasContent;
+            element->useCompactContent = self->useCompactContent;
+
+            TraitType::cloneValue(value, element->value);
+
+            return element;
+        }
+
         virtual ~Element()
         {
-            trait.release(value);
+            TraitType::release(value);
         }
     };
 
     struct NullElementTrait
     {
-        const std::string element() const { return "null"; }
         struct null_type {}; 
         typedef null_type ValueType;
-        void release(ValueType&) {}
+
+        static const std::string element() { return "null"; }
+        static void release(ValueType&) {}
+        static void cloneValue(const ValueType&, ValueType&) {}
     };
     struct NullElement : Element<NullElement, NullElementTrait> {};
 
     struct StringElementTrait
     {
-        const std::string element() const { return "string"; }
         typedef std::string ValueType;
-        void release(ValueType&) {}
+
+        static const std::string element() { return "string"; }
+        static void release(ValueType&) {}
+        static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
     };
     struct StringElement : Element<StringElement, StringElementTrait> {};
 
     struct NumberElementTrait
     {
-        const std::string element() const { return "number"; }
         typedef double ValueType;
-        void release(ValueType&) {}
+
+        static const std::string element() { return "number"; }
+        static void release(ValueType&) {}
+        static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
     };
     struct NumberElement : Element<NumberElement, NumberElementTrait> {};
 
     struct BooleanElementTrait
     {
-        const std::string element() const { return "boolean"; }
         typedef bool ValueType;
-        void release(ValueType&) {}
+
+        static const std::string element() { return "boolean"; }
+        static void release(ValueType&) {}
+        static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
     };
     struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {};
 
     struct ArrayElementTrait
     {
-        const std::string element() const { return "array"; }
         typedef std::vector<IElement*> ValueType;
-        void release(ValueType& array)
+
+        static const std::string element() { return "array"; }
+
+        static void release(ValueType& array)
         {
             for (ValueType::iterator it = array.begin(); it != array.end(); ++it) {
                 delete (*it);
             }
             array.clear();
+        }
+
+        static void cloneValue(const ValueType& self, ValueType& other) {
+            for(ValueType::const_iterator i = self.begin() ; i != self.end() ; ++i) {
+                IElement* e = NULL;
+                if((*i)) {
+                  e = (*i)->clone();
+                }
+                other.push_back(e);
+            }
         }
     };
 
@@ -253,9 +294,11 @@ namespace refract
 
     struct MemberElementTrait
     {
-        const std::string element() const { return "member"; }
         typedef std::pair<IElement*, IElement*> ValueType;
-        void release(ValueType& member)
+
+        static const std::string element() { return "member"; }
+
+        static void release(ValueType& member)
         {
             if (member.first) {
                 delete member.first;
@@ -265,6 +308,16 @@ namespace refract
                 delete member.second;
                 member.second = NULL;
             }
+        }
+
+        static void cloneValue(const ValueType& self, ValueType& other) {
+            other.first = self.first
+                ? static_cast<ValueType::first_type>(self.first->clone())
+                : NULL;
+
+            other.second = self.second
+                ? self.second->clone()
+                : NULL;
         }
     };
 
@@ -305,8 +358,8 @@ namespace refract
 
     struct ObjectElementTrait
     {
-        const std::string element() const { return "object"; }
         typedef std::vector<IElement*> ValueType;
+
         // We dont use std::vector<MemberElement*> there, because
         // ObjectElement can contain:
         // - (object)
@@ -315,12 +368,22 @@ namespace refract
         // - (Select Element)
         // - (Ref Element)
         //
-        void release(ValueType& obj)
+
+        static const std::string element() { return "object"; }
+
+        static void release(ValueType& obj)
         {
             for (ValueType::iterator it = obj.begin(); it != obj.end(); ++it) {
                 delete (*it);
             }
             obj.clear();
+        }
+
+        static void cloneValue(const ValueType& self, ValueType& other) {
+            for(ValueType::const_iterator i = self.begin() ; i != self.end() ; ++i) {
+                IElement* e = (*i)->clone();
+                other.push_back(e);
+            }
         }
     };
 
@@ -334,6 +397,169 @@ namespace refract
             value.push_back(e);
         }
     };
+
+    class Registry {
+        // FIXME: potentionally dangerous,
+        // if element is deleted and not removed from registry
+        // solution: std::shared_ptr<> || std::weak_ptr<>
+        typedef std::map<std::string, IElement*> Map;
+        Map registrated;
+
+        std::string getElementId(IElement* element) 
+        {
+            IElement::MemberElementCollection::const_iterator it = element->meta.find("id");
+            if (it == element->meta.end()) {
+                throw LogicError("Element has no ID");
+            }
+
+            SerializeCompactVisitor v;
+            (*it)->value.second->content(v);
+            // FIXME: it is really ugly,
+            // make something like is_a()
+            return v.value().str;
+        }
+
+    public:
+
+        IElement* find(const std::string& name)
+        {
+            Map::iterator i = registrated.find(name);
+            if(i == registrated.end()) {
+                return NULL;
+            }
+            return i->second;
+        }
+
+        bool add(IElement* element) 
+        {
+            IElement::MemberElementCollection::const_iterator it = element->meta.find("id");
+            if (it == element->meta.end()) {
+                throw LogicError("Element has no ID");
+            }
+
+            std::string id = getElementId(element);
+            std::cout << "ID: >" << id << "<"<< std::endl;
+
+            if(isReserved(id)) {
+                throw LogicError("You can not registrate basic element");
+            }
+
+            if (find(id)) {
+                // there is already already element with given name
+                return false;
+            }
+
+            registrated[id] = element;
+            return true;
+        }
+
+        bool remove(const std::string& name) {
+            Map::iterator i = registrated.find(name);
+            if(i == registrated.end()) {
+                return false;
+            }
+            registrated.erase(i);
+            return true;
+        }
+
+        void clearAll(bool releaseElements = false) {
+            if(releaseElements) {
+                for (Map::iterator i = registrated.begin() ; i != registrated.end() ; ++i) {
+                    delete i->second;
+                }
+            }
+            registrated.clear();
+        }
+
+    };
+
+    // FIXME: remove global variable!!
+    extern Registry DSRegistry;
+
+    template<typename T, typename V = typename T::ValueType> struct IsExpandable;
+
+    struct ExpandVisitor : IVisitor {
+
+        IElement* result;
+
+        ExpandVisitor() : result(NULL) {};
+
+        template<typename T>
+        void visit(const T& e) {
+            std::string en = e.element();
+            if(isReserved(en)) {
+                return;
+            }
+
+            refract::ObjectElement* o = new refract::ObjectElement;
+            o->element("extend");
+
+            IElement::MemberElementCollection::const_iterator name = e.meta.find("id");
+            if (name != e.meta.end() && (*name)->value.second) {
+                o->meta["id"] = (*name)->value.second->clone();
+            }
+
+           // const IElement* parent = refract::DSRegistry.find(en);
+            for (const IElement* parent = refract::DSRegistry.find(en)
+                ; parent && !isReserved(en)
+                ; en = parent->element(), parent = refract::DSRegistry.find(en) ) {
+
+                IElement* clone = parent->clone();
+                clone->meta["ref"] = IElement::Create(en);
+                o->push_back(clone);
+
+                //en = parent->element();
+                //parent = isReserved(en)
+                //    ? NULL
+                //    : parent = refract::DSRegistry.find(en);
+
+            } 
+
+            o->push_back(e.clone());
+            result = o;
+        }
+
+        IElement* get() const {
+            return result;
+        }
+    };
+
+#if 0
+    template <typename T, typename V>
+    struct IsExpandable {
+        bool operator()(const T* e) const {
+            std::cout << __PRETTY_FUNCTION__ << e->element() << std::endl;
+            //return false;
+            if(!isReserved(e->element())) {
+                return true;
+            }
+            return false;
+        }
+    };
+
+    template <typename T>
+    struct IsExpandable<T, std::vector<IElement*> > {
+        bool operator()(const T* e) const {
+            std::cout << __PRETTY_FUNCTION__ << e->element() << std::endl;
+
+            if(!isReserved(e->element())) {
+                return true;
+            }
+
+            /*
+            for (std::vector<IElement*>::const_iterator i = e->value.begin() ; i != e->value.end() ; ++i ) {
+                ExpandVisitor v;
+                (*i)->content(v);
+                if (v.isExpandable()) {
+                    return true;
+                }
+            }
+            */
+
+            return false;
+        }
+    };
+#endif
 
 }; // namespace refract
 

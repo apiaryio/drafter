@@ -180,9 +180,26 @@ resourceGroups:
                     schema: ""
                     content:
                       -
-                        element: "<data structure name>"
+                        element: "extend"
                         meta:
                           id: ""
+                        content:
+                          -
+                            element: "object"
+                            meta:
+                              ref: "<data structure name>"
+                            content:
+                              -
+                                element: "member"
+                                content:
+                                  key:
+                                    element: "string"
+                                    content: "<data structure property name>"
+                                  value:
+                                    element: "number"
+                                    content: 0
+                          -
+                            element: "object"
         content:
           -
             element: "object"
@@ -378,9 +395,26 @@ content:
                     schema: ""
                     content:
                       -
-                        element: "<data structure name>"
+                        element: "extend"
                         meta:
                           id: ""
+                        content:
+                          -
+                            element: "object"
+                            meta:
+                              ref: "<data structure name>"
+                            content:
+                              -
+                                element: "member"
+                                content:
+                                  key:
+                                    element: "string"
+                                    content: "<data structure property name>"
+                                  value:
+                                    element: "number"
+                                    content: 0
+                          -
+                            element: "object"
         content:
           -
             element: "object"
