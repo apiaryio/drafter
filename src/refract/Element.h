@@ -23,6 +23,8 @@
 #include "SerializeCompactVisitor.h"
 #include "ComparableVisitor.h"
 
+#include <iostream>
+
 namespace refract
 {
 
@@ -34,6 +36,9 @@ namespace refract
     struct ArrayElement;
     struct ObjectElement;
     struct MemberElement;
+
+    struct ExpandVisitor;
+    struct IsExpandableVisitor;
 
     template <typename T> struct ElementTypeSelector;
 
@@ -78,7 +83,7 @@ namespace refract
          * define __visitors__ which can visit element
          * via. `content()` method
          */
-        typedef typelist::cons<ComparableVisitor, SerializeVisitor, SerializeCompactVisitor>::type Visitors;
+        typedef typelist::cons<ComparableVisitor, SerializeVisitor, SerializeCompactVisitor, ExpandVisitor, IsExpandableVisitor>::type Visitors;
 
 
         IElement() : hasContent(false), useCompactContent(false)
@@ -101,6 +106,7 @@ namespace refract
             const_iterator find(const std::string& name) const;
             MemberElement& operator[](const std::string& name);
             MemberElement& operator[](const int index);
+            virtual void clone(const MemberElementCollection& other); /// < clone elements from `other` to `this`
             virtual ~MemberElementCollection();
         };
 
@@ -125,7 +131,15 @@ namespace refract
         // NOTE: probably rename to Accept
         virtual void content(IVisitor& v) const = 0;
 
-        virtual IElement* clone() const = 0;
+        typedef enum {
+            cMeta = 1,
+            cAttributes = 2,
+            cValue = 4,
+            cElement = 8,
+            cAll = cMeta | cAttributes | cValue | cElement
+        } cloneFlags;
+
+        virtual IElement* clone(const int flag = cAll) const = 0;
 
         virtual bool empty() const
         {
@@ -147,6 +161,10 @@ namespace refract
         }
 
     };
+
+
+    bool isReserved(const std::string& element);
+
 
     /**
      * CRTP implementation of RefractElement
@@ -188,10 +206,29 @@ namespace refract
             InvokeVisit(v, static_cast<const T&>(*this));
         }
 
-        virtual IElement* clone() const {
-            const Type* self = static_cast<const Type*>(this);
-            Type* element =  new Type(static_cast<Type const &>(*self));
-            TraitType::cloneValue(value, element->value);
+        virtual IElement* clone(const int flags = cAll) const {
+            const Type* self = static_cast<const T*>(this);
+            Type* element =  new Type;
+
+            element->hasContent = self->hasContent;
+            element->useCompactContent = self->useCompactContent;
+
+            if(flags & cElement) {
+                element->element_ = self->element_;
+            }
+
+            if(flags & cAttributes) {
+                element->attributes.clone(self->attributes); 
+            }
+
+            if(flags & cMeta) {
+                element->meta.clone(self->meta);
+            }
+
+            if(flags & cValue) {
+                TraitType::cloneValue(value, element->value);
+            }
+
             return element;
         }
 
@@ -383,6 +420,342 @@ namespace refract
             value.push_back(e);
         }
     };
+
+    class Registry {
+        // FIXME: potentionally dangerous,
+        // if element is deleted and not removed from registry
+        // solution: std::shared_ptr<> || std::weak_ptr<>
+        typedef std::map<std::string, IElement*> Map;
+        Map registrated;
+
+        std::string getElementId(IElement* element) 
+        {
+            IElement::MemberElementCollection::const_iterator it = element->meta.find("id");
+            if (it == element->meta.end()) {
+                throw LogicError("Element has no ID");
+            }
+
+            SerializeCompactVisitor v;
+            (*it)->value.second->content(v);
+            // FIXME: it is really ugly,
+            // make something like is_a()
+            return v.value().str;
+        }
+
+    public:
+
+        IElement* find(const std::string& name)
+        {
+            Map::iterator i = registrated.find(name);
+            if(i == registrated.end()) {
+                return NULL;
+            }
+            return i->second;
+        }
+
+        bool add(IElement* element) 
+        {
+            IElement::MemberElementCollection::const_iterator it = element->meta.find("id");
+            if (it == element->meta.end()) {
+                throw LogicError("Element has no ID");
+            }
+
+            std::string id = getElementId(element);
+            //std::cout << "ID: >" << id << "<"<< std::endl;
+
+            if(isReserved(id)) {
+                throw LogicError("You can not registrate basic element");
+            }
+
+            if (find(id)) {
+                // there is already already element with given name
+                return false;
+            }
+
+            registrated[id] = element;
+            return true;
+        }
+
+        bool remove(const std::string& name) {
+            Map::iterator i = registrated.find(name);
+            if(i == registrated.end()) {
+                return false;
+            }
+            registrated.erase(i);
+            return true;
+        }
+
+        void clearAll(bool releaseElements = false) {
+            if(releaseElements) {
+                for (Map::iterator i = registrated.begin() ; i != registrated.end() ; ++i) {
+                    delete i->second;
+                }
+            }
+            registrated.clear();
+        }
+
+    };
+
+    // FIXME: remove global variable!!
+    extern Registry DSRegistry;
+
+    template <typename T, typename V = typename T::ValueType>
+    struct AppendDecorator {
+        typedef T ElementType;
+        typedef V ValueType;
+        ElementType*& element;
+        AppendDecorator(ElementType*& e) : element(e) 
+        {
+        }
+
+        void operator()(const V& value) 
+        {
+            //throw std::logic_error("Can not append to primitive type");
+            // FIXME: snowcrash warn about "Primitive type can not have member"
+            // but in real it create "empty" member
+            //
+            // solution for now: silently ignore
+        }
+    };
+
+    template <typename T>
+    struct AppendDecorator<T, std::string> {
+        typedef T ElementType;
+        typedef typename T::ValueType ValueType;
+        ElementType*& element;
+
+        AppendDecorator(ElementType*& e) : element(e) 
+        {
+        }
+
+        void operator()(const std::string& value) {
+            if(!value.empty()) {
+                element->value.append(value);
+            }
+        }
+    };
+
+    template <typename T>
+    struct AppendDecorator<T, std::vector<refract::IElement*> > {
+        typedef T ElementType;
+        typedef typename T::ValueType ValueType;
+        ElementType*& element;
+
+        AppendDecorator(ElementType*& e) : element(e) 
+        {
+        }
+
+        void operator()(const ValueType& value)
+        {
+            std::copy(value.begin(), value.end(), std::back_inserter(element->value));
+            if(!value.empty()) {
+                element->hasContent = true;
+            }
+        }
+    };
+
+    struct IsExpandableVisitor : public IVisitor {
+
+        struct CheckElement {
+            bool checkElement(const IElement* e) const {
+                return e && (!isReserved(e->element()));
+            }
+        };
+
+        template <typename T, typename V = typename T::ValueType>
+        struct IsExpandable : public CheckElement {
+            bool operator()(const T* e) const {
+                //std::cout << __PRETTY_FUNCTION__ << e->element() << std::endl;
+                if(checkElement(e)) {
+                    return true;
+                }
+                return false;
+            }
+        };
+
+        template <typename T>
+        struct IsExpandable<T, MemberElement::ValueType> : public CheckElement {
+            bool operator()(const T* e) const {
+                //std::cout << __PRETTY_FUNCTION__ << e->element() << std::endl;
+
+                if(checkElement(e)) {
+                    return true;
+                }
+
+                if(checkElement(e->value.first)) {
+                    return true;
+                }
+
+                if(checkElement(e->value.second)) {
+                    return true;
+                }
+
+                return false;
+            }
+        };
+
+        template <typename T>
+        struct IsExpandable<T, std::vector<IElement*> > : public CheckElement {
+            bool operator()(const T* e) const {
+                //std::cout << __PRETTY_FUNCTION__ << e->element() << std::endl;
+
+                if(checkElement(e)) {
+                    return true;
+                }
+
+                for (std::vector<IElement*>::const_iterator i = e->value.begin() ; i != e->value.end() ; ++i ) {
+                    IsExpandableVisitor v;
+                    (*i)->content(v);
+                    if (v.result) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        };
+
+        bool result;
+        IsExpandableVisitor() : result(false) {}
+
+        template<typename T>
+        void visit(const T& e) {
+            result = IsExpandable<T>()(&e);
+        }
+
+        bool get() const {
+            return result;
+        }
+    };
+
+
+
+    struct ExpandVisitor : IVisitor {
+
+        IElement* result;
+
+        ExpandVisitor() : result(NULL) {};
+
+        void visit(const IElement& e) {
+            //std::cout << __PRETTY_FUNCTION__ <<  std::endl;
+
+            IsExpandableVisitor isExpandable;
+            e.content(isExpandable);
+            if (!isExpandable.get()) {
+                return;
+            }
+
+            ExpandVisitor expander;
+            e.content(expander);
+
+            result = expander.get();
+            
+        }
+
+        void visit(const ObjectElement& e) {
+            //std::cout << __PRETTY_FUNCTION__ <<  std::endl;
+            std::string en = e.element();
+
+            if(!isReserved(en)) {
+                refract::ObjectElement* o = new refract::ObjectElement;
+                o->element("extend");
+
+                IElement::MemberElementCollection::const_iterator name = e.meta.find("id");
+                if (name != e.meta.end() && (*name)->value.second) {
+                    o->meta["id"] = (*name)->value.second->clone();
+                }
+
+                for (const IElement* parent = refract::DSRegistry.find(en)
+                    ; parent && !isReserved(en)
+                    ; en = parent->element(), parent = refract::DSRegistry.find(en) ) {
+
+                    // FIXME: while clone original element w/o meta - we lose `description`
+                    // must be fixed in spec
+                    IElement* clone = parent->clone(IElement::cAll ^ IElement::cMeta);
+                    clone->meta["ref"] = IElement::Create(en);
+                    o->push_back(clone);
+                }
+
+                if(!e.value.empty()) {
+                    o->push_back(e.clone(IElement::cValue));
+                }
+
+                result = o;
+            }
+            else {
+#if 0
+                refract::ObjectElement* o = new refract::ObjectElement;
+                for (ObjectElement::ValueType::const_iterator it = e.value.begin()
+                    ; it != e.value.end()
+                    ; ++it ) {
+                        //if((*it)->element() == "ref") {
+                        //}
+                        //else {
+                        //    o->push_back((*it)->clone());
+                        //}
+                    /*
+
+                    ExpandVisitor expander;
+                    e.content(expander);
+
+                    if(expander.get()) {
+                        o->push_back(expander.get());
+                    }
+                    else {
+                        o->push_back((*it)->clone());
+                    }
+                    */
+                }
+                result = o;
+#endif
+            }
+        }
+
+#if 0
+        template<typename T>
+        void visit(const T& e) {
+
+            IsExpandableVisitor isExpandable;
+            e.content(isExpandable);
+            if (!isExpandable.get()) {
+                return;
+            }
+
+            std::cout << "::::" << __PRETTY_FUNCTION__ <<  std::endl;
+
+
+            std::string en = e.element();
+            if(!isReserved(en)) {
+                // expandable element
+                refract::ObjectElement* o = new refract::ObjectElement;
+                o->element("extend");
+
+                IElement::MemberElementCollection::const_iterator name = e.meta.find("id");
+                if (name != e.meta.end() && (*name)->value.second) {
+                    o->meta["id"] = (*name)->value.second->clone();
+                }
+
+                for (const IElement* parent = refract::DSRegistry.find(en)
+                    ; parent && !isReserved(en)
+                    ; en = parent->element(), parent = refract::DSRegistry.find(en) ) {
+
+                    IElement* clone = parent->clone();
+                    clone->meta["ref"] = IElement::Create(en);
+                    o->push_back(clone);
+
+                } 
+
+                o->push_back(e.clone());
+                result = o;
+            }
+        }
+#endif
+
+        IElement* get() const {
+            return result;
+        }
+    };
+
 
 }; // namespace refract
 

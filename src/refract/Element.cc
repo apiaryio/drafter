@@ -8,8 +8,35 @@
 #include "Element.h"
 #include <cassert>
 
+#include <set>
+#include <string>
+
 namespace refract
 {
+    refract::Registry DSRegistry;
+
+    bool isReserved(const std::string& element) {
+        static std::set<std::string> reserved;
+        if(reserved.empty()) {
+            reserved.insert("null");
+            reserved.insert("boolean");
+            reserved.insert("number");
+            reserved.insert("string");
+
+            reserved.insert("member");
+
+            reserved.insert("array");
+            reserved.insert("enum");
+            reserved.insert("object");
+
+            reserved.insert("ref");
+            reserved.insert("select");
+            reserved.insert("option");
+            reserved.insert("extend");
+        }
+
+        return reserved.find(element) != reserved.end();
+    }
 
     IElement::MemberElementCollection::const_iterator
     IElement::MemberElementCollection::find(const std::string& name) const
@@ -56,6 +83,13 @@ namespace refract
     {
         // IDEA : use static assert;
         throw LogicError("Do not use number index");
+    }
+
+    void  IElement::MemberElementCollection::clone(const IElement::MemberElementCollection& other)
+    { 
+        for (const_iterator it = other.begin() ; it != other.end() ; ++it) {
+            push_back(static_cast<value_type>((*it)->clone()));
+        }
     }
 
 }; // namespace refract

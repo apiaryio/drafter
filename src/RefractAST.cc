@@ -589,63 +589,7 @@ namespace drafter
             default:
                 throw std::logic_error("Unhandled type of MSON element");
         }
-
     }
-
-    template <typename T, typename V = typename T::ValueType>
-    struct AppendDecorator {
-        typedef T ElementType;
-        typedef V ValueType;
-        ElementType*& element;
-        AppendDecorator(ElementType*& e) : element(e) 
-        {
-        }
-
-        void append(const V& value) 
-        {
-            //throw std::logic_error("Can not append to primitive type");
-            // FIXME: snowcrash warn about "Primitive type can not have member"
-            // but in real it create "empty" member
-            //
-            // solution for now: silently ignore
-        }
-    };
-
-    template <typename T>
-    struct AppendDecorator<T, std::string> {
-        typedef T ElementType;
-        typedef typename T::ValueType ValueType;
-        ElementType*& element;
-
-        AppendDecorator(ElementType*& e) : element(e) 
-        {
-        }
-
-        void append(const std::string& value) {
-            if(!value.empty()) {
-                element->value.append(value);
-            }
-        }
-    };
-
-    template <typename T>
-    struct AppendDecorator<T, RefractElements> {
-        typedef T ElementType;
-        typedef typename T::ValueType ValueType;
-        ElementType*& element;
-
-        AppendDecorator(ElementType*& e) : element(e) 
-        {
-        }
-
-        void append(const ValueType& value)
-        {
-            std::copy(value.begin(), value.end(), std::back_inserter(element->value));
-            if(!value.empty()) {
-                element->hasContent = true;
-            }
-        }
-    };
 
     template<typename T>
     refract::IElement* RefractElementFromDataStructure(const snowcrash::DataStructure& ds)
@@ -664,7 +608,7 @@ namespace drafter
         
         //e->meta[key::Title] = IElement::Create(ds.name.symbol.literal);
 
-        AppendDecorator<T> ae = AppendDecorator<T>(e);
+        refract::AppendDecorator<T> append = refract::AppendDecorator<T>(e);
 
         for (mson::TypeSections::const_iterator it = ds.sections.begin(); it != ds.sections.end(); ++it) {
 
@@ -673,7 +617,7 @@ namespace drafter
                 continue;
             }
 
-            ae.append(ExtractTypeSection<T>(*it));
+            append(ExtractTypeSection<T>(*it));
         }
 
         return e;
@@ -720,8 +664,6 @@ namespace drafter
                 throw std::runtime_error("Unhandled type of DataStructure");
         }
 
-        //ExpandVisitor v;
-
         return element;
     }
 
@@ -731,8 +673,20 @@ namespace drafter
             return sos::Object();
         }
 
+        refract::ExpandVisitor expander;
+        expander.visit(*element);
+        //element->content(expander);
+
+        if(refract::IElement* expanded = expander.get()) {
+            element = expanded;
+        }
+
         refract::SerializeVisitor serializer;
         serializer.visit(*element);
+
+        if(expander.get()) {
+            delete element;
+        }
 
         return serializer.get();
     }

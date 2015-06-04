@@ -14,6 +14,7 @@
 #include <stdlib.h>
 
 #include "RefractAST.h"
+#include "refract/Element.h"
 
 using namespace drafter;
 
@@ -439,9 +440,11 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
 #if _WITH_REFRACT_
     refract::IElement* element = DataStructureToRefract(dataStructure);
     sos::Object object = SerializeRefract(element);
+
     if(element) {
         delete element;
     }
+
     return object;
 #endif
 
@@ -788,7 +791,7 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
 
     for(DataStructures::const_iterator i = found.begin() ; i != found.end() ; ++i) {
         refract::IElement* element = drafter::DataStructureToRefract(*(*i));
-        DSRegistry.add(element);
+        refract::DSRegistry.add(element);
     }
 
     // Version
@@ -815,7 +818,7 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
     blueprintObject.set(SerializeKey::Content,
                         WrapCollection<Element>()(blueprint.content.elements(), WrapElement));
 
-    DSRegistry.clearAll(true);
+    refract::DSRegistry.clearAll(true);
 
     return blueprintObject;
 }

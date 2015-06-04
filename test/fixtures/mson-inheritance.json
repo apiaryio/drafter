@@ -12,11 +12,15 @@
         {
           "element": "object",
           "meta": {
-            "id": "User"
+            "id": "User",
+            "description": "The User description\n\n"
           },
           "content": [
             {
               "element": "member",
+              "meta": {
+                "description": "user name"
+              },
               "content": {
                 "key": {
                   "element": "string",
@@ -30,45 +34,163 @@
           ]
         },
         {
-          "element": "User",
+          "element": "extend",
           "meta": {
             "id": "Customer"
           },
           "content": [
             {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "id"
-                },
-                "value": {
-                  "element": "number"
+              "element": "object",
+              "meta": {
+                "ref": "User"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "user name"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "login"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
                 }
-              }
+              ]
+            },
+            {
+              "element": "object",
+              "content": [
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "unique number"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "id"
+                    },
+                    "value": {
+                      "element": "number",
+                      "content": 0
+                    }
+                  }
+                }
+              ]
             }
           ]
         },
         {
-          "element": "Customer",
+          "element": "extend",
           "meta": {
             "id": "Vip Customer"
           },
           "content": [
             {
-              "element": "member",
+              "element": "User",
               "meta": {
-                "description": "in percent 0 - 100"
+                "ref": "Customer"
               },
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "discount"
-                },
-                "value": {
-                  "element": "number"
+              "content": [
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "unique number"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "id"
+                    },
+                    "value": {
+                      "element": "number",
+                      "content": 0
+                    }
+                  }
                 }
-              }
+              ]
+            },
+            {
+              "element": "object",
+              "meta": {
+                "ref": "User"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "user name"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "login"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "element": "object",
+              "content": [
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "in percent 0 - 100"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "discount"
+                    },
+                    "value": {
+                      "element": "number",
+                      "attributes": {
+                        "default": 15
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "extend",
+          "meta": {
+            "id": "Other Customer"
+          },
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "ref": "User"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "user name"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "login"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
+                }
+              ]
             }
           ]
         }
