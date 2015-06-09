@@ -272,7 +272,7 @@ namespace refract
     {
         void set(const std::string& key, IElement* element)
         {
-            set(IElement::Create(key) ,element);
+            set(IElement::Create(key), element);
         }
 
         void set(IElement* key, IElement* element)
