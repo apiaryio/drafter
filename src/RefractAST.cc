@@ -11,6 +11,49 @@
 
 namespace drafter
 {
+    namespace key 
+    {
+
+        // Refract meta
+        const std::string Id = "id";
+        const std::string Description = "description";
+        const std::string Title = "title";
+
+        // Refract MSON attributes
+        const std::string Sample = "sample";
+        const std::string Default = "default";
+        const std::string Variable = "variable";
+        const std::string TypeAttributes = "typeAttributes";
+
+        // Refract MSON attribute "typeAttibute" values
+        const std::string Required = "required";
+        const std::string Optional = "optional";
+        const std::string Fixed = "fixed";
+
+        // Literal to Bool
+        const std::string True = "true";
+
+        // Refract MSON generic element
+        const std::string Generic = "generic";
+
+        // Refract (nontyped) element names
+        // - maybe move into "librefract" 
+        const std::string Enum = "enum";
+        const std::string Select = "select";
+        const std::string Option = "option";
+        const std::string Ref = "ref";
+
+        // Refract Ref Element - keys/values
+        const std::string HRef = "href";
+        const std::string Path = "path";
+        const std::string Content = "content";
+
+    }
+}
+
+namespace drafter
+{
+    typedef std::vector<refract::IElement*> RefractElements;
 
     static void SetElementType(const mson::TypeDefinition& td, refract::IElement* element) 
     {
@@ -24,24 +67,18 @@ namespace drafter
         return type.typeDefinition.typeSpecification.name.base;
     }
 
-    static refract::ArrayElement* MsonAttributesToRefract(const mson::TypeAttributes& ta)
+    static refract::ArrayElement* MsonTypeAttributesToRefract(const mson::TypeAttributes& ta)
     {
         refract::ArrayElement* attr = new refract::ArrayElement;
 
         if (ta & mson::RequiredTypeAttribute) {
-            attr->push_back(refract::IElement::Create("required"));
+            attr->push_back(refract::IElement::Create(key::Required));
         }
         if (ta & mson::OptionalTypeAttribute) {
-            attr->push_back(refract::IElement::Create("optional"));
-        }
-        if (ta & mson::DefaultTypeAttribute) {
-            attr->push_back(refract::IElement::Create("default"));
-        }
-        if (ta & mson::SampleTypeAttribute) {
-            attr->push_back(refract::IElement::Create("sample"));
+            attr->push_back(refract::IElement::Create(key::Optional));
         }
         if (ta & mson::FixedTypeAttribute) {
-            attr->push_back(refract::IElement::Create("fixed"));
+            attr->push_back(refract::IElement::Create(key::Fixed));
         }
 
         if (attr->value.empty()) {
@@ -58,7 +95,7 @@ namespace drafter
     template <>
     bool LiteralTo<bool>(const mson::Literal& literal)
     {
-        return literal == "true";
+        return literal == key::True;
     }
 
     template <>
@@ -73,7 +110,7 @@ namespace drafter
         return literal;
     }
 
-    static refract::IElement* SimplifyRefractContainer(const std::vector<refract::IElement*>& container)
+    static refract::IElement* SimplifyRefractContainer(const RefractElements& container)
     {
         if (container.empty()) {
             return NULL;
@@ -85,7 +122,7 @@ namespace drafter
 
         refract::ArrayElement* array = new refract::ArrayElement;
        
-        for (std::vector<refract::IElement*>::const_iterator it = container.begin(); it != container.end(); ++it) {
+        for (RefractElements::const_iterator it = container.begin(); it != container.end(); ++it) {
             array->push_back(*it);
         }
         return array;
@@ -94,16 +131,21 @@ namespace drafter
     struct RefractElementFactory
     {
         virtual ~RefractElementFactory() {}
-        virtual refract::IElement* Create(const std::string& literal) = 0;
+        virtual refract::IElement* Create(const std::string& literal, bool) = 0;
     };
 
     template <typename E>
     struct RefractElementFactoryImpl : RefractElementFactory
     {
-        virtual refract::IElement* Create(const std::string& literal)
+        virtual refract::IElement* Create(const std::string& literal, bool sample = false)
         {
             E* element = new E;
-            element->set(LiteralTo<typename E::ValueType>(literal));
+            if(sample) {
+                element->attributes[key::Sample] = refract::IElement::Create(LiteralTo<typename E::ValueType>(literal));
+            }
+            else {
+                element->set(LiteralTo<typename E::ValueType>(literal));
+            }
             return element;
         }
     };
@@ -147,8 +189,8 @@ namespace drafter
     };
 
 
-    std::vector<refract::IElement*> MsonElementsToRefract(const mson::Elements& elements) {
-        std::vector<refract::IElement*> result;
+    RefractElements MsonElementsToRefract(const mson::Elements& elements) {
+        RefractElements result;
         for (mson::Elements::const_iterator it = elements.begin(); it != elements.end(); ++it) {
             result.push_back(MsonElementToRefract(*it));
         }
@@ -156,10 +198,10 @@ namespace drafter
     }
 
     template <typename T>
-    struct ExtractTypeSection<T, std::vector<refract::IElement*> >
+    struct ExtractTypeSection<T, RefractElements>
     { // this will handle Array && Object because of underlaying type
         const mson::TypeSection& ts;
-        typedef std::vector<refract::IElement*> V;
+        typedef RefractElements V;
 
         ExtractTypeSection(const mson::TypeSection& v) : ts(v)
         {
@@ -177,27 +219,34 @@ namespace drafter
         const mson::ValueMember& vm;
         typedef T ElementType;
 
-        ExtractValueMember(const mson::ValueMember& v) : vm(v) {}
+        RefractElements& defaults;
+        RefractElements& samples;
+
+        ExtractValueMember(const mson::ValueMember& v, RefractElements& defaults, RefractElements& samples) 
+            : vm(v), defaults(defaults), samples(samples) {}
 
         operator T*()
         {
             ElementType* element = new ElementType;
-            mson::TypeAttributes attrs = vm.valueDefinition.typeDefinition.attributes;
 
             if (vm.valueDefinition.values.size() > 1) {
                 throw std::logic_error("For primitive types is just one value supported");
             } 
 
             if(!vm.valueDefinition.values.empty()) {
+                mson::TypeAttributes attrs = vm.valueDefinition.typeDefinition.attributes;
                 const mson::Value& value = *vm.valueDefinition.values.begin();
-                element->set(LiteralTo<V>(value.literal));
-                if (value.variable) {
-                    attrs |= mson::SampleTypeAttribute;
-                }
-            }
 
-            if (refract::IElement* attributes = MsonAttributesToRefract(attrs)) {
-                element->attributes["typeAttributes"] = attributes;
+                if (attrs & mson::DefaultTypeAttribute) {
+                    defaults.push_back(refract::IElement::Create(LiteralTo<V>(value.literal)));
+                }
+                else if ((attrs & mson::SampleTypeAttribute) || (value.variable)) {
+                    samples.push_back(refract::IElement::Create(LiteralTo<V>(value.literal)));
+                }
+                else {
+                    element->set(LiteralTo<V>(value.literal));
+                }
+
             }
 
             return element;
@@ -215,13 +264,16 @@ namespace drafter
     }
 
     template <typename T>
-    struct ExtractValueMember<T, std::vector<refract::IElement*> >
-    { // this will handle Array && Object because of underlaying type
+    struct ExtractValueMember<T, RefractElements>
+    { 
         const mson::ValueMember& vm;
-        typedef std::vector<refract::IElement*> V;
+        typedef RefractElements V;
         typedef T ElementType;
 
-        ExtractValueMember(const mson::ValueMember& v) : vm(v) {}
+        RefractElements& defaults;
+        RefractElements& samples;
+
+        ExtractValueMember(const mson::ValueMember& v, RefractElements& defaults, RefractElements& samples) : vm(v), defaults(defaults), samples(samples) {}
 
         operator T*()
         {
@@ -235,19 +287,25 @@ namespace drafter
 
                 V result;
                 for (mson::Values::const_iterator it = values.begin(); it != values.end(); ++it) {
-                    refract::IElement* element = elementFactory.Create(it->literal);
-                    if(it->variable) {
-                        element->attributes["typeAttributes"] = MsonAttributesToRefract(mson::SampleTypeAttribute);
-                    }
-
+                    refract::IElement* element = elementFactory.Create(it->literal, it->variable);
                     result.push_back(element);
                 }
-                element->set(result);
-            }
 
-            mson::TypeAttributes attrs = vm.valueDefinition.typeDefinition.attributes;
-            if (refract::IElement* attributes = MsonAttributesToRefract(attrs)) {
-                element->attributes["typeAttributes"] = attributes;
+                mson::TypeAttributes attrs = vm.valueDefinition.typeDefinition.attributes;
+                if (attrs & mson::SampleTypeAttribute) {
+                    ElementType* s = new ElementType;
+                    s->set(result);
+                    samples.push_back(s);
+                }
+                else {
+                    element->set(result);
+                }
+            }
+            else if(!vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes.empty() 
+                    && vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes.begin()->symbol.variable) {
+               refract::IElement* s = refract::IElement::Create(vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes.begin()->symbol.literal);
+               s->element(key::Generic);
+               element->push_back(s);
             }
 
             return element;
@@ -259,17 +317,16 @@ namespace drafter
     {
         using namespace refract;
         typedef T ElementType;
-        ElementType* element = ExtractValueMember<ElementType>(value);
-        std::string description;
 
-        if (!value.description.empty()) {
-            description = value.description;
-        }
+        RefractElements defaults;
+        RefractElements samples;
+
+        ElementType* element = ExtractValueMember<ElementType>(value, defaults, samples);
 
         SetElementType(value.valueDefinition.typeDefinition, element);
 
         if (!value.sections.empty()) {
-            typedef std::vector<refract::IElement*> Elements;
+            typedef RefractElements Elements;
 
             // FIXME: for Array/Enum - extract *type of element* from
             // value.valueDefinition.typeDefinition.typeSpecification.nestedTypes[];
@@ -279,9 +336,6 @@ namespace drafter
             // does not hold type resp. is defaultly set as mson::UndefinedTypeName
             //
             // fallback for now - present all as refract::StringElement
-
-            std::vector<refract::IElement*> defaults;
-            std::vector<refract::IElement*> samples;
 
             for (mson::TypeSections::const_iterator it = value.sections.begin(); it != value.sections.end(); ++it) {
 
@@ -294,10 +348,8 @@ namespace drafter
                 }
 
                 if (it->klass == mson::TypeSection::BlockDescriptionClass){ 
-                    const std::string& desc = it->content.description;
-                    description.reserve(desc.length() + 1); // +1 for newline
-                    description.append("\n");
-                    description.append(desc);
+                    // do nothing, Description must be handled one more level up
+                    // it is part of Property (not Value)
                     continue;
                 }
 
@@ -315,36 +367,84 @@ namespace drafter
                 }
             }
 
-            if (IElement* e = SimplifyRefractContainer(samples)) {
-                element->attributes["sample"] = e;
-            }
-
-            if (IElement* e = SimplifyRefractContainer(defaults)) {
-                element->attributes["default"] = e;
-            }
         }
 
-        if(!description.empty()) {
-            element->meta["description"] = IElement::Create(description);
+        if (IElement* e = SimplifyRefractContainer(samples)) {
+            element->attributes[key::Sample] = e;
         }
+
+        if (IElement* e = SimplifyRefractContainer(defaults)) {
+            element->attributes[key::Default] = e;
+        }
+
 
         return element;
     }
 
     template <typename T>
-    refract::IElement* RefractElementFromProperty(const mson::PropertyMember& property)
+    refract::MemberElement* RefractElementFromProperty(const mson::PropertyMember& property)
     {
-        refract::IElement* element = RefractElementFromValue<T>(property);
-        if (!property.name.literal.empty()) {
-            element->meta["name"] = refract::IElement::Create(property.name.literal);
+        refract::MemberElement* element = new refract::MemberElement;
+        refract::IElement* value = RefractElementFromValue<T>(property);
+
+        if(!property.name.literal.empty()) {
+            element->set(property.name.literal, value);
         }
         else if (!property.name.variable.values.empty()) {
             if (property.name.variable.values.size() > 1) {
                 // FIXME: is there example for multiple variables?
                 throw std::logic_error("Multiple variables in property definition");
             }
-            element->meta["name"] = refract::IElement::Create(property.name.variable.values[0].literal);
-            element->attributes["variable"] = refract::IElement::Create(true);
+            element->set(property.name.variable.values.begin()->literal, value);
+            element->value.first->attributes[key::Variable] = refract::IElement::Create(true);
+            SetElementType(property.name.variable.typeDefinition, element->value.first);
+
+            // FIXME: 
+            // https://github.com/refractproject/refract-spec/blob/master/namespaces/mson-namespace.md#variable-property-name
+            // ["object", {}, {}, [
+            //   ["member", {}, {}, {
+            //       "key": ["Relation", {}, {"variable": true}, "rel"],
+            //       "value": ["string", {}, {"typeAttributes": ["sample"]}, null]
+            //   }]
+            // ]]}
+            //
+            // but typeAttributes.sample -  is proposed for remove
+            // possible solutions:
+            //   - deny proposal of remove `typeAttribute.sample` in specification
+            //   - replace `typeAttribute` by `sample` attribute with `[null]` value
+            //
+            // I prefer 2nd solution but, it is for wide discussion
+            //
+            // current state: "value" is has not set "sample" attribute
+        } 
+        else {
+            throw ("No property name");
+        }
+
+        mson::TypeAttributes attrs = property.valueDefinition.typeDefinition.attributes;
+        if (refract::IElement* attributes = MsonTypeAttributesToRefract(attrs)) {
+            element->attributes[key::TypeAttributes] = attributes;
+        }
+
+        std::string description;
+        if (!property.description.empty()) {
+            description = property.description;
+        }
+
+        for (mson::TypeSections::const_iterator it = property.sections.begin(); it != property.sections.end(); ++it) {
+            if (it->klass == mson::TypeSection::BlockDescriptionClass){ 
+                const std::string& desc = it->content.description;
+                if(!description.empty()) {
+                  description.reserve(desc.length() + 1); // +1 for newline
+                  description.append("\n");
+                }
+                description.append(desc);
+                continue;
+            }
+        }
+
+        if(!description.empty()) {
+            element->meta[key::Description] = refract::IElement::Create(description);
         }
 
         return element;
@@ -379,9 +479,9 @@ namespace drafter
                 return RefractElementFromProperty<refract::StringElement>(property);
 
             case mson::EnumTypeName: {
-                refract::IElement* element = RefractElementFromProperty<refract::ArrayElement>(property);
-                if(element) {
-                    element->element("enum");
+                refract::MemberElement* element = RefractElementFromProperty<refract::ArrayElement>(property);
+                if(element && element->value.second) {
+                    element->value.second->element(key::Enum);
                 }
                 return element;
             }
@@ -420,7 +520,8 @@ namespace drafter
             case mson::UndefinedTypeName:
                 return RefractElementFromValue<refract::StringElement>(value);
 
-            // FIXME: not found examples for complex structures 
+            // FIXME: I did not find examples of Values w/ complex structures 
+            // - confirm they are not exists, or provide some valid example
             case mson::EnumTypeName :
             case mson::ArrayTypeName :
             case mson::ObjectTypeName :
@@ -432,10 +533,10 @@ namespace drafter
     static refract::IElement* MsonOneofToRefract(const mson::OneOf& oneOf)
     {
         refract::ArrayElement* select = new refract::ArrayElement;
-        select->element("select");
+        select->element(key::Select);
         for (mson::Elements::const_iterator it = oneOf.begin(); it != oneOf.end(); ++it) {
             refract::ArrayElement* option = new refract::ArrayElement;
-            option->element("option");
+            option->element(key::Option);
             // we can not use MsonElementToRefract() for groups, 
             // "option" element handles directly all elements in group
             if(it->klass == mson::Element::GroupClass) { 
@@ -452,18 +553,16 @@ namespace drafter
     static refract::IElement* MsonMixinToRefract(const mson::Mixin& mixin)
     {
         refract::ObjectElement* ref = new refract::ObjectElement;
-        ref->element("ref");
+        ref->element(key::Ref);
         ref->renderCompactContent(true);
 
-        refract::StringElement* path = new refract::StringElement;
-        path->set("content");
-        path->meta["name"] = refract::IElement::Create("path");
-        ref->push_back(path);
-
-        refract::StringElement* href = new refract::StringElement;
-        href->set(mixin.typeSpecification.name.symbol.literal);
-        href->meta["name"] = refract::IElement::Create("href");
+        refract::MemberElement* href = new refract::MemberElement;
+        href->set(key::HRef, refract::IElement::Create(mixin.typeSpecification.name.symbol.literal));
         ref->push_back(href);
+
+        refract::MemberElement* path = new refract::MemberElement;
+        path->set(key::Path,refract::IElement::Create(key::Content));
+        ref->push_back(path);
 
         return ref;
     }
@@ -530,7 +629,7 @@ namespace drafter
     };
 
     template <typename T>
-    struct AppendDecorator<T, std::vector<refract::IElement*> > {
+    struct AppendDecorator<T, RefractElements> {
         typedef T ElementType;
         typedef typename T::ValueType ValueType;
         ElementType*& element;
@@ -557,15 +656,20 @@ namespace drafter
         ElementType* e = new ElementType;
         SetElementType(ds.typeDefinition, e);
 
-        e->meta["id"] = IElement::Create(ds.name.symbol.literal);
-        e->meta["title"] = IElement::Create(ds.name.symbol.literal);
+        e->meta[key::Id] = IElement::Create(ds.name.symbol.literal);
+
+        // FIXME: "title" is temporary commented, until clear refract spec 
+        // in few examples for named object is "title" attribute used
+        // sometime is not used.
+        
+        //e->meta[key::Title] = IElement::Create(ds.name.symbol.literal);
 
         AppendDecorator<T> ae = AppendDecorator<T>(e);
 
         for (mson::TypeSections::const_iterator it = ds.sections.begin(); it != ds.sections.end(); ++it) {
 
             if (it->klass == mson::TypeSection::BlockDescriptionClass) {
-                e->meta["description"] = IElement::Create(it->content.description);
+                e->meta[key::Description] = IElement::Create(it->content.description);
                 continue;
             }
 
@@ -597,7 +701,7 @@ namespace drafter
             case mson::EnumTypeName: {
                 element = RefractElementFromDataStructure<refract::ArrayElement>(dataStructure);
                 if(element) {
-                    element->element("enum");
+                    element->element(key::Enum);
                 }
                 break;
             }

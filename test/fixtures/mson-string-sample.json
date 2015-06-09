@@ -12,41 +12,52 @@
         {
           "element": "object",
           "meta": {
-            "id": "User",
-            "title": "User"
+            "id": "User"
           },
           "content": [
             {
-              "element": "string",
-              "meta": {
-                "name": "s1"
-              },
-              "attributes": {
-                "typeAttributes": [
-                  "sample"
-                ]
-              },
-              "content": "abc"
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "s1"
+                },
+                "value": {
+                  "element": "string",
+                  "attributes": {
+                    "sample": "abc"
+                  }
+                }
+              }
             },
             {
-              "element": "string",
-              "meta": {
-                "name": "s2"
-              },
-              "attributes": {
-                "typeAttributes": [
-                  "sample"
-                ]
-              },
-              "content": "abc"
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "s2"
+                },
+                "value": {
+                  "element": "string",
+                  "attributes": {
+                    "sample": "abc"
+                  }
+                }
+              }
             },
             {
-              "element": "string",
-              "meta": {
-                "name": "s3"
-              },
-              "attributes": {
-                "sample": "abc"
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "s3"
+                },
+                "value": {
+                  "element": "string",
+                  "attributes": {
+                    "sample": "abc"
+                  }
+                }
               }
             }
           ]

@@ -12,67 +12,105 @@
         {
           "element": "object",
           "meta": {
-            "id": "User",
-            "title": "User"
+            "id": "User"
           },
           "content": [
             {
-              "element": "number",
-              "meta": {
-                "name": "id"
-              },
+              "element": "member",
               "attributes": {
                 "typeAttributes": [
                   "required"
                 ]
               },
-              "content": 42
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "id"
+                },
+                "value": {
+                  "element": "number",
+                  "attributes": {
+                    "default": 42
+                  }
+                }
+              }
             },
             {
-              "element": "string",
-              "meta": {
-                "name": "login"
-              },
-              "content": "name"
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "login"
+                },
+                "value": {
+                  "element": "string",
+                  "content": "name"
+                }
+              }
             },
             {
-              "element": "boolean",
+              "element": "member",
               "meta": {
-                "description": "description of property",
-                "name": "banned"
+                "description": "description of property"
               },
               "attributes": {
                 "typeAttributes": [
                   "optional"
                 ]
               },
-              "content": true
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "banned"
+                },
+                "value": {
+                  "element": "boolean",
+                  "content": true
+                }
+              }
             },
             {
-              "element": "number",
-              "meta": {
-                "name": "uid"
-              },
+              "element": "member",
               "attributes": {
                 "typeAttributes": [
                   "optional"
-                ],
-                "default": -1
+                ]
               },
-              "content": 5
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "uid"
+                },
+                "value": {
+                  "element": "number",
+                  "attributes": {
+                    "default": -1
+                  },
+                  "content": 5
+                }
+              }
             },
             {
-              "element": "string",
+              "element": "member",
               "meta": {
-                "description": "blaaaa blaa",
-                "name": "motto"
+                "description": "blaaaa blaa"
               },
-              "attributes": {
-                "sample": [
-                  "diem perdidi",
-                  "humppa forever"
-                ],
-                "default": "carpe diem"
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "motto"
+                },
+                "value": {
+                  "element": "string",
+                  "attributes": {
+                    "sample": [
+                      "diem perdidi",
+                      "humppa forever"
+                    ],
+                    "default": "carpe diem"
+                  },
+                  "content": "content"
+                }
               }
             }
           ]

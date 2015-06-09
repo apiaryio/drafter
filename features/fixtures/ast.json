@@ -242,8 +242,7 @@
                         {
                           "element": "<data structure name>",
                           "meta": {
-                            "id": "",
-                            "title": ""
+                            "id": ""
                           }
                         }
                       ]
@@ -257,17 +256,24 @@
             {
               "element": "object",
               "meta": {
-                "id": "<resource name>",
-                "title": "<resource name>"
+                "id": "<resource name>"
               },
               "content": [
                 {
-                  "element": "number",
+                  "element": "member",
                   "meta": {
-                    "description": "<attribute property description>",
-                    "name": "<attribute property name>"
+                    "description": "<attribute property description>"
                   },
-                  "content": 0
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "<attribute property name>"
+                    },
+                    "value": {
+                      "element": "number",
+                      "content": 0
+                    }
+                  }
                 }
               ]
             }
@@ -515,8 +521,7 @@
                         {
                           "element": "<data structure name>",
                           "meta": {
-                            "id": "",
-                            "title": ""
+                            "id": ""
                           }
                         }
                       ]
@@ -530,17 +535,24 @@
             {
               "element": "object",
               "meta": {
-                "id": "<resource name>",
-                "title": "<resource name>"
+                "id": "<resource name>"
               },
               "content": [
                 {
-                  "element": "number",
+                  "element": "member",
                   "meta": {
-                    "description": "<attribute property description>",
-                    "name": "<attribute property name>"
+                    "description": "<attribute property description>"
                   },
-                  "content": 0
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "<attribute property name>"
+                    },
+                    "value": {
+                      "element": "number",
+                      "content": 0
+                    }
+                  }
                 }
               ]
             }
@@ -555,17 +567,24 @@
           "element": "object",
           "meta": {
             "id": "<data structure name>",
-            "title": "<data structure name>",
             "description": "<data structure description>\n\n"
           },
           "content": [
             {
-              "element": "number",
+              "element": "member",
               "meta": {
-                "description": "<data structure property description>",
-                "name": "<data structure property name>"
+                "description": "<data structure property description>"
               },
-              "content": 0
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "<data structure property name>"
+                },
+                "value": {
+                  "element": "number",
+                  "content": 0
+                }
+              }
             }
           ]
         }

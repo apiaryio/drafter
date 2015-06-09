@@ -254,7 +254,7 @@ namespace refract
     struct MemberElementTrait
     {
         const std::string element() const { return "member"; }
-        typedef std::pair<StringElement*, IElement*> ValueType;
+        typedef std::pair<IElement*, IElement*> ValueType;
         void release(ValueType& member)
         {
             if (member.first) {
@@ -270,22 +270,26 @@ namespace refract
 
     struct MemberElement : Element<MemberElement, MemberElementTrait>
     {
-        void set(const std::string& name, IElement* element)
+        void set(const std::string& key, IElement* element)
         {
+            set(IElement::Create(key), element);
+        }
 
+        void set(IElement* key, IElement* element)
+        {
             if (value.first != NULL) {
                 delete value.first;
                 value.first = NULL;
             }
-            StringElement* k = new StringElement;
-            k->set(name);
-            value.first = k;
+            value.first = key;
 
             if (value.second != NULL) {
                 delete value.second;
                 value.second = NULL;
             }
             value.second = element;
+
+            hasContent = true;
         }
 
         MemberElement& operator=(IElement* element)
@@ -303,6 +307,14 @@ namespace refract
     {
         const std::string element() const { return "object"; }
         typedef std::vector<IElement*> ValueType;
+        // We dont use std::vector<MemberElement*> there, because
+        // ObjectElement can contain:
+        // - (object)
+        // - (array[Member Element])
+        // - (Extend Element)
+        // - (Select Element)
+        // - (Ref Element)
+        //
         void release(ValueType& obj)
         {
             for (ValueType::iterator it = obj.begin(); it != obj.end(); ++it) {
@@ -317,10 +329,7 @@ namespace refract
         void push_back(IElement* e)
         {
             // FIXME: 
-            // basic diff between ObjectElement and ArrayElement
-            // every member of ObjectElement should contain meta["name"] 
-            // which can be in compact form of element as "key" of object
-            // do we should check for `meta['name']??
+            // probably add check for allowed type
             hasContent = true;
             value.push_back(e);
         }

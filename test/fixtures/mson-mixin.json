@@ -12,20 +12,31 @@
         {
           "element": "object",
           "meta": {
-            "id": "Address",
-            "title": "Address"
+            "id": "Address"
           },
           "content": [
             {
-              "element": "string",
-              "meta": {
-                "name": "city"
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "city"
+                },
+                "value": {
+                  "element": "string"
+                }
               }
             },
             {
-              "element": "string",
-              "meta": {
-                "name": "street"
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "street"
+                },
+                "value": {
+                  "element": "string"
+                }
               }
             }
           ]
@@ -33,21 +44,26 @@
         {
           "element": "object",
           "meta": {
-            "id": "User",
-            "title": "User"
+            "id": "User"
           },
           "content": [
             {
-              "element": "string",
-              "meta": {
-                "name": "id"
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "id"
+                },
+                "value": {
+                  "element": "string"
+                }
               }
             },
             {
               "element": "ref",
               "content": {
-                "path": "content",
-                "href": "Address"
+                "href": "Address",
+                "path": "content"
               }
             }
           ]

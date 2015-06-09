@@ -67,19 +67,7 @@ namespace refract
         for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
             SerializeCompactVisitor sv;
             (*it)->content(sv);
-
-            IElement::MemberElementCollection::const_iterator name = (*it)->meta.find("name");
-            if (name == (*it)->meta.end() || (*name)->value.second == NULL) {
-                throw LogicError("Object has not set name");
-            }
-
-            SerializeCompactVisitor sk;
-            (*name)->content(sk);
-            if (sk.value().type != sos::Base::StringType) {
-                throw LogicError("Metadata element 'name' does not contain string type");
-            }
-
-            obj.set(sk.value().str, sv.value());
+            obj.set(sv.key(), sv.value());
         }
         value_ = obj;
     }

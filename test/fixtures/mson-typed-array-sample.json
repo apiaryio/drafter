@@ -12,95 +12,128 @@
         {
           "element": "object",
           "meta": {
-            "id": "User",
-            "title": "User",
-            "description": "Following sample is not correctly handled\n\n- ta2: *1,2,3* (array)\n\n"
+            "id": "User"
           },
           "content": [
             {
-              "element": "array",
-              "meta": {
-                "name": "ta1"
-              },
-              "attributes": {
-                "typeAttributes": [
-                  "sample"
-                ]
-              },
-              "content": [
-                {
+              "element": "member",
+              "content": {
+                "key": {
                   "element": "string",
-                  "content": "1"
+                  "content": "ta1"
                 },
-                {
-                  "element": "string",
-                  "content": "2"
-                },
-                {
-                  "element": "string",
-                  "content": "3"
+                "value": {
+                  "element": "array",
+                  "attributes": {
+                    "sample": [
+                      "1",
+                      "2",
+                      "3"
+                    ]
+                  }
                 }
-              ]
-            },
-            {
-              "element": "array",
-              "meta": {
-                "name": "ta3"
-              },
-              "content": [
-                {
-                  "element": "string",
-                  "attributes": {
-                    "typeAttributes": [
-                      "sample"
-                    ]
-                  },
-                  "content": "1"
-                },
-                {
-                  "element": "string",
-                  "attributes": {
-                    "typeAttributes": [
-                      "sample"
-                    ]
-                  },
-                  "content": "2"
-                },
-                {
-                  "element": "string",
-                  "attributes": {
-                    "typeAttributes": [
-                      "sample"
-                    ]
-                  },
-                  "content": "3"
-                }
-              ]
-            },
-            {
-              "element": "array",
-              "meta": {
-                "name": "ta4"
-              },
-              "attributes": {
-                "sample": [
-                  "1",
-                  "2",
-                  "3"
-                ]
               }
             },
             {
-              "element": "array",
+              "element": "member",
               "meta": {
-                "name": "ta5"
+                "description": "not parsed correctly"
               },
-              "attributes": {
-                "sample": [
-                  "1",
-                  "2",
-                  "3"
-                ]
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "ta2"
+                },
+                "value": {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "string",
+                      "content": "*1"
+                    },
+                    {
+                      "element": "string",
+                      "content": "2"
+                    },
+                    {
+                      "element": "string",
+                      "content": "3*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "element": "member",
+              "meta": {
+                "description": "array of \"string samples\""
+              },
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "ta3"
+                },
+                "value": {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "string",
+                      "attributes": {
+                        "sample": "1"
+                      }
+                    },
+                    {
+                      "element": "string",
+                      "attributes": {
+                        "sample": "2"
+                      }
+                    },
+                    {
+                      "element": "string",
+                      "attributes": {
+                        "sample": "3"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "ta4"
+                },
+                "value": {
+                  "element": "array",
+                  "attributes": {
+                    "sample": [
+                      "1",
+                      "2",
+                      "3"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "ta5"
+                },
+                "value": {
+                  "element": "array",
+                  "attributes": {
+                    "sample": [
+                      "1",
+                      "2",
+                      "3"
+                    ]
+                  }
+                }
               }
             }
           ]

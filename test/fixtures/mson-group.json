@@ -12,8 +12,7 @@
         {
           "element": "object",
           "meta": {
-            "id": "User",
-            "title": "User"
+            "id": "User"
           },
           "content": [
             {
@@ -23,9 +22,15 @@
                   "element": "option",
                   "content": [
                     {
-                      "element": "string",
-                      "meta": {
-                        "name": "full_name"
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "full_name"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
                       }
                     }
                   ]
@@ -34,15 +39,27 @@
                   "element": "option",
                   "content": [
                     {
-                      "element": "string",
-                      "meta": {
-                        "name": "first_name"
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "first_name"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
                       }
                     },
                     {
-                      "element": "string",
-                      "meta": {
-                        "name": "last_name"
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "last_name"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
                       }
                     }
                   ]

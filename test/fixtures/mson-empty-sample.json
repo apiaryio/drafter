@@ -12,17 +12,22 @@
         {
           "element": "object",
           "meta": {
-            "id": "User",
-            "title": "User"
+            "id": "User"
           },
           "content": [
             {
-              "element": "array",
-              "meta": {
-                "name": "a"
-              },
-              "attributes": {
-                "sample": []
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "a"
+                },
+                "value": {
+                  "element": "array",
+                  "attributes": {
+                    "sample": []
+                  }
+                }
               }
             }
           ]

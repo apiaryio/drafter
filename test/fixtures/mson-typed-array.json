@@ -13,63 +13,76 @@
           "element": "object",
           "meta": {
             "id": "User",
-            "title": "User",
             "description": "Description of User going there\n\n"
           },
           "content": [
             {
-              "element": "string",
-              "meta": {
-                "name": "login"
-              },
-              "attributes": {
-                "sample": "quido"
-              },
-              "content": "nobody"
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "login"
+                },
+                "value": {
+                  "element": "string",
+                  "attributes": {
+                    "sample": "quido"
+                  },
+                  "content": "nobody"
+                }
+              }
             },
             {
-              "element": "array",
+              "element": "member",
               "meta": {
-                "description": "Fibbonaci sequence",
-                "name": "fibbonaci"
+                "description": "Fibbonaci sequence"
               },
-              "attributes": {
-                "sample": [
-                  [
-                    "5",
-                    "8",
-                    "13"
-                  ],
-                  [
-                    "8",
-                    "13",
-                    "21"
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "fibbonaci"
+                },
+                "value": {
+                  "element": "array",
+                  "attributes": {
+                    "sample": [
+                      [
+                        "5",
+                        "8",
+                        "13"
+                      ],
+                      [
+                        "8",
+                        "13",
+                        "21"
+                      ]
+                    ],
+                    "default": [
+                      "1",
+                      "2",
+                      "3",
+                      "5",
+                      "8",
+                      "13",
+                      "21"
+                    ]
+                  },
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 1
+                    },
+                    {
+                      "element": "number",
+                      "content": 2
+                    },
+                    {
+                      "element": "number",
+                      "content": 3
+                    }
                   ]
-                ],
-                "default": [
-                  "1",
-                  "2",
-                  "3",
-                  "5",
-                  "8",
-                  "13",
-                  "21"
-                ]
-              },
-              "content": [
-                {
-                  "element": "number",
-                  "content": 1
-                },
-                {
-                  "element": "number",
-                  "content": 2
-                },
-                {
-                  "element": "number",
-                  "content": 3
                 }
-              ]
+              }
             }
           ]
         }

@@ -60,7 +60,7 @@ TEST_CASE("Testing refract serialization for enums","[refract]")
 
 TEST_CASE("Testing refract serialization for oneof","[refract]")
 {
-    REQUIRE(HandleFixtureTest("test/fixtures/mson-enum"));
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-oneof"));
 }
 
 TEST_CASE("Testing refract serialization for mixin","[refract]")
@@ -90,7 +90,7 @@ TEST_CASE("Testing refract serialization array with empty sample","[refract]")
 
 TEST_CASE("Testing refract serialization with inner inheritance","[refract]")
 {
-    REQUIRE(HandleFixtureTest("test/fixtures/mson-inheritance"));
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-inner-inheritance"));
 }
 
 TEST_CASE("Testing refract serialization oneof w/ sample","[refract]")
