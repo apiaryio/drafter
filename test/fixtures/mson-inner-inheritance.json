@@ -20,24 +20,10 @@
               "content": {
                 "key": {
                   "element": "string",
-                  "content": "A"
+                  "content": "id"
                 },
                 "value": {
-                  "element": "object",
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "a"
-                        },
-                        "value": {
-                          "element": "string"
-                        }
-                      }
-                    }
-                  ]
+                  "element": "number"
                 }
               }
             }
@@ -54,10 +40,157 @@
               "content": {
                 "key": {
                   "element": "string",
-                  "content": "C"
+                  "content": "user"
                 },
                 "value": {
-                  "element": "User"
+                  "element": "extend",
+                  "content": [
+                    {
+                      "element": "object",
+                      "meta": {
+                        "ref": "User"
+                      },
+                      "content": [
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "id"
+                            },
+                            "value": {
+                              "element": "number"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "element": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "noninherited"
+                },
+                "value": {
+                  "element": "string"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "element": "object",
+          "meta": {
+            "id": "Another Person"
+          },
+          "content": [
+            {
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "level1"
+                },
+                "value": {
+                  "element": "object",
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "level2"
+                        },
+                        "value": {
+                          "element": "extend",
+                          "content": [
+                            {
+                              "element": "object",
+                              "meta": {
+                                "ref": "User"
+                              },
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "id"
+                                    },
+                                    "value": {
+                                      "element": "number"
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "level3"
+                                    },
+                                    "value": {
+                                      "element": "string"
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "level4"
+                                    },
+                                    "value": {
+                                      "element": "extend",
+                                      "content": [
+                                        {
+                                          "element": "object",
+                                          "meta": {
+                                            "ref": "User"
+                                          },
+                                          "content": [
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "id"
+                                                },
+                                                "value": {
+                                                  "element": "number"
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "element": "object"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }

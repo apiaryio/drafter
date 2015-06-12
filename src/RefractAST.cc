@@ -391,10 +391,12 @@ namespace drafter
             element->set(property.name.literal, value);
         }
         else if (!property.name.variable.values.empty()) {
+
             if (property.name.variable.values.size() > 1) {
                 // FIXME: is there example for multiple variables?
                 throw std::logic_error("Multiple variables in property definition");
             }
+
             element->set(property.name.variable.values.begin()->literal, value);
             element->value.first->attributes[key::Variable] = refract::IElement::Create(true);
             SetElementType(property.name.variable.typeDefinition, element->value.first);
@@ -496,7 +498,7 @@ namespace drafter
                 if (ValueHasChildren(property)) {
                     return RefractElementFromProperty<refract::ArrayElement>(property);
                 }
-                else if (ValueHasMembers(property)) {
+                else if (!property.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal.empty() || ValueHasMembers(property)) {
                     return RefractElementFromProperty<refract::ObjectElement>(property);
                 }
                 return RefractElementFromProperty<refract::StringElement>(property);

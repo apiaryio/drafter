@@ -132,10 +132,10 @@ namespace refract
         virtual void content(IVisitor& v) const = 0;
 
         typedef enum {
-            cMeta = 1,
-            cAttributes = 2,
-            cValue = 4,
-            cElement = 8,
+            cMeta       = 0x01,
+            cAttributes = 0x02,
+            cValue      = 0x04,
+            cElement    = 0x08,
             cAll = cMeta | cAttributes | cValue | cElement
         } cloneFlags;
 
@@ -565,7 +565,6 @@ namespace refract
         template <typename T, typename V = typename T::ValueType>
         struct IsExpandable : public CheckElement {
             bool operator()(const T* e) const {
-                //std::cout << __PRETTY_FUNCTION__ << e->element() << std::endl;
                 if(checkElement(e)) {
                     return true;
                 }
@@ -582,13 +581,22 @@ namespace refract
                     return true;
                 }
 
-                if(checkElement(e->value.first)) {
-                    return true;
+                if(e->value.first) {
+                    IsExpandableVisitor v;
+                    e->value.first->content(v);
+                    if (v.result) {
+                        return true;
+                    }
                 }
 
-                if(checkElement(e->value.second)) {
-                    return true;
+                if(e->value.second) {
+                    IsExpandableVisitor v;
+                    e->value.second->content(v);
+                    if (v.result) {
+                        return true;
+                    }
                 }
+
 
                 return false;
             }
@@ -620,6 +628,7 @@ namespace refract
 
         template<typename T>
         void visit(const T& e) {
+            //std::cout << __PRETTY_FUNCTION__ << std::endl;
             result = IsExpandable<T>()(&e);
         }
 
@@ -633,6 +642,23 @@ namespace refract
     struct ExpandVisitor : IVisitor {
 
         IElement* result;
+
+        static IElement* expandOrClone(const IElement* e) {
+            IElement* result = NULL;
+            if(!e) {
+                return result;
+            }
+
+            ExpandVisitor expander;
+            e->content(expander);
+            result = expander.get();
+
+            if(!result) {
+                result = e->clone();
+            }
+
+            return result;
+        }
 
         ExpandVisitor() : result(NULL) {};
 
@@ -649,14 +675,31 @@ namespace refract
             e.content(expander);
 
             result = expander.get();
-            
+        }
+
+        void visit(const MemberElement& e) {
+            //std::cout << __PRETTY_FUNCTION__ <<  std::endl;
+
+            IsExpandableVisitor isExpandable;
+            e.content(isExpandable);
+            if (!isExpandable.get()) {
+                return;
+            }
+
+            MemberElement* expanded = static_cast<MemberElement*>(e.clone(IElement::cAll ^ IElement::cValue));
+
+            expanded->set(expandOrClone(e.value.first), expandOrClone(e.value.second));
+
+            result = expanded;
         }
 
         void visit(const ObjectElement& e) {
             //std::cout << __PRETTY_FUNCTION__ <<  std::endl;
+
             std::string en = e.element();
 
-            if(!isReserved(en)) {
+            // FIXME: refactoring - split into method
+            if(!isReserved(en)) { // handle direct inheritance
                 refract::ObjectElement* o = new refract::ObjectElement;
                 o->element("extend");
 
@@ -665,6 +708,7 @@ namespace refract
                     o->meta["id"] = (*name)->value.second->clone();
                 }
 
+                // go as deep as possible in inheritance tree
                 for (const IElement* parent = refract::DSRegistry.find(en)
                     ; parent && !isReserved(en)
                     ; en = parent->element(), parent = refract::DSRegistry.find(en) ) {
@@ -676,80 +720,34 @@ namespace refract
                     o->push_back(clone);
                 }
 
-                if(!e.value.empty()) {
-                    o->push_back(e.clone(IElement::cValue));
+                ObjectElement* origin = new ObjectElement; // warapper for original object
+                for (ObjectElement::ValueType::const_iterator it = e.value.begin() ; it != e.value.end() ; ++it) {
+                    origin->push_back(expandOrClone(*it));
                 }
 
+                o->push_back(origin);
+
                 result = o;
-            }
-            else {
-#if 0
-                refract::ObjectElement* o = new refract::ObjectElement;
-                for (ObjectElement::ValueType::const_iterator it = e.value.begin()
-                    ; it != e.value.end()
-                    ; ++it ) {
-                        //if((*it)->element() == "ref") {
-                        //}
-                        //else {
-                        //    o->push_back((*it)->clone());
-                        //}
-                    /*
-
-                    ExpandVisitor expander;
-                    e.content(expander);
-
-                    if(expander.get()) {
-                        o->push_back(expander.get());
-                    }
-                    else {
-                        o->push_back((*it)->clone());
-                    }
-                    */
-                }
-                result = o;
-#endif
-            }
-        }
-
-#if 0
-        template<typename T>
-        void visit(const T& e) {
-
-            IsExpandableVisitor isExpandable;
-            e.content(isExpandable);
-            if (!isExpandable.get()) {
                 return;
             }
 
-            std::cout << "::::" << __PRETTY_FUNCTION__ <<  std::endl;
-
-
-            std::string en = e.element();
-            if(!isReserved(en)) {
-                // expandable element
-                refract::ObjectElement* o = new refract::ObjectElement;
-                o->element("extend");
-
-                IElement::MemberElementCollection::const_iterator name = e.meta.find("id");
-                if (name != e.meta.end() && (*name)->value.second) {
-                    o->meta["id"] = (*name)->value.second->clone();
-                }
-
-                for (const IElement* parent = refract::DSRegistry.find(en)
-                    ; parent && !isReserved(en)
-                    ; en = parent->element(), parent = refract::DSRegistry.find(en) ) {
-
-                    IElement* clone = parent->clone();
-                    clone->meta["ref"] = IElement::Create(en);
-                    o->push_back(clone);
-
-                } 
-
-                o->push_back(e.clone());
-                result = o;
+            // handle expandable members
+            IsExpandableVisitor isExpandable;
+            e.content(isExpandable);
+            if (!isExpandable.get()) {
+               //std::cout << "not expandable - leave" << std::endl;
+                return;
             }
+
+            // do not clone value, we have to do it one by one because some of them must be expanded
+            refract::ObjectElement* expanded = static_cast<ObjectElement*>(e.clone(IElement::cAll ^ IElement::cValue));
+            
+            for (ObjectElement::ValueType::const_iterator it = e.value.begin() ; it != e.value.end() ; ++it) {
+                expanded->push_back(expandOrClone(*it));
+            }
+
+            result = expanded;
         }
-#endif
 
         IElement* get() const {
             return result;
