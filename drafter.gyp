@@ -40,6 +40,9 @@
         "src/SerializeResult.cc",
         "src/RefractAST.h",
         "src/RefractAST.cc",
+        "src/RenderJSONVisitor.h",
+        "src/RenderJSONVisitor.cc",
+        "src/Render.h",
 
         # librefract parts - will be separated into other project
 
