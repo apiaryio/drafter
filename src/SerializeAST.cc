@@ -17,6 +17,7 @@
 #include "refract/Element.h"
 #include "refract/Registry.h"
 #include "refract/Visitors.h"
+#include "Render.h"
 
 using namespace drafter;
 
@@ -503,6 +504,12 @@ sos::Object WrapAsset(const Asset& asset, const AssetRole& role)
 sos::Object WrapPayload(const Payload& payload)
 {
     sos::Object payloadObject;
+    sos::Object payloadAttributesObject;
+
+    // Expand MSON in payload attributes
+    if (!payload.attributes.empty()) {
+        payloadAttributesObject = WrapDataStructure(payload.attributes);
+    }
 
     // Reference
     if (!payload.reference.id.empty()) {
@@ -519,18 +526,22 @@ sos::Object WrapPayload(const Payload& payload)
     payloadObject.set(SerializeKey::Headers,
                       WrapCollection<Header>()(payload.headers, WrapHeader));
 
+    // Render using boutique
+    snowcrash::Asset payloadBody = renderPayloadBody(payload);
+    snowcrash::Asset payloadSchema = renderPayloadSchema(payload);
+
     // Body
-    payloadObject.set(SerializeKey::Body, sos::String(payload.body));
+    payloadObject.set(SerializeKey::Body, sos::String(payloadBody));
 
     // Schema
-    payloadObject.set(SerializeKey::Schema, sos::String(payload.schema));
+    payloadObject.set(SerializeKey::Schema, sos::String(payloadSchema));
 
     // Content
     sos::Array content;
 
     /// Attributes
     if (!payload.attributes.empty()) {
-        content.push(WrapDataStructure(payload.attributes));
+        content.push(payloadAttributesObject);
     }
 
     /// Asset 'bodyExample'
