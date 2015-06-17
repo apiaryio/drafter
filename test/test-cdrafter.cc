@@ -1,10 +1,9 @@
-#include "test-drafter.h"
-
+#include "draftertest.h"
 #include "cdrafter.h"
 
-#include <string.h>
+using namespace draftertest;
 
-TEST_CASE("c-interface parse blueprint ","[c-interface]")
+TEST_CASE("c-interface parse blueprint ", "[c-interface]")
 {
     ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/annotations-with-warning");
 
@@ -22,7 +21,7 @@ TEST_CASE("c-interface parse blueprint ","[c-interface]")
     free(result);
 }
 
-TEST_CASE("c-interface parse blueprint with sourceMap","[c-interface]")
+TEST_CASE("c-interface parse blueprint with sourceMap", "[c-interface]")
 {
     ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/annotations-with-warning");
 
@@ -40,7 +39,7 @@ TEST_CASE("c-interface parse blueprint with sourceMap","[c-interface]")
     free(result);
 }
 
-TEST_CASE("c-interface check result, without memory alloc","[c-interface]")
+TEST_CASE("c-interface check result, without memory alloc", "[c-interface]")
 {
     ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/annotations-with-warning");
 

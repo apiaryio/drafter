@@ -15,11 +15,11 @@
 
 namespace drafter {
 
-    struct RenderJSONVisitor : refract::IVisitor {
-
+    class RenderJSONVisitor : public refract::IVisitor {
         sos::Object result;
 
-        RenderJSONVisitor();
+    public:
+        RenderJSONVisitor() {}
 
         void visit(const refract::IElement& e);
         void visit(const refract::MemberElement& e);

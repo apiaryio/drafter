@@ -1,15 +1,9 @@
-#include "test-drafter.h"
-
-#include <string>
-
-#include "snowcrash.h"
-
-#include "sosJSON.h"
+#include "draftertest.h"
 #include "SerializeResult.h"
 
+using namespace draftertest;
 
-
-TEST_CASE("integration test for result parse serialization","[result serialization]")
+TEST_CASE("integration test for result parse serialization", "[result serialization]")
 {
     ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/annotations-with-warning");
 
