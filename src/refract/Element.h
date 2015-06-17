@@ -22,6 +22,7 @@
 #include "SerializeVisitor.h"
 #include "SerializeCompactVisitor.h"
 #include "ComparableVisitor.h"
+#include "TypeQueryVisitor.h"
 
 #include <iostream>
 
@@ -83,7 +84,13 @@ namespace refract
          * define __visitors__ which can visit element
          * via. `content()` method
          */
-        typedef typelist::cons<ComparableVisitor, SerializeVisitor, SerializeCompactVisitor, ExpandVisitor, IsExpandableVisitor>::type Visitors;
+        typedef typelist::cons<
+            ComparableVisitor, 
+            SerializeVisitor, 
+            SerializeCompactVisitor, 
+            ExpandVisitor, 
+            IsExpandableVisitor,
+            TypeQueryVisitor>::type Visitors;
 
 
         IElement() : hasContent(false), useCompactContent(false)
@@ -131,6 +138,10 @@ namespace refract
         // NOTE: probably rename to Accept
         virtual void content(IVisitor& v) const = 0;
 
+        /**
+         * Flags for clone() element - select parts of refract element to be clonned
+         * \see Element<T>::clone() 
+         */
         typedef enum {
             cMeta       = 0x01,
             cAttributes = 0x02,
@@ -232,6 +243,10 @@ namespace refract
             return element;
         }
 
+        Element() : value(TraitType::init()) 
+        {
+        }
+
         virtual ~Element()
         {
             TraitType::release(value);
@@ -243,6 +258,7 @@ namespace refract
         struct null_type {}; 
         typedef null_type ValueType;
 
+        static ValueType init() { return ValueType(); }
         static const std::string element() { return "null"; }
         static void release(ValueType&) {}
         static void cloneValue(const ValueType&, ValueType&) {}
@@ -253,6 +269,7 @@ namespace refract
     {
         typedef std::string ValueType;
 
+        static ValueType init() { return ValueType(); }
         static const std::string element() { return "string"; }
         static void release(ValueType&) {}
         static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
@@ -263,6 +280,7 @@ namespace refract
     {
         typedef double ValueType;
 
+        static ValueType init() { return 0; }
         static const std::string element() { return "number"; }
         static void release(ValueType&) {}
         static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
@@ -273,6 +291,7 @@ namespace refract
     {
         typedef bool ValueType;
 
+        static ValueType init() { return false; }
         static const std::string element() { return "boolean"; }
         static void release(ValueType&) {}
         static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
@@ -283,6 +302,7 @@ namespace refract
     {
         typedef std::vector<IElement*> ValueType;
 
+        static ValueType init() { return ValueType(); }
         static const std::string element() { return "array"; }
 
         static void release(ValueType& array)
@@ -319,6 +339,7 @@ namespace refract
     {
         typedef std::pair<IElement*, IElement*> ValueType;
 
+        static ValueType init() { return ValueType(); }
         static const std::string element() { return "member"; }
 
         static void release(ValueType& member)
@@ -391,6 +412,8 @@ namespace refract
         // - (Select Element)
         // - (Ref Element)
         //
+
+        static ValueType init() { return ValueType(); }
 
         static const std::string element() { return "object"; }
 
@@ -558,7 +581,11 @@ namespace refract
 
         struct CheckElement {
             bool checkElement(const IElement* e) const {
-                return e && (!isReserved(e->element()));
+                std::string type;
+                if(e) {
+                    type = e->element();
+                }
+                return !isReserved(type) || type == "ref";
             }
         };
 
@@ -636,7 +663,6 @@ namespace refract
             return result;
         }
     };
-
 
 
     struct ExpandVisitor : IVisitor {
@@ -724,8 +750,44 @@ namespace refract
                 for (ObjectElement::ValueType::const_iterator it = e.value.begin() ; it != e.value.end() ; ++it) {
                     origin->push_back(expandOrClone(*it));
                 }
-
                 o->push_back(origin);
+
+                result = o;
+                return;
+            }
+            else if (en == "ref") {
+                //refract::ObjectElement* o = new refract::ObjectElement;
+                refract::ObjectElement* o = new refract::ObjectElement;
+
+                for (ObjectElement::ValueType::const_iterator it = e.value.begin()
+                    ; it != e.value.end()
+                    ; ++it ) {
+
+                    ComparableVisitor href("href", ComparableVisitor::key);
+                    (*it)->content(href);
+
+                    if(href.get()) { // key was recognized - it is save to cast to MemberElement
+                        MemberElement* m = static_cast<MemberElement*>(*it);
+                        if(m->value.second) {
+                            TypeQueryVisitor tq;
+                            if(StringElement* value = tq.as<StringElement>(m->value.second)) {
+                                en = value->value;
+
+                                // go as deep as possible in inheritance tree
+                                for (const IElement* parent = refract::DSRegistry.find(en)
+                                   ; parent && !isReserved(en)
+                                   ; en = parent->element(), parent = refract::DSRegistry.find(en) ) {
+
+                                   // FIXME: while clone original element w/o meta - we lose `description`
+                                   // must be fixed in spec
+                                   IElement* clone = parent->clone(IElement::cAll ^ IElement::cMeta);
+                                   clone->meta["ref"] = IElement::Create(en);
+                                   o->push_back(clone);
+                                }
+                            }
+                        }
+                    }
+                }
 
                 result = o;
                 return;
@@ -741,9 +803,25 @@ namespace refract
 
             // do not clone value, we have to do it one by one because some of them must be expanded
             refract::ObjectElement* expanded = static_cast<ObjectElement*>(e.clone(IElement::cAll ^ IElement::cValue));
-            
+
+            std::vector<IElement*> members;
+            bool hasRef = false;
+
             for (ObjectElement::ValueType::const_iterator it = e.value.begin() ; it != e.value.end() ; ++it) {
-                expanded->push_back(expandOrClone(*it));
+                if((*it)->element() == "ref") {
+                   hasRef = true; 
+                }
+
+                members.push_back(expandOrClone(*it));
+            }
+
+            expanded->set(members);
+
+            if (hasRef) {
+                ObjectElement* extend = new ObjectElement;
+                extend->element("extend");
+                extend->push_back(expanded);
+                expanded = extend;
             }
 
             result = expanded;

@@ -41,11 +41,14 @@ namespace refract
     IElement::MemberElementCollection::const_iterator
     IElement::MemberElementCollection::find(const std::string& name) const
     {
+        //StringElement* e = new StringElement;
+        //e->set(name);
+        //ComparableVisitor v(e);
         ComparableVisitor v(name);
-        const_iterator it = begin();
-        for (; it != end(); ++it) {
+        const_iterator it;
+        for (it = begin(); it != end(); ++it) {
             (*it)->value.first->content(v);
-            if (v)
+            if (v.get())
                 return it;
         }
         return it;

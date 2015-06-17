@@ -51,7 +51,9 @@
         "src/refract/SerializeVisitor.h",
         "src/refract/SerializeVisitor.cc",
         "src/refract/ComparableVisitor.h",
-
+        "src/refract/ComparableVisitor.cc",
+        "src/refract/TypeQueryVisitor.h",
+        "src/refract/TypeQueryVisitor.cc",
       ],
 
       # FIXME: replace by direct dependecies

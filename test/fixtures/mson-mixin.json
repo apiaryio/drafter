@@ -42,29 +42,64 @@
           ]
         },
         {
-          "element": "object",
-          "meta": {
-            "id": "User"
-          },
+          "element": "extend",
           "content": [
             {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "id"
+              "element": "object",
+              "meta": {
+                "id": "User"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "id"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
                 },
-                "value": {
-                  "element": "string"
+                {
+                  "element": "object",
+                  "content": [
+                    {
+                      "element": "object",
+                      "meta": {
+                        "ref": "Address"
+                      },
+                      "content": [
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "city"
+                            },
+                            "value": {
+                              "element": "string"
+                            }
+                          }
+                        },
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "street"
+                            },
+                            "value": {
+                              "element": "string"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
                 }
-              }
-            },
-            {
-              "element": "ref",
-              "content": {
-                "href": "Address",
-                "path": "content"
-              }
+              ]
             }
           ]
         }

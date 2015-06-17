@@ -677,7 +677,6 @@ namespace drafter
 
         refract::ExpandVisitor expander;
         expander.visit(*element);
-        //element->content(expander);
 
         if(refract::IElement* expanded = expander.get()) {
             element = expanded;
