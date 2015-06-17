@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 #include "Element.h"
+#include "Visitors.h"
 
 namespace refract
 {

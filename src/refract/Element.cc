@@ -11,9 +11,10 @@
 #include <set>
 #include <string>
 
+#include "Visitors.h"
+
 namespace refract
 {
-    refract::Registry DSRegistry;
 
     bool isReserved(const std::string& element) {
         static std::set<std::string> reserved;

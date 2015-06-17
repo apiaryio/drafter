@@ -15,6 +15,8 @@
 
 #include "RefractAST.h"
 #include "refract/Element.h"
+#include "refract/Registry.h"
+#include "refract/Visitors.h"
 
 using namespace drafter;
 

@@ -8,6 +8,11 @@
 
 #include "RefractAST.h"
 #include "refract/Element.h"
+#include "refract/Visitors.h"
+#include "refract/AppendDecorator.h"
+
+//#include "refract/ExpandVisitor.h"
+//#include "refract/SerializeVisitor.h"
 
 namespace drafter
 {

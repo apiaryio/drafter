@@ -9,8 +9,6 @@
 #define _REFRACT_COMPARABLEVISITOR_H_
 
 #include "Visitor.h"
-#include "sos.h"
-#include <string>
 
 namespace refract
 {
