@@ -16,24 +16,24 @@ namespace refract
 
     // Forward declarations of Elements
     struct IElement;
-    struct StringElement;
-    struct NullElement;
-    struct NumberElement;
-    struct BooleanElement;
-    struct ArrayElement;
     struct ObjectElement;
     struct MemberElement;
+    struct Registry;
 
     struct ExpandVisitor : IVisitor {
 
         IElement* result;
-        ExpandVisitor();
-        static IElement* expandOrClone(const IElement* e);
+        const Registry& registry;
+        IElement* expandOrClone(const IElement* e);
+
+        ExpandVisitor(const Registry& registry);
 
         void visit(const IElement& e);
         void visit(const MemberElement& e);
         void visit(const ObjectElement& e);
 
+        // return expanded elemnt or NULL if expansion is not needed
+        // caller responsibility is to delete returned Element
         IElement* get() const;
     };
 

@@ -11,8 +11,7 @@
 #include "refract/Visitors.h"
 #include "refract/AppendDecorator.h"
 
-//#include "refract/ExpandVisitor.h"
-//#include "refract/SerializeVisitor.h"
+#include "refract/Registry.h"
 
 namespace drafter
 {
@@ -674,13 +673,13 @@ namespace drafter
         return element;
     }
 
-    sos::Object SerializeRefract(refract::IElement* element) {
+    sos::Object SerializeRefract(refract::IElement* element, const refract::Registry& registry) {
 
         if(!element) {
             return sos::Object();
         }
 
-        refract::ExpandVisitor expander;
+        refract::ExpandVisitor expander(registry);
         expander.visit(*element);
 
         if(refract::IElement* expanded = expander.get()) {

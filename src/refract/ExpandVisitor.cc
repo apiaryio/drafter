@@ -18,7 +18,7 @@ namespace refract
             return result;
         }
 
-        ExpandVisitor expander;
+        ExpandVisitor expander(registry);
         e->content(expander);
         result = expander.get();
 
@@ -29,10 +29,9 @@ namespace refract
         return result;
     }
 
-    ExpandVisitor::ExpandVisitor() : result(NULL) {};
+    ExpandVisitor::ExpandVisitor(const Registry& registry) : result(NULL), registry(registry) {};
 
     void ExpandVisitor::visit(const IElement& e) {
-        //std::cout << __PRETTY_FUNCTION__ <<  std::endl;
 
         IsExpandableVisitor isExpandable;
         e.content(isExpandable);
@@ -40,10 +39,7 @@ namespace refract
             return;
         }
 
-        ExpandVisitor expander;
-        e.content(expander);
-
-        result = expander.get();
+        e.content(*this);
     }
 
     void ExpandVisitor::visit(const MemberElement& e) {
@@ -78,9 +74,9 @@ namespace refract
             }
 
             // go as deep as possible in inheritance tree
-            for (const IElement* parent = refract::DSRegistry.find(en)
+            for (const IElement* parent = registry.find(en)
                 ; parent && !isReserved(en)
-                ; en = parent->element(), parent = refract::DSRegistry.find(en) ) {
+                ; en = parent->element(), parent = registry.find(en) ) {
 
                 // FIXME: while clone original element w/o meta - we lose `description`
                 // must be fixed in spec
@@ -117,9 +113,9 @@ namespace refract
                             en = value->value;
 
                             // go as deep as possible in inheritance tree
-                            for (const IElement* parent = refract::DSRegistry.find(en)
+                            for (const IElement* parent = registry.find(en)
                                ; parent && !isReserved(en)
-                               ; en = parent->element(), parent = refract::DSRegistry.find(en) ) {
+                               ; en = parent->element(), parent = registry.find(en) ) {
 
                                // FIXME: while clone original element w/o meta - we lose `description`
                                // must be fixed in spec

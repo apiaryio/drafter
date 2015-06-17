@@ -28,16 +28,12 @@ namespace refract
 
     public:
 
-        IElement* find(const std::string& name);
+        IElement* find(const std::string& name) const;
 
         bool add(IElement* element) ;
         bool remove(const std::string& name);
         void clearAll(bool releaseElements = false);
     };
-
-    // FIXME: remove global variable!!
-    extern Registry DSRegistry;
-
 
 }; // namespace refract
 

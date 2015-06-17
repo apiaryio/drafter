@@ -13,13 +13,14 @@
 
 namespace refract {
     struct IElement;
+    struct Registry;
 }
 
 namespace drafter {
 
     refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure);
 
-    sos::Object SerializeRefract(refract::IElement*);
+    sos::Object SerializeRefract(refract::IElement*, const refract::Registry&);
 
 }
 

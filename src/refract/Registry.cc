@@ -13,8 +13,6 @@
 namespace refract
 {
 
-    refract::Registry DSRegistry;
-
     std::string Registry::getElementId(IElement* element) 
     {
         IElement::MemberElementCollection::const_iterator it = element->meta.find("id");
@@ -29,9 +27,9 @@ namespace refract
         return v.value().str;
     }
 
-    IElement* Registry::find(const std::string& name)
+    IElement* Registry::find(const std::string& name) const
     {
-        Map::iterator i = registrated.find(name);
+        Map::const_iterator i = registrated.find(name);
         if(i == registrated.end()) {
             return NULL;
         }
@@ -78,7 +76,5 @@ namespace refract
         }
         registrated.clear();
     }
-
-
 
 }; // namespace refract

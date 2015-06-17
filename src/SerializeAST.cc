@@ -42,6 +42,10 @@ using snowcrash::Action;
 using snowcrash::Resource;
 using snowcrash::Blueprint;
 
+#ifdef _WITH_REFRACT_
+static refract::Registry NamedTypesRegistry;
+#endif
+
 sos::Object WrapValue(const mson::Value& value)
 {
     sos::Object valueObject;
@@ -441,7 +445,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
 {
 #if _WITH_REFRACT_
     refract::IElement* element = DataStructureToRefract(dataStructure);
-    sos::Object object = SerializeRefract(element);
+    sos::Object object = SerializeRefract(element, NamedTypesRegistry);
 
     if(element) {
         delete element;
@@ -764,6 +768,7 @@ bool IsElementResourceGroup(const Element& element)
 }
 
 
+#if _WITH_REFRACT_
 typedef std::vector<const snowcrash::DataStructure*> DataStructures;
 
 void findNamedDataStructures(const snowcrash::Elements& elements, DataStructures& found) {
@@ -783,18 +788,23 @@ void findNamedDataStructures(const snowcrash::Elements& elements, DataStructures
 
     }
 }
+#endif
 
 sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
 {
     sos::Object blueprintObject;
 
+#if _WITH_REFRACT_
     DataStructures found;
     findNamedDataStructures(blueprint.content.elements(), found);
 
     for(DataStructures::const_iterator i = found.begin() ; i != found.end() ; ++i) {
+
         refract::IElement* element = drafter::DataStructureToRefract(*(*i));
-        refract::DSRegistry.add(element);
+        NamedTypesRegistry.add(element);
+
     }
+#endif
 
     // Version
     blueprintObject.set(SerializeKey::Version, sos::String(AST_SERIALIZATION_VERSION));
@@ -820,7 +830,9 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
     blueprintObject.set(SerializeKey::Content,
                         WrapCollection<Element>()(blueprint.content.elements(), WrapElement));
 
-    refract::DSRegistry.clearAll(true);
+#if _WITH_REFRACT_
+    NamedTypesRegistry.clearAll(true);
+#endif
 
     return blueprintObject;
 }
