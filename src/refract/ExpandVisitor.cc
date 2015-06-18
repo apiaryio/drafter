@@ -83,10 +83,6 @@ namespace refract
                 o->push_back(clone);
             }
 
-            // FIXME: report if named type is not found
-            // not implemented until error reporting
-            //  if(o->value.empty()) { report error }
-
             return o;
         }
 
@@ -123,23 +119,26 @@ namespace refract
 
         IElement* ExpandReference(const ObjectElement& e, const Registry& registry)
         {
-            refract::ObjectElement* o = new refract::ObjectElement;
-
             TypeQueryVisitor tq;
             StringElement* href = tq.as<StringElement>(FindMemberByKey(e, "href"));
             if(href) {
-                return FindNamedType(registry, href->value);
-            }
-            else {
-                // FIXME: report error
-                // Ref Element does not contain "href" key, 
-                // or value of `href` is not `StringElement`
-                
-                // can no be implemeted until error reporting system
-                // for now - ignore silently
+                IElement* expanded = FindNamedType(registry, href->value);
+
+                if(expanded->empty()) { // if referenced element not found return clone of reference
+                    delete expanded;
+                    expanded = e.clone(); 
+                }
+
+                return expanded;
             }
 
-            return o;
+            // FIXME: report error
+            // - Ref Element does not contain "href" key, 
+            // - value of `href` is not `StringElement`
+            
+            // can no be implemeted until error reporting system
+            // for now - ignore silently
+            return NULL;
         }
 
         IElement* ExpandMembers(const ObjectElement& e, const Registry& registry)

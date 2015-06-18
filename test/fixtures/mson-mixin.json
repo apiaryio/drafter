@@ -102,6 +102,38 @@
               ]
             }
           ]
+        },
+        {
+          "element": "extend",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "Non Existent Mixin"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "id"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
+                },
+                {
+                  "element": "ref",
+                  "content": {
+                    "href": "XXX",
+                    "path": "content"
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     }
