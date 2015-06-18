@@ -43,7 +43,14 @@ using snowcrash::Resource;
 using snowcrash::Blueprint;
 
 #ifdef _WITH_REFRACT_
+/**
+ * Use static variable to be local inside this file
+ * Hold all **Named Types** converted to Refract Element
+ * Later use this registry for expanding element before serialization
+ */
+
 static refract::Registry NamedTypesRegistry;
+
 #endif
 
 sos::Object WrapValue(const mson::Value& value)

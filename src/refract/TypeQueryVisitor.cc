@@ -24,6 +24,10 @@ namespace refract
     template<typename E>
     E* TypeQueryVisitor::as(IElement* e) const 
     {
+        if(!e) {
+            return NULL;
+        }
+
         TypeQueryVisitor tq;
         e->content(tq);
 

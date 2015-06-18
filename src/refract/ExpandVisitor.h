@@ -24,7 +24,6 @@ namespace refract
 
         IElement* result;
         const Registry& registry;
-        IElement* expandOrClone(const IElement* e);
 
         ExpandVisitor(const Registry& registry);
 
