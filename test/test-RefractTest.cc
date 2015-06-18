@@ -103,12 +103,10 @@ TEST_CASE("Testing refract serialization with multiline comments","[refract]")
     REQUIRE(HandleFixtureTest("test/fixtures/mson-multiline-description"));
 }
 
-#if 0
 TEST_CASE("Testing refract serialization for primitive variables","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-primitive-variables"));
 }
-#endif
 
 TEST_CASE("Testing refract serialization for NamedTypes w/ type specification","[refract]")
 {

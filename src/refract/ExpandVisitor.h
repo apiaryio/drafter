@@ -20,6 +20,12 @@ namespace refract
     struct MemberElement;
     struct Registry;
 
+    struct NullElement;
+    struct StringElement;
+    struct NumberElement;
+    struct BooleanElement;
+    struct ArrayElement;
+
     struct ExpandVisitor : IVisitor {
 
         IElement* result;
@@ -30,6 +36,13 @@ namespace refract
         void visit(const IElement& e);
         void visit(const MemberElement& e);
         void visit(const ObjectElement& e);
+
+        void visit(const NullElement& e);
+        void visit(const StringElement& e);
+        void visit(const NumberElement& e);
+        void visit(const BooleanElement& e);
+        void visit(const ArrayElement& e);
+
 
         // return expanded elemnt or NULL if expansion is not needed
         // caller responsibility is to delete returned Element

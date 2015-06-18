@@ -210,6 +210,15 @@ namespace refract
 
     }
 
+    // do nothing, primitive elements are not expandable
+    void ExpandVisitor::visit(const NullElement& e) {}
+    void ExpandVisitor::visit(const StringElement& e) {}
+    void ExpandVisitor::visit(const NumberElement& e) {}
+    void ExpandVisitor::visit(const BooleanElement& e) {}
+    
+    // FIXME: can be ArrayElement Expandable?
+    void ExpandVisitor::visit(const ArrayElement& e) {}
+
     IElement* ExpandVisitor::get() const {
         return result;
     }

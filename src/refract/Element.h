@@ -153,8 +153,9 @@ namespace refract
             cAttributes = 0x02,
             cValue      = 0x04,
             cElement    = 0x08,
+            cAll = cMeta | cAttributes | cValue | cElement,
+
             cNoMetaId   = 0x10,
-            cAll = cMeta | cAttributes | cValue | cElement
         } cloneFlags;
 
         virtual IElement* clone(const int flag = cAll) const = 0;
