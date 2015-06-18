@@ -24,3 +24,8 @@ TEST_CASE("Testing render of a complex object", "[render]")
 {
     REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render-complex-object"));
 }
+
+TEST_CASE("Testing render of a simple array", "[render]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render-simple-array"));
+}

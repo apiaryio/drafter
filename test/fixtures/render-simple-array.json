@@ -42,27 +42,26 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "{\n  \"user\": \"pksunkara\"\n}",
+                      "body": "[\n  \"pksunkara\",\n  12,\n  false\n]",
                       "schema": "",
                       "content": [
                         {
-                          "element": "object",
+                          "element": "array",
                           "meta": {
                             "id": ""
                           },
                           "content": [
                             {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "user"
-                                },
-                                "value": {
-                                  "element": "string",
-                                  "content": "pksunkara"
-                                }
-                              }
+                              "element": "string",
+                              "content": "pksunkara"
+                            },
+                            {
+                              "element": "number",
+                              "content": 12
+                            },
+                            {
+                              "element": "boolean",
+                              "content": false
                             }
                           ]
                         }
@@ -115,27 +114,26 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "{\n  \"user\": \"pksunkara\"\n}",
+                      "body": "[\n  \"pksunkara\",\n  12,\n  false\n]",
                       "schema": "",
                       "content": [
                         {
-                          "element": "object",
+                          "element": "array",
                           "meta": {
                             "id": ""
                           },
                           "content": [
                             {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "user"
-                                },
-                                "value": {
-                                  "element": "string",
-                                  "content": "pksunkara"
-                                }
-                              }
+                              "element": "string",
+                              "content": "pksunkara"
+                            },
+                            {
+                              "element": "number",
+                              "content": 12
+                            },
+                            {
+                              "element": "boolean",
+                              "content": false
                             }
                           ]
                         }

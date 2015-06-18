@@ -42,7 +42,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "",
+                      "body": "{\n  \"user\": \"pksunkara\",\n  \"social\": {\n    \"github\": \"pksunkara\"\n  }\n}",
                       "schema": "",
                       "content": [
                         {
@@ -142,7 +142,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "",
+                      "body": "{\n  \"user\": \"pksunkara\",\n  \"social\": {\n    \"github\": \"pksunkara\"\n  }\n}",
                       "schema": "",
                       "content": [
                         {

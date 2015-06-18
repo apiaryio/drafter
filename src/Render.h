@@ -62,7 +62,7 @@ namespace drafter {
                 refract::IElement* element = DataStructureToRefract(payload.attributes);
 
                 renderer.visit(*element);
-                return renderer.get();
+                return renderer.getString();
             }
 
             default:
