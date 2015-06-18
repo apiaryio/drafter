@@ -77,7 +77,7 @@ namespace refract
     }
 
     void Registry::clearAll(bool releaseElements) {
-        if (releaseElements) {
+        if(releaseElements) {
             std::for_each(registrated.begin(), registrated.end(), DeleteSecond<Map::value_type>);
         }
         registrated.clear();

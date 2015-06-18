@@ -682,14 +682,14 @@ namespace drafter
         refract::ExpandVisitor expander(registry);
         expander.visit(*element);
 
-        if (refract::IElement* expanded = expander.get()) {
+        if(refract::IElement* expanded = expander.get()) {
            element = expanded;
         }
 
         refract::SerializeVisitor serializer;
         serializer.visit(*element);
 
-        if (expander.get()) {
+        if(expander.get()) {
            delete element;
         }
 
