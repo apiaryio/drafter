@@ -44,7 +44,7 @@ namespace refract
         void CopyMetaId(IElement& dst, const IElement& src)
         {
             IElement::MemberElementCollection::const_iterator name = src.meta.find("id");
-            if (name != src.meta.end() && (*name)->value.second) {
+            if (name != src.meta.end() && (*name)->value.second && !(*name)->value.second->empty()) {
                 dst.meta["id"] = (*name)->value.second->clone();
             }
         }
@@ -217,6 +217,7 @@ namespace refract
     void ExpandVisitor::visit(const BooleanElement& e) {}
     
     // FIXME: can be ArrayElement Expandable?
+    // probably if any of members will be Member|Object
     void ExpandVisitor::visit(const ArrayElement& e) {}
 
     IElement* ExpandVisitor::get() const {
