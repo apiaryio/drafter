@@ -112,12 +112,14 @@ namespace refract
 
         static IElement* Create(const char* value);
 
-        struct MemberElementCollection : std::vector<MemberElement*>
+        struct MemberElementCollection : public std::vector<MemberElement*>
         {
-            const_iterator find(const std::string& name) const;
+            virtual const_iterator find(const std::string& name) const;
+            virtual iterator find(const std::string& name);
             MemberElement& operator[](const std::string& name);
             MemberElement& operator[](const int index);
-            virtual void clone(const MemberElementCollection& other); /// < clone elements from `other` to `this`
+            virtual void clone(const MemberElementCollection& other); /// < clone elements from `other`to`this`
+            virtual void erase(const std::string& key);
             virtual ~MemberElementCollection();
         };
 
@@ -151,6 +153,7 @@ namespace refract
             cAttributes = 0x02,
             cValue      = 0x04,
             cElement    = 0x08,
+            cNoMetaId   = 0x10,
             cAll = cMeta | cAttributes | cValue | cElement
         } cloneFlags;
 
@@ -238,6 +241,9 @@ namespace refract
 
             if(flags & cMeta) {
                 element->meta.clone(self->meta);
+                if(flags & cNoMetaId) {
+                    element->meta.erase("id");
+                }
             }
 
             if(flags & cValue) {

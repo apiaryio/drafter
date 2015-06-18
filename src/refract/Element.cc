@@ -42,11 +42,21 @@ namespace refract
     IElement::MemberElementCollection::const_iterator
     IElement::MemberElementCollection::find(const std::string& name) const
     {
-        //StringElement* e = new StringElement;
-        //e->set(name);
-        //ComparableVisitor v(e);
         ComparableVisitor v(name);
         const_iterator it;
+        for (it = begin(); it != end(); ++it) {
+            (*it)->value.first->content(v);
+            if (v.get())
+                return it;
+        }
+        return it;
+    }
+
+    IElement::MemberElementCollection::iterator
+    IElement::MemberElementCollection::find(const std::string& name)
+    {
+        ComparableVisitor v(name);
+        iterator it;
         for (it = begin(); it != end(); ++it) {
             (*it)->value.first->content(v);
             if (v.get())
@@ -93,6 +103,15 @@ namespace refract
     { 
         for (const_iterator it = other.begin() ; it != other.end() ; ++it) {
             push_back(static_cast<value_type>((*it)->clone()));
+        }
+    }
+
+    void IElement::MemberElementCollection::erase(const std::string& key)
+    {
+        iterator it = find(key);
+        if(it != end()) {
+            delete (*it);
+            std::vector<MemberElement*>::erase(it);
         }
     }
 

@@ -78,7 +78,7 @@ namespace refract
 
                 // FIXME: while clone original element w/o meta - we lose `description`
                 // must be fixed in spec
-                IElement* clone = parent->clone(IElement::cAll ^ IElement::cMeta);
+                IElement* clone = parent->clone(IElement::cAll | IElement::cNoMetaId);
                 clone->meta["ref"] = IElement::Create(en);
                 o->push_back(clone);
             }
