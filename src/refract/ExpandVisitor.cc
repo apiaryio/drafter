@@ -26,7 +26,7 @@ namespace refract
         IElement* ExpandOrClone(const IElement* e, const Registry& registry) 
         {
             IElement* result = NULL;
-            if(!e) {
+            if (!e) {
                 return result;
             }
 
@@ -34,7 +34,7 @@ namespace refract
             e->content(expander);
             result = expander.get();
 
-            if(!result) {
+            if (!result) {
                 result = e->clone();
             }
 
@@ -58,7 +58,7 @@ namespace refract
                 ComparableVisitor cmp(name, ComparableVisitor::key);
                 (*it)->content(cmp);
 
-                if(cmp.get()) { // key was recognized - it is save to cast to MemberElement
+                if (cmp.get()) { // key was recognized - it is save to cast to MemberElement
                     MemberElement* m = static_cast<MemberElement*>(*it);
                     return m->value.second;
                 }
@@ -89,7 +89,7 @@ namespace refract
         void ExpandOrCloneMembers(std::vector<IElement*>& members, const ObjectElement& e, const Registry& registry, bool& hasRef)
         {
             for (ObjectElement::ValueType::const_iterator it = e.value.begin() ; it != e.value.end() ; ++it) {
-                if((*it)->element() == "ref") {
+                if ((*it)->element() == "ref") {
                    hasRef = true; 
                 }
 
@@ -109,7 +109,7 @@ namespace refract
             ExpandOrCloneMembers(members, e, registry, hasRef);
 
             ObjectElement* origin = new ObjectElement; // wrapper for original object
-            if(!members.empty()) {
+            if (!members.empty()) {
                 origin->set(members);
             }
             o->push_back(origin);
@@ -119,12 +119,12 @@ namespace refract
 
         IElement* ExpandReference(const ObjectElement& e, const Registry& registry)
         {
-            TypeQueryVisitor tq;
-            StringElement* href = tq.as<StringElement>(FindMemberByKey(e, "href"));
-            if(href) {
+            StringElement* href = TypeQueryVisitor::as<StringElement>(FindMemberByKey(e, "href"));
+
+            if (href) {
                 IElement* expanded = FindNamedType(registry, href->value);
 
-                if(expanded->empty()) { // if referenced element not found return clone of reference
+                if (expanded->empty()) { // if referenced element not found return clone of reference
                     delete expanded;
                     expanded = e.clone(); 
                 }
@@ -148,7 +148,7 @@ namespace refract
             ExpandOrCloneMembers(members, e, registry, hasRef);
            
             refract::ObjectElement* o = static_cast<ObjectElement*>(e.clone(IElement::cAll ^ IElement::cValue));
-            if(!members.empty()) {
+            if (!members.empty()) {
                 o->set(members);
             }
 
@@ -191,13 +191,13 @@ namespace refract
 
     void ExpandVisitor::visit(const ObjectElement& e) {
 
-        if(!Expandable(e)) {  // do we have some expandable members?
+        if (!Expandable(e)) {  // do we have some expandable members?
             return;
         }
 
         std::string en = e.element();
 
-        if(!isReserved(en)) { //A expand named type
+        if (!isReserved(en)) { //A expand named type
             result = ExpandNamedType(e, registry);
         }
         else if (en == "ref") { // expand reference

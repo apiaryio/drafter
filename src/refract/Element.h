@@ -16,14 +16,8 @@
 #include "Typelist.h"
 #include "VisitableBy.h"
 
-
 #include "Exception.h"
-
 #include "Visitor.h"
-
-//#include "AppendDecorator.h"
-
-//#include <iostream>
 
 namespace refract
 {
@@ -232,22 +226,22 @@ namespace refract
             element->hasContent = self->hasContent;
             element->useCompactContent = self->useCompactContent;
 
-            if(flags & cElement) {
+            if (flags & cElement) {
                 element->element_ = self->element_;
             }
 
-            if(flags & cAttributes) {
+            if (flags & cAttributes) {
                 element->attributes.clone(self->attributes); 
             }
 
-            if(flags & cMeta) {
+            if (flags & cMeta) {
                 element->meta.clone(self->meta);
-                if(flags & cNoMetaId) {
+                if (flags & cNoMetaId) {
                     element->meta.erase("id");
                 }
             }
 
-            if(flags & cValue) {
+            if (flags & cValue) {
                 TraitType::cloneValue(value, element->value);
             }
 
@@ -327,7 +321,7 @@ namespace refract
         static void cloneValue(const ValueType& self, ValueType& other) {
             for(ValueType::const_iterator i = self.begin() ; i != self.end() ; ++i) {
                 IElement* e = NULL;
-                if((*i)) {
+                if ((*i)) {
                   e = (*i)->clone();
                 }
                 other.push_back(e);

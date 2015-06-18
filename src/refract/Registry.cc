@@ -10,6 +10,8 @@
 #include "Element.h"
 #include "Visitors.h"
 
+#include <algorithm>
+
 namespace refract
 {
 
@@ -30,7 +32,7 @@ namespace refract
     IElement* Registry::find(const std::string& name) const
     {
         Map::const_iterator i = registrated.find(name);
-        if(i == registrated.end()) {
+        if (i == registrated.end()) {
             return NULL;
         }
         return i->second;
@@ -46,7 +48,7 @@ namespace refract
         std::string id = getElementId(element);
         //std::cout << "ID: >" << id << "<"<< std::endl;
 
-        if(isReserved(id)) {
+        if (isReserved(id)) {
             throw LogicError("You can not registrate basic element");
         }
 
@@ -61,18 +63,22 @@ namespace refract
 
     bool Registry::remove(const std::string& name) {
         Map::iterator i = registrated.find(name);
-        if(i == registrated.end()) {
+        if (i == registrated.end()) {
             return false;
         }
         registrated.erase(i);
         return true;
     }
 
+    template<typename T>
+    static void DeleteSecond(T& pair) 
+    {
+        delete pair.second;
+    }
+
     void Registry::clearAll(bool releaseElements) {
-        if(releaseElements) {
-            for (Map::iterator i = registrated.begin() ; i != registrated.end() ; ++i) {
-                delete i->second;
-            }
+        if (releaseElements) {
+            std::for_each(registrated.begin(), registrated.end(), DeleteSecond<Map::value_type>);
         }
         registrated.clear();
     }

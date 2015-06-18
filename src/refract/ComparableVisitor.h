@@ -48,7 +48,7 @@ namespace refract
         template <typename E>
         void visit(const E& e)
         {
-           if(compare == value) {
+           if (compare == value) {
                result = IsEqual(compare_to, e.value);
            }
         }

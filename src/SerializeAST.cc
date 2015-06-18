@@ -454,7 +454,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     refract::IElement* element = DataStructureToRefract(dataStructure);
     sos::Object object = SerializeRefract(element, NamedTypesRegistry);
 
-    if(element) {
+    if (element) {
         delete element;
     }
 

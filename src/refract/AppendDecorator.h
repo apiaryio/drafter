@@ -44,7 +44,7 @@ namespace refract
         }
 
         void operator()(const std::string& value) {
-            if(!value.empty()) {
+            if (!value.empty()) {
                 element->value.append(value);
             }
         }
@@ -63,7 +63,7 @@ namespace refract
         void operator()(const ValueType& value)
         {
             std::copy(value.begin(), value.end(), std::back_inserter(element->value));
-            if(!value.empty()) {
+            if (!value.empty()) {
                 element->hasContent = true;
             }
         }

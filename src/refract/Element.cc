@@ -18,7 +18,7 @@ namespace refract
 
     bool isReserved(const std::string& element) {
         static std::set<std::string> reserved;
-        if(reserved.empty()) {
+        if (reserved.empty()) {
             reserved.insert("null");
             reserved.insert("boolean");
             reserved.insert("number");
@@ -39,28 +39,34 @@ namespace refract
         return reserved.find(element) != reserved.end();
     }
 
-    IElement::MemberElementCollection::const_iterator
-    IElement::MemberElementCollection::find(const std::string& name) const
+    IElement::MemberElementCollection::const_iterator IElement::MemberElementCollection::find(const std::string& name) const
     {
         ComparableVisitor v(name);
         const_iterator it;
         for (it = begin(); it != end(); ++it) {
+
             (*it)->value.first->content(v);
-            if (v.get())
+
+            if (v.get()) {
                 return it;
+            }
+
         }
         return it;
     }
 
-    IElement::MemberElementCollection::iterator
-    IElement::MemberElementCollection::find(const std::string& name)
+    IElement::MemberElementCollection::iterator IElement::MemberElementCollection::find(const std::string& name)
     {
         ComparableVisitor v(name);
         iterator it;
         for (it = begin(); it != end(); ++it) {
+
             (*it)->value.first->content(v);
-            if (v.get())
+
+            if (v.get()) {
                 return it;
+            }
+
         }
         return it;
     }
@@ -77,6 +83,7 @@ namespace refract
             return *(*it);
         }
 
+        // key not found - create new one and return reference
         StringElement* key = new StringElement;
         key->set(name);
         MemberElement* member = new MemberElement;
@@ -99,7 +106,7 @@ namespace refract
         throw LogicError("Do not use number index");
     }
 
-    void  IElement::MemberElementCollection::clone(const IElement::MemberElementCollection& other)
+    void IElement::MemberElementCollection::clone(const IElement::MemberElementCollection& other)
     { 
         for (const_iterator it = other.begin() ; it != other.end() ; ++it) {
             push_back(static_cast<value_type>((*it)->clone()));
@@ -109,7 +116,7 @@ namespace refract
     void IElement::MemberElementCollection::erase(const std::string& key)
     {
         iterator it = find(key);
-        if(it != end()) {
+        if (it != end()) {
             delete (*it);
             std::vector<MemberElement*>::erase(it);
         }

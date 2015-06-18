@@ -18,10 +18,10 @@ namespace refract
         void ComparableVisitor::visit(const MemberElement& e)
         {
             ComparableVisitor v(compare_to);
-            if(compare == key && e.value.first) {
+            if (compare == key && e.value.first) {
                 e.value.first->content(v);
             }
-            else if(e.value.second) {
+            else if (e.value.second) {
                 e.value.second->content(v);
             }
             result = v.get();

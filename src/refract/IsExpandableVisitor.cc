@@ -16,7 +16,7 @@ namespace refract
         struct CheckElement {
             bool checkElement(const IElement* e) const {
                 std::string type;
-                if(e) {
+                if (e) {
                     type = e->element();
                 }
                 return !isReserved(type) || type == "ref";
@@ -26,7 +26,7 @@ namespace refract
         template <typename T, typename V = typename T::ValueType>
         struct IsExpandable : public CheckElement {
             bool operator()(const T* e) const {
-                if(checkElement(e)) {
+                if (checkElement(e)) {
                     return true;
                 }
                 return false;
@@ -38,11 +38,11 @@ namespace refract
             bool operator()(const T* e) const {
                 //std::cout << __PRETTY_FUNCTION__ << e->element() << std::endl;
 
-                if(checkElement(e)) {
+                if (checkElement(e)) {
                     return true;
                 }
 
-                if(e->value.first) {
+                if (e->value.first) {
                     IsExpandableVisitor v;
                     e->value.first->content(v);
                     if (v.result) {
@@ -50,7 +50,7 @@ namespace refract
                     }
                 }
 
-                if(e->value.second) {
+                if (e->value.second) {
                     IsExpandableVisitor v;
                     e->value.second->content(v);
                     if (v.result) {
@@ -68,7 +68,7 @@ namespace refract
             bool operator()(const T* e) const {
                 //std::cout << __PRETTY_FUNCTION__ << e->element() << std::endl;
 
-                if(checkElement(e)) {
+                if (checkElement(e)) {
                     return true;
                 }
 
@@ -93,7 +93,7 @@ namespace refract
         result = IsExpandable<T>()(&e);
     }
   
-    // Explicit instancioning of templates to avoi Linker Error
+    // Explicit instantioning of templates to avoid Linker Error
     template void IsExpandableVisitor::visit<NullElement>(const NullElement&);
     template void IsExpandableVisitor::visit<StringElement>(const StringElement&);
     template void IsExpandableVisitor::visit<NumberElement>(const NumberElement&);

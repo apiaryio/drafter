@@ -44,12 +44,6 @@ namespace refract
 
         TypeQueryVisitor();
 
-        template<typename E>
-        E* as(IElement* e) const;
-
-        template<typename E>
-        const E* as(const IElement* e) const;
-
         void visit(const IElement& e);
         void visit(const NullElement& e);
         void visit(const StringElement& e);
@@ -60,6 +54,27 @@ namespace refract
         void visit(const ObjectElement& e);
 
         ElementType get() const;
+
+        template<typename E>
+        static E* as(IElement* e)
+        {
+            if (!e) {
+                return static_cast<E*>(e);
+            }
+
+            TypeQueryVisitor tq;
+            tq.visit(*e);
+
+            E type;
+            TypeQueryVisitor eq;
+            type.content(eq);
+
+            if (eq.typeInfo != tq.typeInfo) {
+                return 0;
+            }
+
+            return static_cast<E*>(e);
+        }
 
     };
 

@@ -13,7 +13,7 @@
           "element": "object",
           "meta": {
             "id": "User",
-            "description": "It is number type, but input is string, we will convert it into\nNumber Element, without content set.\n\nFIXME: in future will try parse, but it is relative problematic\nbecause of localized input (decimal point, thousand separators, etc.)\n\n"
+            "description": "It is number type, but input is string, we will convert it into\nNumber Element, without content set.\n\nFIXME: In the future, we should try to parse it, but it might be a problem \nbecause of localized input (decimal point, thousand separators, etc.)\n\n"
           },
           "content": [
             {
