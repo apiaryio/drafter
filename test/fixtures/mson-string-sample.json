@@ -25,7 +25,9 @@
                 "value": {
                   "element": "string",
                   "attributes": {
-                    "sample": "abc"
+                    "samples": [
+                      "abc"
+                    ]
                   }
                 }
               }
@@ -40,7 +42,9 @@
                 "value": {
                   "element": "string",
                   "attributes": {
-                    "sample": "abc"
+                    "samples": [
+                      "abc"
+                    ]
                   }
                 }
               }
@@ -55,7 +59,9 @@
                 "value": {
                   "element": "string",
                   "attributes": {
-                    "sample": "abc"
+                    "samples": [
+                      "abc"
+                    ]
                   }
                 }
               }

@@ -26,7 +26,9 @@
                 "value": {
                   "element": "string",
                   "attributes": {
-                    "sample": "quido"
+                    "samples": [
+                      "quido"
+                    ]
                   },
                   "content": "nobody"
                 }
@@ -45,7 +47,7 @@
                 "value": {
                   "element": "array",
                   "attributes": {
-                    "sample": [
+                    "samples": [
                       [
                         "5",
                         "8",

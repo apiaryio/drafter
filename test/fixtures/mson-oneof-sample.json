@@ -25,7 +25,7 @@
                 "value": {
                   "element": "object",
                   "attributes": {
-                    "sample": [
+                    "samples": [
                       {
                         "full_name": "Jiri Kratochvil"
                       },

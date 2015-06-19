@@ -42,12 +42,12 @@ namespace refract
         result.set("element", sos::String(e.element()));
 
         sos::Object meta = SerializeElementCollection(e.meta);
-        if(!meta.empty()) {
+        if (!meta.empty()) {
             result.set("meta", meta);
         }
 
         sos::Object attr = SerializeElementCollection(e.attributes);
-        if(!attr.empty()) {
+        if (!attr.empty()) {
             result.set("attributes", attr);
         }
 

@@ -122,7 +122,7 @@ namespace refract
             TypeQueryVisitor tq;
             StringElement* href = tq.as<StringElement>(FindMemberByKey(e, "href"));
 
-            if(href) {
+            if (href) {
                 IElement* expanded = FindNamedType(registry, href->value);
 
                 if (expanded->empty()) { // if referenced element not found return clone of reference
