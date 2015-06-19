@@ -39,6 +39,8 @@ namespace drafter {
         void visit(const refract::NumberElement& e);
         void visit(const refract::BooleanElement& e);
 
+        void extend(const refract::ObjectElement& e);
+
         sos::Base get() const;
         std::string getString() const;
     };

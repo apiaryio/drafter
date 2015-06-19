@@ -55,6 +55,9 @@ namespace drafter
         else if (e.element() == "boolean") {
             this->visit(static_cast<const BooleanElement&>(e));
         }
+        else if (e.element() == "extend") {
+            this->extend(static_cast<const ObjectElement&>(e));
+        }
     }
 
     void RenderJSONVisitor::visit(const MemberElement& e) {
@@ -97,6 +100,19 @@ namespace drafter
 
     void RenderJSONVisitor::visit(const BooleanElement& e) {
         assign(sos::Boolean(e.value));
+    }
+
+    void RenderJSONVisitor::extend(const ObjectElement& e) {
+        // FIXME: Allow extend to work with arrays
+
+        RenderJSONVisitor renderer(sos::Base::ObjectType);
+        std::vector<refract::IElement*>::const_iterator it;
+
+        for (it = e.value.begin(); it != e.value.end(); ++it) {
+            renderer.visit(*(*it));
+        }
+
+        assign(renderer.get());
     }
 
     sos::Base RenderJSONVisitor::get() const {
