@@ -10,44 +10,13 @@
       "element": "category",
       "content": [
         {
-          "element": "object",
-          "meta": {
-            "id": "Address"
-          },
-          "content": [
-            {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "city"
-                },
-                "value": {
-                  "element": "string"
-                }
-              }
-            },
-            {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "street"
-                },
-                "value": {
-                  "element": "string"
-                }
-              }
-            }
-          ]
-        },
-        {
           "element": "extend",
           "content": [
             {
               "element": "object",
               "meta": {
-                "id": "User"
+                "id": "User",
+                "description": "FIXME: result of parsing `Include XXX` in snowcrash is now error.\nBecause of nenexisting Mixin\nIn future it should be possible to parse it correctly to allow Mixin referencing other document\n\n"
               },
               "content": [
                 {
@@ -63,41 +32,11 @@
                   }
                 },
                 {
-                  "element": "object",
-                  "content": [
-                    {
-                      "element": "object",
-                      "meta": {
-                        "ref": "Address"
-                      },
-                      "content": [
-                        {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "city"
-                            },
-                            "value": {
-                              "element": "string"
-                            }
-                          }
-                        },
-                        {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "street"
-                            },
-                            "value": {
-                              "element": "string"
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  ]
+                  "element": "ref",
+                  "content": {
+                    "href": "XXX",
+                    "path": "content"
+                  }
                 }
               ]
             }

@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
-#ifndef _REFRACT_ISEXPANDABLEVISITOR_H_
-#define _REFRACT_ISEXPANDABLEVISITOR_H_
+#ifndef REFRACT_ISEXPANDABLEVISITOR_H
+#define REFRACT_ISEXPANDABLEVISITOR_H
 
 #include "Visitor.h"
 
@@ -29,4 +29,4 @@ namespace refract
 
 }; // namespace refract
 
-#endif // #ifndef _REFRACT_EXPANDVISITOR_H_
+#endif // #ifndef REFRACT_EXPANDVISITOR_H

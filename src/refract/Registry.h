@@ -5,8 +5,8 @@
 //  Created by Jiri Kratochvil on 21/05/15.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-#ifndef _REFRACT_REGISTRY_H_
-#define _REFRACT_REGISTRY_H_
+#ifndef REFRACT_REGISTRY_H
+#define REFRACT_REGISTRY_H
 
 #include <map>
 #include <string>
@@ -26,7 +26,6 @@ namespace refract
         Map registrated;
 
         std::string getElementId(IElement* element);
-
     public:
 
         IElement* find(const std::string& name) const;
@@ -38,4 +37,4 @@ namespace refract
 
 }; // namespace refract
 
-#endif // #ifndef _REFRACT_REGISTRY_H_
+#endif // #ifndef REFRACT_REGISTRY_H
