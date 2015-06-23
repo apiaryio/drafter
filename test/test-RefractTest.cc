@@ -157,3 +157,8 @@ TEST_CASE("Testing refract resource w/ nested mixin","[refract, drafter.js]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-nested-mixin"));
 }
+
+TEST_CASE("Testing refract resource w/ unresolved reference","[refract, drafter.js]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-unresolved-reference"));
+}

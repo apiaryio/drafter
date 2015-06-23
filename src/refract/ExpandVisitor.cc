@@ -83,6 +83,13 @@ namespace refract
                 o->push_back(clone);
             }
 
+            // FIXME: posible solution while referenced type is not found in regisry
+            // \see test/fixtures/mson-resource-unresolved-reference.apib
+            //
+            //if (o->value.empty()) {
+            //   o->meta["ref"] = IElement::Create(name);
+            //}
+
             return o;
         }
 
