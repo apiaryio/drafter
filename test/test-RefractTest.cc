@@ -162,3 +162,8 @@ TEST_CASE("Testing refract resource w/ unresolved reference","[refract, drafter.
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-unresolved-reference"));
 }
+
+TEST_CASE("Testing refract resource resolve basetype from other resource","[refract, drafter.js]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-resolve-basetype"));
+}
