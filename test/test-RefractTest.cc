@@ -167,3 +167,8 @@ TEST_CASE("Testing refract resource resolve basetype from other resource","[refr
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-resolve-basetype"));
 }
+
+TEST_CASE("Testing refract resource - mixin from primitive type","[refract, drafter.js]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-primitive-mixin"));
+}
