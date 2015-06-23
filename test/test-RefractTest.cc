@@ -152,3 +152,8 @@ TEST_CASE("Testing refract resource w/ nested inheritance","[refract, drafter.js
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-nested-inheritace"));
 }
+
+TEST_CASE("Testing refract resource w/ nested mixin","[refract, drafter.js]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-nested-mixin"));
+}
