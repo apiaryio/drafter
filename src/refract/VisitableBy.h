@@ -5,8 +5,8 @@
 //  Created by Jiri Kratochvil on 18/05/15.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-#ifndef _REFRACT_VISITABLE_BY_H_
-#define _REFRACT_VISITABLE_BY_H_
+#ifndef REFRACT_VISITABLE_BY_H
+#define REFRACT_VISITABLE_BY_H
 
 #include <stdexcept>
 #include "Typelist.h"
@@ -17,9 +17,10 @@ template <typename H, typename T>
 struct VisitableBy< typelist::typelist<H,T> > : public VisitableBy<T> {
     template<typename Visitor, typename Arg>
     void InvokeVisit(Visitor& v, Arg& a) const {
-        if(H* pFound = dynamic_cast<H*>(&v)) {
+        if (H* pFound = dynamic_cast<H*>(&v)) {
             pFound->visit(a);
-        } else {
+        } 
+        else {
             VisitableBy<T>::InvokeVisit(v,a);
         }
     }
@@ -29,13 +30,14 @@ template <typename H>
 struct VisitableBy< typelist::typelist<H, typelist::null_type> > {
     template<typename Visitor, typename Arg>
     void InvokeVisit(Visitor& v, Arg& a) const {
-        if(H* pFound = dynamic_cast<H*>(&v)) {
+        if (H* pFound = dynamic_cast<H*>(&v)) {
             pFound->visit(a);
-        } else {
+        } 
+        else {
             // IDEA: Inject policy instead of default throw
             throw std::runtime_error("Unknown visitor type");
         }
     }
 };
 
-#endif // #ifndef _REFRACT_VISITABLE_BY_H_
+#endif // #ifndef REFRACT_VISITABLE_BY_H

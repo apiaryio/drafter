@@ -11,14 +11,16 @@
 
 #include "Serialize.h"
 
-namespace snowcrash {
-    struct DataStructure;
+namespace refract {
+    struct IElement;
+    struct Registry;
 }
-
 
 namespace drafter {
 
-    sos::Object DataStructureToRefract(const snowcrash::DataStructure& dataStructure);
+    refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure);
+
+    sos::Object SerializeRefract(refract::IElement*, const refract::Registry&);
 
 }
 

@@ -37,7 +37,7 @@
             {
               "element": "member",
               "meta": {
-                "description": "FIXME: clarify, it is string sample, or array sample?\nshowcrash this parses as array with samp"
+                "description": "FIXME: we need clarify, if it is string sample, or array sample?\nsnowcrash this parses as array with sample"
               },
               "content": {
                 "key": {

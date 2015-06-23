@@ -5,29 +5,23 @@
 //  Created by Jiri Kratochvil on 21/05/15.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-#ifndef _REFRACT_COMPARABLEVISITOR_H_
-#define _REFRACT_COMPARABLEVISITOR_H_
+#ifndef REFRACT_COMPARABLEVISITOR_H
+#define REFRACT_COMPARABLEVISITOR_H
 
 #include "Visitor.h"
-#include "sos.h"
-#include <string>
 
 namespace refract
 {
 
     // Forward declarations of Elements
     struct IElement;
+    struct MemberElement;
 
     class ComparableVisitor : public IVisitor
     {
         std::string compare_to;
         bool result;
-
-    public:
-
-        ComparableVisitor(const std::string& str) : compare_to(str), result(false)
-        {
-        }
+        int compare;
 
         template <typename T, typename U>
         bool IsEqual(const T& first, const U& second)
@@ -41,24 +35,31 @@ namespace refract
             return first == second;
         }
 
+
+    public:
+
+        enum {
+            key,
+            value
+        };
+
+        ComparableVisitor(const std::string& str, const int compare = value);
+
         template <typename E>
         void visit(const E& e)
         {
-            result = IsEqual(compare_to, e.value);
+           if (compare == value) {
+               result = IsEqual(compare_to, e.value);
+           }
         }
 
-        virtual void visit(const IElement& e)
-        {
-            throw LogicError("Fallback impl - behavioration for Base class IElement is not defined");
-        }
+        virtual void visit(const MemberElement& e);
+        virtual void visit(const IElement& e);
 
-        operator bool() const
-        {
-            return result;
-        }
+        bool get() const;
     };
 
 
 }; // namespace refract
 
-#endif // #ifndef _REFRACT_COMPARABLEVISITOR_H_
+#endif // #ifndef REFRACT_COMPARABLEVISITOR_H

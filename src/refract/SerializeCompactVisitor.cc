@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 #include "Element.h"
+#include "Visitors.h"
 
 namespace refract
 {
@@ -38,12 +39,14 @@ namespace refract
     void SerializeCompactVisitor::visit(const ArrayElement& e)
     {
         sos::Array array;
+
         typedef ArrayElement::ValueType::const_iterator iterator;
         for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
             SerializeCompactVisitor s;
             (*it)->content(s);
             array.push(s.value());
         }
+
         value_ = array;
     }
 
@@ -63,12 +66,14 @@ namespace refract
     void SerializeCompactVisitor::visit(const ObjectElement& e)
     {
         sos::Object obj;
+
         typedef ObjectElement::ValueType::const_iterator iterator;
         for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
             SerializeCompactVisitor sv;
             (*it)->content(sv);
             obj.set(sv.key(), sv.value());
         }
+
         value_ = obj;
     }
 

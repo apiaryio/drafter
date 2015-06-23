@@ -68,6 +68,11 @@ TEST_CASE("Testing refract serialization for mixin","[refract]")
     REQUIRE(HandleFixtureTest("test/fixtures/mson-mixin"));
 }
 
+TEST_CASE("Testing refract serialization for nonexistent mixin","[refract]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-mixin-nonexistent", false));
+}
+
 TEST_CASE("Testing refract serialization for primitive with samples","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-string-sample"));

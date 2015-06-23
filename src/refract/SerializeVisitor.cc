@@ -6,35 +6,49 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 #include "Element.h"
+#include "Visitors.h"
 
 namespace refract
 {
+
+    namespace
+    {
+        sos::Object SerializeElementCollection(const IElement::MemberElementCollection& collection)
+        {
+            typedef IElement::MemberElementCollection::const_iterator iterator;
+
+            sos::Object result;
+
+            for (iterator it = collection.begin(); it != collection.end(); ++it) {
+                SerializeCompactVisitor s;
+                s.visit(*(*it));
+                result.set(s.key(), s.value());
+            }
+
+            return result;
+        }
+
+        sos::Object ElementToObject(const IElement* e)
+        {
+            SerializeVisitor s;
+            s.visit(*e);
+            return s.get();
+        }
+
+    } // end of anonymous namespace
 
     void SerializeVisitor::visit(const IElement& e)
     {
         result.set("element", sos::String(e.element()));
 
-        typedef IElement::MemberElementCollection::const_iterator iterator;
-
-        // FIXME : refactoring
-        if (!e.meta.empty()) {
-            sos::Object obj;
-            for (iterator it = e.meta.begin(); it != e.meta.end(); ++it) {
-                SerializeCompactVisitor s;
-                s.visit(*(*it));
-                obj.set(s.key(), s.value());
-            }
-            result.set("meta", obj);
+        sos::Object meta = SerializeElementCollection(e.meta);
+        if (!meta.empty()) {
+            result.set("meta", meta);
         }
 
-        if (!e.attributes.empty()) {
-            sos::Object obj;
-            for (iterator it = e.attributes.begin(); it != e.attributes.end(); ++it) {
-                SerializeCompactVisitor s;
-                s.visit(*(*it));
-                obj.set(s.key(), s.value());
-            }
-            result.set("attributes", obj);
+        sos::Object attr = SerializeElementCollection(e.attributes);
+        if (!attr.empty()) {
+            result.set("attributes", attr);
         }
 
         if (e.empty())
@@ -87,9 +101,11 @@ namespace refract
     void SerializeVisitor::visit(const BooleanElement& e)
     {
         sos::Base value = sos::Null();
+
         if (!e.empty()) {
             value = sos::Boolean(e.value);
         }
+
         SetSerializerValue(*this, value);
     }
 
@@ -99,29 +115,27 @@ namespace refract
 
         typedef ArrayElement::ValueType::const_iterator iterator;
         for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-            SerializeVisitor s;
-            s.visit(*(*it));
-            array.push(s.get());
+            array.push(ElementToObject(*it));
         }
+
         SetSerializerValue(*this, array);
     }
 
     void SerializeVisitor::visit(const MemberElement& e)
     {
         sos::Object object;
+
         if (e.value.first) {
-            SerializeVisitor s;
-            s.visit(*e.value.first);
-            object.set("key", s.get());
+            object.set("key", ElementToObject(e.value.first));
         }
 
         if (e.value.second) {
-            SerializeVisitor s;
-            s.visit(*e.value.second);
-            object.set("value", s.get());
+            object.set("value", ElementToObject(e.value.second));
         }
+
         SetSerializerValue(*this, object);
     }
+
 
     void SerializeVisitor::visit(const ObjectElement& e)
     {
@@ -129,10 +143,9 @@ namespace refract
 
         typedef ObjectElement::ValueType::const_iterator iterator;
         for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-            SerializeVisitor s;
-            s.visit(static_cast<IElement&>(*(*it)));
-            array.push(s.get());
+            array.push(ElementToObject(*it));
         }
+
         SetSerializerValue(*this, array);
     }
 

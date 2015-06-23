@@ -8,6 +8,10 @@
 
 #include "RefractAST.h"
 #include "refract/Element.h"
+#include "refract/Visitors.h"
+#include "refract/AppendDecorator.h"
+
+#include "refract/Registry.h"
 
 namespace drafter
 {
@@ -140,7 +144,7 @@ namespace drafter
         virtual refract::IElement* Create(const std::string& literal, bool sample = false)
         {
             E* element = new E;
-            if(sample) {
+            if (sample) {
                 element->attributes[key::Sample] = refract::IElement::Create(LiteralTo<typename E::ValueType>(literal));
             }
             else {
@@ -233,7 +237,7 @@ namespace drafter
                 throw std::logic_error("For primitive types is just one value supported");
             } 
 
-            if(!vm.valueDefinition.values.empty()) {
+            if (!vm.valueDefinition.values.empty()) {
                 mson::TypeAttributes attrs = vm.valueDefinition.typeDefinition.attributes;
                 const mson::Value& value = *vm.valueDefinition.values.begin();
 
@@ -301,7 +305,7 @@ namespace drafter
                     element->set(result);
                 }
             }
-            else if(!vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes.empty() 
+            else if (!vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes.empty() 
                     && vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes.begin()->symbol.variable) {
                refract::IElement* s = refract::IElement::Create(vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes.begin()->symbol.literal);
                s->element(key::Generic);
@@ -387,14 +391,16 @@ namespace drafter
         refract::MemberElement* element = new refract::MemberElement;
         refract::IElement* value = RefractElementFromValue<T>(property);
 
-        if(!property.name.literal.empty()) {
+        if (!property.name.literal.empty()) {
             element->set(property.name.literal, value);
         }
         else if (!property.name.variable.values.empty()) {
+
             if (property.name.variable.values.size() > 1) {
                 // FIXME: is there example for multiple variables?
                 throw std::logic_error("Multiple variables in property definition");
             }
+
             element->set(property.name.variable.values.begin()->literal, value);
             element->value.first->attributes[key::Variable] = refract::IElement::Create(true);
             SetElementType(property.name.variable.typeDefinition, element->value.first);
@@ -434,7 +440,7 @@ namespace drafter
         for (mson::TypeSections::const_iterator it = property.sections.begin(); it != property.sections.end(); ++it) {
             if (it->klass == mson::TypeSection::BlockDescriptionClass){ 
                 const std::string& desc = it->content.description;
-                if(!description.empty()) {
+                if (!description.empty()) {
                   description.reserve(desc.length() + 1); // +1 for newline
                   description.append("\n");
                 }
@@ -443,7 +449,7 @@ namespace drafter
             }
         }
 
-        if(!description.empty()) {
+        if (!description.empty()) {
             element->meta[key::Description] = refract::IElement::Create(description);
         }
 
@@ -480,7 +486,7 @@ namespace drafter
 
             case mson::EnumTypeName: {
                 refract::MemberElement* element = RefractElementFromProperty<refract::ArrayElement>(property);
-                if(element && element->value.second) {
+                if (element && element->value.second) {
                     element->value.second->element(key::Enum);
                 }
                 return element;
@@ -496,7 +502,7 @@ namespace drafter
                 if (ValueHasChildren(property)) {
                     return RefractElementFromProperty<refract::ArrayElement>(property);
                 }
-                else if (ValueHasMembers(property)) {
+                else if (!property.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal.empty() || ValueHasMembers(property)) {
                     return RefractElementFromProperty<refract::ObjectElement>(property);
                 }
                 return RefractElementFromProperty<refract::StringElement>(property);
@@ -539,7 +545,7 @@ namespace drafter
             option->element(key::Option);
             // we can not use MsonElementToRefract() for groups, 
             // "option" element handles directly all elements in group
-            if(it->klass == mson::Element::GroupClass) { 
+            if (it->klass == mson::Element::GroupClass) { 
                 option->set(MsonElementsToRefract(it->content.elements()));
             }
             else {
@@ -589,63 +595,7 @@ namespace drafter
             default:
                 throw std::logic_error("Unhandled type of MSON element");
         }
-
     }
-
-    template <typename T, typename V = typename T::ValueType>
-    struct AppendDecorator {
-        typedef T ElementType;
-        typedef V ValueType;
-        ElementType*& element;
-        AppendDecorator(ElementType*& e) : element(e) 
-        {
-        }
-
-        void append(const V& value) 
-        {
-            //throw std::logic_error("Can not append to primitive type");
-            // FIXME: snowcrash warn about "Primitive type can not have member"
-            // but in real it create "empty" member
-            //
-            // solution for now: silently ignore
-        }
-    };
-
-    template <typename T>
-    struct AppendDecorator<T, std::string> {
-        typedef T ElementType;
-        typedef typename T::ValueType ValueType;
-        ElementType*& element;
-
-        AppendDecorator(ElementType*& e) : element(e) 
-        {
-        }
-
-        void append(const std::string& value) {
-            if(!value.empty()) {
-                element->value.append(value);
-            }
-        }
-    };
-
-    template <typename T>
-    struct AppendDecorator<T, RefractElements> {
-        typedef T ElementType;
-        typedef typename T::ValueType ValueType;
-        ElementType*& element;
-
-        AppendDecorator(ElementType*& e) : element(e) 
-        {
-        }
-
-        void append(const ValueType& value)
-        {
-            std::copy(value.begin(), value.end(), std::back_inserter(element->value));
-            if(!value.empty()) {
-                element->hasContent = true;
-            }
-        }
-    };
 
     template<typename T>
     refract::IElement* RefractElementFromDataStructure(const snowcrash::DataStructure& ds)
@@ -664,7 +614,7 @@ namespace drafter
         
         //e->meta[key::Title] = IElement::Create(ds.name.symbol.literal);
 
-        AppendDecorator<T> ae = AppendDecorator<T>(e);
+        refract::AppendDecorator<T> append = refract::AppendDecorator<T>(e);
 
         for (mson::TypeSections::const_iterator it = ds.sections.begin(); it != ds.sections.end(); ++it) {
 
@@ -673,13 +623,14 @@ namespace drafter
                 continue;
             }
 
-            ae.append(ExtractTypeSection<T>(*it));
+            append(ExtractTypeSection<T>(*it));
         }
 
         return e;
     }
 
-    sos::Object DataStructureToRefract(const snowcrash::DataStructure& dataStructure)
+
+    refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure)
     {
         using namespace refract;
         IElement* element = NULL;
@@ -700,7 +651,7 @@ namespace drafter
 
             case mson::EnumTypeName: {
                 element = RefractElementFromDataStructure<refract::ArrayElement>(dataStructure);
-                if(element) {
+                if (element) {
                     element->element(key::Enum);
                 }
                 break;
@@ -719,15 +670,30 @@ namespace drafter
                 throw std::runtime_error("Unhandled type of DataStructure");
         }
 
+        return element;
+    }
+
+    sos::Object SerializeRefract(refract::IElement* element, const refract::Registry& registry) {
+
         if (!element) {
             return sos::Object();
         }
 
+        refract::ExpandVisitor expander(registry);
+        expander.visit(*element);
 
-        SerializeVisitor serializer;
+        if (refract::IElement* expanded = expander.get()) {
+           element = expanded;
+        }
+
+        refract::SerializeVisitor serializer;
         serializer.visit(*element);
-        delete element;
+
+        if (expander.get()) {
+           delete element;
+        }
 
         return serializer.get();
     }
-}
+
+} // namespace drafter

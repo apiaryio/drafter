@@ -240,10 +240,40 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "<data structure name>",
+                          "element": "extend",
                           "meta": {
                             "id": ""
-                          }
+                          },
+                          "content": [
+                            {
+                              "element": "object",
+                              "meta": {
+                                "description": "<data structure description>\n\n",
+                                "ref": "<data structure name>"
+                              },
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "meta": {
+                                    "description": "<data structure property description>"
+                                  },
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "<data structure property name>"
+                                    },
+                                    "value": {
+                                      "element": "number",
+                                      "content": 0
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "element": "object"
+                            }
+                          ]
                         }
                       ]
                     }
@@ -519,10 +549,40 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "<data structure name>",
+                          "element": "extend",
                           "meta": {
                             "id": ""
-                          }
+                          },
+                          "content": [
+                            {
+                              "element": "object",
+                              "meta": {
+                                "description": "<data structure description>\n\n",
+                                "ref": "<data structure name>"
+                              },
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "meta": {
+                                    "description": "<data structure property description>"
+                                  },
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "<data structure property name>"
+                                    },
+                                    "value": {
+                                      "element": "number",
+                                      "content": 0
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "element": "object"
+                            }
+                          ]
                         }
                       ]
                     }
