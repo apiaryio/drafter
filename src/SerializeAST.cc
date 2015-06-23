@@ -805,8 +805,10 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
 
     for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
 
-        refract::IElement* element = drafter::DataStructureToRefract(*(*i));
-        NamedTypesRegistry.add(element);
+        if (!(*i)->name.symbol.literal.empty()) {
+            refract::IElement* element = drafter::DataStructureToRefract(*(*i));
+            NamedTypesRegistry.add(element);
+        }
 
     }
 #endif

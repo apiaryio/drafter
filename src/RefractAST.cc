@@ -605,7 +605,9 @@ namespace drafter
         ElementType* e = new ElementType;
         SetElementType(ds.typeDefinition, e);
 
-        e->meta[key::Id] = IElement::Create(ds.name.symbol.literal);
+        if (!ds.name.symbol.literal.empty()) {
+            e->meta[key::Id] = IElement::Create(ds.name.symbol.literal);
+        }
 
         // FIXME: "title" is temporary commented, until clear refract spec 
         // in few examples for named object is "title" attribute used

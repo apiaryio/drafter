@@ -241,9 +241,6 @@
                       "content": [
                         {
                           "element": "extend",
-                          "meta": {
-                            "id": ""
-                          },
                           "content": [
                             {
                               "element": "object",
@@ -550,9 +547,6 @@
                       "content": [
                         {
                           "element": "extend",
-                          "meta": {
-                            "id": ""
-                          },
                           "content": [
                             {
                               "element": "object",

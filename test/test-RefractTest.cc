@@ -142,3 +142,8 @@ TEST_CASE("Testing refract serialization of nontyped array w/ samples","[refract
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-nontyped-array-sample"));
 }
+
+TEST_CASE("Testing refract with anonymous resource","[refract, drafter.js]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-anonymous"));
+}
