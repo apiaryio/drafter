@@ -779,9 +779,7 @@ bool IsElementResourceGroup(const Element& element)
 typedef std::vector<const snowcrash::DataStructure*> DataStructures;
 
 void findNamedDataStructures(const snowcrash::Elements& elements, DataStructures& found) {
-    for (snowcrash::Elements::const_iterator i = elements.begin()
-       ; i != elements.end()
-       ; ++i) {
+    for (snowcrash::Elements::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
 
         if (i->element == snowcrash::Element::DataStructureElement) {
             found.push_back(&(i->content.dataStructure));
@@ -805,7 +803,7 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
     DataStructures found;
     findNamedDataStructures(blueprint.content.elements(), found);
 
-    for(DataStructures::const_iterator i = found.begin() ; i != found.end() ; ++i) {
+    for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
 
         refract::IElement* element = drafter::DataStructureToRefract(*(*i));
         NamedTypesRegistry.add(element);

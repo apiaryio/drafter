@@ -1,13 +1,13 @@
 //
-//  refract/IsExpandableVisitor.h
+//  refract/ExpandVisitor.h
 //  librefract
 //
 //  Created by Jiri Kratochvil on 17/06/15.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
-#ifndef _REFRACT_EXPANDVISITOR_H_
-#define _REFRACT_EXPANDVISITOR_H_
+#ifndef REFRACT_EXPANDVISITOR_H
+#define REFRACT_EXPANDVISITOR_H
 
 #include "Visitor.h"
 
@@ -51,4 +51,4 @@ namespace refract
 
 }; // namespace refract
 
-#endif // #ifndef _REFRACT_EXPANVISITOR_H_
+#endif // #ifndef REFRACT_EXPANVISITOR_H

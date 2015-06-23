@@ -1,12 +1,12 @@
 //
-//  refract/AppendDecotarod.h
+//  refract/AppendDecorator.h
 //  librefract
 //
 //  Created by Jiri Kratochvil on 17/06/15.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-#ifndef _REFRACT_APPENDDECORATOR_H_
-#define _REFRACT_APPENDDECORATOR_H_
+#ifndef REFRACT_APPENDDECORATOR_H
+#define REFRACT_APPENDDECORATOR_H
 
 namespace refract
 {
@@ -72,4 +72,4 @@ namespace refract
 
 }; // namespace refract
 
-#endif // #ifndef _REFRACT_APPENDDECORATOR_H_
+#endif // #ifndef REFRACT_APPENDDECORATOR_H

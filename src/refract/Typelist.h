@@ -8,8 +8,8 @@
 //  Created by Jiri Kratochvil on 18/05/15.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-#ifndef _REFRACT_TYPELIST_H_
-#define _REFRACT_TYPELIST_H_
+#ifndef REFRACT_TYPELIST_H
+#define REFRACT_TYPELIST_H
 
 namespace typelist {
     struct null_type {};
@@ -79,4 +79,4 @@ namespace typelist {
     };
 };
 
-#endif // #ifndef _REFRACT_TYPELIST_H_
+#endif // #ifndef REFRACT_TYPELIST_H

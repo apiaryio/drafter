@@ -5,8 +5,8 @@
 //  Created by Jiri Kratochvil on 18/05/15.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-#ifndef _REFRACT_VISITORS_H_
-#define _REFRACT_VISITORS_H_
+#ifndef REFRACT_VISITORS_H
+#define REFRACT_VISITORS_H
 
 #include "ComparableVisitor.h"
 #include "SerializeVisitor.h"
@@ -15,4 +15,4 @@
 #include "ExpandVisitor.h"
 #include "TypeQueryVisitor.h"
 
-#endif // #ifndef _REFRACT_VISITORS_H_
+#endif // #ifndef REFRACT_VISITORS_H

@@ -5,8 +5,8 @@
 //  Created by Jiri Kratochvil on 18/05/15.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-#ifndef _REFRACT_ELEMENT_H_
-#define _REFRACT_ELEMENT_H_
+#ifndef REFRACT_ELEMENT_H
+#define REFRACT_ELEMENT_H
 
 #include <string>
 #include <vector>
@@ -319,7 +319,7 @@ namespace refract
         }
 
         static void cloneValue(const ValueType& self, ValueType& other) {
-            for(ValueType::const_iterator i = self.begin() ; i != self.end() ; ++i) {
+            for (ValueType::const_iterator i = self.begin(); i != self.end(); ++i) {
                 IElement* e = NULL;
                 if ((*i)) {
                   e = (*i)->clone();
@@ -431,7 +431,7 @@ namespace refract
         }
 
         static void cloneValue(const ValueType& self, ValueType& other) {
-            for(ValueType::const_iterator i = self.begin() ; i != self.end() ; ++i) {
+            for (ValueType::const_iterator i = self.begin(); i != self.end(); ++i) {
                 IElement* e = (*i)->clone();
                 other.push_back(e);
             }
@@ -450,4 +450,4 @@ namespace refract
     };
 };
 
-#endif // #ifndef _REFRACT_ELEMENT_H_
+#endif // #ifndef REFRACT_ELEMENT_H

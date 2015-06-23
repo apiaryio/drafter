@@ -5,8 +5,8 @@
 //  Created by Jiri Kratochvil on 21/05/15.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-#ifndef _REFRACT_COMPARABLEVISITOR_H_
-#define _REFRACT_COMPARABLEVISITOR_H_
+#ifndef REFRACT_COMPARABLEVISITOR_H
+#define REFRACT_COMPARABLEVISITOR_H
 
 #include "Visitor.h"
 
@@ -62,4 +62,4 @@ namespace refract
 
 }; // namespace refract
 
-#endif // #ifndef _REFRACT_COMPARABLEVISITOR_H_
+#endif // #ifndef REFRACT_COMPARABLEVISITOR_H
