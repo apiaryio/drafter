@@ -70,7 +70,7 @@
                         "value": {
                           "element": "string",
                           "attributes": {
-                            "sample": [
+                            "samples": [
                               "one",
                               "uno",
                               "jedna"

@@ -20,14 +20,16 @@
               "content": {
                 "key": {
                   "element": "string",
-                  "content": "a"
+                  "content": "str"
                 },
                 "value": {
-                  "element": "array",
+                  "element": "string",
                   "attributes": {
                     "samples": [
-                      []
-                    ]
+                      "abc",
+                      "cde"
+                    ],
+                    "default": "ijk"
                   }
                 }
               }

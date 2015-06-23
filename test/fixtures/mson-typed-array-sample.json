@@ -25,10 +25,12 @@
                 "value": {
                   "element": "array",
                   "attributes": {
-                    "sample": [
-                      "1",
-                      "2",
-                      "3"
+                    "samples": [
+                      [
+                        "1",
+                        "2",
+                        "3"
+                      ]
                     ]
                   }
                 }
@@ -79,19 +81,25 @@
                     {
                       "element": "string",
                       "attributes": {
-                        "sample": "1"
+                        "samples": [
+                          "1"
+                        ]
                       }
                     },
                     {
                       "element": "string",
                       "attributes": {
-                        "sample": "2"
+                        "samples": [
+                          "2"
+                        ]
                       }
                     },
                     {
                       "element": "string",
                       "attributes": {
-                        "sample": "3"
+                        "samples": [
+                          "3"
+                        ]
                       }
                     }
                   ]
@@ -108,10 +116,12 @@
                 "value": {
                   "element": "array",
                   "attributes": {
-                    "sample": [
-                      "1",
-                      "2",
-                      "3"
+                    "samples": [
+                      [
+                        "1",
+                        "2",
+                        "3"
+                      ]
                     ]
                   }
                 }
@@ -127,10 +137,12 @@
                 "value": {
                   "element": "array",
                   "attributes": {
-                    "sample": [
-                      "1",
-                      "2",
-                      "3"
+                    "samples": [
+                      [
+                        "1",
+                        "2",
+                        "3"
+                      ]
                     ]
                   }
                 }

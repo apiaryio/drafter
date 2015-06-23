@@ -119,7 +119,8 @@ namespace refract
 
         IElement* ExpandReference(const ObjectElement& e, const Registry& registry)
         {
-            StringElement* href = TypeQueryVisitor::as<StringElement>(FindMemberByKey(e, "href"));
+            TypeQueryVisitor tq;
+            StringElement* href = tq.as<StringElement>(FindMemberByKey(e, "href"));
 
             if (href) {
                 IElement* expanded = FindNamedType(registry, href->value);

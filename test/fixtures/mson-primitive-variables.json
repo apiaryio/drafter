@@ -140,7 +140,9 @@
                 "value": {
                   "element": "string",
                   "attributes": {
-                    "sample": "example"
+                    "samples": [
+                      "example"
+                    ]
                   }
                 }
               }
@@ -161,7 +163,9 @@
                 "value": {
                   "element": "number",
                   "attributes": {
-                    "sample": 3.14
+                    "samples": [
+                      3.14
+                    ]
                   }
                 }
               }

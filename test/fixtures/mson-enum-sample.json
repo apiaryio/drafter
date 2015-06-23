@@ -25,9 +25,11 @@
                 "value": {
                   "element": "enum",
                   "attributes": {
-                    "sample": [
-                      "3",
-                      "4"
+                    "samples": [
+                      [
+                        "3",
+                        "4"
+                      ]
                     ]
                   }
                 }
@@ -68,9 +70,11 @@
                 "value": {
                   "element": "enum",
                   "attributes": {
-                    "sample": [
-                      "3",
-                      "4"
+                    "samples": [
+                      [
+                        "3",
+                        "4"
+                      ]
                     ]
                   }
                 }

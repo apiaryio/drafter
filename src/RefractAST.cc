@@ -24,7 +24,7 @@ namespace drafter
         const std::string Title = "title";
 
         // Refract MSON attributes
-        const std::string Sample = "sample";
+        const std::string Samples = "samples";
         const std::string Default = "default";
         const std::string Variable = "variable";
         const std::string TypeAttributes = "typeAttributes";
@@ -114,24 +114,6 @@ namespace drafter
         return literal;
     }
 
-    static refract::IElement* SimplifyRefractContainer(const RefractElements& container)
-    {
-        if (container.empty()) {
-            return NULL;
-        }
-
-        if (container.size() == 1) {
-            return container[0];
-        }
-
-        refract::ArrayElement* array = new refract::ArrayElement;
-       
-        for (RefractElements::const_iterator it = container.begin(); it != container.end(); ++it) {
-            array->push_back(*it);
-        }
-        return array;
-    }
-
     struct RefractElementFactory
     {
         virtual ~RefractElementFactory() {}
@@ -144,12 +126,16 @@ namespace drafter
         virtual refract::IElement* Create(const std::string& literal, bool sample = false)
         {
             E* element = new E;
+
             if (sample) {
-                element->attributes[key::Sample] = refract::IElement::Create(LiteralTo<typename E::ValueType>(literal));
+                refract::ArrayElement* a = new refract::ArrayElement;
+                a->push_back(refract::IElement::Create(LiteralTo<typename E::ValueType>(literal)));
+                element->attributes[key::Samples] = a;
             }
             else {
                 element->set(LiteralTo<typename E::ValueType>(literal));
             }
+
             return element;
         }
     };
@@ -316,6 +302,11 @@ namespace drafter
         }
     };
 
+    namespace 
+    {
+        template<typename T> void Deleter(T* ptr) { delete ptr; }
+    }
+
     template <typename T>
     refract::IElement* RefractElementFromValue(const mson::ValueMember& value)
     {
@@ -373,12 +364,20 @@ namespace drafter
 
         }
 
-        if (IElement* e = SimplifyRefractContainer(samples)) {
-            element->attributes[key::Sample] = e;
+        if (!samples.empty()) {
+            ArrayElement* a = new ArrayElement;
+            a->set(samples);
+            element->attributes[key::Samples] = a;
         }
 
-        if (IElement* e = SimplifyRefractContainer(defaults)) {
+        if (!defaults.empty()) {
+            IElement* e = *defaults.rbegin();
+            defaults.pop_back();
+            // if more default values
+            // use last one, all other we will drop
             element->attributes[key::Default] = e;
+
+            std::for_each(defaults.begin(), defaults.end(), Deleter<IElement>);
         }
 
 
