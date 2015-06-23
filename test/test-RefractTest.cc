@@ -147,3 +147,8 @@ TEST_CASE("Testing refract with anonymous resource","[refract, drafter.js]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-anonymous"));
 }
+
+TEST_CASE("Testing refract resource w/ nested inheritance","[refract, drafter.js]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-nested-inheritace"));
+}
