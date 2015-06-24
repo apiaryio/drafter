@@ -172,3 +172,8 @@ TEST_CASE("Testing refract resource - mixin from primitive type","[refract, draf
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-primitive-mixin"));
 }
+
+TEST_CASE("Testing refract - array typed content","[refract]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-array-typed-content"));
+}
