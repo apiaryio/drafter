@@ -1,18 +1,17 @@
 //
-//  RenderJSONVisitor.cc
-//  libdrafter
+//  refract/RenderJSONVisitor.cc
+//  librefract
 //
 //  Created by Pavan Kumar Sunkara on 17/06/15.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
-#include "RenderJSONVisitor.h"
+#include "Element.h"
+#include "Visitors.h"
 #include "sosJSON.h"
-#include "stream.h"
+#include <sstream>
 
-using namespace refract;
-
-namespace drafter
+namespace refract
 {
 
     RenderJSONVisitor::RenderJSONVisitor(const sos::Base::Type& type_)
@@ -37,27 +36,7 @@ namespace drafter
     }
 
     void RenderJSONVisitor::visit(const IElement& e) {
-        if (e.element() == "object") {
-            this->visit(static_cast<const ObjectElement&>(e));
-        }
-        else if (e.element() == "array") {
-            this->visit(static_cast<const ArrayElement&>(e));
-        }
-        else if (e.element() == "member") {
-            this->visit(static_cast<const MemberElement&>(e));
-        }
-        else if (e.element() == "string") {
-            this->visit(static_cast<const StringElement&>(e));
-        }
-        else if (e.element() == "number") {
-            this->visit(static_cast<const NumberElement&>(e));
-        }
-        else if (e.element() == "boolean") {
-            this->visit(static_cast<const BooleanElement&>(e));
-        }
-        else if (e.element() == "extend") {
-            this->extend(static_cast<const ObjectElement&>(e));
-        }
+        e.content(*this);
     }
 
     void RenderJSONVisitor::visit(const MemberElement& e) {

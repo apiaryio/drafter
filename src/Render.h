@@ -12,7 +12,8 @@
 #include <string>
 #include "BlueprintSourcemap.h"
 #include "BlueprintUtility.h"
-#include "RenderJSONVisitor.h"
+#include "refract/Element.h"
+#include "refract/Visitors.h"
 
 using namespace snowcrash;
 
@@ -58,10 +59,12 @@ namespace drafter {
         switch (renderFormat) {
             case JSONRenderFormat:
             {
-                RenderJSONVisitor renderer;
+                refract::RenderJSONVisitor renderer;
                 refract::IElement* element = DataStructureToRefract(payload.attributes);
 
                 renderer.visit(*element);
+                delete element;
+
                 return renderer.getString();
             }
 
