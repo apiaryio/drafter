@@ -177,3 +177,8 @@ TEST_CASE("Testing refract - array typed content","[refract]")
 {
     REQUIRE(HandleFixtureTest("test/fixtures/mson-array-typed-content"));
 }
+
+TEST_CASE("Testing refract resource - nested type in array","[refract, drafter.js]")
+{
+    REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-nested-member"));
+}
