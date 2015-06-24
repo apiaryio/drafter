@@ -47,9 +47,6 @@
                       "content": [
                         {
                           "element": "object",
-                          "meta": {
-                            "id": ""
-                          },
                           "content": [
                             {
                               "element": "member",
@@ -213,9 +210,6 @@
                       "content": [
                         {
                           "element": "object",
-                          "meta": {
-                            "id": ""
-                          },
                           "content": [
                             {
                               "element": "member",

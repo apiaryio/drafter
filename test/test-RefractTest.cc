@@ -117,42 +117,42 @@ TEST_CASE("Testing refract serialization of nontyped array w/ samples", "[refrac
     REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson-nontyped-array-sample"));
 }
 
-TEST_CASE("Testing refract with anonymous resource","[refract, drafter.js]")
+TEST_CASE("Testing refract with anonymous resource", "[refract][drafter.js]")
 {
-    REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-anonymous"));
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson-resource-anonymous"));
 }
 
-TEST_CASE("Testing refract resource w/ nested inheritance","[refract, drafter.js]")
+TEST_CASE("Testing refract resource w/ nested inheritance", "[refract][drafter.js]")
 {
-    REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-nested-inheritace"));
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson-resource-nested-inheritance"));
 }
 
-TEST_CASE("Testing refract resource w/ nested mixin","[refract, drafter.js]")
+TEST_CASE("Testing refract resource w/ nested mixin", "[refract][drafter.js]")
 {
-    REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-nested-mixin"));
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson-resource-nested-mixin"));
 }
 
-TEST_CASE("Testing refract resource w/ unresolved reference","[refract, drafter.js]")
+TEST_CASE("Testing refract resource w/ unresolved reference", "[refract][drafter.js]")
 {
-    REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-unresolved-reference"));
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson-resource-unresolved-reference"));
 }
 
-TEST_CASE("Testing refract resource resolve basetype from other resource","[refract, drafter.js]")
+TEST_CASE("Testing refract resource resolve basetype from other resource", "[refract][drafter.js]")
 {
-    REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-resolve-basetype"));
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson-resource-resolve-basetype"));
 }
 
-TEST_CASE("Testing refract resource - mixin from primitive type","[refract, drafter.js]")
+TEST_CASE("Testing refract resource - mixin from primitive type", "[refract][drafter.js]")
 {
-    REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-primitive-mixin"));
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson-resource-primitive-mixin"));
 }
 
-TEST_CASE("Testing refract - array typed content","[refract]")
+TEST_CASE("Testing refract - array typed content", "[refract]")
 {
-    REQUIRE(HandleFixtureTest("test/fixtures/mson-array-typed-content"));
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson-array-typed-content"));
 }
 
-TEST_CASE("Testing refract resource - nested type in array","[refract, drafter.js]")
+TEST_CASE("Testing refract resource - nested type in array", "[refract][drafter.js]")
 {
-    REQUIRE(HandleFixtureTest("test/fixtures/mson-resource-nested-member"));
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson-resource-nested-member"));
 }

@@ -42,14 +42,11 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "[\n  \"Karlin\",  \"Prague\"\n]",
+                      "body": "[\n  \"Karlin\"\n]",
                       "schema": "",
                       "content": [
                         {
                           "element": "array",
-                          "meta": {
-                            "id": ""
-                          },
                           "content": [
                             {
                               "element": "string",
@@ -113,14 +110,11 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "[\n  \"Karlin\", \"Prague\"\n]",
+                      "body": "[\n  \"Karlin\"\n]",
                       "schema": "",
                       "content": [
                         {
                           "element": "array",
-                          "meta": {
-                            "id": ""
-                          },
                           "content": [
                             {
                               "element": "string",

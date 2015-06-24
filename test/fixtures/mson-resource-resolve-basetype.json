@@ -42,7 +42,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "",
+                      "body": "{\n  \"hello\": \"42\",\n  \"nested\": {\n    \"question\": \"\",\n    \"url\": \"\"\n  }\n}",
                       "schema": "",
                       "content": [
                         {
@@ -210,7 +210,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "",
+                      "body": "{\n  \"hello\": \"42\",\n  \"nested\": {\n    \"question\": \"\",\n    \"url\": \"\"\n  }\n}",
                       "schema": "",
                       "content": [
                         {
