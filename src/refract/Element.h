@@ -37,6 +37,7 @@ namespace refract
     struct ExpandVisitor;
     struct IsExpandableVisitor;
     struct TypeQueryVisitor;
+    struct RenderJSONVisitor;
 
     template <typename T> struct ElementTypeSelector;
 
@@ -87,7 +88,8 @@ namespace refract
             SerializeCompactVisitor, 
             ExpandVisitor, 
             IsExpandableVisitor,
-            TypeQueryVisitor
+            TypeQueryVisitor,
+            RenderJSONVisitor
         >::type Visitors;
 
 

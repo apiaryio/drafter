@@ -14,5 +14,6 @@
 #include "IsExpandableVisitor.h"
 #include "ExpandVisitor.h"
 #include "TypeQueryVisitor.h"
+#include "RenderJSONVisitor.h"
 
 #endif // #ifndef REFRACT_VISITORS_H

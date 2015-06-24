@@ -40,8 +40,6 @@
         "src/SerializeResult.cc",
         "src/RefractAST.h",
         "src/RefractAST.cc",
-        "src/RenderJSONVisitor.h",
-        "src/RenderJSONVisitor.cc",
         "src/Render.h",
 
         # librefract parts - will be separated into other project
@@ -66,6 +64,8 @@
         "src/refract/IsExpandableVisitor.cc",
         "src/refract/ExpandVisitor.h",
         "src/refract/ExpandVisitor.cc",
+        "src/refract/RenderJSONVisitor.h",
+        "src/refract/RenderJSONVisitor.cc",
 
         "src/refract/Registry.h",
         "src/refract/Registry.cc",
