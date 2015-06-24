@@ -181,8 +181,6 @@ resourceGroups:
                     content:
                       -
                         element: "extend"
-                        meta:
-                          id: ""
                         content:
                           -
                             element: "object"
@@ -399,8 +397,6 @@ content:
                     content:
                       -
                         element: "extend"
-                        meta:
-                          id: ""
                         content:
                           -
                             element: "object"

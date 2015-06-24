@@ -127,6 +127,10 @@ namespace drafter
         {
             E* element = new E;
 
+            if(literal.empty()) {
+                return element;
+            }
+
             if (sample) {
                 refract::ArrayElement* a = new refract::ArrayElement;
                 a->push_back(refract::IElement::Create(LiteralTo<typename E::ValueType>(literal)));
@@ -140,11 +144,37 @@ namespace drafter
         }
     };
 
+    template <>
+    struct RefractElementFactoryImpl<refract::ObjectElement> : RefractElementFactory
+    {
+        virtual refract::IElement* Create(const std::string& literal, bool sample = false)
+        {
+            if (sample) {
+                refract::StringElement* element = new refract::StringElement;
+                element->element(key::Generic);
+                element->set(literal);
+                return element;
+            }
+
+            refract::ObjectElement* element = new refract::ObjectElement;
+
+            if(literal.empty()) {
+                return element;
+            }
+
+            element->element(literal);
+
+            return element;
+        }
+    };
+
+
     RefractElementFactory& FactoryFromType(const mson::BaseTypeName typeName)
     {
         static RefractElementFactoryImpl<refract::BooleanElement> bef;
         static RefractElementFactoryImpl<refract::NumberElement> nef;
         static RefractElementFactoryImpl<refract::StringElement> sef;
+        static RefractElementFactoryImpl<refract::ObjectElement> oef;
 
         switch (typeName) {
             case mson::BooleanTypeName:
@@ -153,11 +183,13 @@ namespace drafter
                 return nef;
             case mson::StringTypeName:
                 return sef;
+            case mson::UndefinedTypeName:
+                return oef;
             default:
                 ; // do nothing
         }
 
-        throw std::logic_error("Out of scope - ElementFactory for type not implemted");
+        throw std::logic_error("Out of scope - ElementFactory for type not implemented");
     }
 
     static refract::IElement* MsonElementToRefract(const mson::Element& mse);
@@ -268,9 +300,10 @@ namespace drafter
         operator T*()
         {
             ElementType* element = new ElementType;
+            const mson::TypeNames& nestedTypes = vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes;
 
             if (!vm.valueDefinition.values.empty()) {
-                mson::BaseTypeName type = SelectNestedTypeSpecification(vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes);
+                mson::BaseTypeName type = SelectNestedTypeSpecification(nestedTypes);
 
                 RefractElementFactory& elementFactory = FactoryFromType(type);
                 const mson::Values& values = vm.valueDefinition.values;
@@ -290,12 +323,27 @@ namespace drafter
                 else {
                     element->set(result);
                 }
+
+                // Do not inject typeinfo if there is just one - we already use it in values
+                if (nestedTypes.size() <= 1) {
+                    return element;
+                }
+
             }
-            else if (!vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes.empty() 
-                    && vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes.begin()->symbol.variable) {
-               refract::IElement* s = refract::IElement::Create(vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes.begin()->symbol.literal);
-               s->element(key::Generic);
-               element->push_back(s);
+
+            // inject type info into arrays [ "type", {}, {}, null ]
+            // FIXME: what to do with `Enum`s (they hold members in `sections` instead of value
+            if (!nestedTypes.empty() && GetType(vm.valueDefinition) != mson::EnumTypeName) {
+
+                RefractElements types;
+                for (mson::TypeNames::const_iterator it = nestedTypes.begin() ; it != nestedTypes.end(); ++it) {
+                    RefractElementFactory& f = FactoryFromType(it->base);
+                    types.push_back(f.Create(it->symbol.literal, it->symbol.variable));
+                }
+
+                refract::AppendDecorator<T> append = refract::AppendDecorator<T>(element);
+                append(types);
+
             }
 
             return element;
@@ -605,7 +653,9 @@ namespace drafter
         ElementType* e = new ElementType;
         SetElementType(ds.typeDefinition, e);
 
-        e->meta[key::Id] = IElement::Create(ds.name.symbol.literal);
+        if (!ds.name.symbol.literal.empty()) {
+            e->meta[key::Id] = IElement::Create(ds.name.symbol.literal);
+        }
 
         // FIXME: "title" is temporary commented, until clear refract spec 
         // in few examples for named object is "title" attribute used
