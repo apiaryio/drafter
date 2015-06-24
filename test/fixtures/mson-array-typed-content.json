@@ -119,7 +119,32 @@
                   "element": "array",
                   "content": [
                     {
-                      "element": "X"
+                      "element": "extend",
+                      "content": [
+                        {
+                          "element": "object",
+                          "meta": {
+                            "ref": "X"
+                          },
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "y"
+                                },
+                                "value": {
+                                  "element": "string"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "element": "object"
+                        }
+                      ]
                     }
                   ]
                 }

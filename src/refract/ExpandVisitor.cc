@@ -223,9 +223,18 @@ namespace refract
     void ExpandVisitor::visit(const NumberElement& e) {}
     void ExpandVisitor::visit(const BooleanElement& e) {}
     
-    // FIXME: can be ArrayElement Expandable?
-    // probably if any of members will be Member|Object
-    void ExpandVisitor::visit(const ArrayElement& e) {}
+    void ExpandVisitor::visit(const ArrayElement& e) {
+        if (!Expandable(e)) {  // do we have some expandable members?
+            return;
+        }
+
+        ArrayElement* a = new ArrayElement;
+        for (ArrayElement::ValueType::const_iterator it = e.value.begin(); it != e.value.end(); ++it) {
+            a->push_back(ExpandOrClone(*it, registry));
+        }
+
+        result = a;
+    }
 
     IElement* ExpandVisitor::get() const {
         return result;

@@ -59,7 +59,33 @@
                                   "element": "array",
                                   "content": [
                                     {
-                                      "element": "X"
+                                      "element": "extend",
+                                      "content": [
+                                        {
+                                          "element": "object",
+                                          "meta": {
+                                            "ref": "X"
+                                          },
+                                          "content": [
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "id"
+                                                },
+                                                "value": {
+                                                  "element": "string",
+                                                  "content": "pavan"
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "element": "object"
+                                        }
+                                      ]
                                     }
                                   ]
                                 }
@@ -133,7 +159,33 @@
                                   "element": "array",
                                   "content": [
                                     {
-                                      "element": "X"
+                                      "element": "extend",
+                                      "content": [
+                                        {
+                                          "element": "object",
+                                          "meta": {
+                                            "ref": "X"
+                                          },
+                                          "content": [
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "id"
+                                                },
+                                                "value": {
+                                                  "element": "string",
+                                                  "content": "pavan"
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "element": "object"
+                                        }
+                                      ]
                                     }
                                   ]
                                 }
