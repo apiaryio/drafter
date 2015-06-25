@@ -42,7 +42,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "[\n  \"Karlin\",\n  [\n    \"Prague\"\n  ]\n]",
+                      "body": "[\n  \"Karlin\",\n  [\n    \"Prague\",\n    {\n      \"zip\": 34567\n    }\n  ]\n]",
                       "schema": "",
                       "content": [
                         {
@@ -53,22 +53,29 @@
                               "content": "Karlin"
                             },
                             {
-                              "element": "extend",
+                              "element": "array",
                               "content": [
                                 {
-                                  "element": "array",
-                                  "meta": {
-                                    "ref": "Address"
-                                  },
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "Prague"
-                                    }
-                                  ]
+                                  "element": "string",
+                                  "content": "Prague"
                                 },
                                 {
-                                  "element": "array"
+                                  "element": "object",
+                                  "content": [
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "zip"
+                                        },
+                                        "value": {
+                                          "element": "number",
+                                          "content": 34567
+                                        }
+                                      }
+                                    }
+                                  ]
                                 }
                               ]
                             }
@@ -123,7 +130,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "[\n  \"Karlin\",\n  [\n    \"Prague\"\n  ]\n]",
+                      "body": "[\n  \"Karlin\",\n  [\n    \"Prague\",\n    {\n      \"zip\": 34567\n    }\n  ]\n]",
                       "schema": "",
                       "content": [
                         {
@@ -134,22 +141,29 @@
                               "content": "Karlin"
                             },
                             {
-                              "element": "extend",
+                              "element": "array",
                               "content": [
                                 {
-                                  "element": "array",
-                                  "meta": {
-                                    "ref": "Address"
-                                  },
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "Prague"
-                                    }
-                                  ]
+                                  "element": "string",
+                                  "content": "Prague"
                                 },
                                 {
-                                  "element": "array"
+                                  "element": "object",
+                                  "content": [
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "zip"
+                                        },
+                                        "value": {
+                                          "element": "number",
+                                          "content": 34567
+                                        }
+                                      }
+                                    }
+                                  ]
                                 }
                               ]
                             }
@@ -163,23 +177,6 @@
             }
           ],
           "content": []
-        }
-      ]
-    },
-    {
-      "element": "category",
-      "content": [
-        {
-          "element": "array",
-          "meta": {
-            "id": "Address"
-          },
-          "content": [
-            {
-              "element": "string",
-              "content": "Prague"
-            }
-          ]
         }
       ]
     }
