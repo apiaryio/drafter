@@ -93,7 +93,7 @@
           },
           "content": [
             {
-              "element": "User",
+              "element": "object",
               "meta": {
                 "ref": "Customer"
               },
