@@ -10,35 +10,30 @@
       "element": "category",
       "content": [
         {
-          "element": "extend",
+          "element": "object",
+          "meta": {
+            "id": "User",
+            "description": "FIXME: result of parsing `Include XXX` in snowcrash is now error.\nBecause of nenexisting Mixin\nIn future it should be possible to parse it correctly to allow Mixin referencing other document\n\n"
+          },
           "content": [
             {
-              "element": "object",
-              "meta": {
-                "id": "User",
-                "description": "FIXME: result of parsing `Include XXX` in snowcrash is now error.\nBecause of nenexisting Mixin\nIn future it should be possible to parse it correctly to allow Mixin referencing other document\n\n"
-              },
-              "content": [
-                {
-                  "element": "member",
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "id"
-                    },
-                    "value": {
-                      "element": "string"
-                    }
-                  }
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "id"
                 },
-                {
-                  "element": "ref",
-                  "content": {
-                    "href": "XXX",
-                    "path": "content"
-                  }
+                "value": {
+                  "element": "string"
                 }
-              ]
+              }
+            },
+            {
+              "element": "ref",
+              "content": {
+                "href": "XXX",
+                "path": "content"
+              }
             }
           ]
         }

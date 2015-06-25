@@ -19,7 +19,11 @@ namespace refract
                 if (e) {
                     type = e->element();
                 }
-                return !isReserved(type) || type == "ref";
+                return !isReserved(type) 
+#if _MIXIN_EXPANSION_
+                    || type == "ref"
+#endif
+                ;
             }
         };
 
