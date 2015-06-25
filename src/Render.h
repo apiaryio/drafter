@@ -47,7 +47,7 @@ namespace drafter {
         return "";
     }
 
-    Asset renderPayloadBody(const Payload& payload) {
+    Asset renderPayloadBody(const Payload& payload, const refract::Registry& registry) {
         Asset body = payload.body;
         RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.headers));
 
@@ -61,6 +61,13 @@ namespace drafter {
             {
                 refract::RenderJSONVisitor renderer;
                 refract::IElement* element = DataStructureToRefract(payload.attributes);
+
+                refract::ExpandVisitor expander(registry);
+                expander.visit(*element);
+
+                if (refract::IElement* expanded = expander.get()) {
+                    element = expanded;
+                }
 
                 renderer.visit(*element);
                 delete element;

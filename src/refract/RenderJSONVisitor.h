@@ -51,8 +51,6 @@ namespace refract
         void visit(const NumberElement& e);
         void visit(const BooleanElement& e);
 
-        void extend(const ObjectElement& e);
-
         sos::Base get() const;
         std::string getString() const;
     };

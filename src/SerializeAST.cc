@@ -504,12 +504,6 @@ sos::Object WrapAsset(const Asset& asset, const AssetRole& role)
 sos::Object WrapPayload(const Payload& payload)
 {
     sos::Object payloadObject;
-    sos::Object payloadAttributesObject;
-
-    // Expand MSON in payload attributes
-    if (!payload.attributes.empty()) {
-        payloadAttributesObject = WrapDataStructure(payload.attributes);
-    }
 
     // Reference
     if (!payload.reference.id.empty()) {
@@ -527,7 +521,7 @@ sos::Object WrapPayload(const Payload& payload)
                       WrapCollection<Header>()(payload.headers, WrapHeader));
 
     // Render using boutique
-    snowcrash::Asset payloadBody = renderPayloadBody(payload);
+    snowcrash::Asset payloadBody = renderPayloadBody(payload, NamedTypesRegistry);
     snowcrash::Asset payloadSchema = renderPayloadSchema(payload);
 
     // Body
@@ -541,7 +535,7 @@ sos::Object WrapPayload(const Payload& payload)
 
     /// Attributes
     if (!payload.attributes.empty()) {
-        content.push(payloadAttributesObject);
+        content.push(WrapDataStructure(payload.attributes));
     }
 
     /// Asset 'bodyExample'
@@ -784,7 +778,6 @@ bool IsElementResourceGroup(const Element& element)
 {
     return element.element == Element::CategoryElement && element.category == Element::ResourceGroupCategory;
 }
-
 
 #if _WITH_REFRACT_
 typedef std::vector<const snowcrash::DataStructure*> DataStructures;

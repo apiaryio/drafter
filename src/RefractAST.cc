@@ -48,7 +48,7 @@ namespace drafter
         const std::string Ref = "ref";
 
         // Refract Ref Element - keys/values
-        const std::string HRef = "href";
+        const std::string Href = "href";
         const std::string Path = "path";
         const std::string Content = "content";
 
@@ -610,7 +610,7 @@ namespace drafter
         ref->renderCompactContent(true);
 
         refract::MemberElement* href = new refract::MemberElement;
-        href->set(key::HRef, refract::IElement::Create(mixin.typeSpecification.name.symbol.literal));
+        href->set(key::Href, refract::IElement::Create(mixin.typeSpecification.name.symbol.literal));
         ref->push_back(href);
 
         refract::MemberElement* path = new refract::MemberElement;

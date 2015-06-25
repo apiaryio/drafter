@@ -4,6 +4,7 @@
 #include "catch.hpp"
 
 #include <string>
+#include <cstring>
 #include "stream.h"
 #include "snowcrash.h"
 #include "SerializeAST.h"
