@@ -78,7 +78,7 @@ namespace refract
 
                 // FIXME: while clone original element w/o meta - we lose `description`
                 // must be fixed in spec
-                IElement* clone = parent->clone(IElement::cAll | IElement::cNoMetaId);
+                IElement* clone = parent->clone(IElement::cAll ^ IElement::cElement | IElement::cNoMetaId);
                 clone->meta["ref"] = IElement::Create(en);
                 o->push_back(clone);
             }
@@ -124,7 +124,7 @@ namespace refract
             return o;
         }
 
-#if _MIXIN_EXPNASION_
+#if _MIXIN_EXPANSION_
         IElement* ExpandReference(const ObjectElement& e, const Registry& registry)
         {
             TypeQueryVisitor tq;
@@ -210,7 +210,7 @@ namespace refract
         if (!isReserved(en)) { //A expand named type
             result = ExpandNamedType(e, registry);
         }
-#if _MIXIN_EXPNASION_
+#if _MIXIN_EXPANSION_
         else if (en == "ref") { // expand reference
             result = ExpandReference(e, registry);
         } 
