@@ -124,6 +124,7 @@ namespace refract
             return o;
         }
 
+#if _MIXIN_EXPNASION_
         IElement* ExpandReference(const ObjectElement& e, const Registry& registry)
         {
             TypeQueryVisitor tq;
@@ -148,6 +149,7 @@ namespace refract
             // for now - ignore silently
             return NULL;
         }
+#endif
 
         IElement* ExpandMembers(const ObjectElement& e, const Registry& registry)
         {
@@ -208,9 +210,11 @@ namespace refract
         if (!isReserved(en)) { //A expand named type
             result = ExpandNamedType(e, registry);
         }
+#if _MIXIN_EXPNASION_
         else if (en == "ref") { // expand reference
             result = ExpandReference(e, registry);
         } 
+#endif
         else { // walk throught members and expand them
             result = ExpandMembers(e, registry);
         } 
