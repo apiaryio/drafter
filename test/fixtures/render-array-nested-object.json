@@ -42,14 +42,48 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "[\n  {\n    \"city\": \"Prague\",\n    \"zip\": 34567\n  }\n]",
+                      "body": "[\n  \"Karlin\",\n  {\n    \"city\": \"Prague\",\n    \"zip\": 34567\n  }\n]",
                       "schema": "",
                       "content": [
                         {
                           "element": "array",
-                          "meta": {
-                            "id": ""
-                          }
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "Karlin"
+                            },
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "city"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "Prague"
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "zip"
+                                    },
+                                    "value": {
+                                      "element": "number",
+                                      "content": 34567
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
                         }
                       ]
                     }
@@ -100,14 +134,48 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "[\n  {\n    \"city\": \"Prague\",\n    \"zip\": 34567\n  }\n]",
+                      "body": "[\n  \"Karlin\",\n  {\n    \"city\": \"Prague\",\n    \"zip\": 34567\n  }\n]",
                       "schema": "",
                       "content": [
                         {
                           "element": "array",
-                          "meta": {
-                            "id": ""
-                          }
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "Karlin"
+                            },
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "city"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "Prague"
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "zip"
+                                    },
+                                    "value": {
+                                      "element": "number",
+                                      "content": 34567
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
                         }
                       ]
                     }
@@ -117,45 +185,6 @@
             }
           ],
           "content": []
-        }
-      ]
-    },
-    {
-      "element": "category",
-      "content": [
-        {
-          "element": "object",
-          "meta": {
-            "id": "X"
-          },
-          "content": [
-            {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "city"
-                },
-                "value": {
-                  "element": "string",
-                  "content": "Prague"
-                }
-              }
-            },
-            {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "zip"
-                },
-                "value": {
-                  "element": "number",
-                  "content": 34567
-                }
-              }
-            }
-          ]
         }
       ]
     }

@@ -42,7 +42,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "[\n  \"Karlin\",\n  [\n    \"Prague\"\n  ]\n]",
+                      "body": "[\n  \"Karlin\",\n  {\n    \"city\": \"Prague\"\n  }\n]",
                       "schema": "",
                       "content": [
                         {
@@ -56,19 +56,28 @@
                               "element": "extend",
                               "content": [
                                 {
-                                  "element": "array",
+                                  "element": "object",
                                   "meta": {
                                     "ref": "Address"
                                   },
                                   "content": [
                                     {
-                                      "element": "string",
-                                      "content": "Prague"
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "city"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "content": "Prague"
+                                        }
+                                      }
                                     }
                                   ]
                                 },
                                 {
-                                  "element": "array"
+                                  "element": "object"
                                 }
                               ]
                             }
@@ -123,7 +132,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "[\n  \"Karlin\",\n  [\n    \"Prague\"\n  ]\n]",
+                      "body": "[\n  \"Karlin\",\n  {\n    \"city\": \"Prague\"\n  }\n]",
                       "schema": "",
                       "content": [
                         {
@@ -137,19 +146,28 @@
                               "element": "extend",
                               "content": [
                                 {
-                                  "element": "array",
+                                  "element": "object",
                                   "meta": {
                                     "ref": "Address"
                                   },
                                   "content": [
                                     {
-                                      "element": "string",
-                                      "content": "Prague"
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "city"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "content": "Prague"
+                                        }
+                                      }
                                     }
                                   ]
                                 },
                                 {
-                                  "element": "array"
+                                  "element": "object"
                                 }
                               ]
                             }
@@ -170,14 +188,23 @@
       "element": "category",
       "content": [
         {
-          "element": "array",
+          "element": "object",
           "meta": {
             "id": "Address"
           },
           "content": [
             {
-              "element": "string",
-              "content": "Prague"
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "city"
+                },
+                "value": {
+                  "element": "string",
+                  "content": "Prague"
+                }
+              }
             }
           ]
         }
