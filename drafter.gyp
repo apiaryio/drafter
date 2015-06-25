@@ -38,6 +38,36 @@
         "src/SerializeSourcemap.cc",
         "src/SerializeResult.h",
         "src/SerializeResult.cc",
+        "src/RefractAST.h",
+        "src/RefractAST.cc",
+
+        # librefract parts - will be separated into other project
+
+        "src/refract/Element.h",
+        "src/refract/Element.cc",
+        "src/refract/Typelist.h",
+        "src/refract/VisitableBy.h",
+
+        "src/refract/Visitor.h",
+        "src/refract/Visitors.h",
+
+        "src/refract/SerializeCompactVisitor.h",
+        "src/refract/SerializeCompactVisitor.cc",
+        "src/refract/SerializeVisitor.h",
+        "src/refract/SerializeVisitor.cc",
+        "src/refract/ComparableVisitor.h",
+        "src/refract/ComparableVisitor.cc",
+        "src/refract/TypeQueryVisitor.h",
+        "src/refract/TypeQueryVisitor.cc",
+        "src/refract/IsExpandableVisitor.h",
+        "src/refract/IsExpandableVisitor.cc",
+        "src/refract/ExpandVisitor.h",
+        "src/refract/ExpandVisitor.cc",
+
+        "src/refract/Registry.h",
+        "src/refract/Registry.cc",
+
+        "src/refract/AppendDecorator.h",
       ],
 
       # FIXME: replace by direct dependecies
@@ -72,6 +102,7 @@
         "test/test-main.cc",
         "test/test-SerializeResult.cc",
         "test/test-cdrafter.cc",
+        "test/test-RefractTest.cc",
       ],
       'dependencies': [
         "libdrafter",

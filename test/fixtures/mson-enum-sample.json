@@ -1,0 +1,88 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "object",
+          "meta": {
+            "id": "User"
+          },
+          "content": [
+            {
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "e1"
+                },
+                "value": {
+                  "element": "enum",
+                  "attributes": {
+                    "samples": [
+                      [
+                        "3",
+                        "4"
+                      ]
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "element": "member",
+              "meta": {
+                "description": "FIXME: must be handled by different way in snowcrash"
+              },
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "e2"
+                },
+                "value": {
+                  "element": "enum",
+                  "content": [
+                    {
+                      "element": "string",
+                      "content": "*3"
+                    },
+                    {
+                      "element": "string",
+                      "content": "4*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "e3"
+                },
+                "value": {
+                  "element": "enum",
+                  "attributes": {
+                    "samples": [
+                      [
+                        "3",
+                        "4"
+                      ]
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

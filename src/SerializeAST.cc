@@ -9,6 +9,15 @@
 #include "StringUtility.h"
 #include "SerializeAST.h"
 
+#define _WITH_REFRACT_ 1
+
+#include <stdlib.h>
+
+#include "RefractAST.h"
+#include "refract/Element.h"
+#include "refract/Registry.h"
+#include "refract/Visitors.h"
+
 using namespace drafter;
 
 using snowcrash::AssetRole;
@@ -32,6 +41,17 @@ using snowcrash::Response;
 using snowcrash::Action;
 using snowcrash::Resource;
 using snowcrash::Blueprint;
+
+#ifdef _WITH_REFRACT_
+/**
+ * Use static variable to be local inside this file
+ * Hold all **Named Types** converted to Refract Element
+ * Later use this registry for expanding element before serialization
+ */
+
+static refract::Registry NamedTypesRegistry;
+
+#endif
 
 sos::Object WrapValue(const mson::Value& value)
 {
@@ -430,6 +450,17 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
 
 sos::Object WrapDataStructure(const DataStructure& dataStructure)
 {
+#if _WITH_REFRACT_
+    refract::IElement* element = DataStructureToRefract(dataStructure);
+    sos::Object object = SerializeRefract(element, NamedTypesRegistry);
+
+    if (element) {
+        delete element;
+    }
+
+    return object;
+#endif
+
     sos::Object dataStructureObject;
 
     // Element
@@ -444,7 +475,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     // Type Sections
     dataStructureObject.set(SerializeKey::Sections,
                             WrapCollection<mson::TypeSection>()(dataStructure.sections, WrapTypeSection));
-
+                            
     return dataStructureObject;
 }
 
@@ -743,9 +774,44 @@ bool IsElementResourceGroup(const Element& element)
     return element.element == Element::CategoryElement && element.category == Element::ResourceGroupCategory;
 }
 
+
+#if _WITH_REFRACT_
+typedef std::vector<const snowcrash::DataStructure*> DataStructures;
+
+void findNamedDataStructures(const snowcrash::Elements& elements, DataStructures& found) {
+    for (snowcrash::Elements::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
+
+        if (i->element == snowcrash::Element::DataStructureElement) {
+            found.push_back(&(i->content.dataStructure));
+        }
+        else if (!i->content.resource.attributes.empty()) {
+            found.push_back(&i->content.resource.attributes);
+        }
+        else if (i->element == snowcrash::Element::CategoryElement) {
+            findNamedDataStructures(i->content.elements(), found);
+        }
+
+    }
+}
+#endif
+
 sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
 {
     sos::Object blueprintObject;
+
+#if _WITH_REFRACT_
+    DataStructures found;
+    findNamedDataStructures(blueprint.content.elements(), found);
+
+    for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
+
+        if (!(*i)->name.symbol.literal.empty()) {
+            refract::IElement* element = drafter::DataStructureToRefract(*(*i));
+            NamedTypesRegistry.add(element);
+        }
+
+    }
+#endif
 
     // Version
     blueprintObject.set(SerializeKey::Version, sos::String(AST_SERIALIZATION_VERSION));
@@ -770,6 +836,10 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
     // Content
     blueprintObject.set(SerializeKey::Content,
                         WrapCollection<Element>()(blueprint.content.elements(), WrapElement));
+
+#if _WITH_REFRACT_
+    NamedTypesRegistry.clearAll(true);
+#endif
 
     return blueprintObject;
 }
