@@ -47,9 +47,6 @@
                       "content": [
                         {
                           "element": "array",
-                          "meta": {
-                            "id": ""
-                          },
                           "content": [
                             {
                               "element": "string",
@@ -114,9 +111,6 @@
                       "content": [
                         {
                           "element": "array",
-                          "meta": {
-                            "id": ""
-                          },
                           "content": [
                             {
                               "element": "string",

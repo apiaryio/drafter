@@ -45,9 +45,19 @@ TEST_CASE("Testing render of an object nested under array", "[render]")
     REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render-array-nested-object"));
 }
 
+TEST_CASE("Testing render of an array nested under array", "[render]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render-array-nested-array"));
+}
+
 TEST_CASE("Testing render of an array referencing array", "[render]")
 {
     REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render-array-ref-array"));
+}
+
+TEST_CASE("Testing render of an array referencing object", "[render]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render-array-ref-object"));
 }
 
 TEST_CASE("Testing render of an object mixin", "[render]")
