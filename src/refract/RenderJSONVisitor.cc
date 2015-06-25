@@ -10,6 +10,7 @@
 #include "Visitors.h"
 #include "sosJSON.h"
 #include <sstream>
+#include <iostream>
 
 namespace refract
 {
@@ -26,6 +27,15 @@ namespace refract
         }
         else if (type == sos::Base::UndefinedType) {
             result = value;
+        }
+        else if (type == sos::Base::ObjectType) {
+
+            for (sos::KeyValues::iterator it = value.object().begin();
+                 it != value.object().end();
+                 ++it) {
+
+                pObj.set(it->first, it->second);
+            }
         }
     }
 
@@ -46,6 +56,10 @@ namespace refract
     }
 
     void RenderJSONVisitor::visit(const ObjectElement& e) {
+        if (e.element() == "ref") {
+            return;
+        }
+
         RenderJSONVisitor renderer(sos::Base::ObjectType);
         std::vector<refract::IElement*>::const_iterator it;
 
@@ -79,19 +93,6 @@ namespace refract
 
     void RenderJSONVisitor::visit(const BooleanElement& e) {
         assign(sos::Boolean(e.value));
-    }
-
-    void RenderJSONVisitor::extend(const ObjectElement& e) {
-        // FIXME: Allow extend to work with arrays
-
-        RenderJSONVisitor renderer(sos::Base::ObjectType);
-        std::vector<refract::IElement*>::const_iterator it;
-
-        for (it = e.value.begin(); it != e.value.end(); ++it) {
-            renderer.visit(*(*it));
-        }
-
-        assign(renderer.get());
     }
 
     sos::Base RenderJSONVisitor::get() const {

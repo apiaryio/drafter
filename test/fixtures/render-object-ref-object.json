@@ -42,14 +42,11 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "{\n  \"p\": {    \"city\": \"Prague\",\n    \"zip\": 34567\n  }\n}",
+                      "body": "{\n  \"p\": {\n    \"city\": \"Prague\",\n    \"zip\": 34567\n  }\n}",
                       "schema": "",
                       "content": [
                         {
                           "element": "object",
-                          "meta": {
-                            "id": ""
-                          },
                           "content": [
                             {
                               "element": "member",
@@ -153,14 +150,11 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "{\n  \"p\": {    \"city\": \"Prague\",\n    \"zip\": 34567\n  }\n}",
+                      "body": "{\n  \"p\": {\n    \"city\": \"Prague\",\n    \"zip\": 34567\n  }\n}",
                       "schema": "",
                       "content": [
                         {
                           "element": "object",
-                          "meta": {
-                            "id": ""
-                          },
                           "content": [
                             {
                               "element": "member",
