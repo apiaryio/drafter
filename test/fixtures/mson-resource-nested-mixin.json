@@ -66,19 +66,14 @@
                                           "content": "c"
                                         },
                                         "value": {
-                                          "element": "extend",
+                                          "element": "object",
                                           "content": [
                                             {
-                                              "element": "object",
-                                              "content": [
-                                                {
-                                                  "element": "ref",
-                                                  "content": {
-                                                    "href": "X",
-                                                    "path": "content"
-                                                  }
-                                                }
-                                              ]
+                                              "element": "ref",
+                                              "content": {
+                                                "href": "X",
+                                                "path": "content"
+                                              }
                                             }
                                           ]
                                         }
@@ -163,19 +158,14 @@
                                           "content": "c"
                                         },
                                         "value": {
-                                          "element": "extend",
+                                          "element": "object",
                                           "content": [
                                             {
-                                              "element": "object",
-                                              "content": [
-                                                {
-                                                  "element": "ref",
-                                                  "content": {
-                                                    "href": "X",
-                                                    "path": "content"
-                                                  }
-                                                }
-                                              ]
+                                              "element": "ref",
+                                              "content": {
+                                                "href": "X",
+                                                "path": "content"
+                                              }
                                             }
                                           ]
                                         }
