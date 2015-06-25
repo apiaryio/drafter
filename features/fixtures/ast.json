@@ -240,19 +240,37 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "dataStructure",
-                          "name": null,
-                          "typeDefinition": {
-                            "typeSpecification": {
-                              "name": {
-                                "literal": "<data structure name>",
-                                "variable": false
+                          "element": "extend",
+                          "content": [
+                            {
+                              "element": "object",
+                              "meta": {
+                                "description": "<data structure description>\n\n",
+                                "ref": "<data structure name>"
                               },
-                              "nestedTypes": []
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "meta": {
+                                    "description": "<data structure property description>"
+                                  },
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "<data structure property name>"
+                                    },
+                                    "value": {
+                                      "element": "number",
+                                      "content": 0
+                                    }
+                                  }
+                                }
+                              ]
                             },
-                            "attributes": []
-                          },
-                          "sections": []
+                            {
+                              "element": "object"
+                            }
+                          ]
                         }
                       ]
                     }
@@ -263,48 +281,26 @@
           ],
           "content": [
             {
-              "element": "dataStructure",
-              "name": {
-                "literal": "<resource name>",
-                "variable": false
+              "element": "object",
+              "meta": {
+                "id": "<resource name>"
               },
-              "typeDefinition": {
-                "typeSpecification": {
-                  "name": "object",
-                  "nestedTypes": []
-                },
-                "attributes": []
-              },
-              "sections": [
+              "content": [
                 {
-                  "class": "memberType",
-                  "content": [
-                    {
-                      "content": {
-                        "name": {
-                          "literal": "<attribute property name>"
-                        },
-                        "description": "<attribute property description>",
-                        "valueDefinition": {
-                          "values": [
-                            {
-                              "literal": "<attribute property value>",
-                              "variable": false
-                            }
-                          ],
-                          "typeDefinition": {
-                            "typeSpecification": {
-                              "name": "number",
-                              "nestedTypes": []
-                            },
-                            "attributes": []
-                          }
-                        },
-                        "sections": []
-                      },
-                      "class": "property"
+                  "element": "member",
+                  "meta": {
+                    "description": "<attribute property description>"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "<attribute property name>"
+                    },
+                    "value": {
+                      "element": "number",
+                      "content": 0
                     }
-                  ]
+                  }
                 }
               ]
             }
@@ -550,19 +546,37 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "dataStructure",
-                          "name": null,
-                          "typeDefinition": {
-                            "typeSpecification": {
-                              "name": {
-                                "literal": "<data structure name>",
-                                "variable": false
+                          "element": "extend",
+                          "content": [
+                            {
+                              "element": "object",
+                              "meta": {
+                                "description": "<data structure description>\n\n",
+                                "ref": "<data structure name>"
                               },
-                              "nestedTypes": []
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "meta": {
+                                    "description": "<data structure property description>"
+                                  },
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "<data structure property name>"
+                                    },
+                                    "value": {
+                                      "element": "number",
+                                      "content": 0
+                                    }
+                                  }
+                                }
+                              ]
                             },
-                            "attributes": []
-                          },
-                          "sections": []
+                            {
+                              "element": "object"
+                            }
+                          ]
                         }
                       ]
                     }
@@ -573,48 +587,26 @@
           ],
           "content": [
             {
-              "element": "dataStructure",
-              "name": {
-                "literal": "<resource name>",
-                "variable": false
+              "element": "object",
+              "meta": {
+                "id": "<resource name>"
               },
-              "typeDefinition": {
-                "typeSpecification": {
-                  "name": "object",
-                  "nestedTypes": []
-                },
-                "attributes": []
-              },
-              "sections": [
+              "content": [
                 {
-                  "class": "memberType",
-                  "content": [
-                    {
-                      "content": {
-                        "name": {
-                          "literal": "<attribute property name>"
-                        },
-                        "description": "<attribute property description>",
-                        "valueDefinition": {
-                          "values": [
-                            {
-                              "literal": "<attribute property value>",
-                              "variable": false
-                            }
-                          ],
-                          "typeDefinition": {
-                            "typeSpecification": {
-                              "name": "number",
-                              "nestedTypes": []
-                            },
-                            "attributes": []
-                          }
-                        },
-                        "sections": []
-                      },
-                      "class": "property"
+                  "element": "member",
+                  "meta": {
+                    "description": "<attribute property description>"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "<attribute property name>"
+                    },
+                    "value": {
+                      "element": "number",
+                      "content": 0
                     }
-                  ]
+                  }
                 }
               ]
             }
@@ -626,52 +618,27 @@
       "element": "category",
       "content": [
         {
-          "element": "dataStructure",
-          "name": {
-            "literal": "<data structure name>",
-            "variable": false
+          "element": "object",
+          "meta": {
+            "id": "<data structure name>",
+            "description": "<data structure description>\n\n"
           },
-          "typeDefinition": {
-            "typeSpecification": {
-              "name": null,
-              "nestedTypes": []
-            },
-            "attributes": []
-          },
-          "sections": [
+          "content": [
             {
-              "class": "blockDescription",
-              "content": "<data structure description>\n\n"
-            },
-            {
-              "class": "memberType",
-              "content": [
-                {
-                  "content": {
-                    "name": {
-                      "literal": "<data structure property name>"
-                    },
-                    "description": "<data structure property description>",
-                    "valueDefinition": {
-                      "values": [
-                        {
-                          "literal": "<data structure property value>",
-                          "variable": false
-                        }
-                      ],
-                      "typeDefinition": {
-                        "typeSpecification": {
-                          "name": "number",
-                          "nestedTypes": []
-                        },
-                        "attributes": []
-                      }
-                    },
-                    "sections": []
-                  },
-                  "class": "property"
+              "element": "member",
+              "meta": {
+                "description": "<data structure property description>"
+              },
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "<data structure property name>"
+                },
+                "value": {
+                  "element": "number",
+                  "content": 0
                 }
-              ]
+              }
             }
           ]
         }
