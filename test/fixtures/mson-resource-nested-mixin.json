@@ -72,30 +72,11 @@
                                               "element": "object",
                                               "content": [
                                                 {
-                                                  "element": "object",
-                                                  "content": [
-                                                    {
-                                                      "element": "object",
-                                                      "meta": {
-                                                        "ref": "X"
-                                                      },
-                                                      "content": [
-                                                        {
-                                                          "element": "member",
-                                                          "content": {
-                                                            "key": {
-                                                              "element": "string",
-                                                              "content": "id"
-                                                            },
-                                                            "value": {
-                                                              "element": "string",
-                                                              "content": "pavan"
-                                                            }
-                                                          }
-                                                        }
-                                                      ]
-                                                    }
-                                                  ]
+                                                  "element": "ref",
+                                                  "content": {
+                                                    "href": "X",
+                                                    "path": "content"
+                                                  }
                                                 }
                                               ]
                                             }
@@ -188,30 +169,11 @@
                                               "element": "object",
                                               "content": [
                                                 {
-                                                  "element": "object",
-                                                  "content": [
-                                                    {
-                                                      "element": "object",
-                                                      "meta": {
-                                                        "ref": "X"
-                                                      },
-                                                      "content": [
-                                                        {
-                                                          "element": "member",
-                                                          "content": {
-                                                            "key": {
-                                                              "element": "string",
-                                                              "content": "id"
-                                                            },
-                                                            "value": {
-                                                              "element": "string",
-                                                              "content": "pavan"
-                                                            }
-                                                          }
-                                                        }
-                                                      ]
-                                                    }
-                                                  ]
+                                                  "element": "ref",
+                                                  "content": {
+                                                    "href": "X",
+                                                    "path": "content"
+                                                  }
                                                 }
                                               ]
                                             }

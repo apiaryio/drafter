@@ -63,41 +63,11 @@
                   }
                 },
                 {
-                  "element": "object",
-                  "content": [
-                    {
-                      "element": "object",
-                      "meta": {
-                        "ref": "Address"
-                      },
-                      "content": [
-                        {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "city"
-                            },
-                            "value": {
-                              "element": "string"
-                            }
-                          }
-                        },
-                        {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "street"
-                            },
-                            "value": {
-                              "element": "string"
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  ]
+                  "element": "ref",
+                  "content": {
+                    "href": "Address",
+                    "path": "content"
+                  }
                 }
               ]
             }
