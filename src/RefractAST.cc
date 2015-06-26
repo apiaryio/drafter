@@ -471,7 +471,7 @@ namespace drafter
             // current state: "value" is has not set "sample" attribute
         } 
         else {
-            throw ("No property name");
+            throw std::logic_error("No property name");
         }
 
         mson::TypeAttributes attrs = property.valueDefinition.typeDefinition.attributes;
@@ -517,6 +517,9 @@ namespace drafter
     {
         return value.valueDefinition.values.size() > 1;
     }
+
+    // FIXME: Nearly duplicit code with MsonValueToRefract<>
+    // refactoring adept
 
     static refract::IElement* MsonPropertyToRefract(const mson::PropertyMember& property)
     {
@@ -570,14 +573,31 @@ namespace drafter
                 return RefractElementFromValue<refract::NumberElement>(value);
 
             case mson::StringTypeName:
-            case mson::UndefinedTypeName:
                 return RefractElementFromValue<refract::StringElement>(value);
 
-            // FIXME: I did not find examples of Values w/ complex structures 
-            // - confirm they are not exists, or provide some valid example
-            case mson::EnumTypeName :
+            case mson::EnumTypeName : {
+                refract::IElement* element = RefractElementFromValue<refract::ArrayElement>(value);
+                if (element) {
+                    element->element(key::Enum);
+                }
+                return element;
+            }
+
             case mson::ArrayTypeName :
+                return RefractElementFromValue<refract::ArrayElement>(value);
+
             case mson::ObjectTypeName :
+                return RefractElementFromValue<refract::ObjectElement>(value);
+
+            case mson::UndefinedTypeName:
+                if(ValueHasChildren(value)) {
+                    return RefractElementFromValue<refract::ArrayElement>(value);
+                }
+                else if(!value.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal.empty() || ValueHasMembers(value)) {
+                    return RefractElementFromValue<refract::ObjectElement>(value);
+                }
+                return RefractElementFromValue<refract::StringElement>(value);
+
             default:
                 throw std::runtime_error("Unhandled type of ValueMember");
         }
