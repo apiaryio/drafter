@@ -10,6 +10,8 @@
 #include "Visitors.h"
 #include "Registry.h"
 
+#include <iostream>
+
 namespace refract
 {
 
@@ -66,21 +68,22 @@ namespace refract
             return NULL;
         }
 
-        ObjectElement* FindNamedType(const Registry& registry, const std::string& name)
+        template<typename T>
+        T* FindNamedType(const Registry& registry, const std::string& name)
         {
             std::string en = name;
-            ObjectElement* o = new ObjectElement;
+            T* e = new T;
+
+            // FIXME: add check against recursive inheritance
 
             // walk recursive in registry an expand inheritance tree
             for (const IElement* parent = registry.find(en)
                 ; parent && !isReserved(en)
                 ; en = parent->element(), parent = registry.find(en) ) {
 
-                // FIXME: while clone original element w/o meta - we lose `description`
-                // must be fixed in spec
-                IElement* clone = parent->clone(IElement::cAll ^ IElement::cElement | IElement::cNoMetaId);
+                IElement* clone = parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId);
                 clone->meta["ref"] = IElement::Create(en);
-                o->push_back(clone);
+                e->push_back(clone);
             }
 
             // FIXME: posible solution while referenced type is not found in regisry
@@ -90,38 +93,81 @@ namespace refract
             //   o->meta["ref"] = IElement::Create(name);
             //}
 
-            return o;
+            return e;
         }
 
-        void ExpandOrCloneMembers(std::vector<IElement*>& members, const ObjectElement& e, const Registry& registry, bool& hasRef)
+        template<typename T>
+        T* ExpandMembers(const T& e, const Registry& registry, const bool cloneId = true)
         {
-            for (ObjectElement::ValueType::const_iterator it = e.value.begin() ; it != e.value.end() ; ++it) {
+            std::vector<IElement*> members;
+#if _MIXIN_EXPANSION_
+            bool hasRef = false;
+#endif
+
+            for (typename T::ValueType::const_iterator it = e.value.begin() ; it != e.value.end() ; ++it) {
+#if _MIXIN_EXPANSION_
                 if ((*it)->element() == "ref") {
                    hasRef = true; 
                 }
+#endif
 
                 members.push_back(ExpandOrClone(*it, registry));
             }
+
+            T* o = new T;
+            o->attributes.clone(e.attributes);
+            o->meta.clone(e.meta);
+            if (!cloneId) {
+                o->meta.erase("id");
+            }
+
+            if (!members.empty()) {
+                o->set(members);
+            }
+
+#if _MIXIN_EXPANSION_
+            if (hasRef) { // create addition object envelope over parent object
+                T* extend = new T;
+                extend->element("extend");
+                extend->push_back(o);
+                o = extend;
+            }
+#endif
+
+            return o;
+        }
+
+        template<typename T>
+        T* CreateExtend(const IElement& e, const Registry& registry) {
+            typedef T ElementType;
+
+            ElementType* extend = FindNamedType<T>(registry, e.element());
+            extend->element("extend");
+
+            CopyMetaId(*extend, e);
+
+            ElementType* origin = ExpandMembers(static_cast<const ElementType&>(e), registry, false);
+
+            extend->push_back(origin);
+
+            return extend;
         }
 
         IElement* ExpandNamedType(const ObjectElement& e, const Registry& registry) 
         {
-            refract::ObjectElement* o = FindNamedType(registry, e.element());
-            o->element("extend");
-
-            CopyMetaId(*o, e);
-
-            std::vector<IElement*> members;
-            bool hasRef = false;
-            ExpandOrCloneMembers(members, e, registry, hasRef);
-
-            ObjectElement* origin = new ObjectElement; // wrapper for original object
-            if (!members.empty()) {
-                origin->set(members);
+            IElement* base = registry.find(e.element());
+            TypeQueryVisitor t;
+            if (base) {
+                base->content(t);
             }
-            o->push_back(origin);
 
-            return o;
+            if (t.get() == TypeQueryVisitor::Array) {
+                return CreateExtend<ArrayElement>(e, registry);
+            }
+            else {
+                return CreateExtend<ObjectElement>(e, registry);
+            }
+
         }
 
 #if _MIXIN_EXPANSION_
@@ -151,26 +197,6 @@ namespace refract
         }
 #endif
 
-        IElement* ExpandMembers(const ObjectElement& e, const Registry& registry)
-        {
-            std::vector<IElement*> members;
-            bool hasRef = false;
-            ExpandOrCloneMembers(members, e, registry, hasRef);
-           
-            refract::ObjectElement* o = static_cast<ObjectElement*>(e.clone(IElement::cAll ^ IElement::cValue));
-            if (!members.empty()) {
-                o->set(members);
-            }
-
-            if (hasRef) { // create addition object envelope over parent object
-                ObjectElement* extend = new ObjectElement;
-                extend->element("extend");
-                extend->push_back(o);
-                o = extend;
-            }
-
-            return o;
-        }
 
     } // end of anonymous namespac
 
@@ -207,7 +233,7 @@ namespace refract
 
         std::string en = e.element();
 
-        if (!isReserved(en)) { //A expand named type
+        if (!isReserved(en)) { // expand named type
             result = ExpandNamedType(e, registry);
         }
 #if _MIXIN_EXPANSION_
@@ -232,12 +258,7 @@ namespace refract
             return;
         }
 
-        ArrayElement* a = new ArrayElement;
-        for (ArrayElement::ValueType::const_iterator it = e.value.begin(); it != e.value.end(); ++it) {
-            a->push_back(ExpandOrClone(*it, registry));
-        }
-
-        result = a;
+        result = ExpandMembers(e, registry);
     }
 
     IElement* ExpandVisitor::get() const {

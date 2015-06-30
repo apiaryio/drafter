@@ -196,7 +196,10 @@
               ]
             },
             {
-              "element": "object"
+              "element": "object",
+              "meta": {
+                "description": "This object has no own members\n"
+              }
             }
           ]
         }
