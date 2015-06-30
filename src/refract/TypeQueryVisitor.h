@@ -76,6 +76,27 @@ namespace refract
             return static_cast<E*>(e);
         }
 
+        template<typename E>
+        static const E* as(const IElement* e)
+        {
+            if (!e) {
+                return static_cast<const E*>(e);
+            }
+
+            TypeQueryVisitor tq;
+            tq.visit(*e);
+
+            E type;
+            TypeQueryVisitor eq;
+            type.content(eq);
+
+            if (eq.typeInfo != tq.typeInfo) {
+                return 0;
+            }
+
+            return static_cast<const E*>(e);
+        }
+
     };
 
 }; // namespace refract
