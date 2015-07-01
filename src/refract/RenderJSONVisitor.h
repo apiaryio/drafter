@@ -33,6 +33,7 @@ namespace refract
         sos::Base result;
 
         sos::Base::Type type;
+        bool isExtend;
 
     public:
         RenderJSONVisitor(const sos::Base::Type& type);
@@ -40,6 +41,8 @@ namespace refract
 
         void assign(sos::Base value);
         void assign(std::string key, sos::Base value);
+
+        void extend(sos::Base value);
 
         void visit(const IElement& e);
         void visit(const MemberElement& e);

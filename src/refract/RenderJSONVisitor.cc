@@ -10,25 +10,36 @@
 #include "Visitors.h"
 #include "sosJSON.h"
 #include <sstream>
-#include <iostream>
 
 namespace refract
 {
 
     RenderJSONVisitor::RenderJSONVisitor(const sos::Base::Type& type_)
-    : type(type_) {}
+    : type(type_), isExtend(false) {}
 
     RenderJSONVisitor::RenderJSONVisitor()
-    : type(sos::Base::UndefinedType) {}
+    : type(sos::Base::UndefinedType), isExtend(false) {}
 
     void RenderJSONVisitor::assign(sos::Base value) {
-        if (type == sos::Base::ArrayType) {
+        if (isExtend) {
+            extend(value);
+        }
+        else if (type == sos::Base::ArrayType) {
             pArr.push(value);
         }
         else if (type == sos::Base::UndefinedType) {
             result = value;
         }
-        else if (type == sos::Base::ObjectType) {
+    }
+
+    void RenderJSONVisitor::assign(std::string key, sos::Base value) {
+        if (!key.empty() && type == sos::Base::ObjectType) {
+            pObj.set(key, value);
+        }
+    }
+
+    void RenderJSONVisitor::extend(sos::Base value) {
+        if (type == sos::Base::ObjectType) {
 
             for (sos::KeyValues::iterator it = value.object().begin();
                  it != value.object().end();
@@ -37,11 +48,14 @@ namespace refract
                 pObj.set(it->first, it->second);
             }
         }
-    }
+        else if (type == sos::Base::ArrayType) {
 
-    void RenderJSONVisitor::assign(std::string key, sos::Base value) {
-        if (!key.empty() && type == sos::Base::ObjectType) {
-            pObj.set(key, value);
+            for (sos::Bases::iterator it = value.array().begin();
+                 it != value.array().end();
+                 ++it) {
+
+                pArr.push(*it);
+            }
         }
     }
 
@@ -63,6 +77,10 @@ namespace refract
         RenderJSONVisitor renderer(sos::Base::ObjectType);
         std::vector<refract::IElement*>::const_iterator it;
 
+        if (e.element() == "extend") {
+            renderer.isExtend = true;
+        }
+
         for (it = e.value.begin(); it != e.value.end(); ++it) {
             renderer.visit(*(*it));
         }
@@ -73,6 +91,10 @@ namespace refract
     void RenderJSONVisitor::visit(const ArrayElement& e) {
         RenderJSONVisitor renderer(sos::Base::ArrayType);
         std::vector<refract::IElement*>::const_iterator it;
+
+        if (e.element() == "extend") {
+            renderer.isExtend = true;
+        }
 
         for (it = e.value.begin(); it != e.value.end(); ++it) {
             renderer.visit(*(*it));
