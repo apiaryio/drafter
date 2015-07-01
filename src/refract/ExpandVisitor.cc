@@ -10,8 +10,6 @@
 #include "Visitors.h"
 #include "Registry.h"
 
-#include <iostream>
-
 namespace refract
 {
 
