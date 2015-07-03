@@ -114,7 +114,7 @@ namespace refract
             virtual iterator find(const std::string& name);
             MemberElement& operator[](const std::string& name);
             MemberElement& operator[](const int index);
-            virtual void clone(const MemberElementCollection& other); /// < clone elements from `other`to`this`
+            virtual void clone(const MemberElementCollection& other); /// < clone elements from `other` to `this`
             virtual void erase(const std::string& key);
             virtual ~MemberElementCollection();
         };

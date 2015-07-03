@@ -42,7 +42,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "{\n  \"area\": \"Karlin\"\n}",
+                      "body": "{\n  \"area\": \"Karlin\",\n  \"city\": \"Prague\",\n  \"zip\": 34567\n}",
                       "schema": "",
                       "content": [
                         {
@@ -63,6 +63,42 @@
                             },
                             {
                               "element": "ref",
+                              "attributes": {
+                                "resolved": {
+                                  "element": "object",
+                                  "meta": {
+                                    "ref": "Address"
+                                  },
+                                  "content": [
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "city"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "content": "Prague"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "zip"
+                                        },
+                                        "value": {
+                                          "element": "number",
+                                          "content": "34567"
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              },
                               "content": {
                                 "href": "Address",
                                 "path": "content"
@@ -119,7 +155,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "{\n  \"area\": \"Karlin\"\n}",
+                      "body": "{\n  \"area\": \"Karlin\",\n  \"city\": \"Prague\",\n  \"zip\": 34567\n}",
                       "schema": "",
                       "content": [
                         {
@@ -140,6 +176,42 @@
                             },
                             {
                               "element": "ref",
+                              "attributes": {
+                                "resolved": {
+                                  "element": "object",
+                                  "meta": {
+                                    "ref": "Address"
+                                  },
+                                  "content": [
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "city"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "content": "Prague"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "zip"
+                                        },
+                                        "value": {
+                                          "element": "number",
+                                          "content": "34567"
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              },
                               "content": {
                                 "href": "Address",
                                 "path": "content"
