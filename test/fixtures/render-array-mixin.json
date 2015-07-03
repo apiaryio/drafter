@@ -42,7 +42,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "[\n  \"Karlin\"\n]",
+                      "body": "[\n  \"Karlin\",\n  \"Prague\"\n]",
                       "schema": "",
                       "content": [
                         {
@@ -54,6 +54,20 @@
                             },
                             {
                               "element": "ref",
+                              "attributes": {
+                                "resolved": {
+                                  "element": "array",
+                                  "meta": {
+                                    "ref": "Address"
+                                  },
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "Prague"
+                                    }
+                                  ]
+                                }
+                              },
                               "content": {
                                 "href": "Address",
                                 "path": "content"
@@ -110,7 +124,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "[\n  \"Karlin\"\n]",
+                      "body": "[\n  \"Karlin\",\n  \"Prague\"\n]",
                       "schema": "",
                       "content": [
                         {
@@ -122,6 +136,20 @@
                             },
                             {
                               "element": "ref",
+                              "attributes": {
+                                "resolved": {
+                                  "element": "array",
+                                  "meta": {
+                                    "ref": "Address"
+                                  },
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "Prague"
+                                    }
+                                  ]
+                                }
+                              },
                               "content": {
                                 "href": "Address",
                                 "path": "content"

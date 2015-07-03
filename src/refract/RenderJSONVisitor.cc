@@ -70,7 +70,22 @@ namespace refract
     }
 
     void RenderJSONVisitor::visit(const ObjectElement& e) {
+        // If the element is a mixin reference
         if (e.element() == "ref") {
+            IElement::MemberElementCollection::const_iterator resolved = e.attributes.find("resolved");
+
+            if (resolved == e.attributes.end()) {
+                return;
+            }
+
+            RenderJSONVisitor renderer;
+            renderer.visit(*(*resolved));
+
+            // Imitate an extend object
+            isExtend = true;
+            assign(renderer.get());
+            isExtend = false;
+
             return;
         }
 
