@@ -22,6 +22,8 @@ $ brew install --HEAD \
   https://raw.github.com/apiaryio/drafter/master/tools/homebrew/drafter.rb
 ```
 
+[AUR package](https://aur.archlinux.org/packages/drafter-git/) for Arch Linux.
+
 Other systems refer to [build notes](#build).
 
 ## Use
