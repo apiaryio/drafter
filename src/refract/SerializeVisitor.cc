@@ -8,6 +8,8 @@
 #include "Element.h"
 #include "Visitors.h"
 
+#include <iostream>
+
 namespace refract
 {
 
@@ -54,7 +56,7 @@ namespace refract
         if (e.empty())
             return;
 
-        if (e.compactContent()) {
+        if (e.renderType() == IElement::rCompact) {
             SerializeCompactVisitor s;
             e.content(s);
             result.set("content", s.value());

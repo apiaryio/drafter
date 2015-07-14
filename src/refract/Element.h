@@ -76,7 +76,7 @@ namespace refract
     struct IElement
     {
         bool hasContent; ///< was content of element already set? \see empty()
-        bool useCompactContent;  ///< should be content serialized in compact form? \see compactContent()
+
 
         /**
          * define __visitors__ which can visit element
@@ -93,7 +93,7 @@ namespace refract
         >::type Visitors;
 
 
-        IElement() : hasContent(false), useCompactContent(false)
+        IElement() : hasContent(false), renderStrategy(rDefault)
         {
         }
 
@@ -154,6 +154,7 @@ namespace refract
             cNoMetaId   = 0x10,
         } cloneFlags;
 
+
         virtual IElement* clone(const int flag = cAll) const = 0;
 
         virtual bool empty() const
@@ -161,14 +162,31 @@ namespace refract
             return !hasContent;
         }
 
-        virtual bool compactContent() const
+        /**
+         * select seriaization/rendering type of element
+         * by default are elements serialized in expanded form,
+         * with compact form of meta and attributes
+         *
+         * `renderType()` allows to change default behavior of selected element
+         * (behavioration must be implemented in serialization visitors - it is partially done)
+         */
+
+        typedef enum { 
+            rDefault = 0,
+            rFull,
+            rCompact,
+        } renderFlags;
+
+        renderFlags renderStrategy;
+
+        virtual renderFlags renderType() const
         {
-            return useCompactContent;
+            return renderStrategy;
         }
 
-        virtual void renderCompactContent(bool compact)
+        virtual void renderType(const renderFlags render)
         {
-            useCompactContent = compact;
+            renderStrategy = render;
         }
 
         virtual ~IElement()
@@ -226,7 +244,7 @@ namespace refract
             Type* element =  new Type;
 
             element->hasContent = self->hasContent;
-            element->useCompactContent = self->useCompactContent;
+            element->renderStrategy = self->renderStrategy;
 
             if (flags & cElement) {
                 element->element_ = self->element_;
