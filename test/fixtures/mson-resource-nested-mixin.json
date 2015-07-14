@@ -70,6 +70,29 @@
                                           "content": [
                                             {
                                               "element": "ref",
+                                              "attributes": {
+                                                "resolved": {
+                                                  "element": "object",
+                                                  "meta": {
+                                                    "ref": "X"
+                                                  },
+                                                  "content": [
+                                                    {
+                                                      "element": "member",
+                                                      "content": {
+                                                        "key": {
+                                                          "element": "string",
+                                                          "content": "id"
+                                                        },
+                                                        "value": {
+                                                          "element": "string",
+                                                          "content": "pavan"
+                                                        }
+                                                      }
+                                                    }
+                                                  ]
+                                                }
+                                              },
                                               "content": {
                                                 "href": "X",
                                                 "path": "content"
@@ -162,6 +185,29 @@
                                           "content": [
                                             {
                                               "element": "ref",
+                                              "attributes": {
+                                                "resolved": {
+                                                  "element": "object",
+                                                  "meta": {
+                                                    "ref": "X"
+                                                  },
+                                                  "content": [
+                                                    {
+                                                      "element": "member",
+                                                      "content": {
+                                                        "key": {
+                                                          "element": "string",
+                                                          "content": "id"
+                                                        },
+                                                        "value": {
+                                                          "element": "string",
+                                                          "content": "pavan"
+                                                        }
+                                                      }
+                                                    }
+                                                  ]
+                                                }
+                                              },
                                               "content": {
                                                 "href": "X",
                                                 "path": "content"
