@@ -66,7 +66,13 @@ namespace refract
     void RenderJSONVisitor::visit(const MemberElement& e) {
         RenderJSONVisitor renderer;
         renderer.visit(*e.value.second);
-        assign(static_cast<const StringElement&>(*e.value.first).value, renderer.get());
+
+        if (StringElement* str = TypeQueryVisitor::as<StringElement>(e.value.first)) {
+            assign(str->value, renderer.get());
+        }
+        else {
+            throw std::logic_error("A property's key in the object is not of type string");
+        }
     }
 
     void RenderJSONVisitor::visit(const ObjectElement& e) {

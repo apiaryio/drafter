@@ -66,6 +66,7 @@ namespace drafter {
                 expander.visit(*element);
 
                 if (refract::IElement* expanded = expander.get()) {
+                    delete element;
                     element = expanded;
                 }
 
