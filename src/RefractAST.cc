@@ -631,7 +631,7 @@ namespace drafter
     {
         refract::ObjectElement* ref = new refract::ObjectElement;
         ref->element(key::Ref);
-        ref->renderCompactContent(true);
+        ref->renderType(refract::IElement::rCompact);
 
         refract::MemberElement* href = new refract::MemberElement;
         href->set(key::Href, refract::IElement::Create(mixin.typeSpecification.name.symbol.literal));

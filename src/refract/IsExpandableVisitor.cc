@@ -19,11 +19,7 @@ namespace refract
                 if (e) {
                     type = e->element();
                 }
-                return !isReserved(type) 
-#if _MIXIN_EXPANSION_
-                    || type == "ref"
-#endif
-                ;
+                return !isReserved(type) || type == "ref" ;
             }
         };
 
@@ -40,7 +36,6 @@ namespace refract
         template <typename T>
         struct IsExpandable<T, MemberElement::ValueType> : public CheckElement {
             bool operator()(const T* e) const {
-                //std::cout << __PRETTY_FUNCTION__ << e->element() << std::endl;
 
                 if (checkElement(e)) {
                     return true;
@@ -70,7 +65,6 @@ namespace refract
         template <typename T>
         struct IsExpandable<T, std::vector<IElement*> > : public CheckElement {
             bool operator()(const T* e) const {
-                //std::cout << __PRETTY_FUNCTION__ << e->element() << std::endl;
 
                 if (checkElement(e)) {
                     return true;

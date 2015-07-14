@@ -59,7 +59,14 @@ namespace refract
         }
 
         if (e.value.second) {
-            e.value.second->content(*this);
+            if (e.value.second->renderType() != IElement::rFull) {
+                e.value.second->content(*this);
+            }
+            else { // value has request to be serialized in Expanded form
+                SerializeVisitor s;
+                s.visit(*e.value.second);
+                value_ = s.get();
+            }
         }
     }
 
