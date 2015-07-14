@@ -10,8 +10,6 @@
 #include "Visitors.h"
 #include "Registry.h"
 
-#include <iostream>
-
 namespace refract
 {
 
@@ -179,7 +177,6 @@ namespace refract
 
             return ref;
         }
-
 
         template <typename T>
         IElement* ExpandReference(const T& e, const Registry& registry)

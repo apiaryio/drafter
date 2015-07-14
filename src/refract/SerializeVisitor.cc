@@ -8,8 +8,6 @@
 #include "Element.h"
 #include "Visitors.h"
 
-#include <iostream>
-
 namespace refract
 {
 
