@@ -66,11 +66,19 @@ namespace refract
             return NULL;
         }
 
+        typedef enum {
+            Inherited,
+            Referenced,
+        } NamedTypeExpansion;
+
         template<typename T>
-        T* FindNamedType(const Registry& registry, const std::string& name)
+        T* ExpandNamedType(const Registry& registry, const std::string& name, NamedTypeExpansion expansion)
         {
             std::string en = name;
-            T* e = new T;
+            T* e = NULL;
+            if (expansion == Inherited) {
+                e = new T;
+            }
 
             // FIXME: add check against recursive inheritance
 
@@ -81,7 +89,12 @@ namespace refract
 
                 IElement* clone = parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId);
                 clone->meta["ref"] = IElement::Create(en);
-                e->push_back(clone);
+                if (e) {
+                    e->push_back(clone);
+                }
+                else {
+                    e = static_cast<T*>(clone);
+                }
             }
 
             // FIXME: posible solution while referenced type is not found in regisry
@@ -98,17 +111,8 @@ namespace refract
         T* ExpandMembers(const T& e, const Registry& registry, const bool cloneId = true)
         {
             std::vector<IElement*> members;
-#if _MIXIN_EXPANSION_
-            bool hasRef = false;
-#endif
 
             for (typename T::ValueType::const_iterator it = e.value.begin() ; it != e.value.end() ; ++it) {
-#if _MIXIN_EXPANSION_
-                if ((*it)->element() == "ref") {
-                   hasRef = true; 
-                }
-#endif
-
                 members.push_back(ExpandOrClone(*it, registry));
             }
 
@@ -123,15 +127,6 @@ namespace refract
                 o->set(members);
             }
 
-#if _MIXIN_EXPANSION_
-            if (hasRef) { // create addition object envelope over parent object
-                T* extend = new T;
-                extend->element("extend");
-                extend->push_back(o);
-                o = extend;
-            }
-#endif
-
             return o;
         }
 
@@ -139,19 +134,18 @@ namespace refract
         T* CreateExtend(const IElement& e, const Registry& registry) {
             typedef T ElementType;
 
-            ElementType* extend = FindNamedType<T>(registry, e.element());
+            ElementType* extend = ExpandNamedType<T>(registry, e.element(), Inherited);
             extend->element("extend");
 
             CopyMetaId(*extend, e);
 
             ElementType* origin = ExpandMembers(static_cast<const ElementType&>(e), registry, false);
-
             extend->push_back(origin);
 
             return extend;
         }
 
-        IElement* ExpandNamedType(const ObjectElement& e, const Registry& registry) 
+        IElement* ExpandInheritance(const ObjectElement& e, const Registry& registry) 
         {
             IElement* base = registry.find(e.element());
             TypeQueryVisitor t;
@@ -168,35 +162,52 @@ namespace refract
 
         }
 
-#if _MIXIN_EXPANSION_
-        IElement* ExpandReference(const ObjectElement& e, const Registry& registry)
+        template<typename T>
+        T* CreateReference(const IElement& e, const std::string& href, const Registry& registry) {
+
+            typedef T ElementType;
+            ElementType* ref = ExpandMembers(static_cast<const ElementType&>(e), registry, true);
+            ref->element("ref");
+            ref->renderType(e.renderType());
+
+            ElementType* resolved = ExpandNamedType<T>(registry, href, Referenced);
+
+            resolved->renderType(IElement::rFull);
+            ref->attributes["resolved"] = resolved;
+
+            return ref;
+        }
+
+        template <typename T>
+        IElement* ExpandReference(const T& e, const Registry& registry)
         {
-            TypeQueryVisitor tq;
-            StringElement* href = tq.as<StringElement>(FindMemberByKey(e, "href"));
+            StringElement* href = TypeQueryVisitor::as<StringElement>(FindMemberByKey(e, "href"));
 
-            if (href) {
-                IElement* expanded = FindNamedType(registry, href->value);
-
-                if (expanded->empty()) { // if referenced element not found return clone of reference
-                    delete expanded;
-                    expanded = e.clone(); 
-                }
-
-                return expanded;
+            if (!href || href->value.empty()) {
+                return e.clone();
             }
 
-            // FIXME: report error
-            // - Ref Element does not contain "href" key, 
-            // - value of `href` is not `StringElement`
-            
-            // can no be implemeted until error reporting system
-            // for now - ignore silently
-            return NULL;
+            IElement* referenced = registry.find(href->value);
+            if (!referenced) {
+                return e.clone();
+            }
+
+            IElement* base = registry.find(e.element());
+            TypeQueryVisitor t;
+            if (base) {
+                base->content(t);
+            }
+
+            if (t.get() == TypeQueryVisitor::Array) {
+                return CreateReference<ArrayElement>(e, href->value, registry);
+            }
+            else {
+                return CreateReference<ObjectElement>(e, href->value, registry);
+            }
+
         }
-#endif
 
-
-    } // end of anonymous namespac
+    } // end of anonymous namespace
 
     ExpandVisitor::ExpandVisitor(const Registry& registry) : result(NULL), registry(registry) {};
 
@@ -232,13 +243,11 @@ namespace refract
         std::string en = e.element();
 
         if (!isReserved(en)) { // expand named type
-            result = ExpandNamedType(e, registry);
+            result = ExpandInheritance(e, registry);
         }
-#if _MIXIN_EXPANSION_
         else if (en == "ref") { // expand reference
             result = ExpandReference(e, registry);
         } 
-#endif
         else { // walk throught members and expand them
             result = ExpandMembers(e, registry);
         } 
@@ -252,6 +261,7 @@ namespace refract
     void ExpandVisitor::visit(const BooleanElement& e) {}
     
     void ExpandVisitor::visit(const ArrayElement& e) {
+
         if (!Expandable(e)) {  // do we have some expandable members?
             return;
         }

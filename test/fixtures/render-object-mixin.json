@@ -92,7 +92,7 @@
                                         },
                                         "value": {
                                           "element": "number",
-                                          "content": "34567"
+                                          "content": 34567
                                         }
                                       }
                                     }
@@ -205,7 +205,7 @@
                                         },
                                         "value": {
                                           "element": "number",
-                                          "content": "34567"
+                                          "content": 34567
                                         }
                                       }
                                     }
