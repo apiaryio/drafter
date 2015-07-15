@@ -65,7 +65,9 @@ namespace refract
 
     void RenderJSONVisitor::visit(const MemberElement& e) {
         RenderJSONVisitor renderer;
-        renderer.visit(*e.value.second);
+        if (e.value.second) {
+            renderer.visit(*e.value.second);
+        }
 
         if (StringElement* str = TypeQueryVisitor::as<StringElement>(e.value.first)) {
             assign(str->value, renderer.get());
@@ -85,7 +87,9 @@ namespace refract
             }
 
             RenderJSONVisitor renderer;
-            renderer.visit(*(*resolved));
+            if ((*resolved)->value.second) {
+                renderer.visit(*(*resolved)->value.second);
+            }
 
             // Imitate an extend object
             isExtend = true;
@@ -103,7 +107,9 @@ namespace refract
         }
 
         for (it = e.value.begin(); it != e.value.end(); ++it) {
-            renderer.visit(*(*it));
+            if (*it) {
+                renderer.visit(*(*it));
+            }
         }
 
         assign(renderer.get());
@@ -118,7 +124,9 @@ namespace refract
         }
 
         for (it = e.value.begin(); it != e.value.end(); ++it) {
-            renderer.visit(*(*it));
+            if (*it) {
+                renderer.visit(*(*it));
+            }
         }
 
         assign(renderer.get());
