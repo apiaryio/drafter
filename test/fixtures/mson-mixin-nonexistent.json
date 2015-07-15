@@ -13,7 +13,7 @@
           "element": "object",
           "meta": {
             "id": "User",
-            "description": "FIXME: result of parsing `Include XXX` in snowcrash is now error.\nBecause of nenexisting Mixin\nIn future it should be possible to parse it correctly to allow Mixin referencing other document\n\n"
+            "description": "FIXME: result of parsing `Include XXX` in snowcrash is now error.\nBecause of nonexisting Mixin\nIn future it should be possible to parse it correctly to allow Mixin referencing other document\n\n"
           },
           "content": [
             {

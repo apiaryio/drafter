@@ -11,14 +11,14 @@
       "resources": [
         {
           "element": "resource",
-          "name": "Root",
+          "name": "",
           "description": "",
           "uriTemplate": "/",
           "model": {},
           "parameters": [],
           "actions": [
             {
-              "name": "Retrieve the Entry Point",
+              "name": "",
               "description": "",
               "method": "GET",
               "parameters": [],
@@ -42,7 +42,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "{\n  \"hello\": \"42\",\n  \"nested\": {\n    \"question\": \"\",\n    \"url\": \"\"\n  }\n}",
+                      "body": "{\n  \"p\": {\n    \"city\": \"Prague\",\n    \"zip\": 34567\n  }\n}",
                       "schema": "",
                       "content": [
                         {
@@ -53,20 +53,7 @@
                               "content": {
                                 "key": {
                                   "element": "string",
-                                  "content": "hello"
-                                },
-                                "value": {
-                                  "element": "string",
-                                  "content": "42"
-                                }
-                              }
-                            },
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "nested"
+                                  "content": "p"
                                 },
                                 "value": {
                                   "element": "extend",
@@ -74,7 +61,7 @@
                                     {
                                       "element": "object",
                                       "meta": {
-                                        "ref": "Question"
+                                        "ref": "Address"
                                       },
                                       "content": [
                                         {
@@ -82,10 +69,11 @@
                                           "content": {
                                             "key": {
                                               "element": "string",
-                                              "content": "question"
+                                              "content": "city"
                                             },
                                             "value": {
-                                              "element": "string"
+                                              "element": "string",
+                                              "content": "Prague"
                                             }
                                           }
                                         },
@@ -94,10 +82,11 @@
                                           "content": {
                                             "key": {
                                               "element": "string",
-                                              "content": "url"
+                                              "content": "zip"
                                             },
                                             "value": {
-                                              "element": "string"
+                                              "element": "number",
+                                              "content": 34567
                                             }
                                           }
                                         }
@@ -120,55 +109,6 @@
             }
           ],
           "content": []
-        }
-      ]
-    },
-    {
-      "name": "Question",
-      "description": "",
-      "resources": [
-        {
-          "element": "resource",
-          "name": "Question",
-          "description": "",
-          "uriTemplate": "/questions/{question_id}",
-          "model": {},
-          "parameters": [],
-          "actions": [],
-          "content": [
-            {
-              "element": "object",
-              "meta": {
-                "id": "Question"
-              },
-              "content": [
-                {
-                  "element": "member",
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "question"
-                    },
-                    "value": {
-                      "element": "string"
-                    }
-                  }
-                },
-                {
-                  "element": "member",
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "url"
-                    },
-                    "value": {
-                      "element": "string"
-                    }
-                  }
-                }
-              ]
-            }
-          ]
         }
       ]
     }
@@ -179,14 +119,14 @@
       "content": [
         {
           "element": "resource",
-          "name": "Root",
+          "name": "",
           "description": "",
           "uriTemplate": "/",
           "model": {},
           "parameters": [],
           "actions": [
             {
-              "name": "Retrieve the Entry Point",
+              "name": "",
               "description": "",
               "method": "GET",
               "parameters": [],
@@ -210,7 +150,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "{\n  \"hello\": \"42\",\n  \"nested\": {\n    \"question\": \"\",\n    \"url\": \"\"\n  }\n}",
+                      "body": "{\n  \"p\": {\n    \"city\": \"Prague\",\n    \"zip\": 34567\n  }\n}",
                       "schema": "",
                       "content": [
                         {
@@ -221,20 +161,7 @@
                               "content": {
                                 "key": {
                                   "element": "string",
-                                  "content": "hello"
-                                },
-                                "value": {
-                                  "element": "string",
-                                  "content": "42"
-                                }
-                              }
-                            },
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "nested"
+                                  "content": "p"
                                 },
                                 "value": {
                                   "element": "extend",
@@ -242,7 +169,7 @@
                                     {
                                       "element": "object",
                                       "meta": {
-                                        "ref": "Question"
+                                        "ref": "Address"
                                       },
                                       "content": [
                                         {
@@ -250,10 +177,11 @@
                                           "content": {
                                             "key": {
                                               "element": "string",
-                                              "content": "question"
+                                              "content": "city"
                                             },
                                             "value": {
-                                              "element": "string"
+                                              "element": "string",
+                                              "content": "Prague"
                                             }
                                           }
                                         },
@@ -262,10 +190,11 @@
                                           "content": {
                                             "key": {
                                               "element": "string",
-                                              "content": "url"
+                                              "content": "zip"
                                             },
                                             "value": {
-                                              "element": "string"
+                                              "element": "number",
+                                              "content": 34567
                                             }
                                           }
                                         }
@@ -293,50 +222,38 @@
     },
     {
       "element": "category",
-      "attributes": {
-        "name": "Question"
-      },
       "content": [
         {
-          "element": "resource",
-          "name": "Question",
-          "description": "",
-          "uriTemplate": "/questions/{question_id}",
-          "model": {},
-          "parameters": [],
-          "actions": [],
+          "element": "object",
+          "meta": {
+            "id": "Address"
+          },
           "content": [
             {
-              "element": "object",
-              "meta": {
-                "id": "Question"
-              },
-              "content": [
-                {
-                  "element": "member",
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "question"
-                    },
-                    "value": {
-                      "element": "string"
-                    }
-                  }
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "city"
                 },
-                {
-                  "element": "member",
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "url"
-                    },
-                    "value": {
-                      "element": "string"
-                    }
-                  }
+                "value": {
+                  "element": "string",
+                  "content": "Prague"
                 }
-              ]
+              }
+            },
+            {
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "zip"
+                },
+                "value": {
+                  "element": "number",
+                  "content": 34567
+                }
+              }
             }
           ]
         }

@@ -48,7 +48,7 @@ namespace drafter
         const std::string Ref = "ref";
 
         // Refract Ref Element - keys/values
-        const std::string HRef = "href";
+        const std::string Href = "href";
         const std::string Path = "path";
         const std::string Content = "content";
 
@@ -127,7 +127,7 @@ namespace drafter
         {
             E* element = new E;
 
-            if(literal.empty()) {
+            if (literal.empty()) {
                 return element;
             }
 
@@ -158,7 +158,7 @@ namespace drafter
 
             refract::ObjectElement* element = new refract::ObjectElement;
 
-            if(literal.empty()) {
+            if (literal.empty()) {
                 return element;
             }
 
@@ -369,7 +369,6 @@ namespace drafter
         SetElementType(value.valueDefinition.typeDefinition, element);
 
         if (!value.sections.empty()) {
-            typedef RefractElements Elements;
 
             // FIXME: for Array/Enum - extract *type of element* from
             // value.valueDefinition.typeDefinition.typeSpecification.nestedTypes[];
@@ -451,27 +450,9 @@ namespace drafter
             element->set(property.name.variable.values.begin()->literal, value);
             element->value.first->attributes[key::Variable] = refract::IElement::Create(true);
             SetElementType(property.name.variable.typeDefinition, element->value.first);
-
-            // FIXME: 
-            // https://github.com/refractproject/refract-spec/blob/master/namespaces/mson-namespace.md#variable-property-name
-            // ["object", {}, {}, [
-            //   ["member", {}, {}, {
-            //       "key": ["Relation", {}, {"variable": true}, "rel"],
-            //       "value": ["string", {}, {"typeAttributes": ["sample"]}, null]
-            //   }]
-            // ]]}
-            //
-            // but typeAttributes.sample -  is proposed for remove
-            // possible solutions:
-            //   - deny proposal of remove `typeAttribute.sample` in specification
-            //   - replace `typeAttribute` by `sample` attribute with `[null]` value
-            //
-            // I prefer 2nd solution but, it is for wide discussion
-            //
-            // current state: "value" is has not set "sample" attribute
         } 
         else {
-            throw ("No property name");
+            throw std::logic_error("No property name");
         }
 
         mson::TypeAttributes attrs = property.valueDefinition.typeDefinition.attributes;
@@ -518,6 +499,14 @@ namespace drafter
         return value.valueDefinition.values.size() > 1;
     }
 
+    static bool ValueHasName(const mson::ValueMember& value) 
+    {
+        return !value.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal.empty();
+    }
+
+    // FIXME: Nearly duplicit code with MsonValueToRefract<>
+    // refactoring adept
+
     static refract::IElement* MsonPropertyToRefract(const mson::PropertyMember& property)
     {
         mson::BaseTypeName nameType = GetType(property.valueDefinition);
@@ -549,7 +538,7 @@ namespace drafter
                 if (ValueHasChildren(property)) {
                     return RefractElementFromProperty<refract::ArrayElement>(property);
                 }
-                else if (!property.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal.empty() || ValueHasMembers(property)) {
+                else if (ValueHasName(property) || ValueHasMembers(property)) {
                     return RefractElementFromProperty<refract::ObjectElement>(property);
                 }
                 return RefractElementFromProperty<refract::StringElement>(property);
@@ -570,14 +559,31 @@ namespace drafter
                 return RefractElementFromValue<refract::NumberElement>(value);
 
             case mson::StringTypeName:
-            case mson::UndefinedTypeName:
                 return RefractElementFromValue<refract::StringElement>(value);
 
-            // FIXME: I did not find examples of Values w/ complex structures 
-            // - confirm they are not exists, or provide some valid example
-            case mson::EnumTypeName :
+            case mson::EnumTypeName : {
+                refract::IElement* element = RefractElementFromValue<refract::ArrayElement>(value);
+                if (element) {
+                    element->element(key::Enum);
+                }
+                return element;
+            }
+
             case mson::ArrayTypeName :
+                return RefractElementFromValue<refract::ArrayElement>(value);
+
             case mson::ObjectTypeName :
+                return RefractElementFromValue<refract::ObjectElement>(value);
+
+            case mson::UndefinedTypeName:
+                if (ValueHasChildren(value)) {
+                    return RefractElementFromValue<refract::ArrayElement>(value);
+                }
+                else if (ValueHasName(value) || ValueHasMembers(value)) {
+                    return RefractElementFromValue<refract::ObjectElement>(value);
+                }
+                return RefractElementFromValue<refract::StringElement>(value);
+
             default:
                 throw std::runtime_error("Unhandled type of ValueMember");
         }
@@ -607,10 +613,10 @@ namespace drafter
     {
         refract::ObjectElement* ref = new refract::ObjectElement;
         ref->element(key::Ref);
-        ref->renderCompactContent(true);
+        ref->renderType(refract::IElement::rCompact);
 
         refract::MemberElement* href = new refract::MemberElement;
-        href->set(key::HRef, refract::IElement::Create(mixin.typeSpecification.name.symbol.literal));
+        href->set(key::Href, refract::IElement::Create(mixin.typeSpecification.name.symbol.literal));
         ref->push_back(href);
 
         refract::MemberElement* path = new refract::MemberElement;

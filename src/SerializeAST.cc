@@ -17,6 +17,7 @@
 #include "refract/Element.h"
 #include "refract/Registry.h"
 #include "refract/Visitors.h"
+#include "Render.h"
 
 using namespace drafter;
 
@@ -519,11 +520,15 @@ sos::Object WrapPayload(const Payload& payload)
     payloadObject.set(SerializeKey::Headers,
                       WrapCollection<Header>()(payload.headers, WrapHeader));
 
+    // Render using boutique
+    snowcrash::Asset payloadBody = renderPayloadBody(payload, NamedTypesRegistry);
+    snowcrash::Asset payloadSchema = renderPayloadSchema(payload);
+
     // Body
-    payloadObject.set(SerializeKey::Body, sos::String(payload.body));
+    payloadObject.set(SerializeKey::Body, sos::String(payloadBody));
 
     // Schema
-    payloadObject.set(SerializeKey::Schema, sos::String(payload.schema));
+    payloadObject.set(SerializeKey::Schema, sos::String(payloadSchema));
 
     // Content
     sos::Array content;
@@ -773,7 +778,6 @@ bool IsElementResourceGroup(const Element& element)
 {
     return element.element == Element::CategoryElement && element.category == Element::ResourceGroupCategory;
 }
-
 
 #if _WITH_REFRACT_
 typedef std::vector<const snowcrash::DataStructure*> DataStructures;

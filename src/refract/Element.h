@@ -37,6 +37,7 @@ namespace refract
     struct ExpandVisitor;
     struct IsExpandableVisitor;
     struct TypeQueryVisitor;
+    struct RenderJSONVisitor;
 
     template <typename T> struct ElementTypeSelector;
 
@@ -75,7 +76,7 @@ namespace refract
     struct IElement
     {
         bool hasContent; ///< was content of element already set? \see empty()
-        bool useCompactContent;  ///< should be content serialized in compact form? \see compactContent()
+
 
         /**
          * define __visitors__ which can visit element
@@ -87,11 +88,12 @@ namespace refract
             SerializeCompactVisitor, 
             ExpandVisitor, 
             IsExpandableVisitor,
-            TypeQueryVisitor
+            TypeQueryVisitor,
+            RenderJSONVisitor
         >::type Visitors;
 
 
-        IElement() : hasContent(false), useCompactContent(false)
+        IElement() : hasContent(false), renderStrategy(rDefault)
         {
         }
 
@@ -112,7 +114,7 @@ namespace refract
             virtual iterator find(const std::string& name);
             MemberElement& operator[](const std::string& name);
             MemberElement& operator[](const int index);
-            virtual void clone(const MemberElementCollection& other); /// < clone elements from `other`to`this`
+            virtual void clone(const MemberElementCollection& other); /// < clone elements from `other` to `this`
             virtual void erase(const std::string& key);
             virtual ~MemberElementCollection();
         };
@@ -152,6 +154,7 @@ namespace refract
             cNoMetaId   = 0x10,
         } cloneFlags;
 
+
         virtual IElement* clone(const int flag = cAll) const = 0;
 
         virtual bool empty() const
@@ -159,14 +162,31 @@ namespace refract
             return !hasContent;
         }
 
-        virtual bool compactContent() const
+        /**
+         * select seriaization/rendering type of element
+         * by default are elements serialized in expanded form,
+         * with compact form of meta and attributes
+         *
+         * `renderType()` allows to change default behavior of selected element
+         * (behavioration must be implemented in serialization visitors - it is partially done)
+         */
+
+        typedef enum { 
+            rDefault = 0,
+            rFull,
+            rCompact,
+        } renderFlags;
+
+        renderFlags renderStrategy;
+
+        virtual renderFlags renderType() const
         {
-            return useCompactContent;
+            return renderStrategy;
         }
 
-        virtual void renderCompactContent(bool compact)
+        virtual void renderType(const renderFlags render)
         {
-            useCompactContent = compact;
+            renderStrategy = render;
         }
 
         virtual ~IElement()
@@ -224,7 +244,7 @@ namespace refract
             Type* element =  new Type;
 
             element->hasContent = self->hasContent;
-            element->useCompactContent = self->useCompactContent;
+            element->renderStrategy = self->renderStrategy;
 
             if (flags & cElement) {
                 element->element_ = self->element_;
@@ -333,8 +353,8 @@ namespace refract
     {
         void push_back(IElement* e)
         {
-            // FIXME: warn if meta["name"] is NOT presented
-            // \see comment on ObjectElement::push_bask()
+            // FIXME: warn if MemberElement 
+            // there is no way to present "key: value" in array
             hasContent = true;
             value.push_back(e);
         }
@@ -411,12 +431,14 @@ namespace refract
 
         // We dont use std::vector<MemberElement*> there, because
         // ObjectElement can contain:
-        // - (object)
         // - (array[Member Element])
+        // - (object)
         // - (Extend Element)
         // - (Select Element)
         // - (Ref Element)
         //
+        // FIXME: behavioration for content types different than 
+        // `(array[Member Element])` is not currently implemented
 
         static ValueType init() { return ValueType(); }
 

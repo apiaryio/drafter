@@ -42,7 +42,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "{\n  \"a\": [\n    {\n      \"id\": \"pavan\"\n    }\n  ]\n}",
+                      "body": "{\n  \"user\": \"pksunkara\",\n  \"social\": {\n    \"github\": \"pksunkara\"\n  }\n}",
                       "schema": "",
                       "content": [
                         {
@@ -53,39 +53,36 @@
                               "content": {
                                 "key": {
                                   "element": "string",
-                                  "content": "a"
+                                  "content": "user"
                                 },
                                 "value": {
-                                  "element": "array",
+                                  "element": "string",
+                                  "content": "pksunkara"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "social"
+                                },
+                                "value": {
+                                  "element": "object",
                                   "content": [
                                     {
-                                      "element": "extend",
-                                      "content": [
-                                        {
-                                          "element": "object",
-                                          "meta": {
-                                            "ref": "X"
-                                          },
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "id"
-                                                },
-                                                "value": {
-                                                  "element": "string",
-                                                  "content": "pavan"
-                                                }
-                                              }
-                                            }
-                                          ]
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "github"
                                         },
-                                        {
-                                          "element": "object"
+                                        "value": {
+                                          "element": "string",
+                                          "content": "pksunkara"
                                         }
-                                      ]
+                                      }
                                     }
                                   ]
                                 }
@@ -142,7 +139,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "{\n  \"a\": [\n    {\n      \"id\": \"pavan\"\n    }\n  ]\n}",
+                      "body": "{\n  \"user\": \"pksunkara\",\n  \"social\": {\n    \"github\": \"pksunkara\"\n  }\n}",
                       "schema": "",
                       "content": [
                         {
@@ -153,39 +150,36 @@
                               "content": {
                                 "key": {
                                   "element": "string",
-                                  "content": "a"
+                                  "content": "user"
                                 },
                                 "value": {
-                                  "element": "array",
+                                  "element": "string",
+                                  "content": "pksunkara"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "social"
+                                },
+                                "value": {
+                                  "element": "object",
                                   "content": [
                                     {
-                                      "element": "extend",
-                                      "content": [
-                                        {
-                                          "element": "object",
-                                          "meta": {
-                                            "ref": "X"
-                                          },
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "id"
-                                                },
-                                                "value": {
-                                                  "element": "string",
-                                                  "content": "pavan"
-                                                }
-                                              }
-                                            }
-                                          ]
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "github"
                                         },
-                                        {
-                                          "element": "object"
+                                        "value": {
+                                          "element": "string",
+                                          "content": "pksunkara"
                                         }
-                                      ]
+                                      }
                                     }
                                   ]
                                 }
@@ -201,32 +195,6 @@
             }
           ],
           "content": []
-        }
-      ]
-    },
-    {
-      "element": "category",
-      "content": [
-        {
-          "element": "object",
-          "meta": {
-            "id": "X"
-          },
-          "content": [
-            {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "id"
-                },
-                "value": {
-                  "element": "string",
-                  "content": "pavan"
-                }
-              }
-            }
-          ]
         }
       ]
     }

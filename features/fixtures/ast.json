@@ -236,7 +236,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "",
+                      "body": "{\n  \"<data structure property name>\": \"<data structure property value>\"\n}",
                       "schema": "",
                       "content": [
                         {
@@ -260,8 +260,8 @@
                                       "content": "<data structure property name>"
                                     },
                                     "value": {
-                                      "element": "number",
-                                      "content": 0
+                                      "element": "string",
+                                      "content": "<data structure property value>"
                                     }
                                   }
                                 }
@@ -542,7 +542,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "",
+                      "body": "{\n  \"<data structure property name>\": \"<data structure property value>\"\n}",
                       "schema": "",
                       "content": [
                         {
@@ -566,8 +566,8 @@
                                       "content": "<data structure property name>"
                                     },
                                     "value": {
-                                      "element": "number",
-                                      "content": 0
+                                      "element": "string",
+                                      "content": "<data structure property value>"
                                     }
                                   }
                                 }
@@ -635,8 +635,8 @@
                   "content": "<data structure property name>"
                 },
                 "value": {
-                  "element": "number",
-                  "content": 0
+                  "element": "string",
+                  "content": "<data structure property value>"
                 }
               }
             }

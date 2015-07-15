@@ -40,6 +40,7 @@
         "src/SerializeResult.cc",
         "src/RefractAST.h",
         "src/RefractAST.cc",
+        "src/Render.h",
 
         # librefract parts - will be separated into other project
 
@@ -63,6 +64,8 @@
         "src/refract/IsExpandableVisitor.cc",
         "src/refract/ExpandVisitor.h",
         "src/refract/ExpandVisitor.cc",
+        "src/refract/RenderJSONVisitor.h",
+        "src/refract/RenderJSONVisitor.cc",
 
         "src/refract/Registry.h",
         "src/refract/Registry.cc",
@@ -79,7 +82,7 @@
       ],
 
       "dependencies": [
-	"libsos",
+        "libsos",
         "ext/snowcrash/snowcrash.gyp:libsnowcrash",
         "ext/snowcrash/snowcrash.gyp:libmarkdownparser",
         "ext/snowcrash/snowcrash.gyp:libsundown",
@@ -99,10 +102,11 @@
         "ext/sos/src",
       ],
       'sources': [
-        "test/test-main.cc",
-        "test/test-SerializeResult.cc",
+        "test/test-drafter.cc",
         "test/test-cdrafter.cc",
+        "test/test-SerializeResult.cc",
         "test/test-RefractTest.cc",
+        "test/test-RenderTest.cc",
       ],
       'dependencies': [
         "libdrafter",

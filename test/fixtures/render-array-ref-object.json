@@ -42,54 +42,44 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "{\n  \"a\": [\n    {\n      \"id\": \"pavan\"\n    }\n  ]\n}",
+                      "body": "[\n  \"Karlin\",\n  {\n    \"city\": \"Prague\"\n  }\n]",
                       "schema": "",
                       "content": [
                         {
-                          "element": "object",
+                          "element": "array",
                           "content": [
                             {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "a"
-                                },
-                                "value": {
-                                  "element": "array",
+                              "element": "string",
+                              "content": "Karlin"
+                            },
+                            {
+                              "element": "extend",
+                              "content": [
+                                {
+                                  "element": "object",
+                                  "meta": {
+                                    "ref": "Address"
+                                  },
                                   "content": [
                                     {
-                                      "element": "extend",
-                                      "content": [
-                                        {
-                                          "element": "object",
-                                          "meta": {
-                                            "ref": "X"
-                                          },
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "id"
-                                                },
-                                                "value": {
-                                                  "element": "string",
-                                                  "content": "pavan"
-                                                }
-                                              }
-                                            }
-                                          ]
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "city"
                                         },
-                                        {
-                                          "element": "object"
+                                        "value": {
+                                          "element": "string",
+                                          "content": "Prague"
                                         }
-                                      ]
+                                      }
                                     }
                                   ]
+                                },
+                                {
+                                  "element": "object"
                                 }
-                              }
+                              ]
                             }
                           ]
                         }
@@ -142,54 +132,44 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "{\n  \"a\": [\n    {\n      \"id\": \"pavan\"\n    }\n  ]\n}",
+                      "body": "[\n  \"Karlin\",\n  {\n    \"city\": \"Prague\"\n  }\n]",
                       "schema": "",
                       "content": [
                         {
-                          "element": "object",
+                          "element": "array",
                           "content": [
                             {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "a"
-                                },
-                                "value": {
-                                  "element": "array",
+                              "element": "string",
+                              "content": "Karlin"
+                            },
+                            {
+                              "element": "extend",
+                              "content": [
+                                {
+                                  "element": "object",
+                                  "meta": {
+                                    "ref": "Address"
+                                  },
                                   "content": [
                                     {
-                                      "element": "extend",
-                                      "content": [
-                                        {
-                                          "element": "object",
-                                          "meta": {
-                                            "ref": "X"
-                                          },
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "id"
-                                                },
-                                                "value": {
-                                                  "element": "string",
-                                                  "content": "pavan"
-                                                }
-                                              }
-                                            }
-                                          ]
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "city"
                                         },
-                                        {
-                                          "element": "object"
+                                        "value": {
+                                          "element": "string",
+                                          "content": "Prague"
                                         }
-                                      ]
+                                      }
                                     }
                                   ]
+                                },
+                                {
+                                  "element": "object"
                                 }
-                              }
+                              ]
                             }
                           ]
                         }
@@ -210,7 +190,7 @@
         {
           "element": "object",
           "meta": {
-            "id": "X"
+            "id": "Address"
           },
           "content": [
             {
@@ -218,11 +198,11 @@
               "content": {
                 "key": {
                   "element": "string",
-                  "content": "id"
+                  "content": "city"
                 },
                 "value": {
                   "element": "string",
-                  "content": "pavan"
+                  "content": "Prague"
                 }
               }
             }
