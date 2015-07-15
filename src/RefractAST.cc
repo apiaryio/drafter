@@ -450,24 +450,6 @@ namespace drafter
             element->set(property.name.variable.values.begin()->literal, value);
             element->value.first->attributes[key::Variable] = refract::IElement::Create(true);
             SetElementType(property.name.variable.typeDefinition, element->value.first);
-
-            // FIXME: 
-            // https://github.com/refractproject/refract-spec/blob/master/namespaces/mson-namespace.md#variable-property-name
-            // ["object", {}, {}, [
-            //   ["member", {}, {}, {
-            //       "key": ["Relation", {}, {"variable": true}, "rel"],
-            //       "value": ["string", {}, {"typeAttributes": ["sample"]}, null]
-            //   }]
-            // ]]}
-            //
-            // but typeAttributes.sample -  is proposed for remove
-            // possible solutions:
-            //   - deny proposal of remove `typeAttribute.sample` in specification
-            //   - replace `typeAttribute` by `sample` attribute with `[null]` value
-            //
-            // I prefer 2nd solution but, it is for wide discussion
-            //
-            // current state: "value" is has not set "sample" attribute
         } 
         else {
             throw std::logic_error("No property name");

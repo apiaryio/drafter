@@ -24,9 +24,11 @@ namespace refract
 
         SerializeCompactVisitor v;
         (*it)->value.second->content(v);
-        // FIXME: it is really ugly,
-        // make something like is_a()
-        return v.value().str;
+        if (StringElement* s = TypeQueryVisitor::as<StringElement>((*it)->value.second)) {
+            return s->value;
+        }
+
+        throw LogicError("Value of element meta 'id' is not StringElement");
     }
 
     IElement* Registry::find(const std::string& name) const

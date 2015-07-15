@@ -353,8 +353,8 @@ namespace refract
     {
         void push_back(IElement* e)
         {
-            // FIXME: warn if meta["name"] is NOT presented
-            // \see comment on ObjectElement::push_bask()
+            // FIXME: warn if MemberElement 
+            // there is no way to present "key: value" in array
             hasContent = true;
             value.push_back(e);
         }
@@ -431,12 +431,14 @@ namespace refract
 
         // We dont use std::vector<MemberElement*> there, because
         // ObjectElement can contain:
-        // - (object)
         // - (array[Member Element])
+        // - (object)
         // - (Extend Element)
         // - (Select Element)
         // - (Ref Element)
         //
+        // FIXME: behavioration for content types different than 
+        // `(array[Member Element])` is not currently implemented
 
         static ValueType init() { return ValueType(); }
 
