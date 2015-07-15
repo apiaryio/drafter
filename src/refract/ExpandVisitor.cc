@@ -108,7 +108,7 @@ namespace refract
         }
 
         template<typename T>
-        T* ExpandMembers(const T& e, const Registry& registry, const bool cloneId = true)
+        T* ExpandMembers(const T& e, const Registry& registry)
         {
             std::vector<IElement*> members;
 
@@ -119,9 +119,6 @@ namespace refract
             T* o = new T;
             o->attributes.clone(e.attributes);
             o->meta.clone(e.meta);
-            if (!cloneId) {
-                o->meta.erase("id");
-            }
 
             if (!members.empty()) {
                 o->set(members);
@@ -139,7 +136,8 @@ namespace refract
 
             CopyMetaId(*extend, e);
 
-            ElementType* origin = ExpandMembers(static_cast<const ElementType&>(e), registry, false);
+            ElementType* origin = ExpandMembers(static_cast<const ElementType&>(e), registry);
+            origin->meta.erase("id");
             extend->push_back(origin);
 
             return extend;
@@ -162,48 +160,44 @@ namespace refract
 
         }
 
-        template<typename T>
-        T* CreateReference(const IElement& e, const std::string& href, const Registry& registry) {
+        IElement* ExpandReference(const ObjectElement& e, const Registry& registry)
+        {
 
-            typedef T ElementType;
-            ElementType* ref = ExpandMembers(static_cast<const ElementType&>(e), registry, true);
+            ObjectElement* ref = ExpandMembers(e, registry);
             ref->element("ref");
             ref->renderType(e.renderType());
 
-            ElementType* resolved = ExpandNamedType<T>(registry, href, Referenced);
+            StringElement* href = TypeQueryVisitor::as<StringElement>(FindMemberByKey(e, "href"));
+
+            if (!href || href->value.empty()) {
+                return ref;
+            }
+
+            IElement* referenced = registry.find(href->value);
+            if (!referenced) {
+                return ref;
+            }
+
+            TypeQueryVisitor t;
+            referenced->content(t);
+
+            IElement* resolved = NULL;
+
+            if (t.get() == TypeQueryVisitor::Array) {
+                resolved = ExpandNamedType<ArrayElement>(registry, href->value, Referenced);
+            }
+            else {
+                resolved = ExpandNamedType<ObjectElement>(registry, href->value, Referenced);
+            }
+
+            if (!resolved) {
+                return ref;
+            }
 
             resolved->renderType(IElement::rFull);
             ref->attributes["resolved"] = resolved;
 
             return ref;
-        }
-
-        template <typename T>
-        IElement* ExpandReference(const T& e, const Registry& registry)
-        {
-            StringElement* href = TypeQueryVisitor::as<StringElement>(FindMemberByKey(e, "href"));
-
-            if (!href || href->value.empty()) {
-                return e.clone();
-            }
-
-            IElement* referenced = registry.find(href->value);
-            if (!referenced) {
-                return e.clone();
-            }
-
-            IElement* base = registry.find(e.element());
-            TypeQueryVisitor t;
-            if (base) {
-                base->content(t);
-            }
-
-            if (t.get() == TypeQueryVisitor::Array) {
-                return CreateReference<ArrayElement>(e, href->value, registry);
-            }
-            else {
-                return CreateReference<ObjectElement>(e, href->value, registry);
-            }
 
         }
 
