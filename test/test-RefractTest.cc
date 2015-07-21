@@ -156,3 +156,13 @@ TEST_CASE("Testing refract resource - nested type in array", "[refract][drafter.
 {
     REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson-resource-nested-member"));
 }
+
+TEST_CASE("Testing refract named structure - array samples and default", "[refract]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson-array-sample"));
+}
+
+TEST_CASE("Testing refract named structure - object samples and default", "[refract]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson-object-sample"));
+}

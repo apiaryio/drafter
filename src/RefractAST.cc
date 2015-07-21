@@ -194,46 +194,81 @@ namespace drafter
 
     static refract::IElement* MsonElementToRefract(const mson::Element& mse);
 
-    // FIXME: check against original behavioration
-    template <typename T, typename V = typename T::ValueType>
-    struct ExtractTypeSection
-    { // This will handle primitive elements
-        const mson::TypeSection& ts;
-
-        ExtractTypeSection(const mson::TypeSection& v) : ts(v)
-        {
-        }
-
-        operator V()
-        {
-            return LiteralTo<V>(ts.content.value);
-        }
-    };
-
-
     RefractElements MsonElementsToRefract(const mson::Elements& elements) {
         RefractElements result;
-        for (mson::Elements::const_iterator it = elements.begin(); it != elements.end(); ++it) {
-            result.push_back(MsonElementToRefract(*it));
-        }
+        std::transform(elements.begin(), elements.end(), std::back_inserter(result), MsonElementToRefract);
         return result;
     }
 
-    template <typename T>
-    struct ExtractTypeSection<T, RefractElements>
-    { // this will handle Array && Object because of underlaying type
-        const mson::TypeSection& ts;
-        typedef RefractElements V;
-
-        ExtractTypeSection(const mson::TypeSection& v) : ts(v)
-        {
-        }
-
-        operator V()
-        {
-            return MsonElementsToRefract(ts.content.elements());
-        }
+    struct TypeSectionData {
+        RefractElements defaults;
+        RefractElements samples;
+        std::vector<std::string> descriptions;
     };
+
+    template <typename T>
+    struct ExtractTypeSection
+    { 
+        std::vector<typename T::ValueType> values;
+        TypeSectionData& data;
+
+        /**
+         * Fetch<> is intended to extract value from TypeSection.
+         * Generalized type is for primitive types
+         * Specialized is for (Array|Object)Element because of underlying type.
+         * `dummy` param is used because of specialization inside another struct
+         */
+
+        template <typename U, bool dummy = true>
+        struct Fetch {
+            U operator()(const mson::TypeSection& t) {
+                return LiteralTo<U>(t.content.value);
+            }
+        };
+
+        template<bool dummy> 
+        struct Fetch<RefractElements, dummy> {
+            RefractElements operator()(const mson::TypeSection& t) {
+                return MsonElementsToRefract(t.content.elements());
+            }
+        };
+
+        ExtractTypeSection(TypeSectionData& data) : data(data)
+        {
+        }
+
+        void operator()(const mson::TypeSection& ts) {
+            Fetch<typename T::ValueType> fetch;
+
+            if (ts.klass == mson::TypeSection::MemberTypeClass) {
+                values.push_back(fetch(ts));
+                return;
+            }
+
+            if (ts.klass == mson::TypeSection::SampleClass) {
+                T* e = new T;
+                e->set(fetch(ts));
+                data.samples.push_back(e);
+                return;
+            }
+
+            if (ts.klass == mson::TypeSection::DefaultClass) {
+                T* e = new T;
+                e->set(fetch(ts));
+                data.defaults.push_back(e);
+                return;
+            }
+
+            if (ts.klass == mson::TypeSection::BlockDescriptionClass){ 
+                data.descriptions.push_back(ts.content.description);
+                return;
+            }
+            
+            throw std::logic_error("Unexpected section type for property");
+        }
+
+    };
+
 
     template <typename T, typename V = typename T::ValueType>
     struct ExtractValueMember
@@ -320,6 +355,11 @@ namespace drafter
                     s->set(result);
                     samples.push_back(s);
                 }
+                else if (attrs & mson::DefaultTypeAttribute) {
+                    ElementType* d = new ElementType;
+                    d->set(result);
+                    defaults.push_back(d);
+                }
                 else {
                     element->set(result);
                 }
@@ -353,22 +393,50 @@ namespace drafter
     namespace 
     {
         template<typename T> void Deleter(T* ptr) { delete ptr; }
-    }
 
-    template <typename T>
-    refract::IElement* RefractElementFromValue(const mson::ValueMember& value)
-    {
-        using namespace refract;
-        typedef T ElementType;
+        struct Join {
+            std::string& base;
+            Join(std::string& str) : base(str)
+            {
+            }
 
-        RefractElements defaults;
-        RefractElements samples;
+            void operator()(const std::string& append, const std::string separator = "\n") 
+            {
+                size_t reserve = append.length();
 
-        ElementType* element = ExtractValueMember<ElementType>(value, defaults, samples);
+                if (!base.empty()) {
+                    reserve += separator.length();
+                    base.append(separator);
+                }
 
-        SetElementType(value.valueDefinition.typeDefinition, element);
+                base.append(append);
 
-        if (!value.sections.empty()) {
+            }
+        };
+
+        void SaveSamples(RefractElements& samples, refract::IElement* element) {
+            if (!samples.empty()) {
+                refract::ArrayElement* a = new refract::ArrayElement;
+                a->set(samples);
+                element->attributes[key::Samples] = a;
+            }
+        }
+
+        void SaveDefault(RefractElements& defaults, refract::IElement* element) {
+
+            if (!defaults.empty()) {
+                refract::IElement* e = *defaults.rbegin();
+                defaults.pop_back();
+                // if more default values
+                // use last one, all other we will drop
+                element->attributes[key::Default] = e;
+
+                std::for_each(defaults.begin(), defaults.end(), Deleter<refract::IElement>);
+            }
+        }
+
+        template<typename T>
+        void TransformTypeSectionData(const mson::TypeSections& sections, T* element, TypeSectionData& data) {
 
             // FIXME: for Array/Enum - extract *type of element* from
             // value.valueDefinition.typeDefinition.typeSpecification.nestedTypes[];
@@ -379,54 +447,29 @@ namespace drafter
             //
             // fallback for now - present all as refract::StringElement
 
-            for (mson::TypeSections::const_iterator it = value.sections.begin(); it != value.sections.end(); ++it) {
+            ExtractTypeSection<T> extractor = std::for_each(sections.begin(), sections.end(), ExtractTypeSection<T>(data));
 
-                if (it->klass == mson::TypeSection::MemberTypeClass) {
-                    if (!element->empty()) {
-                        throw std::logic_error("Element content was already set, you cannot fill it from 'memberType'");
-                    }
-                    element->set(ExtractTypeSection<T>(*it));
-                    continue;
-                }
+            std::for_each(extractor.values.begin(), extractor.values.end(), refract::AppendDecorator<T>(element));
 
-                if (it->klass == mson::TypeSection::BlockDescriptionClass){ 
-                    // do nothing, Description must be handled one more level up
-                    // it is part of Property (not Value)
-                    continue;
-                }
+            SaveSamples(data.samples, element);
 
-                ElementType* e = new ElementType;
-                e->set(ExtractTypeSection<T>(*it));
-
-                if (it->klass == mson::TypeSection::SampleClass) {
-                    samples.push_back(e);
-                } 
-                else if (it->klass == mson::TypeSection::DefaultClass) {
-                    defaults.push_back(e);
-                }
-                else {
-                    throw std::logic_error("Unexpected section type for property");
-                }
-            }
-
+            SaveDefault(data.defaults, element);
         }
+    }
 
-        if (!samples.empty()) {
-            ArrayElement* a = new ArrayElement;
-            a->set(samples);
-            element->attributes[key::Samples] = a;
-        }
+    template <typename T>
+    refract::IElement* RefractElementFromValue(const mson::ValueMember& value)
+    {
+        using namespace refract;
+        typedef T ElementType;
 
-        if (!defaults.empty()) {
-            IElement* e = *defaults.rbegin();
-            defaults.pop_back();
-            // if more default values
-            // use last one, all other we will drop
-            element->attributes[key::Default] = e;
+        TypeSectionData data;
 
-            std::for_each(defaults.begin(), defaults.end(), Deleter<IElement>);
-        }
+        ElementType* element = ExtractValueMember<ElementType>(value, data.defaults, data.samples);
 
+        SetElementType(value.valueDefinition.typeDefinition, element);
+
+        TransformTypeSectionData(value.sections, element, data);
 
         return element;
     }
@@ -669,16 +712,15 @@ namespace drafter
         
         //e->meta[key::Title] = IElement::Create(ds.name.symbol.literal);
 
-        refract::AppendDecorator<T> append = refract::AppendDecorator<T>(e);
+        TypeSectionData data;
 
-        for (mson::TypeSections::const_iterator it = ds.sections.begin(); it != ds.sections.end(); ++it) {
+        TransformTypeSectionData(ds.sections, e, data);
 
-            if (it->klass == mson::TypeSection::BlockDescriptionClass) {
-                e->meta[key::Description] = IElement::Create(it->content.description);
-                continue;
-            }
+        std::string description;
+        std::for_each(data.descriptions.begin(), data.descriptions.end(), Join(description));
 
-            append(ExtractTypeSection<T>(*it));
+        if(!description.empty()) {
+            e->meta[key::Description] = IElement::Create(*data.descriptions.begin());
         }
 
         return e;
