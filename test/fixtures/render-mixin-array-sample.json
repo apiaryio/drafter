@@ -1,0 +1,218 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [
+    {
+      "name": "",
+      "description": "",
+      "resources": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "[\n  \"x\",\n  \"a\",\n  \"b\",\n  \"y\"\n]",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "x"
+                            },
+                            {
+                              "element": "ref",
+                              "attributes": {
+                                "resolved": {
+                                  "element": "array",
+                                  "meta": {
+                                    "description": "description\n\n",
+                                    "ref": "RefSample"
+                                  },
+                                  "attributes": {
+                                    "samples": [
+                                      [
+                                        "a",
+                                        "b"
+                                      ],
+                                      [
+                                        "d",
+                                        "e"
+                                      ]
+                                    ]
+                                  }
+                                }
+                              },
+                              "content": {
+                                "href": "RefSample",
+                                "path": "content"
+                              }
+                            },
+                            {
+                              "element": "string",
+                              "content": "y"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "[\n  \"x\",\n  \"a\",\n  \"b\",\n  \"y\"\n]",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "x"
+                            },
+                            {
+                              "element": "ref",
+                              "attributes": {
+                                "resolved": {
+                                  "element": "array",
+                                  "meta": {
+                                    "description": "description\n\n",
+                                    "ref": "RefSample"
+                                  },
+                                  "attributes": {
+                                    "samples": [
+                                      [
+                                        "a",
+                                        "b"
+                                      ],
+                                      [
+                                        "d",
+                                        "e"
+                                      ]
+                                    ]
+                                  }
+                                }
+                              },
+                              "content": {
+                                "href": "RefSample",
+                                "path": "content"
+                              }
+                            },
+                            {
+                              "element": "string",
+                              "content": "y"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    },
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "array",
+          "meta": {
+            "id": "RefSample",
+            "description": "description\n\n"
+          },
+          "attributes": {
+            "samples": [
+              [
+                "a",
+                "b"
+              ],
+              [
+                "d",
+                "e"
+              ]
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
