@@ -402,6 +402,10 @@ namespace drafter
 
             void operator()(const std::string& append, const std::string separator = "\n") 
             {
+                if (append.empty()) {
+                    return;
+                }
+
                 size_t reserve = append.length();
 
                 if (!base.empty()) {
@@ -504,19 +508,12 @@ namespace drafter
         }
 
         std::string description;
-        if (!property.description.empty()) {
-            description = property.description;
-        }
+        Join join(description);
+        join(property.description);
 
         for (mson::TypeSections::const_iterator it = property.sections.begin(); it != property.sections.end(); ++it) {
             if (it->klass == mson::TypeSection::BlockDescriptionClass){ 
-                const std::string& desc = it->content.description;
-                if (!description.empty()) {
-                  description.reserve(desc.length() + 1); // +1 for newline
-                  description.append("\n");
-                }
-                description.append(desc);
-                continue;
+                join(it->content.description);
             }
         }
 
@@ -547,88 +544,70 @@ namespace drafter
         return !value.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal.empty();
     }
 
-    // FIXME: Nearly duplicit code with MsonValueToRefract<>
-    // refactoring adept
+    
+    struct PropertyTrait {
+        typedef refract::MemberElement ElementType;
 
-    static refract::IElement* MsonPropertyToRefract(const mson::PropertyMember& property)
-    {
-        mson::BaseTypeName nameType = GetType(property.valueDefinition);
+        template<typename T> static ElementType* Invoke(const mson::PropertyMember& prop) {
+                return RefractElementFromProperty<T>(prop);
+        }
+
+        static ElementType* makeEnum(ElementType* element) {
+            if (element && element->value.second) {
+                element->value.second->element(key::Enum);
+            }
+            return element;
+        }
+    };
+
+    struct ValueTrait {
+        typedef refract::IElement ElementType;
+
+        template<typename T> static ElementType* Invoke (const mson::ValueMember& val) {
+                return RefractElementFromValue<T>(val);
+        }
+
+        static ElementType* makeEnum(ElementType* element) {
+            if (element) {
+                element->element(key::Enum);
+            }
+            return element;
+        }
+    };
+
+    template <typename Trait, typename Input>
+    static refract::IElement* MsonMemberToRefract(const Input& input) {
+        mson::BaseTypeName nameType = GetType(input.valueDefinition);
         switch (nameType) {
             case mson::BooleanTypeName:
-                return RefractElementFromProperty<refract::BooleanElement>(property);
+                return Trait::template Invoke<refract::BooleanElement>(input);
 
             case mson::NumberTypeName:
-                return RefractElementFromProperty<refract::NumberElement>(property);
+                return Trait::template Invoke<refract::NumberElement>(input);
 
             case mson::StringTypeName:
-                return RefractElementFromProperty<refract::StringElement>(property);
+                return Trait::template Invoke<refract::StringElement>(input);
 
-            case mson::EnumTypeName: {
-                refract::MemberElement* element = RefractElementFromProperty<refract::ArrayElement>(property);
-                if (element && element->value.second) {
-                    element->value.second->element(key::Enum);
-                }
-                return element;
-            }
+            case mson::EnumTypeName:
+                return Trait::makeEnum(Trait::template Invoke<refract::ArrayElement>(input));
 
             case mson::ArrayTypeName:
-                return RefractElementFromProperty<refract::ArrayElement>(property);
+                return Trait::template Invoke<refract::ArrayElement>(input);
 
             case mson::ObjectTypeName:
-                return RefractElementFromProperty<refract::ObjectElement>(property);
+                return Trait::template Invoke<refract::ObjectElement>(input);
 
             case mson::UndefinedTypeName:
-                if (ValueHasChildren(property)) {
-                    return RefractElementFromProperty<refract::ArrayElement>(property);
+                if (ValueHasChildren(input)) {
+                    return Trait::template Invoke<refract::ArrayElement>(input);
                 }
-                else if (ValueHasName(property) || ValueHasMembers(property)) {
-                    return RefractElementFromProperty<refract::ObjectElement>(property);
+                else if (ValueHasName(input) || ValueHasMembers(input)) {
+                    return Trait::template Invoke<refract::ObjectElement>(input);
                 }
-                return RefractElementFromProperty<refract::StringElement>(property);
+                return Trait::template Invoke<refract::StringElement>(input);
 
             default:
-                throw std::runtime_error("Unhandled type of PropertyMember");
-        }
-    }
-
-    refract::IElement* MsonValueToRefract(const mson::ValueMember& value)
-    {
-        mson::BaseTypeName typeName = GetType(value.valueDefinition);
-        switch (typeName) {
-            case mson::BooleanTypeName:
-                return RefractElementFromValue<refract::BooleanElement>(value);
-
-            case mson::NumberTypeName:
-                return RefractElementFromValue<refract::NumberElement>(value);
-
-            case mson::StringTypeName:
-                return RefractElementFromValue<refract::StringElement>(value);
-
-            case mson::EnumTypeName : {
-                refract::IElement* element = RefractElementFromValue<refract::ArrayElement>(value);
-                if (element) {
-                    element->element(key::Enum);
-                }
-                return element;
-            }
-
-            case mson::ArrayTypeName :
-                return RefractElementFromValue<refract::ArrayElement>(value);
-
-            case mson::ObjectTypeName :
-                return RefractElementFromValue<refract::ObjectElement>(value);
-
-            case mson::UndefinedTypeName:
-                if (ValueHasChildren(value)) {
-                    return RefractElementFromValue<refract::ArrayElement>(value);
-                }
-                else if (ValueHasName(value) || ValueHasMembers(value)) {
-                    return RefractElementFromValue<refract::ObjectElement>(value);
-                }
-                return RefractElementFromValue<refract::StringElement>(value);
-
-            default:
-                throw std::runtime_error("Unhandled type of ValueMember");
+                throw std::runtime_error("Unhandled type of Member");
         }
     }
 
@@ -674,10 +653,10 @@ namespace drafter
     {
         switch (mse.klass) {
             case mson::Element::PropertyClass:
-                return MsonPropertyToRefract(mse.content.property);
+                return MsonMemberToRefract<PropertyTrait>(mse.content.property);
 
             case mson::Element::ValueClass:
-                return MsonValueToRefract(mse.content.value);
+                return MsonMemberToRefract<ValueTrait>(mse.content.value);
 
             case mson::Element::MixinClass:
                 return MsonMixinToRefract(mse.content.mixin);
