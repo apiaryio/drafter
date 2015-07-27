@@ -11,6 +11,8 @@
 #include "sosJSON.h"
 #include <sstream>
 
+#include <iostream>
+
 namespace refract
 {
 
@@ -77,6 +79,56 @@ namespace refract
         }
     }
 
+    template<typename T>
+    const T* getDefault(const T& e) {
+        IElement::MemberElementCollection::const_iterator i = e.attributes.find("default");
+        if (i == e.attributes.end()) {
+            return NULL;
+        }
+        TypeQueryVisitor v;
+        return TypeQueryVisitor::as<T>((*i)->value.second);
+    }
+
+    template<typename T>
+    const T* getSample(const T& e) {
+        IElement::MemberElementCollection::const_iterator i = e.attributes.find("samples");
+        if (i == e.attributes.end()) {
+            return NULL;
+        }
+
+        TypeQueryVisitor v;
+        ArrayElement* a = TypeQueryVisitor::as<ArrayElement>((*i)->value.second);
+
+        if (!a || a->value.empty()) {
+            return NULL;
+        }
+
+        return TypeQueryVisitor::as<T>(*(a->value.begin()));
+
+    }
+
+    template<typename T, typename R = typename T::ValueType>
+    struct getValue {
+        const T& element;
+
+        getValue(const T& e) : element(e) {}
+
+        operator const R*() {
+
+            if (const T* d = getDefault(element)) {
+                return &d->value;
+            } 
+
+            if (const T* s = getSample(element)) {
+                return &s->value;
+            }
+
+
+            return &element.value;
+        }
+    };
+
+
     void RenderJSONVisitor::visit(const ObjectElement& e) {
         // If the element is a mixin reference
         if (e.element() == "ref") {
@@ -100,13 +152,18 @@ namespace refract
         }
 
         RenderJSONVisitor renderer(sos::Base::ObjectType);
-        std::vector<refract::IElement*>::const_iterator it;
+        const ObjectElement::ValueType* val = getValue<ObjectElement>(e);
+
+        if (!val) {
+            return;
+        }
 
         if (e.element() == "extend") {
             renderer.isExtend = true;
         }
 
-        for (it = e.value.begin(); it != e.value.end(); ++it) {
+        std::vector<refract::IElement*>::const_iterator it;
+        for (it = val->begin(); it != val->end(); ++it) {
             if (*it) {
                 renderer.visit(*(*it));
             }
@@ -117,13 +174,18 @@ namespace refract
 
     void RenderJSONVisitor::visit(const ArrayElement& e) {
         RenderJSONVisitor renderer(sos::Base::ArrayType);
-        std::vector<refract::IElement*>::const_iterator it;
+
+        const ArrayElement::ValueType* val = getValue<ArrayElement>(e);
+        if (!val) {
+            return;
+        }
 
         if (e.element() == "extend") {
             renderer.isExtend = true;
         }
 
-        for (it = e.value.begin(); it != e.value.end(); ++it) {
+        ArrayElement::ValueType::const_iterator it;
+        for (it = val->begin(); it != val->end(); ++it) {
             if (*it) {
                 renderer.visit(*(*it));
             }
@@ -134,16 +196,26 @@ namespace refract
 
     void RenderJSONVisitor::visit(const NullElement& e) {}
 
+
     void RenderJSONVisitor::visit(const StringElement& e) {
-        assign(sos::String(e.value));
+        const StringElement::ValueType* v = getValue<StringElement>(e);
+        if (v) {
+            assign(sos::String(*v));
+        }
     }
 
     void RenderJSONVisitor::visit(const NumberElement& e) {
-        assign(sos::Number(e.value));
+        const NumberElement::ValueType* v = getValue<NumberElement>(e);
+        if (v) {
+            assign(sos::Number(*v));
+        }
     }
 
     void RenderJSONVisitor::visit(const BooleanElement& e) {
-        assign(sos::Boolean(e.value));
+        const BooleanElement::ValueType* v = getValue<BooleanElement>(e);
+        if (v) {
+            assign(sos::Boolean(*v));
+        }
     }
 
     sos::Base RenderJSONVisitor::get() const {

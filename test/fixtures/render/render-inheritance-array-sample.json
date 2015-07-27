@@ -1,0 +1,217 @@
+{
+  "_version": "3.0",
+  "metadata": [],
+  "name": "",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [
+    {
+      "name": "",
+      "description": "",
+      "resources": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "[\n  \"e\",\n  \"f\"\n]",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "extend",
+                          "content": [
+                            {
+                              "element": "array",
+                              "meta": {
+                                "ref": "RefSample"
+                              },
+                              "attributes": {
+                                "samples": [
+                                  [
+                                    "c",
+                                    "d"
+                                  ]
+                                ],
+                                "default": [
+                                  "e",
+                                  "f"
+                                ]
+                              },
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "a"
+                                },
+                                {
+                                  "element": "string",
+                                  "content": "b"
+                                }
+                              ]
+                            },
+                            {
+                              "element": "array"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "[\n  \"e\",\n  \"f\"\n]",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "extend",
+                          "content": [
+                            {
+                              "element": "array",
+                              "meta": {
+                                "ref": "RefSample"
+                              },
+                              "attributes": {
+                                "samples": [
+                                  [
+                                    "c",
+                                    "d"
+                                  ]
+                                ],
+                                "default": [
+                                  "e",
+                                  "f"
+                                ]
+                              },
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "a"
+                                },
+                                {
+                                  "element": "string",
+                                  "content": "b"
+                                }
+                              ]
+                            },
+                            {
+                              "element": "array"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    },
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "array",
+          "meta": {
+            "id": "RefSample"
+          },
+          "attributes": {
+            "samples": [
+              [
+                "c",
+                "d"
+              ]
+            ],
+            "default": [
+              "e",
+              "f"
+            ]
+          },
+          "content": [
+            {
+              "element": "string",
+              "content": "a"
+            },
+            {
+              "element": "string",
+              "content": "b"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
