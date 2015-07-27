@@ -65,7 +65,43 @@ TEST_CASE("Testing render of an object mixin", "[render]")
     REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render-object-mixin"));
 }
 
+TEST_CASE("Testing render of an primitive types w/ samples", "[render]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render-primitive-samples"));
+}
+
 TEST_CASE("Testing render of an array mixin", "[render]")
 {
     REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render-array-mixin"));
 }
+
+TEST_CASE("Testing render of an array w/ samples", "[render]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render-array-samples"));
+}
+
+TEST_CASE("Testing render of an object w/ samples", "[render]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render-object-samples"));
+}
+
+TEST_CASE("Testing render of an inherited array w/ samples", "[render]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render-inheritance-array-sample"));
+}
+
+TEST_CASE("Testing render of an inherited object w/ samples", "[render]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render-inheritance-object-sample"));
+}
+
+TEST_CASE("Testing render of an array mixin w/ samples", "[render]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render-mixin-array-sample"));
+}
+
+TEST_CASE("Testing render of an object mixin w/ samples", "[render]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render-mixin-object-sample"));
+}
+
