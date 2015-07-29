@@ -42,7 +42,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "[\n  \"e\",\n  \"f\"\n]",
+                      "body": "[\n  \"a\",\n  \"b\"\n]",
                       "schema": "",
                       "content": [
                         {
@@ -130,7 +130,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "[\n  \"e\",\n  \"f\"\n]",
+                      "body": "[\n  \"a\",\n  \"b\"\n]",
                       "schema": "",
                       "content": [
                         {

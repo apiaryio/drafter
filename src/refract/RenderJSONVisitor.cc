@@ -113,13 +113,28 @@ namespace refract
         getValue(const T& e) : element(e) {}
 
         operator const R*() {
-            if (const T* d = getDefault(element)) {
-                return &d->value;
-            } 
+            // FIXME: if value is propageted as first
+            // following example will be rendered w/ empty members
+            // ```
+            // - o
+            //     - m1
+            //     - m2
+            //         - sample
+            //             - m1: a
+            //             - m2: b
+            // ```
+            // because `o` has members `m1` and  `m2` , but members has no sed value
+            if (!element.empty()) {
+                return &element.value;
+            }
 
             if (const T* s = getSample(element)) {
                 return &s->value;
             }
+
+            if (const T* d = getDefault(element)) {
+                return &d->value;
+            } 
 
             return &element.value;
         }

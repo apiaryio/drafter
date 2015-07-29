@@ -42,7 +42,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "{\n  \"s1\": \"default\",\n  \"s2\": \"sample\",\n  \"s3\": \"d1\",\n  \"n1\": 5,\n  \"n2\": 7,\n  \"b1\": true\n}",
+                      "body": "{\n  \"s1\": \"default\",\n  \"s2\": \"sample\",\n  \"s3\": \"v1\",\n  \"n1\": 5,\n  \"n2\": 8,\n  \"b1\": true\n}",
                       "schema": "",
                       "content": [
                         {
@@ -202,7 +202,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "{\n  \"s1\": \"default\",\n  \"s2\": \"sample\",\n  \"s3\": \"d1\",\n  \"n1\": 5,\n  \"n2\": 7,\n  \"b1\": true\n}",
+                      "body": "{\n  \"s1\": \"default\",\n  \"s2\": \"sample\",\n  \"s3\": \"v1\",\n  \"n1\": 5,\n  \"n2\": 8,\n  \"b1\": true\n}",
                       "schema": "",
                       "content": [
                         {

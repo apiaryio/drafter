@@ -42,7 +42,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "{\n  \"o1\": {\n    \"p1\": \"x\",\n    \"p2\": \"y\"\n  }\n}",
+                      "body": "{\n  \"o1\": {\n    \"p1\": \"\",\n    \"p2\": \"\"\n  }\n}",
                       "schema": "",
                       "content": [
                         {
@@ -149,7 +149,7 @@
                           "value": "application/json"
                         }
                       ],
-                      "body": "{\n  \"o1\": {\n    \"p1\": \"x\",\n    \"p2\": \"y\"\n  }\n}",
+                      "body": "{\n  \"o1\": {\n    \"p1\": \"\",\n    \"p2\": \"\"\n  }\n}",
                       "schema": "",
                       "content": [
                         {
