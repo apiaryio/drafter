@@ -511,8 +511,17 @@ namespace drafter
         Join join(description);
         join(property.description);
 
+        bool addNewLine = false;
+        if (!description.empty()) {
+            addNewLine = true;
+        }
+
         for (mson::TypeSections::const_iterator it = property.sections.begin(); it != property.sections.end(); ++it) {
             if (it->klass == mson::TypeSection::BlockDescriptionClass){ 
+                if (addNewLine) {
+                    description.append("\n");
+                    addNewLine = false;
+                }
                 join(it->content.description);
             }
         }
@@ -699,7 +708,7 @@ namespace drafter
         std::for_each(data.descriptions.begin(), data.descriptions.end(), Join(description));
 
         if(!description.empty()) {
-            e->meta[key::Description] = IElement::Create(*data.descriptions.begin());
+            e->meta[key::Description] = IElement::Create(description);
         }
 
         return e;
