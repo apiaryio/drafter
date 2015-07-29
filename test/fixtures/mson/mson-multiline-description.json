@@ -34,7 +34,7 @@
             {
               "element": "member",
               "meta": {
-                "description": "address description\nmultilined object\ndescription\n"
+                "description": "address description\n\nmultilined object\ndescription\n"
               },
               "content": {
                 "key": {
@@ -66,7 +66,7 @@
             {
               "element": "member",
               "meta": {
-                "description": "this should ...\nbe member of user\n"
+                "description": "this should ...\n\nbe member of user\n"
               },
               "content": {
                 "key": {
