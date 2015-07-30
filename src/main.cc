@@ -73,7 +73,13 @@ int main(int argc, const char *argv[])
         sos::Serialize* serializer = CreateSerializer(config.format);
 
         std::ostream *out = CreateStreamFromName<std::ostream>(config.output);
-        Serialization(out, drafter::WrapBlueprint(blueprint.node), serializer);
+        try {
+            Serialization(out, drafter::WrapBlueprint(blueprint.node), serializer);
+        } 
+        catch (std::exception e) {
+            blueprint.report.error.message = e.what();
+            blueprint.report.error.code = snowcrash::ApplicationError;
+        }
         delete out;
 
         if (options & snowcrash::ExportSourcemapOption) {

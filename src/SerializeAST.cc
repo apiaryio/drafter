@@ -52,6 +52,23 @@ using snowcrash::Blueprint;
 
 static refract::Registry NamedTypesRegistry;
 
+/**
+ * FIXME:
+ * hotfix until solve ErrorReporting from drafter into snowcrash result.
+ * we need it to allow free allocated memory
+ * this flag WILL BE REMOVED, 
+ * DO NOT USE it until you know what are you doing
+ */
+
+enum {
+    NoError = 0,
+    RuntimeError
+};
+
+
+static int DrafterErrorCode = NoError;
+static std::string DrafterErrorMessage;
+
 #endif
 
 sos::Object WrapValue(const mson::Value& value)
@@ -452,8 +469,17 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
 sos::Object WrapDataStructure(const DataStructure& dataStructure)
 {
 #if _WITH_REFRACT_
-    refract::IElement* element = DataStructureToRefract(dataStructure);
-    sos::Object object = SerializeRefract(element, NamedTypesRegistry);
+    refract::IElement* element = NULL;
+    sos::Object object;
+
+    try {
+        element = DataStructureToRefract(dataStructure);
+        object = SerializeRefract(element, NamedTypesRegistry);
+    }
+    catch (std::exception e) {
+        DrafterErrorCode = RuntimeError;
+        DrafterErrorMessage = e.what();
+    }
 
     if (element) {
         delete element;
@@ -843,6 +869,10 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
 
 #if _WITH_REFRACT_
     NamedTypesRegistry.clearAll(true);
+
+    if (DrafterErrorCode != NoError) {
+        throw std::runtime_error(DrafterErrorMessage);
+    }
 #endif
 
     return blueprintObject;
