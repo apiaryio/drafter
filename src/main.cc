@@ -15,6 +15,7 @@
 #include "sosYAML.h"
 
 #include "SerializeAST.h"
+#include "RefractAPI.h"
 #include "SerializeSourcemap.h"
 
 #include "reporting.h"
@@ -69,12 +70,18 @@ int main(int argc, const char *argv[])
     sc::ParseResult<sc::Blueprint> blueprint;
     sc::parse(inputStream.str(), options, blueprint);
 
+
     if (!config.validate) {  // not just validate -> we will serialize
         sos::Serialize* serializer = CreateSerializer(config.format);
 
         std::ostream *out = CreateStreamFromName<std::ostream>(config.output);
         try {
-            Serialization(out, drafter::WrapBlueprint(blueprint.node), serializer);
+
+            sos::Object(*astType)(const snowcrash::Blueprint& blueprint) = config.astType == "refract"
+              ? drafter::SerializeToRefract
+              : drafter::WrapBlueprint;
+
+            Serialization(out, astType(blueprint.node), serializer);
         } 
         catch (std::exception e) {
             blueprint.report.error.message = e.what();

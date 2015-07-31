@@ -39,6 +39,8 @@
         "src/SerializeResult.cc",
         "src/RefractDataStructure.h",
         "src/RefractDataStructure.cc",
+        "src/RefractAPI.h",
+        "src/RefractAPI.cc",
         "src/Render.h",
 
         # librefract parts - will be separated into other project
@@ -104,7 +106,8 @@
         "test/test-drafter.cc",
         "test/test-cdrafter.cc",
         "test/test-SerializeResult.cc",
-        "test/test-RefractTest.cc",
+        "test/test-RefractDataStructureTest.cc",
+        "test/test-RefractAPITest.cc",
         "test/test-RenderTest.cc",
       ],
       'dependencies': [
