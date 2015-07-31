@@ -16,6 +16,7 @@ struct Config {
     bool lineNumbers;
     bool validate;
     std::string format;
+    std::string astType;
     std::string sourceMap;
     std::string output;
 };
