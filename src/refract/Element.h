@@ -19,6 +19,8 @@
 #include "Exception.h"
 #include "Visitor.h"
 
+#include <algorithm>
+
 namespace refract
 {
 
@@ -339,13 +341,9 @@ namespace refract
         }
 
         static void cloneValue(const ValueType& self, ValueType& other) {
-            for (ValueType::const_iterator i = self.begin(); i != self.end(); ++i) {
-                IElement* e = NULL;
-                if ((*i)) {
-                  e = (*i)->clone();
-                }
-                other.push_back(e);
-            }
+            std::transform(self.begin(), self.end(),
+                           std::back_inserter(other),
+                           std::bind2nd(std::mem_fun(&IElement::clone), IElement::cAll));
         }
     };
 
@@ -453,10 +451,9 @@ namespace refract
         }
 
         static void cloneValue(const ValueType& self, ValueType& other) {
-            for (ValueType::const_iterator i = self.begin(); i != self.end(); ++i) {
-                IElement* e = (*i)->clone();
-                other.push_back(e);
-            }
+            std::transform(self.begin(), self.end(),
+                           std::back_inserter(other),
+                           std::bind2nd(std::mem_fun(&IElement::clone), IElement::cAll));
         }
     };
 
