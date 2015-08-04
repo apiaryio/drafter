@@ -5,8 +5,8 @@
 //  Created by Jiri Kratochvil on 2015-03-03
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-#ifndef _DRAFTER_STREAM_H_
-#define _DRAFTER_STREAM_H_
+#ifndef DRAFTER_STREAM_H
+#define DRAFTER_STREAM_H
 
 #include <memory>
 
@@ -143,4 +143,4 @@ T* CreateStreamFromName(const std::string& file)
 }
 
 
-#endif // #ifndef _DRAFTER_STREAM_H_
+#endif // #ifndef DRAFTER_STREAM_H

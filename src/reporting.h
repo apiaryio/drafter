@@ -10,7 +10,6 @@
 #ifndef DRAFTER_REPORTING_H
 #define DRAFTER_REPORTING_H
 
-
 #include "SourceAnnotation.h"
 
 /**

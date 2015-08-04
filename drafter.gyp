@@ -2,7 +2,6 @@
   "includes": [
     "ext/snowcrash/common.gypi"
   ],
-  
   "targets" : [
     {
       'target_name': 'libsos',
@@ -38,8 +37,8 @@
         "src/SerializeSourcemap.cc",
         "src/SerializeResult.h",
         "src/SerializeResult.cc",
-        "src/RefractAST.h",
-        "src/RefractAST.cc",
+        "src/RefractDataStructure.h",
+        "src/RefractDataStructure.cc",
         "src/Render.h",
 
         # librefract parts - will be separated into other project

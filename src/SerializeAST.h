@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
-#ifndef DRAFTER_SERIALIZE_AST_H
-#define DRAFTER_SERIALIZE_AST_H
+#ifndef DRAFTER_SERIALIZEAST_H
+#define DRAFTER_SERIALIZEAST_H
 
 #include "Serialize.h"
 
