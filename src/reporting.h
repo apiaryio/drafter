@@ -1,7 +1,6 @@
 //
-// vi:cin:et:sw=4 ts=4
-//
-//  reporting.h - part of drafter
+//  reporting.h
+//  drafter
 //
 //  Created by Jiri Kratochvil on 2015-02-13
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
@@ -24,4 +23,4 @@ void PrintReport(const snowcrash::Report& report,
                  const bool isUseLineNumbers);
 
 
-#endif /* end of include guard: DRAFTER_REPORTING_H */
+#endif // #ifndef DRAFTER_REPORTING_H

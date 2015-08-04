@@ -70,7 +70,6 @@ int main(int argc, const char *argv[])
     sc::ParseResult<sc::Blueprint> blueprint;
     sc::parse(inputStream.str(), options, blueprint);
 
-
     if (!config.validate) {  // not just validate -> we will serialize
         sos::Serialize* serializer = CreateSerializer(config.format);
 
