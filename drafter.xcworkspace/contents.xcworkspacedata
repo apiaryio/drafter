@@ -8,6 +8,6 @@
       location = "group:ext/snowcrash/snowcrash.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/z/Codebase/apiary.io/drafter/drafter.xcodeproj">
+      location = "group:drafter.xcodeproj">
    </FileRef>
 </Workspace>
