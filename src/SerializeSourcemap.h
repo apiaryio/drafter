@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
-#ifndef DRAFTER_SERIALIZE_SOURCEMAP_H
-#define DRAFTER_SERIALIZE_SOURCEMAP_H
+#ifndef DRAFTER_SERIALIZESOURCEMAP_H
+#define DRAFTER_SERIALIZESOURCEMAP_H
 
 #include "Serialize.h"
 

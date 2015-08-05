@@ -1,11 +1,11 @@
 //
 //  drafter.cc
-//
 //  drafter
 //
 //  Created by Jiri Kratochvil on 2015-03-05
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
+
 #include "drafter.h"
 
 namespace drafter {

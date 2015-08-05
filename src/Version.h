@@ -7,7 +7,7 @@
 //  This work might use parts of Node.js `node_version.h`
 //  https://github.com/joyent/node
 //
-//  Copyright (c) 2014 Apiary Inc. All rights reserved.
+//  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
 #ifndef DRAFTER_VERSION_H

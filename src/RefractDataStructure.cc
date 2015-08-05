@@ -1,5 +1,5 @@
 //
-//  RefractAST.cc
+//  RefractDataStructure.cc
 //  drafter
 //
 //  Created by Jiri Kratochvil on 18/05/15.
@@ -8,7 +8,7 @@
 
 #include <iterator>
 
-#include "RefractAST.h"
+#include "RefractDataStructure.h"
 #include "refract/Element.h"
 #include "refract/Visitors.h"
 #include "refract/AppendDecorator.h"

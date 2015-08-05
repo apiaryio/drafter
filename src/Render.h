@@ -1,6 +1,6 @@
 //
 //  Render.h
-//  libdrafter
+//  drafter
 //
 //  Created by Pavan Kumar Sunkara on 17/06/15.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.

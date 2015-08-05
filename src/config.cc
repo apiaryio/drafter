@@ -17,6 +17,7 @@ namespace config {
 
     static const std::string Output         = "output";
     static const std::string Format         = "format";
+    static const std::string Type           = "type";
     static const std::string Render         = "render";
     static const std::string Sourcemap      = "sourcemap";
     static const std::string Validate       = "validate";
@@ -30,6 +31,7 @@ void PrepareCommanLineParser(cmdline::parser& parser)
 
     parser.add<std::string>(config::Output,    'o', "save output AST into file", false);
     parser.add<std::string>(config::Format,    'f', "output AST format", false, "yaml", cmdline::oneof<std::string>("yaml", "json"));
+    parser.add<std::string>(config::Type,      't', "format of AST", false, "refract", cmdline::oneof<std::string>("refract", "ast"));
     parser.add<std::string>(config::Sourcemap, 's', "export sourcemap AST into file", false);
     parser.add("help",                         'h', "display this help message");
     parser.add(config::Version ,               'v', "print Drafter version");
@@ -75,6 +77,7 @@ void ParseCommadLineOptions(int argc, const char *argv[], /* out */Config& conf)
     conf.lineNumbers = parser.exist(config::UseLineNumbers);
     conf.validate    = parser.exist(config::Validate);
     conf.format      = parser.get<std::string>(config::Format);
+    conf.astType     = parser.get<std::string>(config::Type);
     conf.output      = parser.get<std::string>(config::Output);
     conf.sourceMap   = parser.get<std::string>(config::Sourcemap);
 }
