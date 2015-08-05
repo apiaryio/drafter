@@ -8,6 +8,8 @@
 #ifndef REFRACT_APPENDDECORATOR_H
 #define REFRACT_APPENDDECORATOR_H
 
+#include <iterator>
+
 namespace refract
 {
 

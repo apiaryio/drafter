@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
+#include <iterator>
+
 #include "RefractAST.h"
 #include "refract/Element.h"
 #include "refract/Visitors.h"
