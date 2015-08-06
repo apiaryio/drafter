@@ -13,7 +13,7 @@
 
 #include <stdlib.h>
 
-#include "RefractDataStructure.h"
+#include "RefractAPI.h"
 #include "refract/Element.h"
 #include "refract/Registry.h"
 #include "refract/Visitors.h"
