@@ -469,20 +469,21 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
 sos::Object WrapDataStructure(const DataStructure& dataStructure)
 {
 #if _WITH_REFRACT_
-    refract::IElement* element = NULL;
+    refract::IElement *element = NULL, *expanded = NULL;
     sos::Object object;
 
     try {
         element = DataStructureToRefract(dataStructure);
-        object = SerializeRefract(element, NamedTypesRegistry);
+        expanded = ExpandRefract(element, NamedTypesRegistry);
+        object = SerializeRefract(expanded);
     }
     catch (std::exception e) {
         DrafterErrorCode = RuntimeError;
         DrafterErrorMessage = e.what();
     }
 
-    if (element) {
-        delete element;
+    if (expanded) {
+        delete expanded;
     }
 
     return object;

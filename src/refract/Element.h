@@ -10,7 +10,8 @@
 
 #include <string>
 #include <vector>
-
+#include <algorithm>
+#include <functional>
 #include <stdexcept>
 
 #include "Typelist.h"
@@ -18,8 +19,6 @@
 
 #include "Exception.h"
 #include "Visitor.h"
-
-#include <algorithm>
 
 namespace refract
 {

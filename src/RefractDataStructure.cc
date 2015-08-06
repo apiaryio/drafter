@@ -760,25 +760,31 @@ namespace drafter
         return element;
     }
 
-    sos::Object SerializeRefract(refract::IElement* element, const refract::Registry& registry) {
-
+    refract::IElement* ExpandRefract(refract::IElement* element, const refract::Registry& registry)
+    {
         if (!element) {
-            return sos::Object();
+            return element;
         }
 
         refract::ExpandVisitor expander(registry);
         expander.visit(*element);
 
         if (refract::IElement* expanded = expander.get()) {
-           element = expanded;
+            delete element;
+            element = expanded;
+        }
+
+        return element;
+    }
+
+    sos::Object SerializeRefract(refract::IElement* element)
+    {
+        if (!element) {
+            return sos::Object();
         }
 
         refract::SerializeVisitor serializer;
         serializer.visit(*element);
-
-        if (expander.get()) {
-           delete element;
-        }
 
         return serializer.get();
     }
