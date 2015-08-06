@@ -11,7 +11,7 @@ TEST_CASE("c-interface parse blueprint ", "[c-interface]")
 
     char *result = NULL;
 
-    int ret = drafter_c_parse(source.c_str(), 0, &result);
+    int ret = drafter_c_parse(source.c_str(), 0, DRAFTER_NORMAL_AST_TYPE, &result);
 
     REQUIRE(ret == 0);
 
@@ -29,7 +29,7 @@ TEST_CASE("c-interface parse blueprint with sourceMap", "[c-interface]")
 
     char *result = NULL;
 
-    int ret = drafter_c_parse(source.c_str(), SC_EXPORT_SORUCEMAP_OPTION, &result);
+    int ret = drafter_c_parse(source.c_str(), SC_EXPORT_SORUCEMAP_OPTION, DRAFTER_NORMAL_AST_TYPE, &result);
 
     REQUIRE(ret == 0);
 
@@ -47,7 +47,7 @@ TEST_CASE("c-interface check result, without memory alloc", "[c-interface]")
 
     char *ast = NULL, *report = NULL;
 
-    int ret = drafter_c_parse(source.c_str(), 0, NULL);
+    int ret = drafter_c_parse(source.c_str(), 0, DRAFTER_NORMAL_AST_TYPE, NULL);
 
     REQUIRE(ret == 0);
 }

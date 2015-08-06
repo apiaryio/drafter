@@ -468,14 +468,15 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
 
 sos::Object WrapDataStructure(const DataStructure& dataStructure)
 {
+    sos::Object dataStructureObject;
+
 #if _WITH_REFRACT_
     refract::IElement *element = NULL, *expanded = NULL;
-    sos::Object object;
 
     try {
         element = DataStructureToRefract(dataStructure);
         expanded = ExpandRefract(element, NamedTypesRegistry);
-        object = SerializeRefract(expanded);
+        dataStructureObject = SerializeRefract(expanded);
     }
     catch (std::exception e) {
         DrafterErrorCode = RuntimeError;
@@ -486,10 +487,8 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
         delete expanded;
     }
 
-    return object;
+    return dataStructureObject;
 #endif
-
-    sos::Object dataStructureObject;
 
     // Element
     dataStructureObject.set(SerializeKey::Element, ElementClassToString(Element::DataStructureElement));
@@ -826,7 +825,7 @@ void findNamedDataStructures(const snowcrash::Elements& elements, DataStructures
 }
 #endif
 
-sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
+sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType astType)
 {
     sos::Object blueprintObject;
 
@@ -837,36 +836,54 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
     for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
 
         if (!(*i)->name.symbol.literal.empty()) {
-            refract::IElement* element = drafter::DataStructureToRefract(*(*i));
+            refract::IElement* element = DataStructureToRefract(*(*i));
             NamedTypesRegistry.add(element);
         }
 
     }
 #endif
 
-    // Version
-    blueprintObject.set(SerializeKey::Version, sos::String(AST_SERIALIZATION_VERSION));
+    if (astType == RefractASTType) {
+        refract::IElement *element = NULL;
 
-    // Metadata
-    blueprintObject.set(SerializeKey::Metadata, 
-                        WrapCollection<Metadata>()(blueprint.metadata, WrapKeyValue));
+        try {
+            element = BlueprintToRefract(blueprint);
+            blueprintObject = SerializeRefract(element);
+        }
+        catch (std::exception e) {
+            DrafterErrorCode = RuntimeError;
+            DrafterErrorMessage = e.what();
+        }
 
-    // Name
-    blueprintObject.set(SerializeKey::Name, sos::String(blueprint.name));
+        if (element) {
+            delete element;
+        }
+    }
+    else {
+        // Version
+        blueprintObject.set(SerializeKey::Version, sos::String(AST_SERIALIZATION_VERSION));
 
-    // Description
-    blueprintObject.set(SerializeKey::Description, sos::String(blueprint.description));
+        // Metadata
+        blueprintObject.set(SerializeKey::Metadata,
+                            WrapCollection<Metadata>()(blueprint.metadata, WrapKeyValue));
 
-    // Element
-    blueprintObject.set(SerializeKey::Element, ElementClassToString(blueprint.element));
+        // Name
+        blueprintObject.set(SerializeKey::Name, sos::String(blueprint.name));
 
-    // Resource Groups
-    blueprintObject.set(SerializeKey::ResourceGroups, 
-                        WrapCollection<Element>()(blueprint.content.elements(), WrapResourceGroup, IsElementResourceGroup));
+        // Description
+        blueprintObject.set(SerializeKey::Description, sos::String(blueprint.description));
 
-    // Content
-    blueprintObject.set(SerializeKey::Content,
-                        WrapCollection<Element>()(blueprint.content.elements(), WrapElement));
+        // Element
+        blueprintObject.set(SerializeKey::Element, ElementClassToString(blueprint.element));
+
+        // Resource Groups
+        blueprintObject.set(SerializeKey::ResourceGroups,
+                            WrapCollection<Element>()(blueprint.content.elements(), WrapResourceGroup, IsElementResourceGroup));
+
+        // Content
+        blueprintObject.set(SerializeKey::Content,
+                            WrapCollection<Element>()(blueprint.content.elements(), WrapElement));
+    }
 
 #if _WITH_REFRACT_
     NamedTypesRegistry.clearAll(true);
