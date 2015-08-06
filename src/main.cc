@@ -75,12 +75,7 @@ int main(int argc, const char *argv[])
 
         std::ostream *out = CreateStreamFromName<std::ostream>(config.output);
         try {
-
-            sos::Object(*astType)(const snowcrash::Blueprint& blueprint) = config.astType == "refract"
-              ? drafter::SerializeToRefract
-              : drafter::WrapBlueprint;
-
-            Serialization(out, astType(blueprint.node), serializer);
+            Serialization(out, drafter::WrapBlueprint(blueprint.node), serializer);
         } 
         catch (std::exception e) {
             blueprint.report.error.message = e.what();

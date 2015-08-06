@@ -61,17 +61,10 @@ namespace drafter {
             {
                 refract::RenderJSONVisitor renderer;
                 refract::IElement* element = DataStructureToRefract(payload.attributes);
+                refract::IElement* expanded = ExpandRefract(element, registry);
 
-                refract::ExpandVisitor expander(registry);
-                expander.visit(*element);
-
-                if (refract::IElement* expanded = expander.get()) {
-                    delete element;
-                    element = expanded;
-                }
-
-                renderer.visit(*element);
-                delete element;
+                renderer.visit(*expanded);
+                delete expanded;
 
                 return renderer.getString();
             }
