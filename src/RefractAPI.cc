@@ -17,6 +17,9 @@ namespace drafter {
 
     typedef std::vector<refract::IElement*> RefractElements;
 
+    // Forward Declarations
+    refract::IElement* ElementToRefract(const snowcrash::Element& element);
+
     template <typename T>
     static bool IsNull(const T* ptr)
     {
@@ -26,11 +29,9 @@ namespace drafter {
     refract::IElement* MetadataToRefract(const snowcrash::Metadata metadata)
     {
         refract::MemberElement* element = new refract::MemberElement;
+
         element->meta["class"] = refract::ArrayElement::Create("user");
-
-        element->set(refract::IElement::Create(metadata.first),
-                     refract::IElement::Create(metadata.second));
-
+        element->set(refract::IElement::Create(metadata.first), refract::IElement::Create(metadata.second));
         element->renderType(refract::IElement::rFull);
 
         return element;
@@ -38,19 +39,17 @@ namespace drafter {
 
     refract::IElement* MetadataCollectionToRefract(const snowcrash::MetadataCollection metadata)
     {
-        if(metadata.empty()) {
+        if (metadata.empty()) {
             return NULL;
         }
 
         refract::ObjectElement* element = new refract::ObjectElement;
         RefractElements content;
 
-        std::transform(metadata.begin(), metadata.end(),
-                       std::back_inserter(content),
-                       MetadataToRefract);
-
+        std::transform(metadata.begin(), metadata.end(), std::back_inserter(content), MetadataToRefract);
         element->set(content);
         element->renderType(refract::IElement::rFull);
+
         return element;
     }
 
@@ -58,6 +57,7 @@ namespace drafter {
     {
         refract::ArrayElement* resource = new refract::ArrayElement;
         resource->element("resource");
+
         return resource;
     }
 
@@ -65,83 +65,74 @@ namespace drafter {
     {
         refract::IElement* text = refract::IElement::Create(element.content.copy);
         text->element("copy");
+
         return text;
+    }
+
+    refract::IElement* CategoryToRefract(const snowcrash::Element& element)
+    {
+        refract::ArrayElement* category = new refract::ArrayElement;
+        category->element("category");
+
+        if (element.category == snowcrash::Element::ResourceGroupCategory) {
+            category->meta["class"] = refract::ArrayElement::Create("resourceGroup");
+            category->meta["title"] = refract::IElement::Create(element.attributes.name);
+        }
+        else if (element.category == snowcrash::Element::DataStructureGroupCategory) {
+            category->meta["class"] = refract::ArrayElement::Create("dataStructures");
+        }
+
+        RefractElements elements;
+        std::transform(element.content.elements().begin(), element.content.elements().end(), std::back_inserter(elements), ElementToRefract);
+
+        elements.erase(std::remove_if(elements.begin(), elements.end(), IsNull<refract::IElement>), elements.end());
+        category->set(elements);
+
+        return category;
     }
 
     refract::IElement* ElementToRefract(const snowcrash::Element& element)
     {
-        switch(element.element) {
-            case snowcrash::Element::ResourceElement :
+        switch (element.element) {
+            case snowcrash::Element::ResourceElement:
                 return ResourceToRefract(element);
-            case snowcrash::Element::CopyElement :
+            case snowcrash::Element::DataStructureElement:
+                return DataStructureToRefract(element.content.dataStructure);
+            case snowcrash::Element::CopyElement:
                 return CopyToRefract(element);
+            case snowcrash::Element::CategoryElement:
+                return CategoryToRefract(element);
             default:
-                throw std::runtime_error("Not Implement - Unhandled type of Element");
+                throw std::runtime_error("Not Implemented - Unhandled type of Element");
         }
-    }
-
-    // FIXME: remove duplicity
-    static bool IsElementResourceGroup(const snowcrash::Element& element)
-    {
-        return element.element == snowcrash::Element::CategoryElement && element.category == snowcrash::Element::ResourceGroupCategory;
-    }
-
-    refract::IElement* ResourceGroupToRefract(const snowcrash::Element& resourceGroup)
-    {
-        if (!IsElementResourceGroup(resourceGroup)) {
-            return NULL;
-        }
-
-        refract::ArrayElement* group = new refract::ArrayElement;
-        group->element("category");
-        group->meta["class"] = refract::ArrayElement::Create("resourceGroup");
-        group->meta["title"] = refract::IElement::Create(resourceGroup.attributes.name);
-
-        RefractElements elements;
-        std::transform(resourceGroup.content.elements().begin(), resourceGroup.content.elements().end(),
-                       std::back_inserter(elements),
-                       ElementToRefract);
-
-        elements.erase(std::remove_if(elements.begin(), elements.end(), IsNull<refract::IElement>), elements.end());
-
-        group->set(elements);
-
-        return group;
     }
 
     refract::IElement* BlueprintToRefract(const snowcrash::Blueprint& blueprint)
     {
         refract::ArrayElement* ast = new refract::ArrayElement;
         ast->element("category");
+
         ast->meta["class"] = refract::ArrayElement::Create("api");
         ast->meta["title"] = refract::IElement::Create(blueprint.name);
-        ast->meta["description"] = refract::IElement::Create(blueprint.description);
+
+        if (!blueprint.description.empty()) {
+            ast->meta["description"] = refract::IElement::Create(blueprint.description);
+        }
 
         refract::IElement* metadata = MetadataCollectionToRefract(blueprint.metadata);
+
         if (metadata) {
             ast->attributes["meta"] = metadata;
         }
 
-        // FIXME: there is starting point to prepare Refract AST
-        // simple start at sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
-        // and convert all functions into Refract :)
-        //
-        // do not forgot add test cases into test/test-RefractAstTest.cc
-        // for inspiration you can look into test/test-RefractMsonTest.cc
-
         RefractElements elements;
         const snowcrash::Elements& scElements = blueprint.content.elements();
 
-        // append Resource groups to content
-        std::transform(scElements.begin(), scElements.end(), std::back_inserter(elements), ResourceGroupToRefract);
-
-        // append another set of element to content (in same way as happen in WrapBlueprint())
+        // Append set of elements to content
         std::transform(scElements.begin(), scElements.end(), std::back_inserter(elements), ElementToRefract);
 
-        // IDEA: maybe remove NULL from (Array|Object) while add directly in refractlib
-        // we need no remove them everywhere "by hand"
+        // Remove NULL elements
         elements.erase(std::remove_if(elements.begin(), elements.end(), IsNull<refract::IElement>), elements.end());
-
         ast->set(elements);
 
         return ast;

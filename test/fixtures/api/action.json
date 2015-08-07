@@ -1,0 +1,25 @@
+{
+  "element": "category",
+  "meta": {
+    "class": [
+      "api"
+    ],
+    "title": "API name"
+  },
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "class": [
+          "resourceGroup"
+        ],
+        "title": "Users"
+      },
+      "content": [
+        {
+          "element": "resource"
+        }
+      ]
+    }
+  ]
+}
