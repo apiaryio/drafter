@@ -1,7 +1,7 @@
 {
   "element": "category",
   "meta": {
-    "class": [
+    "classes": [
       "api"
     ],
     "title": "API name"
@@ -10,14 +10,24 @@
     {
       "element": "category",
       "meta": {
-        "class": [
+        "classes": [
           "resourceGroup"
         ],
         "title": "Users"
       },
       "content": [
         {
-          "element": "resource"
+          "element": "resource",
+          "meta": {
+            "classes": [
+              "resource"
+            ],
+            "title": "User"
+          },
+          "attributes": {
+            "href": "/users"
+          },
+          "content": []
         }
       ]
     }

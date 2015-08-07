@@ -1,7 +1,7 @@
 {
   "element": "category",
   "meta": {
-    "class": [
+    "classes": [
       "api"
     ],
     "title": "API name"
@@ -10,7 +10,7 @@
     {
       "element": "category",
       "meta": {
-        "class": [
+        "classes": [
           "dataStructures"
         ]
       },
