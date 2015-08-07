@@ -1,0 +1,11 @@
+{
+  "element": "category",
+  "meta": {
+    "class": [
+      "api"
+    ],
+    "title": "API name",
+    "description": "This is an API description\n"
+  },
+  "content": []
+}

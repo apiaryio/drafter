@@ -26,7 +26,7 @@ namespace drafter {
     refract::IElement* MetadataToRefract(const snowcrash::Metadata metadata)
     {
         refract::MemberElement* element = new refract::MemberElement;
-        element->meta["class"] = refract::IElement::Create("user");
+        element->meta["class"] = refract::ArrayElement::Create("user");
 
         element->set(refract::IElement::Create(metadata.first),
                      refract::IElement::Create(metadata.second));
@@ -94,7 +94,7 @@ namespace drafter {
 
         refract::ArrayElement* group = new refract::ArrayElement;
         group->element("category");
-        group->meta["class"] = refract::IElement::Create("resourceGroup");
+        group->meta["class"] = refract::ArrayElement::Create("resourceGroup");
         group->meta["title"] = refract::IElement::Create(resourceGroup.attributes.name);
 
         RefractElements elements;
@@ -113,7 +113,7 @@ namespace drafter {
     {
         refract::ArrayElement* ast = new refract::ArrayElement;
         ast->element("category");
-        ast->meta["class"] = refract::IElement::Create("api");
+        ast->meta["class"] = refract::ArrayElement::Create("api");
         ast->meta["title"] = refract::IElement::Create(blueprint.name);
         ast->meta["description"] = refract::IElement::Create(blueprint.description);
 

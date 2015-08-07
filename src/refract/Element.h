@@ -355,6 +355,15 @@ namespace refract
             hasContent = true;
             value.push_back(e);
         }
+
+        // FIXME: Make this variadic and push all values
+        // FIXME: Make this use templates
+        static IElement* Create(const char* value)
+        {
+            ArrayElement* e = new ArrayElement;
+            e->push_back(IElement::Create(value));
+            return e;
+        }
     };
 
     struct MemberElementTrait
