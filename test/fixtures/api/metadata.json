@@ -1,0 +1,54 @@
+{
+  "element": "category",
+  "meta": {
+    "class": [
+      "api"
+    ],
+    "title": "API name",
+    "description": ""
+  },
+  "attributes": {
+    "meta": {
+      "element": "object",
+      "content": [
+        {
+          "element": "member",
+          "meta": {
+            "class": [
+              "user"
+            ]
+          },
+          "content": {
+            "key": {
+              "element": "string",
+              "content": "FORMAT"
+            },
+            "value": {
+              "element": "string",
+              "content": "1A"
+            }
+          }
+        },
+        {
+          "element": "member",
+          "meta": {
+            "class": [
+              "user"
+            ]
+          },
+          "content": {
+            "key": {
+              "element": "string",
+              "content": "HOST"
+            },
+            "value": {
+              "element": "string",
+              "content": "https://example.com"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "content": []
+}
