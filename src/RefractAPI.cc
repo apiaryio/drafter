@@ -30,7 +30,7 @@ namespace drafter {
     {
         refract::MemberElement* element = new refract::MemberElement;
 
-        element->meta["class"] = refract::ArrayElement::Create("user");
+        element->meta["classes"] = refract::ArrayElement::Create("user");
         element->set(refract::IElement::Create(metadata.first), refract::IElement::Create(metadata.second));
         element->renderType(refract::IElement::rFull);
 
@@ -53,20 +53,31 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* ResourceToRefract(const snowcrash::Element& element)
+    refract::IElement* CopyToRefract(const std::string& copy)
     {
-        refract::ArrayElement* resource = new refract::ArrayElement;
-        resource->element("resource");
+        refract::IElement* element = refract::IElement::Create(copy);
+        element->element("copy");
 
-        return resource;
+        return element;
     }
 
-    refract::IElement* CopyToRefract(const snowcrash::Element& element)
+    refract::IElement* ResourceToRefract(const snowcrash::Resource& resource)
     {
-        refract::IElement* text = refract::IElement::Create(element.content.copy);
-        text->element("copy");
+        refract::ArrayElement* element = new refract::ArrayElement;
+        RefractElements elements;
 
-        return text;
+        element->element("resource");
+        element->meta["classes"] = refract::ArrayElement::Create("resource");
+        element->meta["title"] = refract::IElement::Create(resource.name);
+
+        if (!resource.description.empty()) {
+            elements.push_back(CopyToRefract(resource.description));
+        }
+
+        element->attributes["href"] = refract::IElement::Create(resource.uriTemplate);
+        element->set(elements);
+
+        return element;
     }
 
     refract::IElement* CategoryToRefract(const snowcrash::Element& element)
@@ -75,11 +86,11 @@ namespace drafter {
         category->element("category");
 
         if (element.category == snowcrash::Element::ResourceGroupCategory) {
-            category->meta["class"] = refract::ArrayElement::Create("resourceGroup");
+            category->meta["classes"] = refract::ArrayElement::Create("resourceGroup");
             category->meta["title"] = refract::IElement::Create(element.attributes.name);
         }
         else if (element.category == snowcrash::Element::DataStructureGroupCategory) {
-            category->meta["class"] = refract::ArrayElement::Create("dataStructures");
+            category->meta["classes"] = refract::ArrayElement::Create("dataStructures");
         }
 
         RefractElements elements;
@@ -95,11 +106,11 @@ namespace drafter {
     {
         switch (element.element) {
             case snowcrash::Element::ResourceElement:
-                return ResourceToRefract(element);
+                return ResourceToRefract(element.content.resource);
             case snowcrash::Element::DataStructureElement:
                 return DataStructureToRefract(element.content.dataStructure);
             case snowcrash::Element::CopyElement:
-                return CopyToRefract(element);
+                return CopyToRefract(element.content.copy);
             case snowcrash::Element::CategoryElement:
                 return CategoryToRefract(element);
             default:
@@ -110,25 +121,23 @@ namespace drafter {
     refract::IElement* BlueprintToRefract(const snowcrash::Blueprint& blueprint)
     {
         refract::ArrayElement* ast = new refract::ArrayElement;
-        ast->element("category");
+        RefractElements elements;
 
-        ast->meta["class"] = refract::ArrayElement::Create("api");
+        ast->element("category");
+        ast->meta["classes"] = refract::ArrayElement::Create("api");
         ast->meta["title"] = refract::IElement::Create(blueprint.name);
 
         if (!blueprint.description.empty()) {
-            ast->meta["description"] = refract::IElement::Create(blueprint.description);
+            elements.push_back(CopyToRefract(blueprint.description));
         }
 
-        refract::IElement* metadata = MetadataCollectionToRefract(blueprint.metadata);
-
-        if (metadata) {
-            ast->attributes["meta"] = metadata;
+        // FIXME: Correct this according to spec
+        if (!blueprint.metadata.empty()) {
+            ast->attributes["meta"] = MetadataCollectionToRefract(blueprint.metadata);
         }
-
-        RefractElements elements;
-        const snowcrash::Elements& scElements = blueprint.content.elements();
 
         // Append set of elements to content
+        const snowcrash::Elements& scElements = blueprint.content.elements();
         std::transform(scElements.begin(), scElements.end(), std::back_inserter(elements), ElementToRefract);
 
         // Remove NULL elements
