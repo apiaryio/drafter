@@ -98,8 +98,14 @@ namespace refract
         {
         }
 
+        /**
+         * Returns new element with content set as `value`
+         * Type of returned element depends on type of `value`
+         *
+         * In current implementation iis able create just primitive element types: (Bool|Number|String)
+         */
         template <typename T>
-        static IElement* Create(const T& value)
+        static typename ElementTypeSelector<T>::ElementType* Create(const T& value)
         {
             typedef typename ElementTypeSelector<T>::ElementType ElementType;
             ElementType* element = new ElementType;
@@ -107,7 +113,10 @@ namespace refract
             return element;
         };
 
-        static IElement* Create(const char* value);
+        /**
+         * overrided for static function `Create()` with classic c-string
+         */
+        static StringElement* Create(const char* value);
 
         struct MemberElementCollection : public std::vector<MemberElement*>
         {
