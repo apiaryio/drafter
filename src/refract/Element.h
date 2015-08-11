@@ -42,7 +42,7 @@ namespace refract
 
     template <typename T> struct ElementTypeSelector;
 
-    // NOTE: alternative soulution:
+    // NOTE: alternative solution:
     // find in Element* for ValueType instead of specialized templates
     template <>
     struct ElementTypeSelector<std::string>
@@ -364,15 +364,6 @@ namespace refract
             hasContent = true;
             value.push_back(e);
         }
-
-        // FIXME: Make this variadic and push all values
-        // FIXME: Make this use templates
-        static IElement* Create(const char* value)
-        {
-            ArrayElement* e = new ArrayElement;
-            e->push_back(IElement::Create(value));
-            return e;
-        }
     };
 
     struct MemberElementTrait
@@ -444,7 +435,7 @@ namespace refract
     {
         typedef std::vector<IElement*> ValueType;
 
-        // We dont use std::vector<MemberElement*> there, because
+        // We don't use std::vector<MemberElement*> there, because
         // ObjectElement can contain:
         // - (array[Member Element])
         // - (object)

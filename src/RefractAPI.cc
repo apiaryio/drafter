@@ -15,22 +15,35 @@
 
 namespace drafter {
 
-    typedef std::vector<refract::IElement*> RefractElements;
 
     // Forward Declarations
     refract::IElement* ElementToRefract(const snowcrash::Element& element);
 
-    template <typename T>
-    static bool IsNull(const T* ptr)
-    {
-        return ptr == NULL;
+    namespace {
+
+        typedef std::vector<refract::IElement*> RefractElements;
+
+        template <typename T>
+        refract::ArrayElement* CreateArrayElement(const T& content)
+        {
+            refract::ArrayElement* array = new refract::ArrayElement;
+            array->push_back(refract::IElement::Create(content));
+            return array;
+        }
+
+        template <typename T>
+        bool IsNull(const T* ptr)
+        {
+            return ptr == NULL;
+        }
+
     }
 
     refract::IElement* MetadataToRefract(const snowcrash::Metadata metadata)
     {
         refract::MemberElement* element = new refract::MemberElement;
 
-        element->meta["classes"] = refract::ArrayElement::Create("user");
+        element->meta["classes"] = CreateArrayElement("user");
         element->set(refract::IElement::Create(metadata.first), refract::IElement::Create(metadata.second));
         element->renderType(refract::IElement::rFull);
 
@@ -67,7 +80,7 @@ namespace drafter {
         RefractElements elements;
 
         element->element("resource");
-        element->meta["classes"] = refract::ArrayElement::Create("resource");
+        element->meta["classes"] = CreateArrayElement("resource");
         element->meta["title"] = refract::IElement::Create(resource.name);
 
         if (!resource.description.empty()) {
@@ -86,15 +99,17 @@ namespace drafter {
         category->element("category");
 
         if (element.category == snowcrash::Element::ResourceGroupCategory) {
-            category->meta["classes"] = refract::ArrayElement::Create("resourceGroup");
+            category->meta["classes"] = CreateArrayElement("resourceGroup");
             category->meta["title"] = refract::IElement::Create(element.attributes.name);
         }
         else if (element.category == snowcrash::Element::DataStructureGroupCategory) {
-            category->meta["classes"] = refract::ArrayElement::Create("dataStructures");
+            category->meta["classes"] = CreateArrayElement("dataStructures");
         }
 
         RefractElements elements;
-        std::transform(element.content.elements().begin(), element.content.elements().end(), std::back_inserter(elements), ElementToRefract);
+        std::transform(element.content.elements().begin(), element.content.elements().end(),
+                       std::back_inserter(elements),
+                       ElementToRefract);
 
         elements.erase(std::remove_if(elements.begin(), elements.end(), IsNull<refract::IElement>), elements.end());
         category->set(elements);
@@ -124,7 +139,7 @@ namespace drafter {
         RefractElements elements;
 
         ast->element("category");
-        ast->meta["classes"] = refract::ArrayElement::Create("api");
+        ast->meta["classes"] = CreateArrayElement("api");
         ast->meta["title"] = refract::IElement::Create(blueprint.name);
 
         if (!blueprint.description.empty()) {
