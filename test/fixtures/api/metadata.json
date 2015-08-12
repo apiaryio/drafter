@@ -7,47 +7,44 @@
     "title": "API name"
   },
   "attributes": {
-    "meta": {
-      "element": "object",
-      "content": [
-        {
-          "element": "member",
-          "meta": {
-            "classes": [
-              "user"
-            ]
-          },
-          "content": {
-            "key": {
-              "element": "string",
-              "content": "FORMAT"
-            },
-            "value": {
-              "element": "string",
-              "content": "1A"
-            }
-          }
+    "meta": [
+      {
+        "element": "member",
+        "meta": {
+          "classes": [
+            "user"
+          ]
         },
-        {
-          "element": "member",
-          "meta": {
-            "classes": [
-              "user"
-            ]
+        "content": {
+          "key": {
+            "element": "string",
+            "content": "FORMAT"
           },
-          "content": {
-            "key": {
-              "element": "string",
-              "content": "HOST"
-            },
-            "value": {
-              "element": "string",
-              "content": "https://example.com"
-            }
+          "value": {
+            "element": "string",
+            "content": "1A"
           }
         }
-      ]
-    }
+      },
+      {
+        "element": "member",
+        "meta": {
+          "classes": [
+            "user"
+          ]
+        },
+        "content": {
+          "key": {
+            "element": "string",
+            "content": "HOST"
+          },
+          "value": {
+            "element": "string",
+            "content": "https://example.com"
+          }
+        }
+      }
+    ]
   },
   "content": []
 }
