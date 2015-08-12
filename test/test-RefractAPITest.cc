@@ -31,3 +31,48 @@ TEST_CASE("Testing refract serialization for action", "[refract][api]")
 {
     REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/api/action", drafter::RefractASTType));
 }
+
+TEST_CASE("Testing refract serialization for advanced action", "[refract][api]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/api/advanced-action", drafter::RefractASTType));
+}
+
+TEST_CASE("Testing refract serialization for relation", "[refract][api]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/api/relation", drafter::RefractASTType));
+}
+
+TEST_CASE("Testing refract serialization for resource attributes", "[refract][api]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/api/resource-attributes", drafter::RefractASTType));
+}
+
+TEST_CASE("Testing refract serialization for action attributes", "[refract][api]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/api/action-attributes", drafter::RefractASTType));
+}
+
+TEST_CASE("Testing refract serialization for payload attributes", "[refract][api]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/api/payload-attributes", drafter::RefractASTType));
+}
+
+TEST_CASE("Testing refract serialization for transaction", "[refract][api]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/api/transaction", drafter::RefractASTType));
+}
+
+TEST_CASE("Testing refract serialization for headers", "[refract][api]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/api/headers", drafter::RefractASTType));
+}
+
+TEST_CASE("Testing refract serialization for resource parameters", "[refract][api]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/api/resource-parameters", drafter::RefractASTType));
+}
+
+TEST_CASE("Testing refract serialization for action parameters", "[refract][api]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/api/action-parameters", drafter::RefractASTType));
+}

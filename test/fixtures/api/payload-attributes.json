@@ -32,10 +32,6 @@
               },
               "content": [
                 {
-                  "element": "copy",
-                  "content": "Get the list of all the users\n\n"
-                },
-                {
                   "element": "httpTransaction",
                   "content": [
                     {
@@ -45,11 +41,22 @@
                       },
                       "content": [
                         {
-                          "element": "asset",
-                          "meta": {
-                            "classes": "messageBody"
-                          },
-                          "content": "[]\n"
+                          "element": "object",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "username"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "pavan"
+                                }
+                              }
+                            }
+                          ]
                         }
                       ]
                     }

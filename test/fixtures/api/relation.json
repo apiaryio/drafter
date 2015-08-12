@@ -30,11 +30,10 @@
               "meta": {
                 "title": "List all users"
               },
+              "attributes": {
+                "relation": "list"
+              },
               "content": [
-                {
-                  "element": "copy",
-                  "content": "Get the list of all the users\n\n"
-                },
                 {
                   "element": "httpTransaction",
                   "content": [

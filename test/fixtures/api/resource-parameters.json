@@ -32,22 +32,39 @@
               },
               "content": [
                 {
-                  "element": "copy",
-                  "content": "Get the list of all the users\n\n"
-                },
-                {
                   "element": "httpTransaction",
                   "content": [
                     {
                       "element": "httpResponse",
                       "attributes": {
-                        "statusCode": "200"
+                        "statusCode": "200",
+                        "headers": {
+                          "element": "httpHeaders",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "Content-Type"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
+                              }
+                            }
+                          ]
+                        }
                       },
                       "content": [
                         {
                           "element": "asset",
                           "meta": {
                             "classes": "messageBody"
+                          },
+                          "attributes": {
+                            "contentType": "application/json"
                           },
                           "content": "[]\n"
                         }

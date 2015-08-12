@@ -32,12 +32,24 @@
               },
               "content": [
                 {
-                  "element": "copy",
-                  "content": "Get the list of all the users\n\n"
-                },
-                {
                   "element": "httpTransaction",
                   "content": [
+                    {
+                      "element": "httpRequest",
+                      "attributes": {
+                        "method": "GET",
+                        "title": "Normal"
+                      },
+                      "content": [
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageBody"
+                          },
+                          "content": "{}\n"
+                        }
+                      ]
+                    },
                     {
                       "element": "httpResponse",
                       "attributes": {

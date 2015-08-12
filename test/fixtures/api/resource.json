@@ -19,9 +19,6 @@
         {
           "element": "resource",
           "meta": {
-            "classes": [
-              "resource"
-            ],
             "title": "User"
           },
           "attributes": {

@@ -54,7 +54,7 @@ namespace drafter {
 
     refract::IElement* MetadataCollectionToRefract(const snowcrash::MetadataCollection metadata)
     {
-        refract::ObjectElement* element = new refract::ObjectElement;
+        refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
 
         std::transform(metadata.begin(), metadata.end(), std::back_inserter(content), MetadataToRefract);
@@ -108,11 +108,12 @@ namespace drafter {
 
     refract::IElement* HeadersToRefract(const snowcrash::Headers& headers)
     {
-        refract::ArrayElement* element = new refract::ArrayElement;
+        refract::ObjectElement* element = new refract::ObjectElement;
         RefractElements content;
 
         element->element("httpHeaders");
         std::transform(headers.begin(), headers.end(), std::back_inserter(content), HeaderToRefract);
+        element->renderType(refract::IElement::rFull);
 
         element->set(content);
 
@@ -153,6 +154,7 @@ namespace drafter {
         else {
             element->element("httpRequest");
             element->attributes["method"] = refract::IElement::Create(method);
+            element->attributes["title"] = refract::IElement::Create(payload.name);
 
             // FIXME: Expand href
         }
@@ -189,9 +191,9 @@ namespace drafter {
     }
 
     refract::IElement* TransactionToRefract(const snowcrash::TransactionExample& transaction,
-                                            const snowcrash::Request& request,
+                                            const snowcrash::HTTPMethod& method,
                                             const snowcrash::Response& response,
-                                            const snowcrash::HTTPMethod& method)
+                                            const snowcrash::Request* request = NULL)
     {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
@@ -199,7 +201,10 @@ namespace drafter {
         element->element("httpTransaction");
         content.push_back(CopyToRefract(transaction.description));
 
-        content.push_back(PayloadToRefract(request, method));
+        if (request != NULL) {
+            content.push_back(PayloadToRefract(*request, method));
+        }
+
         content.push_back(PayloadToRefract(response));
 
         // Remove NULL elements
@@ -230,7 +235,9 @@ namespace drafter {
         }
 
         if (!action.attributes.empty()) {
-            element->attributes["data"] = DataStructureToRefract(action.attributes);
+            refract::IElement* dataStructure = DataStructureToRefract(action.attributes);
+            dataStructure->renderType(refract::IElement::rFull);
+            element->attributes["data"] = dataStructure;
         }
 
         content.push_back(CopyToRefract(action.description));
@@ -239,15 +246,20 @@ namespace drafter {
              it != action.examples.end();
              ++it) {
 
-            for (snowcrash::Requests::const_iterator reqIt = it->requests.begin();
-                 reqIt != it->requests.end();
-                 ++reqIt) {
+            for (snowcrash::Responses::const_iterator resIt = it->responses.begin();
+                 resIt != it->responses.end();
+                 ++resIt) {
 
-                for (snowcrash::Responses::const_iterator resIt = it->responses.begin();
-                     resIt != it->responses.end();
-                     ++resIt) {
+                if (it->requests.empty()) {
+                    content.push_back(TransactionToRefract(*it, action.method, *resIt));
+                    continue;
+                }
 
-                    content.push_back(TransactionToRefract(*it, *reqIt, *resIt, action.method));
+                for (snowcrash::Requests::const_iterator reqIt = it->requests.begin();
+                     reqIt != it->requests.end();
+                     ++reqIt) {
+
+                    content.push_back(TransactionToRefract(*it, action.method, *resIt, &*reqIt));
                 }
             }
         }

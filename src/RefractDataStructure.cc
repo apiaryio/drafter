@@ -719,6 +719,10 @@ namespace drafter
 
     refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure)
     {
+        if (dataStructure.empty()) {
+            return NULL;
+        }
+
         using namespace refract;
         IElement* element = NULL;
 

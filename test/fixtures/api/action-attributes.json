@@ -30,11 +30,27 @@
               "meta": {
                 "title": "List all users"
               },
+              "attributes": {
+                "data": {
+                  "element": "object",
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "username"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "pavan"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
               "content": [
-                {
-                  "element": "copy",
-                  "content": "Get the list of all the users\n\n"
-                },
                 {
                   "element": "httpTransaction",
                   "content": [
