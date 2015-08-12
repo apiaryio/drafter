@@ -44,6 +44,7 @@ namespace drafter {
         refract::MemberElement* element = new refract::MemberElement;
 
         element->meta["classes"] = CreateArrayElement("user");
+        element->meta["classes"].renderType(refract::IElement::rCompact);
         element->set(refract::IElement::Create(metadata.first), refract::IElement::Create(metadata.second));
         element->renderType(refract::IElement::rFull);
 
@@ -56,12 +57,12 @@ namespace drafter {
             return NULL;
         }
 
-        refract::ObjectElement* element = new refract::ObjectElement;
+        refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
 
         std::transform(metadata.begin(), metadata.end(), std::back_inserter(content), MetadataToRefract);
         element->set(content);
-        element->renderType(refract::IElement::rFull);
+        element->renderType(refract::IElement::rCompact);
 
         return element;
     }
