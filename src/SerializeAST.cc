@@ -823,15 +823,12 @@ void findNamedDataStructures(const snowcrash::Elements& elements, DataStructures
 
     }
 }
-#endif
 
-sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType astType)
+void registrateNamedStructures(const snowcrash::Elements& elements, refract::Registry& registry) 
 {
-    sos::Object blueprintObject;
 
-#if _WITH_REFRACT_
     DataStructures found;
-    findNamedDataStructures(blueprint.content.elements(), found);
+    findNamedDataStructures(elements, found);
 
     for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
 
@@ -841,48 +838,74 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType ast
         }
 
     }
+}
+
+sos::Object BlueprintAsRefractAST(const Blueprint& blueprint)
+{
+    sos::Object blueprintObject;
+
+    refract::IElement *element = NULL;
+
+    try {
+        element = BlueprintToRefract(blueprint);
+        blueprintObject = SerializeRefract(element);
+    }
+    catch (std::exception e) {
+        DrafterErrorCode = RuntimeError;
+        DrafterErrorMessage = e.what();
+    }
+
+    if (element) {
+        delete element;
+    }
+
+    return blueprintObject;
+}
+#endif
+
+sos::Object BlueprintAsAST(const Blueprint& blueprint)
+{
+    sos::Object blueprintObject;
+    // Version
+    blueprintObject.set(SerializeKey::Version, sos::String(AST_SERIALIZATION_VERSION));
+
+    // Metadata
+    blueprintObject.set(SerializeKey::Metadata,
+                        WrapCollection<Metadata>()(blueprint.metadata, WrapKeyValue));
+
+    // Name
+    blueprintObject.set(SerializeKey::Name, sos::String(blueprint.name));
+
+    // Description
+    blueprintObject.set(SerializeKey::Description, sos::String(blueprint.description));
+
+    // Element
+    blueprintObject.set(SerializeKey::Element, ElementClassToString(blueprint.element));
+
+    // Resource Groups
+    blueprintObject.set(SerializeKey::ResourceGroups,
+                        WrapCollection<Element>()(blueprint.content.elements(), WrapResourceGroup, IsElementResourceGroup));
+
+    // Content
+    blueprintObject.set(SerializeKey::Content,
+                        WrapCollection<Element>()(blueprint.content.elements(), WrapElement));
+
+    return blueprintObject;
+}
+
+sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType astType)
+{
+    sos::Object blueprintObject;
+
+#if _WITH_REFRACT_
+    registrateNamedStructures(blueprint.content.elements(), NamedTypesRegistry);
 #endif
 
     if (astType == RefractASTType) {
-        refract::IElement *element = NULL;
-
-        try {
-            element = BlueprintToRefract(blueprint);
-            blueprintObject = SerializeRefract(element);
-        }
-        catch (std::exception e) {
-            DrafterErrorCode = RuntimeError;
-            DrafterErrorMessage = e.what();
-        }
-
-        if (element) {
-            delete element;
-        }
+        blueprintObject = BlueprintAsRefractAST(blueprint);
     }
     else {
-        // Version
-        blueprintObject.set(SerializeKey::Version, sos::String(AST_SERIALIZATION_VERSION));
-
-        // Metadata
-        blueprintObject.set(SerializeKey::Metadata,
-                            WrapCollection<Metadata>()(blueprint.metadata, WrapKeyValue));
-
-        // Name
-        blueprintObject.set(SerializeKey::Name, sos::String(blueprint.name));
-
-        // Description
-        blueprintObject.set(SerializeKey::Description, sos::String(blueprint.description));
-
-        // Element
-        blueprintObject.set(SerializeKey::Element, ElementClassToString(blueprint.element));
-
-        // Resource Groups
-        blueprintObject.set(SerializeKey::ResourceGroups,
-                            WrapCollection<Element>()(blueprint.content.elements(), WrapResourceGroup, IsElementResourceGroup));
-
-        // Content
-        blueprintObject.set(SerializeKey::Content,
-                            WrapCollection<Element>()(blueprint.content.elements(), WrapElement));
+        blueprintObject = BlueprintAsAST(blueprint);
     }
 
 #if _WITH_REFRACT_
