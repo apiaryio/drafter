@@ -474,7 +474,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     refract::IElement *element = NULL, *expanded = NULL;
 
     try {
-        element = DataStructureToRefract(dataStructure);
+        element = MSONToRefract(dataStructure);
         expanded = ExpandRefract(element, NamedTypesRegistry);
 
         refract::ObjectElement* dsEnvelope = new refract::ObjectElement;
@@ -831,7 +831,7 @@ void findNamedDataStructures(const snowcrash::Elements& elements, DataStructures
     }
 }
 
-void registrateNamedStructures(const snowcrash::Elements& elements, refract::Registry& registry) 
+void registrateNamedMSONStructures(const snowcrash::Elements& elements, refract::Registry& registry) 
 {
     DataStructures found;
     findNamedDataStructures(elements, found);
@@ -839,7 +839,7 @@ void registrateNamedStructures(const snowcrash::Elements& elements, refract::Reg
     for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
 
         if (!(*i)->name.symbol.literal.empty()) {
-            refract::IElement* element = DataStructureToRefract(*(*i));
+            refract::IElement* element = MSONToRefract(*(*i));
             NamedTypesRegistry.add(element);
         }
 
@@ -904,7 +904,7 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType ast
     sos::Object blueprintObject;
 
 #if _WITH_REFRACT_
-    registrateNamedStructures(blueprint.content.elements(), NamedTypesRegistry);
+    registrateNamedMSONStructures(blueprint.content.elements(), NamedTypesRegistry);
 #endif
 
     if (astType == RefractASTType) {

@@ -677,7 +677,7 @@ namespace drafter {
     }
 
     template<typename T>
-    refract::IElement* RefractElementFromDataStructure(const snowcrash::DataStructure& ds)
+    refract::IElement* RefractElementFromMSON(const snowcrash::DataStructure& ds)
     {
         using namespace refract;
         typedef T ElementType;
@@ -710,7 +710,7 @@ namespace drafter {
     }
 
 
-    refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure)
+    refract::IElement* MSONToRefract(const snowcrash::DataStructure& dataStructure)
     {
         if (dataStructure.empty()) {
             return NULL;
@@ -722,19 +722,19 @@ namespace drafter {
         mson::BaseTypeName nameType = GetType(dataStructure);
         switch (nameType) {
             case mson::BooleanTypeName:
-                element = RefractElementFromDataStructure<refract::BooleanElement>(dataStructure);
+                element = RefractElementFromMSON<refract::BooleanElement>(dataStructure);
                 break;
 
             case mson::NumberTypeName:
-                element = RefractElementFromDataStructure<refract::NumberElement>(dataStructure);
+                element = RefractElementFromMSON<refract::NumberElement>(dataStructure);
                 break;
 
             case mson::StringTypeName:
-                element = RefractElementFromDataStructure<refract::StringElement>(dataStructure);
+                element = RefractElementFromMSON<refract::StringElement>(dataStructure);
                 break;
 
             case mson::EnumTypeName: {
-                element = RefractElementFromDataStructure<refract::ArrayElement>(dataStructure);
+                element = RefractElementFromMSON<refract::ArrayElement>(dataStructure);
                 if (element) {
                     element->element(key::Enum);
                 }
@@ -742,12 +742,12 @@ namespace drafter {
             }
 
             case mson::ArrayTypeName:
-                element = RefractElementFromDataStructure<refract::ArrayElement>(dataStructure);
+                element = RefractElementFromMSON<refract::ArrayElement>(dataStructure);
                 break;
 
             case mson::ObjectTypeName:
             case mson::UndefinedTypeName:
-                element = RefractElementFromDataStructure<refract::ObjectElement>(dataStructure);
+                element = RefractElementFromMSON<refract::ObjectElement>(dataStructure);
                 break;
 
             default:

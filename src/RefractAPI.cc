@@ -42,9 +42,9 @@ namespace drafter {
             elements.erase(std::remove_if(elements.begin(), elements.end(), IsNull<refract::IElement>), elements.end());
         }
 
-        refract::IElement* DataStructureToRefractAST(const snowcrash::DataStructure& dataStructure)
+        refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure)
         {
-            refract::IElement* ds = DataStructureToRefract(dataStructure);
+            refract::IElement* ds = MSONToRefract(dataStructure);
 
             if (!ds) {
                 return NULL;
@@ -259,7 +259,7 @@ namespace drafter {
         }
 
         content.push_back(CopyToRefract(payload->description));
-        content.push_back(DataStructureToRefractAST(payload->attributes));
+        content.push_back(DataStructureToRefract(payload->attributes));
 
         // Get content type
         std::string contentType = "";
@@ -325,7 +325,7 @@ namespace drafter {
         }
 
         if (!action.attributes.empty()) {
-            refract::IElement* dataStructure = DataStructureToRefractAST(action.attributes);
+            refract::IElement* dataStructure = DataStructureToRefract(action.attributes);
             dataStructure->renderType(refract::IElement::rFull);
             element->attributes["data"] = dataStructure;
         }
@@ -385,7 +385,7 @@ namespace drafter {
         }
 
         content.push_back(CopyToRefract(resource.description));
-        content.push_back(DataStructureToRefractAST(resource.attributes));
+        content.push_back(DataStructureToRefract(resource.attributes));
 
         std::transform(resource.actions.begin(), resource.actions.end(), std::back_inserter(content), ActionToRefract);
 
@@ -425,7 +425,7 @@ namespace drafter {
             case snowcrash::Element::ResourceElement:
                 return ResourceToRefract(element.content.resource);
             case snowcrash::Element::DataStructureElement:
-                return DataStructureToRefractAST(element.content.dataStructure);
+                return DataStructureToRefract(element.content.dataStructure);
             case snowcrash::Element::CopyElement:
                 return CopyToRefract(element.content.copy);
             case snowcrash::Element::CategoryElement:
