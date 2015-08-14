@@ -476,6 +476,13 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     try {
         element = DataStructureToRefract(dataStructure);
         expanded = ExpandRefract(element, NamedTypesRegistry);
+
+        refract::ObjectElement* dsEnvelope = new refract::ObjectElement;
+        dsEnvelope->element("dataStructure");
+        dsEnvelope->push_back(expanded);
+
+        expanded = dsEnvelope;
+
         dataStructureObject = SerializeRefract(expanded);
     }
     catch (std::exception e) {
@@ -826,7 +833,6 @@ void findNamedDataStructures(const snowcrash::Elements& elements, DataStructures
 
 void registrateNamedStructures(const snowcrash::Elements& elements, refract::Registry& registry) 
 {
-
     DataStructures found;
     findNamedDataStructures(elements, found);
 
