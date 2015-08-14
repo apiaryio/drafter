@@ -46,69 +46,74 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "object",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "hello"
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "hello"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "42"
+                                    }
+                                  }
                                 },
-                                "value": {
-                                  "element": "string",
-                                  "content": "42"
-                                }
-                              }
-                            },
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "nested"
-                                },
-                                "value": {
-                                  "element": "extend",
-                                  "content": [
-                                    {
-                                      "element": "object",
-                                      "meta": {
-                                        "ref": "Question"
-                                      },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "nested"
+                                    },
+                                    "value": {
+                                      "element": "extend",
                                       "content": [
                                         {
-                                          "element": "member",
-                                          "content": {
-                                            "key": {
-                                              "element": "string",
-                                              "content": "question"
+                                          "element": "object",
+                                          "meta": {
+                                            "ref": "Question"
+                                          },
+                                          "content": [
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "question"
+                                                },
+                                                "value": {
+                                                  "element": "string"
+                                                }
+                                              }
                                             },
-                                            "value": {
-                                              "element": "string"
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "url"
+                                                },
+                                                "value": {
+                                                  "element": "string"
+                                                }
+                                              }
                                             }
-                                          }
+                                          ]
                                         },
                                         {
-                                          "element": "member",
-                                          "content": {
-                                            "key": {
-                                              "element": "string",
-                                              "content": "url"
-                                            },
-                                            "value": {
-                                              "element": "string"
-                                            }
-                                          }
+                                          "element": "object"
                                         }
                                       ]
-                                    },
-                                    {
-                                      "element": "object"
                                     }
-                                  ]
+                                  }
                                 }
-                              }
+                              ]
                             }
                           ]
                         }
@@ -137,34 +142,39 @@
           "actions": [],
           "content": [
             {
-              "element": "object",
-              "meta": {
-                "id": "Question"
-              },
+              "element": "dataStructure",
               "content": [
                 {
-                  "element": "member",
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "question"
+                  "element": "object",
+                  "meta": {
+                    "id": "Question"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "question"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
                     },
-                    "value": {
-                      "element": "string"
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "url"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
                     }
-                  }
-                },
-                {
-                  "element": "member",
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "url"
-                    },
-                    "value": {
-                      "element": "string"
-                    }
-                  }
+                  ]
                 }
               ]
             }
@@ -214,69 +224,74 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "object",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "hello"
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "hello"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "42"
+                                    }
+                                  }
                                 },
-                                "value": {
-                                  "element": "string",
-                                  "content": "42"
-                                }
-                              }
-                            },
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "nested"
-                                },
-                                "value": {
-                                  "element": "extend",
-                                  "content": [
-                                    {
-                                      "element": "object",
-                                      "meta": {
-                                        "ref": "Question"
-                                      },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "nested"
+                                    },
+                                    "value": {
+                                      "element": "extend",
                                       "content": [
                                         {
-                                          "element": "member",
-                                          "content": {
-                                            "key": {
-                                              "element": "string",
-                                              "content": "question"
+                                          "element": "object",
+                                          "meta": {
+                                            "ref": "Question"
+                                          },
+                                          "content": [
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "question"
+                                                },
+                                                "value": {
+                                                  "element": "string"
+                                                }
+                                              }
                                             },
-                                            "value": {
-                                              "element": "string"
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "url"
+                                                },
+                                                "value": {
+                                                  "element": "string"
+                                                }
+                                              }
                                             }
-                                          }
+                                          ]
                                         },
                                         {
-                                          "element": "member",
-                                          "content": {
-                                            "key": {
-                                              "element": "string",
-                                              "content": "url"
-                                            },
-                                            "value": {
-                                              "element": "string"
-                                            }
-                                          }
+                                          "element": "object"
                                         }
                                       ]
-                                    },
-                                    {
-                                      "element": "object"
                                     }
-                                  ]
+                                  }
                                 }
-                              }
+                              ]
                             }
                           ]
                         }
@@ -307,34 +322,39 @@
           "actions": [],
           "content": [
             {
-              "element": "object",
-              "meta": {
-                "id": "Question"
-              },
+              "element": "dataStructure",
               "content": [
                 {
-                  "element": "member",
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "question"
+                  "element": "object",
+                  "meta": {
+                    "id": "Question"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "question"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
                     },
-                    "value": {
-                      "element": "string"
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "url"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
                     }
-                  }
-                },
-                {
-                  "element": "member",
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "url"
-                    },
-                    "value": {
-                      "element": "string"
-                    }
-                  }
+                  ]
                 }
               ]
             }

@@ -46,32 +46,37 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "array",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "string",
-                              "content": "Karlin"
-                            },
-                            {
-                              "element": "ref",
-                              "attributes": {
-                                "resolved": {
-                                  "element": "array",
-                                  "meta": {
-                                    "ref": "Address"
-                                  },
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "Prague"
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "Karlin"
+                                },
+                                {
+                                  "element": "ref",
+                                  "attributes": {
+                                    "resolved": {
+                                      "element": "array",
+                                      "meta": {
+                                        "ref": "Address"
+                                      },
+                                      "content": [
+                                        {
+                                          "element": "string",
+                                          "content": "Prague"
+                                        }
+                                      ]
                                     }
-                                  ]
+                                  },
+                                  "content": {
+                                    "href": "Address",
+                                    "path": "content"
+                                  }
                                 }
-                              },
-                              "content": {
-                                "href": "Address",
-                                "path": "content"
-                              }
+                              ]
                             }
                           ]
                         }
@@ -128,32 +133,37 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "array",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "string",
-                              "content": "Karlin"
-                            },
-                            {
-                              "element": "ref",
-                              "attributes": {
-                                "resolved": {
-                                  "element": "array",
-                                  "meta": {
-                                    "ref": "Address"
-                                  },
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "Prague"
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "Karlin"
+                                },
+                                {
+                                  "element": "ref",
+                                  "attributes": {
+                                    "resolved": {
+                                      "element": "array",
+                                      "meta": {
+                                        "ref": "Address"
+                                      },
+                                      "content": [
+                                        {
+                                          "element": "string",
+                                          "content": "Prague"
+                                        }
+                                      ]
                                     }
-                                  ]
+                                  },
+                                  "content": {
+                                    "href": "Address",
+                                    "path": "content"
+                                  }
                                 }
-                              },
-                              "content": {
-                                "href": "Address",
-                                "path": "content"
-                              }
+                              ]
                             }
                           ]
                         }
@@ -172,14 +182,19 @@
       "element": "category",
       "content": [
         {
-          "element": "array",
-          "meta": {
-            "id": "Address"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "string",
-              "content": "Prague"
+              "element": "array",
+              "meta": {
+                "id": "Address"
+              },
+              "content": [
+                {
+                  "element": "string",
+                  "content": "Prague"
+                }
+              ]
             }
           ]
         }

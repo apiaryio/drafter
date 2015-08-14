@@ -10,40 +10,13 @@
       "element": "category",
       "content": [
         {
-          "element": "object",
-          "meta": {
-            "id": "User",
-            "description": "The User description\n\n"
-          },
-          "content": [
-            {
-              "element": "member",
-              "meta": {
-                "description": "user name"
-              },
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "login"
-                },
-                "value": {
-                  "element": "string"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "element": "extend",
-          "meta": {
-            "id": "Customer"
-          },
+          "element": "dataStructure",
           "content": [
             {
               "element": "object",
               "meta": {
-                "description": "The User description\n\n",
-                "ref": "User"
+                "id": "User",
+                "description": "The User description\n\n"
               },
               "content": [
                 {
@@ -62,144 +35,191 @@
                   }
                 }
               ]
-            },
-            {
-              "element": "object",
-              "content": [
-                {
-                  "element": "member",
-                  "meta": {
-                    "description": "unique number"
-                  },
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "id"
-                    },
-                    "value": {
-                      "element": "number",
-                      "content": 0
-                    }
-                  }
-                }
-              ]
             }
           ]
         },
         {
-          "element": "extend",
-          "meta": {
-            "id": "Vip Customer"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "object",
+              "element": "extend",
               "meta": {
-                "ref": "Customer"
+                "id": "Customer"
               },
               "content": [
                 {
-                  "element": "member",
+                  "element": "object",
                   "meta": {
-                    "description": "unique number"
+                    "description": "The User description\n\n",
+                    "ref": "User"
                   },
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "id"
-                    },
-                    "value": {
-                      "element": "number",
-                      "content": 0
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "element": "object",
-              "meta": {
-                "description": "The User description\n\n",
-                "ref": "User"
-              },
-              "content": [
-                {
-                  "element": "member",
-                  "meta": {
-                    "description": "user name"
-                  },
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "login"
-                    },
-                    "value": {
-                      "element": "string"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "element": "object",
-              "content": [
-                {
-                  "element": "member",
-                  "meta": {
-                    "description": "in percent 0 - 100"
-                  },
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "discount"
-                    },
-                    "value": {
-                      "element": "number",
-                      "attributes": {
-                        "default": 15
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "user name"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "login"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
                       }
                     }
-                  }
+                  ]
+                },
+                {
+                  "element": "object",
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "unique number"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "id"
+                        },
+                        "value": {
+                          "element": "number",
+                          "content": 0
+                        }
+                      }
+                    }
+                  ]
                 }
               ]
             }
           ]
         },
         {
-          "element": "extend",
-          "meta": {
-            "id": "Other Customer"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "object",
+              "element": "extend",
               "meta": {
-                "description": "The User description\n\n",
-                "ref": "User"
+                "id": "Vip Customer"
               },
               "content": [
                 {
-                  "element": "member",
+                  "element": "object",
                   "meta": {
-                    "description": "user name"
+                    "ref": "Customer"
                   },
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "login"
-                    },
-                    "value": {
-                      "element": "string"
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "unique number"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "id"
+                        },
+                        "value": {
+                          "element": "number",
+                          "content": 0
+                        }
+                      }
                     }
+                  ]
+                },
+                {
+                  "element": "object",
+                  "meta": {
+                    "description": "The User description\n\n",
+                    "ref": "User"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "user name"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "login"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "element": "object",
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "in percent 0 - 100"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "discount"
+                        },
+                        "value": {
+                          "element": "number",
+                          "attributes": {
+                            "default": 15
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "extend",
+              "meta": {
+                "id": "Other Customer"
+              },
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "description": "The User description\n\n",
+                    "ref": "User"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "user name"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "login"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "element": "object",
+                  "meta": {
+                    "description": "This object has no own members\n"
                   }
                 }
               ]
-            },
-            {
-              "element": "object",
-              "meta": {
-                "description": "This object has no own members\n"
-              }
             }
           ]
         }

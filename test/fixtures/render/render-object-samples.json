@@ -46,57 +46,62 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "object",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "o1"
-                                },
-                                "value": {
-                                  "element": "object",
-                                  "attributes": {
-                                    "samples": [
-                                      {
-                                        "p1": "x",
-                                        "p2": "y"
-                                      },
-                                      {
-                                        "p1": "1",
-                                        "p2": "2"
-                                      }
-                                    ]
-                                  },
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "p1"
-                                        },
-                                        "value": {
-                                          "element": "string"
-                                        }
-                                      }
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "o1"
                                     },
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "p2"
+                                    "value": {
+                                      "element": "object",
+                                      "attributes": {
+                                        "samples": [
+                                          {
+                                            "p1": "x",
+                                            "p2": "y"
+                                          },
+                                          {
+                                            "p1": "1",
+                                            "p2": "2"
+                                          }
+                                        ]
+                                      },
+                                      "content": [
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "p1"
+                                            },
+                                            "value": {
+                                              "element": "string"
+                                            }
+                                          }
                                         },
-                                        "value": {
-                                          "element": "string"
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "p2"
+                                            },
+                                            "value": {
+                                              "element": "string"
+                                            }
+                                          }
                                         }
-                                      }
+                                      ]
                                     }
-                                  ]
+                                  }
                                 }
-                              }
+                              ]
                             }
                           ]
                         }
@@ -153,57 +158,62 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "object",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "o1"
-                                },
-                                "value": {
-                                  "element": "object",
-                                  "attributes": {
-                                    "samples": [
-                                      {
-                                        "p1": "x",
-                                        "p2": "y"
-                                      },
-                                      {
-                                        "p1": "1",
-                                        "p2": "2"
-                                      }
-                                    ]
-                                  },
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "p1"
-                                        },
-                                        "value": {
-                                          "element": "string"
-                                        }
-                                      }
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "o1"
                                     },
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "p2"
+                                    "value": {
+                                      "element": "object",
+                                      "attributes": {
+                                        "samples": [
+                                          {
+                                            "p1": "x",
+                                            "p2": "y"
+                                          },
+                                          {
+                                            "p1": "1",
+                                            "p2": "2"
+                                          }
+                                        ]
+                                      },
+                                      "content": [
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "p1"
+                                            },
+                                            "value": {
+                                              "element": "string"
+                                            }
+                                          }
                                         },
-                                        "value": {
-                                          "element": "string"
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "p2"
+                                            },
+                                            "value": {
+                                              "element": "string"
+                                            }
+                                          }
                                         }
-                                      }
+                                      ]
                                     }
-                                  ]
+                                  }
                                 }
-                              }
+                              ]
                             }
                           ]
                         }

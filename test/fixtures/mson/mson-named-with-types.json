@@ -10,66 +10,96 @@
       "element": "category",
       "content": [
         {
-          "element": "enum",
-          "meta": {
-            "id": "EnumType"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "string",
-              "content": "m1"
-            }
-          ]
-        },
-        {
-          "element": "array",
-          "meta": {
-            "id": "ArrayType"
-          },
-          "content": [
-            {
-              "element": "string",
-              "content": "m1"
-            }
-          ]
-        },
-        {
-          "element": "object",
-          "meta": {
-            "id": "ObjectType"
-          },
-          "content": [
-            {
-              "element": "member",
-              "content": {
-                "key": {
+              "element": "enum",
+              "meta": {
+                "id": "EnumType"
+              },
+              "content": [
+                {
                   "element": "string",
                   "content": "m1"
-                },
-                "value": {
-                  "element": "string"
                 }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "array",
+              "meta": {
+                "id": "ArrayType"
+              },
+              "content": [
+                {
+                  "element": "string",
+                  "content": "m1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "ObjectType"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "m1"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "string",
+              "meta": {
+                "id": "StringType"
               }
             }
           ]
         },
         {
-          "element": "string",
-          "meta": {
-            "id": "StringType"
-          }
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "boolean",
+              "meta": {
+                "id": "BooleanType"
+              }
+            }
+          ]
         },
         {
-          "element": "boolean",
-          "meta": {
-            "id": "BooleanType"
-          }
-        },
-        {
-          "element": "number",
-          "meta": {
-            "id": "NumberType"
-          }
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "number",
+              "meta": {
+                "id": "NumberType"
+              }
+            }
+          ]
         }
       ]
     }

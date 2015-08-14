@@ -10,24 +10,29 @@
       "element": "category",
       "content": [
         {
-          "element": "object",
-          "meta": {
-            "id": "User",
-            "description": "It is number type, but input is string, we will convert it into\nNumber Element, without content set.\n\nFIXME: In the future, we should try to parse it, but it might be a problem \nbecause of localized input (decimal point, thousand separators, etc.)\n\n"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "some_number"
-                },
-                "value": {
-                  "element": "number",
-                  "content": 0
+              "element": "object",
+              "meta": {
+                "id": "User",
+                "description": "It is number type, but input is string, we will convert it into\nNumber Element, without content set.\n\nFIXME: In the future, we should try to parse it, but it might be a problem \nbecause of localized input (decimal point, thousand separators, etc.)\n\n"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "some_number"
+                    },
+                    "value": {
+                      "element": "number",
+                      "content": 0
+                    }
+                  }
                 }
-              }
+              ]
             }
           ]
         }
