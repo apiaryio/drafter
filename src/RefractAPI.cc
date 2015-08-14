@@ -36,6 +36,12 @@ namespace drafter {
         {
             return ptr == NULL;
         }
+
+        void RemoveEmptyElements(RefractElements& elements)
+        {
+            elements.erase(std::remove_if(elements.begin(), elements.end(), IsNull<refract::IElement>), elements.end());
+        }
+
     }
 
     refract::IElement* MetadataToRefract(const snowcrash::Metadata metadata)
@@ -257,8 +263,7 @@ namespace drafter {
         content.push_back(AssetToRefract(payload->body, contentType));
         content.push_back(AssetToRefract(payload->schema, contentType, false));
 
-        // Remove NULL elements
-        content.erase(std::remove_if(content.begin(), content.end(), IsNull<refract::IElement>), content.end());
+        RemoveEmptyElements(content);
         element->set(content);
 
         return element;
@@ -278,8 +283,7 @@ namespace drafter {
         content.push_back(PayloadToRefract(request, method));
         content.push_back(PayloadToRefract(response));
 
-        // Remove NULL elements
-        content.erase(std::remove_if(content.begin(), content.end(), IsNull<refract::IElement>), content.end());
+        RemoveEmptyElements(content);
         element->set(content);
 
         return element;
@@ -346,8 +350,7 @@ namespace drafter {
             }
         }
 
-        // Remove NULL elements
-        content.erase(std::remove_if(content.begin(), content.end(), IsNull<refract::IElement>), content.end());
+        RemoveEmptyElements(content);
         element->set(content);
 
         return element;
@@ -371,8 +374,7 @@ namespace drafter {
 
         std::transform(resource.actions.begin(), resource.actions.end(), std::back_inserter(content), ActionToRefract);
 
-        // Remove NULL elements
-        content.erase(std::remove_if(content.begin(), content.end(), IsNull<refract::IElement>), content.end());
+        RemoveEmptyElements(content);
         element->set(content);
 
         return element;
@@ -396,8 +398,7 @@ namespace drafter {
         snowcrash::Elements elements = element.content.elements();
         std::transform(elements.begin(), elements.end(), std::back_inserter(content), ElementToRefract);
 
-        // Remove NULL elements
-        content.erase(std::remove_if(content.begin(), content.end(), IsNull<refract::IElement>), content.end());
+        RemoveEmptyElements(content);
         category->set(content);
 
         return category;
@@ -438,8 +439,7 @@ namespace drafter {
         const snowcrash::Elements& scElements = blueprint.content.elements();
         std::transform(scElements.begin(), scElements.end(), std::back_inserter(content), ElementToRefract);
 
-        // Remove NULL elements
-        content.erase(std::remove_if(content.begin(), content.end(), IsNull<refract::IElement>), content.end());
+        RemoveEmptyElements(content);
         ast->set(content);
 
         return ast;
