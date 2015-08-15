@@ -22,6 +22,10 @@ namespace drafter {
     refract::IElement* ExpandRefract(refract::IElement*, const refract::Registry&);
 
     sos::Object SerializeRefract(refract::IElement*);
+
+    template <typename T>
+    T LiteralTo(const mson::Literal& literal);
+
 }
 
 #endif // #ifndef DRAFTER_REFRACTDATASTRUCTURE_H

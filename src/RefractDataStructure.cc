@@ -15,10 +15,9 @@
 
 #include "refract/Registry.h"
 
-namespace drafter
-{
-    namespace key 
-    {
+namespace drafter {
+
+    namespace key {
 
         // Refract meta
         const std::string Id = "id";
@@ -43,7 +42,7 @@ namespace drafter
         const std::string Generic = "generic";
 
         // Refract (nontyped) element names
-        // - maybe move into "librefract" 
+        // - maybe move into "librefract"
         const std::string Enum = "enum";
         const std::string Select = "select";
         const std::string Option = "option";
@@ -55,13 +54,10 @@ namespace drafter
         const std::string Content = "content";
 
     }
-}
 
-namespace drafter
-{
     typedef std::vector<refract::IElement*> RefractElements;
 
-    static void SetElementType(const mson::TypeDefinition& td, refract::IElement* element) 
+    static void SetElementType(const mson::TypeDefinition& td, refract::IElement* element)
     {
         if (!td.typeSpecification.name.symbol.literal.empty()) {
             element->element(td.typeSpecification.name.symbol.literal);
@@ -94,9 +90,6 @@ namespace drafter
 
         return attr;
     }
-
-    template <typename T>
-    T LiteralTo(const mson::Literal& literal);
 
     template <>
     bool LiteralTo<bool>(const mson::Literal& literal)

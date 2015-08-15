@@ -16,7 +16,6 @@
 
 namespace drafter {
 
-
     // Forward Declarations
     refract::IElement* ElementToRefract(const snowcrash::Element& element);
 
@@ -37,7 +36,6 @@ namespace drafter {
         {
             return ptr == NULL;
         }
-
     }
 
     refract::IElement* MetadataToRefract(const snowcrash::Metadata metadata)
@@ -76,11 +74,77 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* ParameterToRefract(const snowcrash::Parameter parameter)
+    template<typename T>
+    refract::IElement* ParameterValuesToRefract(const snowcrash::Parameter& parameter)
     {
-        //FIXME: description, defaultValue, use, type
+        refract::ArrayElement* element = new refract::ArrayElement;
+        RefractElements content;
+
+        element->element("enum");
+
+        if (!parameter.exampleValue.empty()) {
+            element->attributes["samples"] = CreateArrayElement(LiteralTo<T>(parameter.exampleValue));
+        }
+
+        for (snowcrash::Values::const_iterator it = parameter.values.begin();
+             it != parameter.values.end();
+             ++it) {
+
+            content.push_back(refract::IElement::Create(LiteralTo<T>(*it)));
+        }
+
+        element->set(content);
+
+        return element;
+    }
+
+    refract::IElement* ParameterToRefract(const snowcrash::Parameter& parameter)
+    {
         refract::MemberElement* element = new refract::MemberElement;
-        element->set(refract::IElement::Create(parameter.name), refract::IElement::Create(parameter.exampleValue));
+        refract::IElement *value, *defaultValue;
+
+        // Parameter type
+        if (parameter.type == "boolean") {
+            value = refract::IElement::Create(LiteralTo<bool>(parameter.exampleValue));
+            defaultValue = refract::IElement::Create(LiteralTo<bool>(parameter.defaultValue));
+        }
+        else if (parameter.type == "number") {
+            value = refract::IElement::Create(LiteralTo<double>(parameter.exampleValue));
+            defaultValue = refract::IElement::Create(LiteralTo<double>(parameter.defaultValue));
+        }
+        else {
+            value = refract::IElement::Create(parameter.exampleValue);
+            defaultValue = refract::IElement::Create(parameter.defaultValue);
+        }
+
+        // Values
+        if (!parameter.values.empty()) {
+            if (parameter.type == "boolean") {
+                value = ParameterValuesToRefract<bool>(parameter);
+            }
+            else if (parameter.type == "number") {
+                value = ParameterValuesToRefract<double>(parameter);
+            }
+            else {
+                value = ParameterValuesToRefract<std::string>(parameter);
+            }
+        }
+
+        // Default Value
+        if (!parameter.defaultValue.empty()) {
+            value->attributes["default"] = defaultValue;
+        }
+
+        element->set(refract::IElement::Create(parameter.name), value);
+        element->meta["description"] = refract::IElement::Create(parameter.description);
+
+        // Parameter use
+        if (parameter.use == snowcrash::RequiredParameterUse || parameter.use == snowcrash::OptionalParameterUse) {
+            refract::ArrayElement* typeAttributes = new refract::ArrayElement;
+
+            typeAttributes->push_back(refract::IElement::Create(parameter.use == snowcrash::RequiredParameterUse ? "required" : "optional"));
+            element->attributes["typeAttributes"] = typeAttributes;
+        }
 
         return element;
     }
@@ -92,6 +156,7 @@ namespace drafter {
 
         element->element("hrefVariables");
         std::transform(parameters.begin(), parameters.end(), std::back_inserter(content), ParameterToRefract);
+        element->renderType(refract::IElement::rFull);
 
         element->set(content);
 

@@ -22,13 +22,58 @@
             "title": "User"
           },
           "attributes": {
-            "href": "/users"
+            "href": "/users/{id}",
+            "hrefVariables": {
+              "element": "hrefVariables",
+              "content": [
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "Database ID\n\nAdditional description\n"
+                  },
+                  "attributes": {
+                    "typeAttributes": [
+                      "optional"
+                    ]
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "id"
+                    },
+                    "value": {
+                      "element": "enum",
+                      "attributes": {
+                        "samples": [
+                          23
+                        ],
+                        "default": 1
+                      },
+                      "content": [
+                        {
+                          "element": "number",
+                          "content": 37
+                        },
+                        {
+                          "element": "number",
+                          "content": 1
+                        },
+                        {
+                          "element": "number",
+                          "content": 23
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
           },
           "content": [
             {
               "element": "transition",
               "meta": {
-                "title": "List all users"
+                "title": "Retrieve User"
               },
               "content": [
                 {
@@ -66,7 +111,7 @@
                           "attributes": {
                             "contentType": "application/json"
                           },
-                          "content": "[]\n"
+                          "content": "{}\n"
                         }
                       ]
                     }

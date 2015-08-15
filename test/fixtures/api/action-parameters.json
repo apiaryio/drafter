@@ -22,13 +22,41 @@
             "title": "User"
           },
           "attributes": {
-            "href": "/users"
+            "href": "/users/{id}"
           },
           "content": [
             {
               "element": "transition",
               "meta": {
-                "title": "List all users"
+                "title": "Retrieve User"
+              },
+              "attributes": {
+                "hrefVariables": {
+                  "element": "hrefVariables",
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "Username"
+                      },
+                      "attributes": {
+                        "typeAttributes": [
+                          "required"
+                        ]
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "id"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "pavan"
+                        }
+                      }
+                    }
+                  ]
+                }
               },
               "content": [
                 {
@@ -66,7 +94,7 @@
                           "attributes": {
                             "contentType": "application/json"
                           },
-                          "content": "[]\n"
+                          "content": "{}\n"
                         }
                       ]
                     }
