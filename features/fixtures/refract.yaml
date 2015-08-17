@@ -69,21 +69,24 @@ content:
             element: "copy"
             content: "<resource description>\n\n"
           -
-            element: "object"
-            meta:
-              id: "<resource name>"
+            element: "dataStructure"
             content:
               -
-                element: "member"
+                element: "object"
                 meta:
-                  description: "<attribute property description>"
+                  id: "<resource name>"
                 content:
-                  key:
-                    element: "string"
-                    content: "<attribute property name>"
-                  value:
-                    element: "number"
-                    content: 0
+                  -
+                    element: "member"
+                    meta:
+                      description: "<attribute property description>"
+                    content:
+                      key:
+                        element: "string"
+                        content: "<attribute property name>"
+                      value:
+                        element: "number"
+                        content: 0
           -
             element: "transition"
             meta:
@@ -461,7 +464,10 @@ content:
                                 content: "application/json"
                     content:
                       -
-                        element: "<data structure name>"
+                        element: "dataStructure"
+                        content:
+                          -
+                            element: "<data structure name>"
   -
     element: "category"
     meta:
@@ -469,19 +475,22 @@ content:
         - "dataStructures"
     content:
       -
-        element: "object"
-        meta:
-          id: "<data structure name>"
-          description: "<data structure description>\n\n"
+        element: "dataStructure"
         content:
           -
-            element: "member"
+            element: "object"
             meta:
-              description: "<data structure property description>"
+              id: "<data structure name>"
+              description: "<data structure description>\n\n"
             content:
-              key:
-                element: "string"
-                content: "<data structure property name>"
-              value:
-                element: "string"
-                content: "<data structure property value>"
+              -
+                element: "member"
+                meta:
+                  description: "<data structure property description>"
+                content:
+                  key:
+                    element: "string"
+                    content: "<data structure property name>"
+                  value:
+                    element: "string"
+                    content: "<data structure property value>"
