@@ -55,6 +55,13 @@
                   "element": "httpTransaction",
                   "content": [
                     {
+                      "element": "httpRequest",
+                      "attributes": {
+                        "method": "GET"
+                      },
+                      "content": []
+                    },
+                    {
                       "element": "httpResponse",
                       "attributes": {
                         "statusCode": "200"

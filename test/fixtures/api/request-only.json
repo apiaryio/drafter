@@ -32,23 +32,13 @@
               },
               "content": [
                 {
-                  "element": "copy",
-                  "content": "Get the list of all the users\n\n"
-                },
-                {
                   "element": "httpTransaction",
                   "content": [
                     {
                       "element": "httpRequest",
                       "attributes": {
-                        "method": "GET"
-                      },
-                      "content": []
-                    },
-                    {
-                      "element": "httpResponse",
-                      "attributes": {
-                        "statusCode": "200"
+                        "method": "GET",
+                        "title": ""
                       },
                       "content": [
                         {
@@ -56,9 +46,13 @@
                           "meta": {
                             "classes": "messageBody"
                           },
-                          "content": "[]\n"
+                          "content": "{}\n"
                         }
                       ]
+                    },
+                    {
+                      "element": "httpResponse",
+                      "content": []
                     }
                   ]
                 }

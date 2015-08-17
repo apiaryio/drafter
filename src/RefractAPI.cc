@@ -203,7 +203,7 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* PayloadToRefract(const snowcrash::Payload& payload, const snowcrash::HTTPMethod& method = "")
+    refract::IElement* PayloadToRefract(const snowcrash::Payload* payload, const snowcrash::HTTPMethod& method = "")
     {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
@@ -212,41 +212,50 @@ namespace drafter {
         if (method.empty()) {
             element->element("httpResponse");
 
-            if (!payload.name.empty()) {
-                element->attributes["statusCode"] = refract::IElement::Create(payload.name);
+            if (payload != NULL && !payload->name.empty()) {
+                element->attributes["statusCode"] = refract::IElement::Create(payload->name);
             }
         }
         else {
             element->element("httpRequest");
             element->attributes["method"] = refract::IElement::Create(method);
-            element->attributes["title"] = refract::IElement::Create(payload.name);
+
+            if (payload != NULL) {
+                element->attributes["title"] = refract::IElement::Create(payload->name);
+            }
 
             // FIXME: Expand href
         }
 
-        if (!payload.headers.empty()) {
-            element->attributes["headers"] = HeadersToRefract(payload.headers);
+        // If no payload, return immediately
+        if (payload == NULL) {
+            element->set(content);
+            return element;
         }
 
-        content.push_back(CopyToRefract(payload.description));
-        content.push_back(DataStructureToRefract(payload.attributes));
+        if (!payload->headers.empty()) {
+            element->attributes["headers"] = HeadersToRefract(payload->headers);
+        }
+
+        content.push_back(CopyToRefract(payload->description));
+        content.push_back(DataStructureToRefract(payload->attributes));
 
         // Get content type
         std::string contentType = "";
         snowcrash::Headers::const_iterator it;
 
-        it = std::find_if(payload.headers.begin(),
-                          payload.headers.end(),
+        it = std::find_if(payload->headers.begin(),
+                          payload->headers.end(),
                           std::bind2nd(snowcrash::MatchFirstWith<snowcrash::Header, std::string, snowcrash::IEqual<std::string> >(),
                                        snowcrash::HTTPHeaderName::ContentType));
 
-        if (it != payload.headers.end()) {
+        if (it != payload->headers.end()) {
             contentType = it->second;
         }
 
         // Assets
-        content.push_back(AssetToRefract(payload.body, contentType));
-        content.push_back(AssetToRefract(payload.schema, contentType, false));
+        content.push_back(AssetToRefract(payload->body, contentType));
+        content.push_back(AssetToRefract(payload->schema, contentType, false));
 
         // Remove NULL elements
         content.erase(std::remove_if(content.begin(), content.end(), IsNull<refract::IElement>), content.end());
@@ -257,8 +266,8 @@ namespace drafter {
 
     refract::IElement* TransactionToRefract(const snowcrash::TransactionExample& transaction,
                                             const snowcrash::HTTPMethod& method,
-                                            const snowcrash::Response& response,
-                                            const snowcrash::Request* request = NULL)
+                                            const snowcrash::Request* request = NULL,
+                                            const snowcrash::Response* response = NULL)
     {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
@@ -266,10 +275,7 @@ namespace drafter {
         element->element("httpTransaction");
         content.push_back(CopyToRefract(transaction.description));
 
-        if (request != NULL) {
-            content.push_back(PayloadToRefract(*request, method));
-        }
-
+        content.push_back(PayloadToRefract(request, method));
         content.push_back(PayloadToRefract(response));
 
         // Remove NULL elements
@@ -311,20 +317,31 @@ namespace drafter {
              it != action.examples.end();
              ++it) {
 
-            for (snowcrash::Responses::const_iterator resIt = it->responses.begin();
-                 resIt != it->responses.end();
-                 ++resIt) {
+            // When there are only responses
+            if (it->requests.empty() && !it->responses.empty()) {
 
-                if (it->requests.empty()) {
-                    content.push_back(TransactionToRefract(*it, action.method, *resIt));
-                    continue;
+                for (snowcrash::Responses::const_iterator tmpResIt = it->responses.begin();
+                     tmpResIt != it->responses.end();
+                     ++tmpResIt) {
+
+                    content.push_back(TransactionToRefract(*it, action.method, NULL, &*tmpResIt));
+                }
+            }
+
+            // When there are only requests or both responses and requests
+            for (snowcrash::Requests::const_iterator reqIt = it->requests.begin();
+                 reqIt != it->requests.end();
+                 ++reqIt) {
+
+                if (it->responses.empty()) {
+                    content.push_back(TransactionToRefract(*it, action.method, &*reqIt));
                 }
 
-                for (snowcrash::Requests::const_iterator reqIt = it->requests.begin();
-                     reqIt != it->requests.end();
-                     ++reqIt) {
+                for (snowcrash::Responses::const_iterator resIt = it->responses.begin();
+                     resIt != it->responses.end();
+                     ++resIt) {
 
-                    content.push_back(TransactionToRefract(*it, action.method, *resIt, &*reqIt));
+                    content.push_back(TransactionToRefract(*it, action.method, &*reqIt, &*resIt));
                 }
             }
         }
