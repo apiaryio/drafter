@@ -44,8 +44,15 @@ enum sc_blueprint_parser_option {
     SC_EXPORT_SORUCEMAP_OPTION = (1 << 2)           /// < Export source maps AST
 };
 
-SC_API int drafter_c_parse(const char* source, 
-                           sc_blueprint_parser_options option, 
+/** brief Drafter AST Type Option Enum */
+enum drafter_ast_type_option {
+    DRAFTER_NORMAL_AST_TYPE = 0,      /// < Normal AST
+    DRAFTER_REFRACT_AST_TYPE = 1      /// < Refract AST
+};
+
+SC_API int drafter_c_parse(const char* source,
+                           sc_blueprint_parser_options options,
+                           drafter_ast_type_option astType,
                            char** result);
 
 #ifdef __cplusplus

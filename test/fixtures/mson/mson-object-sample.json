@@ -10,72 +10,77 @@
       "element": "category",
       "content": [
         {
-          "element": "object",
-          "meta": {
-            "id": "ObjectSample",
-            "description": "description\n\n"
-          },
-          "attributes": {
-            "samples": [
-              {
-                "a": "1",
-                "b": "2"
-              }
-            ]
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "a"
+              "element": "object",
+              "meta": {
+                "id": "ObjectSample",
+                "description": "description\n\n"
+              },
+              "attributes": {
+                "samples": [
+                  {
+                    "a": "1",
+                    "b": "2"
+                  }
+                ]
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "a"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
                 },
-                "value": {
-                  "element": "string"
-                }
-              }
-            },
-            {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "b"
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "b"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
                 },
-                "value": {
-                  "element": "string"
-                }
-              }
-            },
-            {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "c"
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "c"
+                    },
+                    "value": {
+                      "element": "string",
+                      "attributes": {
+                        "samples": [
+                          "3"
+                        ]
+                      }
+                    }
+                  }
                 },
-                "value": {
-                  "element": "string",
-                  "attributes": {
-                    "samples": [
-                      "3"
-                    ]
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "d"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
                   }
                 }
-              }
-            },
-            {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "d"
-                },
-                "value": {
-                  "element": "string"
-                }
-              }
+              ]
             }
           ]
         }

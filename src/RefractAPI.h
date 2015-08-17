@@ -10,11 +10,11 @@
 #define DRAFTER_REFRACTAST_H
 
 #include "Serialize.h"
+#include "RefractDataStructure.h"
 
 namespace drafter {
 
-    sos::Object SerializeToRefract(const snowcrash::Blueprint& blueprint);
-
+    refract::IElement* BlueprintToRefract(const snowcrash::Blueprint& blueprint);
 }
 
 #endif // #ifndef DRAFTER_REFRACTAST_H

@@ -44,7 +44,7 @@ TEST_CASE("Testing refract serialization for mixin", "[refract][mson]")
 
 TEST_CASE("Testing refract serialization for nonexistent mixin", "[refract][mson]")
 {
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/mson-mixin-nonexistent", false));
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/mson-mixin-nonexistent", drafter::NormalASTType, false));
 }
 
 TEST_CASE("Testing refract serialization for primitive with samples", "[refract][mson]")
@@ -109,7 +109,7 @@ TEST_CASE("Testing refract serialization for enum samples", "[refract][mson]")
 
 TEST_CASE("Testing refract serialization primitive elements w/ members", "[refract][mson]")
 {
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/mson-primitive-with-members", false));
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/mson-primitive-with-members", drafter::NormalASTType, false));
 }
 
 TEST_CASE("Testing refract serialization of nontyped array w/ samples", "[refract][mson]")

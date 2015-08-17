@@ -10,27 +10,32 @@
       "element": "category",
       "content": [
         {
-          "element": "object",
-          "meta": {
-            "id": "User"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "a"
-                },
-                "value": {
-                  "element": "array",
-                  "attributes": {
-                    "samples": [
-                      []
-                    ]
+              "element": "object",
+              "meta": {
+                "id": "User"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "a"
+                    },
+                    "value": {
+                      "element": "array",
+                      "attributes": {
+                        "samples": [
+                          []
+                        ]
+                      }
+                    }
                   }
                 }
-              }
+              ]
             }
           ]
         }

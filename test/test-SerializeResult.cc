@@ -3,7 +3,7 @@
 
 using namespace draftertest;
 
-TEST_CASE("integration test for result parse serialization", "[result serialization]")
+TEST_CASE("Integration test for result parse serialization", "[result]")
 {
     ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/annotations-with-warning");
 
@@ -15,7 +15,7 @@ TEST_CASE("integration test for result parse serialization", "[result serializat
     std::stringstream outStream;
     sos::SerializeJSON serializer;
 
-    serializer.process(drafter::WrapResult(blueprint, snowcrash::ExportSourcemapOption), outStream);
+    serializer.process(drafter::WrapResult(blueprint, snowcrash::ExportSourcemapOption, drafter::NormalASTType), outStream);
     outStream << "\n";
 
     REQUIRE(outStream.str() == fixture.get(".result-with-sourcemap.json"));

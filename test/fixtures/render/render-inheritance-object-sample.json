@@ -46,67 +46,72 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "extend",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "object",
-                              "meta": {
-                                "ref": "RefObject"
-                              },
+                              "element": "extend",
                               "content": [
                                 {
-                                  "element": "member",
-                                  "content": {
-                                    "key": {
-                                      "element": "string",
-                                      "content": "r1"
+                                  "element": "object",
+                                  "meta": {
+                                    "ref": "RefObject"
+                                  },
+                                  "content": [
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "r1"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "attributes": {
+                                            "samples": [
+                                              "v1"
+                                            ]
+                                          }
+                                        }
+                                      }
                                     },
-                                    "value": {
-                                      "element": "string",
-                                      "attributes": {
-                                        "samples": [
-                                          "v1"
-                                        ]
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "r2"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "attributes": {
+                                            "samples": [
+                                              "v2"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "r3"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "attributes": {
+                                            "default": "v3"
+                                          }
+                                        }
                                       }
                                     }
-                                  }
+                                  ]
                                 },
                                 {
-                                  "element": "member",
-                                  "content": {
-                                    "key": {
-                                      "element": "string",
-                                      "content": "r2"
-                                    },
-                                    "value": {
-                                      "element": "string",
-                                      "attributes": {
-                                        "samples": [
-                                          "v2"
-                                        ]
-                                      }
-                                    }
-                                  }
-                                },
-                                {
-                                  "element": "member",
-                                  "content": {
-                                    "key": {
-                                      "element": "string",
-                                      "content": "r3"
-                                    },
-                                    "value": {
-                                      "element": "string",
-                                      "attributes": {
-                                        "default": "v3"
-                                      }
-                                    }
-                                  }
+                                  "element": "object"
                                 }
                               ]
-                            },
-                            {
-                              "element": "object"
                             }
                           ]
                         }
@@ -163,67 +168,72 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "extend",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "object",
-                              "meta": {
-                                "ref": "RefObject"
-                              },
+                              "element": "extend",
                               "content": [
                                 {
-                                  "element": "member",
-                                  "content": {
-                                    "key": {
-                                      "element": "string",
-                                      "content": "r1"
+                                  "element": "object",
+                                  "meta": {
+                                    "ref": "RefObject"
+                                  },
+                                  "content": [
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "r1"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "attributes": {
+                                            "samples": [
+                                              "v1"
+                                            ]
+                                          }
+                                        }
+                                      }
                                     },
-                                    "value": {
-                                      "element": "string",
-                                      "attributes": {
-                                        "samples": [
-                                          "v1"
-                                        ]
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "r2"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "attributes": {
+                                            "samples": [
+                                              "v2"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "r3"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "attributes": {
+                                            "default": "v3"
+                                          }
+                                        }
                                       }
                                     }
-                                  }
+                                  ]
                                 },
                                 {
-                                  "element": "member",
-                                  "content": {
-                                    "key": {
-                                      "element": "string",
-                                      "content": "r2"
-                                    },
-                                    "value": {
-                                      "element": "string",
-                                      "attributes": {
-                                        "samples": [
-                                          "v2"
-                                        ]
-                                      }
-                                    }
-                                  }
-                                },
-                                {
-                                  "element": "member",
-                                  "content": {
-                                    "key": {
-                                      "element": "string",
-                                      "content": "r3"
-                                    },
-                                    "value": {
-                                      "element": "string",
-                                      "attributes": {
-                                        "default": "v3"
-                                      }
-                                    }
-                                  }
+                                  "element": "object"
                                 }
                               ]
-                            },
-                            {
-                              "element": "object"
                             }
                           ]
                         }
@@ -242,59 +252,64 @@
       "element": "category",
       "content": [
         {
-          "element": "object",
-          "meta": {
-            "id": "RefObject"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "r1"
+              "element": "object",
+              "meta": {
+                "id": "RefObject"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "r1"
+                    },
+                    "value": {
+                      "element": "string",
+                      "attributes": {
+                        "samples": [
+                          "v1"
+                        ]
+                      }
+                    }
+                  }
                 },
-                "value": {
-                  "element": "string",
-                  "attributes": {
-                    "samples": [
-                      "v1"
-                    ]
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "r2"
+                    },
+                    "value": {
+                      "element": "string",
+                      "attributes": {
+                        "samples": [
+                          "v2"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "r3"
+                    },
+                    "value": {
+                      "element": "string",
+                      "attributes": {
+                        "default": "v3"
+                      }
+                    }
                   }
                 }
-              }
-            },
-            {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "r2"
-                },
-                "value": {
-                  "element": "string",
-                  "attributes": {
-                    "samples": [
-                      "v2"
-                    ]
-                  }
-                }
-              }
-            },
-            {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "r3"
-                },
-                "value": {
-                  "element": "string",
-                  "attributes": {
-                    "default": "v3"
-                  }
-                }
-              }
+              ]
             }
           ]
         }

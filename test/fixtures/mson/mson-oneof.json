@@ -10,74 +10,79 @@
       "element": "category",
       "content": [
         {
-          "element": "object",
-          "meta": {
-            "id": "User"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "city"
-                },
-                "value": {
-                  "element": "string"
-                }
-              }
-            },
-            {
-              "element": "select",
+              "element": "object",
+              "meta": {
+                "id": "User"
+              },
               "content": [
                 {
-                  "element": "option",
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "state"
-                        },
-                        "value": {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "cz"
-                            },
-                            {
-                              "element": "string",
-                              "content": "sk"
-                            }
-                          ]
-                        }
-                      }
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "city"
+                    },
+                    "value": {
+                      "element": "string"
                     }
-                  ]
+                  }
                 },
                 {
-                  "element": "option",
+                  "element": "select",
                   "content": [
                     {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "province"
-                        },
-                        "value": {
-                          "element": "string",
-                          "attributes": {
-                            "samples": [
-                              "one",
-                              "uno",
-                              "jedna"
-                            ]
+                      "element": "option",
+                      "content": [
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "state"
+                            },
+                            "value": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "cz"
+                                },
+                                {
+                                  "element": "string",
+                                  "content": "sk"
+                                }
+                              ]
+                            }
                           }
                         }
-                      }
+                      ]
+                    },
+                    {
+                      "element": "option",
+                      "content": [
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "province"
+                            },
+                            "value": {
+                              "element": "string",
+                              "attributes": {
+                                "samples": [
+                                  "one",
+                                  "uno",
+                                  "jedna"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      ]
                     }
                   ]
                 }

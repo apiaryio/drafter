@@ -10,204 +10,214 @@
       "element": "category",
       "content": [
         {
-          "element": "object",
-          "meta": {
-            "id": "Color"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "hex"
-                },
-                "value": {
-                  "element": "string"
+              "element": "object",
+              "meta": {
+                "id": "Color"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "hex"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
                 }
-              }
+              ]
             }
           ]
         },
         {
-          "element": "object",
-          "meta": {
-            "id": "User"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "member",
+              "element": "object",
               "meta": {
-                "description": "not variable"
+                "id": "User"
               },
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "c1"
-                },
-                "value": {
-                  "element": "string"
-                }
-              }
-            },
-            {
-              "element": "member",
-              "meta": {
-                "description": "this one is"
-              },
-              "content": {
-                "key": {
-                  "element": "string",
-                  "attributes": {
-                    "variable": true
+              "content": [
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "not variable"
                   },
-                  "content": "c2"
-                },
-                "value": {
-                  "element": "string"
-                }
-              }
-            },
-            {
-              "element": "member",
-              "meta": {
-                "description": "var w/ value"
-              },
-              "content": {
-                "key": {
-                  "element": "string",
-                  "attributes": {
-                    "variable": true
-                  },
-                  "content": "c3"
-                },
-                "value": {
-                  "element": "string",
-                  "content": "color value"
-                }
-              }
-            },
-            {
-              "element": "member",
-              "meta": {
-                "description": "var w/ type"
-              },
-              "content": {
-                "key": {
-                  "element": "string",
-                  "attributes": {
-                    "variable": true
-                  },
-                  "content": "c4"
-                },
-                "value": {
-                  "element": "number"
-                }
-              }
-            },
-            {
-              "element": "member",
-              "meta": {
-                "description": "var w/ type and value"
-              },
-              "content": {
-                "key": {
-                  "element": "string",
-                  "attributes": {
-                    "variable": true
-                  },
-                  "content": "c5"
-                },
-                "value": {
-                  "element": "number",
-                  "content": 3.14
-                }
-              }
-            },
-            {
-              "element": "member",
-              "meta": {
-                "description": "var w/ sample"
-              },
-              "content": {
-                "key": {
-                  "element": "string",
-                  "attributes": {
-                    "variable": true
-                  },
-                  "content": "c6"
-                },
-                "value": {
-                  "element": "string",
-                  "attributes": {
-                    "samples": [
-                      "example"
-                    ]
-                  }
-                }
-              }
-            },
-            {
-              "element": "member",
-              "meta": {
-                "description": "var w/ type and value and sample"
-              },
-              "content": {
-                "key": {
-                  "element": "string",
-                  "attributes": {
-                    "variable": true
-                  },
-                  "content": "c7"
-                },
-                "value": {
-                  "element": "number",
-                  "attributes": {
-                    "samples": [
-                      3.14
-                    ]
-                  }
-                }
-              }
-            },
-            {
-              "element": "member",
-              "meta": {
-                "description": "var w/ variable type"
-              },
-              "content": {
-                "key": {
-                  "element": "Color",
-                  "attributes": {
-                    "variable": true
-                  },
-                  "content": "c8"
-                },
-                "value": {
-                  "element": "string"
-                }
-              }
-            },
-            {
-              "element": "member",
-              "meta": {
-                "description": "generic variable"
-              },
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "c9"
-                },
-                "value": {
-                  "element": "array",
-                  "content": [
-                    {
-                      "element": "generic",
-                      "content": "T"
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "c1"
+                    },
+                    "value": {
+                      "element": "string"
                     }
-                  ]
+                  }
+                },
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "this one is"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "attributes": {
+                        "variable": true
+                      },
+                      "content": "c2"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "var w/ value"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "attributes": {
+                        "variable": true
+                      },
+                      "content": "c3"
+                    },
+                    "value": {
+                      "element": "string",
+                      "content": "color value"
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "var w/ type"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "attributes": {
+                        "variable": true
+                      },
+                      "content": "c4"
+                    },
+                    "value": {
+                      "element": "number"
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "var w/ type and value"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "attributes": {
+                        "variable": true
+                      },
+                      "content": "c5"
+                    },
+                    "value": {
+                      "element": "number",
+                      "content": 3.14
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "var w/ sample"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "attributes": {
+                        "variable": true
+                      },
+                      "content": "c6"
+                    },
+                    "value": {
+                      "element": "string",
+                      "attributes": {
+                        "samples": [
+                          "example"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "var w/ type and value and sample"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "attributes": {
+                        "variable": true
+                      },
+                      "content": "c7"
+                    },
+                    "value": {
+                      "element": "number",
+                      "attributes": {
+                        "samples": [
+                          3.14
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "var w/ variable type"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "Color",
+                      "attributes": {
+                        "variable": true
+                      },
+                      "content": "c8"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "generic variable"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "c9"
+                    },
+                    "value": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "generic",
+                          "content": "T"
+                        }
+                      ]
+                    }
+                  }
                 }
-              }
+              ]
             }
           ]
         }

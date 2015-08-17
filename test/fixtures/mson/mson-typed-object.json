@@ -10,137 +10,142 @@
       "element": "category",
       "content": [
         {
-          "element": "object",
-          "meta": {
-            "id": "User",
-            "description": "Description of User going there\n\n"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "name"
+              "element": "object",
+              "meta": {
+                "id": "User",
+                "description": "Description of User going there\n\n"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "name"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
                 },
-                "value": {
-                  "element": "string"
-                }
-              }
-            },
-            {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "address"
-                },
-                "value": {
-                  "element": "object",
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "street"
-                        },
-                        "value": {
-                          "element": "object",
-                          "content": [
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "name"
-                                },
-                                "value": {
-                                  "element": "string"
-                                }
-                              }
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "address"
+                    },
+                    "value": {
+                      "element": "object",
+                      "content": [
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "street"
                             },
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "house number"
+                            "value": {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "name"
+                                    },
+                                    "value": {
+                                      "element": "string"
+                                    }
+                                  }
                                 },
-                                "value": {
-                                  "element": "number"
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "house number"
+                                    },
+                                    "value": {
+                                      "element": "number"
+                                    }
+                                  }
                                 }
-                              }
+                              ]
                             }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "city"
+                          }
                         },
-                        "value": {
-                          "element": "string"
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "zip"
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "city"
+                            },
+                            "value": {
+                              "element": "string"
+                            }
+                          }
                         },
-                        "value": {
-                          "element": "number"
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "zip"
+                            },
+                            "value": {
+                              "element": "number"
+                            }
+                          }
                         }
-                      }
+                      ]
                     }
-                  ]
-                }
-              }
-            },
-            {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "id"
+                  }
                 },
-                "value": {
-                  "element": "number"
-                }
-              }
-            },
-            {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "hobby"
-                },
-                "value": {
-                  "element": "array",
-                  "content": [
-                    {
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
                       "element": "string",
-                      "content": "sex"
+                      "content": "id"
                     },
-                    {
-                      "element": "string",
-                      "content": "drugs"
-                    },
-                    {
-                      "element": "string",
-                      "content": "rock'n'roll"
+                    "value": {
+                      "element": "number"
                     }
-                  ]
+                  }
+                },
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "hobby"
+                    },
+                    "value": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "string",
+                          "content": "sex"
+                        },
+                        {
+                          "element": "string",
+                          "content": "drugs"
+                        },
+                        {
+                          "element": "string",
+                          "content": "rock'n'roll"
+                        }
+                      ]
+                    }
+                  }
                 }
-              }
+              ]
             }
           ]
         }

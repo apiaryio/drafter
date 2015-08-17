@@ -10,7 +10,8 @@
 
 #include <string>
 #include <vector>
-
+#include <algorithm>
+#include <functional>
 #include <stdexcept>
 
 #include "Typelist.h"
@@ -41,7 +42,7 @@ namespace refract
 
     template <typename T> struct ElementTypeSelector;
 
-    // NOTE: alternative soulution:
+    // NOTE: alternative solution:
     // find in Element* for ValueType instead of specialized templates
     template <>
     struct ElementTypeSelector<std::string>
@@ -97,8 +98,14 @@ namespace refract
         {
         }
 
+        /**
+         * Returns new element with content set as `value`
+         * Type of returned element depends on type of `value`
+         *
+         * In current implementation iis able create just primitive element types: (Bool|Number|String)
+         */
         template <typename T>
-        static IElement* Create(const T& value)
+        static typename ElementTypeSelector<T>::ElementType* Create(const T& value)
         {
             typedef typename ElementTypeSelector<T>::ElementType ElementType;
             ElementType* element = new ElementType;
@@ -106,7 +113,10 @@ namespace refract
             return element;
         };
 
-        static IElement* Create(const char* value);
+        /**
+         * overrided for static function `Create()` with classic c-string
+         */
+        static StringElement* Create(const char* value);
 
         struct MemberElementCollection : public std::vector<MemberElement*>
         {
@@ -339,13 +349,9 @@ namespace refract
         }
 
         static void cloneValue(const ValueType& self, ValueType& other) {
-            for (ValueType::const_iterator i = self.begin(); i != self.end(); ++i) {
-                IElement* e = NULL;
-                if ((*i)) {
-                  e = (*i)->clone();
-                }
-                other.push_back(e);
-            }
+            std::transform(self.begin(), self.end(),
+                           std::back_inserter(other),
+                           std::bind2nd(std::mem_fun(&IElement::clone), IElement::cAll));
         }
     };
 
@@ -429,7 +435,7 @@ namespace refract
     {
         typedef std::vector<IElement*> ValueType;
 
-        // We dont use std::vector<MemberElement*> there, because
+        // We don't use std::vector<MemberElement*> there, because
         // ObjectElement can contain:
         // - (array[Member Element])
         // - (object)
@@ -453,10 +459,9 @@ namespace refract
         }
 
         static void cloneValue(const ValueType& self, ValueType& other) {
-            for (ValueType::const_iterator i = self.begin(); i != self.end(); ++i) {
-                IElement* e = (*i)->clone();
-                other.push_back(e);
-            }
+            std::transform(self.begin(), self.end(),
+                           std::back_inserter(other),
+                           std::bind2nd(std::mem_fun(&IElement::clone), IElement::cAll));
         }
     };
 

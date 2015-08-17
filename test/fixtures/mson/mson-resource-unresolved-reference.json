@@ -28,22 +28,27 @@
               },
               "content": [
                 {
-                  "element": "extend",
+                  "element": "dataStructure",
                   "content": [
                     {
-                      "element": "object",
+                      "element": "extend",
                       "content": [
                         {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "id"
-                            },
-                            "value": {
-                              "element": "string"
+                          "element": "object",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "id"
+                                },
+                                "value": {
+                                  "element": "string"
+                                }
+                              }
                             }
-                          }
+                          ]
                         }
                       ]
                     }
@@ -81,22 +86,27 @@
               },
               "content": [
                 {
-                  "element": "extend",
+                  "element": "dataStructure",
                   "content": [
                     {
-                      "element": "object",
+                      "element": "extend",
                       "content": [
                         {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "id"
-                            },
-                            "value": {
-                              "element": "string"
+                          "element": "object",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "id"
+                                },
+                                "value": {
+                                  "element": "string"
+                                }
+                              }
                             }
-                          }
+                          ]
                         }
                       ]
                     }

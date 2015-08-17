@@ -46,76 +46,81 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "object",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "a1"
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "a1"
+                                    },
+                                    "value": {
+                                      "element": "array",
+                                      "attributes": {
+                                        "default": [
+                                          "d",
+                                          "f",
+                                          "l",
+                                          "t"
+                                        ]
+                                      }
+                                    }
+                                  }
                                 },
-                                "value": {
-                                  "element": "array",
-                                  "attributes": {
-                                    "default": [
-                                      "d",
-                                      "f",
-                                      "l",
-                                      "t"
-                                    ]
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "a2"
+                                    },
+                                    "value": {
+                                      "element": "array",
+                                      "attributes": {
+                                        "samples": [
+                                          [
+                                            "s",
+                                            "m",
+                                            "p",
+                                            "l"
+                                          ]
+                                        ]
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "a3"
+                                    },
+                                    "value": {
+                                      "element": "array",
+                                      "attributes": {
+                                        "samples": [
+                                          [
+                                            "1",
+                                            "2",
+                                            "3"
+                                          ],
+                                          [
+                                            "4",
+                                            "5",
+                                            "6",
+                                            "7"
+                                          ]
+                                        ]
+                                      }
+                                    }
                                   }
                                 }
-                              }
-                            },
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "a2"
-                                },
-                                "value": {
-                                  "element": "array",
-                                  "attributes": {
-                                    "samples": [
-                                      [
-                                        "s",
-                                        "m",
-                                        "p",
-                                        "l"
-                                      ]
-                                    ]
-                                  }
-                                }
-                              }
-                            },
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "a3"
-                                },
-                                "value": {
-                                  "element": "array",
-                                  "attributes": {
-                                    "samples": [
-                                      [
-                                        "1",
-                                        "2",
-                                        "3"
-                                      ],
-                                      [
-                                        "4",
-                                        "5",
-                                        "6",
-                                        "7"
-                                      ]
-                                    ]
-                                  }
-                                }
-                              }
+                              ]
                             }
                           ]
                         }
@@ -172,76 +177,81 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "object",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "a1"
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "a1"
+                                    },
+                                    "value": {
+                                      "element": "array",
+                                      "attributes": {
+                                        "default": [
+                                          "d",
+                                          "f",
+                                          "l",
+                                          "t"
+                                        ]
+                                      }
+                                    }
+                                  }
                                 },
-                                "value": {
-                                  "element": "array",
-                                  "attributes": {
-                                    "default": [
-                                      "d",
-                                      "f",
-                                      "l",
-                                      "t"
-                                    ]
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "a2"
+                                    },
+                                    "value": {
+                                      "element": "array",
+                                      "attributes": {
+                                        "samples": [
+                                          [
+                                            "s",
+                                            "m",
+                                            "p",
+                                            "l"
+                                          ]
+                                        ]
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "a3"
+                                    },
+                                    "value": {
+                                      "element": "array",
+                                      "attributes": {
+                                        "samples": [
+                                          [
+                                            "1",
+                                            "2",
+                                            "3"
+                                          ],
+                                          [
+                                            "4",
+                                            "5",
+                                            "6",
+                                            "7"
+                                          ]
+                                        ]
+                                      }
+                                    }
                                   }
                                 }
-                              }
-                            },
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "a2"
-                                },
-                                "value": {
-                                  "element": "array",
-                                  "attributes": {
-                                    "samples": [
-                                      [
-                                        "s",
-                                        "m",
-                                        "p",
-                                        "l"
-                                      ]
-                                    ]
-                                  }
-                                }
-                              }
-                            },
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "a3"
-                                },
-                                "value": {
-                                  "element": "array",
-                                  "attributes": {
-                                    "samples": [
-                                      [
-                                        "1",
-                                        "2",
-                                        "3"
-                                      ],
-                                      [
-                                        "4",
-                                        "5",
-                                        "6",
-                                        "7"
-                                      ]
-                                    ]
-                                  }
-                                }
-                              }
+                              ]
                             }
                           ]
                         }

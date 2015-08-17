@@ -42,9 +42,16 @@ namespace refract
 
         typedef ArrayElement::ValueType::const_iterator iterator;
         for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-            SerializeCompactVisitor s;
-            (*it)->content(s);
-            array.push(s.value());
+            if ((*it)->renderType() == IElement::rFull) {
+                SerializeVisitor s;
+                s.visit(*(*it));
+                array.push(s.get());
+            }
+            else {
+                SerializeCompactVisitor s;
+                (*it)->content(s);
+                array.push(s.value());
+            }
         }
 
         value_ = array;

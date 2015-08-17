@@ -15,10 +15,9 @@
 
 #include "refract/Registry.h"
 
-namespace drafter
-{
-    namespace key 
-    {
+namespace drafter {
+
+    namespace key {
 
         // Refract meta
         const std::string Id = "id";
@@ -43,7 +42,7 @@ namespace drafter
         const std::string Generic = "generic";
 
         // Refract (nontyped) element names
-        // - maybe move into "librefract" 
+        // - maybe move into "librefract"
         const std::string Enum = "enum";
         const std::string Select = "select";
         const std::string Option = "option";
@@ -55,13 +54,10 @@ namespace drafter
         const std::string Content = "content";
 
     }
-}
 
-namespace drafter
-{
     typedef std::vector<refract::IElement*> RefractElements;
 
-    static void SetElementType(const mson::TypeDefinition& td, refract::IElement* element) 
+    static void SetElementType(const mson::TypeDefinition& td, refract::IElement* element)
     {
         if (!td.typeSpecification.name.symbol.literal.empty()) {
             element->element(td.typeSpecification.name.symbol.literal);
@@ -94,9 +90,6 @@ namespace drafter
 
         return attr;
     }
-
-    template <typename T>
-    T LiteralTo(const mson::Literal& literal);
 
     template <>
     bool LiteralTo<bool>(const mson::Literal& literal)
@@ -684,7 +677,7 @@ namespace drafter
     }
 
     template<typename T>
-    refract::IElement* RefractElementFromDataStructure(const snowcrash::DataStructure& ds)
+    refract::IElement* RefractElementFromMSON(const snowcrash::DataStructure& ds)
     {
         using namespace refract;
         typedef T ElementType;
@@ -717,27 +710,31 @@ namespace drafter
     }
 
 
-    refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure)
+    refract::IElement* MSONToRefract(const snowcrash::DataStructure& dataStructure)
     {
+        if (dataStructure.empty()) {
+            return NULL;
+        }
+
         using namespace refract;
         IElement* element = NULL;
 
         mson::BaseTypeName nameType = GetType(dataStructure);
         switch (nameType) {
             case mson::BooleanTypeName:
-                element = RefractElementFromDataStructure<refract::BooleanElement>(dataStructure);
+                element = RefractElementFromMSON<refract::BooleanElement>(dataStructure);
                 break;
 
             case mson::NumberTypeName:
-                element = RefractElementFromDataStructure<refract::NumberElement>(dataStructure);
+                element = RefractElementFromMSON<refract::NumberElement>(dataStructure);
                 break;
 
             case mson::StringTypeName:
-                element = RefractElementFromDataStructure<refract::StringElement>(dataStructure);
+                element = RefractElementFromMSON<refract::StringElement>(dataStructure);
                 break;
 
             case mson::EnumTypeName: {
-                element = RefractElementFromDataStructure<refract::ArrayElement>(dataStructure);
+                element = RefractElementFromMSON<refract::ArrayElement>(dataStructure);
                 if (element) {
                     element->element(key::Enum);
                 }
@@ -745,12 +742,12 @@ namespace drafter
             }
 
             case mson::ArrayTypeName:
-                element = RefractElementFromDataStructure<refract::ArrayElement>(dataStructure);
+                element = RefractElementFromMSON<refract::ArrayElement>(dataStructure);
                 break;
 
             case mson::ObjectTypeName:
             case mson::UndefinedTypeName:
-                element = RefractElementFromDataStructure<refract::ObjectElement>(dataStructure);
+                element = RefractElementFromMSON<refract::ObjectElement>(dataStructure);
                 break;
 
             default:
@@ -760,25 +757,31 @@ namespace drafter
         return element;
     }
 
-    sos::Object SerializeRefract(refract::IElement* element, const refract::Registry& registry) {
-
+    refract::IElement* ExpandRefract(refract::IElement* element, const refract::Registry& registry)
+    {
         if (!element) {
-            return sos::Object();
+            return element;
         }
 
         refract::ExpandVisitor expander(registry);
         expander.visit(*element);
 
         if (refract::IElement* expanded = expander.get()) {
-           element = expanded;
+            delete element;
+            element = expanded;
+        }
+
+        return element;
+    }
+
+    sos::Object SerializeRefract(refract::IElement* element)
+    {
+        if (!element) {
+            return sos::Object();
         }
 
         refract::SerializeVisitor serializer;
         serializer.visit(*element);
-
-        if (expander.get()) {
-           delete element;
-        }
 
         return serializer.get();
     }

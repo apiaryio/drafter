@@ -10,81 +10,86 @@
       "element": "category",
       "content": [
         {
-          "element": "object",
-          "meta": {
-            "id": "User",
-            "description": "Description of User going there\n\n"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "login"
-                },
-                "value": {
-                  "element": "string",
-                  "attributes": {
-                    "samples": [
-                      "quido"
-                    ]
-                  },
-                  "content": "nobody"
-                }
-              }
-            },
-            {
-              "element": "member",
+              "element": "object",
               "meta": {
-                "description": "Fibbonaci sequence"
+                "id": "User",
+                "description": "Description of User going there\n\n"
               },
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "fibbonaci"
-                },
-                "value": {
-                  "element": "array",
-                  "attributes": {
-                    "samples": [
-                      [
-                        "5",
-                        "8",
-                        "13"
-                      ],
-                      [
-                        "8",
-                        "13",
-                        "21"
-                      ]
-                    ],
-                    "default": [
-                      "1",
-                      "2",
-                      "3",
-                      "5",
-                      "8",
-                      "13",
-                      "21"
-                    ]
-                  },
-                  "content": [
-                    {
-                      "element": "number",
-                      "content": 1
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "login"
                     },
-                    {
-                      "element": "number",
-                      "content": 2
-                    },
-                    {
-                      "element": "number",
-                      "content": 3
+                    "value": {
+                      "element": "string",
+                      "attributes": {
+                        "samples": [
+                          "quido"
+                        ]
+                      },
+                      "content": "nobody"
                     }
-                  ]
+                  }
+                },
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "Fibbonaci sequence"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "fibbonaci"
+                    },
+                    "value": {
+                      "element": "array",
+                      "attributes": {
+                        "samples": [
+                          [
+                            "5",
+                            "8",
+                            "13"
+                          ],
+                          [
+                            "8",
+                            "13",
+                            "21"
+                          ]
+                        ],
+                        "default": [
+                          "1",
+                          "2",
+                          "3",
+                          "5",
+                          "8",
+                          "13",
+                          "21"
+                        ]
+                      },
+                      "content": [
+                        {
+                          "element": "number",
+                          "content": 1
+                        },
+                        {
+                          "element": "number",
+                          "content": 2
+                        },
+                        {
+                          "element": "number",
+                          "content": 3
+                        }
+                      ]
+                    }
+                  }
                 }
-              }
+              ]
             }
           ]
         }

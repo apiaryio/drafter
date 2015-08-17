@@ -10,57 +10,62 @@
       "element": "category",
       "content": [
         {
-          "element": "object",
-          "meta": {
-            "id": "User"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "select",
+              "element": "object",
+              "meta": {
+                "id": "User"
+              },
               "content": [
                 {
-                  "element": "option",
+                  "element": "select",
                   "content": [
                     {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "full_name"
-                        },
-                        "value": {
-                          "element": "string"
+                      "element": "option",
+                      "content": [
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "full_name"
+                            },
+                            "value": {
+                              "element": "string"
+                            }
+                          }
                         }
-                      }
-                    }
-                  ]
-                },
-                {
-                  "element": "option",
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "first_name"
-                        },
-                        "value": {
-                          "element": "string"
-                        }
-                      }
+                      ]
                     },
                     {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "last_name"
+                      "element": "option",
+                      "content": [
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "first_name"
+                            },
+                            "value": {
+                              "element": "string"
+                            }
+                          }
                         },
-                        "value": {
-                          "element": "string"
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "last_name"
+                            },
+                            "value": {
+                              "element": "string"
+                            }
+                          }
                         }
-                      }
+                      ]
                     }
                   ]
                 }

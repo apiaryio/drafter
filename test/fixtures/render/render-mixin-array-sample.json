@@ -46,43 +46,48 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "array",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "string",
-                              "content": "x"
-                            },
-                            {
-                              "element": "ref",
-                              "attributes": {
-                                "resolved": {
-                                  "element": "array",
-                                  "meta": {
-                                    "description": "description\n\n",
-                                    "ref": "RefSample"
-                                  },
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "x"
+                                },
+                                {
+                                  "element": "ref",
                                   "attributes": {
-                                    "samples": [
-                                      [
-                                        "a",
-                                        "b"
-                                      ],
-                                      [
-                                        "d",
-                                        "e"
-                                      ]
-                                    ]
+                                    "resolved": {
+                                      "element": "array",
+                                      "meta": {
+                                        "description": "description\n\n",
+                                        "ref": "RefSample"
+                                      },
+                                      "attributes": {
+                                        "samples": [
+                                          [
+                                            "a",
+                                            "b"
+                                          ],
+                                          [
+                                            "d",
+                                            "e"
+                                          ]
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "content": {
+                                    "href": "RefSample",
+                                    "path": "content"
                                   }
+                                },
+                                {
+                                  "element": "string",
+                                  "content": "y"
                                 }
-                              },
-                              "content": {
-                                "href": "RefSample",
-                                "path": "content"
-                              }
-                            },
-                            {
-                              "element": "string",
-                              "content": "y"
+                              ]
                             }
                           ]
                         }
@@ -139,43 +144,48 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "array",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "string",
-                              "content": "x"
-                            },
-                            {
-                              "element": "ref",
-                              "attributes": {
-                                "resolved": {
-                                  "element": "array",
-                                  "meta": {
-                                    "description": "description\n\n",
-                                    "ref": "RefSample"
-                                  },
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "x"
+                                },
+                                {
+                                  "element": "ref",
                                   "attributes": {
-                                    "samples": [
-                                      [
-                                        "a",
-                                        "b"
-                                      ],
-                                      [
-                                        "d",
-                                        "e"
-                                      ]
-                                    ]
+                                    "resolved": {
+                                      "element": "array",
+                                      "meta": {
+                                        "description": "description\n\n",
+                                        "ref": "RefSample"
+                                      },
+                                      "attributes": {
+                                        "samples": [
+                                          [
+                                            "a",
+                                            "b"
+                                          ],
+                                          [
+                                            "d",
+                                            "e"
+                                          ]
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "content": {
+                                    "href": "RefSample",
+                                    "path": "content"
                                   }
+                                },
+                                {
+                                  "element": "string",
+                                  "content": "y"
                                 }
-                              },
-                              "content": {
-                                "href": "RefSample",
-                                "path": "content"
-                              }
-                            },
-                            {
-                              "element": "string",
-                              "content": "y"
+                              ]
                             }
                           ]
                         }
@@ -194,23 +204,28 @@
       "element": "category",
       "content": [
         {
-          "element": "array",
-          "meta": {
-            "id": "RefSample",
-            "description": "description\n\n"
-          },
-          "attributes": {
-            "samples": [
-              [
-                "a",
-                "b"
-              ],
-              [
-                "d",
-                "e"
-              ]
-            ]
-          }
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "array",
+              "meta": {
+                "id": "RefSample",
+                "description": "description\n\n"
+              },
+              "attributes": {
+                "samples": [
+                  [
+                    "a",
+                    "b"
+                  ],
+                  [
+                    "d",
+                    "e"
+                  ]
+                ]
+              }
+            }
+          ]
         }
       ]
     }

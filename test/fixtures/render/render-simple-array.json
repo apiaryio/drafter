@@ -46,19 +46,24 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "array",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "string",
-                              "content": "pksunkara"
-                            },
-                            {
-                              "element": "number",
-                              "content": 12
-                            },
-                            {
-                              "element": "boolean",
-                              "content": false
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "pksunkara"
+                                },
+                                {
+                                  "element": "number",
+                                  "content": 12
+                                },
+                                {
+                                  "element": "boolean",
+                                  "content": false
+                                }
+                              ]
                             }
                           ]
                         }
@@ -115,19 +120,24 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "array",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "string",
-                              "content": "pksunkara"
-                            },
-                            {
-                              "element": "number",
-                              "content": 12
-                            },
-                            {
-                              "element": "boolean",
-                              "content": false
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "pksunkara"
+                                },
+                                {
+                                  "element": "number",
+                                  "content": 12
+                                },
+                                {
+                                  "element": "boolean",
+                                  "content": false
+                                }
+                              ]
                             }
                           ]
                         }

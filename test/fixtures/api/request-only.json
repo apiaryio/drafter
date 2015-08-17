@@ -1,0 +1,66 @@
+{
+  "element": "category",
+  "meta": {
+    "classes": [
+      "api"
+    ],
+    "title": "API name"
+  },
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "resourceGroup"
+        ],
+        "title": "Users"
+      },
+      "content": [
+        {
+          "element": "resource",
+          "meta": {
+            "title": "User"
+          },
+          "attributes": {
+            "href": "/users"
+          },
+          "content": [
+            {
+              "element": "transition",
+              "meta": {
+                "title": "List all users"
+              },
+              "content": [
+                {
+                  "element": "httpTransaction",
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "attributes": {
+                        "method": "GET",
+                        "title": ""
+                      },
+                      "content": [
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageBody"
+                          },
+                          "content": "{}\n"
+                        }
+                      ]
+                    },
+                    {
+                      "element": "httpResponse",
+                      "content": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

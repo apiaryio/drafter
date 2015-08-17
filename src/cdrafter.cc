@@ -29,9 +29,10 @@ static char* ToString(const std::stringstream& stream)
     return str;
 }
 
-SC_API int drafter_c_parse(const char* source, 
-                           sc_blueprint_parser_options options, 
-                           char** result) 
+SC_API int drafter_c_parse(const char* source,
+                           sc_blueprint_parser_options options,
+                           drafter_ast_type_option astType,
+                           char** result)
 {
 
     std::stringstream inputStream;
@@ -46,9 +47,9 @@ SC_API int drafter_c_parse(const char* source,
     if (result) {
         std::stringstream resultStream;
         try {
-            serializer.process(drafter::WrapResult(blueprint, options), resultStream);
-        } 
-        catch (std::exception e) {
+            serializer.process(drafter::WrapResult(blueprint, options, drafter::ASTType(astType)), resultStream);
+        }
+        catch (std::exception& e) {
             blueprint.report.error.message = e.what();
             blueprint.report.error.code = snowcrash::ApplicationError;
         }

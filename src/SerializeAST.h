@@ -13,7 +13,7 @@
 
 namespace drafter {
 
-    sos::Object WrapBlueprint(const snowcrash::Blueprint& blueprint);
+    sos::Object WrapBlueprint(const snowcrash::Blueprint& blueprint, const ASTType astType);
 }
 
 #endif

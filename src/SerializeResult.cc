@@ -40,7 +40,9 @@ static sos::Object WrapAnnotation(const snowcrash::SourceAnnotation& annotation)
     return object;
 }
 
-sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const snowcrash::BlueprintParserOptions options)
+sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
+                                const snowcrash::BlueprintParserOptions options,
+                                const ASTType astType)
 {
     sos::Object object;
 
@@ -49,8 +51,8 @@ sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprin
     const Report& report = blueprint.report;
 
     object.set(SerializeKey::Version, sos::String(PARSE_RESULT_SERIALIZATION_VERSION));
-    
-    object.set(SerializeKey::Ast, WrapBlueprint(blueprint.node));
+
+    object.set(SerializeKey::Ast, WrapBlueprint(blueprint.node, astType));
 
     if (options & ExportSourcemapOption) {
         const SourceMap<Blueprint>& sourceMap = blueprint.sourceMap;

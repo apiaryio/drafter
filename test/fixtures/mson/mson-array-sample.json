@@ -10,39 +10,44 @@
       "element": "category",
       "content": [
         {
-          "element": "array",
-          "meta": {
-            "id": "ArraySample",
-            "description": "description\n\n"
-          },
-          "attributes": {
-            "samples": [
-              [
-                "d",
-                "e"
-              ],
-              [
-                "h",
-                "j"
-              ]
-            ]
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "string",
-              "content": "a"
-            },
-            {
-              "element": "string",
-              "content": "b"
-            },
-            {
-              "element": "string",
-              "content": "f"
-            },
-            {
-              "element": "string",
-              "content": "g"
+              "element": "array",
+              "meta": {
+                "id": "ArraySample",
+                "description": "description\n\n"
+              },
+              "attributes": {
+                "samples": [
+                  [
+                    "d",
+                    "e"
+                  ],
+                  [
+                    "h",
+                    "j"
+                  ]
+                ]
+              },
+              "content": [
+                {
+                  "element": "string",
+                  "content": "a"
+                },
+                {
+                  "element": "string",
+                  "content": "b"
+                },
+                {
+                  "element": "string",
+                  "content": "f"
+                },
+                {
+                  "element": "string",
+                  "content": "g"
+                }
+              ]
             }
           ]
         }

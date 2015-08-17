@@ -19,6 +19,12 @@
 
 namespace drafter {
 
+    enum ASTType {
+        NormalASTType = 0,   // Normal AST
+        RefractASTType,      // Refract AST
+        UnknownASTType = -1
+    };
+
     /**
      *  AST entities serialization keys
      */
