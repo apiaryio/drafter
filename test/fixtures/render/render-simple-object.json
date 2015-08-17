@@ -46,20 +46,25 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "object",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "user"
-                                },
-                                "value": {
-                                  "element": "string",
-                                  "content": "pksunkara"
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "user"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "pksunkara"
+                                    }
+                                  }
                                 }
-                              }
+                              ]
                             }
                           ]
                         }
@@ -116,20 +121,25 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "object",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "user"
-                                },
-                                "value": {
-                                  "element": "string",
-                                  "content": "pksunkara"
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "user"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "pksunkara"
+                                    }
+                                  }
                                 }
-                              }
+                              ]
                             }
                           ]
                         }

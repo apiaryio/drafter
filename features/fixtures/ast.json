@@ -240,35 +240,40 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "extend",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "object",
-                              "meta": {
-                                "description": "<data structure description>\n\n",
-                                "ref": "<data structure name>"
-                              },
+                              "element": "extend",
                               "content": [
                                 {
-                                  "element": "member",
+                                  "element": "object",
                                   "meta": {
-                                    "description": "<data structure property description>"
+                                    "description": "<data structure description>\n\n",
+                                    "ref": "<data structure name>"
                                   },
-                                  "content": {
-                                    "key": {
-                                      "element": "string",
-                                      "content": "<data structure property name>"
-                                    },
-                                    "value": {
-                                      "element": "string",
-                                      "content": "<data structure property value>"
+                                  "content": [
+                                    {
+                                      "element": "member",
+                                      "meta": {
+                                        "description": "<data structure property description>"
+                                      },
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "<data structure property name>"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "content": "<data structure property value>"
+                                        }
+                                      }
                                     }
-                                  }
+                                  ]
+                                },
+                                {
+                                  "element": "object"
                                 }
                               ]
-                            },
-                            {
-                              "element": "object"
                             }
                           ]
                         }
@@ -281,26 +286,31 @@
           ],
           "content": [
             {
-              "element": "object",
-              "meta": {
-                "id": "<resource name>"
-              },
+              "element": "dataStructure",
               "content": [
                 {
-                  "element": "member",
+                  "element": "object",
                   "meta": {
-                    "description": "<attribute property description>"
+                    "id": "<resource name>"
                   },
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "<attribute property name>"
-                    },
-                    "value": {
-                      "element": "number",
-                      "content": 0
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "<attribute property description>"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "<attribute property name>"
+                        },
+                        "value": {
+                          "element": "number",
+                          "content": 0
+                        }
+                      }
                     }
-                  }
+                  ]
                 }
               ]
             }
@@ -546,35 +556,40 @@
                       "schema": "",
                       "content": [
                         {
-                          "element": "extend",
+                          "element": "dataStructure",
                           "content": [
                             {
-                              "element": "object",
-                              "meta": {
-                                "description": "<data structure description>\n\n",
-                                "ref": "<data structure name>"
-                              },
+                              "element": "extend",
                               "content": [
                                 {
-                                  "element": "member",
+                                  "element": "object",
                                   "meta": {
-                                    "description": "<data structure property description>"
+                                    "description": "<data structure description>\n\n",
+                                    "ref": "<data structure name>"
                                   },
-                                  "content": {
-                                    "key": {
-                                      "element": "string",
-                                      "content": "<data structure property name>"
-                                    },
-                                    "value": {
-                                      "element": "string",
-                                      "content": "<data structure property value>"
+                                  "content": [
+                                    {
+                                      "element": "member",
+                                      "meta": {
+                                        "description": "<data structure property description>"
+                                      },
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "<data structure property name>"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "content": "<data structure property value>"
+                                        }
+                                      }
                                     }
-                                  }
+                                  ]
+                                },
+                                {
+                                  "element": "object"
                                 }
                               ]
-                            },
-                            {
-                              "element": "object"
                             }
                           ]
                         }
@@ -587,26 +602,31 @@
           ],
           "content": [
             {
-              "element": "object",
-              "meta": {
-                "id": "<resource name>"
-              },
+              "element": "dataStructure",
               "content": [
                 {
-                  "element": "member",
+                  "element": "object",
                   "meta": {
-                    "description": "<attribute property description>"
+                    "id": "<resource name>"
                   },
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "<attribute property name>"
-                    },
-                    "value": {
-                      "element": "number",
-                      "content": 0
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "<attribute property description>"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "<attribute property name>"
+                        },
+                        "value": {
+                          "element": "number",
+                          "content": 0
+                        }
+                      }
                     }
-                  }
+                  ]
                 }
               ]
             }
@@ -618,27 +638,32 @@
       "element": "category",
       "content": [
         {
-          "element": "object",
-          "meta": {
-            "id": "<data structure name>",
-            "description": "<data structure description>\n\n"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "member",
+              "element": "object",
               "meta": {
-                "description": "<data structure property description>"
+                "id": "<data structure name>",
+                "description": "<data structure description>\n\n"
               },
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "<data structure property name>"
-                },
-                "value": {
-                  "element": "string",
-                  "content": "<data structure property value>"
+              "content": [
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "<data structure property description>"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "<data structure property name>"
+                    },
+                    "value": {
+                      "element": "string",
+                      "content": "<data structure property value>"
+                    }
+                  }
                 }
-              }
+              ]
             }
           ]
         }

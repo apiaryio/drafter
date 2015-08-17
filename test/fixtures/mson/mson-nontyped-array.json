@@ -10,60 +10,65 @@
       "element": "category",
       "content": [
         {
-          "element": "object",
-          "meta": {
-            "id": "User",
-            "description": "Description of User going there\n\n"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "fibbonaci"
-                },
-                "value": {
-                  "element": "array",
-                  "attributes": {
-                    "samples": [
-                      [
-                        "5",
-                        "8",
-                        "13"
-                      ],
-                      [
-                        "8",
-                        "13",
-                        "21"
+              "element": "object",
+              "meta": {
+                "id": "User",
+                "description": "Description of User going there\n\n"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "fibbonaci"
+                    },
+                    "value": {
+                      "element": "array",
+                      "attributes": {
+                        "samples": [
+                          [
+                            "5",
+                            "8",
+                            "13"
+                          ],
+                          [
+                            "8",
+                            "13",
+                            "21"
+                          ]
+                        ],
+                        "default": [
+                          "1",
+                          "2",
+                          "3",
+                          "5",
+                          "8",
+                          "13",
+                          "21"
+                        ]
+                      },
+                      "content": [
+                        {
+                          "element": "string",
+                          "content": "1"
+                        },
+                        {
+                          "element": "string",
+                          "content": "2"
+                        },
+                        {
+                          "element": "string",
+                          "content": "3"
+                        }
                       ]
-                    ],
-                    "default": [
-                      "1",
-                      "2",
-                      "3",
-                      "5",
-                      "8",
-                      "13",
-                      "21"
-                    ]
-                  },
-                  "content": [
-                    {
-                      "element": "string",
-                      "content": "1"
-                    },
-                    {
-                      "element": "string",
-                      "content": "2"
-                    },
-                    {
-                      "element": "string",
-                      "content": "3"
                     }
-                  ]
+                  }
                 }
-              }
+              ]
             }
           ]
         }

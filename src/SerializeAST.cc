@@ -474,11 +474,18 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     refract::IElement *element = NULL, *expanded = NULL;
 
     try {
-        element = DataStructureToRefract(dataStructure);
+        element = MSONToRefract(dataStructure);
         expanded = ExpandRefract(element, NamedTypesRegistry);
+
+        refract::ObjectElement* dataStructureElement = new refract::ObjectElement;
+        dataStructureElement->element("dataStructure");
+        dataStructureElement->push_back(expanded);
+
+        expanded = dataStructureElement;
+
         dataStructureObject = SerializeRefract(expanded);
     }
-    catch (std::exception e) {
+    catch (std::exception& e) {
         DrafterErrorCode = RuntimeError;
         DrafterErrorMessage = e.what();
     }
@@ -808,7 +815,7 @@ bool IsElementResourceGroup(const Element& element)
 #if _WITH_REFRACT_
 typedef std::vector<const snowcrash::DataStructure*> DataStructures;
 
-void findNamedDataStructures(const snowcrash::Elements& elements, DataStructures& found) {
+void findNamedTypes(const snowcrash::Elements& elements, DataStructures& found) {
     for (snowcrash::Elements::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
 
         if (i->element == snowcrash::Element::DataStructureElement) {
@@ -818,71 +825,93 @@ void findNamedDataStructures(const snowcrash::Elements& elements, DataStructures
             found.push_back(&i->content.resource.attributes);
         }
         else if (i->element == snowcrash::Element::CategoryElement) {
-            findNamedDataStructures(i->content.elements(), found);
+            findNamedTypes(i->content.elements(), found);
+        }
+
+    }
+}
+
+void registerNamedTypes(const snowcrash::Elements& elements, refract::Registry& registry) 
+{
+    DataStructures found;
+    findNamedTypes(elements, found);
+
+    for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
+
+        if (!(*i)->name.symbol.literal.empty()) {
+            refract::IElement* element = MSONToRefract(*(*i));
+            NamedTypesRegistry.add(element);
         }
 
     }
 }
 #endif
 
+sos::Object WrapBlueprintRefract(const Blueprint& blueprint)
+{
+    sos::Object blueprintObject;
+
+    refract::IElement *element = NULL;
+
+    try {
+        element = BlueprintToRefract(blueprint);
+        blueprintObject = SerializeRefract(element);
+    }
+    catch (std::exception& e) {
+        DrafterErrorCode = RuntimeError;
+        DrafterErrorMessage = e.what();
+    }
+
+    if (element) {
+        delete element;
+    }
+
+    return blueprintObject;
+}
+
+sos::Object WrapBlueprintAST(const Blueprint& blueprint)
+{
+    sos::Object blueprintObject;
+    // Version
+    blueprintObject.set(SerializeKey::Version, sos::String(AST_SERIALIZATION_VERSION));
+
+    // Metadata
+    blueprintObject.set(SerializeKey::Metadata,
+                        WrapCollection<Metadata>()(blueprint.metadata, WrapKeyValue));
+
+    // Name
+    blueprintObject.set(SerializeKey::Name, sos::String(blueprint.name));
+
+    // Description
+    blueprintObject.set(SerializeKey::Description, sos::String(blueprint.description));
+
+    // Element
+    blueprintObject.set(SerializeKey::Element, ElementClassToString(blueprint.element));
+
+    // Resource Groups
+    blueprintObject.set(SerializeKey::ResourceGroups,
+                        WrapCollection<Element>()(blueprint.content.elements(), WrapResourceGroup, IsElementResourceGroup));
+
+    // Content
+    blueprintObject.set(SerializeKey::Content,
+                        WrapCollection<Element>()(blueprint.content.elements(), WrapElement));
+
+    return blueprintObject;
+}
+
 sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType astType)
 {
     sos::Object blueprintObject;
 
 #if _WITH_REFRACT_
-    DataStructures found;
-    findNamedDataStructures(blueprint.content.elements(), found);
-
-    for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
-
-        if (!(*i)->name.symbol.literal.empty()) {
-            refract::IElement* element = DataStructureToRefract(*(*i));
-            NamedTypesRegistry.add(element);
-        }
-
-    }
+    registerNamedTypes(blueprint.content.elements(), NamedTypesRegistry);
 #endif
 
     if (astType == RefractASTType) {
-        refract::IElement *element = NULL;
-
-        try {
-            element = BlueprintToRefract(blueprint);
-            blueprintObject = SerializeRefract(element);
-        }
-        catch (std::exception e) {
-            DrafterErrorCode = RuntimeError;
-            DrafterErrorMessage = e.what();
-        }
-
-        if (element) {
-            delete element;
-        }
+        blueprintObject = WrapBlueprintRefract(blueprint);
     }
     else {
-        // Version
-        blueprintObject.set(SerializeKey::Version, sos::String(AST_SERIALIZATION_VERSION));
-
-        // Metadata
-        blueprintObject.set(SerializeKey::Metadata,
-                            WrapCollection<Metadata>()(blueprint.metadata, WrapKeyValue));
-
-        // Name
-        blueprintObject.set(SerializeKey::Name, sos::String(blueprint.name));
-
-        // Description
-        blueprintObject.set(SerializeKey::Description, sos::String(blueprint.description));
-
-        // Element
-        blueprintObject.set(SerializeKey::Element, ElementClassToString(blueprint.element));
-
-        // Resource Groups
-        blueprintObject.set(SerializeKey::ResourceGroups,
-                            WrapCollection<Element>()(blueprint.content.elements(), WrapResourceGroup, IsElementResourceGroup));
-
-        // Content
-        blueprintObject.set(SerializeKey::Content,
-                            WrapCollection<Element>()(blueprint.content.elements(), WrapElement));
+        blueprintObject = WrapBlueprintAST(blueprint);
     }
 
 #if _WITH_REFRACT_

@@ -10,61 +10,66 @@
       "element": "category",
       "content": [
         {
-          "element": "object",
-          "meta": {
-            "id": "User"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "s1"
+              "element": "object",
+              "meta": {
+                "id": "User"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "s1"
+                    },
+                    "value": {
+                      "element": "string",
+                      "attributes": {
+                        "samples": [
+                          "abc"
+                        ]
+                      }
+                    }
+                  }
                 },
-                "value": {
-                  "element": "string",
-                  "attributes": {
-                    "samples": [
-                      "abc"
-                    ]
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "s2"
+                    },
+                    "value": {
+                      "element": "string",
+                      "attributes": {
+                        "samples": [
+                          "abc"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "s3"
+                    },
+                    "value": {
+                      "element": "string",
+                      "attributes": {
+                        "samples": [
+                          "abc"
+                        ]
+                      }
+                    }
                   }
                 }
-              }
-            },
-            {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "s2"
-                },
-                "value": {
-                  "element": "string",
-                  "attributes": {
-                    "samples": [
-                      "abc"
-                    ]
-                  }
-                }
-              }
-            },
-            {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "s3"
-                },
-                "value": {
-                  "element": "string",
-                  "attributes": {
-                    "samples": [
-                      "abc"
-                    ]
-                  }
-                }
-              }
+              ]
             }
           ]
         }

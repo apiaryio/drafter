@@ -26,23 +26,28 @@
           },
           "content": [
             {
-              "element": "object",
-              "meta": {
-                "id": "User"
-              },
+              "element": "dataStructure",
               "content": [
                 {
-                  "element": "member",
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "username"
-                    },
-                    "value": {
-                      "element": "string",
-                      "content": "pavan"
+                  "element": "object",
+                  "meta": {
+                    "id": "User"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "username"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "pavan"
+                        }
+                      }
                     }
-                  }
+                  ]
                 }
               ]
             }

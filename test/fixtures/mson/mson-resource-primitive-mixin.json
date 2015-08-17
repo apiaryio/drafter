@@ -19,10 +19,15 @@
           "actions": [],
           "content": [
             {
-              "element": "object",
-              "meta": {
-                "id": "Polls"
-              }
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": "Polls"
+                  }
+                }
+              ]
             }
           ]
         }
@@ -43,10 +48,15 @@
           "actions": [],
           "content": [
             {
-              "element": "object",
-              "meta": {
-                "id": "Polls"
-              }
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": "Polls"
+                  }
+                }
+              ]
             }
           ]
         }

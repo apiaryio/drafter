@@ -10,36 +10,41 @@
       "element": "category",
       "content": [
         {
-          "element": "object",
-          "meta": {
-            "id": "User"
-          },
+          "element": "dataStructure",
           "content": [
             {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "tag"
-                },
-                "value": {
-                  "element": "enum",
-                  "content": [
-                    {
+              "element": "object",
+              "meta": {
+                "id": "User"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
                       "element": "string",
-                      "content": "red"
+                      "content": "tag"
                     },
-                    {
-                      "element": "string",
-                      "content": "yellow"
-                    },
-                    {
-                      "element": "string",
-                      "content": "green"
+                    "value": {
+                      "element": "enum",
+                      "content": [
+                        {
+                          "element": "string",
+                          "content": "red"
+                        },
+                        {
+                          "element": "string",
+                          "content": "yellow"
+                        },
+                        {
+                          "element": "string",
+                          "content": "green"
+                        }
+                      ]
                     }
-                  ]
+                  }
                 }
-              }
+              ]
             }
           ]
         }

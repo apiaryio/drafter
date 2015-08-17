@@ -18,7 +18,7 @@ namespace refract {
 
 namespace drafter {
 
-    refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure);
+    refract::IElement* MSONToRefract(const snowcrash::DataStructure& dataStructure);
     refract::IElement* ExpandRefract(refract::IElement*, const refract::Registry&);
 
     sos::Object SerializeRefract(refract::IElement*);
