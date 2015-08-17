@@ -485,7 +485,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
 
         dataStructureObject = SerializeRefract(expanded);
     }
-    catch (std::exception e) {
+    catch (std::exception& e) {
         DrafterErrorCode = RuntimeError;
         DrafterErrorMessage = e.what();
     }
@@ -857,7 +857,7 @@ sos::Object WrapBlueprintRefract(const Blueprint& blueprint)
         element = BlueprintToRefract(blueprint);
         blueprintObject = SerializeRefract(element);
     }
-    catch (std::exception e) {
+    catch (std::exception& e) {
         DrafterErrorCode = RuntimeError;
         DrafterErrorMessage = e.what();
     }

@@ -49,7 +49,7 @@ SC_API int drafter_c_parse(const char* source,
         try {
             serializer.process(drafter::WrapResult(blueprint, options, drafter::ASTType(astType)), resultStream);
         }
-        catch (std::exception e) {
+        catch (std::exception& e) {
             blueprint.report.error.message = e.what();
             blueprint.report.error.code = snowcrash::ApplicationError;
         }
