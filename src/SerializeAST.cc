@@ -477,11 +477,11 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
         element = MSONToRefract(dataStructure);
         expanded = ExpandRefract(element, NamedTypesRegistry);
 
-        refract::ObjectElement* dsEnvelope = new refract::ObjectElement;
-        dsEnvelope->element("dataStructure");
-        dsEnvelope->push_back(expanded);
+        refract::ObjectElement* dataStructureElement = new refract::ObjectElement;
+        dataStructureElement->element("dataStructure");
+        dataStructureElement->push_back(expanded);
 
-        expanded = dsEnvelope;
+        expanded = dataStructureElement;
 
         dataStructureObject = SerializeRefract(expanded);
     }
@@ -815,7 +815,7 @@ bool IsElementResourceGroup(const Element& element)
 #if _WITH_REFRACT_
 typedef std::vector<const snowcrash::DataStructure*> DataStructures;
 
-void findNamedDataStructures(const snowcrash::Elements& elements, DataStructures& found) {
+void findNamedTypes(const snowcrash::Elements& elements, DataStructures& found) {
     for (snowcrash::Elements::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
 
         if (i->element == snowcrash::Element::DataStructureElement) {
@@ -825,16 +825,16 @@ void findNamedDataStructures(const snowcrash::Elements& elements, DataStructures
             found.push_back(&i->content.resource.attributes);
         }
         else if (i->element == snowcrash::Element::CategoryElement) {
-            findNamedDataStructures(i->content.elements(), found);
+            findNamedTypes(i->content.elements(), found);
         }
 
     }
 }
 
-void registrateNamedMSONStructures(const snowcrash::Elements& elements, refract::Registry& registry) 
+void registerNamedTypes(const snowcrash::Elements& elements, refract::Registry& registry) 
 {
     DataStructures found;
-    findNamedDataStructures(elements, found);
+    findNamedTypes(elements, found);
 
     for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
 
@@ -845,8 +845,9 @@ void registrateNamedMSONStructures(const snowcrash::Elements& elements, refract:
 
     }
 }
+#endif
 
-sos::Object BlueprintAsRefractAST(const Blueprint& blueprint)
+sos::Object WrapBlueprintRefract(const Blueprint& blueprint)
 {
     sos::Object blueprintObject;
 
@@ -867,9 +868,8 @@ sos::Object BlueprintAsRefractAST(const Blueprint& blueprint)
 
     return blueprintObject;
 }
-#endif
 
-sos::Object BlueprintAsAST(const Blueprint& blueprint)
+sos::Object WrapBlueprintAST(const Blueprint& blueprint)
 {
     sos::Object blueprintObject;
     // Version
@@ -904,14 +904,14 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType ast
     sos::Object blueprintObject;
 
 #if _WITH_REFRACT_
-    registrateNamedMSONStructures(blueprint.content.elements(), NamedTypesRegistry);
+    registerNamedTypes(blueprint.content.elements(), NamedTypesRegistry);
 #endif
 
     if (astType == RefractASTType) {
-        blueprintObject = BlueprintAsRefractAST(blueprint);
+        blueprintObject = WrapBlueprintRefract(blueprint);
     }
     else {
-        blueprintObject = BlueprintAsAST(blueprint);
+        blueprintObject = WrapBlueprintAST(blueprint);
     }
 
 #if _WITH_REFRACT_

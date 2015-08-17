@@ -41,22 +41,21 @@ namespace drafter {
         {
             elements.erase(std::remove_if(elements.begin(), elements.end(), IsNull<refract::IElement>), elements.end());
         }
+    }
 
-        refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure)
-        {
-            refract::IElement* ds = MSONToRefract(dataStructure);
+    refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure)
+    {
+        refract::IElement* msonElement = MSONToRefract(dataStructure);
 
-            if (!ds) {
-                return NULL;
-            }
-
-            refract::ObjectElement* envelope = new refract::ObjectElement;
-            envelope->element("dataStructure");
-            envelope->push_back(ds);
-
-            return envelope;
+        if (!msonElement) {
+            return NULL;
         }
 
+        refract::ObjectElement* element = new refract::ObjectElement;
+        element->element("dataStructure");
+        element->push_back(msonElement);
+
+        return element;
     }
 
     refract::IElement* MetadataToRefract(const snowcrash::Metadata metadata)
