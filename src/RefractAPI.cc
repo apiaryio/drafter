@@ -98,45 +98,47 @@ namespace drafter {
         return element;
     }
 
+    template<typename T>
+    refract::IElement* ExtractParameter(const snowcrash::Parameter& parameter)
+    {
+        refract::IElement* element = NULL;
+
+        if (parameter.values.empty()) {
+            element = refract::IElement::Create(LiteralTo<T>(parameter.exampleValue));
+        }
+        else {
+            element = ParameterValuesToRefract<T>(parameter);
+        }
+
+        if (!parameter.defaultValue.empty()) {
+            element->attributes["default"] = refract::IElement::Create(LiteralTo<T>(parameter.defaultValue));
+        }
+
+        return element;
+    }
+
     refract::IElement* ParameterToRefract(const snowcrash::Parameter& parameter)
     {
         refract::MemberElement* element = new refract::MemberElement;
-        refract::IElement *value, *defaultValue;
+        refract::IElement *value = NULL;
 
-        // Parameter type
+        // Parameter type, exampleValue, defaultValue, values
         if (parameter.type == "boolean") {
-            value = refract::IElement::Create(LiteralTo<bool>(parameter.exampleValue));
-            defaultValue = refract::IElement::Create(LiteralTo<bool>(parameter.defaultValue));
+            value = ExtractParameter<bool>(parameter);
         }
         else if (parameter.type == "number") {
-            value = refract::IElement::Create(LiteralTo<double>(parameter.exampleValue));
-            defaultValue = refract::IElement::Create(LiteralTo<double>(parameter.defaultValue));
+            value = ExtractParameter<double>(parameter);
         }
         else {
-            value = refract::IElement::Create(parameter.exampleValue);
-            defaultValue = refract::IElement::Create(parameter.defaultValue);
-        }
-
-        // Values
-        if (!parameter.values.empty()) {
-            if (parameter.type == "boolean") {
-                value = ParameterValuesToRefract<bool>(parameter);
-            }
-            else if (parameter.type == "number") {
-                value = ParameterValuesToRefract<double>(parameter);
-            }
-            else {
-                value = ParameterValuesToRefract<std::string>(parameter);
-            }
-        }
-
-        // Default Value
-        if (!parameter.defaultValue.empty()) {
-            value->attributes["default"] = defaultValue;
+            value = ExtractParameter<std::string>(parameter);
         }
 
         element->set(refract::IElement::Create(parameter.name), value);
-        element->meta["description"] = refract::IElement::Create(parameter.description);
+
+        // Description
+        if (!parameter.description.empty()) {
+            element->meta["description"] = refract::IElement::Create(parameter.description);
+        }
 
         // Parameter use
         if (parameter.use == snowcrash::RequiredParameterUse || parameter.use == snowcrash::OptionalParameterUse) {
@@ -203,6 +205,23 @@ namespace drafter {
         return element;
     }
 
+    std::string GetPayloadContentType(const snowcrash::Payload& payload)
+    {
+        std::string contentType = "";
+        snowcrash::Headers::const_iterator it;
+
+        it = std::find_if(payload.headers.begin(),
+                          payload.headers.end(),
+                          std::bind2nd(snowcrash::MatchFirstWith<snowcrash::Header, std::string, snowcrash::IEqual<std::string> >(),
+                                       snowcrash::HTTPHeaderName::ContentType));
+
+        if (it != payload.headers.end()) {
+            contentType = it->second;
+        }
+
+        return contentType;
+    }
+
     refract::IElement* PayloadToRefract(const snowcrash::Payload* payload, const snowcrash::HTTPMethod& method = "")
     {
         refract::ArrayElement* element = new refract::ArrayElement;
@@ -223,8 +242,6 @@ namespace drafter {
             if (payload != NULL) {
                 element->attributes["title"] = refract::IElement::Create(payload->name);
             }
-
-            // FIXME: Expand href
         }
 
         // If no payload, return immediately
@@ -241,17 +258,7 @@ namespace drafter {
         content.push_back(DataStructureToRefract(payload->attributes));
 
         // Get content type
-        std::string contentType = "";
-        snowcrash::Headers::const_iterator it;
-
-        it = std::find_if(payload->headers.begin(),
-                          payload->headers.end(),
-                          std::bind2nd(snowcrash::MatchFirstWith<snowcrash::Header, std::string, snowcrash::IEqual<std::string> >(),
-                                       snowcrash::HTTPHeaderName::ContentType));
-
-        if (it != payload->headers.end()) {
-            contentType = it->second;
-        }
+        std::string contentType = GetPayloadContentType(*payload);
 
         // Assets
         content.push_back(AssetToRefract(payload->body, contentType));
