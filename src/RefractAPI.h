@@ -10,7 +10,6 @@
 #define DRAFTER_REFRACTAST_H
 
 #include "Serialize.h"
-#include "RefractDataStructure.h"
 
 namespace drafter {
 

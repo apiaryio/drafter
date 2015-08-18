@@ -60,6 +60,7 @@
 		19A12A001B70B8D000366AA7 /* sosJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129FC1B70B8D000366AA7 /* sosJSON.h */; };
 		19A12A011B70B8D000366AA7 /* sosYAML.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129FD1B70B8D000366AA7 /* sosYAML.h */; };
 		19A12A021B70B92800366AA7 /* liblibsos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129EF1B70B88E00366AA7 /* liblibsos.a */; };
+		401074A31B833A1000B66442 /* Render.cc in Sources */ = {isa = PBXBuildFile; fileRef = 401074A21B833A1000B66442 /* Render.cc */; };
 		40EF03D51B7210F300865990 /* RefractDataStructure.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40EF03D31B7210F300865990 /* RefractDataStructure.cc */; };
 		40EF03D61B7210F300865990 /* RefractDataStructure.h in Headers */ = {isa = PBXBuildFile; fileRef = 40EF03D41B7210F300865990 /* RefractDataStructure.h */; };
 		40EF03D91B72134000865990 /* RefractAPI.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40EF03D71B72134000865990 /* RefractAPI.cc */; };
@@ -149,6 +150,7 @@
 		19A129FC1B70B8D000366AA7 /* sosJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sosJSON.h; path = ext/sos/src/sosJSON.h; sourceTree = SOURCE_ROOT; };
 		19A129FD1B70B8D000366AA7 /* sosYAML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sosYAML.h; path = ext/sos/src/sosYAML.h; sourceTree = SOURCE_ROOT; };
 		19BD7B971B70AAAF00A11E83 /* liblibdrafter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibdrafter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		401074A21B833A1000B66442 /* Render.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Render.cc; path = src/Render.cc; sourceTree = SOURCE_ROOT; };
 		40EF03D31B7210F300865990 /* RefractDataStructure.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractDataStructure.cc; path = src/RefractDataStructure.cc; sourceTree = SOURCE_ROOT; };
 		40EF03D41B7210F300865990 /* RefractDataStructure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefractDataStructure.h; path = src/RefractDataStructure.h; sourceTree = SOURCE_ROOT; };
 		40EF03D71B72134000865990 /* RefractAPI.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractAPI.cc; path = src/RefractAPI.cc; sourceTree = SOURCE_ROOT; };
@@ -287,6 +289,7 @@
 				40EF03D81B72134000865990 /* RefractAPI.h */,
 				40EF03D31B7210F300865990 /* RefractDataStructure.cc */,
 				40EF03D41B7210F300865990 /* RefractDataStructure.h */,
+				401074A21B833A1000B66442 /* Render.cc */,
 				19A129711B70ABE100366AA7 /* Render.h */,
 				19A129721B70ABE100366AA7 /* reporting.cc */,
 				19A129731B70ABE100366AA7 /* reporting.h */,
@@ -486,6 +489,7 @@
 				19A1297E1B70ABE100366AA7 /* cdrafter.cc in Sources */,
 				19A129B51B70AC9A00366AA7 /* ExpandVisitor.cc in Sources */,
 				19A129821B70ABE100366AA7 /* drafter.cc in Sources */,
+				401074A31B833A1000B66442 /* Render.cc in Sources */,
 				19A1298E1B70ABE100366AA7 /* SerializeResult.cc in Sources */,
 				19A129B01B70AC9A00366AA7 /* ComparableVisitor.cc in Sources */,
 				19A1298A1B70ABE100366AA7 /* Serialize.cc in Sources */,

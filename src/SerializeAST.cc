@@ -11,6 +11,7 @@
 
 #include <stdlib.h>
 
+#include "RefractDataStructure.h"
 #include "RefractAPI.h"
 #include "Render.h"
 
