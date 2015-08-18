@@ -6,13 +6,9 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
-#include "StringUtility.h"
-#include "BlueprintUtility.h"
-
+#include "RefractDataStructure.h"
 #include "RefractAPI.h"
-#include "refract/Element.h"
-#include "refract/Registry.h"
-#include "refract/Visitors.h"
+#include "Render.h"
 
 namespace drafter {
 
@@ -225,23 +221,6 @@ namespace drafter {
         return element;
     }
 
-    std::string GetPayloadContentType(const snowcrash::Payload& payload)
-    {
-        std::string contentType = "";
-        snowcrash::Headers::const_iterator it;
-
-        it = std::find_if(payload.headers.begin(),
-                          payload.headers.end(),
-                          std::bind2nd(snowcrash::MatchFirstWith<snowcrash::Header, std::string, snowcrash::IEqual<std::string> >(),
-                                       snowcrash::HTTPHeaderName::ContentType));
-
-        if (it != payload.headers.end()) {
-            contentType = it->second;
-        }
-
-        return contentType;
-    }
-
     refract::IElement* PayloadToRefract(const snowcrash::Payload* payload, const snowcrash::HTTPMethod& method = "")
     {
         refract::ArrayElement* element = new refract::ArrayElement;
@@ -274,15 +253,19 @@ namespace drafter {
             element->attributes["headers"] = HeadersToRefract(payload->headers);
         }
 
+        // Render using boutique
+        snowcrash::Asset payloadBody = renderPayloadBody(*payload, GetNamedTypesRegistry());
+        snowcrash::Asset payloadSchema = renderPayloadSchema(*payload);
+
         content.push_back(CopyToRefract(payload->description));
         content.push_back(DataStructureToRefract(payload->attributes));
 
         // Get content type
-        std::string contentType = GetPayloadContentType(*payload);
+        std::string contentType = getContentTypeFromHeaders(payload->headers);
 
         // Assets
-        content.push_back(AssetToRefract(payload->body, contentType));
-        content.push_back(AssetToRefract(payload->schema, contentType, false));
+        content.push_back(AssetToRefract(payloadBody, contentType));
+        content.push_back(AssetToRefract(payloadSchema, contentType, false));
 
         RemoveEmptyElements(content);
         element->set(content);

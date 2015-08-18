@@ -81,3 +81,8 @@ TEST_CASE("Testing refract serialization for request only action", "[refract][ap
 {
     REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/api/request-only", drafter::RefractASTType));
 }
+
+TEST_CASE("Testing refract serialization for rendered asset", "[refract][api]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/api/asset", drafter::RefractASTType));
+}

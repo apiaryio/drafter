@@ -11,6 +11,22 @@
 
 using namespace drafter;
 
+#ifdef _WITH_REFRACT_
+namespace drafter {
+
+    /**
+     * Proxy function to retrieve the NamedTypesRegistry
+     * NOTE: DO NOT USE THIS
+     */
+    refract::Registry& GetNamedTypesRegistry()
+    {
+        static refract::Registry namedTypesRegistry;
+
+        return namedTypesRegistry;
+    }
+}
+#endif
+
 const std::string SerializeKey::Metadata = "metadata";
 const std::string SerializeKey::Reference = "reference";
 const std::string SerializeKey::Id = "id";

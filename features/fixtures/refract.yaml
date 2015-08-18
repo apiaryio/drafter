@@ -468,6 +468,13 @@ content:
                         content:
                           -
                             element: "<data structure name>"
+                      -
+                        element: "asset"
+                        meta:
+                          classes: "messageBody"
+                        attributes:
+                          contentType: "application/json"
+                        content: "{\n  \"<data structure property name>\": \"<data structure property value>\"\n}"
   -
     element: "category"
     meta:

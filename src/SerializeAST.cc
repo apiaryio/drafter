@@ -9,14 +9,10 @@
 #include "StringUtility.h"
 #include "SerializeAST.h"
 
-#define _WITH_REFRACT_ 1
-
 #include <stdlib.h>
 
+#include "RefractDataStructure.h"
 #include "RefractAPI.h"
-#include "refract/Element.h"
-#include "refract/Registry.h"
-#include "refract/Visitors.h"
 #include "Render.h"
 
 using namespace drafter;
@@ -44,14 +40,6 @@ using snowcrash::Resource;
 using snowcrash::Blueprint;
 
 #ifdef _WITH_REFRACT_
-/**
- * Use static variable to be local inside this file
- * Hold all **Named Types** converted to Refract Element
- * Later use this registry for expanding element before serialization
- */
-
-static refract::Registry NamedTypesRegistry;
-
 /**
  * FIXME:
  * hotfix until solve ErrorReporting from drafter into snowcrash result.
@@ -475,7 +463,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
 
     try {
         element = MSONToRefract(dataStructure);
-        expanded = ExpandRefract(element, NamedTypesRegistry);
+        expanded = ExpandRefract(element, GetNamedTypesRegistry());
 
         refract::ObjectElement* dataStructureElement = new refract::ObjectElement;
         dataStructureElement->element("dataStructure");
@@ -554,7 +542,7 @@ sos::Object WrapPayload(const Payload& payload)
                       WrapCollection<Header>()(payload.headers, WrapHeader));
 
     // Render using boutique
-    snowcrash::Asset payloadBody = renderPayloadBody(payload, NamedTypesRegistry);
+    snowcrash::Asset payloadBody = renderPayloadBody(payload, GetNamedTypesRegistry());
     snowcrash::Asset payloadSchema = renderPayloadSchema(payload);
 
     // Body
@@ -831,7 +819,7 @@ void findNamedTypes(const snowcrash::Elements& elements, DataStructures& found) 
     }
 }
 
-void registerNamedTypes(const snowcrash::Elements& elements, refract::Registry& registry) 
+void registerNamedTypes(const snowcrash::Elements& elements)
 {
     DataStructures found;
     findNamedTypes(elements, found);
@@ -840,7 +828,7 @@ void registerNamedTypes(const snowcrash::Elements& elements, refract::Registry& 
 
         if (!(*i)->name.symbol.literal.empty()) {
             refract::IElement* element = MSONToRefract(*(*i));
-            NamedTypesRegistry.add(element);
+            GetNamedTypesRegistry().add(element);
         }
 
     }
@@ -872,6 +860,7 @@ sos::Object WrapBlueprintRefract(const Blueprint& blueprint)
 sos::Object WrapBlueprintAST(const Blueprint& blueprint)
 {
     sos::Object blueprintObject;
+
     // Version
     blueprintObject.set(SerializeKey::Version, sos::String(AST_SERIALIZATION_VERSION));
 
@@ -904,7 +893,7 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType ast
     sos::Object blueprintObject;
 
 #if _WITH_REFRACT_
-    registerNamedTypes(blueprint.content.elements(), NamedTypesRegistry);
+    registerNamedTypes(blueprint.content.elements());
 #endif
 
     if (astType == RefractASTType) {
@@ -915,7 +904,7 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType ast
     }
 
 #if _WITH_REFRACT_
-    NamedTypesRegistry.clearAll(true);
+    GetNamedTypesRegistry().clearAll(true);
 
     if (DrafterErrorCode != NoError) {
         throw std::runtime_error(DrafterErrorMessage);

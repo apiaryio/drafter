@@ -9,9 +9,15 @@
 #ifndef DRAFTER_SERIALIZE_H
 #define DRAFTER_SERIALIZE_H
 
+#define _WITH_REFRACT_ 1
+
 #include <string>
 #include "BlueprintSourcemap.h"
 #include "sos.h"
+
+#include "refract/Element.h"
+#include "refract/Registry.h"
+#include "refract/Visitors.h"
 
 /** Version of API Blueprint serialization */
 #define AST_SERIALIZATION_VERSION "3.0"
@@ -24,6 +30,10 @@ namespace drafter {
         RefractASTType,      // Refract AST
         UnknownASTType = -1
     };
+
+#ifdef _WITH_REFRACT_
+    refract::Registry& GetNamedTypesRegistry();
+#endif
 
     /**
      *  AST entities serialization keys

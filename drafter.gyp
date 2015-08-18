@@ -42,6 +42,7 @@
         "src/RefractAPI.h",
         "src/RefractAPI.cc",
         "src/Render.h",
+        "src/Render.cc",
 
         # librefract parts - will be separated into other project
 
