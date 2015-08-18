@@ -18,7 +18,8 @@ namespace refract
     struct IElement;
     struct ObjectElement;
     struct MemberElement;
-    struct Registry;
+
+    class Registry;
 
     struct NullElement;
     struct StringElement;
@@ -26,10 +27,12 @@ namespace refract
     struct BooleanElement;
     struct ArrayElement;
 
-    struct ExpandVisitor : IVisitor {
+    class ExpandVisitor : public IVisitor {
 
         IElement* result;
         const Registry& registry;
+
+    public:
 
         ExpandVisitor(const Registry& registry);
 

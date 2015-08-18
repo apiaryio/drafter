@@ -14,9 +14,12 @@
 namespace refract
 {
 
-    struct IsExpandableVisitor : public IVisitor {
+    class IsExpandableVisitor : public IVisitor {
 
         bool result;
+
+    public:
+
         IsExpandableVisitor();
 
         template<typename T> 
