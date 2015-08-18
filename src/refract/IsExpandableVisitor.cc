@@ -44,7 +44,7 @@ namespace refract
                 if (e->value.first) {
                     IsExpandableVisitor v;
                     e->value.first->content(v);
-                    if (v.result) {
+                    if (v.get()) {
                         return true;
                     }
                 }
@@ -52,7 +52,7 @@ namespace refract
                 if (e->value.second) {
                     IsExpandableVisitor v;
                     e->value.second->content(v);
-                    if (v.result) {
+                    if (v.get()) {
                         return true;
                     }
                 }
@@ -73,7 +73,7 @@ namespace refract
                 for (std::vector<IElement*>::const_iterator i = e->value.begin() ; i != e->value.end() ; ++i ) {
                     IsExpandableVisitor v;
                     (*i)->content(v);
-                    if (v.result) {
+                    if (v.get()) {
                         return true;
                     }
                 }

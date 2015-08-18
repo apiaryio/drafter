@@ -13,7 +13,7 @@
 
 namespace refract {
     struct IElement;
-    struct Registry;
+    class Registry;
 }
 
 namespace drafter {

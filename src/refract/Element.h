@@ -32,13 +32,13 @@ namespace refract
     struct ObjectElement;
     struct MemberElement;
 
-    struct ComparableVisitor;
-    struct SerializeVisitor;
-    struct SerializeCompactVisitor;
-    struct ExpandVisitor;
-    struct IsExpandableVisitor;
-    struct TypeQueryVisitor;
-    struct RenderJSONVisitor;
+    class ComparableVisitor;
+    class SerializeVisitor;
+    class SerializeCompactVisitor;
+    class ExpandVisitor;
+    class IsExpandableVisitor;
+    class TypeQueryVisitor;
+    class RenderJSONVisitor;
 
     template <typename T> struct ElementTypeSelector;
 
