@@ -9,14 +9,9 @@
 #include "StringUtility.h"
 #include "SerializeAST.h"
 
-#define _WITH_REFRACT_ 1
-
 #include <stdlib.h>
 
 #include "RefractAPI.h"
-#include "refract/Element.h"
-#include "refract/Registry.h"
-#include "refract/Visitors.h"
 #include "Render.h"
 
 using namespace drafter;
@@ -44,14 +39,6 @@ using snowcrash::Resource;
 using snowcrash::Blueprint;
 
 #ifdef _WITH_REFRACT_
-/**
- * Use static variable to be local inside this file
- * Hold all **Named Types** converted to Refract Element
- * Later use this registry for expanding element before serialization
- */
-
-static refract::Registry NamedTypesRegistry;
-
 /**
  * FIXME:
  * hotfix until solve ErrorReporting from drafter into snowcrash result.

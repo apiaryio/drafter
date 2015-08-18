@@ -11,11 +11,6 @@
 
 #include "Serialize.h"
 
-namespace refract {
-    struct IElement;
-    class Registry;
-}
-
 namespace drafter {
 
     refract::IElement* MSONToRefract(const snowcrash::DataStructure& dataStructure);

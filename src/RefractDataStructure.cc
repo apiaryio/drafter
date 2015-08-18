@@ -9,11 +9,7 @@
 #include <iterator>
 
 #include "RefractDataStructure.h"
-#include "refract/Element.h"
-#include "refract/Visitors.h"
 #include "refract/AppendDecorator.h"
-
-#include "refract/Registry.h"
 
 namespace drafter {
 
