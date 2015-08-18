@@ -357,10 +357,7 @@ namespace drafter {
                     return;
                 }
 
-                size_t reserve = append.length();
-
                 if (!base.empty()) {
-                    reserve += separator.length();
                     base.append(separator);
                 }
 
