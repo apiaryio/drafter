@@ -463,7 +463,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
 
     try {
         element = MSONToRefract(dataStructure);
-        expanded = ExpandRefract(element, NamedTypesRegistry);
+        expanded = ExpandRefract(element, GetNamedTypesRegistry());
 
         refract::ObjectElement* dataStructureElement = new refract::ObjectElement;
         dataStructureElement->element("dataStructure");
@@ -542,7 +542,7 @@ sos::Object WrapPayload(const Payload& payload)
                       WrapCollection<Header>()(payload.headers, WrapHeader));
 
     // Render using boutique
-    snowcrash::Asset payloadBody = renderPayloadBody(payload, NamedTypesRegistry);
+    snowcrash::Asset payloadBody = renderPayloadBody(payload, GetNamedTypesRegistry());
     snowcrash::Asset payloadSchema = renderPayloadSchema(payload);
 
     // Body
@@ -819,7 +819,7 @@ void findNamedTypes(const snowcrash::Elements& elements, DataStructures& found) 
     }
 }
 
-void registerNamedTypes(const snowcrash::Elements& elements, refract::Registry& registry) 
+void registerNamedTypes(const snowcrash::Elements& elements)
 {
     DataStructures found;
     findNamedTypes(elements, found);
@@ -828,7 +828,7 @@ void registerNamedTypes(const snowcrash::Elements& elements, refract::Registry& 
 
         if (!(*i)->name.symbol.literal.empty()) {
             refract::IElement* element = MSONToRefract(*(*i));
-            NamedTypesRegistry.add(element);
+            GetNamedTypesRegistry().add(element);
         }
 
     }
@@ -860,6 +860,7 @@ sos::Object WrapBlueprintRefract(const Blueprint& blueprint)
 sos::Object WrapBlueprintAST(const Blueprint& blueprint)
 {
     sos::Object blueprintObject;
+
     // Version
     blueprintObject.set(SerializeKey::Version, sos::String(AST_SERIALIZATION_VERSION));
 
@@ -892,7 +893,7 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType ast
     sos::Object blueprintObject;
 
 #if _WITH_REFRACT_
-    registerNamedTypes(blueprint.content.elements(), NamedTypesRegistry);
+    registerNamedTypes(blueprint.content.elements());
 #endif
 
     if (astType == RefractASTType) {
@@ -903,7 +904,7 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType ast
     }
 
 #if _WITH_REFRACT_
-    NamedTypesRegistry.clearAll(true);
+    GetNamedTypesRegistry().clearAll(true);
 
     if (DrafterErrorCode != NoError) {
         throw std::runtime_error(DrafterErrorMessage);

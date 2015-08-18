@@ -32,12 +32,7 @@ namespace drafter {
     };
 
 #ifdef _WITH_REFRACT_
-    /**
-     * Hold all **Named Types** converted to Refract Element
-     * Later use this registry for expanding element and rendering before serialization
-     */
-
-    static refract::Registry NamedTypesRegistry;
+    refract::Registry& GetNamedTypesRegistry();
 #endif
 
     /**

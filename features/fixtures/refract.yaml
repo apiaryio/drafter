@@ -474,7 +474,7 @@ content:
                           classes: "messageBody"
                         attributes:
                           contentType: "application/json"
-                        content: "{}"
+                        content: "{\n  \"<data structure property name>\": \"<data structure property value>\"\n}"
   -
     element: "category"
     meta:

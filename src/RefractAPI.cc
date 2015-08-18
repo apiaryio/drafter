@@ -254,7 +254,7 @@ namespace drafter {
         }
 
         // Render using boutique
-        snowcrash::Asset payloadBody = renderPayloadBody(*payload, NamedTypesRegistry);
+        snowcrash::Asset payloadBody = renderPayloadBody(*payload, GetNamedTypesRegistry());
         snowcrash::Asset payloadSchema = renderPayloadSchema(*payload);
 
         content.push_back(CopyToRefract(payload->description));
