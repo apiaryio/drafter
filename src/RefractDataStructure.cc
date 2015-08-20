@@ -13,44 +13,6 @@
 
 namespace drafter {
 
-    namespace key {
-
-        // Refract meta
-        const std::string Id = "id";
-        const std::string Description = "description";
-        const std::string Title = "title";
-
-        // Refract MSON attributes
-        const std::string Samples = "samples";
-        const std::string Default = "default";
-        const std::string Variable = "variable";
-        const std::string TypeAttributes = "typeAttributes";
-
-        // Refract MSON attribute "typeAttibute" values
-        const std::string Required = "required";
-        const std::string Optional = "optional";
-        const std::string Fixed = "fixed";
-
-        // Literal to Bool
-        const std::string True = "true";
-
-        // Refract MSON generic element
-        const std::string Generic = "generic";
-
-        // Refract (nontyped) element names
-        // - maybe move into "librefract"
-        const std::string Enum = "enum";
-        const std::string Select = "select";
-        const std::string Option = "option";
-        const std::string Ref = "ref";
-
-        // Refract Ref Element - keys/values
-        const std::string Href = "href";
-        const std::string Path = "path";
-        const std::string Content = "content";
-
-    }
-
     typedef std::vector<refract::IElement*> RefractElements;
 
     static void SetElementType(const mson::TypeDefinition& td, refract::IElement* element)
@@ -70,13 +32,13 @@ namespace drafter {
         refract::ArrayElement* attr = new refract::ArrayElement;
 
         if (ta & mson::RequiredTypeAttribute) {
-            attr->push_back(refract::IElement::Create(key::Required));
+            attr->push_back(refract::IElement::Create(SerializeKey::Required));
         }
         if (ta & mson::OptionalTypeAttribute) {
-            attr->push_back(refract::IElement::Create(key::Optional));
+            attr->push_back(refract::IElement::Create(SerializeKey::Optional));
         }
         if (ta & mson::FixedTypeAttribute) {
-            attr->push_back(refract::IElement::Create(key::Fixed));
+            attr->push_back(refract::IElement::Create(SerializeKey::Fixed));
         }
 
         if (attr->value.empty()) {
@@ -90,7 +52,7 @@ namespace drafter {
     template <>
     bool LiteralTo<bool>(const mson::Literal& literal)
     {
-        return literal == key::True;
+        return literal == SerializeKey::True;
     }
 
     template <>
@@ -125,7 +87,7 @@ namespace drafter {
             if (sample) {
                 refract::ArrayElement* a = new refract::ArrayElement;
                 a->push_back(refract::IElement::Create(LiteralTo<typename E::ValueType>(literal)));
-                element->attributes[key::Samples] = a;
+                element->attributes[SerializeKey::Samples] = a;
             }
             else {
                 element->set(LiteralTo<typename E::ValueType>(literal));
@@ -142,7 +104,7 @@ namespace drafter {
         {
             if (sample) {
                 refract::StringElement* element = new refract::StringElement;
-                element->element(key::Generic);
+                element->element(SerializeKey::Generic);
                 element->set(literal);
                 return element;
             }
@@ -413,7 +375,7 @@ namespace drafter {
             if (!samples.empty()) {
                 refract::ArrayElement* a = new refract::ArrayElement;
                 a->set(samples);
-                element->attributes[key::Samples] = a;
+                element->attributes[SerializeKey::Samples] = a;
             }
         }
 
@@ -424,7 +386,7 @@ namespace drafter {
                 defaults.pop_back();
                 // if more default values
                 // use last one, all other we will drop
-                element->attributes[key::Default] = e;
+                element->attributes[SerializeKey::Default] = e;
 
                 std::for_each(defaults.begin(), defaults.end(), Deleter<refract::IElement>);
             }
@@ -486,7 +448,7 @@ namespace drafter {
             }
 
             element->set(property.name.variable.values.begin()->literal, value);
-            element->value.first->attributes[key::Variable] = refract::IElement::Create(true);
+            element->value.first->attributes[SerializeKey::Variable] = refract::IElement::Create(true);
             SetElementType(property.name.variable.typeDefinition, element->value.first);
         } 
         else {
@@ -495,7 +457,7 @@ namespace drafter {
 
         mson::TypeAttributes attrs = property.valueDefinition.typeDefinition.attributes;
         if (refract::IElement* attributes = MsonTypeAttributesToRefract(attrs)) {
-            element->attributes[key::TypeAttributes] = attributes;
+            element->attributes[SerializeKey::TypeAttributes] = attributes;
         }
 
         std::string description;
@@ -518,7 +480,7 @@ namespace drafter {
         }
 
         if (!description.empty()) {
-            element->meta[key::Description] = refract::IElement::Create(description);
+            element->meta[SerializeKey::Description] = refract::IElement::Create(description);
         }
 
         return element;
@@ -554,7 +516,7 @@ namespace drafter {
 
         static ElementType* makeEnum(ElementType* element) {
             if (element && element->value.second) {
-                element->value.second->element(key::Enum);
+                element->value.second->element(SerializeKey::Enum);
             }
             return element;
         }
@@ -569,7 +531,7 @@ namespace drafter {
 
         static ElementType* makeEnum(ElementType* element) {
             if (element) {
-                element->element(key::Enum);
+                element->element(SerializeKey::Enum);
             }
             return element;
         }
@@ -614,10 +576,10 @@ namespace drafter {
     static refract::IElement* MsonOneofToRefract(const mson::OneOf& oneOf)
     {
         refract::ArrayElement* select = new refract::ArrayElement;
-        select->element(key::Select);
+        select->element(SerializeKey::Select);
         for (mson::Elements::const_iterator it = oneOf.begin(); it != oneOf.end(); ++it) {
             refract::ArrayElement* option = new refract::ArrayElement;
-            option->element(key::Option);
+            option->element(SerializeKey::Option);
             // we can not use MsonElementToRefract() for groups, 
             // "option" element handles directly all elements in group
             if (it->klass == mson::Element::GroupClass) { 
@@ -634,15 +596,15 @@ namespace drafter {
     static refract::IElement* MsonMixinToRefract(const mson::Mixin& mixin)
     {
         refract::ObjectElement* ref = new refract::ObjectElement;
-        ref->element(key::Ref);
+        ref->element(SerializeKey::Ref);
         ref->renderType(refract::IElement::rCompact);
 
         refract::MemberElement* href = new refract::MemberElement;
-        href->set(key::Href, refract::IElement::Create(mixin.typeSpecification.name.symbol.literal));
+        href->set(SerializeKey::Href, refract::IElement::Create(mixin.typeSpecification.name.symbol.literal));
         ref->push_back(href);
 
         refract::MemberElement* path = new refract::MemberElement;
-        path->set(key::Path,refract::IElement::Create(key::Content));
+        path->set(SerializeKey::Path,refract::IElement::Create(SerializeKey::Content));
         ref->push_back(path);
 
         return ref;
@@ -682,14 +644,14 @@ namespace drafter {
         SetElementType(ds.typeDefinition, e);
 
         if (!ds.name.symbol.literal.empty()) {
-            e->meta[key::Id] = IElement::Create(ds.name.symbol.literal);
+            e->meta[SerializeKey::Id] = IElement::Create(ds.name.symbol.literal);
         }
 
         // FIXME: "title" is temporary commented, until clear refract spec 
         // in few examples for named object is "title" attribute used
         // sometime is not used.
         
-        //e->meta[key::Title] = IElement::Create(ds.name.symbol.literal);
+        //e->meta[SerializeKey::Title] = IElement::Create(ds.name.symbol.literal);
 
         TypeSectionData data;
 
@@ -699,7 +661,7 @@ namespace drafter {
         std::for_each(data.descriptions.begin(), data.descriptions.end(), Join(description));
 
         if(!description.empty()) {
-            e->meta[key::Description] = IElement::Create(description);
+            e->meta[SerializeKey::Description] = IElement::Create(description);
         }
 
         return e;
@@ -732,7 +694,7 @@ namespace drafter {
             case mson::EnumTypeName: {
                 element = RefractElementFromMSON<refract::ArrayElement>(dataStructure);
                 if (element) {
-                    element->element(key::Enum);
+                    element->element(SerializeKey::Enum);
                 }
                 break;
             }

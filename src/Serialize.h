@@ -36,7 +36,7 @@ namespace drafter {
 #endif
 
     /**
-     *  AST entities serialization keys
+     *  AST and Refract entities serialization keys
      */
     struct SerializeKey {
         static const std::string Metadata;
@@ -96,8 +96,34 @@ namespace drafter {
         static const std::string AnnotationLocation;
         static const std::string AnnotationLocationIndex;
         static const std::string AnnotationLocationLength;
-    };
 
+        // Refract meta
+        static const std::string Title;
+
+        // Refract MSON attributes
+        static const std::string Samples;
+        static const std::string TypeAttributes;
+
+        // Refract MSON attribute "typeAttibute" values
+        static const std::string Optional;
+        static const std::string Fixed;
+
+        // Literal to Bool
+        static const std::string True;
+
+        // Refract MSON generic element
+        static const std::string Generic;
+
+        // Refract (nontyped) element names
+        static const std::string Enum;
+        static const std::string Select;
+        static const std::string Option;
+        static const std::string Ref;
+
+        // Refract Ref Element - keys/values
+        static const std::string Href;
+        static const std::string Path;
+    };
 
     /**
      * \brief functor pattern to translate _collection_ into sos::Array on serialization 

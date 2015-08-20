@@ -83,3 +83,17 @@ const std::string SerializeKey::AnnotationMessage = "message";
 const std::string SerializeKey::AnnotationLocation = "location";
 const std::string SerializeKey::AnnotationLocationIndex = "index";
 const std::string SerializeKey::AnnotationLocationLength = "length";
+
+const std::string SerializeKey::Title = "title";
+const std::string SerializeKey::Samples = "samples";
+const std::string SerializeKey::TypeAttributes = "typeAttributes";
+const std::string SerializeKey::Optional = "optional";
+const std::string SerializeKey::Fixed = "fixed";
+const std::string SerializeKey::True = "true";
+const std::string SerializeKey::Generic = "generic";
+const std::string SerializeKey::Enum = "enum";
+const std::string SerializeKey::Select = "select";
+const std::string SerializeKey::Option = "option";
+const std::string SerializeKey::Ref = "ref";
+const std::string SerializeKey::Href = "href";
+const std::string SerializeKey::Path = "path";
