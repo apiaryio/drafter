@@ -48,7 +48,7 @@ namespace drafter {
         }
 
         refract::ObjectElement* element = new refract::ObjectElement;
-        element->element("dataStructure");
+        element->element(SerializeKey::DataStructure);
         element->push_back(msonElement);
 
         return element;
@@ -58,8 +58,8 @@ namespace drafter {
     {
         refract::MemberElement* element = new refract::MemberElement;
 
-        element->meta["classes"] = CreateArrayElement("user");
-        element->meta["classes"].renderType(refract::IElement::rCompact);
+        element->meta[SerializeKey::Classes] = CreateArrayElement(SerializeKey::User);
+        element->meta[SerializeKey::Classes].renderType(refract::IElement::rCompact);
         element->set(refract::IElement::Create(metadata.first), refract::IElement::Create(metadata.second));
         element->renderType(refract::IElement::rFull);
 
@@ -85,7 +85,7 @@ namespace drafter {
         }
 
         refract::IElement* element = refract::IElement::Create(copy);
-        element->element("copy");
+        element->element(SerializeKey::Copy);
 
         return element;
     }
@@ -96,10 +96,10 @@ namespace drafter {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
 
-        element->element("enum");
+        element->element(SerializeKey::Enum);
 
         if (!parameter.exampleValue.empty()) {
-            element->attributes["samples"] = CreateArrayElement(LiteralTo<T>(parameter.exampleValue));
+            element->attributes[SerializeKey::Samples] = CreateArrayElement(LiteralTo<T>(parameter.exampleValue));
         }
 
         for (snowcrash::Values::const_iterator it = parameter.values.begin();
@@ -127,7 +127,7 @@ namespace drafter {
         }
 
         if (!parameter.defaultValue.empty()) {
-            element->attributes["default"] = refract::IElement::Create(LiteralTo<T>(parameter.defaultValue));
+            element->attributes[SerializeKey::Default] = refract::IElement::Create(LiteralTo<T>(parameter.defaultValue));
         }
 
         return element;
@@ -153,15 +153,15 @@ namespace drafter {
 
         // Description
         if (!parameter.description.empty()) {
-            element->meta["description"] = refract::IElement::Create(parameter.description);
+            element->meta[SerializeKey::Description] = refract::IElement::Create(parameter.description);
         }
 
         // Parameter use
         if (parameter.use == snowcrash::RequiredParameterUse || parameter.use == snowcrash::OptionalParameterUse) {
             refract::ArrayElement* typeAttributes = new refract::ArrayElement;
 
-            typeAttributes->push_back(refract::IElement::Create(parameter.use == snowcrash::RequiredParameterUse ? "required" : "optional"));
-            element->attributes["typeAttributes"] = typeAttributes;
+            typeAttributes->push_back(refract::IElement::Create(parameter.use == snowcrash::RequiredParameterUse ? SerializeKey::Required : SerializeKey::Optional));
+            element->attributes[SerializeKey::TypeAttributes] = typeAttributes;
         }
 
         return element;
@@ -172,7 +172,7 @@ namespace drafter {
         refract::ObjectElement* element = new refract::ObjectElement;
         RefractElements content;
 
-        element->element("hrefVariables");
+        element->element(SerializeKey::HrefVariables);
         std::transform(parameters.begin(), parameters.end(), std::back_inserter(content), ParameterToRefract);
         element->renderType(refract::IElement::rFull);
 
@@ -194,7 +194,7 @@ namespace drafter {
         refract::ObjectElement* element = new refract::ObjectElement;
         RefractElements content;
 
-        element->element("httpHeaders");
+        element->element(SerializeKey::HTTPHeaders);
         std::transform(headers.begin(), headers.end(), std::back_inserter(content), HeaderToRefract);
         element->renderType(refract::IElement::rFull);
 
@@ -211,11 +211,11 @@ namespace drafter {
 
         refract::IElement* element = refract::IElement::Create(asset);
 
-        element->element("asset");
-        element->meta["classes"] = refract::ArrayElement::Create(messageBody ? "messageBody" : "messageSchema");
+        element->element(SerializeKey::Asset);
+        element->meta[SerializeKey::Classes] = refract::ArrayElement::Create(messageBody ? SerializeKey::MessageBody : SerializeKey::MessageSchema);
 
         if (!contentType.empty()) {
-            element->attributes["contentType"] = refract::IElement::Create(contentType);
+            element->attributes[SerializeKey::ContentType] = refract::IElement::Create(contentType);
         }
 
         return element;
@@ -228,18 +228,18 @@ namespace drafter {
 
         // Use HTTP method to recognize if request or response
         if (method.empty()) {
-            element->element("httpResponse");
+            element->element(SerializeKey::HTTPResponse);
 
             if (payload != NULL && !payload->name.empty()) {
-                element->attributes["statusCode"] = refract::IElement::Create(payload->name);
+                element->attributes[SerializeKey::StatusCode] = refract::IElement::Create(payload->name);
             }
         }
         else {
-            element->element("httpRequest");
-            element->attributes["method"] = refract::IElement::Create(method);
+            element->element(SerializeKey::HTTPRequest);
+            element->attributes[SerializeKey::Method] = refract::IElement::Create(method);
 
             if (payload != NULL) {
-                element->attributes["title"] = refract::IElement::Create(payload->name);
+                element->attributes[SerializeKey::Title] = refract::IElement::Create(payload->name);
             }
         }
 
@@ -250,7 +250,7 @@ namespace drafter {
         }
 
         if (!payload->headers.empty()) {
-            element->attributes["headers"] = HeadersToRefract(payload->headers);
+            element->attributes[SerializeKey::Headers] = HeadersToRefract(payload->headers);
         }
 
         // Render using boutique
@@ -281,7 +281,7 @@ namespace drafter {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
 
-        element->element("httpTransaction");
+        element->element(SerializeKey::HTTPTransaction);
         content.push_back(CopyToRefract(transaction.description));
 
         content.push_back(PayloadToRefract(request, method));
@@ -298,25 +298,25 @@ namespace drafter {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
 
-        element->element("transition");
-        element->meta["title"] = refract::IElement::Create(action.name);
+        element->element(SerializeKey::Transition);
+        element->meta[SerializeKey::Title] = refract::IElement::Create(action.name);
 
         if (!action.relation.str.empty()) {
-            element->attributes["relation"] = refract::IElement::Create(action.relation.str);
+            element->attributes[SerializeKey::Relation] = refract::IElement::Create(action.relation.str);
         }
 
         if (!action.uriTemplate.empty()) {
-            element->attributes["href"] = refract::IElement::Create(action.uriTemplate);
+            element->attributes[SerializeKey::Href] = refract::IElement::Create(action.uriTemplate);
         }
 
         if (!action.parameters.empty()) {
-            element->attributes["hrefVariables"] = ParametersToRefract(action.parameters);
+            element->attributes[SerializeKey::HrefVariables] = ParametersToRefract(action.parameters);
         }
 
         if (!action.attributes.empty()) {
             refract::IElement* dataStructure = DataStructureToRefract(action.attributes);
             dataStructure->renderType(refract::IElement::rFull);
-            element->attributes["data"] = dataStructure;
+            element->attributes[SerializeKey::Data] = dataStructure;
         }
 
         content.push_back(CopyToRefract(action.description));
@@ -365,12 +365,12 @@ namespace drafter {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
 
-        element->element("resource");
-        element->meta["title"] = refract::IElement::Create(resource.name);
-        element->attributes["href"] = refract::IElement::Create(resource.uriTemplate);
+        element->element(SerializeKey::Resource);
+        element->meta[SerializeKey::Title] = refract::IElement::Create(resource.name);
+        element->attributes[SerializeKey::Href] = refract::IElement::Create(resource.uriTemplate);
 
         if (!resource.parameters.empty()) {
-            element->attributes["hrefVariables"] = ParametersToRefract(resource.parameters);
+            element->attributes[SerializeKey::HrefVariables] = ParametersToRefract(resource.parameters);
         }
 
         content.push_back(CopyToRefract(resource.description));
@@ -389,14 +389,14 @@ namespace drafter {
         refract::ArrayElement* category = new refract::ArrayElement;
         RefractElements content;
 
-        category->element("category");
+        category->element(SerializeKey::Category);
 
         if (element.category == snowcrash::Element::ResourceGroupCategory) {
-            category->meta["classes"] = CreateArrayElement("resourceGroup");
-            category->meta["title"] = refract::IElement::Create(element.attributes.name);
+            category->meta[SerializeKey::Classes] = CreateArrayElement(SerializeKey::ResourceGroup);
+            category->meta[SerializeKey::Title] = refract::IElement::Create(element.attributes.name);
         }
         else if (element.category == snowcrash::Element::DataStructureGroupCategory) {
-            category->meta["classes"] = CreateArrayElement("dataStructures");
+            category->meta[SerializeKey::Classes] = CreateArrayElement(SerializeKey::DataStructures);
         }
 
         snowcrash::Elements elements = element.content.elements();
@@ -429,14 +429,14 @@ namespace drafter {
         refract::ArrayElement* ast = new refract::ArrayElement;
         RefractElements content;
 
-        ast->element("category");
-        ast->meta["classes"] = CreateArrayElement("api");
-        ast->meta["title"] = refract::IElement::Create(blueprint.name);
+        ast->element(SerializeKey::Category);
+        ast->meta[SerializeKey::Classes] = CreateArrayElement(SerializeKey::API);
+        ast->meta[SerializeKey::Title] = refract::IElement::Create(blueprint.name);
 
         content.push_back(CopyToRefract(blueprint.description));
 
         if (!blueprint.metadata.empty()) {
-            ast->attributes["meta"] = MetadataCollectionToRefract(blueprint.metadata);
+            ast->attributes[SerializeKey::Meta] = MetadataCollectionToRefract(blueprint.metadata);
         }
 
         // Append set of elements to content

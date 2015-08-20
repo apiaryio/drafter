@@ -36,7 +36,7 @@ namespace drafter {
 #endif
 
     /**
-     *  AST entities serialization keys
+     *  AST and Refract entities serialization keys
      */
     struct SerializeKey {
         static const std::string Metadata;
@@ -44,7 +44,11 @@ namespace drafter {
         static const std::string Id;
         static const std::string Name;
         static const std::string Description;
+        static const std::string DataStructure;
+        static const std::string DataStructures;
+        static const std::string ResourceGroup;
         static const std::string ResourceGroups;
+        static const std::string Resource;
         static const std::string Resources;
         static const std::string URI;
         static const std::string URITemplate;
@@ -96,8 +100,54 @@ namespace drafter {
         static const std::string AnnotationLocation;
         static const std::string AnnotationLocationIndex;
         static const std::string AnnotationLocationLength;
-    };
 
+        // Refract meta
+        static const std::string Meta;
+        static const std::string Title;
+        static const std::string Classes;
+
+        // Refract MSON attributes
+        static const std::string Samples;
+        static const std::string TypeAttributes;
+
+        // Refract MSON attribute "typeAttibute" values
+        static const std::string Optional;
+        static const std::string Fixed;
+
+        // Literal to Bool
+        static const std::string True;
+
+        // Refract MSON generic element
+        static const std::string Generic;
+
+        // Refract (nontyped) element names
+        static const std::string Enum;
+        static const std::string Select;
+        static const std::string Option;
+        static const std::string Ref;
+
+        // Refract Ref Element - keys/values
+        static const std::string Href;
+        static const std::string Path;
+
+        // API Namespace
+        static const std::string Category;
+        static const std::string Copy;
+        static const std::string API;
+        static const std::string User;
+        static const std::string Transition;
+        static const std::string HrefVariables;
+        static const std::string HTTPHeaders;
+        static const std::string HTTPTransaction;
+        static const std::string ContentType;
+        static const std::string HTTPResponse;
+        static const std::string HTTPRequest;
+        static const std::string StatusCode;
+        static const std::string Asset;
+        static const std::string MessageBody;
+        static const std::string MessageSchema;
+        static const std::string Data;
+    };
 
     /**
      * \brief functor pattern to translate _collection_ into sos::Array on serialization 
