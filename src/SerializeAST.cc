@@ -459,27 +459,11 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     sos::Object dataStructureObject;
 
 #if _WITH_REFRACT_
-    refract::IElement *element = NULL, *expanded = NULL;
+    refract::IElement *element = DataStructureToRefract(dataStructure);
+    dataStructureObject = SerializeRefract(element);
 
-    try {
-        element = MSONToRefract(dataStructure);
-        expanded = ExpandRefract(element, GetNamedTypesRegistry());
-
-        refract::ObjectElement* dataStructureElement = new refract::ObjectElement;
-        dataStructureElement->element("dataStructure");
-        dataStructureElement->push_back(expanded);
-
-        expanded = dataStructureElement;
-
-        dataStructureObject = SerializeRefract(expanded);
-    }
-    catch (std::exception& e) {
-        DrafterErrorCode = RuntimeError;
-        DrafterErrorMessage = e.what();
-    }
-
-    if (expanded) {
-        delete expanded;
+    if (element) {
+        delete element;
     }
 
     return dataStructureObject;
@@ -896,11 +880,17 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType ast
     registerNamedTypes(blueprint.content.elements());
 #endif
 
-    if (astType == RefractASTType) {
-        blueprintObject = WrapBlueprintRefract(blueprint);
+    try {
+        if (astType == RefractASTType) {
+            blueprintObject = WrapBlueprintRefract(blueprint);
+        }
+        else {
+            blueprintObject = WrapBlueprintAST(blueprint);
+        }
     }
-    else {
-        blueprintObject = WrapBlueprintAST(blueprint);
+    catch (std::exception& e) {
+        DrafterErrorCode = RuntimeError;
+        DrafterErrorMessage = e.what();
     }
 
 #if _WITH_REFRACT_
