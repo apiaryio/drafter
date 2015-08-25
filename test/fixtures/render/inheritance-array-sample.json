@@ -49,40 +49,7 @@
                           "element": "dataStructure",
                           "content": [
                             {
-                              "element": "extend",
-                              "content": [
-                                {
-                                  "element": "array",
-                                  "meta": {
-                                    "ref": "RefSample"
-                                  },
-                                  "attributes": {
-                                    "samples": [
-                                      [
-                                        "c",
-                                        "d"
-                                      ]
-                                    ],
-                                    "default": [
-                                      "e",
-                                      "f"
-                                    ]
-                                  },
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "a"
-                                    },
-                                    {
-                                      "element": "string",
-                                      "content": "b"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "element": "array"
-                                }
-                              ]
+                              "element": "RefSample"
                             }
                           ]
                         }
@@ -142,40 +109,7 @@
                           "element": "dataStructure",
                           "content": [
                             {
-                              "element": "extend",
-                              "content": [
-                                {
-                                  "element": "array",
-                                  "meta": {
-                                    "ref": "RefSample"
-                                  },
-                                  "attributes": {
-                                    "samples": [
-                                      [
-                                        "c",
-                                        "d"
-                                      ]
-                                    ],
-                                    "default": [
-                                      "e",
-                                      "f"
-                                    ]
-                                  },
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "a"
-                                    },
-                                    {
-                                      "element": "string",
-                                      "content": "b"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "element": "array"
-                                }
-                              ]
+                              "element": "RefSample"
                             }
                           ]
                         }

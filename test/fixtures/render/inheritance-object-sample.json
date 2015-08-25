@@ -49,69 +49,7 @@
                           "element": "dataStructure",
                           "content": [
                             {
-                              "element": "extend",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "meta": {
-                                    "ref": "RefObject"
-                                  },
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "r1"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "attributes": {
-                                            "samples": [
-                                              "v1"
-                                            ]
-                                          }
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "r2"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "attributes": {
-                                            "samples": [
-                                              "v2"
-                                            ]
-                                          }
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "r3"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "attributes": {
-                                            "default": "v3"
-                                          }
-                                        }
-                                      }
-                                    }
-                                  ]
-                                },
-                                {
-                                  "element": "object"
-                                }
-                              ]
+                              "element": "RefObject"
                             }
                           ]
                         }
@@ -171,69 +109,7 @@
                           "element": "dataStructure",
                           "content": [
                             {
-                              "element": "extend",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "meta": {
-                                    "ref": "RefObject"
-                                  },
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "r1"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "attributes": {
-                                            "samples": [
-                                              "v1"
-                                            ]
-                                          }
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "r2"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "attributes": {
-                                            "samples": [
-                                              "v2"
-                                            ]
-                                          }
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "r3"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "attributes": {
-                                            "default": "v3"
-                                          }
-                                        }
-                                      }
-                                    }
-                                  ]
-                                },
-                                {
-                                  "element": "object"
-                                }
-                              ]
+                              "element": "RefObject"
                             }
                           ]
                         }

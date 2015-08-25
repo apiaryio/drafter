@@ -79,33 +79,7 @@
                                       "content": "user"
                                     },
                                     "value": {
-                                      "element": "extend",
-                                      "content": [
-                                        {
-                                          "element": "object",
-                                          "meta": {
-                                            "ref": "User"
-                                          },
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "name"
-                                                },
-                                                "value": {
-                                                  "element": "string",
-                                                  "content": "John"
-                                                }
-                                              }
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "element": "object"
-                                        }
-                                      ]
+                                      "element": "User"
                                     }
                                   }
                                 }
