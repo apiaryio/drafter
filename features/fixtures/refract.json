@@ -679,7 +679,37 @@
                           "element": "dataStructure",
                           "content": [
                             {
-                              "element": "<data structure name>"
+                              "element": "extend",
+                              "content": [
+                                {
+                                  "element": "object",
+                                  "meta": {
+                                    "description": "<data structure description>\n\n",
+                                    "ref": "<data structure name>"
+                                  },
+                                  "content": [
+                                    {
+                                      "element": "member",
+                                      "meta": {
+                                        "description": "<data structure property description>"
+                                      },
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "<data structure property name>"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "content": "<data structure property value>"
+                                        }
+                                      }
+                                    }
+                                  ]
+                                },
+                                {
+                                  "element": "object"
+                                }
+                              ]
                             }
                           ]
                         },

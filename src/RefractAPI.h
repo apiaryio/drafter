@@ -13,6 +13,7 @@
 
 namespace drafter {
 
+    refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure);
     refract::IElement* BlueprintToRefract(const snowcrash::Blueprint& blueprint);
 }
 

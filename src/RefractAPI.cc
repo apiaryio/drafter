@@ -42,14 +42,15 @@ namespace drafter {
     refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure)
     {
         refract::IElement* msonElement = MSONToRefract(dataStructure);
+        refract::IElement* msonExpanded = ExpandRefract(msonElement, GetNamedTypesRegistry());
 
-        if (!msonElement) {
+        if (!msonExpanded) {
             return NULL;
         }
 
         refract::ObjectElement* element = new refract::ObjectElement;
         element->element(SerializeKey::DataStructure);
-        element->push_back(msonElement);
+        element->push_back(msonExpanded);
 
         return element;
     }
