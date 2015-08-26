@@ -176,52 +176,54 @@ resourceGroups:
                       -
                         name: "Content-Type"
                         value: "application/json"
-                    body: ""
+                    body: "{\n  \"<data structure property name>\": \"<data structure property value>\"\n}"
                     schema: ""
                     content:
                       -
                         element: "dataStructure"
-                        name: null
-                        typeDefinition:
-                          typeSpecification:
-                            name:
-                              literal: "<data structure name>"
-                              variable: false
-                            nestedTypes: []
-                          attributes: []
-                        sections: []
+                        content:
+                          -
+                            element: "extend"
+                            content:
+                              -
+                                element: "object"
+                                meta:
+                                  description: "<data structure description>\n\n"
+                                  ref: "<data structure name>"
+                                content:
+                                  -
+                                    element: "member"
+                                    meta:
+                                      description: "<data structure property description>"
+                                    content:
+                                      key:
+                                        element: "string"
+                                        content: "<data structure property name>"
+                                      value:
+                                        element: "string"
+                                        content: "<data structure property value>"
+                              -
+                                element: "object"
         content:
           -
             element: "dataStructure"
-            name:
-              literal: "<resource name>"
-              variable: false
-            typeDefinition:
-              typeSpecification:
-                name: "object"
-                nestedTypes: []
-              attributes: []
-            sections:
+            content:
               -
-                class: "memberType"
+                element: "object"
+                meta:
+                  id: "<resource name>"
                 content:
                   -
-                    content:
-                      name:
-                        literal: "<attribute property name>"
+                    element: "member"
+                    meta:
                       description: "<attribute property description>"
-                      valueDefinition:
-                        values:
-                          -
-                            literal: "<attribute property value>"
-                            variable: false
-                        typeDefinition:
-                          typeSpecification:
-                            name: "number"
-                            nestedTypes: []
-                          attributes: []
-                      sections: []
-                    class: "property"
+                    content:
+                      key:
+                        element: "string"
+                        content: "<attribute property name>"
+                      value:
+                        element: "number"
+                        content: 0
 content:
   -
     element: "category"
@@ -396,86 +398,74 @@ content:
                       -
                         name: "Content-Type"
                         value: "application/json"
-                    body: ""
+                    body: "{\n  \"<data structure property name>\": \"<data structure property value>\"\n}"
                     schema: ""
                     content:
                       -
                         element: "dataStructure"
-                        name: null
-                        typeDefinition:
-                          typeSpecification:
-                            name:
-                              literal: "<data structure name>"
-                              variable: false
-                            nestedTypes: []
-                          attributes: []
-                        sections: []
+                        content:
+                          -
+                            element: "extend"
+                            content:
+                              -
+                                element: "object"
+                                meta:
+                                  description: "<data structure description>\n\n"
+                                  ref: "<data structure name>"
+                                content:
+                                  -
+                                    element: "member"
+                                    meta:
+                                      description: "<data structure property description>"
+                                    content:
+                                      key:
+                                        element: "string"
+                                        content: "<data structure property name>"
+                                      value:
+                                        element: "string"
+                                        content: "<data structure property value>"
+                              -
+                                element: "object"
         content:
           -
             element: "dataStructure"
-            name:
-              literal: "<resource name>"
-              variable: false
-            typeDefinition:
-              typeSpecification:
-                name: "object"
-                nestedTypes: []
-              attributes: []
-            sections:
+            content:
               -
-                class: "memberType"
+                element: "object"
+                meta:
+                  id: "<resource name>"
                 content:
                   -
-                    content:
-                      name:
-                        literal: "<attribute property name>"
+                    element: "member"
+                    meta:
                       description: "<attribute property description>"
-                      valueDefinition:
-                        values:
-                          -
-                            literal: "<attribute property value>"
-                            variable: false
-                        typeDefinition:
-                          typeSpecification:
-                            name: "number"
-                            nestedTypes: []
-                          attributes: []
-                      sections: []
-                    class: "property"
+                    content:
+                      key:
+                        element: "string"
+                        content: "<attribute property name>"
+                      value:
+                        element: "number"
+                        content: 0
   -
     element: "category"
     content:
       -
         element: "dataStructure"
-        name:
-          literal: "<data structure name>"
-          variable: false
-        typeDefinition:
-          typeSpecification:
-            name: null
-            nestedTypes: []
-          attributes: []
-        sections:
+        content:
           -
-            class: "blockDescription"
-            content: "<data structure description>\n\n"
-          -
-            class: "memberType"
+            element: "object"
+            meta:
+              id: "<data structure name>"
+              description: "<data structure description>\n\n"
             content:
               -
-                content:
-                  name:
-                    literal: "<data structure property name>"
+                element: "member"
+                meta:
                   description: "<data structure property description>"
-                  valueDefinition:
-                    values:
-                      -
-                        literal: "<data structure property value>"
-                        variable: false
-                    typeDefinition:
-                      typeSpecification:
-                        name: "number"
-                        nestedTypes: []
-                      attributes: []
-                  sections: []
-                class: "property"
+                content:
+                  key:
+                    element: "string"
+                    content: "<data structure property name>"
+                  value:
+                    element: "string"
+                    content: "<data structure property value>"

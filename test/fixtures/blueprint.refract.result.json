@@ -1,0 +1,72 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": "test api"
+      },
+      "attributes": {
+        "meta": [
+          {
+            "element": "member",
+            "meta": {
+              "classes": [
+                "user"
+              ]
+            },
+            "content": {
+              "key": {
+                "element": "string",
+                "content": "FORMAT"
+              },
+              "value": {
+                "element": "string",
+                "content": "1A"
+              }
+            }
+          }
+        ]
+      },
+      "content": [
+        {
+          "element": "copy",
+          "content": "this is a description of the test api\n"
+        },
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": "test"
+          },
+          "content": [
+            {
+              "element": "copy",
+              "content": "A test group\n"
+            },
+            {
+              "element": "resource",
+              "meta": {
+                "title": "test"
+              },
+              "attributes": {
+                "href": "/test/{id}[2]"
+              },
+              "content": [
+                {
+                  "element": "copy",
+                  "content": "A test uri template\n"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

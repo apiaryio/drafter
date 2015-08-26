@@ -40,27 +40,43 @@ static sos::Object WrapAnnotation(const snowcrash::SourceAnnotation& annotation)
     return object;
 }
 
-sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const snowcrash::BlueprintParserOptions options)
+sos::Object drafter::WrapParseResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
+                                     const snowcrash::BlueprintParserOptions options)
 {
     sos::Object object;
+    sos::Array content;
 
-    using namespace snowcrash;
+    object.set("element", sos::String("parseResult"));
 
-    const Report& report = blueprint.report;
+    content.push(WrapBlueprint(blueprint.node, RefractASTType));
+    object.set("content", content);
+
+    return object;
+}
+
+sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
+                                const snowcrash::BlueprintParserOptions options,
+                                const ASTType astType)
+{
+    if (astType != NormalASTType) {
+        return WrapParseResult(blueprint, options);
+    }
+
+    sos::Object object;
 
     object.set(SerializeKey::Version, sos::String(PARSE_RESULT_SERIALIZATION_VERSION));
-    
-    object.set(SerializeKey::Ast, WrapBlueprint(blueprint.node));
 
-    if (options & ExportSourcemapOption) {
-        const SourceMap<Blueprint>& sourceMap = blueprint.sourceMap;
+    object.set(SerializeKey::Ast, WrapBlueprint(blueprint.node, astType));
+
+    if (options & snowcrash::ExportSourcemapOption) {
+        const snowcrash::SourceMap<snowcrash::Blueprint>& sourceMap = blueprint.sourceMap;
         object.set(SerializeKey::SourceMap, WrapBlueprintSourcemap(sourceMap));
     }
 
-    object.set(SerializeKey::Error, WrapAnnotation(report.error));
+    object.set(SerializeKey::Error, WrapAnnotation(blueprint.report.error));
 
-    if (!report.warnings.empty()) {
-        object.set(SerializeKey::Warnings, WrapCollection<snowcrash::SourceAnnotation>()(report.warnings, WrapAnnotation));
+    if (!blueprint.report.warnings.empty()) {
+        object.set(SerializeKey::Warnings, WrapCollection<snowcrash::SourceAnnotation>()(blueprint.report.warnings, WrapAnnotation));
     }
 
     return object;

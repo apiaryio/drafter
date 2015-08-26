@@ -1,0 +1,93 @@
+{
+  "element": "category",
+  "meta": {
+    "classes": [
+      "api"
+    ],
+    "title": "API name"
+  },
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "resourceGroup"
+        ],
+        "title": "Users"
+      },
+      "content": [
+        {
+          "element": "resource",
+          "meta": {
+            "title": "User"
+          },
+          "attributes": {
+            "href": "/users"
+          },
+          "content": [
+            {
+              "element": "transition",
+              "meta": {
+                "title": "List all users"
+              },
+              "attributes": {
+                "data": {
+                  "element": "dataStructure",
+                  "content": [
+                    {
+                      "element": "object",
+                      "content": [
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "username"
+                            },
+                            "value": {
+                              "element": "string",
+                              "content": "pavan"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "content": [
+                {
+                  "element": "httpTransaction",
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "attributes": {
+                        "method": "GET"
+                      },
+                      "content": []
+                    },
+                    {
+                      "element": "httpResponse",
+                      "attributes": {
+                        "statusCode": "200"
+                      },
+                      "content": [
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageBody"
+                          },
+                          "content": "[]\n"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

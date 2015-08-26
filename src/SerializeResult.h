@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
-#ifndef DRAFTER_SERIALIZE_RESULT_H
-#define DRAFTER_SERIALIZE_RESULT_H
+#ifndef DRAFTER_SERIALIZERESULT_H
+#define DRAFTER_SERIALIZERESULT_H
 
 #include "Serialize.h"
 
@@ -20,7 +20,8 @@ namespace snowcrash {
 
 namespace drafter {
 
-    sos::Object WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const snowcrash::BlueprintParserOptions options);
+    sos::Object WrapParseResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const snowcrash::BlueprintParserOptions options);
+    sos::Object WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const snowcrash::BlueprintParserOptions options, const ASTType astType);
 }
 
-#endif // #ifndef DRAFTER_SERIALIZE_RESULT_H
+#endif // #ifndef DRAFTER_SERIALIZERESULT_H

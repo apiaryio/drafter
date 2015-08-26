@@ -1,0 +1,102 @@
+{
+  "element": "category",
+  "meta": {
+    "classes": [
+      "api"
+    ],
+    "title": "API name"
+  },
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "resourceGroup"
+        ],
+        "title": "Users"
+      },
+      "content": [
+        {
+          "element": "resource",
+          "meta": {
+            "title": "User"
+          },
+          "attributes": {
+            "href": "/users"
+          },
+          "content": [
+            {
+              "element": "transition",
+              "meta": {
+                "title": "List all users"
+              },
+              "content": [
+                {
+                  "element": "httpTransaction",
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "attributes": {
+                        "method": "GET"
+                      },
+                      "content": []
+                    },
+                    {
+                      "element": "httpResponse",
+                      "attributes": {
+                        "statusCode": "200",
+                        "headers": {
+                          "element": "httpHeaders",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "Content-Type"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "X-server"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "nginx"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "content": [
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageBody"
+                          },
+                          "attributes": {
+                            "contentType": "application/json"
+                          },
+                          "content": "[]\n"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

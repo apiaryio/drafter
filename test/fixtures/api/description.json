@@ -1,0 +1,15 @@
+{
+  "element": "category",
+  "meta": {
+    "classes": [
+      "api"
+    ],
+    "title": "API name"
+  },
+  "content": [
+    {
+      "element": "copy",
+      "content": "This is an API description\n"
+    }
+  ]
+}
