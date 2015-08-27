@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
-#include <iterator>
-
 #include "RefractDataStructure.h"
 #include "refract/AppendDecorator.h"
 
