@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <functional>
 #include <stdexcept>
+#include <iterator>
 
 #include "Typelist.h"
 #include "VisitableBy.h"
