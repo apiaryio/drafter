@@ -57,20 +57,6 @@
                                 },
                                 {
                                   "element": "ref",
-                                  "attributes": {
-                                    "resolved": {
-                                      "element": "array",
-                                      "meta": {
-                                        "ref": "Address"
-                                      },
-                                      "content": [
-                                        {
-                                          "element": "string",
-                                          "content": "Prague"
-                                        }
-                                      ]
-                                    }
-                                  },
                                   "content": {
                                     "href": "Address",
                                     "path": "content"
@@ -144,20 +130,6 @@
                                 },
                                 {
                                   "element": "ref",
-                                  "attributes": {
-                                    "resolved": {
-                                      "element": "array",
-                                      "meta": {
-                                        "ref": "Address"
-                                      },
-                                      "content": [
-                                        {
-                                          "element": "string",
-                                          "content": "Prague"
-                                        }
-                                      ]
-                                    }
-                                  },
                                   "content": {
                                     "href": "Address",
                                     "path": "content"

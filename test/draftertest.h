@@ -55,7 +55,7 @@ namespace draftertest {
 
     struct FixtureHelper {
 
-        static bool handleBlueprintJSON(const std::string& basepath, drafter::ASTType astType = drafter::NormalASTType, bool mustBeOk = true) {
+        static bool handleBlueprintJSON(const std::string& basepath, drafter::ASTType astType = drafter::NormalASTType, bool expand = false, bool mustBeOk = true) {
             ITFixtureFiles fixture = ITFixtureFiles(basepath);
 
             snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
@@ -68,7 +68,7 @@ namespace draftertest {
             std::stringstream outStream;
             sos::SerializeJSON serializer;
 
-            serializer.process(drafter::WrapBlueprint(blueprint.node, astType), outStream);
+            serializer.process(drafter::WrapBlueprint(blueprint.node, astType, expand), outStream);
             outStream << "\n";
 
             return (outStream.str() == fixture.get(".json"));

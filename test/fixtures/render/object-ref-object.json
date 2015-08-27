@@ -59,46 +59,7 @@
                                       "content": "p"
                                     },
                                     "value": {
-                                      "element": "extend",
-                                      "content": [
-                                        {
-                                          "element": "object",
-                                          "meta": {
-                                            "ref": "Address"
-                                          },
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "city"
-                                                },
-                                                "value": {
-                                                  "element": "string",
-                                                  "content": "Prague"
-                                                }
-                                              }
-                                            },
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "zip"
-                                                },
-                                                "value": {
-                                                  "element": "number",
-                                                  "content": 34567
-                                                }
-                                              }
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "element": "object"
-                                        }
-                                      ]
+                                      "element": "Address"
                                     }
                                   }
                                 }
@@ -172,46 +133,7 @@
                                       "content": "p"
                                     },
                                     "value": {
-                                      "element": "extend",
-                                      "content": [
-                                        {
-                                          "element": "object",
-                                          "meta": {
-                                            "ref": "Address"
-                                          },
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "city"
-                                                },
-                                                "value": {
-                                                  "element": "string",
-                                                  "content": "Prague"
-                                                }
-                                              }
-                                            },
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "zip"
-                                                },
-                                                "value": {
-                                                  "element": "number",
-                                                  "content": 34567
-                                                }
-                                              }
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "element": "object"
-                                        }
-                                      ]
+                                      "element": "Address"
                                     }
                                   }
                                 }

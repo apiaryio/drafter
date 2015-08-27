@@ -57,6 +57,8 @@ enum {
 static int DrafterErrorCode = NoError;
 static std::string DrafterErrorMessage;
 
+static bool ExpandMSON = false;
+
 #endif
 
 sos::Object WrapValue(const mson::Value& value)
@@ -459,7 +461,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     sos::Object dataStructureObject;
 
 #if _WITH_REFRACT_
-    refract::IElement *element = DataStructureToRefract(dataStructure);
+    refract::IElement *element = DataStructureToRefract(dataStructure, ExpandMSON);
     dataStructureObject = SerializeRefract(element);
 
     if (element) {
@@ -821,18 +823,8 @@ void registerNamedTypes(const snowcrash::Elements& elements)
 
 sos::Object WrapBlueprintRefract(const Blueprint& blueprint)
 {
-    sos::Object blueprintObject;
-
-    refract::IElement *element = NULL;
-
-    try {
-        element = BlueprintToRefract(blueprint);
-        blueprintObject = SerializeRefract(element);
-    }
-    catch (std::exception& e) {
-        DrafterErrorCode = RuntimeError;
-        DrafterErrorMessage = e.what();
-    }
+    refract::IElement* element = BlueprintToRefract(blueprint);
+    sos::Object blueprintObject = SerializeRefract(element);
 
     if (element) {
         delete element;
@@ -872,12 +864,13 @@ sos::Object WrapBlueprintAST(const Blueprint& blueprint)
     return blueprintObject;
 }
 
-sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType astType)
+sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType astType, bool expand)
 {
     sos::Object blueprintObject;
 
 #if _WITH_REFRACT_
     registerNamedTypes(blueprint.content.elements());
+    ExpandMSON = expand;
 #endif
 
     try {
