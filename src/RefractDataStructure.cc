@@ -13,7 +13,7 @@ namespace drafter {
 
     typedef std::vector<refract::IElement*> RefractElements;
 
-    static void SetElementType(const mson::TypeDefinition& td, refract::IElement* element)
+    static void SetElementType(refract::IElement* element, const mson::TypeDefinition& td)
     {
         if (!td.typeSpecification.name.symbol.literal.empty()) {
             element->element(td.typeSpecification.name.symbol.literal);
@@ -421,7 +421,7 @@ namespace drafter {
 
         ElementType* element = ExtractValueMember<ElementType>(value, data.defaults, data.samples);
 
-        SetElementType(value.valueDefinition.typeDefinition, element);
+        SetElementType(element, value.valueDefinition.typeDefinition);
 
         TransformTypeSectionData(value.sections, element, data);
 
@@ -446,7 +446,7 @@ namespace drafter {
 
             element->set(property.name.variable.values.begin()->literal, value);
             element->value.first->attributes[SerializeKey::Variable] = refract::IElement::Create(true);
-            SetElementType(property.name.variable.typeDefinition, element->value.first);
+            SetElementType(element->value.first, property.name.variable.typeDefinition);
         } 
         else {
             throw std::logic_error("No property name");
@@ -622,7 +622,7 @@ namespace drafter {
         typedef T ElementType;
 
         ElementType* e = new ElementType;
-        SetElementType(ds.typeDefinition, e);
+        SetElementType(e, ds.typeDefinition);
 
         if (!ds.name.symbol.literal.empty()) {
             e->meta[SerializeKey::Id] = IElement::Create(ds.name.symbol.literal);
