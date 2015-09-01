@@ -151,7 +151,9 @@ namespace drafter {
         return result;
     }
 
+    template <typename T>
     struct TypeSectionData {
+        std::vector<typename T::ValueType>  values;
         RefractElements defaults;
         RefractElements samples;
         std::vector<std::string> descriptions;
@@ -160,8 +162,7 @@ namespace drafter {
     template <typename T>
     struct ExtractTypeSection
     { 
-        std::vector<typename T::ValueType> values;
-        TypeSectionData& data;
+        TypeSectionData<T>& data;
 
         /**
          * Fetch<> is intended to extract value from TypeSection.
@@ -184,15 +185,13 @@ namespace drafter {
             }
         };
 
-        ExtractTypeSection(TypeSectionData& data) : data(data)
-        {
-        }
+        ExtractTypeSection(TypeSectionData<T>& data) : data(data) {}
 
         void operator()(const mson::TypeSection& ts) {
             Fetch<typename T::ValueType> fetch;
 
             if (ts.klass == mson::TypeSection::MemberTypeClass) {
-                values.push_back(fetch(ts));
+                data.values.push_back(fetch(ts));
                 return;
             }
 
@@ -388,7 +387,7 @@ namespace drafter {
         }
 
         template<typename T>
-        void TransformTypeSectionData(const mson::TypeSections& sections, T* element, TypeSectionData& data) {
+        void TransformTypeSectionData(const mson::TypeSections& sections, T* element, TypeSectionData<T>& data) {
 
             // FIXME: for Array/Enum - extract *type of element* from
             // value.valueDefinition.typeDefinition.typeSpecification.nestedTypes[];
@@ -399,9 +398,9 @@ namespace drafter {
             //
             // fallback for now - present all as refract::StringElement
 
-            ExtractTypeSection<T> extractor = std::for_each(sections.begin(), sections.end(), ExtractTypeSection<T>(data));
+            std::for_each(sections.begin(), sections.end(), ExtractTypeSection<T>(data));
 
-            std::for_each(extractor.values.begin(), extractor.values.end(), refract::AppendDecorator<T>(element));
+            std::for_each(data.values.begin(), data.values.end(), refract::AppendDecorator<T>(element));
 
             SaveSamples(data.samples, element);
 
@@ -415,7 +414,7 @@ namespace drafter {
         using namespace refract;
         typedef T ElementType;
 
-        TypeSectionData data;
+        TypeSectionData<T> data;
 
         ElementType* element = ExtractValueMember<ElementType>(value, data.defaults, data.samples);
 
@@ -648,9 +647,9 @@ namespace drafter {
         
         //e->meta[SerializeKey::Title] = IElement::Create(ds.name.symbol.literal);
 
-        TypeSectionData data;
+        TypeSectionData<T> data;
 
-        TransformTypeSectionData(ds.sections, e, data);
+        TransformTypeSectionData<T>(ds.sections, e, data);
 
         std::string description;
         std::for_each(data.descriptions.begin(), data.descriptions.end(), Join(description));
