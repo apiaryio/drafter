@@ -17,6 +17,9 @@ namespace drafter {
     {
         if (!td.typeSpecification.name.symbol.literal.empty()) {
             element->element(td.typeSpecification.name.symbol.literal);
+        } 
+        else if (td.typeSpecification.name.base == mson::EnumTypeName) {
+            element->element(SerializeKey::Enum);
         }
     }
 
@@ -507,13 +510,6 @@ namespace drafter {
         template<typename T> static ElementType* Invoke(const mson::PropertyMember& prop) {
                 return RefractElementFromProperty<T>(prop);
         }
-
-        static ElementType* makeEnum(ElementType* element) {
-            if (element && element->value.second) {
-                element->value.second->element(SerializeKey::Enum);
-            }
-            return element;
-        }
     };
 
     struct ValueTrait {
@@ -521,13 +517,6 @@ namespace drafter {
 
         template<typename T> static ElementType* Invoke (const mson::ValueMember& val) {
                 return RefractElementFromValue<T>(val);
-        }
-
-        static ElementType* makeEnum(ElementType* element) {
-            if (element) {
-                element->element(SerializeKey::Enum);
-            }
-            return element;
         }
     };
 
@@ -545,8 +534,6 @@ namespace drafter {
                 return Trait::template Invoke<refract::StringElement>(input);
 
             case mson::EnumTypeName:
-                return Trait::makeEnum(Trait::template Invoke<refract::ArrayElement>(input));
-
             case mson::ArrayTypeName:
                 return Trait::template Invoke<refract::ArrayElement>(input);
 
@@ -685,14 +672,7 @@ namespace drafter {
                 element = RefractElementFromMSON<refract::StringElement>(dataStructure);
                 break;
 
-            case mson::EnumTypeName: {
-                element = RefractElementFromMSON<refract::ArrayElement>(dataStructure);
-                if (element) {
-                    element->element(SerializeKey::Enum);
-                }
-                break;
-            }
-
+            case mson::EnumTypeName: 
             case mson::ArrayTypeName:
                 element = RefractElementFromMSON<refract::ArrayElement>(dataStructure);
                 break;
