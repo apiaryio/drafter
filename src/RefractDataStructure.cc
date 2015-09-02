@@ -163,9 +163,10 @@ namespace drafter {
     };
 
     template <typename T>
-    struct ExtractTypeSection
+    class ExtractTypeSection
     { 
         TypeSectionData<T>& data;
+        mson::BaseTypeName baseTypeName;
 
         /**
          * Fetch<> is intended to extract value from TypeSection.
@@ -188,36 +189,87 @@ namespace drafter {
             }
         };
 
-        ExtractTypeSection(TypeSectionData<T>& data) : data(data) {}
+        template <typename U, bool dummy = true> 
+        struct FetchBaseTypeName {};
+
+        template<bool dummy> 
+        struct FetchBaseTypeName<snowcrash::DataStructure, dummy> {
+            mson::BaseTypeName operator()(const snowcrash::DataStructure& ds) {
+                return ds.typeDefinition.typeSpecification.name.base;
+            }
+        };
+
+        template<bool dummy> 
+        struct FetchBaseTypeName<mson::ValueMember, dummy> {
+            mson::BaseTypeName operator()(const mson::ValueMember& vm) {
+                return vm.valueDefinition.typeDefinition.typeSpecification.name.base;
+            }
+        };
+
+
+        template<typename V, bool dummy = true>
+        struct ToElement {
+            ToElement(const mson::BaseTypeName&) {}
+
+            refract::IElement* operator()(const V& v) {
+                T* e = new T;
+                e->set(v);
+                return e;
+            }
+        };
+
+        template<bool dummy>
+        struct ToElement<RefractElements, dummy> {
+            mson::BaseTypeName baseTypeName;
+            ToElement(const mson::BaseTypeName& baseTypeName) : baseTypeName(baseTypeName) {}
+
+            refract::IElement* operator()(const RefractElements& v) {
+                if (baseTypeName == mson::EnumTypeName) {
+                    if (v.size() != 1) {
+                        throw std::logic_error("Just one value is suported in enum");
+                    }
+                    return *v.begin();
+                }
+                else {
+                    T* e = new T;
+                    e->set(v);
+                    return e;
+                }
+            }
+        };
+
+    public:
+
+        template<typename U>
+        ExtractTypeSection(TypeSectionData<T>& data, const U& sectionHolder)
+          : data(data) , baseTypeName(FetchBaseTypeName<U>()(sectionHolder)) {}
+
 
         void operator()(const mson::TypeSection& ts) {
             Fetch<typename T::ValueType> fetch;
+            ToElement<typename T::ValueType> toElement(baseTypeName);
 
-            if (ts.klass == mson::TypeSection::MemberTypeClass) {
+            switch (ts.klass) {
+
+            case mson::TypeSection::MemberTypeClass:
                 data.values.push_back(fetch(ts));
-                return;
-            }
+                break;
 
-            if (ts.klass == mson::TypeSection::SampleClass) {
-                T* e = new T;
-                e->set(fetch(ts));
-                data.samples.push_back(e);
-                return;
-            }
+            case mson::TypeSection::SampleClass:
+                data.samples.push_back(toElement(fetch(ts)));
+                break;
 
-            if (ts.klass == mson::TypeSection::DefaultClass) {
-                T* e = new T;
-                e->set(fetch(ts));
-                data.defaults.push_back(e);
-                return;
-            }
+            case mson::TypeSection::DefaultClass:
+                data.defaults.push_back(toElement(fetch(ts)));
+                break;
 
-            if (ts.klass == mson::TypeSection::BlockDescriptionClass){ 
+            case mson::TypeSection::BlockDescriptionClass:
                 data.descriptions.push_back(ts.content.description);
-                return;
+                break;
+
+            default:
+                throw std::logic_error("Unexpected section type for property");
             }
-            
-            throw std::logic_error("Unexpected section type for property");
         }
 
     };
@@ -389,8 +441,8 @@ namespace drafter {
             }
         }
 
-        template<typename T>
-        void TransformTypeSectionData(const mson::TypeSections& sections, T* element, TypeSectionData<T>& data) {
+        template<typename T, typename U>
+        void TransformTypeSectionData(const U& sectionsHolder, T* element, TypeSectionData<T>& data) {
 
             // FIXME: for Array/Enum - extract *type of element* from
             // value.valueDefinition.typeDefinition.typeSpecification.nestedTypes[];
@@ -400,8 +452,8 @@ namespace drafter {
             // does not hold type resp. is defaultly set as mson::UndefinedTypeName
             //
             // fallback for now - present all as refract::StringElement
-
-            std::for_each(sections.begin(), sections.end(), ExtractTypeSection<T>(data));
+            
+            std::for_each(sectionsHolder.sections.begin(), sectionsHolder.sections.end(), ExtractTypeSection<T>(data, sectionsHolder));
 
             std::for_each(data.values.begin(), data.values.end(), refract::AppendDecorator<T>(element));
 
@@ -423,7 +475,7 @@ namespace drafter {
 
         SetElementType(element, value.valueDefinition.typeDefinition);
 
-        TransformTypeSectionData(value.sections, element, data);
+        TransformTypeSectionData(value, element, data);
 
         return element;
     }
@@ -636,7 +688,7 @@ namespace drafter {
 
         TypeSectionData<T> data;
 
-        TransformTypeSectionData<T>(ds.sections, e, data);
+        TransformTypeSectionData<T>(ds, e, data);
 
         std::string description;
         std::for_each(data.descriptions.begin(), data.descriptions.end(), Join(description));
