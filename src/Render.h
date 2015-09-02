@@ -19,7 +19,7 @@ namespace drafter {
         JSONSchemaRenderFormat = 2   // JSON Schema format (not used yet)
     };
 
-    RenderFormat findRenderFormat(std::string contentType);
+    RenderFormat findRenderFormat(const std::string& contentType);
     std::string getContentTypeFromHeaders(const snowcrash::Headers& headers);
 
     snowcrash::Asset renderPayloadBody(const snowcrash::Payload& payload, const refract::Registry& registry);

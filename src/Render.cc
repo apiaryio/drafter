@@ -14,9 +14,9 @@ using namespace snowcrash;
 
 namespace drafter {
 
-    RenderFormat findRenderFormat(std::string contentType) {
+    RenderFormat findRenderFormat(const std::string& contentType) {
 
-        if (contentType == "application/json") {
+        if (contentType.find("application/json") != std::string::npos) {
             return JSONRenderFormat;
         }
 
