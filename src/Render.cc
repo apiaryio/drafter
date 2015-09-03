@@ -9,14 +9,18 @@
 #include "Render.h"
 #include "RefractDataStructure.h"
 #include "BlueprintUtility.h"
+#include "RegexMatch.h"
 
 using namespace snowcrash;
 
 namespace drafter {
 
+    // JSON content-type regex
+    const char* const JSONRegex = "^[[:blank:]]*application/(.*\\+)?json";
+
     RenderFormat findRenderFormat(const std::string& contentType) {
 
-        if (contentType.find("application/json") != std::string::npos) {
+        if (RegexMatch(contentType, JSONRegex)) {
             return JSONRenderFormat;
         }
 
