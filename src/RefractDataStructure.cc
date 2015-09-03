@@ -208,32 +208,29 @@ namespace drafter {
 
 
         template<typename V, bool dummy = true>
-        struct ToElement {
-            ToElement(const mson::BaseTypeName&) {}
+        struct Store {
+            Store(const mson::BaseTypeName&) {}
 
-            refract::IElement* operator()(const V& v) {
+            void operator()(RefractElements& elements, const V& v) {
                 T* e = new T;
                 e->set(v);
-                return e;
+                elements.push_back(e);
             }
         };
 
         template<bool dummy>
-        struct ToElement<RefractElements, dummy> {
+        struct Store<RefractElements, dummy> {
             mson::BaseTypeName baseTypeName;
-            ToElement(const mson::BaseTypeName& baseTypeName) : baseTypeName(baseTypeName) {}
+            Store(const mson::BaseTypeName& baseTypeName) : baseTypeName(baseTypeName) {}
 
-            refract::IElement* operator()(const RefractElements& v) {
+            void operator()(RefractElements& elements, const RefractElements& v) {
                 if (baseTypeName == mson::EnumTypeName) {
-                    if (v.size() != 1) {
-                        throw std::logic_error("Just one value is suported in enum");
-                    }
-                    return *v.begin();
+                    std::copy(v.begin(), v.end(), std::back_inserter(elements));
                 }
                 else {
                     T* e = new T;
                     e->set(v);
-                    return e;
+                    elements.push_back(e);
                 }
             }
         };
@@ -247,7 +244,7 @@ namespace drafter {
 
         void operator()(const mson::TypeSection& ts) {
             Fetch<typename T::ValueType> fetch;
-            ToElement<typename T::ValueType> toElement(baseTypeName);
+            Store<typename T::ValueType> store(baseTypeName);
 
             switch (ts.klass) {
 
@@ -256,11 +253,11 @@ namespace drafter {
                 break;
 
             case mson::TypeSection::SampleClass:
-                data.samples.push_back(toElement(fetch(ts)));
+                store(data.samples, fetch(ts));
                 break;
 
             case mson::TypeSection::DefaultClass:
-                data.defaults.push_back(toElement(fetch(ts)));
+                store(data.defaults, fetch(ts));
                 break;
 
             case mson::TypeSection::BlockDescriptionClass:
