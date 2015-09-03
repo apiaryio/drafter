@@ -135,6 +135,7 @@ Drafter bindings in other languages:
 
 - [Protagonist](https://github.com/apiaryio/protagonist) (Node.js)
 - [RedSnow](https://github.com/apiaryio/redsnow) (Ruby)
+- [Drafter-php](https://github.com/hendrikmaus/drafter-php) (PHP)
 
 
 ## Contribute
