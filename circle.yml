@@ -1,12 +1,34 @@
+general:
+  artifacts:
+  - ~/drafter/emcc/jsdrafter.js
+  - ~/drafter/emcc/jsdrafter.js.mem
+
+machine:
+  services:
+    - docker
+  node:
+    version: 0.10.34
+
 checkout:
   post:
     - git submodule update --init --recursive
 
 dependencies:
+  cache_directories:
+    - "~/docker"
   pre:
-    
+    - if [[ ! -f ~/docker/emscripten.tar ]]; then mkdir -p ~/docker &&
+      docker pull "apiaryio/base-emscripten-dev" &&
+      docker save "apiaryio/base-emscripten-dev" > ~/docker/emscripten.tar;
+      else docker load -i ~/docker/emscripten.tar; fi
+    - npm install chai
+
 test:
   pre:
     - ./configure -i
   override:
     - make test
+    - docker run -v $(pwd):/src -t apiaryio/base-emscripten-dev emcc/emcclean.sh
+    - docker run -v $(pwd):/src -t apiaryio/base-emscripten-dev emcc/emcbuild.sh
+    - cd ./emcc/ && ./test-jsdrafter;
+
