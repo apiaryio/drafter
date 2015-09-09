@@ -165,6 +165,16 @@ namespace drafter {
         return result;
     }
 
+    static mson::BaseTypeName SelectNestedTypeSpecification(const mson::TypeNames& nestedTypes, const mson::BaseTypeName defaultNestedType = mson::StringTypeName) {
+        mson::BaseTypeName type = defaultNestedType;
+        // Found if type of element is specified.
+        // if more types is used - fallback to "StringType"
+        if (nestedTypes.size() == 1) {
+            type = nestedTypes.begin()->base;
+        }
+        return type;
+    }
+
     template <typename T>
     struct TypeSectionData {
         std::vector<typename T::ValueType>  values;
@@ -307,16 +317,6 @@ namespace drafter {
             return element;
         }
     };
-
-    static mson::BaseTypeName SelectNestedTypeSpecification(const mson::TypeNames& nestedTypes, const mson::BaseTypeName defaultNestedType = mson::StringTypeName) {
-        mson::BaseTypeName type = defaultNestedType;
-        // Found if type of element is specified.
-        // if more types is used - fallback to "StringType"
-        if (nestedTypes.size() == 1) {
-            type = nestedTypes.begin()->base;
-        }
-        return type;
-    }
 
     template <typename T>
     struct ExtractValueMember<T, RefractElements>
