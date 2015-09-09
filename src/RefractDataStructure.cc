@@ -735,12 +735,6 @@ namespace drafter {
             e->meta[SerializeKey::Id] = IElement::Create(ds.name.symbol.literal);
         }
 
-        // FIXME: "title" is temporary commented, until clear refract spec 
-        // in few examples for named object is "title" attribute used
-        // sometime is not used.
-        
-        //e->meta[SerializeKey::Title] = IElement::Create(ds.name.symbol.literal);
-
         TypeSectionData<T> data;
 
         TransformTypeSectionData<T>(ds, e, data);
