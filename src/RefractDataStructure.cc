@@ -314,6 +314,10 @@ namespace drafter {
 
             }
 
+            if (!vm.description.empty()) {
+                element->meta[SerializeKey::Description] = refract::IElement::Create(vm.description);
+            }
+
             return element;
         }
     };
@@ -502,18 +506,33 @@ namespace drafter {
         }
 
         std::string description;
-        Join join(description);
-        join(property.description);
+        std::string& descriptionRef = description;
+        Join join(descriptionRef);
+
+        refract::IElement::MemberElementCollection::iterator iterator = value->meta.find(SerializeKey::Description);
+        if (iterator != value->meta.end()) {
+            // There is already setted description to "value" as result of `RefractElementFromValue()`
+            // so we need to move this atribute from "value" up to MemberElement
+            //
+            // NOTE: potentionaly unsafe, but we set it already to StringElement
+            // most safe is check it via refract::TypeQueryVisitor
+            descriptionRef = (static_cast<refract::StringElement*>((*iterator)->value.second)->value);
+            element->meta.push_back(*iterator);
+            value->meta.std::vector<refract::MemberElement*>::erase(iterator);
+        } 
+        else {
+            join(property.description);
+        }
 
         bool addNewLine = false;
-        if (!description.empty()) {
+        if (!descriptionRef.empty()) {
             addNewLine = true;
         }
 
         for (mson::TypeSections::const_iterator it = property.sections.begin(); it != property.sections.end(); ++it) {
             if (it->klass == mson::TypeSection::BlockDescriptionClass){ 
                 if (addNewLine) {
-                    description.append("\n");
+                    descriptionRef.append("\n");
                     addNewLine = false;
                 }
                 join(it->content.description);

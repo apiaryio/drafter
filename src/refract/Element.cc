@@ -117,7 +117,9 @@ namespace refract
     {
         iterator it = find(key);
         if (it != end()) {
-            delete (*it);
+            if (*it) {
+                delete (*it);
+            }
             std::vector<MemberElement*>::erase(it);
         }
     }
