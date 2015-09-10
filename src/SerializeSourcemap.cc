@@ -231,6 +231,9 @@ sos::Object WrapParameterSourcemap(const SourceMap<Parameter>& parameter)
 
     // Default Value
     object.set(SerializeKey::Default, WrapSourcemap(parameter.defaultValue));
+    
+    // Nullable Value
+    object.set(SerializeKey::Nullable, WrapSourcemap(parameter.nullableValue));
 
     // Values
     object.set(SerializeKey::Values,

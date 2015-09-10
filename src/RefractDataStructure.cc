@@ -41,6 +41,9 @@ namespace drafter {
         if (ta & mson::FixedTypeAttribute) {
             attr->push_back(refract::IElement::Create(SerializeKey::Fixed));
         }
+        if (ta & mson::NullableTypeAttribute) {
+            attr->push_back(refract::IElement::Create(SerializeKey::Nullable));
+        }
 
         if (attr->value.empty()) {
             delete attr;

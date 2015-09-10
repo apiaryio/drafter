@@ -53,6 +53,25 @@
                 },
                 {
                   "element": "member",
+                  "attributes": {
+                    "typeAttributes": [
+                      "required",
+                      "nullable"
+                    ]
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "avatar"
+                    },
+                    "value": {
+                      "element": "string",
+                      "content": "null"
+                    }
+                  }
+                },
+                {
+                  "element": "member",
                   "meta": {
                     "description": "description of property"
                   },
