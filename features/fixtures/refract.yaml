@@ -55,8 +55,14 @@ content:
                     element: "enum"
                     attributes:
                       samples:
-                        - "<example value>"
-                      default: "<default value>"
+                        -
+                          -
+                            element: "string"
+                            content: "<example value>"
+                      default:
+                        -
+                          element: "string"
+                          content: "<default value>"
                     content:
                       -
                         element: "string"
@@ -111,8 +117,14 @@ content:
                         element: "enum"
                         attributes:
                           samples:
-                            - "<example value>"
-                          default: "<default value>"
+                            -
+                              -
+                                element: "string"
+                                content: "<example value>"
+                          default:
+                            -
+                              element: "string"
+                              content: "<default value>"
                         content:
                           -
                             element: "string"

@@ -45,9 +45,19 @@
                       "element": "enum",
                       "attributes": {
                         "samples": [
-                          23
+                          [
+                            {
+                              "element": "number",
+                              "content": 23
+                            }
+                          ]
                         ],
-                        "default": 1
+                        "default": [
+                          {
+                            "element": "number",
+                            "content": 1
+                          }
+                        ]
                       },
                       "content": [
                         {

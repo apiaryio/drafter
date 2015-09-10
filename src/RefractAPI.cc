@@ -22,10 +22,16 @@ namespace drafter {
         typedef std::vector<refract::IElement*> RefractElements;
 
         template <typename T>
-        refract::ArrayElement* CreateArrayElement(const T& content)
+        refract::ArrayElement* CreateArrayElement(const T& content, bool rFull = false)
         {
             refract::ArrayElement* array = new refract::ArrayElement;
-            array->push_back(refract::IElement::Create(content));
+            refract::IElement* value = refract::IElement::Create(content);
+
+            if (rFull) {
+                value->renderType(refract::IElement::rFull);
+            }
+
+            array->push_back(value);
             return array;
         }
 
@@ -105,8 +111,16 @@ namespace drafter {
 
         element->element(SerializeKey::Enum);
 
+        // Add sample value
         if (!parameter.exampleValue.empty()) {
-            element->attributes[SerializeKey::Samples] = CreateArrayElement(LiteralTo<T>(parameter.exampleValue));
+            refract::ArrayElement* samples = new refract::ArrayElement;
+            samples->push_back(CreateArrayElement(LiteralTo<T>(parameter.exampleValue), true));
+            element->attributes[SerializeKey::Samples] = samples;
+        }
+
+        // Add default value
+        if (!parameter.defaultValue.empty()) {
+            element->attributes[SerializeKey::Default] = CreateArrayElement(LiteralTo<T>(parameter.defaultValue), true);
         }
 
         for (snowcrash::Values::const_iterator it = parameter.values.begin();
@@ -128,13 +142,13 @@ namespace drafter {
 
         if (parameter.values.empty()) {
             element = refract::IElement::Create(LiteralTo<T>(parameter.exampleValue));
+
+            if (!parameter.defaultValue.empty()) {
+                element->attributes[SerializeKey::Default] = refract::IElement::Create(LiteralTo<T>(parameter.defaultValue));
+            }
         }
         else {
             element = ParameterValuesToRefract<T>(parameter);
-        }
-
-        if (!parameter.defaultValue.empty()) {
-            element->attributes[SerializeKey::Default] = refract::IElement::Create(LiteralTo<T>(parameter.defaultValue));
         }
 
         return element;
