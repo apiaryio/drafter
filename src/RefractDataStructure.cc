@@ -148,7 +148,8 @@ namespace drafter {
 
     static refract::IElement* MsonElementToRefract(const mson::Element& mse, mson::BaseTypeName defaultNestedType = mson::StringTypeName);
 
-    RefractElements MsonElementsToRefract(const mson::Elements& elements, mson::BaseTypeName defaultNestedType = mson::StringTypeName) {
+    RefractElements MsonElementsToRefract(const mson::Elements& elements, mson::BaseTypeName defaultNestedType = mson::StringTypeName)
+    {
         RefractElements result;
 
         // FIXME: should be used instead of "for loop" below, but there is some problem with
@@ -247,34 +248,32 @@ namespace drafter {
             defaultNestedType(SelectNestedTypeSpecification(FetchTypeDefinition<U>()(sectionHolder).typeSpecification.nestedTypes)) 
         {}
 
-
         void operator()(const mson::TypeSection& ts) {
             Fetch<typename T::ValueType> fetch;
             Store<typename T::ValueType> store;
 
             switch (ts.klass) {
 
-            case mson::TypeSection::MemberTypeClass:
-                data.values.push_back(fetch(ts, defaultNestedType));
-                break;
+                case mson::TypeSection::MemberTypeClass:
+                    data.values.push_back(fetch(ts, defaultNestedType));
+                    break;
 
-            case mson::TypeSection::SampleClass:
-                store(data.samples, fetch(ts, defaultNestedType));
-                break;
+                case mson::TypeSection::SampleClass:
+                    store(data.samples, fetch(ts, defaultNestedType));
+                    break;
 
-            case mson::TypeSection::DefaultClass:
-                store(data.defaults, fetch(ts, defaultNestedType));
-                break;
+                case mson::TypeSection::DefaultClass:
+                    store(data.defaults, fetch(ts, defaultNestedType));
+                    break;
 
-            case mson::TypeSection::BlockDescriptionClass:
-                data.descriptions.push_back(ts.content.description);
-                break;
+                case mson::TypeSection::BlockDescriptionClass:
+                    data.descriptions.push_back(ts.content.description);
+                    break;
 
-            default:
-                throw std::logic_error("Unexpected section type for property");
+                default:
+                    throw std::logic_error("Unexpected section type for property");
             }
         }
-
     };
 
 
@@ -557,7 +556,7 @@ namespace drafter {
         }
 
         for (mson::TypeSections::const_iterator it = property.sections.begin(); it != property.sections.end(); ++it) {
-            if (it->klass == mson::TypeSection::BlockDescriptionClass){ 
+            if (it->klass == mson::TypeSection::BlockDescriptionClass) {
                 if (addNewLine) {
                     descriptionRef.append("\n");
                     addNewLine = false;
@@ -734,12 +733,6 @@ namespace drafter {
         if (!ds.name.symbol.literal.empty()) {
             e->meta[SerializeKey::Id] = IElement::Create(ds.name.symbol.literal);
         }
-
-        // FIXME: "title" is temporary commented, until clear refract spec 
-        // in few examples for named object is "title" attribute used
-        // sometime is not used.
-        
-        //e->meta[SerializeKey::Title] = IElement::Create(ds.name.symbol.literal);
 
         TypeSectionData<T> data;
 
