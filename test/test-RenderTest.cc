@@ -15,6 +15,11 @@ TEST_CASE("Testing render of a simple object", "[render]")
     REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render/simple-object"));
 }
 
+TEST_CASE("Testing render of a simple object where content-type value has extra qualifiers", "[render]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render/content-type"));
+}
+
 TEST_CASE("Testing render of a nested object", "[render]")
 {
     REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render/nested-object"));

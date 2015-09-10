@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
+#include <iterator>
+
 #include "RefractDataStructure.h"
 #include "RefractAPI.h"
 #include "Render.h"
@@ -39,18 +41,22 @@ namespace drafter {
         }
     }
 
-    refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure)
+    refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure, bool expand)
     {
         refract::IElement* msonElement = MSONToRefract(dataStructure);
-        refract::IElement* msonExpanded = ExpandRefract(msonElement, GetNamedTypesRegistry());
 
-        if (!msonExpanded) {
+        if (expand) {
+            refract::IElement* msonExpanded = ExpandRefract(msonElement, GetNamedTypesRegistry());
+            msonElement = msonExpanded;
+        }
+
+        if (!msonElement) {
             return NULL;
         }
 
         refract::ObjectElement* element = new refract::ObjectElement;
         element->element(SerializeKey::DataStructure);
-        element->push_back(msonExpanded);
+        element->push_back(msonElement);
 
         return element;
     }

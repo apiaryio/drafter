@@ -21,12 +21,24 @@
               "attributes": {
                 "samples": [
                   [
-                    "d",
-                    "e"
+                    {
+                      "element": "string",
+                      "content": "d"
+                    },
+                    {
+                      "element": "string",
+                      "content": "e"
+                    }
                   ],
                   [
-                    "h",
-                    "j"
+                    {
+                      "element": "string",
+                      "content": "h"
+                    },
+                    {
+                      "element": "string",
+                      "content": "j"
+                    }
                   ]
                 ]
               },

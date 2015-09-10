@@ -30,9 +30,18 @@
                       "attributes": {
                         "samples": [
                           [
-                            "1",
-                            "2",
-                            "3"
+                            {
+                              "element": "string",
+                              "content": "1"
+                            },
+                            {
+                              "element": "string",
+                              "content": "2"
+                            },
+                            {
+                              "element": "string",
+                              "content": "3"
+                            }
                           ]
                         ]
                       }
@@ -121,9 +130,18 @@
                       "attributes": {
                         "samples": [
                           [
-                            "1",
-                            "2",
-                            "3"
+                            {
+                              "element": "string",
+                              "content": "1"
+                            },
+                            {
+                              "element": "string",
+                              "content": "2"
+                            },
+                            {
+                              "element": "string",
+                              "content": "3"
+                            }
                           ]
                         ]
                       }
@@ -142,9 +160,18 @@
                       "attributes": {
                         "samples": [
                           [
-                            "1",
-                            "2",
-                            "3"
+                            {
+                              "element": "string",
+                              "content": "1"
+                            },
+                            {
+                              "element": "string",
+                              "content": "2"
+                            },
+                            {
+                              "element": "string",
+                              "content": "3"
+                            }
                           ]
                         ]
                       }

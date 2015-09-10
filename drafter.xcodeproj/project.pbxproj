@@ -60,6 +60,12 @@
 		19A12A001B70B8D000366AA7 /* sosJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129FC1B70B8D000366AA7 /* sosJSON.h */; };
 		19A12A011B70B8D000366AA7 /* sosYAML.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129FD1B70B8D000366AA7 /* sosYAML.h */; };
 		19A12A021B70B92800366AA7 /* liblibsos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129EF1B70B88E00366AA7 /* liblibsos.a */; };
+		19FD76A41B9720D300B160CF /* config.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A1296A1B70ABE100366AA7 /* config.cc */; };
+		19FD76A51B9720D600B160CF /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A1296E1B70ABE100366AA7 /* main.cc */; };
+		19FD76A61B97215B00B160CF /* liblibdrafter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19BD7B971B70AAAF00A11E83 /* liblibdrafter.a */; };
+		19FD76A71B97216100B160CF /* liblibsos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129EF1B70B88E00366AA7 /* liblibsos.a */; };
+		19FD76A81B97216700B160CF /* libmarkdownparser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129E91B70AFA900366AA7 /* libmarkdownparser.a */; };
+		19FD76A91B97216700B160CF /* libsnowcrash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129E71B70AFA600366AA7 /* libsnowcrash.a */; };
 		401074A31B833A1000B66442 /* Render.cc in Sources */ = {isa = PBXBuildFile; fileRef = 401074A21B833A1000B66442 /* Render.cc */; };
 		40EF03D51B7210F300865990 /* RefractDataStructure.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40EF03D31B7210F300865990 /* RefractDataStructure.cc */; };
 		40EF03D61B7210F300865990 /* RefractDataStructure.h in Headers */ = {isa = PBXBuildFile; fileRef = 40EF03D41B7210F300865990 /* RefractDataStructure.h */; };
@@ -81,6 +87,15 @@
 
 /* Begin PBXCopyFilesBuildPhase section */
 		19A129D61B70AE1900366AA7 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		19FD769B1B9720CB00B160CF /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -150,6 +165,7 @@
 		19A129FC1B70B8D000366AA7 /* sosJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sosJSON.h; path = ext/sos/src/sosJSON.h; sourceTree = SOURCE_ROOT; };
 		19A129FD1B70B8D000366AA7 /* sosYAML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sosYAML.h; path = ext/sos/src/sosYAML.h; sourceTree = SOURCE_ROOT; };
 		19BD7B971B70AAAF00A11E83 /* liblibdrafter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibdrafter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		19FD769D1B9720CB00B160CF /* drafter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = drafter; sourceTree = BUILT_PRODUCTS_DIR; };
 		401074A21B833A1000B66442 /* Render.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Render.cc; path = src/Render.cc; sourceTree = SOURCE_ROOT; };
 		40EF03D31B7210F300865990 /* RefractDataStructure.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractDataStructure.cc; path = src/RefractDataStructure.cc; sourceTree = SOURCE_ROOT; };
 		40EF03D41B7210F300865990 /* RefractDataStructure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefractDataStructure.h; path = src/RefractDataStructure.h; sourceTree = SOURCE_ROOT; };
@@ -182,6 +198,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19FD769A1B9720CB00B160CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19FD76A81B97216700B160CF /* libmarkdownparser.a in Frameworks */,
+				19FD76A91B97216700B160CF /* libsnowcrash.a in Frameworks */,
+				19FD76A71B97216100B160CF /* liblibsos.a in Frameworks */,
+				19FD76A61B97215B00B160CF /* liblibdrafter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +300,7 @@
 				19BD7B971B70AAAF00A11E83 /* liblibdrafter.a */,
 				19A129D81B70AE1900366AA7 /* test-libdrafter */,
 				19A129EF1B70B88E00366AA7 /* liblibsos.a */,
+				19FD769D1B9720CB00B160CF /* drafter */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -409,6 +437,23 @@
 			productReference = 19BD7B971B70AAAF00A11E83 /* liblibdrafter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		19FD769C1B9720CB00B160CF /* drafter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 19FD76A31B9720CB00B160CF /* Build configuration list for PBXNativeTarget "drafter" */;
+			buildPhases = (
+				19FD76991B9720CB00B160CF /* Sources */,
+				19FD769A1B9720CB00B160CF /* Frameworks */,
+				19FD769B1B9720CB00B160CF /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = drafter;
+			productName = drafter;
+			productReference = 19FD769D1B9720CB00B160CF /* drafter */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -425,6 +470,9 @@
 						CreatedOnToolsVersion = 6.4;
 					};
 					19BD7B961B70AAAF00A11E83 = {
+						CreatedOnToolsVersion = 6.4;
+					};
+					19FD769C1B9720CB00B160CF = {
 						CreatedOnToolsVersion = 6.4;
 					};
 				};
@@ -444,6 +492,7 @@
 				19BD7B961B70AAAF00A11E83 /* libdrafter */,
 				19A129D71B70AE1900366AA7 /* test-libdrafter */,
 				19A129EE1B70B88E00366AA7 /* libsos */,
+				19FD769C1B9720CB00B160CF /* drafter */,
 			);
 		};
 /* End PBXProject section */
@@ -493,6 +542,15 @@
 				19A1298E1B70ABE100366AA7 /* SerializeResult.cc in Sources */,
 				19A129B01B70AC9A00366AA7 /* ComparableVisitor.cc in Sources */,
 				19A1298A1B70ABE100366AA7 /* Serialize.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19FD76991B9720CB00B160CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19FD76A51B9720D600B160CF /* main.cc in Sources */,
+				19FD76A41B9720D300B160CF /* config.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -662,6 +720,34 @@
 			};
 			name = Release;
 		};
+		19FD76A11B9720CB00B160CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/drafter-gsbusumgxawcfndzeqzwyaefkhkh/Build/Products/Debug",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "ext/snowcrash/src ext/sos/src ext/snowcrash/ext/markdown-parser/ext/sundown/src ext/snowcrash/ext/markdown-parser/src ext/cmdline";
+			};
+			name = Debug;
+		};
+		19FD76A21B9720CB00B160CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/drafter-gsbusumgxawcfndzeqzwyaefkhkh/Build/Products/Debug",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "ext/snowcrash/src ext/sos/src ext/snowcrash/ext/markdown-parser/ext/sundown/src ext/snowcrash/ext/markdown-parser/src ext/cmdline";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -700,6 +786,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		19FD76A31B9720CB00B160CF /* Build configuration list for PBXNativeTarget "drafter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				19FD76A11B9720CB00B160CF /* Debug */,
+				19FD76A21B9720CB00B160CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
