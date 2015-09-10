@@ -171,3 +171,13 @@ TEST_CASE("Testing description on members of enum|array", "[refract][mson]")
 {
     REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/enum-members-description", drafter::NormalASTType, true));
 }
+
+TEST_CASE("Testing refract array containing reference", "[refract][mson]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/array-reference", drafter::NormalASTType, true));
+}
+
+TEST_CASE("Testing refract reference getting overridden", "[refract][mson]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/reference-override", drafter::NormalASTType, true));
+}
