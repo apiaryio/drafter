@@ -77,18 +77,40 @@ namespace refract
         }
     }
 
+    static bool IsFullRender(const IElement* element) {
+        return element->renderType() == IElement::rFull;
+    }
+
     void SerializeCompactVisitor::visit(const ObjectElement& e)
     {
-        sos::Object obj;
 
         typedef ObjectElement::ValueType::const_iterator iterator;
-        for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-            SerializeCompactVisitor sv;
-            (*it)->content(sv);
-            obj.set(sv.key(), sv.value());
-        }
+        iterator it = find_if(e.value.begin(), e.value.end(), IsFullRender);
 
-        value_ = obj;
+        // if there is ANY element required to be serialized in Full
+        // we must use array to serialize
+        if (it != e.value.end()) {
+            sos::Array arr;
+
+            for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
+                SerializeVisitor s;
+                s.visit(*(*it));
+                arr.push(s.get());
+            }
+
+            value_ = arr;
+        }
+        else {
+            sos::Object obj;
+
+            for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
+                SerializeCompactVisitor sv;
+                (*it)->content(sv);
+                obj.set(sv.key(), sv.value());
+            }
+
+            value_ = obj;
+        }
     }
 
 }; // namespace refract

@@ -138,13 +138,25 @@
               "attributes": {
                 "samples": [
                   [
-                    "c",
-                    "d"
+                    {
+                      "element": "string",
+                      "content": "c"
+                    },
+                    {
+                      "element": "string",
+                      "content": "d"
+                    }
                   ]
                 ],
                 "default": [
-                  "e",
-                  "f"
+                  {
+                    "element": "string",
+                    "content": "e"
+                  },
+                  {
+                    "element": "string",
+                    "content": "f"
+                  }
                 ]
               },
               "content": [

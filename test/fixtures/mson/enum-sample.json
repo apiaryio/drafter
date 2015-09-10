@@ -52,8 +52,14 @@
                       "attributes": {
                         "samples": [
                           [
-                            "3",
-                            "4"
+                            {
+                              "element": "string",
+                              "content": "3"
+                            },
+                            {
+                              "element": "string",
+                              "content": "4"
+                            }
                           ]
                         ]
                       }
@@ -100,8 +106,14 @@
                       "attributes": {
                         "samples": [
                           [
-                            "3",
-                            "4"
+                            {
+                              "element": "string",
+                              "content": "3"
+                            },
+                            {
+                              "element": "string",
+                              "content": "4"
+                            }
                           ]
                         ]
                       }
@@ -123,16 +135,31 @@
                       "attributes": {
                         "samples": [
                           [
-                            3,
-                            4
+                            {
+                              "element": "number",
+                              "content": 3
+                            },
+                            {
+                              "element": "number",
+                              "content": 4
+                            }
                           ],
                           [
-                            5,
-                            6
+                            {
+                              "element": "number",
+                              "content": 5
+                            },
+                            {
+                              "element": "number",
+                              "content": 6
+                            }
                           ]
                         ],
                         "default": [
-                          1
+                          {
+                            "element": "number",
+                            "content": 1
+                          }
                         ]
                       }
                     }

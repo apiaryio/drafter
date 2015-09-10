@@ -62,10 +62,22 @@
                                       "element": "array",
                                       "attributes": {
                                         "default": [
-                                          "d",
-                                          "f",
-                                          "l",
-                                          "t"
+                                          {
+                                            "element": "string",
+                                            "content": "d"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "f"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "l"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "t"
+                                          }
                                         ]
                                       }
                                     }
@@ -83,10 +95,22 @@
                                       "attributes": {
                                         "samples": [
                                           [
-                                            "s",
-                                            "m",
-                                            "p",
-                                            "l"
+                                            {
+                                              "element": "string",
+                                              "content": "s"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "m"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "p"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "l"
+                                            }
                                           ]
                                         ]
                                       }
@@ -105,15 +129,36 @@
                                       "attributes": {
                                         "samples": [
                                           [
-                                            "1",
-                                            "2",
-                                            "3"
+                                            {
+                                              "element": "string",
+                                              "content": "1"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "2"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "3"
+                                            }
                                           ],
                                           [
-                                            "4",
-                                            "5",
-                                            "6",
-                                            "7"
+                                            {
+                                              "element": "string",
+                                              "content": "4"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "5"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "6"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "7"
+                                            }
                                           ]
                                         ]
                                       }
@@ -193,10 +238,22 @@
                                       "element": "array",
                                       "attributes": {
                                         "default": [
-                                          "d",
-                                          "f",
-                                          "l",
-                                          "t"
+                                          {
+                                            "element": "string",
+                                            "content": "d"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "f"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "l"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "t"
+                                          }
                                         ]
                                       }
                                     }
@@ -214,10 +271,22 @@
                                       "attributes": {
                                         "samples": [
                                           [
-                                            "s",
-                                            "m",
-                                            "p",
-                                            "l"
+                                            {
+                                              "element": "string",
+                                              "content": "s"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "m"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "p"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "l"
+                                            }
                                           ]
                                         ]
                                       }
@@ -236,15 +305,36 @@
                                       "attributes": {
                                         "samples": [
                                           [
-                                            "1",
-                                            "2",
-                                            "3"
+                                            {
+                                              "element": "string",
+                                              "content": "1"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "2"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "3"
+                                            }
                                           ],
                                           [
-                                            "4",
-                                            "5",
-                                            "6",
-                                            "7"
+                                            {
+                                              "element": "string",
+                                              "content": "4"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "5"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "6"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "7"
+                                            }
                                           ]
                                         ]
                                       }

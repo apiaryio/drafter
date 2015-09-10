@@ -62,14 +62,62 @@
                                       "element": "object",
                                       "attributes": {
                                         "samples": [
-                                          {
-                                            "p1": "x",
-                                            "p2": "y"
-                                          },
-                                          {
-                                            "p1": "1",
-                                            "p2": "2"
-                                          }
+                                          [
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "p1"
+                                                },
+                                                "value": {
+                                                  "element": "string",
+                                                  "content": "x"
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "p2"
+                                                },
+                                                "value": {
+                                                  "element": "string",
+                                                  "content": "y"
+                                                }
+                                              }
+                                            }
+                                          ],
+                                          [
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "p1"
+                                                },
+                                                "value": {
+                                                  "element": "string",
+                                                  "content": "1"
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "p2"
+                                                },
+                                                "value": {
+                                                  "element": "string",
+                                                  "content": "2"
+                                                }
+                                              }
+                                            }
+                                          ]
                                         ]
                                       },
                                       "content": [
@@ -174,14 +222,62 @@
                                       "element": "object",
                                       "attributes": {
                                         "samples": [
-                                          {
-                                            "p1": "x",
-                                            "p2": "y"
-                                          },
-                                          {
-                                            "p1": "1",
-                                            "p2": "2"
-                                          }
+                                          [
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "p1"
+                                                },
+                                                "value": {
+                                                  "element": "string",
+                                                  "content": "x"
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "p2"
+                                                },
+                                                "value": {
+                                                  "element": "string",
+                                                  "content": "y"
+                                                }
+                                              }
+                                            }
+                                          ],
+                                          [
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "p1"
+                                                },
+                                                "value": {
+                                                  "element": "string",
+                                                  "content": "1"
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "p2"
+                                                },
+                                                "value": {
+                                                  "element": "string",
+                                                  "content": "2"
+                                                }
+                                              }
+                                            }
+                                          ]
                                         ]
                                       },
                                       "content": [
