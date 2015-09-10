@@ -158,10 +158,17 @@ namespace drafter {
         }
 
         // Parameter use
-        if (parameter.use == snowcrash::RequiredParameterUse || parameter.use == snowcrash::OptionalParameterUse) {
+        if (parameter.use == snowcrash::RequiredParameterUse || parameter.use == snowcrash::OptionalParameterUse || parameter.use == snowcrash::NullableParameterUse) {
             refract::ArrayElement* typeAttributes = new refract::ArrayElement;
-
-            typeAttributes->push_back(refract::IElement::Create(parameter.use == snowcrash::RequiredParameterUse ? SerializeKey::Required : SerializeKey::Optional));
+            
+            if(parameter.use == snowcrash::RequiredParameterUse) {
+                typeAttributes->push_back(refract::IElement::Create(SerializeKey::Required));
+            } else if(parameter.use == snowcrash::OptionalParameterUse) {
+                typeAttributes->push_back(refract::IElement::Create(SerializeKey::Optional));
+            } else if(parameter.use == snowcrash::NullableParameterUse) {
+                typeAttributes->push_back(refract::IElement::Create(SerializeKey::Nullable));
+            }
+                
             element->attributes[SerializeKey::TypeAttributes] = typeAttributes;
         }
 

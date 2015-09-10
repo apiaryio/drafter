@@ -159,6 +159,9 @@ sos::Array WrapTypeAttributes(const mson::TypeAttributes& typeAttributes)
     else if (typeAttributes & mson::DefaultTypeAttribute) {
         typeAttributesArray.push(sos::String("default"));
     }
+    else if (typeAttributes & mson::NullableTypeAttribute) {
+        typeAttributesArray.push(sos::String("nullable"));
+    }
     else if (typeAttributes & mson::SampleTypeAttribute) {
         typeAttributesArray.push(sos::String("sample"));
     }
@@ -584,6 +587,9 @@ sos::Object WrapParameter(const Parameter& parameter)
 
     // Default Value
     parameterObject.set(SerializeKey::Default, sos::String(parameter.defaultValue));
+    
+    // Nullable Value
+    parameterObject.set(SerializeKey::Nullable, sos::String(parameter.nullableValue));
 
     // Example Value
     parameterObject.set(SerializeKey::Example, sos::String(parameter.exampleValue));
