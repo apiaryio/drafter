@@ -31,24 +31,63 @@
                       "attributes": {
                         "samples": [
                           [
-                            "5",
-                            "8",
-                            "13"
+                            {
+                              "element": "string",
+                              "content": "5"
+                            },
+                            {
+                              "element": "string",
+                              "content": "8"
+                            },
+                            {
+                              "element": "string",
+                              "content": "13"
+                            }
                           ],
                           [
-                            "8",
-                            "13",
-                            "21"
+                            {
+                              "element": "string",
+                              "content": "8"
+                            },
+                            {
+                              "element": "string",
+                              "content": "13"
+                            },
+                            {
+                              "element": "string",
+                              "content": "21"
+                            }
                           ]
                         ],
                         "default": [
-                          "1",
-                          "2",
-                          "3",
-                          "5",
-                          "8",
-                          "13",
-                          "21"
+                          {
+                            "element": "string",
+                            "content": "1"
+                          },
+                          {
+                            "element": "string",
+                            "content": "2"
+                          },
+                          {
+                            "element": "string",
+                            "content": "3"
+                          },
+                          {
+                            "element": "string",
+                            "content": "5"
+                          },
+                          {
+                            "element": "string",
+                            "content": "8"
+                          },
+                          {
+                            "element": "string",
+                            "content": "13"
+                          },
+                          {
+                            "element": "string",
+                            "content": "21"
+                          }
                         ]
                       },
                       "content": [

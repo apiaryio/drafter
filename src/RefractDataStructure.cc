@@ -425,7 +425,32 @@ namespace drafter {
             }
         };
 
+        refract::IElement* SetSerializeFlag(refract::IElement* element) {
+            refract::TypeQueryVisitor query;
+            element->content(query);
+
+            RefractElements* children = NULL;
+
+            if (query.get() == refract::TypeQueryVisitor::Array) {
+                children = &static_cast<refract::ArrayElement*>(element)->value;
+            } 
+            else if (query.get() == refract::TypeQueryVisitor::Object) {
+                children = &static_cast<refract::ObjectElement*>(element)->value;
+
+            }
+
+            if (children) {
+                for_each((*children).begin(), (*children).end(), 
+                         std::bind2nd(std::mem_fun((void (refract::IElement::*)(const refract::IElement::renderFlags))&refract::IElement::renderType), refract::IElement::rFull));
+            }
+
+            return element;
+        }
+
         void SaveSamples(RefractElements& samples, refract::IElement* element) {
+
+            std::for_each(samples.begin(), samples.end(), SetSerializeFlag);
+
             if (!samples.empty()) {
                 refract::ArrayElement* a = new refract::ArrayElement;
                 a->set(samples);
@@ -434,6 +459,8 @@ namespace drafter {
         }
 
         void SaveDefault(RefractElements& defaults, refract::IElement* element) {
+
+            std::for_each(defaults.begin(), defaults.end(), SetSerializeFlag);
 
             if (!defaults.empty()) {
                 refract::IElement* e = *defaults.rbegin();

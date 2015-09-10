@@ -20,10 +20,34 @@
               },
               "attributes": {
                 "samples": [
-                  {
-                    "a": "1",
-                    "b": "2"
-                  }
+                  [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "a"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "1"
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "b"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "2"
+                        }
+                      }
+                    }
+                  ]
                 ]
               },
               "content": [

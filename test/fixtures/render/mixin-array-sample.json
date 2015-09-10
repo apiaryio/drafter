@@ -173,12 +173,24 @@
               "attributes": {
                 "samples": [
                   [
-                    "a",
-                    "b"
+                    {
+                      "element": "string",
+                      "content": "a"
+                    },
+                    {
+                      "element": "string",
+                      "content": "b"
+                    }
                   ],
                   [
-                    "d",
-                    "e"
+                    {
+                      "element": "string",
+                      "content": "d"
+                    },
+                    {
+                      "element": "string",
+                      "content": "e"
+                    }
                   ]
                 ]
               }
