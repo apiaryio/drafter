@@ -30,8 +30,8 @@ void PrepareCommanLineParser(cmdline::parser& parser)
     parser.set_program_name(config::Program);
 
     parser.add<std::string>(config::Output,    'o', "save output AST into file", false);
-    parser.add<std::string>(config::Format,    'f', "output AST format", false, "yaml", cmdline::oneof<std::string>("yaml", "json"));
-    parser.add<std::string>(config::Type,      't', "format of AST", false, "refract", cmdline::oneof<std::string>("refract", "ast"));
+    parser.add<std::string>(config::Format,    'f', "output AST format (yaml|json)", false, "yaml", cmdline::oneof<std::string>("yaml", "json"));
+    parser.add<std::string>(config::Type,      't', "format of AST (refract|ast)", false, "refract", cmdline::oneof<std::string>("refract", "ast"));
     parser.add<std::string>(config::Sourcemap, 's', "export sourcemap AST into file", false);
     parser.add("help",                         'h', "display this help message");
     parser.add(config::Version ,               'v', "print Drafter version");
@@ -59,6 +59,11 @@ void ValidateParsedCommandLine(const cmdline::parser& parser)
         exit(EXIT_SUCCESS);
     }
 
+    if (parser.exist(config::Validate)) {
+        if (parser.exist(config::Sourcemap) || parser.exist(config::Output)) {
+            std::cerr << "WARN: While validation is enabled, source map and output files will not be created" << std::endl;
+        }
+    }
 }
 
 void ParseCommadLineOptions(int argc, const char *argv[], /* out */Config& conf)
