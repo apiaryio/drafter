@@ -82,7 +82,7 @@ $ cat << 'EOF' > blueprint.apib
 EOF
 
 $ drafter blueprint.apib 
-_version: 3.0
+_version: 4.0
 metadata:
 name: "My API"
  ...
