@@ -28,7 +28,7 @@ extern "C" {
  *
  *  \return Error status code. Zero represents success, non-zero a failure.
  *
- *  This function will allocate memory and returns pointer to 
+ *  This function will allocate memory and returns pointer to
  *  resul. Free allocated memory is responsibility of calling function.
  *  You have to release it by calling standard free() function
  *

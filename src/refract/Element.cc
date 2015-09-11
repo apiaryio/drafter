@@ -107,7 +107,7 @@ namespace refract
     }
 
     void IElement::MemberElementCollection::clone(const IElement::MemberElementCollection& other)
-    { 
+    {
         for (const_iterator it = other.begin() ; it != other.end() ; ++it) {
             push_back(static_cast<value_type>((*it)->clone()));
         }

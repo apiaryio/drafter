@@ -1,4 +1,4 @@
-// 
+//
 // vi:cin:et:sw=4 ts=4
 //
 //  config.cc - part of drafter

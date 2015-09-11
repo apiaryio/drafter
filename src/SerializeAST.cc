@@ -44,7 +44,7 @@ using snowcrash::Blueprint;
  * FIXME:
  * hotfix until solve ErrorReporting from drafter into snowcrash result.
  * we need it to allow free allocated memory
- * this flag WILL BE REMOVED, 
+ * this flag WILL BE REMOVED,
  * DO NOT USE it until you know what are you doing
  */
 
@@ -142,7 +142,7 @@ sos::Object WrapTypeSpecification(const mson::TypeSpecification& typeSpecificati
     typeSpecificationObject.set(SerializeKey::Name, WrapTypeName(typeSpecification.name));
 
     // Nested Types
-    typeSpecificationObject.set(SerializeKey::NestedTypes, 
+    typeSpecificationObject.set(SerializeKey::NestedTypes,
                                 WrapCollection<mson::TypeName>()(typeSpecification.nestedTypes, WrapTypeName));
 
     return typeSpecificationObject;
@@ -300,7 +300,7 @@ sos::Object WrapNamedType(const mson::NamedType& namedType)
     namedTypeObject.set(SerializeKey::TypeDefinition, WrapTypeDefinition(namedType.typeDefinition));
 
     // Type Sections
-    namedTypeObject.set(SerializeKey::Sections, 
+    namedTypeObject.set(SerializeKey::Sections,
                         WrapCollection<mson::TypeSection>()(namedType.sections, WrapTypeSection));
 
     return namedTypeObject;
@@ -412,7 +412,7 @@ sos::Object WrapMSONElement(const mson::Element& element)
         case mson::Element::OneOfClass:
         {
             klass = "oneOf";
-            elementObject.set(SerializeKey::Content, 
+            elementObject.set(SerializeKey::Content,
                               WrapCollection<mson::Element>()(element.content.oneOf(), WrapMSONElement));
             break;
         }
@@ -420,7 +420,7 @@ sos::Object WrapMSONElement(const mson::Element& element)
         case mson::Element::GroupClass:
         {
             klass = "group";
-            elementObject.set(SerializeKey::Content, 
+            elementObject.set(SerializeKey::Content,
                               WrapCollection<mson::Element>()(element.content.elements(), WrapMSONElement));
             break;
         }
@@ -449,7 +449,7 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
         object.set(SerializeKey::Content, sos::String(section.content.value));
     }
     else if (!section.content.elements().empty()) {
-        object.set(SerializeKey::Content, 
+        object.set(SerializeKey::Content,
                    WrapCollection<mson::Element>()(section.content.elements(), WrapMSONElement));
     }
 
@@ -483,7 +483,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     // Type Sections
     dataStructureObject.set(SerializeKey::Sections,
                             WrapCollection<mson::TypeSection>()(dataStructure.sections, WrapTypeSection));
-                            
+
     return dataStructureObject;
 }
 
@@ -591,7 +591,7 @@ sos::Object WrapParameter(const Parameter& parameter)
     parameterObject.set(SerializeKey::Example, sos::String(parameter.exampleValue));
 
     // Values
-    parameterObject.set(SerializeKey::Values, 
+    parameterObject.set(SerializeKey::Values,
                         WrapCollection<Value>()(parameter.values, WrapParameterValue));
 
     return parameterObject;

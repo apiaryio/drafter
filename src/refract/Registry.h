@@ -17,7 +17,7 @@ namespace refract
     // Forward declarations of IElement
     struct IElement;
 
-    class Registry 
+    class Registry
     {
         // FIXME: potentionally dangerous,
         // if element is deleted and not removed from registry

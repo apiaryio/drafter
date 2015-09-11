@@ -21,11 +21,11 @@ namespace refract
         typedef T ElementType;
         typedef V ValueType;
         ElementType*& element;
-        AppendDecorator(ElementType*& e) : element(e) 
+        AppendDecorator(ElementType*& e) : element(e)
         {
         }
 
-        void operator()(const V& value) 
+        void operator()(const V& value)
         {
             //throw std::logic_error("Can not append to primitive type");
             // FIXME: snowcrash warn about "Primitive type can not have member"
@@ -41,7 +41,7 @@ namespace refract
         typedef typename T::ValueType ValueType;
         ElementType*& element;
 
-        AppendDecorator(ElementType*& e) : element(e) 
+        AppendDecorator(ElementType*& e) : element(e)
         {
         }
 
@@ -58,7 +58,7 @@ namespace refract
         typedef typename T::ValueType ValueType;
         ElementType*& element;
 
-        AppendDecorator(ElementType*& e) : element(e) 
+        AppendDecorator(ElementType*& e) : element(e)
         {
         }
 

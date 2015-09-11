@@ -22,7 +22,7 @@ namespace refract
 
         IsExpandableVisitor();
 
-        template<typename T> 
+        template<typename T>
         void visit(const T& e);
 
         bool get() const;

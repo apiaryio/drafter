@@ -11,7 +11,7 @@
 namespace refract
 {
 
-    namespace 
+    namespace
     {
         struct CheckElement {
             bool checkElement(const IElement* e) const {
@@ -90,7 +90,7 @@ namespace refract
     void IsExpandableVisitor::visit(const T& e) {
         result = IsExpandable<T>()(&e);
     }
-  
+
     // Explicit instantioning of templates to avoid Linker Error
     template void IsExpandableVisitor::visit<NullElement>(const NullElement&);
     template void IsExpandableVisitor::visit<StringElement>(const StringElement&);

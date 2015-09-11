@@ -13,17 +13,17 @@
 namespace refract
 {
 
-    namespace 
+    namespace
     {
 
-        bool Expandable(const IElement& e) 
+        bool Expandable(const IElement& e)
         {
             IsExpandableVisitor v;
             e.content(v);
             return v.get();
         }
 
-        IElement* ExpandOrClone(const IElement* e, const Registry& registry) 
+        IElement* ExpandOrClone(const IElement* e, const Registry& registry)
         {
             IElement* result = NULL;
             if (!e) {
@@ -143,7 +143,7 @@ namespace refract
             return extend;
         }
 
-        IElement* ExpandInheritance(const ObjectElement& e, const Registry& registry) 
+        IElement* ExpandInheritance(const ObjectElement& e, const Registry& registry)
         {
             IElement* base = registry.find(e.element());
             TypeQueryVisitor t;
@@ -241,10 +241,10 @@ namespace refract
         }
         else if (en == "ref") { // expand reference
             result = ExpandReference(e, registry);
-        } 
+        }
         else { // walk throught members and expand them
             result = ExpandMembers(e, registry);
-        } 
+        }
 
     }
 
@@ -253,7 +253,7 @@ namespace refract
     void ExpandVisitor::visit(const StringElement& e) {}
     void ExpandVisitor::visit(const NumberElement& e) {}
     void ExpandVisitor::visit(const BooleanElement& e) {}
-    
+
     void ExpandVisitor::visit(const ArrayElement& e) {
 
         if (!Expandable(e)) {  // do we have some expandable members?

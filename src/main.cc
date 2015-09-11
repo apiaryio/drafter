@@ -54,7 +54,7 @@ void Serialization(std::ostream *stream,
 
 int main(int argc, const char *argv[])
 {
-    Config config; 
+    Config config;
     ParseCommadLineOptions(argc, argv, config);
 
     sc::BlueprintParserOptions options = 0;  // Or snowcrash::RequireBlueprintNameOption

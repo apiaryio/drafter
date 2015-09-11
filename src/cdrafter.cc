@@ -21,7 +21,7 @@
 
 namespace sc = snowcrash;
 
-static char* ToString(const std::stringstream& stream) 
+static char* ToString(const std::stringstream& stream)
 {
     size_t length = stream.str().length() + 1;
     char* str = (char*)malloc(length);

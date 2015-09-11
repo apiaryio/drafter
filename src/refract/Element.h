@@ -85,10 +85,10 @@ namespace refract
          * via. `content()` method
          */
         typedef typelist::cons<
-            ComparableVisitor, 
-            SerializeVisitor, 
-            SerializeCompactVisitor, 
-            ExpandVisitor, 
+            ComparableVisitor,
+            SerializeVisitor,
+            SerializeCompactVisitor,
+            ExpandVisitor,
             IsExpandableVisitor,
             TypeQueryVisitor,
             RenderJSONVisitor
@@ -142,18 +142,18 @@ namespace refract
         virtual void element(const std::string&) = 0;
 
         // NOTE: Visiting is now handled by inheritance from `VisitableBy`
-        // it uses internally C++ RTTI via `dynamic_cast<>`. 
+        // it uses internally C++ RTTI via `dynamic_cast<>`.
         // And accepts all visitors declared in typelist IElement::Visitors
         //
         // Alternative solution to avoid RTTI:
         // Add overrided virtual function `content` for every one type of `Visitor`
-        
+
         // NOTE: probably rename to Accept
         virtual void content(IVisitor& v) const = 0;
 
         /**
          * Flags for clone() element - select parts of refract element to be clonned
-         * \see Element<T>::clone() 
+         * \see Element<T>::clone()
          */
         typedef enum {
             cMeta       = 0x01,
@@ -182,7 +182,7 @@ namespace refract
          * (behavioration must be implemented in serialization visitors - it is partially done)
          */
 
-        typedef enum { 
+        typedef enum {
             rDefault = 0,
             rFull,
             rCompact,
@@ -262,7 +262,7 @@ namespace refract
             }
 
             if (flags & cAttributes) {
-                element->attributes.clone(self->attributes); 
+                element->attributes.clone(self->attributes);
             }
 
             if (flags & cMeta) {
@@ -279,7 +279,7 @@ namespace refract
             return element;
         }
 
-        Element() : value(TraitType::init()) 
+        Element() : value(TraitType::init())
         {
         }
 
@@ -291,7 +291,7 @@ namespace refract
 
     struct NullElementTrait
     {
-        struct null_type {}; 
+        struct null_type {};
         typedef null_type ValueType;
 
         static ValueType init() { return ValueType(); }
@@ -360,7 +360,7 @@ namespace refract
     {
         void push_back(IElement* e)
         {
-            // FIXME: warn if MemberElement 
+            // FIXME: warn if MemberElement
             // there is no way to present "key: value" in array
             hasContent = true;
             value.push_back(e);
@@ -444,7 +444,7 @@ namespace refract
         // - (Select Element)
         // - (Ref Element)
         //
-        // FIXME: behavioration for content types different than 
+        // FIXME: behavioration for content types different than
         // `(array[Member Element])` is not currently implemented
 
         static ValueType init() { return ValueType(); }
@@ -470,7 +470,7 @@ namespace refract
     {
         void push_back(IElement* e)
         {
-            // FIXME: 
+            // FIXME:
             // probably add check for allowed type
             hasContent = true;
             value.push_back(e);

@@ -66,7 +66,7 @@ sos::Object WrapPropertyMemberSourcemap(const SourceMap<mson::PropertyMember>& p
     propertyMemberObject.set(SerializeKey::ValueDefinition, WrapSourcemap(propertyMember.valueDefinition));
 
     // Type Sections
-    propertyMemberObject.set(SerializeKey::Sections, 
+    propertyMemberObject.set(SerializeKey::Sections,
                              WrapCollection<mson::TypeSection>()(propertyMember.sections.collection, WrapTypeSectionSourcemap));
 
     return propertyMemberObject;
@@ -83,7 +83,7 @@ sos::Object WrapValueMemberSourcemap(const SourceMap<mson::ValueMember>& valueMe
     valueMemberObject.set(SerializeKey::ValueDefinition, WrapSourcemap(valueMember.valueDefinition));
 
     // Type Sections
-    valueMemberObject.set(SerializeKey::Sections, 
+    valueMemberObject.set(SerializeKey::Sections,
                           WrapCollection<mson::TypeSection>()(valueMember.sections.collection, WrapTypeSectionSourcemap));
 
     return valueMemberObject;
@@ -139,7 +139,7 @@ sos::Object WrapDataStructureSourcemap(const SourceMap<DataStructure>& dataStruc
     dataStructureObject.set(SerializeKey::TypeDefinition, WrapSourcemap(dataStructure.typeDefinition));
 
     // Type Sections
-    dataStructureObject.set(SerializeKey::Sections, 
+    dataStructureObject.set(SerializeKey::Sections,
                             WrapCollection<mson::TypeSection>()(dataStructure.sections.collection, WrapTypeSectionSourcemap));
 
     return dataStructureObject;
@@ -171,7 +171,7 @@ sos::Object WrapPayloadSourcemap(const SourceMap<Payload>& payload)
     payloadObject.set(SerializeKey::Description, WrapSourcemap(payload.description));
 
     // Headers
-    payloadObject.set(SerializeKey::Headers, 
+    payloadObject.set(SerializeKey::Headers,
                       WrapCollection<Header>()(payload.headers.collection, WrapSourcemap));
 
     // Body
@@ -210,7 +210,7 @@ sos::Object WrapParameterValueSourceMap(const SourceMap<Value>& value)
     return object;
 }
 
-sos::Object WrapParameterSourcemap(const SourceMap<Parameter>& parameter) 
+sos::Object WrapParameterSourcemap(const SourceMap<Parameter>& parameter)
 {
     sos::Object object;
 
@@ -250,11 +250,11 @@ sos::Object WrapTransactionExampleSourcemap(const SourceMap<TransactionExample>&
     exampleObject.set(SerializeKey::Description, WrapSourcemap(example.description));
 
     // Requests
-    exampleObject.set(SerializeKey::Requests, 
+    exampleObject.set(SerializeKey::Requests,
                       WrapCollection<Request>()(example.requests.collection, WrapPayloadSourcemap));
 
     // Responses
-    exampleObject.set(SerializeKey::Responses, 
+    exampleObject.set(SerializeKey::Responses,
                       WrapCollection<Response>()(example.responses.collection, WrapPayloadSourcemap));
 
     return exampleObject;
@@ -274,11 +274,11 @@ sos::Object WrapActionSourcemap(const SourceMap<Action>& action)
     actionObject.set(SerializeKey::Method, WrapSourcemap(action.method));
 
     // Parameters
-    actionObject.set(SerializeKey::Parameters, 
+    actionObject.set(SerializeKey::Parameters,
                      WrapCollection<Parameter>()(action.parameters.collection, WrapParameterSourcemap));
 
     // Transaction Examples
-    actionObject.set(SerializeKey::Examples, 
+    actionObject.set(SerializeKey::Examples,
                      WrapCollection<TransactionExample>()(action.examples.collection, WrapTransactionExampleSourcemap));
 
     // Attributes
@@ -323,11 +323,11 @@ sos::Object WrapResourceSourcemap(const SourceMap<Resource>& resource)
     resourceObject.set(SerializeKey::Model, model);
 
     // Parameters
-    resourceObject.set(SerializeKey::Parameters, 
+    resourceObject.set(SerializeKey::Parameters,
                        WrapCollection<Parameter>()(resource.parameters.collection, WrapParameterSourcemap));
 
     // Actions
-    resourceObject.set(SerializeKey::Actions, 
+    resourceObject.set(SerializeKey::Actions,
                        WrapCollection<Action>()(resource.actions.collection, WrapActionSourcemap));
 
     // Content
@@ -403,7 +403,7 @@ sos::Object WrapElementSourcemap(const SourceMap<Element>& element)
 
         case Element::CategoryElement:
         {
-            elementObject.set(SerializeKey::Content, 
+            elementObject.set(SerializeKey::Content,
                               WrapCollection<Element>()(element.content.elements().collection, WrapElementSourcemap));
             break;
         }
@@ -425,7 +425,7 @@ sos::Object drafter::WrapBlueprintSourcemap(const SourceMap<Blueprint>& blueprin
     sos::Object blueprintObject;
 
     // Metadata
-    blueprintObject.set(SerializeKey::Metadata, 
+    blueprintObject.set(SerializeKey::Metadata,
                         WrapCollection<Metadata>()(blueprint.metadata.collection, WrapSourcemap));
 
     // Name
@@ -435,11 +435,11 @@ sos::Object drafter::WrapBlueprintSourcemap(const SourceMap<Blueprint>& blueprin
     blueprintObject.set(SerializeKey::Description, WrapSourcemap(blueprint.description));
 
     // Resource Groups
-    blueprintObject.set(SerializeKey::ResourceGroups, 
+    blueprintObject.set(SerializeKey::ResourceGroups,
                         WrapCollection<Element>()(blueprint.content.elements().collection, WrapResourceGroupSourcemap, IsElementResourceGroup));
 
     // Content
-    blueprintObject.set(SerializeKey::Content, 
+    blueprintObject.set(SerializeKey::Content,
                         WrapCollection<Element>()(blueprint.content.elements().collection, WrapElementSourcemap));
 
     return blueprintObject;

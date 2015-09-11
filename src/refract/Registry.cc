@@ -15,7 +15,7 @@
 namespace refract
 {
 
-    std::string Registry::getElementId(IElement* element) 
+    std::string Registry::getElementId(IElement* element)
     {
         IElement::MemberElementCollection::const_iterator it = element->meta.find("id");
         if (it == element->meta.end()) {
@@ -40,7 +40,7 @@ namespace refract
         return i->second;
     }
 
-    bool Registry::add(IElement* element) 
+    bool Registry::add(IElement* element)
     {
         IElement::MemberElementCollection::const_iterator it = element->meta.find("id");
         if (it == element->meta.end()) {
@@ -73,7 +73,7 @@ namespace refract
     }
 
     template<typename T>
-    static void DeleteSecond(T& pair) 
+    static void DeleteSecond(T& pair)
     {
         delete pair.second;
     }
