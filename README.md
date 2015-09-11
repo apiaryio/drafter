@@ -11,8 +11,17 @@ API Blueprint is Web API documentation language. You can find API Blueprint docu
 
 Additionally Drafter provide set of Wrappers for serialization, of parsing result, via  [SOS library](https://github.com/apiaryio/sos) into JSON and YAML format.
 
+Drafter also provides the user ability to select the type of the output. There are two possible values:
+
+* **Refract AST:** AST is defined in Refract elements according to [Parse Result Namespace](https://github.com/refractproject/refract-spec/blob/master/namespaces/parse-result.md)
+* **Normal AST:** AST defined by the [API Blueprint AST](https://github.com/apiaryio/api-blueprint-ast) Parse Result.
+
+By default, Drafter assumes the Refract AST.
+
+Both the types of AST are available in two different serialization formats, YAML and JSON. YAML is the default for the CLI.
+
 ## Status
-- [Format 1A8](https://github.com/apiaryio/api-blueprint/releases/tag/format-1A8) fully implemented
+- [Format 1A9](https://github.com/apiaryio/api-blueprint/releases/tag/format-1A9) fully implemented
 
 ## Install
 OS X using Homebrew:
@@ -92,7 +101,7 @@ meta:
  ...
 ```
 
-Refer to [AST Serialization Media Types](https://github.com/apiaryio/api-blueprint-ast) for the details on serialized media types. See [parse feature](features/parse.feature) for the details on using the `drafter` command line tool.
+See [parse feature](features/parse.feature) for the details on using the `drafter` command line tool.
 
 ## Build
 1. Clone the repo + fetch the submodules:
