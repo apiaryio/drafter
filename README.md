@@ -48,7 +48,7 @@ std::cout << "API Name: " << ast.node.name << std::endl;
 
 // Serialization to JSON format
 sos::SerializeJSON serializer;
-serializer.process(drafter::WrapBlueprint(ast.node), std::cout);
+serializer.process(drafter::WrapBlueprint(ast.node, drafter::RefractASTType), std::cout);
 
 ```
 
@@ -60,7 +60,7 @@ For purpose of [bindings](#bindings) to other languages Drafter provides very si
 
 const char* source = "# My API\n## GET /message\n + Response 200 (text/plain)\n\n        Hello World\n";
 char *result = NULL;
-int ret = drafter_c_parse(source, 0, &result);
+int ret = drafter_c_parse(source, 0, DRAFTER_REFRACT_AST_TYPE, &result);
 
 printf("Result: %s\n", ret == 0 ? "OK" : "ERROR");
 printf("Serialized JSON result:\n%s\n", result);
@@ -82,9 +82,11 @@ $ cat << 'EOF' > blueprint.apib
 EOF
 
 $ drafter blueprint.apib 
-_version: 3.0
-metadata:
-name: "My API"
+element: "category"
+meta:
+  classes:
+    - "api"
+  title: "My API"
  ...
 ```
 

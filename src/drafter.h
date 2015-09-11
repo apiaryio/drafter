@@ -30,8 +30,8 @@ namespace drafter {
      *  \return Error status code. Zero represents success, non-zero a failure.
      */
     int ParseBlueprint(const mdp::ByteBuffer& source,
-              snowcrash::BlueprintParserOptions options,
-              const snowcrash::ParseResultRef<snowcrash::Blueprint>& out);
+                       snowcrash::BlueprintParserOptions options,
+                       const snowcrash::ParseResultRef<snowcrash::Blueprint>& out);
 }
 
 #endif // #ifndef DRAFTER_H
