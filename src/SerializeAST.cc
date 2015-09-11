@@ -789,7 +789,8 @@ bool IsElementResourceGroup(const Element& element)
 #if _WITH_REFRACT_
 typedef std::vector<const snowcrash::DataStructure*> DataStructures;
 
-void findNamedTypes(const snowcrash::Elements& elements, DataStructures& found) {
+void findNamedTypes(const snowcrash::Elements& elements, DataStructures& found)
+{
     for (snowcrash::Elements::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
 
         if (i->element == snowcrash::Element::DataStructureElement) {
@@ -801,7 +802,6 @@ void findNamedTypes(const snowcrash::Elements& elements, DataStructures& found) 
         else if (i->element == snowcrash::Element::CategoryElement) {
             findNamedTypes(i->content.elements(), found);
         }
-
     }
 }
 
@@ -816,7 +816,6 @@ void registerNamedTypes(const snowcrash::Elements& elements)
             refract::IElement* element = MSONToRefract(*(*i));
             GetNamedTypesRegistry().add(element);
         }
-
     }
 }
 #endif

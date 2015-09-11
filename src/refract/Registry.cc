@@ -18,12 +18,14 @@ namespace refract
     std::string Registry::getElementId(IElement* element)
     {
         IElement::MemberElementCollection::const_iterator it = element->meta.find("id");
+
         if (it == element->meta.end()) {
             throw LogicError("Element has no ID");
         }
 
         SerializeCompactVisitor v;
         (*it)->value.second->content(v);
+
         if (StringElement* s = TypeQueryVisitor::as<StringElement>((*it)->value.second)) {
             return s->value;
         }
@@ -34,15 +36,18 @@ namespace refract
     IElement* Registry::find(const std::string& name) const
     {
         Map::const_iterator i = registrated.find(name);
+
         if (i == registrated.end()) {
             return NULL;
         }
+
         return i->second;
     }
 
     bool Registry::add(IElement* element)
     {
         IElement::MemberElementCollection::const_iterator it = element->meta.find("id");
+
         if (it == element->meta.end()) {
             throw LogicError("Element has no ID");
         }
@@ -65,9 +70,11 @@ namespace refract
 
     bool Registry::remove(const std::string& name) {
         Map::iterator i = registrated.find(name);
+
         if (i == registrated.end()) {
             return false;
         }
+
         registrated.erase(i);
         return true;
     }
@@ -82,6 +89,7 @@ namespace refract
         if (releaseElements) {
             std::for_each(registrated.begin(), registrated.end(), DeleteSecond<Map::value_type>);
         }
+
         registrated.clear();
     }
 

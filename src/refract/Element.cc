@@ -43,15 +43,15 @@ namespace refract
     {
         ComparableVisitor v(name);
         const_iterator it;
-        for (it = begin(); it != end(); ++it) {
 
+        for (it = begin(); it != end(); ++it) {
             (*it)->value.first->content(v);
 
             if (v.get()) {
                 return it;
             }
-
         }
+
         return it;
     }
 
@@ -59,15 +59,15 @@ namespace refract
     {
         ComparableVisitor v(name);
         iterator it;
-        for (it = begin(); it != end(); ++it) {
 
+        for (it = begin(); it != end(); ++it) {
             (*it)->value.first->content(v);
 
             if (v.get()) {
                 return it;
             }
-
         }
+
         return it;
     }
 
@@ -86,9 +86,11 @@ namespace refract
         // key not found - create new one and return reference
         StringElement* key = new StringElement;
         key->set(name);
+
         MemberElement* member = new MemberElement;
         member->value.first = key;
         push_back(member);
+
         return *member;
     }
 
@@ -97,6 +99,7 @@ namespace refract
         for (iterator it = begin(); it != end(); ++it) {
             delete (*it);
         }
+
         clear();
     }
 
@@ -116,10 +119,12 @@ namespace refract
     void IElement::MemberElementCollection::erase(const std::string& key)
     {
         iterator it = find(key);
+
         if (it != end()) {
             if (*it) {
                 delete (*it);
             }
+
             std::vector<MemberElement*>::erase(it);
         }
     }

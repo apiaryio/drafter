@@ -39,8 +39,8 @@ namespace refract
     void SerializeCompactVisitor::visit(const ArrayElement& e)
     {
         sos::Array array;
-
         typedef ArrayElement::ValueType::const_iterator iterator;
+
         for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
             if ((*it)->renderType() == IElement::rFull) {
                 SerializeVisitor s;

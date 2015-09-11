@@ -592,7 +592,6 @@ namespace drafter {
         return !value.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal.empty();
     }
 
-
     struct PropertyTrait {
         typedef refract::MemberElement ElementType;
         typedef mson::PropertyMember InputType;
@@ -632,7 +631,7 @@ namespace drafter {
                 return Trait::template Invoke<refract::ObjectElement>(input, defaultNestedType);
 
             case mson::UndefinedTypeName:
-
+            {
                 if (ValueHasChildren(input)) {
                     return Trait::template Invoke<refract::ArrayElement>(input, defaultNestedType);
                 }
@@ -653,7 +652,7 @@ namespace drafter {
                    default:
                        throw std::logic_error("Nested complex types are not Implemented");
                 }
-
+            }
 
             default:
                 throw std::runtime_error("Unhandled type of Member");
@@ -696,7 +695,6 @@ namespace drafter {
 
         return ref;
     }
-
 
     static refract::IElement* MsonElementToRefract(const mson::Element& mse, const mson::BaseTypeName defaultNestedType/* = mson::StringTypeName */)
     {

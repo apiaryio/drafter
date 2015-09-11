@@ -35,7 +35,6 @@ namespace refract
             return first == second;
         }
 
-
     public:
 
         enum {

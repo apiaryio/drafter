@@ -63,6 +63,7 @@ namespace refract
                     return m->value.second;
                 }
             }
+
             return NULL;
         }
 
@@ -76,6 +77,7 @@ namespace refract
         {
             std::string en = name;
             T* e = NULL;
+
             if (expansion == Inherited) {
                 e = new T;
             }
@@ -89,6 +91,7 @@ namespace refract
 
                 IElement* clone = parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId);
                 clone->meta["ref"] = IElement::Create(en);
+
                 if (e) {
                     e->push_back(clone);
                 }
@@ -147,6 +150,7 @@ namespace refract
         {
             IElement* base = registry.find(e.element());
             TypeQueryVisitor t;
+
             if (base) {
                 base->content(t);
             }
@@ -174,6 +178,7 @@ namespace refract
             }
 
             IElement* referenced = registry.find(href->value);
+
             if (!referenced) {
                 return ref;
             }
@@ -226,7 +231,6 @@ namespace refract
 
         result = expanded;
     }
-
 
     void ExpandVisitor::visit(const ObjectElement& e) {
 

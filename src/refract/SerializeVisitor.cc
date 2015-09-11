@@ -83,18 +83,22 @@ namespace refract
     void SerializeVisitor::visit(const StringElement& e)
     {
         sos::Base value = sos::Null();
+
         if (!e.empty()) {
             value = sos::String(e.value);
         }
+
         SetSerializerValue(*this, value);
     }
 
     void SerializeVisitor::visit(const NumberElement& e)
     {
         sos::Base value = sos::Null();
+
         if (!e.empty()) {
             value = sos::Number(e.value);
         }
+
         SetSerializerValue(*this, value);
     }
 
@@ -112,8 +116,8 @@ namespace refract
     void SerializeVisitor::visit(const ArrayElement& e)
     {
         sos::Array array;
-
         typedef ArrayElement::ValueType::const_iterator iterator;
+
         for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
             array.push(ElementToObject(*it));
         }
@@ -140,8 +144,8 @@ namespace refract
     void SerializeVisitor::visit(const ObjectElement& e)
     {
         sos::Array array;
-
         typedef ObjectElement::ValueType::const_iterator iterator;
+
         for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
             array.push(ElementToObject(*it));
         }

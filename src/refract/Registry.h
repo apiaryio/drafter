@@ -26,6 +26,7 @@ namespace refract
         Map registrated;
 
         std::string getElementId(IElement* element);
+
     public:
 
         IElement* find(const std::string& name) const;
