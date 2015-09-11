@@ -1,0 +1,26 @@
+{
+  "element": "category",
+  "meta": {
+    "classes": [
+      "api"
+    ],
+    "title": "API name"
+  },
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "resourceGroup"
+        ],
+        "title": "Users"
+      },
+      "content": [
+        {
+          "element": "copy",
+          "content": "User related endpoints\n"
+        }
+      ]
+    }
+  ]
+}

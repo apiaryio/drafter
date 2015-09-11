@@ -1,0 +1,42 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "object",
+          "meta": {
+            "id": "User"
+          },
+          "content": [
+            {
+              "element": "member",
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "str"
+                },
+                "value": {
+                  "element": "string",
+                  "attributes": {
+                    "samples": [
+                      "abc",
+                      "cde"
+                    ],
+                    "default": "ijk"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

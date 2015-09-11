@@ -1,0 +1,147 @@
+{
+  "element": "category",
+  "meta": {
+    "classes": [
+      "api"
+    ],
+    "title": "API name"
+  },
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "resourceGroup"
+        ],
+        "title": "Users"
+      },
+      "content": [
+        {
+          "element": "resource",
+          "meta": {
+            "title": "User"
+          },
+          "attributes": {
+            "href": "/users"
+          },
+          "content": [
+            {
+              "element": "transition",
+              "meta": {
+                "title": "List all users"
+              },
+              "content": [
+                {
+                  "element": "httpTransaction",
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "attributes": {
+                        "method": "GET"
+                      },
+                      "content": []
+                    },
+                    {
+                      "element": "httpResponse",
+                      "attributes": {
+                        "statusCode": "200",
+                        "headers": {
+                          "element": "httpHeaders",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "Content-Type"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "user"
+                                    },
+                                    "value": {
+                                      "element": "User"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageBody"
+                          },
+                          "attributes": {
+                            "contentType": "application/json"
+                          },
+                          "content": "{\n  \"user\": {\n    \"name\": \"John\"\n  }\n}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "dataStructures"
+        ]
+      },
+      "content": [
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "User"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "name"
+                    },
+                    "value": {
+                      "element": "string",
+                      "content": "John"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

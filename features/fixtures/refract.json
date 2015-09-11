@@ -1,0 +1,767 @@
+{
+  "element": "category",
+  "meta": {
+    "classes": [
+      "api"
+    ],
+    "title": "<API name>"
+  },
+  "attributes": {
+    "meta": [
+      {
+        "element": "member",
+        "meta": {
+          "classes": [
+            "user"
+          ]
+        },
+        "content": {
+          "key": {
+            "element": "string",
+            "content": "Format"
+          },
+          "value": {
+            "element": "string",
+            "content": "1A"
+          }
+        }
+      }
+    ]
+  },
+  "content": [
+    {
+      "element": "copy",
+      "content": "<API description>\n\n"
+    },
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "resourceGroup"
+        ],
+        "title": "<resource group name>"
+      },
+      "content": [
+        {
+          "element": "copy",
+          "content": "<resource group description>\n\n"
+        },
+        {
+          "element": "resource",
+          "meta": {
+            "title": "<resource name>"
+          },
+          "attributes": {
+            "href": "/resource/{parameter}",
+            "hrefVariables": {
+              "element": "hrefVariables",
+              "content": [
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "<description>"
+                  },
+                  "attributes": {
+                    "typeAttributes": [
+                      "optional"
+                    ]
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "parameter"
+                    },
+                    "value": {
+                      "element": "enum",
+                      "attributes": {
+                        "samples": [
+                          [
+                            {
+                              "element": "string",
+                              "content": "<example value>"
+                            }
+                          ]
+                        ],
+                        "default": [
+                          {
+                            "element": "string",
+                            "content": "<default value>"
+                          }
+                        ]
+                      },
+                      "content": [
+                        {
+                          "element": "string",
+                          "content": "<default value>"
+                        },
+                        {
+                          "element": "string",
+                          "content": "<example value>"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "content": [
+            {
+              "element": "copy",
+              "content": "<resource description>\n\n"
+            },
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": "<resource name>"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "<attribute property description>"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "<attribute property name>"
+                        },
+                        "value": {
+                          "element": "number",
+                          "content": 0
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "element": "transition",
+              "meta": {
+                "title": "<action name>"
+              },
+              "attributes": {
+                "relation": "relation-name",
+                "hrefVariables": {
+                  "element": "hrefVariables",
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "<description>"
+                      },
+                      "attributes": {
+                        "typeAttributes": [
+                          "optional"
+                        ]
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "parameter"
+                        },
+                        "value": {
+                          "element": "enum",
+                          "attributes": {
+                            "samples": [
+                              [
+                                {
+                                  "element": "string",
+                                  "content": "<example value>"
+                                }
+                              ]
+                            ],
+                            "default": [
+                              {
+                                "element": "string",
+                                "content": "<default value>"
+                              }
+                            ]
+                          },
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "<default value>"
+                            },
+                            {
+                              "element": "string",
+                              "content": "<example value>"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "content": [
+                {
+                  "element": "copy",
+                  "content": "<action description>\n\n"
+                },
+                {
+                  "element": "httpTransaction",
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "attributes": {
+                        "method": "POST",
+                        "title": "<request name>",
+                        "headers": {
+                          "element": "httpHeaders",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header2"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header2 value>"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header3"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header3 value>"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "Content-Type"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "text/plain"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header4"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header4 value>"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "content": "<request description>\n"
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageBody"
+                          },
+                          "attributes": {
+                            "contentType": "text/plain"
+                          },
+                          "content": "<request body>\n"
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageSchema"
+                          },
+                          "attributes": {
+                            "contentType": "text/plain"
+                          },
+                          "content": "<request schema>\n"
+                        }
+                      ]
+                    },
+                    {
+                      "element": "httpResponse",
+                      "attributes": {
+                        "statusCode": "200",
+                        "headers": {
+                          "element": "httpHeaders",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header2"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header2 value>"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header3"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header3 value>"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "Content-Type"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "text/plain"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header5"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header5 value>"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "content": "<response description>\n"
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageBody"
+                          },
+                          "attributes": {
+                            "contentType": "text/plain"
+                          },
+                          "content": "<response body>\n"
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageSchema"
+                          },
+                          "attributes": {
+                            "contentType": "text/plain"
+                          },
+                          "content": "<response schema>\n"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "element": "httpTransaction",
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "attributes": {
+                        "method": "POST",
+                        "title": "<request name>",
+                        "headers": {
+                          "element": "httpHeaders",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header2"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header2 value>"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header3"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header3 value>"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "Content-Type"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "text/plain"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header4"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header4 value>"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "content": "<request description>\n"
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageBody"
+                          },
+                          "attributes": {
+                            "contentType": "text/plain"
+                          },
+                          "content": "<request body>\n"
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageSchema"
+                          },
+                          "attributes": {
+                            "contentType": "text/plain"
+                          },
+                          "content": "<request schema>\n"
+                        }
+                      ]
+                    },
+                    {
+                      "element": "httpResponse",
+                      "attributes": {
+                        "statusCode": "201",
+                        "headers": {
+                          "element": "httpHeaders",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header2"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header2 value>"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header3"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header3 value>"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header1"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header1 value>"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "content": "<resource model description>\n"
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageBody"
+                          },
+                          "content": "<resource model body>\n"
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageSchema"
+                          },
+                          "content": "<resource model schema>\n"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "element": "httpTransaction",
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "attributes": {
+                        "method": "POST",
+                        "title": "<request name>",
+                        "headers": {
+                          "element": "httpHeaders",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header2"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header2 value>"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header3"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header3 value>"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "Content-Type"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "text/plain"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header4"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header4 value>"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "content": "<request description>\n"
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageBody"
+                          },
+                          "attributes": {
+                            "contentType": "text/plain"
+                          },
+                          "content": "<request body>\n"
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageSchema"
+                          },
+                          "attributes": {
+                            "contentType": "text/plain"
+                          },
+                          "content": "<request schema>\n"
+                        }
+                      ]
+                    },
+                    {
+                      "element": "httpResponse",
+                      "attributes": {
+                        "statusCode": "201",
+                        "headers": {
+                          "element": "httpHeaders",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header2"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header2 value>"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "header3"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "<header3 value>"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "Content-Type"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "<data structure name>"
+                            }
+                          ]
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageBody"
+                          },
+                          "attributes": {
+                            "contentType": "application/json"
+                          },
+                          "content": "{\n  \"<data structure property name>\": \"<data structure property value>\"\n}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "dataStructures"
+        ]
+      },
+      "content": [
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "<data structure name>",
+                "description": "<data structure description>\n\n"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "<data structure property description>"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "<data structure property name>"
+                    },
+                    "value": {
+                      "element": "string",
+                      "content": "<data structure property value>"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

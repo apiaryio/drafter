@@ -1,0 +1,366 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [
+    {
+      "name": "",
+      "description": "",
+      "resources": [
+        {
+          "element": "resource",
+          "name": "Root",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "Retrieve the Entry Point",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "{\n  \"hello\": \"42\",\n  \"nested\": {\n    \"question\": \"\",\n    \"url\": \"\"\n  }\n}",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "hello"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "42"
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "nested"
+                                    },
+                                    "value": {
+                                      "element": "extend",
+                                      "content": [
+                                        {
+                                          "element": "object",
+                                          "meta": {
+                                            "ref": "Question"
+                                          },
+                                          "content": [
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "question"
+                                                },
+                                                "value": {
+                                                  "element": "string"
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "url"
+                                                },
+                                                "value": {
+                                                  "element": "string"
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "element": "object"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    },
+    {
+      "name": "Question",
+      "description": "",
+      "resources": [
+        {
+          "element": "resource",
+          "name": "Question",
+          "description": "",
+          "uriTemplate": "/questions/{question_id}",
+          "model": {},
+          "parameters": [],
+          "actions": [],
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": "Question"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "question"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "url"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "resource",
+          "name": "Root",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "Retrieve the Entry Point",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "{\n  \"hello\": \"42\",\n  \"nested\": {\n    \"question\": \"\",\n    \"url\": \"\"\n  }\n}",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "hello"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "42"
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "nested"
+                                    },
+                                    "value": {
+                                      "element": "extend",
+                                      "content": [
+                                        {
+                                          "element": "object",
+                                          "meta": {
+                                            "ref": "Question"
+                                          },
+                                          "content": [
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "question"
+                                                },
+                                                "value": {
+                                                  "element": "string"
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "url"
+                                                },
+                                                "value": {
+                                                  "element": "string"
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "element": "object"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    },
+    {
+      "element": "category",
+      "attributes": {
+        "name": "Question"
+      },
+      "content": [
+        {
+          "element": "resource",
+          "name": "Question",
+          "description": "",
+          "uriTemplate": "/questions/{question_id}",
+          "model": {},
+          "parameters": [],
+          "actions": [],
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": "Question"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "question"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "url"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

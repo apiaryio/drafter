@@ -1,0 +1,297 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "Tesla",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [
+    {
+      "name": "",
+      "description": "",
+      "resources": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/sample",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "{\n  \"data\": {\n    \"users\": [\n      {\n        \"username\": \"kyle\"\n      }\n    ]\n  }\n}",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "attributes": {
+                                    "typeAttributes": [
+                                      "required"
+                                    ]
+                                  },
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "data"
+                                    },
+                                    "value": {
+                                      "element": "object",
+                                      "content": [
+                                        {
+                                          "element": "member",
+                                          "attributes": {
+                                            "typeAttributes": [
+                                              "required"
+                                            ]
+                                          },
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "users"
+                                            },
+                                            "value": {
+                                              "element": "array",
+                                              "content": [
+                                                {
+                                                  "element": "extend",
+                                                  "content": [
+                                                    {
+                                                      "element": "object",
+                                                      "meta": {
+                                                        "ref": "User"
+                                                      },
+                                                      "content": [
+                                                        {
+                                                          "element": "member",
+                                                          "content": {
+                                                            "key": {
+                                                              "element": "string",
+                                                              "content": "username"
+                                                            },
+                                                            "value": {
+                                                              "element": "string",
+                                                              "content": "kyle"
+                                                            }
+                                                          }
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "element": "object"
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "User"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "username"
+                    },
+                    "value": {
+                      "element": "string",
+                      "content": "kyle"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/sample",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "{\n  \"data\": {\n    \"users\": [\n      {\n        \"username\": \"kyle\"\n      }\n    ]\n  }\n}",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "attributes": {
+                                    "typeAttributes": [
+                                      "required"
+                                    ]
+                                  },
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "data"
+                                    },
+                                    "value": {
+                                      "element": "object",
+                                      "content": [
+                                        {
+                                          "element": "member",
+                                          "attributes": {
+                                            "typeAttributes": [
+                                              "required"
+                                            ]
+                                          },
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "users"
+                                            },
+                                            "value": {
+                                              "element": "array",
+                                              "content": [
+                                                {
+                                                  "element": "extend",
+                                                  "content": [
+                                                    {
+                                                      "element": "object",
+                                                      "meta": {
+                                                        "ref": "User"
+                                                      },
+                                                      "content": [
+                                                        {
+                                                          "element": "member",
+                                                          "content": {
+                                                            "key": {
+                                                              "element": "string",
+                                                              "content": "username"
+                                                            },
+                                                            "value": {
+                                                              "element": "string",
+                                                              "content": "kyle"
+                                                            }
+                                                          }
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "element": "object"
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ]
+}

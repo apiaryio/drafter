@@ -1,0 +1,124 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [
+    {
+      "name": "",
+      "description": "",
+      "resources": [
+        {
+          "element": "resource",
+          "name": "Polls",
+          "description": "FIXME: what should be result of expansion for nonexistent structure?\npossible solutions\n\n  - use \"extend\" w/ Ref Element\n\n  - use empty object with `meta.ref : \"Person\"`\n\n",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "Get a Poll",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [
+                {
+                  "element": "dataStructure",
+                  "content": [
+                    {
+                      "element": "extend",
+                      "content": [
+                        {
+                          "element": "object",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "id"
+                                },
+                                "value": {
+                                  "element": "string"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "examples": []
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "resource",
+          "name": "Polls",
+          "description": "FIXME: what should be result of expansion for nonexistent structure?\npossible solutions\n\n  - use \"extend\" w/ Ref Element\n\n  - use empty object with `meta.ref : \"Person\"`\n\n",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "Get a Poll",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [
+                {
+                  "element": "dataStructure",
+                  "content": [
+                    {
+                      "element": "extend",
+                      "content": [
+                        {
+                          "element": "object",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "id"
+                                },
+                                "value": {
+                                  "element": "string"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "examples": []
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ]
+}

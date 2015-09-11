@@ -1,0 +1,178 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [
+    {
+      "name": "",
+      "description": "",
+      "resources": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "[\n  \"a\",\n  \"b\"\n]",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "RefSample"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "[\n  \"a\",\n  \"b\"\n]",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "RefSample"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    },
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "array",
+              "meta": {
+                "id": "RefSample"
+              },
+              "attributes": {
+                "samples": [
+                  [
+                    {
+                      "element": "string",
+                      "content": "c"
+                    },
+                    {
+                      "element": "string",
+                      "content": "d"
+                    }
+                  ]
+                ],
+                "default": [
+                  {
+                    "element": "string",
+                    "content": "e"
+                  },
+                  {
+                    "element": "string",
+                    "content": "f"
+                  }
+                ]
+              },
+              "content": [
+                {
+                  "element": "string",
+                  "content": "a"
+                },
+                {
+                  "element": "string",
+                  "content": "b"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

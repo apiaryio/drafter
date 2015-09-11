@@ -1,0 +1,212 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [
+    {
+      "name": "",
+      "description": "",
+      "resources": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "{\n  \"user\": \"pksunkara\",\n  \"social\": {\n    \"github\": \"pksunkara\"\n  }\n}",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "user"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "pksunkara"
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "social"
+                                    },
+                                    "value": {
+                                      "element": "object",
+                                      "content": [
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "github"
+                                            },
+                                            "value": {
+                                              "element": "string",
+                                              "content": "pksunkara"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "{\n  \"user\": \"pksunkara\",\n  \"social\": {\n    \"github\": \"pksunkara\"\n  }\n}",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "user"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "pksunkara"
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "social"
+                                    },
+                                    "value": {
+                                      "element": "object",
+                                      "content": [
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "github"
+                                            },
+                                            "value": {
+                                              "element": "string",
+                                              "content": "pksunkara"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ]
+}

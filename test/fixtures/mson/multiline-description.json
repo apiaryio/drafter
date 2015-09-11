@@ -1,0 +1,91 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "User"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "An additional\nmulti-line description.\n\n- here\n\n- there\n"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "name"
+                    },
+                    "value": {
+                      "element": "string",
+                      "content": "Andrew"
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "address description\n\nmultilined object\ndescription\n"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "address"
+                    },
+                    "value": {
+                      "element": "object",
+                      "content": [
+                        {
+                          "element": "member",
+                          "meta": {
+                            "description": "this should be member of address"
+                          },
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "m1"
+                            },
+                            "value": {
+                              "element": "string"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "this should ...\n\nbe member of user\n"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "m2"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

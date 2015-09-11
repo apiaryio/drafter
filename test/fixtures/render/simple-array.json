@@ -1,0 +1,156 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [
+    {
+      "name": "",
+      "description": "",
+      "resources": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "[\n  \"pksunkara\",\n  12,\n  false\n]",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "pksunkara"
+                                },
+                                {
+                                  "element": "number",
+                                  "content": 12
+                                },
+                                {
+                                  "element": "boolean",
+                                  "content": false
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "[\n  \"pksunkara\",\n  12,\n  false\n]",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "pksunkara"
+                                },
+                                {
+                                  "element": "number",
+                                  "content": 12
+                                },
+                                {
+                                  "element": "boolean",
+                                  "content": false
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ]
+}

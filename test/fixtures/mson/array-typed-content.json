@@ -1,0 +1,206 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "User"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "nontyped array"
+                    },
+                    "value": {
+                      "element": "array"
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "typed array"
+                    },
+                    "value": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "number"
+                        },
+                        {
+                          "element": "string"
+                        },
+                        {
+                          "element": "boolean"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "typed with values"
+                    },
+                    "value": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "string",
+                          "content": "1"
+                        },
+                        {
+                          "element": "string",
+                          "content": "2"
+                        },
+                        {
+                          "element": "string",
+                          "content": "3"
+                        },
+                        {
+                          "element": "number"
+                        },
+                        {
+                          "element": "string"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "strict type with values"
+                    },
+                    "value": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "number",
+                          "content": 1
+                        },
+                        {
+                          "element": "number",
+                          "content": 2
+                        },
+                        {
+                          "element": "number",
+                          "content": 3
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "typed with object"
+                    },
+                    "value": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "extend",
+                          "content": [
+                            {
+                              "element": "object",
+                              "meta": {
+                                "ref": "X"
+                              },
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "y"
+                                    },
+                                    "value": {
+                                      "element": "string"
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "element": "object"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "typed with generic"
+                    },
+                    "value": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "generic",
+                          "content": "T"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "X"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "y"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

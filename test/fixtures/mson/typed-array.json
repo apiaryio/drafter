@@ -1,0 +1,138 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "User",
+                "description": "Description of User going there\n\n"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "login"
+                    },
+                    "value": {
+                      "element": "string",
+                      "attributes": {
+                        "samples": [
+                          "quido"
+                        ]
+                      },
+                      "content": "nobody"
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "Fibbonaci sequence"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "fibbonaci"
+                    },
+                    "value": {
+                      "element": "array",
+                      "attributes": {
+                        "samples": [
+                          [
+                            {
+                              "element": "number",
+                              "content": 5
+                            },
+                            {
+                              "element": "number",
+                              "content": 8
+                            },
+                            {
+                              "element": "number",
+                              "content": 13
+                            }
+                          ],
+                          [
+                            {
+                              "element": "number",
+                              "content": 8
+                            },
+                            {
+                              "element": "number",
+                              "content": 13
+                            },
+                            {
+                              "element": "number",
+                              "content": 21
+                            }
+                          ]
+                        ],
+                        "default": [
+                          {
+                            "element": "number",
+                            "content": 1
+                          },
+                          {
+                            "element": "number",
+                            "content": 2
+                          },
+                          {
+                            "element": "number",
+                            "content": 3
+                          },
+                          {
+                            "element": "number",
+                            "content": 5
+                          },
+                          {
+                            "element": "number",
+                            "content": 8
+                          },
+                          {
+                            "element": "number",
+                            "content": 13
+                          },
+                          {
+                            "element": "number",
+                            "content": 21
+                          }
+                        ]
+                      },
+                      "content": [
+                        {
+                          "element": "number",
+                          "content": 1
+                        },
+                        {
+                          "element": "number",
+                          "content": 2
+                        },
+                        {
+                          "element": "number",
+                          "content": 3
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

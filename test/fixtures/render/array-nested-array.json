@@ -1,0 +1,194 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [
+    {
+      "name": "",
+      "description": "",
+      "resources": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "[\n  \"Karlin\",\n  [\n    \"Prague\",\n    {\n      \"zip\": 34567\n    }\n  ]\n]",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "Karlin"
+                                },
+                                {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "Prague"
+                                    },
+                                    {
+                                      "element": "object",
+                                      "content": [
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "zip"
+                                            },
+                                            "value": {
+                                              "element": "number",
+                                              "content": 34567
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "[\n  \"Karlin\",\n  [\n    \"Prague\",\n    {\n      \"zip\": 34567\n    }\n  ]\n]",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "Karlin"
+                                },
+                                {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "Prague"
+                                    },
+                                    {
+                                      "element": "object",
+                                      "content": [
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "zip"
+                                            },
+                                            "value": {
+                                              "element": "number",
+                                              "content": 34567
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ]
+}

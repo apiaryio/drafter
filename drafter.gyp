@@ -2,7 +2,6 @@
   "includes": [
     "ext/snowcrash/common.gypi"
   ],
-  
   "targets" : [
     {
       'target_name': 'libsos',
@@ -38,6 +37,42 @@
         "src/SerializeSourcemap.cc",
         "src/SerializeResult.h",
         "src/SerializeResult.cc",
+        "src/RefractDataStructure.h",
+        "src/RefractDataStructure.cc",
+        "src/RefractAPI.h",
+        "src/RefractAPI.cc",
+        "src/Render.h",
+        "src/Render.cc",
+
+        # librefract parts - will be separated into other project
+
+        "src/refract/Element.h",
+        "src/refract/Element.cc",
+        "src/refract/Typelist.h",
+        "src/refract/VisitableBy.h",
+
+        "src/refract/Visitor.h",
+        "src/refract/Visitors.h",
+
+        "src/refract/SerializeCompactVisitor.h",
+        "src/refract/SerializeCompactVisitor.cc",
+        "src/refract/SerializeVisitor.h",
+        "src/refract/SerializeVisitor.cc",
+        "src/refract/ComparableVisitor.h",
+        "src/refract/ComparableVisitor.cc",
+        "src/refract/TypeQueryVisitor.h",
+        "src/refract/TypeQueryVisitor.cc",
+        "src/refract/IsExpandableVisitor.h",
+        "src/refract/IsExpandableVisitor.cc",
+        "src/refract/ExpandVisitor.h",
+        "src/refract/ExpandVisitor.cc",
+        "src/refract/RenderJSONVisitor.h",
+        "src/refract/RenderJSONVisitor.cc",
+
+        "src/refract/Registry.h",
+        "src/refract/Registry.cc",
+
+        "src/refract/AppendDecorator.h",
       ],
 
       # FIXME: replace by direct dependecies
@@ -49,7 +84,7 @@
       ],
 
       "dependencies": [
-	"libsos",
+        "libsos",
         "ext/snowcrash/snowcrash.gyp:libsnowcrash",
         "ext/snowcrash/snowcrash.gyp:libmarkdownparser",
         "ext/snowcrash/snowcrash.gyp:libsundown",
@@ -69,9 +104,12 @@
         "ext/sos/src",
       ],
       'sources': [
-        "test/test-main.cc",
-        "test/test-SerializeResult.cc",
+        "test/test-drafter.cc",
         "test/test-cdrafter.cc",
+        "test/test-SerializeResult.cc",
+        "test/test-RefractDataStructureTest.cc",
+        "test/test-RefractAPITest.cc",
+        "test/test-RenderTest.cc",
       ],
       'dependencies': [
         "libdrafter",

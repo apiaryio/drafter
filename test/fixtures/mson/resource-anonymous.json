@@ -1,0 +1,88 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [
+    {
+      "name": "",
+      "description": "",
+      "resources": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [],
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "id"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [],
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "id"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

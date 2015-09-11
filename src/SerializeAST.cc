@@ -9,6 +9,12 @@
 #include "StringUtility.h"
 #include "SerializeAST.h"
 
+#include <stdlib.h>
+
+#include "RefractDataStructure.h"
+#include "RefractAPI.h"
+#include "Render.h"
+
 using namespace drafter;
 
 using snowcrash::AssetRole;
@@ -32,6 +38,28 @@ using snowcrash::Response;
 using snowcrash::Action;
 using snowcrash::Resource;
 using snowcrash::Blueprint;
+
+#ifdef _WITH_REFRACT_
+/**
+ * FIXME:
+ * hotfix until solve ErrorReporting from drafter into snowcrash result.
+ * we need it to allow free allocated memory
+ * this flag WILL BE REMOVED,
+ * DO NOT USE it until you know what are you doing
+ */
+
+enum {
+    NoError = 0,
+    RuntimeError
+};
+
+
+static int DrafterErrorCode = NoError;
+static std::string DrafterErrorMessage;
+
+static bool ExpandMSON = false;
+
+#endif
 
 sos::Object WrapValue(const mson::Value& value)
 {
@@ -114,7 +142,7 @@ sos::Object WrapTypeSpecification(const mson::TypeSpecification& typeSpecificati
     typeSpecificationObject.set(SerializeKey::Name, WrapTypeName(typeSpecification.name));
 
     // Nested Types
-    typeSpecificationObject.set(SerializeKey::NestedTypes, 
+    typeSpecificationObject.set(SerializeKey::NestedTypes,
                                 WrapCollection<mson::TypeName>()(typeSpecification.nestedTypes, WrapTypeName));
 
     return typeSpecificationObject;
@@ -272,7 +300,7 @@ sos::Object WrapNamedType(const mson::NamedType& namedType)
     namedTypeObject.set(SerializeKey::TypeDefinition, WrapTypeDefinition(namedType.typeDefinition));
 
     // Type Sections
-    namedTypeObject.set(SerializeKey::Sections, 
+    namedTypeObject.set(SerializeKey::Sections,
                         WrapCollection<mson::TypeSection>()(namedType.sections, WrapTypeSection));
 
     return namedTypeObject;
@@ -384,7 +412,7 @@ sos::Object WrapMSONElement(const mson::Element& element)
         case mson::Element::OneOfClass:
         {
             klass = "oneOf";
-            elementObject.set(SerializeKey::Content, 
+            elementObject.set(SerializeKey::Content,
                               WrapCollection<mson::Element>()(element.content.oneOf(), WrapMSONElement));
             break;
         }
@@ -392,7 +420,7 @@ sos::Object WrapMSONElement(const mson::Element& element)
         case mson::Element::GroupClass:
         {
             klass = "group";
-            elementObject.set(SerializeKey::Content, 
+            elementObject.set(SerializeKey::Content,
                               WrapCollection<mson::Element>()(element.content.elements(), WrapMSONElement));
             break;
         }
@@ -421,7 +449,7 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
         object.set(SerializeKey::Content, sos::String(section.content.value));
     }
     else if (!section.content.elements().empty()) {
-        object.set(SerializeKey::Content, 
+        object.set(SerializeKey::Content,
                    WrapCollection<mson::Element>()(section.content.elements(), WrapMSONElement));
     }
 
@@ -431,6 +459,17 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
 sos::Object WrapDataStructure(const DataStructure& dataStructure)
 {
     sos::Object dataStructureObject;
+
+#if _WITH_REFRACT_
+    refract::IElement *element = DataStructureToRefract(dataStructure, ExpandMSON);
+    dataStructureObject = SerializeRefract(element);
+
+    if (element) {
+        delete element;
+    }
+
+    return dataStructureObject;
+#endif
 
     // Element
     dataStructureObject.set(SerializeKey::Element, ElementClassToString(Element::DataStructureElement));
@@ -488,11 +527,15 @@ sos::Object WrapPayload(const Payload& payload)
     payloadObject.set(SerializeKey::Headers,
                       WrapCollection<Header>()(payload.headers, WrapHeader));
 
+    // Render using boutique
+    snowcrash::Asset payloadBody = renderPayloadBody(payload, GetNamedTypesRegistry());
+    snowcrash::Asset payloadSchema = renderPayloadSchema(payload);
+
     // Body
-    payloadObject.set(SerializeKey::Body, sos::String(payload.body));
+    payloadObject.set(SerializeKey::Body, sos::String(payloadBody));
 
     // Schema
-    payloadObject.set(SerializeKey::Schema, sos::String(payload.schema));
+    payloadObject.set(SerializeKey::Schema, sos::String(payloadSchema));
 
     // Content
     sos::Array content;
@@ -548,7 +591,7 @@ sos::Object WrapParameter(const Parameter& parameter)
     parameterObject.set(SerializeKey::Example, sos::String(parameter.exampleValue));
 
     // Values
-    parameterObject.set(SerializeKey::Values, 
+    parameterObject.set(SerializeKey::Values,
                         WrapCollection<Value>()(parameter.values, WrapParameterValue));
 
     return parameterObject;
@@ -743,7 +786,53 @@ bool IsElementResourceGroup(const Element& element)
     return element.element == Element::CategoryElement && element.category == Element::ResourceGroupCategory;
 }
 
-sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
+#if _WITH_REFRACT_
+typedef std::vector<const snowcrash::DataStructure*> DataStructures;
+
+void findNamedTypes(const snowcrash::Elements& elements, DataStructures& found)
+{
+    for (snowcrash::Elements::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
+
+        if (i->element == snowcrash::Element::DataStructureElement) {
+            found.push_back(&(i->content.dataStructure));
+        }
+        else if (!i->content.resource.attributes.empty()) {
+            found.push_back(&i->content.resource.attributes);
+        }
+        else if (i->element == snowcrash::Element::CategoryElement) {
+            findNamedTypes(i->content.elements(), found);
+        }
+    }
+}
+
+void registerNamedTypes(const snowcrash::Elements& elements)
+{
+    DataStructures found;
+    findNamedTypes(elements, found);
+
+    for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
+
+        if (!(*i)->name.symbol.literal.empty()) {
+            refract::IElement* element = MSONToRefract(*(*i));
+            GetNamedTypesRegistry().add(element);
+        }
+    }
+}
+#endif
+
+sos::Object WrapBlueprintRefract(const Blueprint& blueprint)
+{
+    refract::IElement* element = BlueprintToRefract(blueprint);
+    sos::Object blueprintObject = SerializeRefract(element);
+
+    if (element) {
+        delete element;
+    }
+
+    return blueprintObject;
+}
+
+sos::Object WrapBlueprintAST(const Blueprint& blueprint)
 {
     sos::Object blueprintObject;
 
@@ -751,7 +840,7 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
     blueprintObject.set(SerializeKey::Version, sos::String(AST_SERIALIZATION_VERSION));
 
     // Metadata
-    blueprintObject.set(SerializeKey::Metadata, 
+    blueprintObject.set(SerializeKey::Metadata,
                         WrapCollection<Metadata>()(blueprint.metadata, WrapKeyValue));
 
     // Name
@@ -764,12 +853,45 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint)
     blueprintObject.set(SerializeKey::Element, ElementClassToString(blueprint.element));
 
     // Resource Groups
-    blueprintObject.set(SerializeKey::ResourceGroups, 
+    blueprintObject.set(SerializeKey::ResourceGroups,
                         WrapCollection<Element>()(blueprint.content.elements(), WrapResourceGroup, IsElementResourceGroup));
 
     // Content
     blueprintObject.set(SerializeKey::Content,
                         WrapCollection<Element>()(blueprint.content.elements(), WrapElement));
+
+    return blueprintObject;
+}
+
+sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType astType, bool expand)
+{
+    sos::Object blueprintObject;
+
+#if _WITH_REFRACT_
+    registerNamedTypes(blueprint.content.elements());
+    ExpandMSON = expand;
+#endif
+
+    try {
+        if (astType == RefractASTType) {
+            blueprintObject = WrapBlueprintRefract(blueprint);
+        }
+        else {
+            blueprintObject = WrapBlueprintAST(blueprint);
+        }
+    }
+    catch (std::exception& e) {
+        DrafterErrorCode = RuntimeError;
+        DrafterErrorMessage = e.what();
+    }
+
+#if _WITH_REFRACT_
+    GetNamedTypesRegistry().clearAll(true);
+
+    if (DrafterErrorCode != NoError) {
+        throw std::runtime_error(DrafterErrorMessage);
+    }
+#endif
 
     return blueprintObject;
 }

@@ -1,0 +1,360 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [
+    {
+      "name": "",
+      "description": "",
+      "resources": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "{\n  \"a1\": [\n    \"d\",\n    \"f\",\n    \"l\",\n    \"t\"\n  ],\n  \"a2\": [\n    \"s\",\n    \"m\",\n    \"p\",\n    \"l\"\n  ],\n  \"a3\": [\n    \"1\",\n    \"2\",\n    \"3\"\n  ]\n}",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "a1"
+                                    },
+                                    "value": {
+                                      "element": "array",
+                                      "attributes": {
+                                        "default": [
+                                          {
+                                            "element": "string",
+                                            "content": "d"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "f"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "l"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "t"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "a2"
+                                    },
+                                    "value": {
+                                      "element": "array",
+                                      "attributes": {
+                                        "samples": [
+                                          [
+                                            {
+                                              "element": "string",
+                                              "content": "s"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "m"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "p"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "l"
+                                            }
+                                          ]
+                                        ]
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "a3"
+                                    },
+                                    "value": {
+                                      "element": "array",
+                                      "attributes": {
+                                        "samples": [
+                                          [
+                                            {
+                                              "element": "string",
+                                              "content": "1"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "2"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "3"
+                                            }
+                                          ],
+                                          [
+                                            {
+                                              "element": "string",
+                                              "content": "4"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "5"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "6"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "7"
+                                            }
+                                          ]
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "{\n  \"a1\": [\n    \"d\",\n    \"f\",\n    \"l\",\n    \"t\"\n  ],\n  \"a2\": [\n    \"s\",\n    \"m\",\n    \"p\",\n    \"l\"\n  ],\n  \"a3\": [\n    \"1\",\n    \"2\",\n    \"3\"\n  ]\n}",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "a1"
+                                    },
+                                    "value": {
+                                      "element": "array",
+                                      "attributes": {
+                                        "default": [
+                                          {
+                                            "element": "string",
+                                            "content": "d"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "f"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "l"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "t"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "a2"
+                                    },
+                                    "value": {
+                                      "element": "array",
+                                      "attributes": {
+                                        "samples": [
+                                          [
+                                            {
+                                              "element": "string",
+                                              "content": "s"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "m"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "p"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "l"
+                                            }
+                                          ]
+                                        ]
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "a3"
+                                    },
+                                    "value": {
+                                      "element": "array",
+                                      "attributes": {
+                                        "samples": [
+                                          [
+                                            {
+                                              "element": "string",
+                                              "content": "1"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "2"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "3"
+                                            }
+                                          ],
+                                          [
+                                            {
+                                              "element": "string",
+                                              "content": "4"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "5"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "6"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "7"
+                                            }
+                                          ]
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,344 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [
+    {
+      "name": "",
+      "description": "",
+      "resources": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "{\n  \"id\": 6161,\n  \"user\": \"pksunkara\",\n  \"active\": false,\n  \"social\": {\n    \"github\": {\n      \"active\": true,\n      \"id\": 1234,\n      \"uri\": \"pksunkara\"\n    }\n  }\n}",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "id"
+                                    },
+                                    "value": {
+                                      "element": "number",
+                                      "content": 6161
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "user"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "pksunkara"
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "active"
+                                    },
+                                    "value": {
+                                      "element": "boolean",
+                                      "content": false
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "social"
+                                    },
+                                    "value": {
+                                      "element": "object",
+                                      "content": [
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "github"
+                                            },
+                                            "value": {
+                                              "element": "object",
+                                              "content": [
+                                                {
+                                                  "element": "member",
+                                                  "content": {
+                                                    "key": {
+                                                      "element": "string",
+                                                      "content": "active"
+                                                    },
+                                                    "value": {
+                                                      "element": "boolean",
+                                                      "content": true
+                                                    }
+                                                  }
+                                                },
+                                                {
+                                                  "element": "member",
+                                                  "content": {
+                                                    "key": {
+                                                      "element": "string",
+                                                      "content": "id"
+                                                    },
+                                                    "value": {
+                                                      "element": "number",
+                                                      "content": 1234
+                                                    }
+                                                  }
+                                                },
+                                                {
+                                                  "element": "member",
+                                                  "content": {
+                                                    "key": {
+                                                      "element": "string",
+                                                      "content": "uri"
+                                                    },
+                                                    "value": {
+                                                      "element": "string",
+                                                      "content": "pksunkara"
+                                                    }
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "{\n  \"id\": 6161,\n  \"user\": \"pksunkara\",\n  \"active\": false,\n  \"social\": {\n    \"github\": {\n      \"active\": true,\n      \"id\": 1234,\n      \"uri\": \"pksunkara\"\n    }\n  }\n}",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "id"
+                                    },
+                                    "value": {
+                                      "element": "number",
+                                      "content": 6161
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "user"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "pksunkara"
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "active"
+                                    },
+                                    "value": {
+                                      "element": "boolean",
+                                      "content": false
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "social"
+                                    },
+                                    "value": {
+                                      "element": "object",
+                                      "content": [
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "github"
+                                            },
+                                            "value": {
+                                              "element": "object",
+                                              "content": [
+                                                {
+                                                  "element": "member",
+                                                  "content": {
+                                                    "key": {
+                                                      "element": "string",
+                                                      "content": "active"
+                                                    },
+                                                    "value": {
+                                                      "element": "boolean",
+                                                      "content": true
+                                                    }
+                                                  }
+                                                },
+                                                {
+                                                  "element": "member",
+                                                  "content": {
+                                                    "key": {
+                                                      "element": "string",
+                                                      "content": "id"
+                                                    },
+                                                    "value": {
+                                                      "element": "number",
+                                                      "content": 1234
+                                                    }
+                                                  }
+                                                },
+                                                {
+                                                  "element": "member",
+                                                  "content": {
+                                                    "key": {
+                                                      "element": "string",
+                                                      "content": "uri"
+                                                    },
+                                                    "value": {
+                                                      "element": "string",
+                                                      "content": "pksunkara"
+                                                    }
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ]
+}

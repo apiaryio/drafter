@@ -1,12 +1,13 @@
 //
-//  drafter
 //  stream.h
+//  drafter
 //
 //  Created by Jiri Kratochvil on 2015-03-03
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-#ifndef _DRAFTER_STREAM_H_
-#define _DRAFTER_STREAM_H_
+
+#ifndef DRAFTER_STREAM_H
+#define DRAFTER_STREAM_H
 
 #include <memory>
 
@@ -31,11 +32,11 @@ template <> struct std_io_proxy<std::ostream> : public std::ostream {
         //rdbuf(std::cout.rdbuf());
     }
 
-    virtual ~std_io_proxy() 
+    virtual ~std_io_proxy()
     {
         rdbuf(&dummy);
     }
-}; 
+};
 
 template <> struct std_io_proxy<std::istream> : public std::istream {
     //std::streambuf dummy;
@@ -46,19 +47,19 @@ template <> struct std_io_proxy<std::istream> : public std::istream {
         //saved = rdbuf(std::cin.rdbuf());
     }
 
-    virtual ~std_io_proxy() 
+    virtual ~std_io_proxy()
     {
         rdbuf(&dummy);
     }
-}; 
+};
 
 /**
  *  \brief functor returns cin/cout ptr in based on istream or ostream
  */
 template<typename T> struct std_io {
     T* operator()() const
-    { 
-        return new std_io_proxy<T>(); 
+    {
+        return new std_io_proxy<T>();
     }
 };
 
@@ -70,8 +71,8 @@ template<typename T> struct std_io_selector {
     typedef stream_type* return_type;
 
     return_type operator()() const
-    { 
-        return return_type(std_io<T>()()); 
+    {
+        return return_type(std_io<T>()());
     }
 };
 
@@ -80,13 +81,13 @@ template<typename T> struct std_io_selector {
  */
 template <typename T> struct to_fstream;
 
-template<> 
+template<>
 struct to_fstream<std::istream>{
   typedef std::ifstream stream_type;
   static std::ios_base::openmode open_flags() { return std::ios_base::in | std::ios_base::binary; }
 };
 
-template<> 
+template<>
 struct to_fstream<std::ostream>{
   typedef std::ofstream stream_type;
   static std::ios_base::openmode open_flags() { return std::ios_base::out | std::ios_base::binary; }
@@ -99,16 +100,16 @@ template<typename T> struct fstream_io_selector{
     typedef typename to_fstream<T>::stream_type stream_type;
     typedef stream_type* return_type;
 
-    return_type operator()(const char* name) const 
-    { 
-        return return_type(new stream_type(name, to_fstream<T>::open_flags())); 
+    return_type operator()(const char* name) const
+    {
+        return return_type(new stream_type(name, to_fstream<T>::open_flags()));
     }
 };
 
 /**
  *  \brief return pointer to readable/writable stream or report error and exit()
  *
- *  free allocated memory must be released by calling `delete` 
+ *  free allocated memory must be released by calling `delete`
  *  optionaly you can use std::auto_ptr<>
  *
  *  return is based on \template param T (must be std::ostream or std::istream)
@@ -143,4 +144,4 @@ T* CreateStreamFromName(const std::string& file)
 }
 
 
-#endif // #ifndef _DRAFTER_STREAM_H_
+#endif // #ifndef DRAFTER_STREAM_H

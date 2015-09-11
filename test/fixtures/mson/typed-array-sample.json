@@ -1,0 +1,188 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "User"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "ta1"
+                    },
+                    "value": {
+                      "element": "array",
+                      "attributes": {
+                        "samples": [
+                          [
+                            {
+                              "element": "string",
+                              "content": "1"
+                            },
+                            {
+                              "element": "string",
+                              "content": "2"
+                            },
+                            {
+                              "element": "string",
+                              "content": "3"
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "not parsed correctly"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "ta2"
+                    },
+                    "value": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "string",
+                          "content": "*1"
+                        },
+                        {
+                          "element": "string",
+                          "content": "2"
+                        },
+                        {
+                          "element": "string",
+                          "content": "3*"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "array of \"string samples\""
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "ta3"
+                    },
+                    "value": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "string",
+                          "attributes": {
+                            "samples": [
+                              "1"
+                            ]
+                          }
+                        },
+                        {
+                          "element": "string",
+                          "attributes": {
+                            "samples": [
+                              "2"
+                            ]
+                          }
+                        },
+                        {
+                          "element": "string",
+                          "attributes": {
+                            "samples": [
+                              "3"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "ta4"
+                    },
+                    "value": {
+                      "element": "array",
+                      "attributes": {
+                        "samples": [
+                          [
+                            {
+                              "element": "string",
+                              "content": "1"
+                            },
+                            {
+                              "element": "string",
+                              "content": "2"
+                            },
+                            {
+                              "element": "string",
+                              "content": "3"
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "ta5"
+                    },
+                    "value": {
+                      "element": "array",
+                      "attributes": {
+                        "samples": [
+                          [
+                            {
+                              "element": "string",
+                              "content": "1"
+                            },
+                            {
+                              "element": "string",
+                              "content": "2"
+                            },
+                            {
+                              "element": "string",
+                              "content": "3"
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

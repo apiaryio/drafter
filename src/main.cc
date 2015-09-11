@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
-
 #include "snowcrash.h"
 #include "SectionParserData.h"  // snowcrash::BlueprintParserOptions
 
@@ -15,6 +14,7 @@
 #include "sosYAML.h"
 
 #include "SerializeAST.h"
+#include "RefractAPI.h"
 #include "SerializeSourcemap.h"
 
 #include "reporting.h"
@@ -54,10 +54,11 @@ void Serialization(std::ostream *stream,
 
 int main(int argc, const char *argv[])
 {
-    Config config; 
+    Config config;
     ParseCommadLineOptions(argc, argv, config);
 
     sc::BlueprintParserOptions options = 0;  // Or snowcrash::RequireBlueprintNameOption
+
     if (!config.sourceMap.empty()) {
         options |= snowcrash::ExportSourcemapOption;
     }
@@ -70,10 +71,19 @@ int main(int argc, const char *argv[])
     sc::parse(inputStream.str(), options, blueprint);
 
     if (!config.validate) {  // not just validate -> we will serialize
-        sos::Serialize* serializer = CreateSerializer(config.format);
 
+        sos::Serialize* serializer = CreateSerializer(config.format);
         std::ostream *out = CreateStreamFromName<std::ostream>(config.output);
-        Serialization(out, drafter::WrapBlueprint(blueprint.node), serializer);
+
+        try {
+            drafter::ASTType astType = (config.astType == "ast") ? drafter::NormalASTType : drafter::RefractASTType;
+            Serialization(out, drafter::WrapBlueprint(blueprint.node, astType), serializer);
+        }
+        catch (std::exception& e) {
+            blueprint.report.error.message = e.what();
+            blueprint.report.error.code = snowcrash::ApplicationError;
+        }
+
         delete out;
 
         if (options & snowcrash::ExportSourcemapOption) {

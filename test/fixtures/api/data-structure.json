@@ -1,0 +1,61 @@
+{
+  "element": "category",
+  "meta": {
+    "classes": [
+      "api"
+    ],
+    "title": "API name"
+  },
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "dataStructures"
+        ]
+      },
+      "content": [
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "User"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "id"
+                    },
+                    "value": {
+                      "element": "number"
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "Username of the user"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "username"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

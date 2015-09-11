@@ -1,0 +1,117 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "User",
+                "description": "Description of User going there\n\n"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "fibbonaci"
+                    },
+                    "value": {
+                      "element": "array",
+                      "attributes": {
+                        "samples": [
+                          [
+                            {
+                              "element": "string",
+                              "content": "5"
+                            },
+                            {
+                              "element": "string",
+                              "content": "8"
+                            },
+                            {
+                              "element": "string",
+                              "content": "13"
+                            }
+                          ],
+                          [
+                            {
+                              "element": "string",
+                              "content": "8"
+                            },
+                            {
+                              "element": "string",
+                              "content": "13"
+                            },
+                            {
+                              "element": "string",
+                              "content": "21"
+                            }
+                          ]
+                        ],
+                        "default": [
+                          {
+                            "element": "string",
+                            "content": "1"
+                          },
+                          {
+                            "element": "string",
+                            "content": "2"
+                          },
+                          {
+                            "element": "string",
+                            "content": "3"
+                          },
+                          {
+                            "element": "string",
+                            "content": "5"
+                          },
+                          {
+                            "element": "string",
+                            "content": "8"
+                          },
+                          {
+                            "element": "string",
+                            "content": "13"
+                          },
+                          {
+                            "element": "string",
+                            "content": "21"
+                          }
+                        ]
+                      },
+                      "content": [
+                        {
+                          "element": "string",
+                          "content": "1"
+                        },
+                        {
+                          "element": "string",
+                          "content": "2"
+                        },
+                        {
+                          "element": "string",
+                          "content": "3"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

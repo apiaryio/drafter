@@ -1,0 +1,338 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [
+    {
+      "name": "",
+      "description": "",
+      "resources": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "{\n  \"address\": {\n    \"street\": {\n      \"name\": \"\",\n      \"house number\": 0\n    },\n    \"city\": \"\",\n    \"zip\": \"34567\"\n  },\n  \"hobby\": [\n    \"inlining\",\n    \"swimming\",\n    \"run\"\n  ]\n}",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "address"
+                                    },
+                                    "value": {
+                                      "element": "object",
+                                      "content": [
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "street"
+                                            },
+                                            "value": {
+                                              "element": "object",
+                                              "content": [
+                                                {
+                                                  "element": "member",
+                                                  "content": {
+                                                    "key": {
+                                                      "element": "string",
+                                                      "content": "name"
+                                                    },
+                                                    "value": {
+                                                      "element": "string"
+                                                    }
+                                                  }
+                                                },
+                                                {
+                                                  "element": "member",
+                                                  "content": {
+                                                    "key": {
+                                                      "element": "string",
+                                                      "content": "house number"
+                                                    },
+                                                    "value": {
+                                                      "element": "number"
+                                                    }
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "city"
+                                            },
+                                            "value": {
+                                              "element": "string"
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "zip"
+                                            },
+                                            "value": {
+                                              "element": "string",
+                                              "content": "34567"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "hobby"
+                                    },
+                                    "value": {
+                                      "element": "array",
+                                      "content": [
+                                        {
+                                          "element": "string",
+                                          "content": "inlining"
+                                        },
+                                        {
+                                          "element": "string",
+                                          "content": "swimming"
+                                        },
+                                        {
+                                          "element": "string",
+                                          "content": "run"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "{\n  \"address\": {\n    \"street\": {\n      \"name\": \"\",\n      \"house number\": 0\n    },\n    \"city\": \"\",\n    \"zip\": \"34567\"\n  },\n  \"hobby\": [\n    \"inlining\",\n    \"swimming\",\n    \"run\"\n  ]\n}",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "address"
+                                    },
+                                    "value": {
+                                      "element": "object",
+                                      "content": [
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "street"
+                                            },
+                                            "value": {
+                                              "element": "object",
+                                              "content": [
+                                                {
+                                                  "element": "member",
+                                                  "content": {
+                                                    "key": {
+                                                      "element": "string",
+                                                      "content": "name"
+                                                    },
+                                                    "value": {
+                                                      "element": "string"
+                                                    }
+                                                  }
+                                                },
+                                                {
+                                                  "element": "member",
+                                                  "content": {
+                                                    "key": {
+                                                      "element": "string",
+                                                      "content": "house number"
+                                                    },
+                                                    "value": {
+                                                      "element": "number"
+                                                    }
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "city"
+                                            },
+                                            "value": {
+                                              "element": "string"
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "zip"
+                                            },
+                                            "value": {
+                                              "element": "string",
+                                              "content": "34567"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "hobby"
+                                    },
+                                    "value": {
+                                      "element": "array",
+                                      "content": [
+                                        {
+                                          "element": "string",
+                                          "content": "inlining"
+                                        },
+                                        {
+                                          "element": "string",
+                                          "content": "swimming"
+                                        },
+                                        {
+                                          "element": "string",
+                                          "content": "run"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ]
+}

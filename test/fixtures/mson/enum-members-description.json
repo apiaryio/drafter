@@ -1,0 +1,66 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "Color Set"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "basic color set"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "color"
+                    },
+                    "value": {
+                      "element": "enum",
+                      "content": [
+                        {
+                          "element": "string",
+                          "meta": {
+                            "description": "red"
+                          },
+                          "content": "#ff0000"
+                        },
+                        {
+                          "element": "string",
+                          "meta": {
+                            "description": "green"
+                          },
+                          "content": "#00ff00"
+                        },
+                        {
+                          "element": "string",
+                          "meta": {
+                            "description": "blue"
+                          },
+                          "content": "#0000ff"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

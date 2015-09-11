@@ -1,0 +1,144 @@
+{
+  "element": "category",
+  "meta": {
+    "classes": [
+      "api"
+    ],
+    "title": "API name"
+  },
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "resourceGroup"
+        ],
+        "title": "Users"
+      },
+      "content": [
+        {
+          "element": "resource",
+          "meta": {
+            "title": "User"
+          },
+          "attributes": {
+            "href": "/users/{id}",
+            "hrefVariables": {
+              "element": "hrefVariables",
+              "content": [
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "Database ID\n\nAdditional description\n"
+                  },
+                  "attributes": {
+                    "typeAttributes": [
+                      "optional"
+                    ]
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "id"
+                    },
+                    "value": {
+                      "element": "enum",
+                      "attributes": {
+                        "samples": [
+                          [
+                            {
+                              "element": "number",
+                              "content": 23
+                            }
+                          ]
+                        ],
+                        "default": [
+                          {
+                            "element": "number",
+                            "content": 1
+                          }
+                        ]
+                      },
+                      "content": [
+                        {
+                          "element": "number",
+                          "content": 37
+                        },
+                        {
+                          "element": "number",
+                          "content": 1
+                        },
+                        {
+                          "element": "number",
+                          "content": 23
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "content": [
+            {
+              "element": "transition",
+              "meta": {
+                "title": "Retrieve User"
+              },
+              "content": [
+                {
+                  "element": "httpTransaction",
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "attributes": {
+                        "method": "GET"
+                      },
+                      "content": []
+                    },
+                    {
+                      "element": "httpResponse",
+                      "attributes": {
+                        "statusCode": "200",
+                        "headers": {
+                          "element": "httpHeaders",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "Content-Type"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "content": [
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageBody"
+                          },
+                          "attributes": {
+                            "contentType": "application/json"
+                          },
+                          "content": "{}\n"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

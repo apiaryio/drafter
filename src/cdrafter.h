@@ -1,6 +1,7 @@
 //
 //  cdrafter.h
 //  drafter
+//
 //  C Implementation of drafter lib for binding purposes
 //
 //  Created by Jiri Kratochvil on 27-02-2015
@@ -27,7 +28,7 @@ extern "C" {
  *
  *  \return Error status code. Zero represents success, non-zero a failure.
  *
- *  This function will allocate memory and returns pointer to 
+ *  This function will allocate memory and returns pointer to
  *  resul. Free allocated memory is responsibility of calling function.
  *  You have to release it by calling standard free() function
  *
@@ -43,8 +44,15 @@ enum sc_blueprint_parser_option {
     SC_EXPORT_SORUCEMAP_OPTION = (1 << 2)           /// < Export source maps AST
 };
 
-SC_API int drafter_c_parse(const char* source, 
-                           sc_blueprint_parser_options option, 
+/** brief Drafter AST Type Option Enum */
+enum drafter_ast_type_option {
+    DRAFTER_NORMAL_AST_TYPE = 0,      /// < Normal AST
+    DRAFTER_REFRACT_AST_TYPE = 1      /// < Refract AST
+};
+
+SC_API int drafter_c_parse(const char* source,
+                           sc_blueprint_parser_options options,
+                           enum drafter_ast_type_option astType,
                            char** result);
 
 #ifdef __cplusplus

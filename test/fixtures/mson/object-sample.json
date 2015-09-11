@@ -1,0 +1,114 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "ObjectSample",
+                "description": "description\n\n"
+              },
+              "attributes": {
+                "samples": [
+                  [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "a"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "1"
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "b"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "2"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "a"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "b"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "c"
+                    },
+                    "value": {
+                      "element": "string",
+                      "attributes": {
+                        "samples": [
+                          "3"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "d"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,271 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [
+    {
+      "name": "",
+      "description": "",
+      "resources": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "{\n  \"i1\": \"sample\",\n  \"r1\": \"v1\",\n  \"r2\": \"v2\",\n  \"r3\": \"v3\",\n  \"i2\": \"\"\n}",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "i1"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "attributes": {
+                                        "samples": [
+                                          "sample"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "ref",
+                                  "content": {
+                                    "href": "RefSample",
+                                    "path": "content"
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "i2"
+                                    },
+                                    "value": {
+                                      "element": "string"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "resource",
+          "name": "",
+          "description": "",
+          "uriTemplate": "/",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [
+                        {
+                          "name": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "{\n  \"i1\": \"sample\",\n  \"r1\": \"v1\",\n  \"r2\": \"v2\",\n  \"r3\": \"v3\",\n  \"i2\": \"\"\n}",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "i1"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "attributes": {
+                                        "samples": [
+                                          "sample"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "ref",
+                                  "content": {
+                                    "href": "RefSample",
+                                    "path": "content"
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "i2"
+                                    },
+                                    "value": {
+                                      "element": "string"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      ]
+    },
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "RefSample"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "r1"
+                    },
+                    "value": {
+                      "element": "string",
+                      "attributes": {
+                        "samples": [
+                          "v1"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "r2"
+                    },
+                    "value": {
+                      "element": "string",
+                      "attributes": {
+                        "samples": [
+                          "v2"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "r3"
+                    },
+                    "value": {
+                      "element": "string",
+                      "attributes": {
+                        "default": "v3"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

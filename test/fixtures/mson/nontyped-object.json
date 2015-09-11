@@ -1,0 +1,131 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "User"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "address"
+                    },
+                    "value": {
+                      "element": "object",
+                      "content": [
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "street"
+                            },
+                            "value": {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "name"
+                                    },
+                                    "value": {
+                                      "element": "string"
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "house number"
+                                    },
+                                    "value": {
+                                      "element": "string"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "city"
+                            },
+                            "value": {
+                              "element": "string"
+                            }
+                          }
+                        },
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "zip"
+                            },
+                            "value": {
+                              "element": "string",
+                              "content": "34567"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "element": "member",
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "hobby"
+                    },
+                    "value": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "string",
+                          "content": "inlining"
+                        },
+                        {
+                          "element": "string",
+                          "content": "swimming"
+                        },
+                        {
+                          "element": "string",
+                          "content": "run"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

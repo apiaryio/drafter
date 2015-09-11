@@ -1,0 +1,229 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "<API name>",
+  "description": "<API description>\n\n",
+  "element": "category",
+  "resourceGroups": [],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "object",
+              "meta": {
+                "id": "User",
+                "description": "The User description\n\n"
+              },
+              "content": [
+                {
+                  "element": "member",
+                  "meta": {
+                    "description": "user name"
+                  },
+                  "content": {
+                    "key": {
+                      "element": "string",
+                      "content": "login"
+                    },
+                    "value": {
+                      "element": "string"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "extend",
+              "meta": {
+                "id": "Customer"
+              },
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "description": "The User description\n\n",
+                    "ref": "User"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "user name"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "login"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "element": "object",
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "unique number"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "id"
+                        },
+                        "value": {
+                          "element": "number",
+                          "content": 0
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "extend",
+              "meta": {
+                "id": "Vip Customer"
+              },
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "ref": "Customer"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "unique number"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "id"
+                        },
+                        "value": {
+                          "element": "number",
+                          "content": 0
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "element": "object",
+                  "meta": {
+                    "description": "The User description\n\n",
+                    "ref": "User"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "user name"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "login"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "element": "object",
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "in percent 0 - 100"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "discount"
+                        },
+                        "value": {
+                          "element": "number",
+                          "attributes": {
+                            "default": 15
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "dataStructure",
+          "content": [
+            {
+              "element": "extend",
+              "meta": {
+                "id": "Other Customer"
+              },
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "description": "The User description\n\n",
+                    "ref": "User"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "user name"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "login"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "element": "object",
+                  "meta": {
+                    "description": "This object has no own members\n"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

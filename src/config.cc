@@ -1,4 +1,4 @@
-// 
+//
 // vi:cin:et:sw=4 ts=4
 //
 //  config.cc - part of drafter
@@ -17,6 +17,7 @@ namespace config {
 
     static const std::string Output         = "output";
     static const std::string Format         = "format";
+    static const std::string Type           = "type";
     static const std::string Render         = "render";
     static const std::string Sourcemap      = "sourcemap";
     static const std::string Validate       = "validate";
@@ -29,7 +30,8 @@ void PrepareCommanLineParser(cmdline::parser& parser)
     parser.set_program_name(config::Program);
 
     parser.add<std::string>(config::Output,    'o', "save output AST into file", false);
-    parser.add<std::string>(config::Format,    'f', "output AST format", false, "yaml", cmdline::oneof<std::string>("yaml", "json"));
+    parser.add<std::string>(config::Format,    'f', "output format of the AST (yaml|json)", false, "yaml", cmdline::oneof<std::string>("yaml", "json"));
+    parser.add<std::string>(config::Type,      't', "type of the AST (refract|ast)", false, "refract", cmdline::oneof<std::string>("refract", "ast"));
     parser.add<std::string>(config::Sourcemap, 's', "export sourcemap AST into file", false);
     parser.add("help",                         'h', "display this help message");
     parser.add(config::Version ,               'v', "print Drafter version");
@@ -57,6 +59,11 @@ void ValidateParsedCommandLine(const cmdline::parser& parser)
         exit(EXIT_SUCCESS);
     }
 
+    if (parser.exist(config::Validate)) {
+        if (parser.exist(config::Sourcemap) || parser.exist(config::Output)) {
+            std::cerr << "WARN: While validation is enabled, source map and output files will not be created" << std::endl;
+        }
+    }
 }
 
 void ParseCommadLineOptions(int argc, const char *argv[], /* out */Config& conf)
@@ -75,6 +82,7 @@ void ParseCommadLineOptions(int argc, const char *argv[], /* out */Config& conf)
     conf.lineNumbers = parser.exist(config::UseLineNumbers);
     conf.validate    = parser.exist(config::Validate);
     conf.format      = parser.get<std::string>(config::Format);
+    conf.astType     = parser.get<std::string>(config::Type);
     conf.output      = parser.get<std::string>(config::Output);
     conf.sourceMap   = parser.get<std::string>(config::Sourcemap);
 }
