@@ -45,6 +45,25 @@ namespace drafter {
         {
             elements.erase(std::remove_if(elements.begin(), elements.end(), IsNull<refract::IElement>), elements.end());
         }
+
+        template<typename T, typename C, typename F>
+        refract::IElement* CollectionToRefract(const C& collection, const F& transformFunctor, const std::string& key = std::string(), const refract::IElement::renderFlags renderType = refract::IElement::rCompact)
+        {
+            T* element = new T;
+            RefractElements content;
+
+            if (!key.empty()) {
+                element->element(key);
+            }
+
+            std::transform(collection.begin(), collection.end(), std::back_inserter(content), transformFunctor);
+
+            element->set(content);
+
+            element->renderType(renderType);
+
+            return element;
+        }
     }
 
     refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure, bool expand)
@@ -77,18 +96,6 @@ namespace drafter {
         element->meta[SerializeKey::Classes] = classes;
         element->set(refract::IElement::Create(metadata.first), refract::IElement::Create(metadata.second));
         element->renderType(refract::IElement::rFull);
-
-        return element;
-    }
-
-    refract::IElement* MetadataCollectionToRefract(const snowcrash::MetadataCollection metadata)
-    {
-        refract::ArrayElement* element = new refract::ArrayElement;
-        RefractElements content;
-
-        std::transform(metadata.begin(), metadata.end(), std::back_inserter(content), MetadataToRefract);
-        element->set(content);
-        element->renderType(refract::IElement::rCompact);
 
         return element;
     }
@@ -192,36 +199,13 @@ namespace drafter {
 
     refract::IElement* ParametersToRefract(const snowcrash::Parameters& parameters)
     {
-        refract::ObjectElement* element = new refract::ObjectElement;
-        RefractElements content;
-
-        element->element(SerializeKey::HrefVariables);
-        std::transform(parameters.begin(), parameters.end(), std::back_inserter(content), ParameterToRefract);
-        element->renderType(refract::IElement::rFull);
-
-        element->set(content);
-
-        return element;
+        return CollectionToRefract<refract::ObjectElement>(parameters, ParameterToRefract, SerializeKey::HrefVariables, refract::IElement::rFull);
     }
 
     refract::IElement* HeaderToRefract(const snowcrash::Header& header)
     {
         refract::MemberElement* element = new refract::MemberElement;
         element->set(refract::IElement::Create(header.first), refract::IElement::Create(header.second));
-
-        return element;
-    }
-
-    refract::IElement* HeadersToRefract(const snowcrash::Headers& headers)
-    {
-        refract::ObjectElement* element = new refract::ObjectElement;
-        RefractElements content;
-
-        element->element(SerializeKey::HTTPHeaders);
-        std::transform(headers.begin(), headers.end(), std::back_inserter(content), HeaderToRefract);
-        element->renderType(refract::IElement::rFull);
-
-        element->set(content);
 
         return element;
     }
@@ -273,7 +257,7 @@ namespace drafter {
         }
 
         if (!payload->headers.empty()) {
-            element->attributes[SerializeKey::Headers] = HeadersToRefract(payload->headers);
+            element->attributes[SerializeKey::Headers] = CollectionToRefract<refract::ObjectElement>(payload->headers, HeaderToRefract, SerializeKey::HTTPHeaders, refract::IElement::rFull);
         }
 
         // Render using boutique
@@ -459,7 +443,7 @@ namespace drafter {
         content.push_back(CopyToRefract(blueprint.description));
 
         if (!blueprint.metadata.empty()) {
-            ast->attributes[SerializeKey::Meta] = MetadataCollectionToRefract(blueprint.metadata);
+            ast->attributes[SerializeKey::Meta] = CollectionToRefract<refract::ArrayElement>(blueprint.metadata, MetadataToRefract);
         }
 
         // Append set of elements to content
