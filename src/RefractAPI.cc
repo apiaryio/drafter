@@ -71,8 +71,10 @@ namespace drafter {
     {
         refract::MemberElement* element = new refract::MemberElement;
 
-        element->meta[SerializeKey::Classes] = CreateArrayElement(SerializeKey::User);
-        element->meta[SerializeKey::Classes].renderType(refract::IElement::rCompact);
+        refract::ArrayElement* classes = CreateArrayElement(SerializeKey::User);
+        classes->renderType(refract::IElement::rCompact);
+
+        element->meta[SerializeKey::Classes] = classes;
         element->set(refract::IElement::Create(metadata.first), refract::IElement::Create(metadata.second));
         element->renderType(refract::IElement::rFull);
 
@@ -349,11 +351,11 @@ namespace drafter {
             // When there are only responses
             if (it->requests.empty() && !it->responses.empty()) {
 
-                for (snowcrash::Responses::const_iterator tmpResIt = it->responses.begin();
-                     tmpResIt != it->responses.end();
-                     ++tmpResIt) {
+                for (snowcrash::Responses::const_iterator resIt = it->responses.begin();
+                     resIt != it->responses.end();
+                     ++resIt) {
 
-                    content.push_back(TransactionToRefract(*it, action.method, NULL, &*tmpResIt));
+                    content.push_back(TransactionToRefract(*it, action.method, NULL, &*resIt));
                 }
             }
 

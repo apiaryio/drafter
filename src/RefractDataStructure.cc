@@ -86,9 +86,9 @@ namespace drafter {
             }
 
             if (sample) {
-                refract::ArrayElement* a = new refract::ArrayElement;
-                a->push_back(refract::IElement::Create(LiteralTo<typename E::ValueType>(literal)));
-                element->attributes[SerializeKey::Samples] = a;
+                refract::ArrayElement* samples = new refract::ArrayElement;
+                samples->push_back(refract::IElement::Create(LiteralTo<typename E::ValueType>(literal)));
+                element->attributes[SerializeKey::Samples] = samples;
             }
             else {
                 element->set(LiteralTo<typename E::ValueType>(literal));
@@ -233,9 +233,9 @@ namespace drafter {
         template<typename V>
         struct Store {
             void operator()(RefractElements& elements, const V& v) {
-                T* e = new T;
-                e->set(v);
-                elements.push_back(e);
+                T* element = new T;
+                element->set(v);
+                elements.push_back(element);
             }
         };
 
@@ -725,25 +725,25 @@ namespace drafter {
         using namespace refract;
         typedef T ElementType;
 
-        ElementType* e = new ElementType;
-        SetElementType(e, ds.typeDefinition);
+        ElementType* element = new ElementType;
+        SetElementType(element, ds.typeDefinition);
 
         if (!ds.name.symbol.literal.empty()) {
-            e->meta[SerializeKey::Id] = IElement::Create(ds.name.symbol.literal);
+            element->meta[SerializeKey::Id] = IElement::Create(ds.name.symbol.literal);
         }
 
         TypeSectionData<T> data;
 
-        TransformTypeSectionData<T>(ds, e, data);
+        TransformTypeSectionData<T>(ds, element, data);
 
         std::string description;
         std::for_each(data.descriptions.begin(), data.descriptions.end(), Join(description));
 
         if(!description.empty()) {
-            e->meta[SerializeKey::Description] = IElement::Create(description);
+            element->meta[SerializeKey::Description] = IElement::Create(description);
         }
 
-        return e;
+        return element;
     }
 
 
