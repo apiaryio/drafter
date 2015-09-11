@@ -46,7 +46,6 @@ namespace refract
         void visit(const BooleanElement& e);
         void visit(const ArrayElement& e);
 
-
         // return expanded elemnt or NULL if expansion is not needed
         // caller responsibility is to delete returned Element
         IElement* get() const;

@@ -150,7 +150,7 @@ namespace drafter {
     };
 
     /**
-     * \brief functor pattern to translate _collection_ into sos::Array on serialization 
+     * \brief functor pattern to translate _collection_ into sos::Array on serialization
      * \requests for collection - must define typedef member ::const_iterator
      *
      * usage:

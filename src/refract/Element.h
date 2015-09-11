@@ -79,21 +79,19 @@ namespace refract
     {
         bool hasContent; ///< was content of element already set? \see empty()
 
-
         /**
          * define __visitors__ which can visit element
          * via. `content()` method
          */
         typedef typelist::cons<
-            ComparableVisitor, 
-            SerializeVisitor, 
-            SerializeCompactVisitor, 
-            ExpandVisitor, 
+            ComparableVisitor,
+            SerializeVisitor,
+            SerializeCompactVisitor,
+            ExpandVisitor,
             IsExpandableVisitor,
             TypeQueryVisitor,
             RenderJSONVisitor
         >::type Visitors;
-
 
         IElement() : hasContent(false), renderStrategy(rDefault)
         {
@@ -111,6 +109,7 @@ namespace refract
             typedef typename ElementTypeSelector<T>::ElementType ElementType;
             ElementType* element = new ElementType;
             element->set(value);
+
             return element;
         };
 
@@ -142,18 +141,18 @@ namespace refract
         virtual void element(const std::string&) = 0;
 
         // NOTE: Visiting is now handled by inheritance from `VisitableBy`
-        // it uses internally C++ RTTI via `dynamic_cast<>`. 
+        // it uses internally C++ RTTI via `dynamic_cast<>`.
         // And accepts all visitors declared in typelist IElement::Visitors
         //
         // Alternative solution to avoid RTTI:
         // Add overrided virtual function `content` for every one type of `Visitor`
-        
+
         // NOTE: probably rename to Accept
         virtual void content(IVisitor& v) const = 0;
 
         /**
          * Flags for clone() element - select parts of refract element to be clonned
-         * \see Element<T>::clone() 
+         * \see Element<T>::clone()
          */
         typedef enum {
             cMeta       = 0x01,
@@ -182,7 +181,7 @@ namespace refract
          * (behavioration must be implemented in serialization visitors - it is partially done)
          */
 
-        typedef enum { 
+        typedef enum {
             rDefault = 0,
             rFull,
             rCompact,
@@ -203,9 +202,7 @@ namespace refract
         virtual ~IElement()
         {
         }
-
     };
-
 
     bool isReserved(const std::string& element);
 
@@ -216,7 +213,6 @@ namespace refract
     template <typename T, typename Trait>
     struct Element : public IElement, public VisitableBy<IElement::Visitors>
     {
-
         typedef Element<T, Trait> Type;
         typedef Trait TraitType;
         typedef typename TraitType::ValueType ValueType;
@@ -262,11 +258,12 @@ namespace refract
             }
 
             if (flags & cAttributes) {
-                element->attributes.clone(self->attributes); 
+                element->attributes.clone(self->attributes);
             }
 
             if (flags & cMeta) {
                 element->meta.clone(self->meta);
+
                 if (flags & cNoMetaId) {
                     element->meta.erase("id");
                 }
@@ -279,7 +276,7 @@ namespace refract
             return element;
         }
 
-        Element() : value(TraitType::init()) 
+        Element() : value(TraitType::init())
         {
         }
 
@@ -291,7 +288,7 @@ namespace refract
 
     struct NullElementTrait
     {
-        struct null_type {}; 
+        struct null_type {};
         typedef null_type ValueType;
 
         static ValueType init() { return ValueType(); }
@@ -346,6 +343,7 @@ namespace refract
             for (ValueType::iterator it = array.begin(); it != array.end(); ++it) {
                 delete (*it);
             }
+
             array.clear();
         }
 
@@ -360,7 +358,7 @@ namespace refract
     {
         void push_back(IElement* e)
         {
-            // FIXME: warn if MemberElement 
+            // FIXME: warn if MemberElement
             // there is no way to present "key: value" in array
             hasContent = true;
             value.push_back(e);
@@ -380,6 +378,7 @@ namespace refract
                 delete member.first;
                 member.first = NULL;
             }
+
             if (member.second) {
                 delete member.second;
                 member.second = NULL;
@@ -410,12 +409,14 @@ namespace refract
                 delete value.first;
                 value.first = NULL;
             }
+
             value.first = key;
 
             if (value.second != NULL) {
                 delete value.second;
                 value.second = NULL;
             }
+
             value.second = element;
 
             hasContent = true;
@@ -427,6 +428,7 @@ namespace refract
                 delete value.second;
                 value.second = NULL;
             }
+
             value.second = element;
             return *this;
         }
@@ -444,7 +446,7 @@ namespace refract
         // - (Select Element)
         // - (Ref Element)
         //
-        // FIXME: behavioration for content types different than 
+        // FIXME: behavioration for content types different than
         // `(array[Member Element])` is not currently implemented
 
         static ValueType init() { return ValueType(); }
@@ -456,6 +458,7 @@ namespace refract
             for (ValueType::iterator it = obj.begin(); it != obj.end(); ++it) {
                 delete (*it);
             }
+
             obj.clear();
         }
 
@@ -470,7 +473,7 @@ namespace refract
     {
         void push_back(IElement* e)
         {
-            // FIXME: 
+            // FIXME:
             // probably add check for allowed type
             hasContent = true;
             value.push_back(e);

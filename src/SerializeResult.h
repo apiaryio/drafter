@@ -15,7 +15,7 @@
 
 namespace snowcrash {
     struct Blueprint;
-    template <typename T> struct ParseResult; 
+    template <typename T> struct ParseResult;
 }
 
 namespace drafter {

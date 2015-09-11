@@ -11,14 +11,16 @@
 namespace refract
 {
 
-    namespace 
+    namespace
     {
         struct CheckElement {
             bool checkElement(const IElement* e) const {
                 std::string type;
+
                 if (e) {
                     type = e->element();
                 }
+
                 return !isReserved(type) || type == "ref" ;
             }
         };
@@ -26,9 +28,11 @@ namespace refract
         template <typename T, typename V = typename T::ValueType>
         struct IsExpandable : public CheckElement {
             bool operator()(const T* e) const {
+
                 if (checkElement(e)) {
                     return true;
                 }
+
                 return false;
             }
         };
@@ -57,7 +61,6 @@ namespace refract
                     }
                 }
 
-
                 return false;
             }
         };
@@ -73,6 +76,7 @@ namespace refract
                 for (std::vector<IElement*>::const_iterator i = e->value.begin() ; i != e->value.end() ; ++i ) {
                     IsExpandableVisitor v;
                     (*i)->content(v);
+
                     if (v.get()) {
                         return true;
                     }
@@ -83,14 +87,13 @@ namespace refract
         };
     } // anonymous namespace
 
-
     IsExpandableVisitor::IsExpandableVisitor() : result(false) {}
 
     template<typename T>
     void IsExpandableVisitor::visit(const T& e) {
         result = IsExpandable<T>()(&e);
     }
-  
+
     // Explicit instantioning of templates to avoid Linker Error
     template void IsExpandableVisitor::visit<NullElement>(const NullElement&);
     template void IsExpandableVisitor::visit<StringElement>(const StringElement&);

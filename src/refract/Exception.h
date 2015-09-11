@@ -16,14 +16,15 @@ namespace refract
     struct LogicError : std::logic_error {
         explicit LogicError(const std::string& msg) : std::logic_error(msg) {}
     };
+
     // will be removed in future
     struct NotImplemented : std::runtime_error {
         explicit NotImplemented(const std::string& msg) : std::runtime_error(msg) {}
-    }; 
+    };
 
     struct Deprecated : std::logic_error {
         explicit Deprecated(const std::string& msg) : std::logic_error(msg) {}
-    }; 
+    };
 
 }; // namespace refract
 

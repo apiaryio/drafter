@@ -134,7 +134,7 @@ namespace refract
 
             if (const T* d = getDefault(element)) {
                 return &d->value;
-            } 
+            }
 
             return &element.value;
         }

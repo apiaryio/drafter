@@ -17,7 +17,7 @@ namespace refract
     // Forward declarations of IElement
     struct IElement;
 
-    class Registry 
+    class Registry
     {
         // FIXME: potentionally dangerous,
         // if element is deleted and not removed from registry
@@ -26,6 +26,7 @@ namespace refract
         Map registrated;
 
         std::string getElementId(IElement* element);
+
     public:
 
         IElement* find(const std::string& name) const;

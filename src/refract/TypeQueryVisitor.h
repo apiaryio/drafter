@@ -29,7 +29,7 @@ namespace refract
         ElementType typeInfo;
     public:
 
-        enum 
+        enum
         {
             Null,
             String,
