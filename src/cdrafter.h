@@ -52,7 +52,7 @@ enum drafter_ast_type_option {
 
 SC_API int drafter_c_parse(const char* source,
                            sc_blueprint_parser_options options,
-                           drafter_ast_type_option astType,
+                           enum drafter_ast_type_option astType,
                            char** result);
 
 #ifdef __cplusplus
