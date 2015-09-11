@@ -257,7 +257,7 @@ namespace drafter {
         }
 
         if (!payload->headers.empty()) {
-            element->attributes[SerializeKey::Headers] = CollectionToRefract<refract::ObjectElement>(payload->headers, HeaderToRefract, SerializeKey::HTTPHeaders, refract::IElement::rFull);
+            element->attributes[SerializeKey::Headers] = CollectionToRefract<refract::ArrayElement>(payload->headers, HeaderToRefract, SerializeKey::HTTPHeaders, refract::IElement::rFull);
         }
 
         // Render using boutique
