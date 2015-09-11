@@ -58,6 +58,7 @@ const std::string SerializeKey::Parameters = "parameters";
 const std::string SerializeKey::Type = "type";
 const std::string SerializeKey::Required = "required";
 const std::string SerializeKey::Default = "default";
+const std::string SerializeKey::Nullable = "nullable";
 const std::string SerializeKey::Example = "example";
 const std::string SerializeKey::Values = "values";
 
