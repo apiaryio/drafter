@@ -30,8 +30,8 @@ void PrepareCommanLineParser(cmdline::parser& parser)
     parser.set_program_name(config::Program);
 
     parser.add<std::string>(config::Output,    'o', "save output AST into file", false);
-    parser.add<std::string>(config::Format,    'f', "output AST format (yaml|json)", false, "yaml", cmdline::oneof<std::string>("yaml", "json"));
-    parser.add<std::string>(config::Type,      't', "format of AST (refract|ast)", false, "refract", cmdline::oneof<std::string>("refract", "ast"));
+    parser.add<std::string>(config::Format,    'f', "output format of the AST (yaml|json)", false, "yaml", cmdline::oneof<std::string>("yaml", "json"));
+    parser.add<std::string>(config::Type,      't', "type of the AST (refract|ast)", false, "refract", cmdline::oneof<std::string>("refract", "ast"));
     parser.add<std::string>(config::Sourcemap, 's', "export sourcemap AST into file", false);
     parser.add("help",                         'h', "display this help message");
     parser.add(config::Version ,               'v', "print Drafter version");
