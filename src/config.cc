@@ -58,6 +58,12 @@ void ValidateParsedCommandLine(const cmdline::parser& parser)
         std::cout << DRAFTER_VERSION_STRING << std::endl;
         exit(EXIT_SUCCESS);
     }
+
+    if (parser.exist(config::Validate)) {
+        if (parser.exist(config::Sourcemap) || parser.exist(config::Output)) {
+            std::cerr << "WARN: While validation is enabled, source map and output files will not be created" << std::endl;
+        }
+    }
 }
 
 void ParseCommadLineOptions(int argc, const char *argv[], /* out */Config& conf)
