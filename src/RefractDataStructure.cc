@@ -312,6 +312,17 @@ namespace drafter {
             }
         };
 
+        /*
+        template<typename W, bool dummy = true>
+        struct Store {
+            void operator()(RefractElements& elements, const W& v) {
+                T* e = new T;
+                e->set(v);
+                elements.push_back(e);
+            }
+        };
+        */
+
         template <typename U, bool dummy = true>
         struct Fetch {  // primitive values
 
@@ -350,7 +361,7 @@ namespace drafter {
 
         template<typename X, bool dummy = true>
         struct InjectNestedTypeInfo {
-            void operator()(const mson::ValueMember&, std::vector<typename T::ValueType>&) {
+            void operator()(const mson::ValueMember& valueMember, std::vector<typename T::ValueType>& values) {
             }
         };
 
@@ -416,6 +427,7 @@ namespace drafter {
             }
         }
     };
+
 
     namespace
     {
