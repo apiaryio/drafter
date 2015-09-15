@@ -280,7 +280,6 @@ namespace drafter {
         }
     };
 
-
     template <typename T, typename V = typename T::ValueType>
     struct ExtractValueMember
     { // This will handle primitive elements
@@ -290,118 +289,120 @@ namespace drafter {
         RefractElements& defaults;
         RefractElements& samples;
 
-        ExtractValueMember(const mson::ValueMember& v, RefractElements& defaults, RefractElements& samples, const mson::BaseTypeName)
+        template <typename U, bool dummy = true>
+        struct Fetch {
+            U operator()(const mson::ValueMember& vm) {
+                if (vm.valueDefinition.values.size() > 1) {
+                    throw snowcrash::Error("only one value is supported for primitive types", snowcrash::MSONError);
+                } 
+                const mson::Value& value = *vm.valueDefinition.values.begin();
+                return LiteralTo<U>(value.literal);
+            }
+        };
+
+        template<bool dummy> 
+        struct Fetch<RefractElements, dummy> {
+            RefractElements operator()(const mson::ValueMember& vm) {
+                RefractElements result;
+                const mson::BaseTypeName type = SelectNestedTypeSpecification(vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes);
+
+                RefractElementFactory& elementFactory = FactoryFromType(type);
+                const mson::Values& values = vm.valueDefinition.values;
+
+                for (mson::Values::const_iterator it = values.begin(); it != values.end(); ++it) {
+                    refract::IElement* element = elementFactory.Create(it->literal, it->variable);
+                    result.push_back(element);
+                }
+
+                return result;
+            }
+        };
+
+        template<typename W, bool dummy = true>
+        struct Store {
+            void operator()(RefractElements& elements, const W& v) {
+                T* e = new T;
+                e->set(v);
+                elements.push_back(e);
+            }
+        };
+
+        template<typename X, bool dummy = true>
+        struct InjectNestedTypeInfo {
+            void operator()(const mson::ValueMember& vm, T* element) {
+            }
+        };
+
+        template<bool dummy>
+        struct InjectNestedTypeInfo<RefractElements, dummy> {
+            void operator()(const mson::ValueMember& vm, T* element) {
+                // inject type info into arrays [ "type", {}, {}, null ]
+                const mson::TypeNames& nestedTypes = vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes;
+                if (!nestedTypes.empty() && GetType(vm.valueDefinition) != mson::EnumTypeName) {
+
+                    RefractElements types;
+                    for (mson::TypeNames::const_iterator it = nestedTypes.begin() ; it != nestedTypes.end(); ++it) {
+                        RefractElementFactory& f = FactoryFromType(it->base);
+                        types.push_back(f.Create(it->symbol.literal, it->symbol.variable));
+                    }
+
+                    refract::AppendDecorator<T> append = refract::AppendDecorator<T>(element);
+                    append(types);
+                }
+            }
+        };
+
+        template<typename Y, bool dummy = true>
+        struct IsValueVariable {
+            bool operator()(const mson::Value& v) {
+                return v.variable;
+            }
+        };
+
+        template<bool dummy>
+        struct IsValueVariable<RefractElements, dummy>{
+            bool operator()(const mson::Value& v) {
+                return false;
+            }
+        };
+
+        ExtractValueMember(const mson::ValueMember& v, RefractElements& defaults, RefractElements& samples, const mson::BaseTypeName) 
             : vm(v), defaults(defaults), samples(samples) {}
 
         operator T*()
         {
             ElementType* element = new ElementType;
 
-            if (vm.valueDefinition.values.size() > 1) {
-                throw snowcrash::Error("only one value is supported for primitive types", snowcrash::MSONError);
-            }
+            Fetch<typename T::ValueType> fetch;
+            Store<typename T::ValueType> store;
 
             if (!vm.valueDefinition.values.empty()) {
                 mson::TypeAttributes attrs = vm.valueDefinition.typeDefinition.attributes;
                 const mson::Value& value = *vm.valueDefinition.values.begin();
 
                 if (attrs & mson::DefaultTypeAttribute) {
-                    defaults.push_back(refract::IElement::Create(LiteralTo<V>(value.literal)));
+                    store(defaults, fetch(vm));
                 }
-                else if ((attrs & mson::SampleTypeAttribute) || (value.variable)) {
-                    samples.push_back(refract::IElement::Create(LiteralTo<V>(value.literal)));
+                else if ((attrs & mson::SampleTypeAttribute) || IsValueVariable<typename T::ValueType>()(value)) {
+                    store(samples, fetch(vm));
                 }
                 else {
-                    element->set(LiteralTo<V>(value.literal));
+                    element->set(fetch(vm));
                 }
-
             }
 
             if (!vm.description.empty()) {
                 element->meta[SerializeKey::Description] = refract::IElement::Create(vm.description);
             }
 
-            return element;
-        }
-    };
-
-    template <typename T>
-    struct ExtractValueMember<T, RefractElements>
-    {
-        const mson::ValueMember& vm;
-        typedef RefractElements V;
-        typedef T ElementType;
-
-        RefractElements& defaults;
-        RefractElements& samples;
-
-        mson::BaseTypeName defaultNestedType;
-
-        ExtractValueMember(const mson::ValueMember& v, RefractElements& defaults, RefractElements& samples, const mson::BaseTypeName defaultNestedType)
-            : vm(v),
-              defaults(defaults),
-              samples(samples),
-              defaultNestedType(defaultNestedType)
-        {}
-
-        operator T*()
-        {
-            ElementType* element = new ElementType;
-            const mson::TypeNames& nestedTypes = vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes;
-
-            if (!vm.valueDefinition.values.empty()) {
-                mson::BaseTypeName type = SelectNestedTypeSpecification(nestedTypes, defaultNestedType);
-
-                RefractElementFactory& elementFactory = FactoryFromType(type);
-                const mson::Values& values = vm.valueDefinition.values;
-
-                V result;
-                for (mson::Values::const_iterator it = values.begin(); it != values.end(); ++it) {
-                    refract::IElement* element = elementFactory.Create(it->literal, it->variable);
-                    result.push_back(element);
-                }
-
-                mson::TypeAttributes attrs = vm.valueDefinition.typeDefinition.attributes;
-                if (attrs & mson::SampleTypeAttribute) {
-                    ElementType* s = new ElementType;
-                    s->set(result);
-                    samples.push_back(s);
-                }
-                else if (attrs & mson::DefaultTypeAttribute) {
-                    ElementType* d = new ElementType;
-                    d->set(result);
-                    defaults.push_back(d);
-                }
-                else {
-                    element->set(result);
-                }
-
-                // Do not inject typeinfo if there is just one - we already use it in values
-                if (nestedTypes.size() <= 1) {
-                    return element;
-                }
-
-            }
-
-            // inject type info into arrays [ "type", {}, {}, null ]
-            // FIXME: what to do with `Enum`s (they hold members in `sections` instead of value
-            if (!nestedTypes.empty() && GetType(vm.valueDefinition) != mson::EnumTypeName) {
-
-                RefractElements types;
-                for (mson::TypeNames::const_iterator it = nestedTypes.begin() ; it != nestedTypes.end(); ++it) {
-                    RefractElementFactory& f = FactoryFromType(it->base);
-                    //RefractElementFactory& f = FactoryFromType(defaultNestedType);
-                    types.push_back(f.Create(it->symbol.literal, it->symbol.variable));
-                }
-
-                refract::AppendDecorator<T> append = refract::AppendDecorator<T>(element);
-                append(types);
-
+            if (vm.valueDefinition.values.empty() || (vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes.size() > 1)) {
+                InjectNestedTypeInfo<typename T::ValueType>()(vm, element);
             }
 
             return element;
         }
     };
+
 
     namespace
     {
