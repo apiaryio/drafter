@@ -282,12 +282,9 @@ namespace drafter {
 
     template <typename T, typename V = typename T::ValueType>
     struct ExtractValueMember
-    { // This will handle primitive elements
-        const mson::ValueMember& vm;
+    { 
         typedef T ElementType;
-
-        RefractElements& defaults;
-        RefractElements& samples;
+        TypeSectionData<T>& data;
 
         template <typename U, bool dummy = true>
         struct Fetch {
@@ -329,13 +326,13 @@ namespace drafter {
 
         template<typename X, bool dummy = true>
         struct InjectNestedTypeInfo {
-            void operator()(const mson::ValueMember& vm, T* element) {
+            void operator()(const mson::ValueMember& vm, std::vector<typename T::ValueType>&) {
             }
         };
 
         template<bool dummy>
         struct InjectNestedTypeInfo<RefractElements, dummy> {
-            void operator()(const mson::ValueMember& vm, T* element) {
+            void operator()(const mson::ValueMember& vm, std::vector<typename T::ValueType>& values) {
                 // inject type info into arrays [ "type", {}, {}, null ]
                 const mson::TypeNames& nestedTypes = vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes;
                 if (!nestedTypes.empty() && GetType(vm.valueDefinition) != mson::EnumTypeName) {
@@ -346,8 +343,7 @@ namespace drafter {
                         types.push_back(f.Create(it->symbol.literal, it->symbol.variable));
                     }
 
-                    refract::AppendDecorator<T> append = refract::AppendDecorator<T>(element);
-                    append(types);
+                    values.push_back(types);
                 }
             }
         };
@@ -366,13 +362,10 @@ namespace drafter {
             }
         };
 
-        ExtractValueMember(const mson::ValueMember& v, RefractElements& defaults, RefractElements& samples, const mson::BaseTypeName) 
-            : vm(v), defaults(defaults), samples(samples) {}
+        ExtractValueMember(TypeSectionData<T>& data, const mson::BaseTypeName) : data(data) {}
 
-        operator T*()
+        void operator ()(const mson::ValueMember& vm)
         {
-            ElementType* element = new ElementType;
-
             Fetch<typename T::ValueType> fetch;
             Store<typename T::ValueType> store;
 
@@ -381,25 +374,24 @@ namespace drafter {
                 const mson::Value& value = *vm.valueDefinition.values.begin();
 
                 if (attrs & mson::DefaultTypeAttribute) {
-                    store(defaults, fetch(vm));
+                    store(data.defaults, fetch(vm));
                 }
                 else if ((attrs & mson::SampleTypeAttribute) || IsValueVariable<typename T::ValueType>()(value)) {
-                    store(samples, fetch(vm));
+                    store(data.samples, fetch(vm));
                 }
                 else {
-                    element->set(fetch(vm));
+                    data.values.push_back(fetch(vm));
                 }
             }
 
             if (!vm.description.empty()) {
-                element->meta[SerializeKey::Description] = refract::IElement::Create(vm.description);
+                data.descriptions.push_back(vm.description);
             }
 
             if (vm.valueDefinition.values.empty() || (vm.valueDefinition.typeDefinition.typeSpecification.nestedTypes.size() > 1)) {
-                InjectNestedTypeInfo<typename T::ValueType>()(vm, element);
+                InjectNestedTypeInfo<typename T::ValueType>()(vm, data.values);
             }
 
-            return element;
         }
     };
 
@@ -484,6 +476,7 @@ namespace drafter {
 
             std::for_each(data.values.begin(), data.values.end(), refract::AppendDecorator<T>(element));
 
+
             SaveSamples(data.samples, element);
 
             SaveDefault(data.defaults, element);
@@ -497,8 +490,24 @@ namespace drafter {
         typedef T ElementType;
 
         TypeSectionData<T> data;
+        ElementType* element = new ElementType;
 
-        ElementType* element = ExtractValueMember<ElementType>(value, data.defaults, data.samples, defaultNestedType);
+        ExtractValueMember<ElementType>(data, defaultNestedType)(value);
+
+        if (!data.values.empty()) {
+            typename std::vector<typename T::ValueType>::iterator b = data.values.begin();
+            element->set(*b);
+            ++b;
+
+            AppendDecorator<T> append(element);
+            for_each(b, data.values.end(), append);
+
+            data.values.clear();
+        }
+
+        if (!data.descriptions.empty()) {
+                element->meta[SerializeKey::Description] = refract::IElement::Create(*data.descriptions.begin());
+        }
 
         SetElementType(element, value.valueDefinition.typeDefinition);
 
