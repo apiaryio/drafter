@@ -67,6 +67,7 @@
 		19FD76A81B97216700B160CF /* libmarkdownparser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129E91B70AFA900366AA7 /* libmarkdownparser.a */; };
 		19FD76A91B97216700B160CF /* libsnowcrash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129E71B70AFA600366AA7 /* libsnowcrash.a */; };
 		401074A31B833A1000B66442 /* Render.cc in Sources */ = {isa = PBXBuildFile; fileRef = 401074A21B833A1000B66442 /* Render.cc */; };
+		40AEEC351BB174CC005866DD /* Error.h in Headers */ = {isa = PBXBuildFile; fileRef = 40AEEC341BB174CC005866DD /* Error.h */; };
 		40EF03D51B7210F300865990 /* RefractDataStructure.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40EF03D31B7210F300865990 /* RefractDataStructure.cc */; };
 		40EF03D61B7210F300865990 /* RefractDataStructure.h in Headers */ = {isa = PBXBuildFile; fileRef = 40EF03D41B7210F300865990 /* RefractDataStructure.h */; };
 		40EF03D91B72134000865990 /* RefractAPI.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40EF03D71B72134000865990 /* RefractAPI.cc */; };
@@ -167,6 +168,7 @@
 		19BD7B971B70AAAF00A11E83 /* liblibdrafter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibdrafter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		19FD769D1B9720CB00B160CF /* drafter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = drafter; sourceTree = BUILT_PRODUCTS_DIR; };
 		401074A21B833A1000B66442 /* Render.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Render.cc; path = src/Render.cc; sourceTree = SOURCE_ROOT; };
+		40AEEC341BB174CC005866DD /* Error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Error.h; path = src/Error.h; sourceTree = SOURCE_ROOT; };
 		40EF03D31B7210F300865990 /* RefractDataStructure.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractDataStructure.cc; path = src/RefractDataStructure.cc; sourceTree = SOURCE_ROOT; };
 		40EF03D41B7210F300865990 /* RefractDataStructure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefractDataStructure.h; path = src/RefractDataStructure.h; sourceTree = SOURCE_ROOT; };
 		40EF03D71B72134000865990 /* RefractAPI.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractAPI.cc; path = src/RefractAPI.cc; sourceTree = SOURCE_ROOT; };
@@ -221,6 +223,8 @@
 				19A1296A1B70ABE100366AA7 /* config.cc */,
 				19A1296B1B70ABE100366AA7 /* config.h */,
 				19A1296E1B70ABE100366AA7 /* main.cc */,
+				19A129721B70ABE100366AA7 /* reporting.cc */,
+				19A129731B70ABE100366AA7 /* reporting.h */,
 			);
 			name = drafter;
 			sourceTree = "<group>";
@@ -313,14 +317,13 @@
 				19A129691B70ABE100366AA7 /* cdrafter.h */,
 				19A1296C1B70ABE100366AA7 /* drafter.cc */,
 				19A1296D1B70ABE100366AA7 /* drafter.h */,
+				40AEEC341BB174CC005866DD /* Error.h */,
 				40EF03D71B72134000865990 /* RefractAPI.cc */,
 				40EF03D81B72134000865990 /* RefractAPI.h */,
 				40EF03D31B7210F300865990 /* RefractDataStructure.cc */,
 				40EF03D41B7210F300865990 /* RefractDataStructure.h */,
 				401074A21B833A1000B66442 /* Render.cc */,
 				19A129711B70ABE100366AA7 /* Render.h */,
-				19A129721B70ABE100366AA7 /* reporting.cc */,
-				19A129731B70ABE100366AA7 /* reporting.h */,
 				19A129741B70ABE100366AA7 /* Serialize.cc */,
 				19A129751B70ABE100366AA7 /* Serialize.h */,
 				19A129761B70ABE100366AA7 /* SerializeAST.cc */,
@@ -379,6 +382,7 @@
 				19A1298F1B70ABE100366AA7 /* SerializeResult.h in Headers */,
 				19A129B11B70AC9A00366AA7 /* ComparableVisitor.h in Headers */,
 				19A129BC1B70AC9A00366AA7 /* RenderJSONVisitor.h in Headers */,
+				40AEEC351BB174CC005866DD /* Error.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -794,6 +798,7 @@
 				19FD76A21B9720CB00B160CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

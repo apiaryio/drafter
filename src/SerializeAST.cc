@@ -11,6 +11,7 @@
 
 #include <stdlib.h>
 
+#include "Error.h"
 #include "RefractDataStructure.h"
 #include "RefractAPI.h"
 #include "Render.h"
@@ -52,7 +53,6 @@ enum {
     NoError = 0,
     RuntimeError
 };
-
 
 static int DrafterErrorCode = NoError;
 static std::string DrafterErrorMessage;
@@ -870,12 +870,13 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType ast
 {
     sos::Object blueprintObject;
 
+    try {
+
 #if _WITH_REFRACT_
-    registerNamedTypes(blueprint.content.elements());
-    ExpandMSON = expand;
+        registerNamedTypes(blueprint.content.elements());
+        ExpandMSON = expand;
 #endif
 
-    try {
         if (astType == RefractASTType) {
             blueprintObject = WrapBlueprintRefract(blueprint);
         }
