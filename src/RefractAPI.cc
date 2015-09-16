@@ -427,7 +427,7 @@ namespace drafter {
             case snowcrash::Element::CategoryElement:
                 return CategoryToRefract(element);
             default:
-                throw std::runtime_error("Not Implemented - Unhandled type of Element");
+                throw snowcrash::Error("unknown type of api description element", snowcrash::ApplicationError);
         }
     }
 
