@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
+#include "SourceAnnotation.h"
 #include "RefractDataStructure.h"
 #include "refract/AppendDecorator.h"
 

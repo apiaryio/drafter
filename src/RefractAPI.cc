@@ -8,6 +8,7 @@
 
 #include <iterator>
 
+#include "SourceAnnotation.h"
 #include "RefractDataStructure.h"
 #include "RefractAPI.h"
 #include "Render.h"
