@@ -30,23 +30,9 @@ namespace refract
             // FIXME: snowcrash warn about "Primitive type can not have member"
             // but in real it create "empty" member
             //
-            // solution for now: silently ignore
-        }
-    };
-
-    template <typename T>
-    struct AppendDecorator<T, std::string> {
-        typedef T ElementType;
-        typedef typename T::ValueType ValueType;
-        ElementType*& element;
-
-        AppendDecorator(ElementType*& e) : element(e)
-        {
-        }
-
-        void operator()(const std::string& value) {
-            if (!value.empty()) {
-                element->value.append(value);
+            // solution for now: set if element has no already value, otherwise silently ignore
+            if (element->empty()) {
+                element->set(value);
             }
         }
     };
@@ -63,13 +49,9 @@ namespace refract
 
         void operator()(const ValueType& value)
         {
-            std::copy(value.begin(), value.end(), std::back_inserter(element->value));
-            if (!value.empty()) {
-                element->hasContent = true;
-            }
+            for_each(value.begin(), value.end(), std::bind1st(std::mem_fun(&ElementType::push_back), element));
         }
     };
-
 
 }; // namespace refract
 
