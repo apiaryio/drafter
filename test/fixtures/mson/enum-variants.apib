@@ -1,0 +1,66 @@
+
+# Data Structures       
+
+# Enum behavior (object)
+- size1: L (enum) - content ['L']
+
+- size2: S, M, L, XL (enum) - content ['S','M','L','XL']
+
+- size3: L (enum) - sample [['L']], content ['S','M','L','XL']
+    - S
+    - M
+    - L
+    - XL
+
+- size4: L (enum) - sample [['L']], content [ 'S, M, L, XL' ] - FIXME: from snowcrash we receive "enum of strings" should be string "S, M, L, XL"
+    - S, M, L, XL
+
+- size5: *L* (enum) - sample [['L']]
+
+- size6: L (enum, sample) - sample [['L']]
+
+- size7 (enum) - content ['S','M','L','XL','XXL','XXXL']
+    - S
+    - M
+    - L
+    - XL
+
+    - items
+        - XXL
+        - XXXL
+
+- size8: S (enum) - content ['T'], samples [[ 'S' ],[ 'U']]
+    - T
+
+    - sample
+        - U
+
+- size9: L (enum, sample) - sample [['L'],['M','N']]
+    - M
+    - N
+
+- size10: L (enum, sample) - sample [['L'],['M','N']] 
+    - items
+        - M
+        - M
+
+- size11 (enum[string, number]) - content['M','N']
+    - M
+    - N
+
+- size12: L (enum,default) - default['M','N'] - FIXME: current default['L'], sample[['M','N']]
+    - M
+    - N
+
+- size13: L (enum,default) - default['M','N'] - FIXME: current default['L'], sample[['M','N']]
+    - items
+        - M
+        - N
+
+- size14 (enum,sample) - sample[['M','N']] - FIXME: curent content[['M','N']]
+    - M
+    - N
+
+- size15 (enum,default) - default['M','N'] - FIXME: curent content[['M','N']]
+    - M
+    - N

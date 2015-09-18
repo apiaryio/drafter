@@ -514,6 +514,8 @@ namespace drafter {
 
         ExtractValueMember<ElementType>(data, defaultNestedType)(value);
 
+        size_t valuesCount = data.values.size();
+
         if (!data.descriptions.empty()) {
                 element->meta[SerializeKey::Description] = refract::IElement::Create(*data.descriptions.begin());
         }
@@ -521,6 +523,15 @@ namespace drafter {
         SetElementType(element, value.valueDefinition.typeDefinition);
 
         std::for_each(value.sections.begin(), value.sections.end(), ExtractTypeSection<T>(data, value));
+
+        
+        if (!value.valueDefinition.values.empty() && (valuesCount != data.values.size())) { 
+            // there are some values coming from TypeSections -> move first value into examples
+            ElementType* element = new ElementType;
+            element->set(data.values.front());
+            data.samples.insert(data.samples.begin(), element);
+            data.values.erase(data.values.begin());
+        }
 
         TransformElementData(element, data);
 

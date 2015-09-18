@@ -181,3 +181,8 @@ TEST_CASE("Testing refract reference getting overridden", "[refract][mson]")
 {
     REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/reference-override", drafter::NormalASTType, true));
 }
+
+TEST_CASE("Testing refract enum count of different variants value/samples", "[refract][mson]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/enum-variants", drafter::NormalASTType, true));
+}
