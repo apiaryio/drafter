@@ -114,3 +114,8 @@ TEST_CASE("Testing render of primitive types w/ nullable", "[render]")
 {
     REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render/nullable"));
 }
+
+TEST_CASE("Testing render when object is overridden", "[render]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render/override"));
+}
