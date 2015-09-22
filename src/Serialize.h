@@ -95,6 +95,7 @@ namespace drafter {
         static const std::string Ast;
         static const std::string SourceMap;
         static const std::string Error;
+        static const std::string Warning;
         static const std::string Warnings;
         static const std::string AnnotationCode;
         static const std::string AnnotationMessage;
@@ -148,6 +149,10 @@ namespace drafter {
         static const std::string MessageBody;
         static const std::string MessageSchema;
         static const std::string Data;
+
+        // Parse Result Namespace
+        static const std::string ParseResult;
+        static const std::string Annotation;
     };
 
     /**

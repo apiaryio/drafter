@@ -21,6 +21,23 @@ namespace drafter {
     namespace {
 
         typedef std::vector<refract::IElement*> RefractElements;
+        typedef std::vector<const snowcrash::DataStructure*> DataStructures;
+
+        void FindNamedTypes(const snowcrash::Elements& elements, DataStructures& found)
+        {
+            for (snowcrash::Elements::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
+
+                if (i->element == snowcrash::Element::DataStructureElement) {
+                    found.push_back(&(i->content.dataStructure));
+                }
+                else if (!i->content.resource.attributes.empty()) {
+                    found.push_back(&i->content.resource.attributes);
+                }
+                else if (i->element == snowcrash::Element::CategoryElement) {
+                    FindNamedTypes(i->content.elements(), found);
+                }
+            }
+        }
 
         template <typename T>
         refract::ArrayElement* CreateArrayElement(const T& content, bool rFull = false)
@@ -64,6 +81,20 @@ namespace drafter {
             element->renderType(renderType);
 
             return element;
+        }
+    }
+
+    void RegisterNamedTypes(const snowcrash::Elements& elements)
+    {
+        DataStructures found;
+        FindNamedTypes(elements, found);
+
+        for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
+
+            if (!(*i)->name.symbol.literal.empty()) {
+                refract::IElement* element = MSONToRefract(*(*i));
+                GetNamedTypesRegistry().add(element);
+            }
         }
     }
 
