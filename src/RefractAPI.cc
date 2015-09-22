@@ -40,20 +40,6 @@ namespace drafter {
         }
 
         template <typename T>
-        refract::ArrayElement* CreateArrayElement(const T& content, bool rFull = false)
-        {
-            refract::ArrayElement* array = new refract::ArrayElement;
-            refract::IElement* value = refract::IElement::Create(content);
-
-            if (rFull) {
-                value->renderType(refract::IElement::rFull);
-            }
-
-            array->push_back(value);
-            return array;
-        }
-
-        template <typename T>
         bool IsNull(const T* ptr)
         {
             return ptr == NULL;
@@ -82,6 +68,20 @@ namespace drafter {
 
             return element;
         }
+    }
+
+    template <typename T>
+    refract::ArrayElement* CreateArrayElement(const T& content, bool rFull)
+    {
+        refract::ArrayElement* array = new refract::ArrayElement;
+        refract::IElement* value = refract::IElement::Create(content);
+
+        if (rFull) {
+            value->renderType(refract::IElement::rFull);
+        }
+
+        array->push_back(value);
+        return array;
     }
 
     void RegisterNamedTypes(const snowcrash::Elements& elements)

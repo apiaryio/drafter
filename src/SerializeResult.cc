@@ -49,7 +49,7 @@ sos::Object WrapParseResultAST(const snowcrash::ParseResult<snowcrash::Blueprint
     object.set(SerializeKey::Ast, WrapBlueprint(blueprint.node, drafter::NormalASTType));
 
     if (options & snowcrash::ExportSourcemapOption) {
-        object.set(SerializeKey::SourceMap, WrapBlueprintSourcemap(blueprint.sourceMap));
+        object.set(SerializeKey::Sourcemap, WrapBlueprintSourcemap(blueprint.sourceMap));
     }
 
     object.set(SerializeKey::Error, WrapAnnotation(blueprint.report.error));
