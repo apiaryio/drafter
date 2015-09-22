@@ -18,15 +18,11 @@ namespace drafter {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
 
-        // Register Named Types
-        RegisterNamedTypes(blueprint.node.content.elements());
-
         element->element(SerializeKey::ParseResult);
 
         content.push_back(BlueprintToRefract(blueprint.node));
 
         element->set(content);
-        GetNamedTypesRegistry().clearAll(true);
 
         return element;
     }

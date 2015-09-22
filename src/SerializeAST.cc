@@ -40,24 +40,8 @@ using snowcrash::Action;
 using snowcrash::Resource;
 using snowcrash::Blueprint;
 
-#ifdef _WITH_REFRACT_
-/**
- * FIXME:
- * hotfix until solve ErrorReporting from drafter into snowcrash result.
- * we need it to allow free allocated memory
- * this flag WILL BE REMOVED,
- * DO NOT USE it until you know what are you doing
- */
-
-enum {
-    NoError = 0,
-    RuntimeError
-};
-
 static snowcrash::Error DrafterError;
 static bool ExpandMSON = false;
-
-#endif
 
 sos::Object WrapValue(const mson::Value& value)
 {
@@ -835,11 +819,8 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType ast
     sos::Object blueprintObject;
 
     try {
-
-#if _WITH_REFRACT_
         RegisterNamedTypes(blueprint.content.elements());
         ExpandMSON = expand;
-#endif
 
         if (astType == RefractASTType) {
             blueprintObject = WrapBlueprintRefract(blueprint);
@@ -855,9 +836,7 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType ast
         DrafterError = e;
     }
 
-#if _WITH_REFRACT_
     GetNamedTypesRegistry().clearAll(true);
-#endif
 
     if (DrafterError.code != snowcrash::Error::OK) {
         throw DrafterError;

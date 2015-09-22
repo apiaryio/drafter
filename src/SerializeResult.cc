@@ -7,6 +7,7 @@
 //
 
 #include "RefractParseResult.h"
+#include "RefractAPI.h"
 #include "RefractDataStructure.h"
 
 #include "SerializeResult.h"
@@ -14,6 +15,8 @@
 #include "SerializeAST.h"
 
 using namespace drafter;
+
+static snowcrash::Error DrafterError;
 
 static sos::Object WrapLocation(const mdp::BytesRange& range)
 {
@@ -36,8 +39,30 @@ static sos::Object WrapAnnotation(const snowcrash::SourceAnnotation& annotation)
     return object;
 }
 
-sos::Object drafter::WrapParseResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-                                     const snowcrash::BlueprintParserOptions options)
+sos::Object WrapParseResultAST(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
+                               const snowcrash::BlueprintParserOptions options)
+{
+    sos::Object object;
+
+    object.set(SerializeKey::Version, sos::String(PARSE_RESULT_SERIALIZATION_VERSION));
+
+    object.set(SerializeKey::Ast, WrapBlueprint(blueprint.node, drafter::NormalASTType));
+
+    if (options & snowcrash::ExportSourcemapOption) {
+        object.set(SerializeKey::SourceMap, WrapBlueprintSourcemap(blueprint.sourceMap));
+    }
+
+    object.set(SerializeKey::Error, WrapAnnotation(blueprint.report.error));
+
+    if (!blueprint.report.warnings.empty()) {
+        object.set(SerializeKey::Warnings, WrapCollection<snowcrash::SourceAnnotation>()(blueprint.report.warnings, WrapAnnotation));
+    }
+
+    return object;
+}
+
+sos::Object WrapParseResultRefract(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
+                                   const snowcrash::BlueprintParserOptions options)
 {
     refract::IElement* element = ParseResultToRefract(blueprint);
     sos::Object object = SerializeRefract(element);
@@ -53,25 +78,29 @@ sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprin
                                 const snowcrash::BlueprintParserOptions options,
                                 const ASTType astType)
 {
-    if (astType != NormalASTType) {
-        return WrapParseResult(blueprint, options);
-    }
-
     sos::Object object;
 
-    object.set(SerializeKey::Version, sos::String(PARSE_RESULT_SERIALIZATION_VERSION));
+    try {
+        RegisterNamedTypes(blueprint.node.content.elements());
 
-    object.set(SerializeKey::Ast, WrapBlueprint(blueprint.node, astType));
-
-    if (options & snowcrash::ExportSourcemapOption) {
-        const snowcrash::SourceMap<snowcrash::Blueprint>& sourceMap = blueprint.sourceMap;
-        object.set(SerializeKey::SourceMap, WrapBlueprintSourcemap(sourceMap));
+        if (astType == RefractASTType) {
+            object = WrapParseResultRefract(blueprint, options);
+        }
+        else {
+            object = WrapParseResultAST(blueprint, options);
+        }
+    }
+    catch (std::exception& e) {
+        DrafterError = snowcrash::Error(e.what(), snowcrash::MSONError);
+    }
+    catch (snowcrash::Error& e) {
+        DrafterError = e;
     }
 
-    object.set(SerializeKey::Error, WrapAnnotation(blueprint.report.error));
+    GetNamedTypesRegistry().clearAll(true);
 
-    if (!blueprint.report.warnings.empty()) {
-        object.set(SerializeKey::Warnings, WrapCollection<snowcrash::SourceAnnotation>()(blueprint.report.warnings, WrapAnnotation));
+    if (DrafterError.code != snowcrash::Error::OK) {
+        throw DrafterError;
     }
 
     return object;
