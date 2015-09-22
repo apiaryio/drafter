@@ -6,16 +6,12 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
+#include "RefractParseResult.h"
+#include "RefractDataStructure.h"
+
 #include "SerializeResult.h"
 #include "SerializeSourcemap.h"
 #include "SerializeAST.h"
-
-#include "SourceAnnotation.h"
-
-#include "SectionProcessor.h"
-#include "Blueprint.h"
-
-#include <stdio.h>
 
 using namespace drafter;
 
@@ -43,13 +39,12 @@ static sos::Object WrapAnnotation(const snowcrash::SourceAnnotation& annotation)
 sos::Object drafter::WrapParseResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
                                      const snowcrash::BlueprintParserOptions options)
 {
-    sos::Object object;
-    sos::Array content;
+    refract::IElement* element = ParseResultToRefract(blueprint);
+    sos::Object object = SerializeRefract(element);
 
-    object.set("element", sos::String("parseResult"));
-
-    content.push(WrapBlueprint(blueprint.node, RefractASTType));
-    object.set("content", content);
+    if (element) {
+        delete element;
+    }
 
     return object;
 }

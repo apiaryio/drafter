@@ -824,13 +824,13 @@ void registerNamedTypes(const snowcrash::Elements& elements)
 sos::Object WrapBlueprintRefract(const Blueprint& blueprint)
 {
     refract::IElement* element = BlueprintToRefract(blueprint);
-    sos::Object blueprintObject = SerializeRefract(element);
+    sos::Object object = SerializeRefract(element);
 
     if (element) {
         delete element;
     }
 
-    return blueprintObject;
+    return object;
 }
 
 sos::Object WrapBlueprintAST(const Blueprint& blueprint)

@@ -11,12 +11,7 @@
 
 #include "Serialize.h"
 
-#include "SectionParserData.h" // required by BlueprintParserOptions
-
-namespace snowcrash {
-    struct Blueprint;
-    template <typename T> struct ParseResult;
-}
+#include "SectionProcessor.h"
 
 namespace drafter {
 
