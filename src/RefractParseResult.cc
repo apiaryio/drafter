@@ -37,6 +37,7 @@ namespace drafter {
             content.push_back(SourceMapRowToRefract(*it));
         }
 
+        element->renderType(refract::IElement::rElement);
         element->set(content);
 
         return element;
