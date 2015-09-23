@@ -42,12 +42,12 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* AnnotationToRefract(const snowcrash::SourceAnnotation& annotation, bool error = false)
+    refract::IElement* AnnotationToRefract(const snowcrash::SourceAnnotation& annotation, bool isError)
     {
         refract::IElement* element = refract::IElement::Create(annotation.message);
 
         element->element(SerializeKey::Annotation);
-        element->meta[SerializeKey::Classes] = CreateArrayElement(error ? SerializeKey::Error : SerializeKey::Warning);
+        element->meta[SerializeKey::Classes] = CreateArrayElement(isError ? SerializeKey::Error : SerializeKey::Warning);
 
         refract::ArrayElement* sourceMap = new refract::ArrayElement;
         sourceMap->push_back(SourceMapToRefract(annotation.location));
@@ -58,6 +58,12 @@ namespace drafter {
         return element;
     }
 
+    // Wrapper function because we want to use std::transform over a list with this
+    refract::IElement* WarningToRefract(const snowcrash::SourceAnnotation& annotation)
+    {
+        return AnnotationToRefract(annotation, false);
+    }
+
     refract::IElement* ParseResultToRefract(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint)
     {
         refract::ArrayElement* element = new refract::ArrayElement;
@@ -66,6 +72,13 @@ namespace drafter {
         element->element(SerializeKey::ParseResult);
 
         content.push_back(BlueprintToRefract(blueprint.node));
+
+        if (blueprint.report.error.code != snowcrash::Error::OK) {
+            content.push_back(AnnotationToRefract(blueprint.report.error, true));
+        }
+
+        snowcrash::Warnings warnings = blueprint.report.warnings;
+        std::transform(warnings.begin(), warnings.end(), std::back_inserter(content), WarningToRefract);
 
         element->set(content);
 
