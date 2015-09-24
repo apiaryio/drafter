@@ -111,6 +111,7 @@
         "test/test-SerializeResult.cc",
         "test/test-RefractDataStructureTest.cc",
         "test/test-RefractAPITest.cc",
+        "test/test-RefractParseResultTest.cc",
         "test/test-RenderTest.cc",
       ],
       'dependencies': [

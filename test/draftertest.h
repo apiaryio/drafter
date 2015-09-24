@@ -75,7 +75,7 @@ namespace draftertest {
             return (outStream.str() == fixture.get(".json"));
         }
 
-        static bool handleResultJSON(const std::string& basepath, bool mustBeOk = true) {
+        static bool handleResultJSON(const std::string& basepath, bool mustBeOk = false) {
             ITFixtureFiles fixture = ITFixtureFiles(basepath);
 
             snowcrash::ParseResult<snowcrash::Blueprint> blueprint;

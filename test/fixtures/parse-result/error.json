@@ -1,0 +1,38 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": []
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "error"
+        ]
+      },
+      "attributes": {
+        "code": 2,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                24,
+                1
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "the use of tab(s) '\\t' in source data isn't currently supported, please contact makers"
+    }
+  ]
+}

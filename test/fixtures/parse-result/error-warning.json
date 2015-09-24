@@ -1,0 +1,155 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": ""
+              },
+              "attributes": {
+                "href": "/"
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": ""
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "204"
+                          },
+                          "content": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "dataStructures"
+            ]
+          },
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "B",
+                  "meta": {
+                    "id": "A"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "error"
+        ]
+      },
+      "attributes": {
+        "code": 4,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                55,
+                9
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "base type 'B' is not defined in the document"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 3,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                8,
+                13
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "no parameters specified, expected a nested list of parameters, one parameter per list item"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 8,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                55,
+                9
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "unable to find the symbol `B` in the list of named types"
+    }
+  ]
+}
