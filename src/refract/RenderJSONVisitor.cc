@@ -63,11 +63,42 @@ namespace refract
         e.content(*this);
     }
 
+    template<typename T>
+    bool isNullable(const T& e) {
+        IElement::MemberElementCollection::const_iterator ta = e.attributes.find("typeAttributes");
+        
+        if (ta == e.attributes.end()) {
+            return false;
+        }
+
+        ArrayElement* attrs = TypeQueryVisitor::as<ArrayElement>((*ta)->value.second);
+
+        if (!attrs) {
+            return false;
+        }
+
+        for (ArrayElement::ValueType::const_iterator it = attrs->value.begin() ; it != attrs->value.end() ; ++it ) {
+            StringElement* attr = TypeQueryVisitor::as<StringElement>(*it);
+            if (!attr) {
+                continue;
+            }
+            if (attr->value == "nullable") {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     void RenderJSONVisitor::visit(const MemberElement& e) {
         RenderJSONVisitor renderer;
 
         if (e.value.second) {
-            renderer.visit(*e.value.second);
+            if (isNullable(e) && e.value.second->empty()) {
+                renderer.result = sos::Null();
+            } else {
+                renderer.visit(*e.value.second);
+            }
         }
 
         if (StringElement* str = TypeQueryVisitor::as<StringElement>(e.value.first)) {
@@ -136,6 +167,10 @@ namespace refract
                 return &d->value;
             }
 
+            if (element.empty() && isNullable(element)) {
+                return NULL;
+            }
+            
             return &element.value;
         }
     };
