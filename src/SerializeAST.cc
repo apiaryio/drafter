@@ -11,6 +11,7 @@
 
 #include <stdlib.h>
 
+#include "SourceAnnotation.h"
 #include "RefractDataStructure.h"
 #include "RefractAPI.h"
 #include "Render.h"
@@ -53,10 +54,7 @@ enum {
     RuntimeError
 };
 
-
-static int DrafterErrorCode = NoError;
-static std::string DrafterErrorMessage;
-
+static snowcrash::Error DrafterError;
 static bool ExpandMSON = false;
 
 #endif
@@ -870,12 +868,13 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType ast
 {
     sos::Object blueprintObject;
 
+    try {
+
 #if _WITH_REFRACT_
-    registerNamedTypes(blueprint.content.elements());
-    ExpandMSON = expand;
+        registerNamedTypes(blueprint.content.elements());
+        ExpandMSON = expand;
 #endif
 
-    try {
         if (astType == RefractASTType) {
             blueprintObject = WrapBlueprintRefract(blueprint);
         }
@@ -884,15 +883,17 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType ast
         }
     }
     catch (std::exception& e) {
-        DrafterErrorCode = RuntimeError;
-        DrafterErrorMessage = e.what();
+        DrafterError = snowcrash::Error(e.what(), snowcrash::MSONError);
+    }
+    catch (snowcrash::Error& e) {
+        DrafterError = e;
     }
 
 #if _WITH_REFRACT_
     GetNamedTypesRegistry().clearAll(true);
 
-    if (DrafterErrorCode != NoError) {
-        throw std::runtime_error(DrafterErrorMessage);
+    if (DrafterError.code != snowcrash::Error::OK) {
+        throw DrafterError;
     }
 #endif
 

@@ -221,6 +221,8 @@
 				19A1296A1B70ABE100366AA7 /* config.cc */,
 				19A1296B1B70ABE100366AA7 /* config.h */,
 				19A1296E1B70ABE100366AA7 /* main.cc */,
+				19A129721B70ABE100366AA7 /* reporting.cc */,
+				19A129731B70ABE100366AA7 /* reporting.h */,
 			);
 			name = drafter;
 			sourceTree = "<group>";
@@ -319,8 +321,6 @@
 				40EF03D41B7210F300865990 /* RefractDataStructure.h */,
 				401074A21B833A1000B66442 /* Render.cc */,
 				19A129711B70ABE100366AA7 /* Render.h */,
-				19A129721B70ABE100366AA7 /* reporting.cc */,
-				19A129731B70ABE100366AA7 /* reporting.h */,
 				19A129741B70ABE100366AA7 /* Serialize.cc */,
 				19A129751B70ABE100366AA7 /* Serialize.h */,
 				19A129761B70ABE100366AA7 /* SerializeAST.cc */,
@@ -794,6 +794,7 @@
 				19FD76A21B9720CB00B160CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

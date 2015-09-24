@@ -27,7 +27,6 @@ namespace refract
 
         void operator()(const V& value)
         {
-            //throw std::logic_error("Can not append to primitive type");
             // FIXME: snowcrash warn about "Primitive type can not have member"
             // but in real it create "empty" member
             //

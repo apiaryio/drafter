@@ -53,10 +53,9 @@ namespace refract
         }
 
         std::string id = getElementId(element);
-        //std::cout << "ID: >" << id << "<"<< std::endl;
 
         if (isReserved(id)) {
-            throw LogicError("You can not registrate basic element");
+            throw LogicError("You can not register a basic element");
         }
 
         if (find(id)) {

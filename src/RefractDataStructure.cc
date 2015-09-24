@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
+#include "SourceAnnotation.h"
 #include "RefractDataStructure.h"
 #include "refract/AppendDecorator.h"
 
@@ -146,7 +147,7 @@ namespace drafter {
                 ; // do nothing
         }
 
-        throw std::logic_error("Out of scope - ElementFactory for type not implemented");
+        throw snowcrash::Error("unknown type of mson value", snowcrash::MSONError);
     }
 
     static refract::IElement* MsonElementToRefract(const mson::Element& mse, mson::BaseTypeName defaultNestedType = mson::StringTypeName);
@@ -274,7 +275,7 @@ namespace drafter {
                     break;
 
                 default:
-                    throw std::logic_error("Unexpected section type for property");
+                    throw snowcrash::Error("unknown section type", snowcrash::MSONError);
             }
         }
     };
@@ -297,7 +298,7 @@ namespace drafter {
             ElementType* element = new ElementType;
 
             if (vm.valueDefinition.values.size() > 1) {
-                throw std::logic_error("For primitive types is just one value supported");
+                throw snowcrash::Error("only one value is supported for primitive types", snowcrash::MSONError);
             }
 
             if (!vm.valueDefinition.values.empty()) {
@@ -518,7 +519,7 @@ namespace drafter {
 
             if (property.name.variable.values.size() > 1) {
                 // FIXME: is there example for multiple variables?
-                throw std::logic_error("Multiple variables in property definition");
+                throw snowcrash::Error("multiple variables in property definition are not allowed", snowcrash::MSONError);
             }
 
             element->set(property.name.variable.values.begin()->literal, value);
@@ -526,7 +527,7 @@ namespace drafter {
             SetElementType(element->value.first, property.name.variable.typeDefinition);
         }
         else {
-            throw std::logic_error("No property name");
+            throw snowcrash::Error("no property name", snowcrash::MSONError);
         }
 
         mson::TypeAttributes attrs = property.valueDefinition.typeDefinition.attributes;
@@ -653,12 +654,12 @@ namespace drafter {
                        return Trait::template Invoke<refract::StringElement>(input, defaultNestedType);
 
                    default:
-                       throw std::logic_error("Nested complex types are not Implemented");
+                       throw snowcrash::Error("nested complex types are not implemented", snowcrash::MSONError);
                 }
             }
 
             default:
-                throw std::runtime_error("Unhandled type of Member");
+                throw snowcrash::Error("unknown type of mson member", snowcrash::MSONError);
         }
     }
 
@@ -666,9 +667,11 @@ namespace drafter {
     {
         refract::ArrayElement* select = new refract::ArrayElement;
         select->element(SerializeKey::Select);
+
         for (mson::Elements::const_iterator it = oneOf.begin(); it != oneOf.end(); ++it) {
             refract::ArrayElement* option = new refract::ArrayElement;
             option->element(SerializeKey::Option);
+
             // we can not use MsonElementToRefract() for groups,
             // "option" element handles directly all elements in group
             if (it->klass == mson::Element::GroupClass) {
@@ -677,8 +680,10 @@ namespace drafter {
             else {
                 option->push_back(MsonElementToRefract(*it, mson::StringTypeName));
             }
+
             select->push_back(option);
         }
+
         return select;
     }
 
@@ -715,10 +720,10 @@ namespace drafter {
                 return MsonOneofToRefract(mse.content.oneOf());
 
             case mson::Element::GroupClass:
-                throw std::logic_error("Group must be handled individualy");
+                throw snowcrash::Error("unable to handle element group", snowcrash::MSONError);
 
             default:
-                throw std::logic_error("Unhandled type of MSON element");
+                throw snowcrash::Error("unknown type of mson element", snowcrash::MSONError);
         }
     }
 
@@ -784,7 +789,7 @@ namespace drafter {
                 break;
 
             default:
-                throw std::runtime_error("Unhandled type of DataStructure");
+                throw snowcrash::Error("unknown type of data structure", snowcrash::MSONError);
         }
 
         return element;
