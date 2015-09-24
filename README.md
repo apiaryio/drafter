@@ -13,7 +13,7 @@ Additionally Drafter provide set of Wrappers for serialization, of parsing resul
 
 Drafter also provides the user ability to select the type of the output. There are two possible values:
 
-* **Refract AST:** AST is defined in Refract elements according to [Parse Result Namespace](https://github.com/refractproject/refract-spec/blob/master/namespaces/parse-result.md)
+* **Refract AST:** AST is defined in Refract elements according to [Parse Result Namespace](https://github.com/refractproject/refract-spec/blob/master/namespaces/parse-result-namespace.md)
 * **Normal AST:** AST defined by the [API Blueprint AST](https://github.com/apiaryio/api-blueprint-ast) Parse Result.
 
 By default, Drafter assumes the Refract AST.
