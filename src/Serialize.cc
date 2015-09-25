@@ -11,7 +11,6 @@
 
 using namespace drafter;
 
-#ifdef _WITH_REFRACT_
 namespace drafter {
 
     /**
@@ -25,7 +24,6 @@ namespace drafter {
         return namedTypesRegistry;
     }
 }
-#endif
 
 const std::string SerializeKey::Metadata = "metadata";
 const std::string SerializeKey::Reference = "reference";

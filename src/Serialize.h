@@ -31,9 +31,7 @@ namespace drafter {
         UnknownASTType = -1
     };
 
-#ifdef _WITH_REFRACT_
     refract::Registry& GetNamedTypesRegistry();
-#endif
 
     /**
      *  AST and Refract entities serialization keys
