@@ -40,7 +40,6 @@ using snowcrash::Action;
 using snowcrash::Resource;
 using snowcrash::Blueprint;
 
-static snowcrash::Error DrafterError;
 static bool ExpandMSON = false;
 
 sos::Object WrapValue(const mson::Value& value)
@@ -817,6 +816,7 @@ sos::Object WrapBlueprintAST(const Blueprint& blueprint)
 sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType astType, bool expand)
 {
     sos::Object blueprintObject;
+    snowcrash::Error error;
 
     try {
         RegisterNamedTypes(blueprint.content.elements());
@@ -830,16 +830,16 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType ast
         }
     }
     catch (std::exception& e) {
-        DrafterError = snowcrash::Error(e.what(), snowcrash::MSONError);
+        error = snowcrash::Error(e.what(), snowcrash::MSONError);
     }
     catch (snowcrash::Error& e) {
-        DrafterError = e;
+        error = e;
     }
 
     GetNamedTypesRegistry().clearAll(true);
 
-    if (DrafterError.code != snowcrash::Error::OK) {
-        throw DrafterError;
+    if (error.code != snowcrash::Error::OK) {
+        throw error;
     }
 
     return blueprintObject;

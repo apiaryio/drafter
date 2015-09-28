@@ -16,8 +16,6 @@
 
 using namespace drafter;
 
-static snowcrash::Error DrafterError;
-
 static sos::Object WrapLocation(const mdp::BytesRange& range)
 {
     sos::Object location;
@@ -79,6 +77,7 @@ sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprin
                                 const ASTType astType)
 {
     sos::Object object;
+    snowcrash::Error error;
 
     try {
         RegisterNamedTypes(blueprint.node.content.elements());
@@ -91,16 +90,16 @@ sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprin
         }
     }
     catch (std::exception& e) {
-        DrafterError = snowcrash::Error(e.what(), snowcrash::MSONError);
+        error = snowcrash::Error(e.what(), snowcrash::MSONError);
     }
     catch (snowcrash::Error& e) {
-        DrafterError = e;
+        error = e;
     }
 
     GetNamedTypesRegistry().clearAll(true);
 
-    if (DrafterError.code != snowcrash::Error::OK) {
-        throw DrafterError;
+    if (error.code != snowcrash::Error::OK) {
+        throw error;
     }
 
     return object;
