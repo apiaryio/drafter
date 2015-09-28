@@ -105,3 +105,9 @@ sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprin
 
     return object;
 }
+
+sos::Object drafter::WrapParseResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
+                                     const snowcrash::BlueprintParserOptions options)
+{
+    return WrapResult(blueprint, options, drafter::RefractASTType);
+}
