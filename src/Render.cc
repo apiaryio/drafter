@@ -57,10 +57,21 @@ namespace drafter {
             case JSONRenderFormat:
             {
                 refract::RenderJSONVisitor renderer;
-                refract::IElement* element = MSONToRefract(attributes);
+
+                refract::IElement* element = _MSONToRefract(MakeSectionInfoWithoutSourceMap(attributes));
+
+                if (!element) {
+                    return body;
+                }
+
                 refract::IElement* expanded = ExpandRefract(element, registry);
 
+                if (!expanded) {
+                    return body;
+                }
+
                 renderer.visit(*expanded);
+
                 delete expanded;
 
                 return renderer.getString();

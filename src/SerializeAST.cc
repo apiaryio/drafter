@@ -797,7 +797,7 @@ void registerNamedTypes(const snowcrash::Elements& elements)
     for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
 
        if (!(*i)->name.symbol.literal.empty()) {
-           refract::IElement* element = MSONToRefract(*(*i));
+           refract::IElement* element = _MSONToRefract(MakeSectionInfoWithoutSourceMap(*(*i)));
            GetNamedTypesRegistry().add(element);
        }
     }

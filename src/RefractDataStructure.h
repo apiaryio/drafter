@@ -13,7 +13,6 @@
 
 namespace drafter {
 
-    refract::IElement* MSONToRefract(const snowcrash::DataStructure& dataStructure);
     refract::IElement* _MSONToRefract(const SectionInfo<snowcrash::DataStructure>& dataStructure);
     refract::IElement* ExpandRefract(refract::IElement*, const refract::Registry&);
 

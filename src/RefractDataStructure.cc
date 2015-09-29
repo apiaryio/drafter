@@ -182,9 +182,17 @@ namespace drafter {
 
     template <typename T>
     struct ElementData {
-        std::vector<typename T::ValueType>  values;
+        typedef T ElementType;
+        typedef typename T::ValueType ValueType;
+
+        typedef snowcrash::SourceMap<ValueType> ValueSourceMapType;
+
+        std::vector<typename T::ValueType> values;
+        std::vector<ValueSourceMapType> valuesSourceMap;
+
         RefractElements defaults;
         RefractElements samples;
+
         std::vector<std::string> descriptions;
     };
 
@@ -204,20 +212,19 @@ namespace drafter {
 
         template <typename U, bool dummy = true>
         struct Fetch {
-            U operator()(const mson::TypeSection& t, const mson::BaseTypeName& defaultNestedType) {
-                return LiteralTo<U>(t.content.value);
+            U operator()(const SectionInfo<mson::TypeSection>& t, const mson::BaseTypeName& defaultNestedType) {
+                return LiteralTo<U>(t.section.content.value);
             }
         };
 
         template<bool dummy>
         struct Fetch<RefractElements, dummy> {
-            RefractElements operator()(const mson::TypeSection& t, const mson::BaseTypeName& defaultNestedType) {
-                return MsonElementsToRefract(t.content.elements(), defaultNestedType);
+            RefractElements operator()(const SectionInfo<mson::TypeSection>& t, const mson::BaseTypeName& defaultNestedType) {
+                return MsonElementsToRefract(t.section.content.elements(), defaultNestedType);
             }
         };
 
-        template <typename U, bool dummy = true>
-        struct FetchTypeDefinition {};
+        template <typename U, bool dummy = true> struct FetchTypeDefinition;
 
         template<bool dummy>
         struct FetchTypeDefinition<snowcrash::DataStructure, dummy> {
@@ -246,17 +253,17 @@ namespace drafter {
     public:
 
         template<typename U>
-        ExtractTypeSection(ElementData<T>& data, const U& sectionHolder)
+        ExtractTypeSection(ElementData<T>& data, const SectionInfo<U>& sectionHolder)
           : data(data),
-            elementTypeName(FetchTypeDefinition<U>()(sectionHolder).typeSpecification.name.base),
-            defaultNestedType(SelectNestedTypeSpecification(FetchTypeDefinition<U>()(sectionHolder).typeSpecification.nestedTypes))
+            elementTypeName(FetchTypeDefinition<U>()(sectionHolder.section).typeSpecification.name.base),
+            defaultNestedType(SelectNestedTypeSpecification(FetchTypeDefinition<U>()(sectionHolder.section).typeSpecification.nestedTypes))
         {}
 
-        void operator()(const mson::TypeSection& ts) {
+        void operator()(const SectionInfo<mson::TypeSection>& ts) {
             Fetch<typename T::ValueType> fetch;
             Store<typename T::ValueType> store;
 
-            switch (ts.klass) {
+            switch (ts.section.klass) {
 
                 case mson::TypeSection::MemberTypeClass:
                     // Primitives should not contain members
@@ -265,8 +272,8 @@ namespace drafter {
                     //
                     // FIXME: handle this by specialization for **Primitives**
                     // rewrite it to similar way to ExtractValueMember
-                    if (!ts.content.elements().empty()) { 
-                        data.values.push_back(fetch(ts, defaultNestedType));
+                    if (!ts.section.content.elements().empty()) { 
+                      data.values.push_back(fetch(ts, defaultNestedType));
                     }
                     break;
 
@@ -279,7 +286,7 @@ namespace drafter {
                     break;
 
                 case mson::TypeSection::BlockDescriptionClass:
-                    data.descriptions.push_back(ts.content.description);
+                    data.descriptions.push_back(ts.section.content.description);
                     break;
 
                 default:
@@ -531,8 +538,10 @@ namespace drafter {
 
         SetElementType(element, value.valueDefinition.typeDefinition);
 
-        std::for_each(value.sections.begin(), value.sections.end(), ExtractTypeSection<T>(data, value));
-        
+        SectionInfoCollection<mson::TypeSections> typeSections(value.sections, snowcrash::SourceMap<mson::TypeSections>());
+
+        std::for_each(typeSections.sections.begin(), typeSections.sections.end(), ExtractTypeSection<T>(data, MakeSectionInfoWithoutSourceMap(value)));
+
         if (!value.valueDefinition.values.empty() && (valuesCount != data.values.size())) { 
             // there are some values coming from TypeSections -> move first value into examples
             ElementType* element = new ElementType;
@@ -768,21 +777,23 @@ namespace drafter {
     }
 
     template<typename T>
-    refract::IElement* RefractElementFromMSON(const snowcrash::DataStructure& ds)
+    refract::IElement* _RefractElementFromMSON(const SectionInfo<snowcrash::DataStructure>& ds)
     {
         using namespace refract;
         typedef T ElementType;
 
         ElementType* element = new ElementType;
-        SetElementType(element, ds.typeDefinition);
+        SetElementType(element, ds.section.typeDefinition);
 
-        if (!ds.name.symbol.literal.empty()) {
-            element->meta[SerializeKey::Id] = IElement::Create(ds.name.symbol.literal);
+        if (!ds.section.name.symbol.literal.empty()) {
+            element->meta[SerializeKey::Id] = IElement::Create(ds.section.name.symbol.literal);
         }
 
         ElementData<T> data;
 
-        std::for_each(ds.sections.begin(), ds.sections.end(), ExtractTypeSection<T>(data, ds));
+        SectionInfoCollection<mson::TypeSections> typeSections(ds.section.sections, ds.sourceMap.sections);
+
+        std::for_each(typeSections.sections.begin(), typeSections.sections.end(), ExtractTypeSection<T>(data, ds));
 
         TransformElementData<T>(element, data);
 
@@ -796,51 +807,8 @@ namespace drafter {
         return element;
     }
 
-
-    refract::IElement* MSONToRefract(const snowcrash::DataStructure& dataStructure)
-    {
-        if (dataStructure.empty()) {
-            return NULL;
-        }
-
-        using namespace refract;
-        IElement* element = NULL;
-
-        mson::BaseTypeName nameType = GetType(dataStructure);
-        switch (nameType) {
-            case mson::BooleanTypeName:
-                element = RefractElementFromMSON<refract::BooleanElement>(dataStructure);
-                break;
-
-            case mson::NumberTypeName:
-                element = RefractElementFromMSON<refract::NumberElement>(dataStructure);
-                break;
-
-            case mson::StringTypeName:
-                element = RefractElementFromMSON<refract::StringElement>(dataStructure);
-                break;
-
-            case mson::EnumTypeName:
-            case mson::ArrayTypeName:
-                element = RefractElementFromMSON<refract::ArrayElement>(dataStructure);
-                break;
-
-            case mson::ObjectTypeName:
-            case mson::UndefinedTypeName:
-                element = RefractElementFromMSON<refract::ObjectElement>(dataStructure);
-                break;
-
-            default:
-                throw snowcrash::Error("unknown type of data structure", snowcrash::MSONError);
-        }
-
-        return element;
-    }
-
     refract::IElement* _MSONToRefract(const SectionInfo<snowcrash::DataStructure>& dataStructure)
     {
-        return MSONToRefract(dataStructure.section);
-
         if (dataStructure.section.empty()) {
             return NULL;
         }
@@ -851,25 +819,25 @@ namespace drafter {
         mson::BaseTypeName nameType = GetType(dataStructure.section);
         switch (nameType) {
             case mson::BooleanTypeName:
-                element = RefractElementFromMSON<refract::BooleanElement>(dataStructure.section);
+                element = _RefractElementFromMSON<refract::BooleanElement>(dataStructure);
                 break;
 
             case mson::NumberTypeName:
-                element = RefractElementFromMSON<refract::NumberElement>(dataStructure.section);
+                element = _RefractElementFromMSON<refract::NumberElement>(dataStructure);
                 break;
 
             case mson::StringTypeName:
-                element = RefractElementFromMSON<refract::StringElement>(dataStructure.section);
+                element = _RefractElementFromMSON<refract::StringElement>(dataStructure);
                 break;
 
             case mson::EnumTypeName:
             case mson::ArrayTypeName:
-                element = RefractElementFromMSON<refract::ArrayElement>(dataStructure.section);
+                element = _RefractElementFromMSON<refract::ArrayElement>(dataStructure);
                 break;
 
             case mson::ObjectTypeName:
             case mson::UndefinedTypeName:
-                element = RefractElementFromMSON<refract::ObjectElement>(dataStructure.section);
+                element = _RefractElementFromMSON<refract::ObjectElement>(dataStructure);
                 break;
 
             default:

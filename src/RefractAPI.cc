@@ -137,7 +137,7 @@ namespace drafter {
         for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
 
             if (!(*i)->name.symbol.literal.empty()) {
-                refract::IElement* element = MSONToRefract(*(*i));
+                refract::IElement* element = _MSONToRefract(MakeSectionInfoWithoutSourceMap(*(*i)));
                 GetNamedTypesRegistry().add(element);
             }
         }
@@ -145,7 +145,7 @@ namespace drafter {
 
     refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure, bool expand)
     {
-       refract::IElement* msonElement = MSONToRefract(dataStructure);
+       refract::IElement* msonElement = _MSONToRefract(MakeSectionInfoWithoutSourceMap(dataStructure));
 
        if (expand) {
            refract::IElement* msonExpanded = ExpandRefract(msonElement, GetNamedTypesRegistry());
