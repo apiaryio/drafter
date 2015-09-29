@@ -33,6 +33,72 @@ namespace drafter {
 
     refract::Registry& GetNamedTypesRegistry();
 
+    template<typename T>
+    struct SectionInfo {
+        typedef T SectionType;
+        typedef snowcrash::SourceMap<SectionType> SourceMapType;
+
+        const SectionType& section;
+        const SourceMapType& sourceMap;
+        const bool empty;
+
+        SectionInfo(const SectionType& section, const SourceMapType& sourceMap) : section(section), sourceMap(sourceMap), empty(false) {}
+        SectionInfo() : section(SectionType()), sourceMap(SourceMapType()), empty(true) {}
+        SectionInfo<T>& operator=(const SectionInfo<T>& other) { 
+            return *this; 
+        }
+
+        static const SourceMapType& NullSourceMap() {
+            static const SourceMapType nullSourceMap;
+            return nullSourceMap;
+        }
+
+        bool isNull() const { return empty; }
+    };
+
+    template <typename T>
+    SectionInfo<T> MakeSectionInfo(const T& section, const snowcrash::SourceMap<T>& sourceMap)
+    {
+        return SectionInfo<T>(section, sourceMap);
+    }
+
+    template <typename T>
+    SectionInfo<T> MakeSectionInfoWithoutSourceMap(const T& section)
+    {
+        return SectionInfo<T>(section, SectionInfo<T>::NullSourceMap());
+    }
+
+#define MAKE_SECTION_INFO(from, member) MakeSectionInfo(from.section.member, from.sourceMap.member)
+
+    template<typename ResultType, typename Collection1, typename Collection2, typename BinOp>
+    ResultType Zip(const Collection1& collection1, const Collection2& collection2, const BinOp& Combinator) {
+        ResultType result;
+        std::transform(collection1.begin(), collection1.end(), collection2.begin(), std::back_inserter(result), Combinator);
+        return result;
+    }
+
+    template<typename T>
+    struct SectionInfoCollection {
+        typedef std::vector<SectionInfo<typename T::value_type> > CollectionType;
+        CollectionType sections;
+
+        typedef typename CollectionType::const_iterator ConstIterarator;
+
+        SectionInfoCollection(const T& collection, const snowcrash::SourceMap<T>& sourceMaps)
+        {
+            if (collection.size() == sourceMaps.collection.size()) {
+                sections = Zip<CollectionType>(collection, sourceMaps.collection, MakeSectionInfo<typename T::value_type>);
+            }
+            else {
+                std::transform(collection.begin(), collection.end(), 
+                               std::back_inserter(sections), 
+                               MakeSectionInfoWithoutSourceMap<typename T::value_type>);
+            }
+            
+        }
+
+    };
+
     /**
      *  AST and Refract entities serialization keys
      */

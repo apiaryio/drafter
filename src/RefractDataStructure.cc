@@ -837,6 +837,48 @@ namespace drafter {
         return element;
     }
 
+    refract::IElement* _MSONToRefract(const SectionInfo<snowcrash::DataStructure>& dataStructure)
+    {
+        return MSONToRefract(dataStructure.section);
+
+        if (dataStructure.section.empty()) {
+            return NULL;
+        }
+
+        using namespace refract;
+        IElement* element = NULL;
+
+        mson::BaseTypeName nameType = GetType(dataStructure.section);
+        switch (nameType) {
+            case mson::BooleanTypeName:
+                element = RefractElementFromMSON<refract::BooleanElement>(dataStructure.section);
+                break;
+
+            case mson::NumberTypeName:
+                element = RefractElementFromMSON<refract::NumberElement>(dataStructure.section);
+                break;
+
+            case mson::StringTypeName:
+                element = RefractElementFromMSON<refract::StringElement>(dataStructure.section);
+                break;
+
+            case mson::EnumTypeName:
+            case mson::ArrayTypeName:
+                element = RefractElementFromMSON<refract::ArrayElement>(dataStructure.section);
+                break;
+
+            case mson::ObjectTypeName:
+            case mson::UndefinedTypeName:
+                element = RefractElementFromMSON<refract::ObjectElement>(dataStructure.section);
+                break;
+
+            default:
+                throw std::runtime_error("Unhandled type of DataStructure");
+        }
+
+        return element;
+    }
+
     refract::IElement* ExpandRefract(refract::IElement* element, const refract::Registry& registry)
     {
         if (!element) {

@@ -10,10 +10,11 @@
 #define DRAFTER_SERIALIZEAST_H
 
 #include "Serialize.h"
+#include "SectionProcessor.h" // from Blueprint
 
 namespace drafter {
 
-    sos::Object WrapBlueprint(const snowcrash::Blueprint& blueprint, const ASTType astType, bool expand = false);
+    sos::Object WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const ASTType astType, bool expand = false);
 }
 
 #endif

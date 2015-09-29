@@ -111,7 +111,9 @@ namespace draftertest {
             std::stringstream outStream;
             sos::SerializeJSON serializer;
 
-            serializer.process(drafter::WrapBlueprint(blueprint.node, astType, expand), outStream);
+            snowcrash::SourceMap<snowcrash::Blueprint>* sourceMap = NULL;
+
+            serializer.process(drafter::WrapBlueprint(blueprint, astType, expand), outStream);
             outStream << "\n";
 
             return (outStream.str() == fixture.get(".json"));

@@ -77,7 +77,7 @@ int main(int argc, const char *argv[])
 
         try {
             drafter::ASTType astType = (config.astType == "ast") ? drafter::NormalASTType : drafter::RefractASTType;
-            Serialization(out, drafter::WrapBlueprint(blueprint.node, astType), serializer);
+            Serialization(out, drafter::WrapBlueprint(blueprint, astType), serializer);
         }
         catch (snowcrash::Error& e) {
             blueprint.report.error = e;

@@ -70,6 +70,12 @@ namespace refract
     };
 
     template <>
+    struct ElementTypeSelector<size_t>
+    {
+        typedef NumberElement ElementType;
+    };
+
+    template <>
     struct ElementTypeSelector<bool>
     {
         typedef BooleanElement ElementType;
