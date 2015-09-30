@@ -67,6 +67,9 @@
 		19FD76A81B97216700B160CF /* libmarkdownparser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129E91B70AFA900366AA7 /* libmarkdownparser.a */; };
 		19FD76A91B97216700B160CF /* libsnowcrash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129E71B70AFA600366AA7 /* libsnowcrash.a */; };
 		401074A31B833A1000B66442 /* Render.cc in Sources */ = {isa = PBXBuildFile; fileRef = 401074A21B833A1000B66442 /* Render.cc */; };
+		40AEEC391BB4AA7E005866DD /* RefractParseResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 40AEEC371BB4AA7E005866DD /* RefractParseResult.h */; };
+		40AEEC3B1BB4CB30005866DD /* RefractParseResult.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40AEEC3A1BB4CB30005866DD /* RefractParseResult.cc */; };
+		40AEEC3D1BB60CB6005866DD /* test-RefractParseResultTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40AEEC3C1BB60CB6005866DD /* test-RefractParseResultTest.cc */; };
 		40EF03D51B7210F300865990 /* RefractDataStructure.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40EF03D31B7210F300865990 /* RefractDataStructure.cc */; };
 		40EF03D61B7210F300865990 /* RefractDataStructure.h in Headers */ = {isa = PBXBuildFile; fileRef = 40EF03D41B7210F300865990 /* RefractDataStructure.h */; };
 		40EF03D91B72134000865990 /* RefractAPI.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40EF03D71B72134000865990 /* RefractAPI.cc */; };
@@ -167,6 +170,9 @@
 		19BD7B971B70AAAF00A11E83 /* liblibdrafter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibdrafter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		19FD769D1B9720CB00B160CF /* drafter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = drafter; sourceTree = BUILT_PRODUCTS_DIR; };
 		401074A21B833A1000B66442 /* Render.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Render.cc; path = src/Render.cc; sourceTree = SOURCE_ROOT; };
+		40AEEC371BB4AA7E005866DD /* RefractParseResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefractParseResult.h; path = src/RefractParseResult.h; sourceTree = SOURCE_ROOT; };
+		40AEEC3A1BB4CB30005866DD /* RefractParseResult.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractParseResult.cc; path = src/RefractParseResult.cc; sourceTree = SOURCE_ROOT; };
+		40AEEC3C1BB60CB6005866DD /* test-RefractParseResultTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-RefractParseResultTest.cc"; path = "test/test-RefractParseResultTest.cc"; sourceTree = "<group>"; };
 		40EF03D31B7210F300865990 /* RefractDataStructure.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractDataStructure.cc; path = src/RefractDataStructure.cc; sourceTree = SOURCE_ROOT; };
 		40EF03D41B7210F300865990 /* RefractDataStructure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefractDataStructure.h; path = src/RefractDataStructure.h; sourceTree = SOURCE_ROOT; };
 		40EF03D71B72134000865990 /* RefractAPI.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractAPI.cc; path = src/RefractAPI.cc; sourceTree = SOURCE_ROOT; };
@@ -235,6 +241,7 @@
 				19A129CA1B70ADC300366AA7 /* test-drafter.cc */,
 				40EF03DB1B72135E00865990 /* test-RefractAPITest.cc */,
 				40EF03DC1B72135E00865990 /* test-RefractDataStructureTest.cc */,
+				40AEEC3C1BB60CB6005866DD /* test-RefractParseResultTest.cc */,
 				19A129CC1B70ADC300366AA7 /* test-RenderTest.cc */,
 				19A129CD1B70ADC300366AA7 /* test-SerializeResult.cc */,
 			);
@@ -319,6 +326,8 @@
 				40EF03D81B72134000865990 /* RefractAPI.h */,
 				40EF03D31B7210F300865990 /* RefractDataStructure.cc */,
 				40EF03D41B7210F300865990 /* RefractDataStructure.h */,
+				40AEEC3A1BB4CB30005866DD /* RefractParseResult.cc */,
+				40AEEC371BB4AA7E005866DD /* RefractParseResult.h */,
 				401074A21B833A1000B66442 /* Render.cc */,
 				19A129711B70ABE100366AA7 /* Render.h */,
 				19A129741B70ABE100366AA7 /* Serialize.cc */,
@@ -371,6 +380,7 @@
 				19A129C11B70AC9A00366AA7 /* Typelist.h in Headers */,
 				19A129C31B70AC9A00366AA7 /* TypeQueryVisitor.h in Headers */,
 				19A129C51B70AC9A00366AA7 /* Visitor.h in Headers */,
+				40AEEC391BB4AA7E005866DD /* RefractParseResult.h in Headers */,
 				19A1297F1B70ABE100366AA7 /* cdrafter.h in Headers */,
 				19A129871B70ABE100366AA7 /* Render.h in Headers */,
 				19A129B31B70AC9A00366AA7 /* Element.h in Headers */,
@@ -508,6 +518,7 @@
 				19A129DF1B70AE2F00366AA7 /* test-cdrafter.cc in Sources */,
 				19A129E21B70AE3200366AA7 /* test-RenderTest.cc in Sources */,
 				40EF03DD1B72135E00865990 /* test-RefractAPITest.cc in Sources */,
+				40AEEC3D1BB60CB6005866DD /* test-RefractParseResultTest.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -541,6 +552,7 @@
 				401074A31B833A1000B66442 /* Render.cc in Sources */,
 				19A1298E1B70ABE100366AA7 /* SerializeResult.cc in Sources */,
 				19A129B01B70AC9A00366AA7 /* ComparableVisitor.cc in Sources */,
+				40AEEC3B1BB4CB30005866DD /* RefractParseResult.cc in Sources */,
 				19A1298A1B70ABE100366AA7 /* Serialize.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -21,19 +21,22 @@ namespace drafter {
     namespace {
 
         typedef std::vector<refract::IElement*> RefractElements;
+        typedef std::vector<const snowcrash::DataStructure*> DataStructures;
 
-        template <typename T>
-        refract::ArrayElement* CreateArrayElement(const T& content, bool rFull = false)
+        void FindNamedTypes(const snowcrash::Elements& elements, DataStructures& found)
         {
-            refract::ArrayElement* array = new refract::ArrayElement;
-            refract::IElement* value = refract::IElement::Create(content);
+            for (snowcrash::Elements::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
 
-            if (rFull) {
-                value->renderType(refract::IElement::rFull);
+                if (i->element == snowcrash::Element::DataStructureElement) {
+                    found.push_back(&(i->content.dataStructure));
+                }
+                else if (!i->content.resource.attributes.empty()) {
+                    found.push_back(&i->content.resource.attributes);
+                }
+                else if (i->element == snowcrash::Element::CategoryElement) {
+                    FindNamedTypes(i->content.elements(), found);
+                }
             }
-
-            array->push_back(value);
-            return array;
         }
 
         template <typename T>
@@ -64,6 +67,34 @@ namespace drafter {
             element->renderType(renderType);
 
             return element;
+        }
+    }
+
+    template <typename T>
+    refract::ArrayElement* CreateArrayElement(const T& content, bool rFull)
+    {
+        refract::ArrayElement* array = new refract::ArrayElement;
+        refract::IElement* value = refract::IElement::Create(content);
+
+        if (rFull) {
+            value->renderType(refract::IElement::rFull);
+        }
+
+        array->push_back(value);
+        return array;
+    }
+
+    void RegisterNamedTypes(const snowcrash::Elements& elements)
+    {
+        DataStructures found;
+        FindNamedTypes(elements, found);
+
+        for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
+
+            if (!(*i)->name.symbol.literal.empty()) {
+                refract::IElement* element = MSONToRefract(*(*i));
+                GetNamedTypesRegistry().add(element);
+            }
         }
     }
 

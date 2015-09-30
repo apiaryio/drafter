@@ -185,6 +185,7 @@ namespace refract
             rDefault = 0,
             rFull,
             rCompact,
+            rCompactContent
         } renderFlags;
 
         renderFlags renderStrategy;

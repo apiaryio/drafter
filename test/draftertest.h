@@ -8,6 +8,7 @@
 #include "stream.h"
 #include "snowcrash.h"
 #include "SerializeAST.h"
+#include "SerializeResult.h"
 #include "sosJSON.h"
 
 namespace draftertest {
@@ -69,6 +70,25 @@ namespace draftertest {
             sos::SerializeJSON serializer;
 
             serializer.process(drafter::WrapBlueprint(blueprint.node, astType, expand), outStream);
+            outStream << "\n";
+
+            return (outStream.str() == fixture.get(".json"));
+        }
+
+        static bool handleResultJSON(const std::string& basepath, bool mustBeOk = false) {
+            ITFixtureFiles fixture = ITFixtureFiles(basepath);
+
+            snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
+            int result = snowcrash::parse(fixture.get(".apib"), 0, blueprint);
+
+            if (mustBeOk) {
+                REQUIRE(result == snowcrash::Error::OK);
+            }
+
+            std::stringstream outStream;
+            sos::SerializeJSON serializer;
+
+            serializer.process(drafter::WrapResult(blueprint, 0, drafter::RefractASTType), outStream);
             outStream << "\n";
 
             return (outStream.str() == fixture.get(".json"));

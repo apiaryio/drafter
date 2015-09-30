@@ -67,6 +67,29 @@
           ]
         }
       ]
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 12,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                87,
+                24
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "The URI template contains square brackets, please percent encode square brackets as %5B and %5D"
     }
   ]
 }

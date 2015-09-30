@@ -40,24 +40,7 @@ using snowcrash::Action;
 using snowcrash::Resource;
 using snowcrash::Blueprint;
 
-#ifdef _WITH_REFRACT_
-/**
- * FIXME:
- * hotfix until solve ErrorReporting from drafter into snowcrash result.
- * we need it to allow free allocated memory
- * this flag WILL BE REMOVED,
- * DO NOT USE it until you know what are you doing
- */
-
-enum {
-    NoError = 0,
-    RuntimeError
-};
-
-static snowcrash::Error DrafterError;
 static bool ExpandMSON = false;
-
-#endif
 
 sos::Object WrapValue(const mson::Value& value)
 {
@@ -787,50 +770,16 @@ bool IsElementResourceGroup(const Element& element)
     return element.element == Element::CategoryElement && element.category == Element::ResourceGroupCategory;
 }
 
-#if _WITH_REFRACT_
-typedef std::vector<const snowcrash::DataStructure*> DataStructures;
-
-void findNamedTypes(const snowcrash::Elements& elements, DataStructures& found)
-{
-    for (snowcrash::Elements::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
-
-        if (i->element == snowcrash::Element::DataStructureElement) {
-            found.push_back(&(i->content.dataStructure));
-        }
-        else if (!i->content.resource.attributes.empty()) {
-            found.push_back(&i->content.resource.attributes);
-        }
-        else if (i->element == snowcrash::Element::CategoryElement) {
-            findNamedTypes(i->content.elements(), found);
-        }
-    }
-}
-
-void registerNamedTypes(const snowcrash::Elements& elements)
-{
-    DataStructures found;
-    findNamedTypes(elements, found);
-
-    for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
-
-        if (!(*i)->name.symbol.literal.empty()) {
-            refract::IElement* element = MSONToRefract(*(*i));
-            GetNamedTypesRegistry().add(element);
-        }
-    }
-}
-#endif
-
 sos::Object WrapBlueprintRefract(const Blueprint& blueprint)
 {
     refract::IElement* element = BlueprintToRefract(blueprint);
-    sos::Object blueprintObject = SerializeRefract(element);
+    sos::Object object = SerializeRefract(element);
 
     if (element) {
         delete element;
     }
 
-    return blueprintObject;
+    return object;
 }
 
 sos::Object WrapBlueprintAST(const Blueprint& blueprint)
@@ -867,13 +816,11 @@ sos::Object WrapBlueprintAST(const Blueprint& blueprint)
 sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType astType, bool expand)
 {
     sos::Object blueprintObject;
+    snowcrash::Error error;
 
     try {
-
-#if _WITH_REFRACT_
-        registerNamedTypes(blueprint.content.elements());
+        RegisterNamedTypes(blueprint.content.elements());
         ExpandMSON = expand;
-#endif
 
         if (astType == RefractASTType) {
             blueprintObject = WrapBlueprintRefract(blueprint);
@@ -883,19 +830,17 @@ sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType ast
         }
     }
     catch (std::exception& e) {
-        DrafterError = snowcrash::Error(e.what(), snowcrash::MSONError);
+        error = snowcrash::Error(e.what(), snowcrash::MSONError);
     }
     catch (snowcrash::Error& e) {
-        DrafterError = e;
+        error = e;
     }
 
-#if _WITH_REFRACT_
     GetNamedTypesRegistry().clearAll(true);
 
-    if (DrafterError.code != snowcrash::Error::OK) {
-        throw DrafterError;
+    if (error.code != snowcrash::Error::OK) {
+        throw error;
     }
-#endif
 
     return blueprintObject;
 }

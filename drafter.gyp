@@ -37,10 +37,12 @@
         "src/SerializeSourcemap.cc",
         "src/SerializeResult.h",
         "src/SerializeResult.cc",
-        "src/RefractDataStructure.h",
-        "src/RefractDataStructure.cc",
         "src/RefractAPI.h",
         "src/RefractAPI.cc",
+        "src/RefractDataStructure.h",
+        "src/RefractDataStructure.cc",
+        "src/RefractParseResult.h",
+        "src/RefractParseResult.cc",
         "src/Render.h",
         "src/Render.cc",
 
@@ -109,6 +111,7 @@
         "test/test-SerializeResult.cc",
         "test/test-RefractDataStructureTest.cc",
         "test/test-RefractAPITest.cc",
+        "test/test-RefractParseResultTest.cc",
         "test/test-RenderTest.cc",
       ],
       'dependencies': [

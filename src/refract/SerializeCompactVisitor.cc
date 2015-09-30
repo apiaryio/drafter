@@ -11,6 +11,10 @@
 namespace refract
 {
 
+    static bool IsFullRender(const IElement* element) {
+        return element->renderType() == IElement::rFull || element->renderType() == IElement::rCompactContent;
+    }
+
     void SerializeCompactVisitor::visit(const IElement& e)
     {
         throw NotImplemented("NI: IElement Compact Serialization");
@@ -42,7 +46,7 @@ namespace refract
         typedef ArrayElement::ValueType::const_iterator iterator;
 
         for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-            if ((*it)->renderType() == IElement::rFull) {
+            if (IsFullRender((*it))) {
                 SerializeVisitor s;
                 s.visit(*(*it));
                 array.push(s.get());
@@ -66,7 +70,7 @@ namespace refract
         }
 
         if (e.value.second) {
-            if (e.value.second->renderType() != IElement::rFull) {
+            if (!IsFullRender(e.value.second)) {
                 e.value.second->content(*this);
             }
             else { // value has request to be serialized in Expanded form
@@ -75,10 +79,6 @@ namespace refract
                 value_ = s.get();
             }
         }
-    }
-
-    static bool IsFullRender(const IElement* element) {
-        return element->renderType() == IElement::rFull;
     }
 
     void SerializeCompactVisitor::visit(const ObjectElement& e)

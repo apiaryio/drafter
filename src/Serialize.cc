@@ -78,8 +78,9 @@ const std::string SerializeKey::Role = "role";
 
 const std::string SerializeKey::Version = "_version";
 const std::string SerializeKey::Ast = "ast";
-const std::string SerializeKey::SourceMap= "sourcemap";
+const std::string SerializeKey::Sourcemap= "sourcemap";
 const std::string SerializeKey::Error = "error";
+const std::string SerializeKey::Warning = "warning";
 const std::string SerializeKey::Warnings = "warnings";
 const std::string SerializeKey::AnnotationCode = "code";
 const std::string SerializeKey::AnnotationMessage = "message";
@@ -119,3 +120,7 @@ const std::string SerializeKey::Asset = "asset";
 const std::string SerializeKey::MessageBody = "messageBody";
 const std::string SerializeKey::MessageSchema = "messageSchema";
 const std::string SerializeKey::Data = "data";
+
+const std::string SerializeKey::ParseResult = "parseResult";
+const std::string SerializeKey::Annotation = "annotation";
+const std::string SerializeKey::SourceMap = "sourceMap";
