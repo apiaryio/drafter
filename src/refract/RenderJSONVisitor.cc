@@ -64,7 +64,7 @@ namespace refract
     }
 
     template<typename T>
-    bool isNullable(const T& e) {
+    bool IsTypeAttribute(const T& e, std::string typeAttribute) {
         IElement::MemberElementCollection::const_iterator ta = e.attributes.find("typeAttributes");
         
         if (ta == e.attributes.end()) {
@@ -82,7 +82,7 @@ namespace refract
             if (!attr) {
                 continue;
             }
-            if (attr->value == "nullable") {
+            if (attr->value == typeAttribute) {
                 return true;
             }
         }
@@ -94,8 +94,10 @@ namespace refract
         RenderJSONVisitor renderer;
 
         if (e.value.second) {
-            if (isNullable(e) && e.value.second->empty()) {
+            if (IsTypeAttribute(e, "nullable") && e.value.second->empty()) {
                 renderer.result = sos::Null();
+            } else if (IsTypeAttribute(e, "optional") && e.value.second->empty()) {
+                return;
             } else {
                 renderer.visit(*e.value.second);
             }
@@ -167,10 +169,10 @@ namespace refract
                 return &d->value;
             }
 
-            if (element.empty() && isNullable(element)) {
+            if (element.empty() && IsTypeAttribute(element, "nullable")) {
                 return NULL;
             }
-            
+
             return &element.value;
         }
     };
