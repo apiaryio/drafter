@@ -51,10 +51,7 @@ sos::Object WrapParseResultAST(const snowcrash::ParseResult<snowcrash::Blueprint
     }
 
     object.set(SerializeKey::Error, WrapAnnotation(blueprint.report.error));
-
-    if (!blueprint.report.warnings.empty()) {
-        object.set(SerializeKey::Warnings, WrapCollection<snowcrash::SourceAnnotation>()(blueprint.report.warnings, WrapAnnotation));
-    }
+    object.set(SerializeKey::Warnings, WrapCollection<snowcrash::SourceAnnotation>()(blueprint.report.warnings, WrapAnnotation));
 
     return object;
 }
