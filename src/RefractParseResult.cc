@@ -30,14 +30,9 @@ namespace drafter {
 
         element->element(SerializeKey::SourceMap);
 
-        for (mdp::CharactersRangeSet::const_iterator it = sourceMap.begin();
-             it != sourceMap.end();
-             ++it) {
+        std::transform(sourceMap.begin(), sourceMap.end(), std::back_inserter(content), SourceMapRowToRefract);
 
-            content.push_back(SourceMapRowToRefract(*it));
-        }
-
-        element->renderType(refract::IElement::rElement);
+        element->renderType(refract::IElement::rCompactContent);
         element->set(content);
 
         return element;

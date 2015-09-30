@@ -54,7 +54,7 @@ namespace refract
         if (e.empty())
             return;
 
-        if (e.renderType() == IElement::rCompact || e.renderType() == IElement::rElement) {
+        if (e.renderType() == IElement::rCompact || e.renderType() == IElement::rCompactContent) {
             SerializeCompactVisitor s;
             e.content(s);
             result.set("content", s.value());

@@ -12,7 +12,7 @@ namespace refract
 {
 
     static bool IsFullRender(const IElement* element) {
-        return element->renderType() == IElement::rFull || element->renderType() == IElement::rElement;
+        return element->renderType() == IElement::rFull || element->renderType() == IElement::rCompactContent;
     }
 
     void SerializeCompactVisitor::visit(const IElement& e)
