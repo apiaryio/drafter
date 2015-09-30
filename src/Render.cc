@@ -48,7 +48,6 @@ namespace drafter {
             return body;
         }
 
-#if _WITH_REFRACT_
         switch (renderFormat) {
             case JSONRenderFormat:
             {
@@ -65,7 +64,6 @@ namespace drafter {
             default:
                 break;
         }
-#endif
 
         return body;
     }
