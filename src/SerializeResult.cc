@@ -16,7 +16,7 @@
 
 using namespace drafter;
 
-static sos::Object WrapLocation(const mdp::BytesRange& range)
+sos::Object WrapLocation(const mdp::BytesRange& range)
 {
     sos::Object location;
 
@@ -26,7 +26,7 @@ static sos::Object WrapLocation(const mdp::BytesRange& range)
     return location;
 }
 
-static sos::Object WrapAnnotation(const snowcrash::SourceAnnotation& annotation)
+sos::Object drafter::WrapAnnotation(const snowcrash::SourceAnnotation& annotation)
 {
     sos::Object object;
 
