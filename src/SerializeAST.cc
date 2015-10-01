@@ -850,7 +850,7 @@ sos::Object WrapBlueprintAST(const Blueprint& blueprint)
     return blueprintObject;
 }
 
-sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrappingContext& context, const ASTType astType, bool expand)
+sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrappingContext& context, bool expand)
 {
     sos::Object blueprintObject;
     snowcrash::Error error;
@@ -861,10 +861,14 @@ sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Bluep
 #endif
 
     try {
-        RegisterNamedTypes(blueprint.node.content.elements());
-        ExpandMSON = expand;
+//<<<<<<< HEAD
+//        RegisterNamedTypes(blueprint.node.content.elements());
+//        ExpandMSON = expand;
 
-        if (astType == RefractASTType) {
+//        if (astType == RefractASTType) {
+//=======
+        if (context.astType == RefractASTType) {
+//>>>>>>> Move ASTType into context
             blueprintObject = WrapBlueprintRefract(blueprint);
         }
         else {
