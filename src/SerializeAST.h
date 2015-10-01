@@ -14,7 +14,10 @@
 
 namespace drafter {
 
-    sos::Object WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const ASTType astType, bool expand = false);
+    struct WrappingContext {
+    };
+
+    sos::Object WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const WrappingContext& context, const ASTType astType, bool expand = false);
 }
 
 #endif

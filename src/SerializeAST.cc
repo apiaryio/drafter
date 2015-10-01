@@ -850,7 +850,7 @@ sos::Object WrapBlueprintAST(const Blueprint& blueprint)
     return blueprintObject;
 }
 
-sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const ASTType astType, bool expand)
+sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrappingContext& context, const ASTType astType, bool expand)
 {
     sos::Object blueprintObject;
     snowcrash::Error error;
