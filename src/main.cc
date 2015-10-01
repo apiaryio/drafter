@@ -77,7 +77,7 @@ int main(int argc, const char *argv[])
 
         try {
             drafter::ASTType astType = (config.astType == "ast") ? drafter::NormalASTType : drafter::RefractASTType;
-            Serialization(out, drafter::WrapBlueprint(blueprint, drafter::WrappingContext(astType)), serializer);
+            Serialization(out, drafter::WrapBlueprint(blueprint, drafter::WrappingContext(astType, false, options & snowcrash::ExportSourcemapOption)), serializer);
         }
         catch (snowcrash::Error& e) {
             blueprint.report.error = e;

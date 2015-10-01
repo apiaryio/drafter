@@ -113,7 +113,7 @@ namespace draftertest {
 
             snowcrash::SourceMap<snowcrash::Blueprint>* sourceMap = NULL;
 
-            serializer.process(drafter::WrapBlueprint(blueprint, drafter::WrappingContext(astType), expand), outStream);
+            serializer.process(drafter::WrapBlueprint(blueprint, drafter::WrappingContext(astType, expand, false)), outStream);
             outStream << "\n";
 
             return (outStream.str() == fixture.get(".json"));

@@ -850,14 +850,14 @@ sos::Object WrapBlueprintAST(const Blueprint& blueprint)
     return blueprintObject;
 }
 
-sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrappingContext& context, bool expand)
+sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrappingContext& context)
 {
     sos::Object blueprintObject;
     snowcrash::Error error;
 
 #if _WITH_REFRACT_
     registerNamedTypes(blueprint.node.content.elements());
-    ExpandMSON = expand;
+    ExpandMSON = context.expandMSON;
 #endif
 
     try {

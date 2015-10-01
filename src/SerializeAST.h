@@ -16,11 +16,15 @@ namespace drafter {
 
     struct WrappingContext {
         const ASTType astType;
+        const bool expandMSON;
+        const bool exportSourceMap;
 
-        WrappingContext(const ASTType astType) : astType(astType) {}
+        WrappingContext(const ASTType astType, const bool expandMSON, const bool exportSourceMap) 
+            : astType(astType), expandMSON(expandMSON), exportSourceMap(exportSourceMap) {
+        }
     };
 
-    sos::Object WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const WrappingContext& context, bool expand = false);
+    sos::Object WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const WrappingContext& context);
 }
 
 #endif
