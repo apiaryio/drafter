@@ -804,11 +804,12 @@ void registerNamedTypes(const snowcrash::Elements& elements)
 }
 #endif
 
-sos::Object WrapBlueprintRefract(const snowcrash::ParseResult<Blueprint>& blueprint)
+sos::Object WrapBlueprintRefract(const snowcrash::ParseResult<Blueprint>& blueprint, const WrappingContext& context)
 {
     snowcrash::SourceMap<snowcrash::Blueprint> nullSourceMap;
-    //SectionInfo<Blueprint> section(blueprint.node, blueprint.sourceMap);
-    SectionInfo<Blueprint> section(blueprint.node, nullSourceMap);
+    
+    SectionInfo<Blueprint> section(blueprint.node, context.exportSourceMap ? blueprint.sourceMap : nullSourceMap);
+
     refract::IElement* element = BlueprintToRefract(section);
     sos::Object blueprintObject = SerializeRefract(element);
 
@@ -861,15 +862,8 @@ sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Bluep
 #endif
 
     try {
-//<<<<<<< HEAD
-//        RegisterNamedTypes(blueprint.node.content.elements());
-//        ExpandMSON = expand;
-
-//        if (astType == RefractASTType) {
-//=======
         if (context.astType == RefractASTType) {
-//>>>>>>> Move ASTType into context
-            blueprintObject = WrapBlueprintRefract(blueprint);
+            blueprintObject = WrapBlueprintRefract(blueprint, context);
         }
         else {
             blueprintObject = WrapBlueprintAST(blueprint.node);
