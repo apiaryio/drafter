@@ -16,7 +16,7 @@
 
 using namespace drafter;
 
-static sos::Object WrapLocation(const mdp::BytesRange& range)
+sos::Object WrapLocation(const mdp::BytesRange& range)
 {
     sos::Object location;
 
@@ -26,7 +26,7 @@ static sos::Object WrapLocation(const mdp::BytesRange& range)
     return location;
 }
 
-static sos::Object WrapAnnotation(const snowcrash::SourceAnnotation& annotation)
+sos::Object drafter::WrapAnnotation(const snowcrash::SourceAnnotation& annotation)
 {
     sos::Object object;
 
@@ -51,10 +51,7 @@ sos::Object WrapParseResultAST(const snowcrash::ParseResult<snowcrash::Blueprint
     }
 
     object.set(SerializeKey::Error, WrapAnnotation(blueprint.report.error));
-
-    if (!blueprint.report.warnings.empty()) {
-        object.set(SerializeKey::Warnings, WrapCollection<snowcrash::SourceAnnotation>()(blueprint.report.warnings, WrapAnnotation));
-    }
+    object.set(SerializeKey::Warnings, WrapCollection<snowcrash::SourceAnnotation>()(blueprint.report.warnings, WrapAnnotation));
 
     return object;
 }

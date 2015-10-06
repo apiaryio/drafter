@@ -15,6 +15,7 @@
 
 namespace drafter {
 
+    sos::Object WrapAnnotation(const snowcrash::SourceAnnotation& annotation);
     sos::Object WrapParseResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const snowcrash::BlueprintParserOptions options);
     sos::Object WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const snowcrash::BlueprintParserOptions options, const ASTType astType);
 }
