@@ -13,7 +13,7 @@ namespace drafter {
 
     typedef std::vector<refract::IElement*> RefractElements;
 
-    refract::IElement* SourceMapRowToRefract(const mdp::CharactersRange& sourceMap)
+    static refract::IElement* SourceMapRowToRefract(const mdp::CharactersRange& sourceMap)
     {
         refract::ArrayElement* element = new refract::ArrayElement;
 
@@ -23,7 +23,7 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* SourceMapToRefract(const mdp::CharactersRangeSet& sourceMap)
+    static refract::IElement* SourceMapToRefract(const mdp::CharactersRangeSet& sourceMap)
     {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;

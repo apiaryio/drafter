@@ -806,9 +806,8 @@ void registerNamedTypes(const snowcrash::Elements& elements)
 
 sos::Object WrapBlueprintRefract(const snowcrash::ParseResult<Blueprint>& blueprint, const WrappingContext& context)
 {
-    snowcrash::SourceMap<snowcrash::Blueprint> nullSourceMap;
     
-    SectionInfo<Blueprint> section(blueprint.node, context.exportSourceMap ? blueprint.sourceMap : nullSourceMap);
+    SectionInfo<Blueprint> section = MakeSectionInfo(blueprint.node, blueprint.sourceMap, context.exportSourceMap);
 
     refract::IElement* element = BlueprintToRefract(section);
     sos::Object blueprintObject = SerializeRefract(element);

@@ -53,11 +53,24 @@ namespace drafter {
             return nullSourceMap;
         }
 
-        bool isNull() const { return empty; }
+        bool isNull() const { 
+            return empty; 
+        }
+
+        bool hasSourceMap() const {
+            const SourceMapType& null = NullSourceMap();
+            return &sourceMap != &null;
+        }
     };
 
     template <typename T>
-    SectionInfo<T> MakeSectionInfo(const T& section, const snowcrash::SourceMap<T>& sourceMap)
+    SectionInfo<T> MakeSectionInfo(const T& section, const snowcrash::SourceMap<T>& sourceMap, const bool hasSourceMap)
+    {
+        return SectionInfo<T>(section, hasSourceMap ? sourceMap : SectionInfo<T>::NullSourceMap());
+    }
+
+    template <typename T>
+    SectionInfo<T> MakeSectionInfoFunctor(const T& section, const snowcrash::SourceMap<T>& sourceMap)
     {
         return SectionInfo<T>(section, sourceMap);
     }
@@ -68,7 +81,7 @@ namespace drafter {
         return SectionInfo<T>(section, SectionInfo<T>::NullSourceMap());
     }
 
-#define MAKE_SECTION_INFO(from, member) MakeSectionInfo(from.section.member, from.sourceMap.member)
+#define MAKE_SECTION_INFO(from, member) MakeSectionInfo(from.section.member, from.sourceMap.member, from.hasSourceMap())
 
     template<typename ResultType, typename Collection1, typename Collection2, typename BinOp>
     ResultType Zip(const Collection1& collection1, const Collection2& collection2, const BinOp& Combinator) {
@@ -87,7 +100,7 @@ namespace drafter {
         SectionInfoCollection(const T& collection, const snowcrash::SourceMap<T>& sourceMaps)
         {
             if (collection.size() == sourceMaps.collection.size()) {
-                sections = Zip<CollectionType>(collection, sourceMaps.collection, MakeSectionInfo<typename T::value_type>);
+                sections = Zip<CollectionType>(collection, sourceMaps.collection, MakeSectionInfoFunctor<typename T::value_type>);
             }
             else {
                 std::transform(collection.begin(), collection.end(), 
