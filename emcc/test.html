@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Drafter/Emscripten Test</title>
-  <script src=jsdrafter.js></script>
+  <script src=drafter.js></script>
   <style>
     body {
       max-width: 600px;
@@ -26,16 +26,20 @@
     Hello World.
 
 </textarea>
-  <div id=output>XXX</div>
+  <div id=output>OK</div>
   <script>
     function parse() {
-        var res = parseAPIBlueprint(input.value);
-        if (0 == res.err) {
-            apib = JSON.parse(res.result);
-            if (apib['warnings']) {
-                output.innerHTML = apib.warnings[0].message;
+        var res;
+        try {
+          res = drafter.parse(input.value, {type: 'ast'});
+        } catch (err) {
+          console.log(err);
+        }
+        if (res) {
+            if (res.warnings && res.warnings[0]) {
+                output.innerHTML = res.warnings[0].message;
             } else {
-                output.innerHTML = "OK";
+                output.innerHTML = 'OK';
             }
         }
     }

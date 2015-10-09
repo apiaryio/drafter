@@ -43,9 +43,11 @@ fi
 emconfigure $PY ./configure --shared
 emmake make libdrafter CXXFLAGS=$BUILDFLAGS
 
-em++ $FLAGS ./build/out/Release/lib.target/libdrafter.so -s EXPORTED_FUNCTIONS="['_drafter_c_parse']" -o ./emcc/jsdrafter.js  --pre-js ./emcc/pre.js --post-js ./emcc/post.js
+em++ $FLAGS ./build/out/Release/lib.target/libdrafter.so -s EXPORTED_FUNCTIONS="['_drafter_c_parse']" -o ./emcc/drafter.js  --pre-js ./emcc/pre.js --post-js ./emcc/post.js
+
+em++ $FLAGS --memory-init-file 0 ./build/out/Release/lib.target/libdrafter.so -s EXPORTED_FUNCTIONS="['_drafter_c_parse']" -o ./emcc/drafter.nomem.js  --pre-js ./emcc/pre.js --post-js ./emcc/post.js
 
 if test "x$UGLIFY" = "xon"; then
-    uglifyjs emcc/jsdrafter.js -o jsdrafter.js -c;
-    mv jsdrafter.js emcc/jsdrafter.js;
+    uglifyjs emcc/drafter.js -o drafter.js -c;
+    mv drafter.js emcc/drafter.js;
 fi

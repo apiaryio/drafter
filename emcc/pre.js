@@ -1,6 +1,6 @@
 var Module = {
     'ready': false,
-    'print': function(text) { console.log('jsdrafter.js: ' + text); },
-    'printErr': function(text) { console.error('jsdrafter.js: ' + text); },
+    'log': function(text) { console.log('drafter.js: ' + text); },
+    'logErr': function(text) { console.error('drafter.js: ' + text); },
     'onRuntimeInitialized': function() { this.ready = true; }
 };

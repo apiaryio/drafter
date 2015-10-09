@@ -92,7 +92,7 @@ $ cat << 'EOF' > blueprint.apib
         Hello World!
 EOF
 
-$ drafter blueprint.apib 
+$ drafter blueprint.apib
 element: "category"
 meta:
   classes:
@@ -141,56 +141,6 @@ We love **Windows** too! Please refer to [Building on Windows](https://github.co
     $ drafter --help
     ```
 
-## jsdrafter.js
-
-*Note: jsdrafter.js is work in progress, use only for experimental purposes*
-
-`jsdrafter.js` is a pure JavaScript version of the `drafter` library. It
-exposes 2 functions `string parseAPIBlueprint(string)` and `int
-validateAPIBlueprint(string)` which serve for getting a parser output
-in JSON format and to just validate the API Blueprint respectively.
-It is build from the C++ source using
-[emscripten](http://kripken.github.io/emscripten-site/).
-
-
-### Build jsdrafter.js
-
-*Unfortunately it works only on *nix environment at the moment.*
-
-1. Make sure you have a working emscripten environment correctly
-[set up](http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html).
-
-2. Build
-    ```sh
-    $ ./emcc/emcclean.sh
-    $ ./emcc/emcbuild.sh
-    ```
-
-3. Alternatively build to test in browser with [emrun](http://kripken.github.io/emscripten-site/docs/compiling/Running-html-files-with-emrun.html)
-    ```sh
-    $ ./emcc/emcclean.sh
-    $ ./emcc/emcbuild.sh -e
-    $ emrun ./emcc/test.html
-    ```
-
-Resulting library `jsdrafter.js` + `jsdrafter.js.mem` are in the
-`./emcc/` directory. Make sure you have both accessible when using
-`jsdrafter.js`. See `./emcc/test.html` for very basic usage.
-
-To get a debug version or version enabled to be used with `emrun` run
-the `emcbuild.sh` script it with `-d` or `-e` respectively.
-
-
-#### Squeeze the size
-
-If you want to squeeze the size to minimum install
-[uglify-js](https://github.com/mishoo/UglifyJS2) and try running
-`emcbuild.sh -u`, this will use `uglify-js` with compression, beware
-that this might cause some errors, if you encounter them try
-`jsdrafter.js` without it to verify that it is caused by `uglify-js`
-and report it please. At the moment optimized non-uglified build is
-around 1.1M and uglified around 955K.
-
 ## Bindings
 Drafter bindings in other languages:
 
@@ -200,6 +150,69 @@ Drafter bindings in other languages:
 ### CLI Wrapper
 - [Drafter-php](https://github.com/hendrikmaus/drafter-php) (PHP)
 
+## drafter.js
+
+*Note: drafter.js is work in progress, use only for experimental purposes*
+
+`drafter.js` is a pure JavaScript version of the `drafter` library. It
+exposes a single `parse` function which takes an API Blueprint string and options as input and returns the parse result.
+It is built from the C++ sources using
+[emscripten](http://kripken.github.io/emscripten-site/).
+
+It can be downloaded from the [releases page](https://github.com/apiaryio/drafter/releases) or installed via `npm install drafter.js`.
+
+```js
+// Web browser
+<script src="./drafter.js"></script>
+<script src="./drafter.js.mem"></script>
+// Node.js
+var drafter = require('drafter.js');
+
+// Example usage once loaded via one of the methods above:
+try {
+  var res = drafter.parse('# API Blueprint...', {exportSourcemap: true});
+  console.log(res);
+} catch (err) {
+  console.log(err);
+}
+```
+
+Supported options:
+
+- `exportSourcemap`: Set to export sourcemap information.
+- `json`: Set to `false` to disable parsing of the JSON data. You will
+  instead get a JSON string as the result.
+- `requireBlueprintName`: Set to generate an error if the blueprint is
+  missing a title.
+- `type`: Either `refract` (default) or `ast`.
+
+### Build drafter.js
+
+*Unfortunately building drafter.js works only on a *nix environment at the moment.*
+
+1. Building is easy using [Docker](https://www.docker.com/).
+
+2. Build
+    ```sh
+    $ docker pull "apiaryio/base-emscripten-dev"
+    $ docker run -v $(pwd):/src -t apiaryio/base-emscripten-dev emcc/emcbuild.sh
+    ```
+
+3. Check out the `./emcc/test-drafter.js` and `./emcc/test.html` files for example usage. You can also use `npm install` and then `npm test` to run the tests.
+
+The resulting stand-alone library `drafter.js` is in the `./emcc` directory. Don't forget to serve the `drafter.js.mem` file as it is required by `drafter.js`. There is also a single-file version in `drafter.nomem.js` that can be used, but it may take longer to load in a web browser environment.
+
+To get a debug version or version enabled to be used with `emrun` run
+the `emcbuild.sh` script it with `-d` or `-e` respectively.
+
+#### Squeeze the size
+
+If you want to squeeze the size to a minimum install
+[uglify-js](https://github.com/mishoo/UglifyJS2) and try running
+`emcbuild.sh -u`, this will use `uglify-js` with compression, beware
+that this might cause some errors, if you encounter them try
+`drafter.js` without it to verify that it is caused by `uglify-js`
+and report it please.
 
 ## Contribute
 Fork & Pull Request
