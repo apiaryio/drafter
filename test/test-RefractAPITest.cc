@@ -91,3 +91,8 @@ TEST_CASE("Testing refract serialization for response attributes with references
 {
     REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/api/attributes-references", drafter::RefractASTType));
 }
+
+TEST_CASE("Testing refract serialization for payload inheriting action attributes", "[refract][api]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/api/action-request-attributes", drafter::RefractASTType));
+}

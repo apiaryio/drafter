@@ -492,7 +492,7 @@ sos::Object WrapAsset(const Asset& asset, const AssetRole& role)
     return assetObject;
 }
 
-sos::Object WrapPayload(const Payload& payload)
+sos::Object WrapPayload(const Payload& payload, const Action* action = NULL)
 {
     sos::Object payloadObject;
 
@@ -512,7 +512,7 @@ sos::Object WrapPayload(const Payload& payload)
                       WrapCollection<Header>()(payload.headers, WrapHeader));
 
     // Render using boutique
-    snowcrash::Asset payloadBody = renderPayloadBody(payload, GetNamedTypesRegistry());
+    snowcrash::Asset payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
     snowcrash::Asset payloadSchema = renderPayloadSchema(payload);
 
     // Body
@@ -581,7 +581,7 @@ sos::Object WrapParameter(const Parameter& parameter)
     return parameterObject;
 }
 
-sos::Object WrapTransactionExample(const TransactionExample& example)
+sos::Object WrapTransactionExample(const TransactionExample& example, const Action& action)
 {
     sos::Object exampleObject;
 
@@ -593,11 +593,11 @@ sos::Object WrapTransactionExample(const TransactionExample& example)
 
     // Requests
     exampleObject.set(SerializeKey::Requests,
-                      WrapCollection<Request>()(example.requests, WrapPayload));
+                      WrapCollection<Request>()(example.requests, WrapPayload, &action));
 
     // Responses
     exampleObject.set(SerializeKey::Responses,
-                      WrapCollection<Response>()(example.responses, WrapPayload));
+                      WrapCollection<Response>()(example.responses, WrapPayload, (Action *) NULL));
 
     return exampleObject;
 }
@@ -641,7 +641,7 @@ sos::Object WrapAction(const Action& action)
 
     // Transaction Examples
     actionObject.set(SerializeKey::Examples,
-                     WrapCollection<TransactionExample>()(action.examples, WrapTransactionExample));
+                     WrapCollection<TransactionExample>()(action.examples, WrapTransactionExample, action));
 
     return actionObject;
 }
@@ -804,7 +804,7 @@ sos::Object WrapBlueprintAST(const Blueprint& blueprint)
 
     // Resource Groups
     blueprintObject.set(SerializeKey::ResourceGroups,
-                        WrapCollection<Element>()(blueprint.content.elements(), WrapResourceGroup, IsElementResourceGroup));
+                        WrapCollection<Element>()(blueprint.content.elements(), WrapResourceGroup, IsElementResourceGroup, false));
 
     // Content
     blueprintObject.set(SerializeKey::Content,

@@ -119,3 +119,8 @@ TEST_CASE("Testing render when object is overridden", "[render]")
 {
     REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render/override"));
 }
+
+TEST_CASE("Testing render when request is inheriting action attributes", "[render]")
+{
+    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/render/action-request-attributes"));
+}

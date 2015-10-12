@@ -260,13 +260,13 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* PayloadToRefract(const snowcrash::Payload* payload, const snowcrash::HTTPMethod& method = "")
+    refract::IElement* PayloadToRefract(const snowcrash::Payload* payload, const snowcrash::Action* action = NULL)
     {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
 
         // Use HTTP method to recognize if request or response
-        if (method.empty()) {
+        if (action == NULL || action->method.empty()) {
             element->element(SerializeKey::HTTPResponse);
 
             if (payload != NULL && !payload->name.empty()) {
@@ -275,7 +275,7 @@ namespace drafter {
         }
         else {
             element->element(SerializeKey::HTTPRequest);
-            element->attributes[SerializeKey::Method] = refract::IElement::Create(method);
+            element->attributes[SerializeKey::Method] = refract::IElement::Create(action->method);
 
             if (payload != NULL) {
                 element->attributes[SerializeKey::Title] = refract::IElement::Create(payload->name);
@@ -293,7 +293,7 @@ namespace drafter {
         }
 
         // Render using boutique
-        snowcrash::Asset payloadBody = renderPayloadBody(*payload, GetNamedTypesRegistry());
+        snowcrash::Asset payloadBody = renderPayloadBody(*payload, action, GetNamedTypesRegistry());
         snowcrash::Asset payloadSchema = renderPayloadSchema(*payload);
 
         content.push_back(CopyToRefract(payload->description));
@@ -313,7 +313,7 @@ namespace drafter {
     }
 
     refract::IElement* TransactionToRefract(const snowcrash::TransactionExample& transaction,
-                                            const snowcrash::HTTPMethod& method,
+                                            const snowcrash::Action& action,
                                             const snowcrash::Request* request = NULL,
                                             const snowcrash::Response* response = NULL)
     {
@@ -323,7 +323,7 @@ namespace drafter {
         element->element(SerializeKey::HTTPTransaction);
         content.push_back(CopyToRefract(transaction.description));
 
-        content.push_back(PayloadToRefract(request, method));
+        content.push_back(PayloadToRefract(request, &action));
         content.push_back(PayloadToRefract(response));
 
         RemoveEmptyElements(content);
@@ -371,7 +371,7 @@ namespace drafter {
                      resIt != it->responses.end();
                      ++resIt) {
 
-                    content.push_back(TransactionToRefract(*it, action.method, NULL, &*resIt));
+                    content.push_back(TransactionToRefract(*it, action, NULL, &*resIt));
                 }
             }
 
@@ -381,14 +381,14 @@ namespace drafter {
                  ++reqIt) {
 
                 if (it->responses.empty()) {
-                    content.push_back(TransactionToRefract(*it, action.method, &*reqIt));
+                    content.push_back(TransactionToRefract(*it, action, &*reqIt));
                 }
 
                 for (snowcrash::Responses::const_iterator resIt = it->responses.begin();
                      resIt != it->responses.end();
                      ++resIt) {
 
-                    content.push_back(TransactionToRefract(*it, action.method, &*reqIt, &*resIt));
+                    content.push_back(TransactionToRefract(*it, action, &*reqIt, &*resIt));
                 }
             }
         }
