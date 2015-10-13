@@ -185,8 +185,21 @@ namespace drafter {
             return array;
         }
 
+        template<typename Collection, typename Functor, typename Argument>
+        R operator()(const Collection& collection, Functor &wrapper, Argument argument) const {
+            typedef typename Collection::const_iterator iterator_type;
+            R array;
+
+            for (iterator_type it = collection.begin(); it != collection.end(); ++it) {
+                array.push(wrapper(*it, argument));
+            }
+
+            return array;
+        }
+
+        // When we want to use predicate, let's use a dummy argument to distinguish it
         template<typename Collection, typename Functor, typename Predicate>
-        R operator()(const Collection& collection, Functor &wrapper, Predicate &predicate) const {
+        R operator()(const Collection& collection, Functor &wrapper, Predicate &predicate, bool dummy) const {
             typedef typename Collection::const_iterator iterator_type;
             R array;
 

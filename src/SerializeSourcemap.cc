@@ -436,7 +436,7 @@ sos::Object drafter::WrapBlueprintSourcemap(const SourceMap<Blueprint>& blueprin
 
     // Resource Groups
     blueprintObject.set(SerializeKey::ResourceGroups,
-                        WrapCollection<Element>()(blueprint.content.elements().collection, WrapResourceGroupSourcemap, IsElementResourceGroup));
+                        WrapCollection<Element>()(blueprint.content.elements().collection, WrapResourceGroupSourcemap, IsElementResourceGroup, false));
 
     // Content
     blueprintObject.set(SerializeKey::Content,

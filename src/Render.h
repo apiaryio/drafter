@@ -22,7 +22,7 @@ namespace drafter {
     RenderFormat findRenderFormat(const std::string& contentType);
     std::string getContentTypeFromHeaders(const snowcrash::Headers& headers);
 
-    snowcrash::Asset renderPayloadBody(const snowcrash::Payload& payload, const refract::Registry& registry);
+    snowcrash::Asset renderPayloadBody(const snowcrash::Payload& payload, const snowcrash::Action* action, const refract::Registry& registry);
     snowcrash::Asset renderPayloadSchema(const snowcrash::Payload& payload);
 
 }

@@ -40,11 +40,16 @@ namespace drafter {
         return "";
     }
 
-    Asset renderPayloadBody(const Payload& payload, const refract::Registry& registry) {
+    Asset renderPayloadBody(const Payload& payload, const Action* action, const refract::Registry& registry) {
         Asset body = payload.body;
         RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.headers));
+        Attributes attributes = payload.attributes;
 
-        if (!payload.body.empty() || payload.attributes.empty() || renderFormat == UndefinedRenderFormat) {
+        if (attributes.empty() && action != NULL && !action->attributes.empty()) {
+            attributes = action->attributes;
+        }
+
+        if (!payload.body.empty() || attributes.empty() || renderFormat == UndefinedRenderFormat) {
             return body;
         }
 
@@ -52,7 +57,7 @@ namespace drafter {
             case JSONRenderFormat:
             {
                 refract::RenderJSONVisitor renderer;
-                refract::IElement* element = MSONToRefract(payload.attributes);
+                refract::IElement* element = MSONToRefract(attributes);
                 refract::IElement* expanded = ExpandRefract(element, registry);
 
                 renderer.visit(*expanded);
