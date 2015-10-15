@@ -512,8 +512,13 @@ sos::Object WrapPayload(const Payload& payload, const Action* action = NULL)
                       WrapCollection<Header>()(payload.headers, WrapHeader));
 
     // Render using boutique
-    snowcrash::Asset payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
-    snowcrash::Asset payloadSchema = renderPayloadSchema(payload);
+//<<<<<<< HEAD
+//    snowcrash::Asset payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
+//    snowcrash::Asset payloadSchema = renderPayloadSchema(payload);
+//=======
+    snowcrash::Asset payloadBody = renderPayloadBody(MakeSectionInfoWithoutSourceMap(payload), action ? MakeSectionInfoWithoutSourceMap(*action) : SectionInfo<Action>(), GetNamedTypesRegistry());
+    snowcrash::Asset payloadSchema = renderPayloadSchema(MakeSectionInfoWithoutSourceMap(payload));
+//>>>>>>> Most of MSON sourcemap features implemented
 
     // Body
     payloadObject.set(SerializeKey::Body, sos::String(payloadBody));

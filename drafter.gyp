@@ -43,6 +43,8 @@
         "src/RefractDataStructure.cc",
         "src/RefractParseResult.h",
         "src/RefractParseResult.cc",
+        "src/RefractSourceMap.h",
+        "src/RefractSourceMap.cc",
         "src/Render.h",
         "src/Render.cc",
 

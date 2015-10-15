@@ -13,6 +13,8 @@
 #include "RefractAPI.h"
 #include "Render.h"
 
+#include "RefractSourceMap.h"
+
 namespace drafter {
 
     // Forward Declarations
@@ -82,68 +84,6 @@ namespace drafter {
 
             return element;
         }
-
-    }
-
-    refract::IElement* BytesRangeToRefract(const mdp::BytesRange& bytesRange)
-    {
-        refract::ArrayElement* range = new refract::ArrayElement;
-
-        range->push_back(refract::IElement::Create(bytesRange.location));
-        range->push_back(refract::IElement::Create(bytesRange.length));
-
-        return range;
-    }
-
-    template<typename T>
-    refract::IElement* SourceMapToRefract(const T& sourceMap) 
-    {
-        refract::ArrayElement* element = new refract::ArrayElement;
-        element->element("sourceMap");
-        element->renderType(refract::IElement::rFull);
-
-        refract::ArrayElement* sourceMapElement = new refract::ArrayElement;
-        sourceMapElement->element("sourceMap");
-        element->renderType(refract::IElement::rCompact);
-
-        RefractElements ranges;
-        std::transform(sourceMap.begin(), sourceMap.end(), std::back_inserter(ranges), BytesRangeToRefract);
-
-        sourceMapElement->set(ranges);
-        element->push_back(sourceMapElement);
-
-        return element;
-    }
-
-    template<typename T>
-    void AttachSourceMap(refract::IElement* element, const T& sectionInfo) 
-    {
-        if (sectionInfo.hasSourceMap() && !sectionInfo.sourceMap.sourceMap.empty()) {
-            element->attributes["sourceMap"] = SourceMapToRefract(sectionInfo.sourceMap.sourceMap);
-            // FIXME: how to render nonrefract elments? eg. "title"
-            // solution -> use Expanded form
-            element->renderType(refract::IElement::rFull);
-        }
-    }
-
-    template<typename T>
-    refract::IElement* PrimitiveToRefract(const SectionInfo<T>& sectionInfo)
-    {
-        typedef typename refract::ElementTypeSelector<T>::ElementType ElementType;
-
-        ElementType* element = refract::IElement::Create(sectionInfo.section);
-        AttachSourceMap(element, sectionInfo);
-
-        return element;
-    }
-
-    template<typename T>
-    refract::IElement* LiteralToRefract(const SectionInfo<std::string>& sectionInfo)
-    {
-        refract::IElement* element = refract::IElement::Create(LiteralTo<T>(sectionInfo.section));
-        AttachSourceMap(element, sectionInfo);
-
-        return element;
     }
 
     template <typename T>
@@ -345,18 +285,19 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* AssetToRefract(const snowcrash::Asset& asset, const std::string& contentType, bool messageBody = true)
+    refract::IElement* _AssetToRefract(const SectionInfo<snowcrash::Asset>& asset, const std::string& contentType, const std::string&  metaClass)
     {
-        if (asset.empty()) {
+        if (asset.section.empty()) {
             return NULL;
         }
 
-        refract::IElement* element = refract::IElement::Create(asset);
+        refract::IElement* element = PrimitiveToRefract(asset);
 
         element->element(SerializeKey::Asset);
-        element->meta[SerializeKey::Classes] = refract::ArrayElement::Create(messageBody ? SerializeKey::MessageBody : SerializeKey::MessageSchema);
+        element->meta[SerializeKey::Classes] = refract::ArrayElement::Create(metaClass);
 
         if (!contentType.empty()) {
+            // FIXME: has SourceMap?
             element->attributes[SerializeKey::ContentType] = refract::IElement::Create(contentType);
         }
 
@@ -400,8 +341,8 @@ namespace drafter {
 
         // Render using boutique
         // FIXME: has asset sourcemap?
-        snowcrash::Asset payloadBody = renderPayloadBody(payload.section, action.isNull() ? NULL : &action.section, GetNamedTypesRegistry());
-        snowcrash::Asset payloadSchema = renderPayloadSchema(payload.section);
+        snowcrash::Asset payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
+        snowcrash::Asset payloadSchema = renderPayloadSchema(payload);
 
         content.push_back(_CopyToRefract(MAKE_SECTION_INFO(payload, description)));
         content.push_back(_DataStructureToRefract(MAKE_SECTION_INFO(payload, attributes)));
@@ -410,9 +351,8 @@ namespace drafter {
         std::string contentType = getContentTypeFromHeaders(payload.section.headers);
 
         // Assets
-        // FIXME: SourceMap
-        content.push_back(AssetToRefract(payloadBody, contentType));
-        content.push_back(AssetToRefract(payloadSchema, contentType, false));
+        content.push_back(_AssetToRefract(MakeSectionInfoWithoutSourceMap(payloadBody), contentType, SerializeKey::MessageBody));
+        content.push_back(_AssetToRefract(MakeSectionInfoWithoutSourceMap(payloadSchema), contentType, SerializeKey::MessageSchema));
 
         RemoveEmptyElements(content);
         element->set(content);

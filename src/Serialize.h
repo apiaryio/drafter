@@ -44,6 +44,13 @@ namespace drafter {
 
         SectionInfo(const SectionType& section, const SourceMapType& sourceMap) : section(section), sourceMap(sourceMap), empty(false) {}
         SectionInfo() : section(SectionType()), sourceMap(SourceMapType()), empty(true) {}
+
+        /**
+         * BE CAREFUL while assign SectionInfo it probably will not work as you expected
+         * but we need this to allow store SectionInfo in containers
+         *
+         * alternative solution is store `section` and `sourceMap` in C++11 smart pointers
+         */
         SectionInfo<T>& operator=(const SectionInfo<T>& other) { 
             return *this; 
         }
@@ -69,11 +76,6 @@ namespace drafter {
         return SectionInfo<T>(section, hasSourceMap ? sourceMap : SectionInfo<T>::NullSourceMap());
     }
 
-    template <typename T>
-    SectionInfo<T> MakeSectionInfoFunctor(const T& section, const snowcrash::SourceMap<T>& sourceMap)
-    {
-        return SectionInfo<T>(section, sourceMap);
-    }
 
     template <typename T>
     SectionInfo<T> MakeSectionInfoWithoutSourceMap(const T& section)
@@ -91,16 +93,27 @@ namespace drafter {
     }
 
     template<typename T>
+    // FIXME: inherit directly from `std::vector<SectionInfo<typename T::value_type> >` instead of hold it as member
     struct SectionInfoCollection {
         typedef std::vector<SectionInfo<typename T::value_type> > CollectionType;
         CollectionType sections;
 
         typedef typename CollectionType::const_iterator ConstIterarator;
 
-        SectionInfoCollection(const T& collection, const snowcrash::SourceMap<T>& sourceMaps)
+        template <typename U>
+        static SectionInfo<U> MakeSectionInfo(const U& section, const snowcrash::SourceMap<U>& sourceMap)
         {
+            return SectionInfo<U>(section, sourceMap);
+        }
+
+        SectionInfoCollection(const T& collection, const snowcrash::SourceMap<T>& sourceMaps)
+        //SectionInfoCollection(const SectionInfo<T>& sectionInfo)
+        {
+            //const T& collection = sectionInfo.section;
+            //const snowcrash::SourceMap<T>& sourceMaps = sectionInfo.sourceMap;
+
             if (collection.size() == sourceMaps.collection.size()) {
-                sections = Zip<CollectionType>(collection, sourceMaps.collection, MakeSectionInfoFunctor<typename T::value_type>);
+                sections = Zip<CollectionType>(collection, sourceMaps.collection, SectionInfoCollection::MakeSectionInfo<typename T::value_type>);
             }
             else {
                 std::transform(collection.begin(), collection.end(), 
@@ -232,6 +245,12 @@ namespace drafter {
         static const std::string Annotation;
         static const std::string SourceMap;
     };
+
+    template<typename T> T LiteralTo(const mson::Literal&);
+
+    template <> bool LiteralTo<bool>(const mson::Literal& literal);
+    template <> double LiteralTo<double>(const mson::Literal& literal);
+    template <> std::string LiteralTo<std::string>(const mson::Literal& literal);
 
     /**
      * \brief functor pattern to translate _collection_ into sos::Array on serialization
