@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Drafter/Emscripten Test</title>
+  <script src=drafter.js></script>
+  <style>
+    body {
+      max-width: 600px;
+      margin: 40px auto;
+    }
+    textarea {
+      width: 100%;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <textarea id=input rows=24 placeholder="API Blueprint here...">
+# My API
+
+## GET /message
+
++ Response 200 (text/plain)
+
+    Hello World.
+
+</textarea>
+  <div id=output>OK</div>
+  <script>
+    function parse() {
+        var res;
+        try {
+          res = drafter.parse(input.value, {type: 'ast'});
+        } catch (err) {
+          console.log(err);
+        }
+        if (res) {
+            if (res.warnings && res.warnings[0]) {
+                output.innerHTML = res.warnings[0].message;
+            } else {
+                output.innerHTML = 'OK';
+            }
+        }
+    }
+    input.addEventListener('input', parse);
+    parse();
+  </script>
+</body>
+</html>
