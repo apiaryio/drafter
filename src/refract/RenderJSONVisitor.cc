@@ -240,7 +240,7 @@ namespace refract
              it != val->end();
              ++it) {
 
-            if (*it) {
+            if (*it && !(*it)->empty()) {
                 renderer.visit(*(*it));
             }
         }
