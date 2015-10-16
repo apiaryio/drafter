@@ -99,12 +99,9 @@ namespace drafter {
     }
 
     template<typename T>
-    // FIXME: inherit directly from `std::vector<SectionInfo<typename T::value_type> >` instead of hold it as member
-    struct SectionInfoCollection {
+    struct SectionInfoCollection  : public std::vector<SectionInfo<typename T::value_type> > {
+        typedef SectionInfoCollection<T> SelfType;
         typedef std::vector<SectionInfo<typename T::value_type> > CollectionType;
-        CollectionType sections;
-
-        typedef typename CollectionType::const_iterator ConstIterarator;
 
         template <typename U>
         static SectionInfo<U> MakeSectionInfo(const U& section, const snowcrash::SourceMap<U>& sourceMap)
@@ -116,11 +113,12 @@ namespace drafter {
         {
 
             if (collection.size() == sourceMaps.collection.size()) {
-                sections = Zip<CollectionType>(collection, sourceMaps.collection, SectionInfoCollection::MakeSectionInfo<typename T::value_type>);
+                CollectionType sections = Zip<CollectionType>(collection, sourceMaps.collection, SectionInfoCollection::MakeSectionInfo<typename T::value_type>);
+                std::copy(sections.begin(), sections.end(), std::back_inserter(*this));
             }
             else {
                 std::transform(collection.begin(), collection.end(), 
-                               std::back_inserter(sections), 
+                               std::back_inserter(*this), 
                                MakeSectionInfoWithoutSourceMap<typename T::value_type>);
             }
             

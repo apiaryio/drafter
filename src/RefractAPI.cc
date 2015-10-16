@@ -76,7 +76,7 @@ namespace drafter {
 
             SectionInfoCollection<C> sectionInfoCollection(collection.section, collection.sourceMap);
 
-            std::transform(sectionInfoCollection.sections.begin(), sectionInfoCollection.sections.end(), std::back_inserter(content), transformFunctor);
+            std::transform(sectionInfoCollection.begin(), sectionInfoCollection.end(), std::back_inserter(content), transformFunctor);
 
             element->set(content);
 
@@ -205,7 +205,7 @@ namespace drafter {
         }
 
         SectionInfoCollection<snowcrash::Values> values(parameter.section.values, parameter.sourceMap.values);
-        std::transform(values.sections.begin(), values.sections.end(), std::back_inserter(content), LiteralToRefract<T>);
+        std::transform(values.begin(), values.end(), std::back_inserter(content), LiteralToRefract<T>);
 
         element->set(content);
 
@@ -413,8 +413,8 @@ namespace drafter {
         typedef SectionInfoCollection<snowcrash::TransactionExamples> ExamplesType;
         ExamplesType examples(action.section.examples, action.sourceMap.examples);
 
-        for (ExamplesType::ConstIterarator it = examples.sections.begin();
-             it != examples.sections.end();
+        for (ExamplesType::const_iterator it = examples.begin();
+             it != examples.end();
              ++it) {
 
             // When there are only responses
@@ -423,8 +423,8 @@ namespace drafter {
                 typedef SectionInfoCollection<snowcrash::Responses> ResponsesType;
                 ResponsesType responses(it->section.responses, it->sourceMap.responses);
 
-                for (ResponsesType::ConstIterarator resIt = responses.sections.begin() ;
-                     resIt != responses.sections.end();
+                for (ResponsesType::const_iterator resIt = responses.begin() ;
+                     resIt != responses.end();
                      ++resIt) {
 
                     content.push_back(TransactionToRefract(*it, action, SectionInfo<snowcrash::Request>(), *resIt));
@@ -435,8 +435,8 @@ namespace drafter {
             typedef SectionInfoCollection<snowcrash::Requests> RequestsType;
             RequestsType requests(it->section.requests, it->sourceMap.requests);
 
-            for (RequestsType::ConstIterarator reqIt = requests.sections.begin();
-                 reqIt != requests.sections.end();
+            for (RequestsType::const_iterator reqIt = requests.begin();
+                 reqIt != requests.end();
                  ++reqIt) {
 
                 if (it->section.responses.empty()) {
@@ -446,8 +446,8 @@ namespace drafter {
                 typedef SectionInfoCollection<snowcrash::Responses> ResponsesType;
                 ResponsesType responses(it->section.responses, it->sourceMap.responses);
 
-                for (ResponsesType::ConstIterarator resIt = responses.sections.begin();
-                     resIt != responses.sections.end();
+                for (ResponsesType::const_iterator resIt = responses.begin();
+                     resIt != responses.end();
                      ++resIt) {
 
                     content.push_back(TransactionToRefract(*it, action, *reqIt, *resIt));
@@ -480,7 +480,7 @@ namespace drafter {
         content.push_back(DataStructureToRefract(MAKE_SECTION_INFO(resource, attributes)));
 
         SectionInfoCollection<snowcrash::Actions> actions(resource.section.actions, resource.sourceMap.actions);
-        std::transform(actions.sections.begin(), actions.sections.end(), std::back_inserter(content), ActionToRefract);
+        std::transform(actions.begin(), actions.end(), std::back_inserter(content), ActionToRefract);
 
         RemoveEmptyElements(content);
         element->set(content);
@@ -509,7 +509,7 @@ namespace drafter {
                 : element.sourceMap.content.elements();
 
             SectionInfoCollection<snowcrash::Elements> elements(element.section.content.elements(), sourceMap);
-            std::transform(elements.sections.begin(), elements.sections.end(), std::back_inserter(content), ElementToRefract);
+            std::transform(elements.begin(), elements.end(), std::back_inserter(content), ElementToRefract);
         }
 
         RemoveEmptyElements(content);
@@ -551,7 +551,7 @@ namespace drafter {
         }
 
         SectionInfoCollection<snowcrash::Elements> elements(blueprint.section.content.elements(), blueprint.sourceMap.content.elements());
-        std::transform(elements.sections.begin(), elements.sections.end(), std::back_inserter(content), ElementToRefract);
+        std::transform(elements.begin(), elements.end(), std::back_inserter(content), ElementToRefract);
 
         RemoveEmptyElements(content);
         ast->set(content);

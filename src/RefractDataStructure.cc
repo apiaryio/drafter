@@ -190,7 +190,7 @@ namespace drafter {
 
         SectionInfoCollection<mson::Elements> elementsSectionInfo(elements.section, elements.sourceMap);
         
-        for (SectionInfoCollection<mson::Elements>::ConstIterarator it = elementsSectionInfo.sections.begin() ; it != elementsSectionInfo.sections.end() ; ++it) {
+        for (SectionInfoCollection<mson::Elements>::const_iterator it = elementsSectionInfo.begin() ; it != elementsSectionInfo.end() ; ++it) {
             result.push_back(MsonElementToRefract(*it, defaultNestedType));
         }
 
@@ -670,7 +670,7 @@ namespace drafter {
 
         SectionInfoCollection<mson::TypeSections> typeSections(value.section.sections, value.sourceMap.sections);
 
-        std::for_each(typeSections.sections.begin(), typeSections.sections.end(), ExtractTypeSection<T>(data, value));
+        std::for_each(typeSections.begin(), typeSections.end(), ExtractTypeSection<T>(data, value));
         
         if (!value.section.valueDefinition.values.empty() && (valuesCount != data.values.size())) { 
             // there are some values coming from TypeSections -> move first value into examples
@@ -759,7 +759,7 @@ namespace drafter {
 
         SectionInfoCollection<mson::TypeSections> typeSections(property.section.sections, property.sourceMap.sections);
 
-        for (SectionInfoCollection<mson::TypeSections>::ConstIterarator it = typeSections.sections.begin() ; it != typeSections.sections.end(); ++it) {
+        for (SectionInfoCollection<mson::TypeSections>::const_iterator it = typeSections.begin() ; it != typeSections.end(); ++it) {
            if (it->section.klass == mson::TypeSection::BlockDescriptionClass) {
                if (addNewLine) {
                    descriptionRef.append("\n");
@@ -871,7 +871,7 @@ namespace drafter {
 
         SectionInfoCollection<mson::OneOf> oneOfSectionInfo(oneOf.section, oneOf.sourceMap);
 
-        for (SectionInfoCollection<mson::OneOf>::ConstIterarator it = oneOfSectionInfo.sections.begin(); it != oneOfSectionInfo.sections.end(); ++it) {
+        for (SectionInfoCollection<mson::OneOf>::const_iterator it = oneOfSectionInfo.begin(); it != oneOfSectionInfo.end(); ++it) {
             refract::ArrayElement* option = new refract::ArrayElement;
             option->element(SerializeKey::Option);
 
@@ -951,7 +951,7 @@ namespace drafter {
 
         SectionInfoCollection<mson::TypeSections> typeSections(ds.section.sections, ds.sourceMap.sections);
 
-        std::for_each(typeSections.sections.begin(), typeSections.sections.end(), ExtractTypeSection<T>(data, ds));
+        std::for_each(typeSections.begin(), typeSections.end(), ExtractTypeSection<T>(data, ds));
 
         TransformElementData<T>(element, data, ds.hasSourceMap());
 
