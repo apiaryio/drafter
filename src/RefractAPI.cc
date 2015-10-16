@@ -18,7 +18,7 @@
 namespace drafter {
 
     // Forward Declarations
-    refract::IElement* _ElementToRefract(const SectionInfo<snowcrash::Element>& element);
+    refract::IElement* ElementToRefract(const SectionInfo<snowcrash::Element>& element);
 
     namespace {
 
@@ -108,7 +108,7 @@ namespace drafter {
         for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
 
             if (!(*i)->name.symbol.literal.empty()) {
-                refract::IElement* element = _MSONToRefract(MakeSectionInfoWithoutSourceMap(*(*i)));
+                refract::IElement* element = MSONToRefract(MakeSectionInfoWithoutSourceMap(*(*i)));
                 GetNamedTypesRegistry().add(element);
             }
         }
@@ -116,7 +116,7 @@ namespace drafter {
 
     refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure, bool expand)
     {
-       refract::IElement* msonElement = _MSONToRefract(MakeSectionInfoWithoutSourceMap(dataStructure));
+       refract::IElement* msonElement = MSONToRefract(MakeSectionInfoWithoutSourceMap(dataStructure));
 
        if (expand) {
            refract::IElement* msonExpanded = ExpandRefract(msonElement, GetNamedTypesRegistry());
@@ -134,9 +134,9 @@ namespace drafter {
        return element;
     }
 
-    refract::IElement* _DataStructureToRefract(const SectionInfo<snowcrash::DataStructure>& dataStructure, bool expand)
+    refract::IElement* DataStructureToRefract(const SectionInfo<snowcrash::DataStructure>& dataStructure, bool expand)
     {
-        refract::IElement* msonElement = _MSONToRefract(dataStructure);
+        refract::IElement* msonElement = MSONToRefract(dataStructure);
 
         if (expand) {
             refract::IElement* msonExpanded = ExpandRefract(msonElement, GetNamedTypesRegistry());
@@ -154,7 +154,7 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* _MetadataToRefract(const SectionInfo<snowcrash::Metadata>& metadata)
+    refract::IElement* MetadataToRefract(const SectionInfo<snowcrash::Metadata>& metadata)
     {
         refract::MemberElement* element = new refract::MemberElement;
 
@@ -170,7 +170,7 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* _CopyToRefract(const SectionInfo<std::string>& copy)
+    refract::IElement* CopyToRefract(const SectionInfo<std::string>& copy)
     {
         if (copy.section.empty()) {
             return NULL;
@@ -183,14 +183,14 @@ namespace drafter {
     }
 
     template<typename T>
-    refract::IElement* _ParameterValuesToRefract(const SectionInfo<snowcrash::Parameter>& parameter)
+    refract::IElement* ParameterValuesToRefract(const SectionInfo<snowcrash::Parameter>& parameter)
     {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
 
         element->element(SerializeKey::Enum);
 
-        // FIXME: nearly duplicit code in _ExtractParameter()
+        // FIXME: nearly duplicit code in ExtractParameter()
         // Add sample value
         if (!parameter.section.exampleValue.empty()) {
             refract::ArrayElement* samples = new refract::ArrayElement;
@@ -213,7 +213,7 @@ namespace drafter {
     }
 
     template<typename T>
-    refract::IElement* _ExtractParameter(const SectionInfo<snowcrash::Parameter>& parameter)
+    refract::IElement* ExtractParameter(const SectionInfo<snowcrash::Parameter>& parameter)
     {
         refract::IElement* element = NULL;
 
@@ -228,13 +228,13 @@ namespace drafter {
             }
         }
         else {
-            element = _ParameterValuesToRefract<T>(parameter);
+            element = ParameterValuesToRefract<T>(parameter);
         }
 
         return element;
     }
 
-    refract::IElement* _ParameterToRefract(const SectionInfo<snowcrash::Parameter>& parameter)
+    refract::IElement* ParameterToRefract(const SectionInfo<snowcrash::Parameter>& parameter)
     {
         refract::MemberElement* element = new refract::MemberElement;
 
@@ -242,13 +242,13 @@ namespace drafter {
 
         // Parameter type, exampleValue, defaultValue, values
         if (parameter.section.type == "boolean") {
-            value = _ExtractParameter<bool>(parameter);
+            value = ExtractParameter<bool>(parameter);
         }
         else if (parameter.section.type == "number") {
-            value = _ExtractParameter<double>(parameter);
+            value = ExtractParameter<double>(parameter);
         }
         else {
-            value = _ExtractParameter<std::string>(parameter);
+            value = ExtractParameter<std::string>(parameter);
         }
 
         element->set(PrimitiveToRefract(MAKE_SECTION_INFO(parameter, name)), value);
@@ -269,12 +269,12 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* _ParametersToRefract(const SectionInfo<snowcrash::Parameters>& parameters)
+    refract::IElement* ParametersToRefract(const SectionInfo<snowcrash::Parameters>& parameters)
     {
-        return CollectionToRefract<refract::ObjectElement>(parameters, _ParameterToRefract, SerializeKey::HrefVariables, refract::IElement::rFull);
+        return CollectionToRefract<refract::ObjectElement>(parameters, ParameterToRefract, SerializeKey::HrefVariables, refract::IElement::rFull);
     }
 
-    refract::IElement* _HeaderToRefract(const SectionInfo<snowcrash::Header>& header)
+    refract::IElement* HeaderToRefract(const SectionInfo<snowcrash::Header>& header)
     {
         refract::MemberElement* element = new refract::MemberElement;
 
@@ -285,7 +285,7 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* _AssetToRefract(const SectionInfo<snowcrash::Asset>& asset, const std::string& contentType, const std::string&  metaClass)
+    refract::IElement* AssetToRefract(const SectionInfo<snowcrash::Asset>& asset, const std::string& contentType, const std::string&  metaClass)
     {
         if (asset.section.empty()) {
             return NULL;
@@ -304,7 +304,7 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* _PayloadToRefract(const SectionInfo<snowcrash::Payload>& payload, const SectionInfo<snowcrash::Action>& action)
+    refract::IElement* PayloadToRefract(const SectionInfo<snowcrash::Payload>& payload, const SectionInfo<snowcrash::Action>& action)
     {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
@@ -334,7 +334,7 @@ namespace drafter {
 
         if (!payload.section.headers.empty()) {
             element->attributes[SerializeKey::Headers] = CollectionToRefract<refract::ArrayElement>(MAKE_SECTION_INFO(payload, headers),
-                                                                                                    _HeaderToRefract,
+                                                                                                    HeaderToRefract,
                                                                                                     SerializeKey::HTTPHeaders,
                                                                                                     refract::IElement::rFull);
         }
@@ -344,15 +344,15 @@ namespace drafter {
         snowcrash::Asset payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
         snowcrash::Asset payloadSchema = renderPayloadSchema(payload);
 
-        content.push_back(_CopyToRefract(MAKE_SECTION_INFO(payload, description)));
-        content.push_back(_DataStructureToRefract(MAKE_SECTION_INFO(payload, attributes)));
+        content.push_back(CopyToRefract(MAKE_SECTION_INFO(payload, description)));
+        content.push_back(DataStructureToRefract(MAKE_SECTION_INFO(payload, attributes)));
 
         // Get content type
         std::string contentType = getContentTypeFromHeaders(payload.section.headers);
 
         // Assets
-        content.push_back(_AssetToRefract(MakeSectionInfoWithoutSourceMap(payloadBody), contentType, SerializeKey::MessageBody));
-        content.push_back(_AssetToRefract(MakeSectionInfoWithoutSourceMap(payloadSchema), contentType, SerializeKey::MessageSchema));
+        content.push_back(AssetToRefract(MakeSectionInfoWithoutSourceMap(payloadBody), contentType, SerializeKey::MessageBody));
+        content.push_back(AssetToRefract(MakeSectionInfoWithoutSourceMap(payloadSchema), contentType, SerializeKey::MessageSchema));
 
         RemoveEmptyElements(content);
         element->set(content);
@@ -360,7 +360,7 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* _TransactionToRefract(const SectionInfo<snowcrash::TransactionExample>& transaction,
+    refract::IElement* TransactionToRefract(const SectionInfo<snowcrash::TransactionExample>& transaction,
                                             const SectionInfo<snowcrash::Action>& action,
                                             const SectionInfo<snowcrash::Request>& request,
                                             const SectionInfo<snowcrash::Response>& response)
@@ -369,10 +369,10 @@ namespace drafter {
         RefractElements content;
 
         element->element(SerializeKey::HTTPTransaction);
-        content.push_back(_CopyToRefract(MAKE_SECTION_INFO(transaction, description)));
+        content.push_back(CopyToRefract(MAKE_SECTION_INFO(transaction, description)));
 
-        content.push_back(_PayloadToRefract(request, action));
-        content.push_back(_PayloadToRefract(response, SectionInfo<snowcrash::Action>()));
+        content.push_back(PayloadToRefract(request, action));
+        content.push_back(PayloadToRefract(response, SectionInfo<snowcrash::Action>()));
 
         RemoveEmptyElements(content);
         element->set(content);
@@ -380,7 +380,7 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* _ActionToRefract(const SectionInfo<snowcrash::Action>& action)
+    refract::IElement* ActionToRefract(const SectionInfo<snowcrash::Action>& action)
     {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
@@ -399,16 +399,16 @@ namespace drafter {
         }
 
         if (!action.section.parameters.empty()) {
-            element->attributes[SerializeKey::HrefVariables] = _ParametersToRefract(MAKE_SECTION_INFO(action, parameters));
+            element->attributes[SerializeKey::HrefVariables] = ParametersToRefract(MAKE_SECTION_INFO(action, parameters));
         }
 
         if (!action.section.attributes.empty()) {
-            refract::IElement* dataStructure = _DataStructureToRefract(MAKE_SECTION_INFO(action, attributes));
+            refract::IElement* dataStructure = DataStructureToRefract(MAKE_SECTION_INFO(action, attributes));
             dataStructure->renderType(refract::IElement::rFull);
             element->attributes[SerializeKey::Data] = dataStructure;
         }
 
-        content.push_back(_CopyToRefract(MAKE_SECTION_INFO(action, description)));
+        content.push_back(CopyToRefract(MAKE_SECTION_INFO(action, description)));
 
         typedef SectionInfoCollection<snowcrash::TransactionExamples> ExamplesType;
         ExamplesType examples(action.section.examples, action.sourceMap.examples);
@@ -427,7 +427,7 @@ namespace drafter {
                      resIt != responses.sections.end();
                      ++resIt) {
 
-                    content.push_back(_TransactionToRefract(*it, action, SectionInfo<snowcrash::Request>(), *resIt));
+                    content.push_back(TransactionToRefract(*it, action, SectionInfo<snowcrash::Request>(), *resIt));
                 }
             }
 
@@ -440,7 +440,7 @@ namespace drafter {
                  ++reqIt) {
 
                 if (it->section.responses.empty()) {
-                    content.push_back(_TransactionToRefract(*it, action, *reqIt, SectionInfo<snowcrash::Response>()));
+                    content.push_back(TransactionToRefract(*it, action, *reqIt, SectionInfo<snowcrash::Response>()));
                 }
 
                 typedef SectionInfoCollection<snowcrash::Responses> ResponsesType;
@@ -450,7 +450,7 @@ namespace drafter {
                      resIt != responses.sections.end();
                      ++resIt) {
 
-                    content.push_back(_TransactionToRefract(*it, action, *reqIt, *resIt));
+                    content.push_back(TransactionToRefract(*it, action, *reqIt, *resIt));
                 }
             }
         }
@@ -461,7 +461,7 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* _ResourceToRefract(const SectionInfo<snowcrash::Resource>& resource)
+    refract::IElement* ResourceToRefract(const SectionInfo<snowcrash::Resource>& resource)
     {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
@@ -473,14 +473,14 @@ namespace drafter {
         element->attributes[SerializeKey::Href] = PrimitiveToRefract(MAKE_SECTION_INFO(resource, uriTemplate));
 
         if (!resource.section.parameters.empty()) {
-            element->attributes[SerializeKey::HrefVariables] = _ParametersToRefract(MAKE_SECTION_INFO(resource, parameters));
+            element->attributes[SerializeKey::HrefVariables] = ParametersToRefract(MAKE_SECTION_INFO(resource, parameters));
         }
 
-        content.push_back(_CopyToRefract(MAKE_SECTION_INFO(resource, description)));
-        content.push_back(_DataStructureToRefract(MAKE_SECTION_INFO(resource, attributes)));
+        content.push_back(CopyToRefract(MAKE_SECTION_INFO(resource, description)));
+        content.push_back(DataStructureToRefract(MAKE_SECTION_INFO(resource, attributes)));
 
         SectionInfoCollection<snowcrash::Actions> actions(resource.section.actions, resource.sourceMap.actions);
-        std::transform(actions.sections.begin(), actions.sections.end(), std::back_inserter(content), _ActionToRefract);
+        std::transform(actions.sections.begin(), actions.sections.end(), std::back_inserter(content), ActionToRefract);
 
         RemoveEmptyElements(content);
         element->set(content);
@@ -488,7 +488,7 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* _CategoryToRefract(const SectionInfo<snowcrash::Element>& element)
+    refract::IElement* CategoryToRefract(const SectionInfo<snowcrash::Element>& element)
     {
         refract::ArrayElement* category = new refract::ArrayElement;
         RefractElements content;
@@ -509,7 +509,7 @@ namespace drafter {
                 : element.sourceMap.content.elements();
 
             SectionInfoCollection<snowcrash::Elements> elements(element.section.content.elements(), sourceMap);
-            std::transform(elements.sections.begin(), elements.sections.end(), std::back_inserter(content), _ElementToRefract);
+            std::transform(elements.sections.begin(), elements.sections.end(), std::back_inserter(content), ElementToRefract);
         }
 
         RemoveEmptyElements(content);
@@ -518,17 +518,17 @@ namespace drafter {
         return category;
     }
 
-    refract::IElement* _ElementToRefract(const SectionInfo<snowcrash::Element>& element) 
+    refract::IElement* ElementToRefract(const SectionInfo<snowcrash::Element>& element) 
     {
         switch (element.section.element) {
             case snowcrash::Element::ResourceElement:
-                return _ResourceToRefract(MAKE_SECTION_INFO(element, content.resource));
+                return ResourceToRefract(MAKE_SECTION_INFO(element, content.resource));
             case snowcrash::Element::DataStructureElement:
-                return _DataStructureToRefract(MAKE_SECTION_INFO(element, content.dataStructure));
+                return DataStructureToRefract(MAKE_SECTION_INFO(element, content.dataStructure));
             case snowcrash::Element::CopyElement:
-                return _CopyToRefract(MAKE_SECTION_INFO(element, content.copy));
+                return CopyToRefract(MAKE_SECTION_INFO(element, content.copy));
             case snowcrash::Element::CategoryElement:
-                return _CategoryToRefract(element);
+                return CategoryToRefract(element);
             default:
                 throw snowcrash::Error("unknown type of api description element", snowcrash::ApplicationError);
         }
@@ -544,14 +544,14 @@ namespace drafter {
 
         ast->meta[SerializeKey::Title] = PrimitiveToRefract(MAKE_SECTION_INFO(blueprint, name));
 
-        content.push_back(_CopyToRefract(MAKE_SECTION_INFO(blueprint, description)));
+        content.push_back(CopyToRefract(MAKE_SECTION_INFO(blueprint, description)));
 
         if (!blueprint.section.metadata.empty()) {
-            ast->attributes[SerializeKey::Meta] = CollectionToRefract<refract::ArrayElement>(MAKE_SECTION_INFO(blueprint, metadata), _MetadataToRefract);
+            ast->attributes[SerializeKey::Meta] = CollectionToRefract<refract::ArrayElement>(MAKE_SECTION_INFO(blueprint, metadata), MetadataToRefract);
         }
 
         SectionInfoCollection<snowcrash::Elements> elements(blueprint.section.content.elements(), blueprint.sourceMap.content.elements());
-        std::transform(elements.sections.begin(), elements.sections.end(), std::back_inserter(content), _ElementToRefract);
+        std::transform(elements.sections.begin(), elements.sections.end(), std::back_inserter(content), ElementToRefract);
 
         RemoveEmptyElements(content);
         ast->set(content);

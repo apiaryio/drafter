@@ -65,7 +65,7 @@ namespace drafter {
             {
                 refract::RenderJSONVisitor renderer;
 
-                refract::IElement* element = _MSONToRefract(*attributes);
+                refract::IElement* element = MSONToRefract(*attributes);
 
                 if (!element) {
                     return body;

@@ -445,7 +445,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     sos::Object dataStructureObject;
 
 #if _WITH_REFRACT_
-    refract::IElement *element = DataStructureToRefract(dataStructure, ExpandMSON);
+    refract::IElement *element = DataStructureToRefract(MakeSectionInfoWithoutSourceMap(dataStructure), ExpandMSON);
     dataStructureObject = SerializeRefract(element);
 
     if (element) {
@@ -802,7 +802,7 @@ void registerNamedTypes(const snowcrash::Elements& elements)
     for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
 
        if (!(*i)->name.symbol.literal.empty()) {
-           refract::IElement* element = _MSONToRefract(MakeSectionInfoWithoutSourceMap(*(*i)));
+           refract::IElement* element = MSONToRefract(MakeSectionInfoWithoutSourceMap(*(*i)));
            GetNamedTypesRegistry().add(element);
        }
     }
