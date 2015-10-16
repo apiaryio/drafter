@@ -301,7 +301,9 @@
 				19A129F01B70B88F00366AA7 /* libsos */,
 				19BD7B981B70AAAF00A11E83 /* Products */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		19BD7B981B70AAAF00A11E83 /* Products */ = {
 			isa = PBXGroup;
