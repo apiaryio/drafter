@@ -20,12 +20,12 @@ namespace drafter {
     refract::IElement* SourceMapToRefract(const T& sourceMap) 
     {
         refract::ArrayElement* element = new refract::ArrayElement;
-        element->element("sourceMap");
+        element->element(SerializeKey::SourceMap);
         element->renderType(refract::IElement::rFull);
 
         refract::ArrayElement* sourceMapElement = new refract::ArrayElement;
-        sourceMapElement->element("sourceMap");
-        element->renderType(refract::IElement::rCompact);
+        sourceMapElement->element(SerializeKey::SourceMap);
+        element->renderType(refract::IElement::rCompactContent);
 
         std::vector<refract::IElement*> ranges;
         std::transform(sourceMap.begin(), sourceMap.end(), std::back_inserter(ranges), BytesRangeToRefract);
@@ -41,7 +41,7 @@ namespace drafter {
     {
         if (sectionInfo.hasSourceMap() && !sectionInfo.sourceMap.sourceMap.empty()) {
 
-            element->attributes["sourceMap"] = SourceMapToRefract(sectionInfo.sourceMap.sourceMap);
+            element->attributes[SerializeKey::SourceMap] = SourceMapToRefract(sectionInfo.sourceMap.sourceMap);
 
             element->renderType(refract::IElement::rFull);
         }
