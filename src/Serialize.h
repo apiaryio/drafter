@@ -35,6 +35,7 @@ namespace drafter {
 
     template<typename T>
     struct SectionInfo {
+        typedef SectionInfo<T> Type;
         typedef T SectionType;
         typedef snowcrash::SourceMap<SectionType> SourceMapType;
 
@@ -43,7 +44,7 @@ namespace drafter {
         const bool empty;
 
         SectionInfo(const SectionType& section, const SourceMapType& sourceMap) : section(section), sourceMap(sourceMap), empty(false) {}
-        SectionInfo() : section(SectionType()), sourceMap(SourceMapType()), empty(true) {}
+        SectionInfo() : section(Type::NullSection()), sourceMap(Type::NullSourceMap()), empty(true) {}
 
         /**
          * BE CAREFUL while assign SectionInfo it probably will not work as you expected
@@ -55,8 +56,13 @@ namespace drafter {
             return *this; 
         }
 
+        static const SectionType& NullSection() {
+            static SectionType nullSection;
+            return nullSection;
+        }
+
         static const SourceMapType& NullSourceMap() {
-            static const SourceMapType nullSourceMap;
+            static SourceMapType nullSourceMap;
             return nullSourceMap;
         }
 
@@ -107,10 +113,7 @@ namespace drafter {
         }
 
         SectionInfoCollection(const T& collection, const snowcrash::SourceMap<T>& sourceMaps)
-        //SectionInfoCollection(const SectionInfo<T>& sectionInfo)
         {
-            //const T& collection = sectionInfo.section;
-            //const snowcrash::SourceMap<T>& sourceMaps = sectionInfo.sourceMap;
 
             if (collection.size() == sourceMaps.collection.size()) {
                 sections = Zip<CollectionType>(collection, sourceMaps.collection, SectionInfoCollection::MakeSectionInfo<typename T::value_type>);
