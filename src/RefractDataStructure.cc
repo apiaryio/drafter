@@ -357,8 +357,8 @@ namespace drafter {
 
         template<bool dummy>
         struct Store<ValueCollectionType, dummy> { // values, primitives
-            void operator()(ValueCollectionType& storage, const typename T::ValueType& v) {
-                storage.push_back(v);
+            void operator()(ValueCollectionType& storage, const typename T::ValueType& value) {
+                storage.push_back(value);
             }
         };
 
@@ -375,12 +375,12 @@ namespace drafter {
         struct Fetch {  // primitive values
 
             template <typename S>
-            void operator()(S& storage, const SectionInfo<mson::ValueMember>& vm) {
-                if (vm.section.valueDefinition.values.size() > 1) {
-                    throw std::logic_error("For primitive types is just one value supported");
-                } 
+            void operator()(S& storage, const SectionInfo<mson::ValueMember>& valueMember) {
+                if (valueMember.section.valueDefinition.values.size() > 1) {
+                    throw snowcrash::Error("only one value is supported for primitive types", snowcrash::MSONError);
+                }
 
-                const mson::Value& value = *vm.section.valueDefinition.values.begin();
+                const mson::Value& value = *valueMember.section.valueDefinition.values.begin();
 
                 Store<S>()(storage, LiteralTo<U>(value.literal));
             }
@@ -390,11 +390,11 @@ namespace drafter {
         struct Fetch<RefractElements, dummy> { // Array|Object
 
             template <typename S>
-            void operator()(S& storage, const SectionInfo<mson::ValueMember>& vm) {
-                const mson::BaseTypeName type = SelectNestedTypeSpecification(vm.section.valueDefinition.typeDefinition.typeSpecification.nestedTypes);
+            void operator()(S& storage, const SectionInfo<mson::ValueMember>& valueMember) {
+                const mson::BaseTypeName type = SelectNestedTypeSpecification(valueMember.section.valueDefinition.typeDefinition.typeSpecification.nestedTypes);
 
                 RefractElementFactory& elementFactory = FactoryFromType(type);
-                const mson::Values& values = vm.section.valueDefinition.values;
+                const mson::Values& values = valueMember.section.valueDefinition.values;
 
                 RefractElements elements;
 
@@ -411,11 +411,11 @@ namespace drafter {
         struct FetchSourceMap {  // primitive values
 
             template <typename S>
-            void operator()(S& storage, const SectionInfo<mson::ValueMember>& vm) {
+            void operator()(S& storage, const SectionInfo<mson::ValueMember>& valueMember) {
 
                 snowcrash::SourceMap<typename T::ValueType> sourceMap = SectionInfo<typename T::ValueType>::NullSourceMap();
-                if (vm.hasSourceMap()) {
-                    sourceMap.sourceMap = vm.sourceMap.valueDefinition.sourceMap;
+                if (valueMember.hasSourceMap()) {
+                    sourceMap.sourceMap = valueMember.sourceMap.valueDefinition.sourceMap;
                 }
 
                 storage.push_back(sourceMap);
@@ -424,17 +424,17 @@ namespace drafter {
 
         template<typename X, bool dummy = true>
         struct InjectNestedTypeInfo {
-            void operator()(const SectionInfo<mson::ValueMember>& vm, ValueCollectionType&) {
+            void operator()(const SectionInfo<mson::ValueMember>&, ValueCollectionType&) {
                 // do nothing
             }
         };
 
         template<bool dummy>
         struct InjectNestedTypeInfo<RefractElements, dummy> {
-            void operator()(const SectionInfo<mson::ValueMember>& vm, ValueCollectionType& values) {
+            void operator()(const SectionInfo<mson::ValueMember>& valueMember, ValueCollectionType& values) {
                 // inject type info into arrays [ "type", {}, {}, null ]
-                const mson::TypeNames& nestedTypes = vm.section.valueDefinition.typeDefinition.typeSpecification.nestedTypes;
-                if (!nestedTypes.empty() && GetType(vm.section.valueDefinition) != mson::EnumTypeName) {
+                const mson::TypeNames& nestedTypes = valueMember.section.valueDefinition.typeDefinition.typeSpecification.nestedTypes;
+                if (!nestedTypes.empty() && GetType(valueMember.section.valueDefinition) != mson::EnumTypeName) {
 
                     RefractElements types;
                     for (mson::TypeNames::const_iterator it = nestedTypes.begin() ; it != nestedTypes.end(); ++it) {
@@ -449,20 +449,20 @@ namespace drafter {
 
         template<typename X, bool dummy = true>
         struct InjectNestedTypeInfoSourceMaps {
-            void operator()(const SectionInfo<mson::ValueMember>& vm, std::vector<snowcrash::SourceMap<typename T::ValueType> >&) {
+            void operator()(const SectionInfo<mson::ValueMember>&, std::vector<snowcrash::SourceMap<typename T::ValueType> >&) {
             }
         };
 
         template<bool dummy>
         struct InjectNestedTypeInfoSourceMaps<RefractElements, dummy> {
-            void operator()(const SectionInfo<mson::ValueMember>& vm, std::vector<snowcrash::SourceMap<typename T::ValueType> >& values) {
+            void operator()(const SectionInfo<mson::ValueMember>& valueMember, std::vector<snowcrash::SourceMap<typename T::ValueType> >& values) {
                 // inject type info into arrays [ "type", {}, {}, null ]
-                const mson::TypeNames& nestedTypes = vm.section.valueDefinition.typeDefinition.typeSpecification.nestedTypes;
+                const mson::TypeNames& nestedTypes = valueMember.section.valueDefinition.typeDefinition.typeSpecification.nestedTypes;
 
-                if (!nestedTypes.empty() && GetType(vm.section.valueDefinition) != mson::EnumTypeName) {
+                if (!nestedTypes.empty() && GetType(valueMember.section.valueDefinition) != mson::EnumTypeName) {
                     snowcrash::SourceMap<typename T::ValueType> sourceMap = SectionInfo<typename T::ValueType>::NullSourceMap();
-                    if (vm.hasSourceMap()) {
-                        sourceMap.sourceMap = vm.sourceMap.valueDefinition.sourceMap;
+                    if (valueMember.hasSourceMap()) {
+                        sourceMap.sourceMap = valueMember.sourceMap.valueDefinition.sourceMap;
                     }
 
                     values.push_back(sourceMap);
@@ -486,35 +486,35 @@ namespace drafter {
 
         ExtractValueMember(ElementData<T>& data, const mson::BaseTypeName) : data(data) {}
 
-        void operator ()(const SectionInfo<mson::ValueMember>& vm)
+        void operator ()(const SectionInfo<mson::ValueMember>& valueMember)
         {
             Fetch<typename T::ValueType> fetch;
             FetchSourceMap<typename T::ValueType> fetchSourceMap;
 
-            if (!vm.section.valueDefinition.values.empty()) {
-                mson::TypeAttributes attrs = vm.section.valueDefinition.typeDefinition.attributes;
-                const mson::Value& value = *vm.section.valueDefinition.values.begin();
+            if (!valueMember.section.valueDefinition.values.empty()) {
+                mson::TypeAttributes attrs = valueMember.section.valueDefinition.typeDefinition.attributes;
+                const mson::Value& value = *valueMember.section.valueDefinition.values.begin();
 
                 if (attrs & mson::DefaultTypeAttribute) {
-                    fetch(data.defaults, vm);
+                    fetch(data.defaults, valueMember);
                 }
                 else if ((attrs & mson::SampleTypeAttribute) || IsValueVariable<typename T::ValueType>()(value)) {
-                    fetch(data.samples, vm);
+                    fetch(data.samples, valueMember);
                 }
                 else {
-                    fetch(data.values, vm);
-                    fetchSourceMap(data.valuesSourceMap, vm);
+                    fetch(data.values, valueMember);
+                    fetchSourceMap(data.valuesSourceMap, valueMember);
                 }
             }
 
-            if (!vm.section.description.empty()) {
-                data.descriptions.push_back(vm.section.description);
-                data.descriptionsSourceMap.push_back(vm.sourceMap.description);
+            if (!valueMember.section.description.empty()) {
+                data.descriptions.push_back(valueMember.section.description);
+                data.descriptionsSourceMap.push_back(valueMember.sourceMap.description);
             }
 
-            if (vm.section.valueDefinition.values.empty() || (vm.section.valueDefinition.typeDefinition.typeSpecification.nestedTypes.size() > 1)) {
-                InjectNestedTypeInfo<typename T::ValueType>()(vm, data.values);
-                InjectNestedTypeInfoSourceMaps<typename T::ValueType>()(vm, data.valuesSourceMap);
+            if (valueMember.section.valueDefinition.values.empty() || (valueMember.section.valueDefinition.typeDefinition.typeSpecification.nestedTypes.size() > 1)) {
+                InjectNestedTypeInfo<typename T::ValueType>()(valueMember, data.values);
+                InjectNestedTypeInfoSourceMaps<typename T::ValueType>()(valueMember, data.valuesSourceMap);
             }
         }
     };
@@ -996,7 +996,7 @@ namespace drafter {
                 break;
 
             default:
-                throw std::runtime_error("Unhandled type of DataStructure");
+                throw snowcrash::Error("unknown type of data structure", snowcrash::MSONError);
         }
 
         return element;
