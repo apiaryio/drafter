@@ -50,7 +50,7 @@ namespace drafter {
 
         void operator()(const SectionInfo<ValueType>& value)
         {
-            for_each(value.section.begin(), value.section.end(), std::bind1st(std::mem_fun(&ElementType::push_back), element));
+            std::for_each(value.section.begin(), value.section.end(), std::bind1st(std::mem_fun(&ElementType::push_back), element));
         }
     };
 
@@ -186,7 +186,6 @@ namespace drafter {
         //std::transform(elements.begin(), elements.end(),
         //               std::back_inserter(result),
         //               std::bind2nd(std::ptr_fun(MsonElementToRefract), nestedTypeName));
-        //
 
         SectionInfoCollection<mson::Elements> elementsSectionInfo(elements.section, elements.sourceMap);
         

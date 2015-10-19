@@ -94,9 +94,9 @@ namespace drafter {
         RenderFormat renderFormat = JSONSchemaRenderFormat;
 
         if (!payload.section.schema.empty() || payload.section.attributes.empty() || renderFormat == UndefinedRenderFormat) {
-            return payload.section.schema;
+            return schema;
         }
 
-        return payload.section.schema;
+        return schema;
     }
 }

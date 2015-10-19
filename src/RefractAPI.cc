@@ -197,13 +197,10 @@ namespace drafter {
         refract::IElement* element = NULL;
 
         if (parameter.section.values.empty()) {
-            element = refract::IElement::Create(LiteralTo<T>(parameter.section.exampleValue));
-            AttachSourceMap(element, MAKE_SECTION_INFO(parameter, exampleValue));
+            element = LiteralToRefract<T>(MAKE_SECTION_INFO(parameter, exampleValue));
 
             if (!parameter.section.defaultValue.empty()) {
-                refract::IElement* defaultElement = refract::IElement::Create(LiteralTo<T>(parameter.section.defaultValue));
-                AttachSourceMap(defaultElement, MAKE_SECTION_INFO(parameter, defaultValue));
-                element->attributes[SerializeKey::Default] = defaultElement;
+                element->attributes[SerializeKey::Default] = PrimitiveToRefract(MAKE_SECTION_INFO(parameter, defaultValue));
             }
         }
         else {
@@ -291,7 +288,10 @@ namespace drafter {
         if (action.isNull() || action.section.method.empty()) {
             element->element(SerializeKey::HTTPResponse);
 
-            if (!payload.isNull()) {
+            // FIXME: tests pass without commented out part of condition 
+            // delivery test to see this part is required else remove it
+            // related discussion: https://github.com/apiaryio/drafter/pull/148/files#r42275194
+            if (!payload.isNull() /* && !payload.section.name.empty() */) {
                 element->attributes[SerializeKey::StatusCode] = PrimitiveToRefract(MAKE_SECTION_INFO(payload, name));
             }
         }
@@ -372,7 +372,9 @@ namespace drafter {
         }
 
         if (!action.section.uriTemplate.empty()) {
-            // FIXME: This doues not chnge rendering, do we have exammple with uriTemplate?
+            // FIXME: There is no differece between output with original code and new one
+            // probably there is no example with uriTemplate
+            // original code: element->attributes[SerializeKey::Href] = refract::IElement::Create(action.uriTemplate);
             element->attributes[SerializeKey::Href] = PrimitiveToRefract(MAKE_SECTION_INFO(action, uriTemplate));
         }
 
