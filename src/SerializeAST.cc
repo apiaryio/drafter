@@ -453,7 +453,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     }
 
     return dataStructureObject;
-#endif
+#else
 
     // Element
     dataStructureObject.set(SerializeKey::Element, ElementClassToString(Element::DataStructureElement));
@@ -469,6 +469,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
                             WrapCollection<mson::TypeSection>()(dataStructure.sections, WrapTypeSection));
 
     return dataStructureObject;
+#endif
 }
 
 sos::Object WrapAsset(const Asset& asset, const AssetRole& role)

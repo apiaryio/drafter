@@ -75,7 +75,6 @@ namespace drafter {
             }
 
             SectionInfoCollection<C> sectionInfoCollection(collection.section, collection.sourceMap);
-
             std::transform(sectionInfoCollection.begin(), sectionInfoCollection.end(), std::back_inserter(content), transformFunctor);
 
             element->set(content);
@@ -112,26 +111,6 @@ namespace drafter {
                 GetNamedTypesRegistry().add(element);
             }
         }
-    }
-
-    refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure, bool expand)
-    {
-       refract::IElement* msonElement = MSONToRefract(MakeSectionInfoWithoutSourceMap(dataStructure));
-
-       if (expand) {
-           refract::IElement* msonExpanded = ExpandRefract(msonElement, GetNamedTypesRegistry());
-           msonElement = msonExpanded;
-       }
-
-       if (!msonElement) {
-           return NULL;
-       }
-
-       refract::ObjectElement* element = new refract::ObjectElement;
-       element->element(SerializeKey::DataStructure);
-       element->push_back(msonElement);
-
-       return element;
     }
 
     refract::IElement* DataStructureToRefract(const SectionInfo<snowcrash::DataStructure>& dataStructure, bool expand)
@@ -237,7 +216,6 @@ namespace drafter {
     refract::IElement* ParameterToRefract(const SectionInfo<snowcrash::Parameter>& parameter)
     {
         refract::MemberElement* element = new refract::MemberElement;
-
         refract::IElement *value = NULL;
 
         // Parameter type, exampleValue, defaultValue, values
@@ -540,8 +518,8 @@ namespace drafter {
         RefractElements content;
 
         ast->element(SerializeKey::Category);
-        ast->meta[SerializeKey::Classes] = CreateArrayElement(SerializeKey::API);
 
+        ast->meta[SerializeKey::Classes] = CreateArrayElement(SerializeKey::API);
         ast->meta[SerializeKey::Title] = PrimitiveToRefract(MAKE_SECTION_INFO(blueprint, name));
 
         content.push_back(CopyToRefract(MAKE_SECTION_INFO(blueprint, description)));

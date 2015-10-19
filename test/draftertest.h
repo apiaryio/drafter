@@ -102,7 +102,6 @@ namespace draftertest {
           return output.str().c_str();
         }
 
-        //static bool handleBlueprintJSON(const std::string& basepath, drafter::ASTType astType = drafter::NormalASTType, bool expand = false, bool mustBeOk = true) {
         static bool handleBlueprintJSON(const std::string& basepath, const drafter::WrappingContext& context, bool mustBeOk = true) {
             ITFixtureFiles fixture = ITFixtureFiles(basepath);
 
@@ -121,8 +120,6 @@ namespace draftertest {
 
             std::stringstream outStream;
             sos::SerializeJSON serializer;
-
-            snowcrash::SourceMap<snowcrash::Blueprint>* sourceMap = NULL;
 
             serializer.process(drafter::WrapBlueprint(blueprint, context), outStream);
             outStream << "\n";

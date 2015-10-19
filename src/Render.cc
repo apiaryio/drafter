@@ -44,13 +44,11 @@ namespace drafter {
         Asset body = payload.section.body;
         RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.section.headers));
 
-        //Attributes attributes = payload.section.attributes;
         SectionInfo<Attributes> payloadAttributes = MAKE_SECTION_INFO(payload, attributes);
         SectionInfo<Attributes> actionAttributes = MAKE_SECTION_INFO(action, attributes);
 
         // hold attributes via pointer - because problems with assignment in SectionInfo<>
         SectionInfo<Attributes>* attributes = &payloadAttributes;
-
 
         if (payload.section.attributes.empty() && !action.isNull() && !action.section.attributes.empty()) {
            attributes = &actionAttributes;
@@ -71,7 +69,6 @@ namespace drafter {
                     return body;
                 }
 
-
                 refract::IElement* expanded = ExpandRefract(element, registry);
 
                 if (!expanded) {
@@ -83,7 +80,6 @@ namespace drafter {
                 delete expanded;
 
                 return renderer.getString();
-
             }
 
             default:

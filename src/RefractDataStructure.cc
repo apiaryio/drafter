@@ -19,6 +19,7 @@ namespace drafter {
         typedef T ElementType;
         typedef V ValueType;
         ElementType*& element;
+
         Append(ElementType*& e) : element(e)
         {
         }
@@ -52,7 +53,6 @@ namespace drafter {
             for_each(value.section.begin(), value.section.end(), std::bind1st(std::mem_fun(&ElementType::push_back), element));
         }
     };
-
 
     typedef std::vector<refract::IElement*> RefractElements;
 
@@ -272,7 +272,8 @@ namespace drafter {
             }
         };
 
-        template <typename U, bool dummy = true> struct FetchTypeDefinition;
+        template <typename U, bool dummy = true>
+        struct FetchTypeDefinition;
 
         template<bool dummy>
         struct FetchTypeDefinition<snowcrash::DataStructure, dummy> {
@@ -321,8 +322,8 @@ namespace drafter {
                     // FIXME: handle this by specialization for **Primitives**
                     // rewrite it to similar way to ExtractValueMember
                     if (!ts.section.content.elements().empty()) { 
-                      data.values.push_back(fetch(ts, defaultNestedType));
-                      data.valuesSourceMap.push_back(fetchSourceMap(ts, defaultNestedType));
+                        data.values.push_back(fetch(ts, defaultNestedType));
+                        data.valuesSourceMap.push_back(fetchSourceMap(ts, defaultNestedType));
                     }
                     break;
 
@@ -412,8 +413,8 @@ namespace drafter {
 
             template <typename S>
             void operator()(S& storage, const SectionInfo<mson::ValueMember>& valueMember) {
-
                 snowcrash::SourceMap<typename T::ValueType> sourceMap = SectionInfo<typename T::ValueType>::NullSourceMap();
+
                 if (valueMember.hasSourceMap()) {
                     sourceMap.sourceMap = valueMember.sourceMap.valueDefinition.sourceMap;
                 }
@@ -461,6 +462,7 @@ namespace drafter {
 
                 if (!nestedTypes.empty() && GetType(valueMember.section.valueDefinition) != mson::EnumTypeName) {
                     snowcrash::SourceMap<typename T::ValueType> sourceMap = SectionInfo<typename T::ValueType>::NullSourceMap();
+
                     if (valueMember.hasSourceMap()) {
                         sourceMap.sourceMap = valueMember.sourceMap.valueDefinition.sourceMap;
                     }
@@ -518,7 +520,6 @@ namespace drafter {
             }
         }
     };
-
 
     namespace
     {
@@ -606,7 +607,7 @@ namespace drafter {
         void TransformElementData(T* element, ElementData<T>& data, bool hasSourceMap) {
 
             if (data.values.size() != data.valuesSourceMap.size()) {
-                throw std::logic_error("Internal: count of source maps is not equal to count of elements");
+                throw snowcrash::Error("count of source maps is not equal to count of elements");
             }
 
             typedef std::vector<SectionInfo< typename T::ValueType> > ValueSectionInfoCollection;
@@ -623,7 +624,6 @@ namespace drafter {
     template<typename T>
     refract::IElement* DescriptionToRefract(const ElementData<T>& data) 
     {
-
         if (data.descriptions.empty()) {
             return NULL;
         }
@@ -765,6 +765,7 @@ namespace drafter {
                    descriptionRef.append("\n");
                    addNewLine = false;
                }
+
                join(it->section.content.description);
                sourceMap.sourceMap.append(it->sourceMap.description.sourceMap);
            }

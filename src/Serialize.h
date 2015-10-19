@@ -23,6 +23,8 @@
 #define AST_SERIALIZATION_VERSION "4.0"
 #define PARSE_RESULT_SERIALIZATION_VERSION "2.2"
 
+#define MAKE_SECTION_INFO(from, member) MakeSectionInfo(from.section.member, from.sourceMap.member, from.hasSourceMap())
+
 namespace drafter {
 
     enum ASTType {
@@ -35,9 +37,9 @@ namespace drafter {
 
     template<typename T>
     struct SectionInfo {
-        typedef SectionInfo<T> Type;
         typedef T SectionType;
-        typedef snowcrash::SourceMap<SectionType> SourceMapType;
+        typedef SectionInfo<T> Type;
+        typedef snowcrash::SourceMap<T> SourceMapType;
 
         const SectionType& section;
         const SourceMapType& sourceMap;
@@ -82,14 +84,11 @@ namespace drafter {
         return SectionInfo<T>(section, hasSourceMap ? sourceMap : SectionInfo<T>::NullSourceMap());
     }
 
-
     template <typename T>
     SectionInfo<T> MakeSectionInfoWithoutSourceMap(const T& section)
     {
         return SectionInfo<T>(section, SectionInfo<T>::NullSourceMap());
     }
-
-#define MAKE_SECTION_INFO(from, member) MakeSectionInfo(from.section.member, from.sourceMap.member, from.hasSourceMap())
 
     template<typename ResultType, typename Collection1, typename Collection2, typename BinOp>
     ResultType Zip(const Collection1& collection1, const Collection2& collection2, const BinOp& Combinator) {
@@ -121,9 +120,7 @@ namespace drafter {
                                std::back_inserter(*this), 
                                MakeSectionInfoWithoutSourceMap<typename T::value_type>);
             }
-            
         }
-
     };
 
     /**
