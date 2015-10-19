@@ -29,6 +29,7 @@
         "src/stream.h",
         "src/Version.h",
 
+        "src/NodeInfo.h",
         "src/Serialize.h",
         "src/Serialize.cc",
         "src/SerializeAST.h",
