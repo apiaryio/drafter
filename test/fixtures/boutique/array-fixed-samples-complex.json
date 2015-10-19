@@ -1,0 +1,192 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": "Resource"
+              },
+              "attributes": {
+                "href": "/example"
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": "Action"
+                  },
+                  "attributes": {
+                    "data": {
+                      "element": "dataStructure",
+                      "content": [
+                        {
+                          "element": "object",
+                          "content": [
+                            {
+                              "element": "member",
+                              "attributes": {
+                                "typeAttributes": [
+                                  "fixed"
+                                ]
+                              },
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "tags"
+                                },
+                                "value": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "hello"
+                                    },
+                                    {
+                                      "element": "number",
+                                      "attributes": {
+                                        "samples": [
+                                          42
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "element": "object",
+                                      "content": [
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "name"
+                                            },
+                                            "value": {
+                                              "element": "string",
+                                              "attributes": {
+                                                "samples": [
+                                                  "snow"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "color"
+                                            },
+                                            "value": {
+                                              "element": "string",
+                                              "content": "white"
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "description"
+                                            },
+                                            "value": {
+                                              "element": "string"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "element": "string",
+                                      "content": "world"
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": "messageBody"
+                              },
+                              "content": "{\n  \"tags\": [\n    \"hello\",\n    42,\n    {\n      \"name\": \"snow\",\n      \"color\": \"white\",\n      \"description\": null\n    },\n    \"world\"\n  ]\n}\n"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": "messageBodySchema"
+                              },
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"tags\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\",\n          \"enum\": [\"hello\"]\n        },\n        {\n          \"type\": \"number\"\n        },\n        {\n          \"type\": \"object\",\n          \"properties\": {\n            \"name\": {\n              \"type\": \"string\"\n            },\n            \"color\": {\n              \"type\": \"string\",\n              \"enum\": [\"white\"]\n            },\n            \"description\": {\n              \"type\": \"string\"\n            }\n          },\n          \"additionalProperties\": false,\n          \"required\": [\"name\", \"color\", \"description\"]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\"world\"]\n        }\n      ]\n    }\n  },\n  \"required\": [\"tags\"]\n}\n"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
