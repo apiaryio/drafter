@@ -767,6 +767,10 @@ namespace drafter {
         if (!ds.name.symbol.literal.empty()) {
             element->meta[SerializeKey::Id] = IElement::Create(ds.name.symbol.literal);
         }
+        
+        if(ds.typeDefinition.typeSpecification.nestedTypes.size() >= 1) {
+            element->meta[SerializeKey::Id] = IElement::Create(ds.typeDefinition.typeSpecification.nestedTypes[0].symbol.literal);
+        }
 
         ElementData<T> data;
 
