@@ -245,28 +245,31 @@ namespace drafter {
 
         template <typename U, bool dummy = true>
         struct Fetch {
-            U operator()(const NodeInfo<mson::TypeSection>& t, const mson::BaseTypeName& defaultNestedType) {
-                return LiteralTo<U>(t.node.content.value);
+            U operator()(const NodeInfo<mson::TypeSection>& typeSection, const mson::BaseTypeName& defaultNestedType) {
+                return LiteralTo<U>(typeSection.node.content.value);
             }
         };
 
         template<bool dummy>
         struct Fetch<RefractElements, dummy> {
-            RefractElements operator()(const NodeInfo<mson::TypeSection>& t, const mson::BaseTypeName& defaultNestedType) {
-                return MsonElementsToRefract(MakeNodeInfo(t.node.content.elements(), t.sourceMap.elements(), t.hasSourceMap()), defaultNestedType);
+            RefractElements operator()(const NodeInfo<mson::TypeSection>& typeSection, const mson::BaseTypeName& defaultNestedType) {
+                return MsonElementsToRefract(MakeNodeInfo(typeSection.node.content.elements(),
+                                                          typeSection.sourceMap.elements(), 
+                                                          typeSection.hasSourceMap()),
+                                             defaultNestedType);
             }
         };
 
         template <typename U, bool dummy = true>
         struct FetchSourceMap {
-            snowcrash::SourceMap<U> operator()(const NodeInfo<mson::TypeSection>& t, const mson::BaseTypeName& defaultNestedType) {
+            snowcrash::SourceMap<U> operator()(const NodeInfo<mson::TypeSection>& typeSection, const mson::BaseTypeName& defaultNestedType) {
                 // conversion of source map from "string" into "typed" sourcemap
-                if (!t.hasSourceMap()) {
+                if (!typeSection.hasSourceMap()) {
                     return NodeInfo<U>::NullSourceMap();
                 }
 
                 snowcrash::SourceMap<U> sourceMap;
-                sourceMap.sourceMap = t.sourceMap.value.sourceMap;
+                sourceMap.sourceMap = typeSection.sourceMap.value.sourceMap;
                 return sourceMap;
             }
         };
@@ -276,23 +279,23 @@ namespace drafter {
 
         template<bool dummy>
         struct FetchTypeDefinition<snowcrash::DataStructure, dummy> {
-            const mson::TypeDefinition& operator()(const snowcrash::DataStructure& ds) {
-                return ds.typeDefinition;
+            const mson::TypeDefinition& operator()(const snowcrash::DataStructure& dataStructure) {
+                return dataStructure.typeDefinition;
             }
         };
 
         template<bool dummy>
         struct FetchTypeDefinition<mson::ValueMember, dummy> {
-            const mson::TypeDefinition& operator()(const mson::ValueMember& vm) {
-                return vm.valueDefinition.typeDefinition;
+            const mson::TypeDefinition& operator()(const mson::ValueMember& valueMember) {
+                return valueMember.valueDefinition.typeDefinition;
             }
         };
 
         template<typename V>
         struct Store {
-            void operator()(RefractElements& elements, const V& v) {
+            void operator()(RefractElements& elements, const V& value) {
                 T* element = new T;
-                element->set(v);
+                element->set(value);
                 elements.push_back(element);
             }
         };
@@ -306,12 +309,12 @@ namespace drafter {
             defaultNestedType(SelectNestedTypeSpecification(FetchTypeDefinition<U>()(sectionHolder.node).typeSpecification.nestedTypes))
         {}
 
-        void operator()(const NodeInfo<mson::TypeSection>& ts) {
+        void operator()(const NodeInfo<mson::TypeSection>& typeSection) {
             Fetch<ValueType> fetch;
             FetchSourceMap<ValueType> fetchSourceMap;
             Store<ValueType> store;
 
-            switch (ts.node.klass) {
+            switch (typeSection.node.klass) {
 
                 case mson::TypeSection::MemberTypeClass:
                     // Primitives should not contain members
@@ -320,23 +323,23 @@ namespace drafter {
                     //
                     // FIXME: handle this by specialization for **Primitives**
                     // rewrite it to similar way to ExtractValueMember
-                    if (!ts.node.content.elements().empty()) { 
-                        data.values.push_back(fetch(ts, defaultNestedType));
-                        data.valuesSourceMap.push_back(fetchSourceMap(ts, defaultNestedType));
+                    if (!typeSection.node.content.elements().empty()) { 
+                        data.values.push_back(fetch(typeSection, defaultNestedType));
+                        data.valuesSourceMap.push_back(fetchSourceMap(typeSection, defaultNestedType));
                     }
                     break;
 
                 case mson::TypeSection::SampleClass:
-                    store(data.samples, fetch(ts, defaultNestedType));
+                    store(data.samples, fetch(typeSection, defaultNestedType));
                     break;
 
                 case mson::TypeSection::DefaultClass:
-                    store(data.defaults, fetch(ts, defaultNestedType));
+                    store(data.defaults, fetch(typeSection, defaultNestedType));
                     break;
 
                 case mson::TypeSection::BlockDescriptionClass:
-                    data.descriptions.push_back(ts.node.content.description);
-                    data.descriptionsSourceMap.push_back(ts.sourceMap.description);
+                    data.descriptions.push_back(typeSection.node.content.description);
+                    data.descriptionsSourceMap.push_back(typeSection.sourceMap.description);
                     break;
 
                 default:
