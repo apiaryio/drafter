@@ -88,15 +88,8 @@ namespace drafter {
     template <typename T>
     refract::ArrayElement* CreateArrayElement(const T& content, bool rFull)
     {
-        refract::ArrayElement* array = new refract::ArrayElement;
         refract::IElement* value = refract::IElement::Create(content);
-
-        if (rFull) {
-            value->renderType(refract::IElement::rFull);
-        }
-
-        array->push_back(value);
-        return array;
+        return CreateArrayElement(value);
     }
 
     void RegisterNamedTypes(const snowcrash::Elements& elements)
