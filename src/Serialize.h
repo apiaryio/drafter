@@ -33,6 +33,11 @@ namespace drafter {
         UnknownASTType = -1
     };
 
+    enum SerializeFormat {
+        JsonFormat,
+        YamlFormat
+    };
+
     refract::Registry& GetNamedTypesRegistry();
 
     /**

@@ -1,4 +1,5 @@
 //
+//
 // vi:cin:et:sw=4 ts=4
 //
 //  config.cc - part of drafter
@@ -13,16 +14,17 @@
 #include "Version.h"
 
 namespace config {
-    static const std::string Program        = "drafter";
+    static const std::string Program          = "drafter";
 
-    static const std::string Output         = "output";
-    static const std::string Format         = "format";
-    static const std::string Type           = "type";
-    static const std::string Render         = "render";
-    static const std::string Sourcemap      = "sourcemap";
-    static const std::string Validate       = "validate";
-    static const std::string Version        = "version";
-    static const std::string UseLineNumbers = "use-line-num";
+    static const std::string Output           = "output";
+    static const std::string Format           = "format";
+    static const std::string Type             = "type";
+    static const std::string Render           = "render";
+    static const std::string Sourcemap        = "sourcemap";
+    static const std::string RefractSourceMap = "refract-sourcemap";
+    static const std::string Validate         = "validate";
+    static const std::string Version          = "version";
+    static const std::string UseLineNumbers   = "use-line-num";
 };
 
 void PrepareCommanLineParser(cmdline::parser& parser)
@@ -33,6 +35,7 @@ void PrepareCommanLineParser(cmdline::parser& parser)
     parser.add<std::string>(config::Format,    'f', "output format of the AST (yaml|json)", false, "yaml", cmdline::oneof<std::string>("yaml", "json"));
     parser.add<std::string>(config::Type,      't', "type of the AST (refract|ast)", false, "refract", cmdline::oneof<std::string>("refract", "ast"));
     parser.add<std::string>(config::Sourcemap, 's', "export sourcemap AST into file", false);
+    parser.add(config::RefractSourceMap,       'r', "produce sourcemap for refract AST");
     parser.add("help",                         'h', "display this help message");
     parser.add(config::Version ,               'v', "print Drafter version");
     parser.add(config::Validate,               'l', "validate input only, do not print AST");
@@ -47,7 +50,7 @@ void PrepareCommanLineParser(cmdline::parser& parser)
     parser.footer(ss.str());
 }
 
-void ValidateParsedCommandLine(const cmdline::parser& parser)
+void ValidateParsedCommandLine(const cmdline::parser& parser, const Config& config)
 {
     if (parser.rest().size() > 1) {
         std::cerr << "one input file expected, got " << parser.rest().size() << std::endl;
@@ -59,11 +62,16 @@ void ValidateParsedCommandLine(const cmdline::parser& parser)
         exit(EXIT_SUCCESS);
     }
 
-    if (parser.exist(config::Validate)) {
+    if (config.validate) {
         if (parser.exist(config::Sourcemap) || parser.exist(config::Output)) {
             std::cerr << "WARN: While validation is enabled, source map and output files will not be created" << std::endl;
         }
     }
+
+    if (config.astType == drafter::RefractASTType && !parser.get<std::string>(config::Sourcemap).empty()) {
+        std::cerr << "WARN: source map output to file for refract AST type is not supported" << std::endl;
+    }
+
 }
 
 void ParseCommadLineOptions(int argc, const char *argv[], /* out */Config& conf)
@@ -73,16 +81,34 @@ void ParseCommadLineOptions(int argc, const char *argv[], /* out */Config& conf)
 
     parser.parse_check(argc, argv);
 
-    ValidateParsedCommandLine(parser);
 
     if (!parser.rest().empty()) {
         conf.input = parser.rest().front();
     }
 
-    conf.lineNumbers = parser.exist(config::UseLineNumbers);
-    conf.validate    = parser.exist(config::Validate);
-    conf.format      = parser.get<std::string>(config::Format);
-    conf.astType     = parser.get<std::string>(config::Type);
-    conf.output      = parser.get<std::string>(config::Output);
-    conf.sourceMap   = parser.get<std::string>(config::Sourcemap);
+    conf.lineNumbers      = parser.exist(config::UseLineNumbers);
+    conf.validate         = parser.exist(config::Validate);
+    conf.format           = parser.get<std::string>(config::Format) == "yaml" ? drafter::YamlFormat : drafter::JsonFormat;
+    conf.astType          = parser.get<std::string>(config::Type) == "ast" ? drafter::NormalASTType : drafter::RefractASTType ;
+    conf.output           = parser.get<std::string>(config::Output);
+    conf.sourceMap        = parser.get<std::string>(config::Sourcemap);
+    conf.refractSourceMap = parser.exist(config::RefractSourceMap);
+
+
+    //  source map generating logic 
+    //  (s - sourcemap, r - refract sourcemap)
+    //  ast type: | AST | REFRACT
+    //  ----------+-----+---------
+    //  opt: -s   | s,r | r
+    //  ----------+-----+---------
+    //  opt: -r   |     | r
+
+    if (!conf.sourceMap.empty()) {
+        conf.refractSourceMap = true;
+        if (conf.refractSourceMap && conf.astType == drafter::RefractASTType) {
+            conf.sourceMap.clear();
+        }
+    } 
+
+    ValidateParsedCommandLine(parser, conf);
 }
