@@ -7,17 +7,17 @@
     "title": {
       "element": "string",
       "attributes": {
-        "sourceMap": {
-          "element": "sourceMap",
-          "content": [
-            [
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
               [
                 12,
                 13
               ]
             ]
-          ]
-        }
+          }
+        ]
       },
       "content": "<API name>"
     }
@@ -32,17 +32,17 @@
           ]
         },
         "attributes": {
-          "sourceMap": {
-            "element": "sourceMap",
-            "content": [
-              [
+          "sourceMap": [
+            {
+              "element": "sourceMap",
+              "content": [
                 [
                   0,
                   12
                 ]
               ]
-            ]
-          }
+            }
+          ]
         },
         "content": {
           "key": {
@@ -61,17 +61,17 @@
     {
       "element": "copy",
       "attributes": {
-        "sourceMap": {
-          "element": "sourceMap",
-          "content": [
-            [
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
               [
                 25,
                 19
               ]
             ]
-          ]
-        }
+          }
+        ]
       },
       "content": "<API description>\n\n"
     },
@@ -84,17 +84,17 @@
         "title": {
           "element": "string",
           "attributes": {
-            "sourceMap": {
-              "element": "sourceMap",
-              "content": [
-                [
+            "sourceMap": [
+              {
+                "element": "sourceMap",
+                "content": [
                   [
                     44,
                     30
                   ]
                 ]
-              ]
-            }
+              }
+            ]
           },
           "content": "<resource group name>"
         }
@@ -103,17 +103,17 @@
         {
           "element": "copy",
           "attributes": {
-            "sourceMap": {
-              "element": "sourceMap",
-              "content": [
-                [
+            "sourceMap": [
+              {
+                "element": "sourceMap",
+                "content": [
                   [
                     74,
                     30
                   ]
                 ]
-              ]
-            }
+              }
+            ]
           },
           "content": "<resource group description>\n\n"
         },
@@ -123,17 +123,17 @@
             "title": {
               "element": "string",
               "attributes": {
-                "sourceMap": {
-                  "element": "sourceMap",
-                  "content": [
-                    [
+                "sourceMap": [
+                  {
+                    "element": "sourceMap",
+                    "content": [
                       [
                         104,
                         43
                       ]
                     ]
-                  ]
-                }
+                  }
+                ]
               },
               "content": "<resource name>"
             }
@@ -142,17 +142,17 @@
             "href": {
               "element": "string",
               "attributes": {
-                "sourceMap": {
-                  "element": "sourceMap",
-                  "content": [
-                    [
+                "sourceMap": [
+                  {
+                    "element": "sourceMap",
+                    "content": [
                       [
                         104,
                         43
                       ]
                     ]
-                  ]
-                }
+                  }
+                ]
               },
               "content": "/resource/{parameter}"
             },
@@ -165,17 +165,17 @@
                     "description": {
                       "element": "string",
                       "attributes": {
-                        "sourceMap": {
-                          "element": "sourceMap",
-                          "content": [
-                            [
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
                               [
                                 516,
                                 88
                               ]
                             ]
-                          ]
-                        }
+                          }
+                        ]
                       },
                       "content": "<description>"
                     }
@@ -189,17 +189,17 @@
                     "key": {
                       "element": "string",
                       "attributes": {
-                        "sourceMap": {
-                          "element": "sourceMap",
-                          "content": [
-                            [
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
                               [
                                 516,
                                 88
                               ]
                             ]
-                          ]
-                        }
+                          }
+                        ]
                       },
                       "content": "parameter"
                     },
@@ -211,17 +211,17 @@
                             {
                               "element": "string",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         516,
                                         88
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": "<example value1>"
                             }
@@ -231,17 +231,17 @@
                           {
                             "element": "string",
                             "attributes": {
-                              "sourceMap": {
-                                "element": "sourceMap",
-                                "content": [
-                                  [
+                              "sourceMap": [
+                                {
+                                  "element": "sourceMap",
+                                  "content": [
                                     [
                                       516,
                                       88
                                     ]
                                   ]
-                                ]
-                              }
+                                }
+                              ]
                             },
                             "content": "<default value1>"
                           }
@@ -251,51 +251,51 @@
                         {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     634,
                                     21
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "<default value2>"
                         },
                         {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     667,
                                     21
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "<example value2>"
                         },
                         {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     700,
                                     16
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "<WTF value>"
                         }
@@ -310,17 +310,17 @@
             {
               "element": "copy",
               "attributes": {
-                "sourceMap": {
-                  "element": "sourceMap",
-                  "content": [
-                    [
+                "sourceMap": [
+                  {
+                    "element": "sourceMap",
+                    "content": [
                       [
                         147,
                         24
                       ]
                     ]
-                  ]
-                }
+                  }
+                ]
               },
               "content": "<resource description>\n\n"
             },
@@ -333,17 +333,17 @@
                     "id": {
                       "element": "string",
                       "attributes": {
-                        "sourceMap": {
-                          "element": "sourceMap",
-                          "content": [
-                            [
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
                               [
                                 104,
                                 43
                               ]
                             ]
-                          ]
-                        }
+                          }
+                        ]
                       },
                       "content": "<resource name>"
                     }
@@ -358,34 +358,34 @@
                         "key": {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     200,
                                     102
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "<attribute property name>"
                         },
                         "value": {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     200,
                                     102
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "<attribute property value>"
                         }
@@ -401,17 +401,17 @@
                 "title": {
                   "element": "string",
                   "attributes": {
-                    "sourceMap": {
-                      "element": "sourceMap",
-                      "content": [
-                        [
+                    "sourceMap": [
+                      {
+                        "element": "sourceMap",
+                        "content": [
                           [
                             762,
                             42
                           ]
                         ]
-                      ]
-                    }
+                      }
+                    ]
                   },
                   "content": "<action name>"
                 }
@@ -421,17 +421,17 @@
                 "href": {
                   "element": "string",
                   "attributes": {
-                    "sourceMap": {
-                      "element": "sourceMap",
-                      "content": [
-                        [
+                    "sourceMap": [
+                      {
+                        "element": "sourceMap",
+                        "content": [
                           [
                             762,
                             42
                           ]
                         ]
-                      ]
-                    }
+                      }
+                    ]
                   },
                   "content": "/users/{id}/edit"
                 },
@@ -444,17 +444,17 @@
                         "description": {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     872,
                                     86
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "<description>"
                         }
@@ -468,17 +468,17 @@
                         "key": {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     872,
                                     86
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "parameter"
                         },
@@ -490,17 +490,17 @@
                                 {
                                   "element": "string",
                                   "attributes": {
-                                    "sourceMap": {
-                                      "element": "sourceMap",
-                                      "content": [
-                                        [
+                                    "sourceMap": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
                                           [
                                             872,
                                             86
                                           ]
                                         ]
-                                      ]
-                                    }
+                                      }
+                                    ]
                                   },
                                   "content": "<example value>"
                                 }
@@ -510,17 +510,17 @@
                               {
                                 "element": "string",
                                 "attributes": {
-                                  "sourceMap": {
-                                    "element": "sourceMap",
-                                    "content": [
-                                      [
+                                  "sourceMap": [
+                                    {
+                                      "element": "sourceMap",
+                                      "content": [
                                         [
                                           872,
                                           86
                                         ]
                                       ]
-                                    ]
-                                  }
+                                    }
+                                  ]
                                 },
                                 "content": "<default value>"
                               }
@@ -530,34 +530,34 @@
                             {
                               "element": "string",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         988,
                                         20
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": "<default value>"
                             },
                             {
                               "element": "string",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1020,
                                         20
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": "<example value>"
                             }
@@ -572,17 +572,17 @@
                 {
                   "element": "copy",
                   "attributes": {
-                    "sourceMap": {
-                      "element": "sourceMap",
-                      "content": [
-                        [
+                    "sourceMap": [
+                      {
+                        "element": "sourceMap",
+                        "content": [
                           [
                             804,
                             22
                           ]
                         ]
-                      ]
-                    }
+                      }
+                    ]
                   },
                   "content": "<action description>\n\n"
                 },
@@ -595,34 +595,34 @@
                         "method": {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     762,
                                     42
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "POST"
                         },
                         "title": {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     1088,
                                     37
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "<request name>"
                         },
@@ -632,17 +632,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         732,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -658,17 +658,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1056,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -684,17 +684,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1088,
                                         37
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -710,17 +710,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1175,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -740,17 +740,17 @@
                         {
                           "element": "copy",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     1129,
                                     22
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "<request description>\n"
                         },
@@ -782,17 +782,17 @@
                         "statusCode": {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     1291,
                                     27
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "200"
                         },
@@ -802,17 +802,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         732,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -828,17 +828,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1056,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -854,17 +854,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1291,
                                         27
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -880,17 +880,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1369,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -910,17 +910,17 @@
                         {
                           "element": "copy",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     1322,
                                     23
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "<response description>\n"
                         },
@@ -957,34 +957,34 @@
                         "method": {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     762,
                                     42
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "POST"
                         },
                         "title": {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     1088,
                                     37
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "<request name>"
                         },
@@ -994,17 +994,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         732,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -1020,17 +1020,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1056,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -1046,17 +1046,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1088,
                                         37
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -1072,17 +1072,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1175,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -1102,17 +1102,17 @@
                         {
                           "element": "copy",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     1129,
                                     22
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "<request description>\n"
                         },
@@ -1144,17 +1144,17 @@
                         "statusCode": {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     1487,
                                     14
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "201"
                         },
@@ -1164,17 +1164,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         732,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -1190,17 +1190,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1056,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -1216,17 +1216,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         369,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -1246,17 +1246,17 @@
                         {
                           "element": "copy",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     316,
                                     29
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "<resource model description>\n"
                         },
@@ -1287,34 +1287,34 @@
                         "method": {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     762,
                                     42
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "POST"
                         },
                         "title": {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     1088,
                                     37
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "<request name>"
                         },
@@ -1324,17 +1324,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         732,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -1350,17 +1350,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1056,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -1376,17 +1376,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1088,
                                         37
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -1402,17 +1402,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1175,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -1432,17 +1432,17 @@
                         {
                           "element": "copy",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     1129,
                                     22
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "<request description>\n"
                         },
@@ -1474,17 +1474,17 @@
                         "statusCode": {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     1528,
                                     32
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "201"
                         },
@@ -1494,17 +1494,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         732,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -1520,17 +1520,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1056,
                                         29
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -1546,17 +1546,17 @@
                             {
                               "element": "member",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1528,
                                         32
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": {
                                 "key": {
@@ -1618,17 +1618,17 @@
                 "id": {
                   "element": "string",
                   "attributes": {
-                    "sourceMap": {
-                      "element": "sourceMap",
-                      "content": [
-                        [
+                    "sourceMap": [
+                      {
+                        "element": "sourceMap",
+                        "content": [
                           [
                             1622,
                             25
                           ]
                         ]
-                      ]
-                    }
+                      }
+                    ]
                   },
                   "content": "<data structure name>"
                 },
@@ -1644,34 +1644,34 @@
                     "key": {
                       "element": "string",
                       "attributes": {
-                        "sourceMap": {
-                          "element": "sourceMap",
-                          "content": [
-                            [
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
                               [
                                 1694,
                                 117
                               ]
                             ]
-                          ]
-                        }
+                          }
+                        ]
                       },
                       "content": "<data structure property name>"
                     },
                     "value": {
                       "element": "string",
                       "attributes": {
-                        "sourceMap": {
-                          "element": "sourceMap",
-                          "content": [
-                            [
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
                               [
                                 1694,
                                 117
                               ]
                             ]
-                          ]
-                        }
+                          }
+                        ]
                       },
                       "content": "<data structure property value>"
                     }
@@ -1683,34 +1683,34 @@
                     "key": {
                       "element": "string",
                       "attributes": {
-                        "sourceMap": {
-                          "element": "sourceMap",
-                          "content": [
-                            [
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
                               [
                                 1813,
                                 18
                               ]
                             ]
-                          ]
-                        }
+                          }
+                        ]
                       },
                       "content": "<id>"
                     },
                     "value": {
                       "element": "number",
                       "attributes": {
-                        "sourceMap": {
-                          "element": "sourceMap",
-                          "content": [
-                            [
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
                               [
                                 1813,
                                 18
                               ]
                             ]
-                          ]
-                        }
+                          }
+                        ]
                       },
                       "content": 5
                     }
@@ -1722,17 +1722,17 @@
                     "key": {
                       "element": "string",
                       "attributes": {
-                        "sourceMap": {
-                          "element": "sourceMap",
-                          "content": [
-                            [
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
                               [
                                 1833,
                                 8
                               ]
                             ]
-                          ]
-                        }
+                          }
+                        ]
                       },
                       "content": "address"
                     },
@@ -1745,17 +1745,17 @@
                             "key": {
                               "element": "string",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1847,
                                         7
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": "street"
                             },
@@ -1770,17 +1770,17 @@
                             "key": {
                               "element": "string",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1860,
                                         5
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": "city"
                             },
@@ -1798,34 +1798,34 @@
                             "key": {
                               "element": "string",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1871,
                                         37
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": "zip"
                             },
                             "value": {
                               "element": "number",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1871,
                                         37
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": 1234
                             }
@@ -1837,17 +1837,17 @@
                             "key": {
                               "element": "string",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1914,
                                         20
                                       ]
                                     ]
-                                  ]
-                                },
+                                  }
+                                ],
                                 "variable": true
                               },
                               "content": "variable"
@@ -1855,17 +1855,17 @@
                             "value": {
                               "element": "string",
                               "attributes": {
-                                "sourceMap": {
-                                  "element": "sourceMap",
-                                  "content": [
-                                    [
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
                                       [
                                         1914,
                                         20
                                       ]
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               },
                               "content": "trololo"
                             }
@@ -1884,17 +1884,17 @@
                     "key": {
                       "element": "string",
                       "attributes": {
-                        "sourceMap": {
-                          "element": "sourceMap",
-                          "content": [
-                            [
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
                               [
                                 1936,
                                 34
                               ]
                             ]
-                          ]
-                        }
+                          }
+                        ]
                       },
                       "content": "array"
                     },
@@ -1904,51 +1904,51 @@
                         {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     1976,
                                     2
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "3"
                         },
                         {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     1984,
                                     2
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "4"
                         },
                         {
                           "element": "string",
                           "attributes": {
-                            "sourceMap": {
-                              "element": "sourceMap",
-                              "content": [
-                                [
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
                                   [
                                     1992,
                                     2
                                   ]
                                 ]
-                              ]
-                            }
+                              }
+                            ]
                           },
                           "content": "5"
                         }
@@ -1965,17 +1965,17 @@
                     "key": {
                       "element": "string",
                       "attributes": {
-                        "sourceMap": {
-                          "element": "sourceMap",
-                          "content": [
-                            [
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
                               [
                                 1996,
                                 35
                               ]
                             ]
-                          ]
-                        }
+                          }
+                        ]
                       },
                       "content": "inline array"
                     },
@@ -2004,10 +2004,10 @@
                     "description": {
                       "element": "string",
                       "attributes": {
-                        "sourceMap": {
-                          "element": "sourceMap",
-                          "content": [
-                            [
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
                               [
                                 2079,
                                 22
@@ -2017,8 +2017,8 @@
                                 19
                               ]
                             ]
-                          ]
-                        }
+                          }
+                        ]
                       },
                       "content": "some dummy text\n\nand it continue there\nand will end there\n"
                     }
@@ -2027,17 +2027,17 @@
                     "key": {
                       "element": "string",
                       "attributes": {
-                        "sourceMap": {
-                          "element": "sourceMap",
-                          "content": [
-                            [
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
                               [
                                 2033,
                                 42
                               ]
                             ]
-                          ]
-                        }
+                          }
+                        ]
                       },
                       "content": "multilined description"
                     },

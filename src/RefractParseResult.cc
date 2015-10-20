@@ -13,43 +13,16 @@ namespace drafter {
 
     typedef std::vector<refract::IElement*> RefractElements;
 
-    static refract::IElement* SourceMapRowToRefract(const mdp::CharactersRange& sourceMap)
-    {
-        refract::ArrayElement* element = new refract::ArrayElement;
-
-        element->push_back(refract::IElement::Create((int) sourceMap.location));
-        element->push_back(refract::IElement::Create((int) sourceMap.length));
-
-        return element;
-    }
-
-    static refract::IElement* SourceMapToRefract(const mdp::CharactersRangeSet& sourceMap)
-    {
-        refract::ArrayElement* element = new refract::ArrayElement;
-        RefractElements content;
-
-        element->element(SerializeKey::SourceMap);
-
-        std::transform(sourceMap.begin(), sourceMap.end(), std::back_inserter(content), SourceMapRowToRefract);
-
-        element->renderType(refract::IElement::rCompactContent);
-        element->set(content);
-
-        return element;
-    }
-
     refract::IElement* AnnotationToRefract(const snowcrash::SourceAnnotation& annotation, bool isError)
     {
         refract::IElement* element = refract::IElement::Create(annotation.message);
 
         element->element(SerializeKey::Annotation);
+
         element->meta[SerializeKey::Classes] = CreateArrayElement(isError ? SerializeKey::Error : SerializeKey::Warning);
 
-        refract::ArrayElement* sourceMap = new refract::ArrayElement;
-        sourceMap->push_back(SourceMapToRefract(annotation.location));
-
         element->attributes[SerializeKey::AnnotationCode] = refract::IElement::Create(annotation.code);
-        element->attributes[SerializeKey::SourceMap] = sourceMap;
+        element->attributes[SerializeKey::SourceMap] = SourceMapToRefract(annotation.location);
 
         return element;
     }

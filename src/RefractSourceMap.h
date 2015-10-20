@@ -13,28 +13,8 @@
 
 namespace drafter {
 
-    refract::IElement* BytesRangeToRefract(const mdp::BytesRange& bytesRange);
 
-    template<typename T>
-    refract::IElement* SourceMapToRefract(const T& sourceMap) 
-    {
-        refract::ArrayElement* element = new refract::ArrayElement;
-        element->element(SerializeKey::SourceMap);
-
-        element->renderType(refract::IElement::rCompactContent);
-
-        refract::ArrayElement* sourceMapElement = new refract::ArrayElement;
-        sourceMapElement->element(SerializeKey::SourceMap);
-
-        std::vector<refract::IElement*> ranges;
-        std::transform(sourceMap.begin(), sourceMap.end(), std::back_inserter(ranges), BytesRangeToRefract);
-
-        sourceMapElement->set(ranges);
-
-        element->push_back(sourceMapElement);
-
-        return element;
-    }
+    refract::IElement* SourceMapToRefract(const mdp::CharactersRangeSet& sourceMap);
 
     template<typename T>
     void AttachSourceMap(refract::IElement* element, const T& sectionInfo) 

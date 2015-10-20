@@ -11,6 +11,7 @@
 
 #include "Serialize.h"
 #include "SectionProcessor.h"
+#include "RefractSourceMap.h"
 
 namespace drafter {
 
