@@ -2,7 +2,7 @@
 //  NodeInfo.h
 //  drafter
 //
-//  Created by Jiri Kratochvi on 20-10-2005.
+//  Created by Jiri Kratochvil on 20-10-2005.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
@@ -12,36 +12,36 @@
 
 #include "BlueprintSourcemap.h"
 
-#define MAKE_SECTION_INFO(from, member) MakeSectionInfo(from.section.member, from.sourceMap.member, from.hasSourceMap())
+#define MAKE_NODE_INFO(from, member) MakeNodeInfo(from.node.member, from.sourceMap.member, from.hasSourceMap())
 
 namespace drafter {
 
     template<typename T>
-    struct SectionInfo {
-        typedef T SectionType;
-        typedef SectionInfo<T> Type;
+    struct NodeInfo {
+        typedef T NodeType;
+        typedef NodeInfo<T> Type;
         typedef snowcrash::SourceMap<T> SourceMapType;
 
-        const SectionType& section;
+        const NodeType& node;
         const SourceMapType& sourceMap;
         const bool empty;
 
-        SectionInfo(const SectionType& section, const SourceMapType& sourceMap) : section(section), sourceMap(sourceMap), empty(false) {}
-        SectionInfo() : section(Type::NullSection()), sourceMap(Type::NullSourceMap()), empty(true) {}
+        NodeInfo(const NodeType& node, const SourceMapType& sourceMap) : node(node), sourceMap(sourceMap), empty(false) {}
+        NodeInfo() : node(Type::NullNode()), sourceMap(Type::NullSourceMap()), empty(true) {}
 
         /**
-         * BE CAREFUL while assign SectionInfo it probably will not work as you expected
-         * but we need this to allow store SectionInfo in containers
+         * BE CAREFUL while assign NodeInfo it probably will not work as you expected
+         * but we need this to allow store NodeInfo in containers
          *
-         * alternative solution is store `section` and `sourceMap` in C++11 smart pointers
+         * alternative solution is store `node` and `sourceMap` in C++11 smart pointers
          */
-        SectionInfo<T>& operator=(const SectionInfo<T>& other) { 
+        NodeInfo<T>& operator=(const NodeInfo<T>& other) { 
             return *this; 
         }
 
-        static const SectionType& NullSection() {
-            static SectionType nullSection;
-            return nullSection;
+        static const NodeType& NullNode() {
+            static NodeType nullNode;
+            return nullNode;
         }
 
         static const SourceMapType& NullSourceMap() {
@@ -60,15 +60,15 @@ namespace drafter {
     };
 
     template <typename T>
-    SectionInfo<T> MakeSectionInfo(const T& section, const snowcrash::SourceMap<T>& sourceMap, const bool hasSourceMap)
+    NodeInfo<T> MakeNodeInfo(const T& node, const snowcrash::SourceMap<T>& sourceMap, const bool hasSourceMap)
     {
-        return SectionInfo<T>(section, hasSourceMap ? sourceMap : SectionInfo<T>::NullSourceMap());
+        return NodeInfo<T>(node, hasSourceMap ? sourceMap : NodeInfo<T>::NullSourceMap());
     }
 
     template <typename T>
-    SectionInfo<T> MakeSectionInfoWithoutSourceMap(const T& section)
+    NodeInfo<T> MakeNodeInfoWithoutSourceMap(const T& node)
     {
-        return SectionInfo<T>(section, SectionInfo<T>::NullSourceMap());
+        return NodeInfo<T>(node, NodeInfo<T>::NullSourceMap());
     }
 
     template<typename ResultType, typename Collection1, typename Collection2, typename BinOp>
@@ -79,27 +79,27 @@ namespace drafter {
     }
 
     template<typename T>
-    struct SectionInfoCollection  : public std::vector<SectionInfo<typename T::value_type> > {
-        typedef SectionInfoCollection<T> SelfType;
-        typedef std::vector<SectionInfo<typename T::value_type> > CollectionType;
+    struct NodeInfoCollection  : public std::vector<NodeInfo<typename T::value_type> > {
+        typedef NodeInfoCollection<T> SelfType;
+        typedef std::vector<NodeInfo<typename T::value_type> > CollectionType;
 
         template <typename U>
-        static SectionInfo<U> MakeSectionInfo(const U& section, const snowcrash::SourceMap<U>& sourceMap)
+        static NodeInfo<U> MakeNodeInfo(const U& node, const snowcrash::SourceMap<U>& sourceMap)
         {
-            return SectionInfo<U>(section, sourceMap);
+            return NodeInfo<U>(node, sourceMap);
         }
 
-        SectionInfoCollection(const T& collection, const snowcrash::SourceMap<T>& sourceMaps)
+        NodeInfoCollection(const T& collection, const snowcrash::SourceMap<T>& sourceMaps)
         {
 
             if (collection.size() == sourceMaps.collection.size()) {
-                CollectionType sections = Zip<CollectionType>(collection, sourceMaps.collection, SectionInfoCollection::MakeSectionInfo<typename T::value_type>);
-                std::copy(sections.begin(), sections.end(), std::back_inserter(*this));
+                CollectionType nodes = Zip<CollectionType>(collection, sourceMaps.collection, NodeInfoCollection::MakeNodeInfo<typename T::value_type>);
+                std::copy(nodes.begin(), nodes.end(), std::back_inserter(*this));
             }
             else {
                 std::transform(collection.begin(), collection.end(), 
                                std::back_inserter(*this), 
-                               MakeSectionInfoWithoutSourceMap<typename T::value_type>);
+                               MakeNodeInfoWithoutSourceMap<typename T::value_type>);
             }
         }
     };

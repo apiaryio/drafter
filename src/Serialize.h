@@ -25,8 +25,6 @@
 #define AST_SERIALIZATION_VERSION "4.0"
 #define PARSE_RESULT_SERIALIZATION_VERSION "2.2"
 
-#define MAKE_SECTION_INFO(from, member) MakeSectionInfo(from.section.member, from.sourceMap.member, from.hasSourceMap())
-
 namespace drafter {
 
     enum ASTType {

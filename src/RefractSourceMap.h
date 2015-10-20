@@ -47,11 +47,11 @@ namespace drafter {
     }
 
     template<typename T>
-    refract::IElement* PrimitiveToRefract(const SectionInfo<T>& sectionInfo)
+    refract::IElement* PrimitiveToRefract(const NodeInfo<T>& sectionInfo)
     {
         typedef typename refract::ElementTypeSelector<T>::ElementType ElementType;
 
-        ElementType* element = refract::IElement::Create(sectionInfo.section);
+        ElementType* element = refract::IElement::Create(sectionInfo.node);
 
         AttachSourceMap(element, sectionInfo);
 
@@ -59,9 +59,9 @@ namespace drafter {
     }
 
     template<typename T>
-    refract::IElement* LiteralToRefract(const SectionInfo<std::string>& sectionInfo)
+    refract::IElement* LiteralToRefract(const NodeInfo<std::string>& sectionInfo)
     {
-        refract::IElement* element = refract::IElement::Create(LiteralTo<T>(sectionInfo.section));
+        refract::IElement* element = refract::IElement::Create(LiteralTo<T>(sectionInfo.node));
 
         AttachSourceMap(element, sectionInfo);
 

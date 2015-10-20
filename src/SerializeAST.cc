@@ -445,7 +445,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     sos::Object dataStructureObject;
 
 #if _WITH_REFRACT_
-    refract::IElement *element = DataStructureToRefract(MakeSectionInfoWithoutSourceMap(dataStructure), ExpandMSON);
+    refract::IElement *element = DataStructureToRefract(MakeNodeInfoWithoutSourceMap(dataStructure), ExpandMSON);
     dataStructureObject = SerializeRefract(element);
 
     if (element) {
@@ -512,8 +512,8 @@ sos::Object WrapPayload(const Payload& payload, const Action* action = NULL)
     payloadObject.set(SerializeKey::Headers,
                       WrapCollection<Header>()(payload.headers, WrapHeader));
 
-    snowcrash::Asset payloadBody = renderPayloadBody(MakeSectionInfoWithoutSourceMap(payload), action ? MakeSectionInfoWithoutSourceMap(*action) : SectionInfo<Action>(), GetNamedTypesRegistry());
-    snowcrash::Asset payloadSchema = renderPayloadSchema(MakeSectionInfoWithoutSourceMap(payload));
+    snowcrash::Asset payloadBody = renderPayloadBody(MakeNodeInfoWithoutSourceMap(payload), action ? MakeNodeInfoWithoutSourceMap(*action) : NodeInfo<Action>(), GetNamedTypesRegistry());
+    snowcrash::Asset payloadSchema = renderPayloadSchema(MakeNodeInfoWithoutSourceMap(payload));
 
     // Body
     payloadObject.set(SerializeKey::Body, sos::String(payloadBody));
@@ -773,7 +773,7 @@ bool IsElementResourceGroup(const Element& element)
 sos::Object WrapBlueprintRefract(const snowcrash::ParseResult<Blueprint>& blueprint, const WrappingContext& context)
 {
     
-    SectionInfo<Blueprint> section = MakeSectionInfo(blueprint.node, blueprint.sourceMap, context.exportSourceMap);
+    NodeInfo<Blueprint> section = MakeNodeInfo(blueprint.node, blueprint.sourceMap, context.exportSourceMap);
 
     refract::IElement* element = BlueprintToRefract(section);
     sos::Object blueprintObject = SerializeRefract(element);

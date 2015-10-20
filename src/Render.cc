@@ -40,21 +40,21 @@ namespace drafter {
         return "";
     }
 
-    Asset renderPayloadBody(const SectionInfo<Payload>& payload, const SectionInfo<Action>& action, const refract::Registry& registry) {
-        Asset body = payload.section.body;
-        RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.section.headers));
+    Asset renderPayloadBody(const NodeInfo<Payload>& payload, const NodeInfo<Action>& action, const refract::Registry& registry) {
+        Asset body = payload.node.body;
+        RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node.headers));
 
-        SectionInfo<Attributes> payloadAttributes = MAKE_SECTION_INFO(payload, attributes);
-        SectionInfo<Attributes> actionAttributes = MAKE_SECTION_INFO(action, attributes);
+        NodeInfo<Attributes> payloadAttributes = MAKE_NODE_INFO(payload, attributes);
+        NodeInfo<Attributes> actionAttributes = MAKE_NODE_INFO(action, attributes);
 
-        // hold attributes via pointer - because problems with assignment in SectionInfo<>
-        SectionInfo<Attributes>* attributes = &payloadAttributes;
+        // hold attributes via pointer - because problems with assignment in NodeInfo<>
+        NodeInfo<Attributes>* attributes = &payloadAttributes;
 
-        if (payload.section.attributes.empty() && !action.isNull() && !action.section.attributes.empty()) {
+        if (payload.node.attributes.empty() && !action.isNull() && !action.node.attributes.empty()) {
            attributes = &actionAttributes;
         }
 
-        if (!payload.section.body.empty() || attributes->section.empty() || renderFormat == UndefinedRenderFormat) {
+        if (!payload.node.body.empty() || attributes->node.empty() || renderFormat == UndefinedRenderFormat) {
             return body;
         }
 
@@ -89,11 +89,11 @@ namespace drafter {
         return body;
     }
 
-    Asset renderPayloadSchema(const SectionInfo<Payload>& payload) {
-        Asset schema = payload.section.schema;
+    Asset renderPayloadSchema(const NodeInfo<Payload>& payload) {
+        Asset schema = payload.node.schema;
         RenderFormat renderFormat = JSONSchemaRenderFormat;
 
-        if (!payload.section.schema.empty() || payload.section.attributes.empty() || renderFormat == UndefinedRenderFormat) {
+        if (!payload.node.schema.empty() || payload.node.attributes.empty() || renderFormat == UndefinedRenderFormat) {
             return schema;
         }
 

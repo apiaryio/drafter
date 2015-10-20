@@ -67,9 +67,9 @@ namespace drafter {
 
         element->element(SerializeKey::ParseResult);
 
-        snowcrash::SourceMap<snowcrash::Blueprint> nullSourceMap = SectionInfo<snowcrash::Blueprint>::NullSourceMap() ;
+        snowcrash::SourceMap<snowcrash::Blueprint> nullSourceMap = NodeInfo<snowcrash::Blueprint>::NullSourceMap() ;
 
-        SectionInfo<snowcrash::Blueprint> sectionBlueprint(blueprint.node, nullSourceMap);
+        NodeInfo<snowcrash::Blueprint> sectionBlueprint(blueprint.node, nullSourceMap);
         content.push_back(BlueprintToRefract((sectionBlueprint)));
 
         if (blueprint.report.error.code != snowcrash::Error::OK) {
