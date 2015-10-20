@@ -353,6 +353,7 @@ namespace drafter {
     { 
         typedef T ElementType;
         typedef typename ElementData<T>::ValueCollectionType ValueCollectionType;
+        typedef typename ElementData<T>::ValueSourceMapCollectionType ValueSourceMapCollectionType;
 
         ElementData<T>& data;
 
@@ -452,13 +453,13 @@ namespace drafter {
 
         template<typename X, bool dummy = true>
         struct InjectNestedTypeInfoSourceMaps {
-            void operator()(const NodeInfo<mson::ValueMember>&, std::vector<snowcrash::SourceMap<typename T::ValueType> >&) {
+            void operator()(const NodeInfo<mson::ValueMember>&, ValueSourceMapCollectionType&) {
             }
         };
 
         template<bool dummy>
         struct InjectNestedTypeInfoSourceMaps<RefractElements, dummy> {
-            void operator()(const NodeInfo<mson::ValueMember>& valueMember, std::vector<snowcrash::SourceMap<typename T::ValueType> >& values) {
+            void operator()(const NodeInfo<mson::ValueMember>& valueMember, ValueSourceMapCollectionType& values) {
                 // inject type info into arrays [ "type", {}, {}, null ]
                 const mson::TypeNames& nestedTypes = valueMember.node.valueDefinition.typeDefinition.typeSpecification.nestedTypes;
 
@@ -596,9 +597,9 @@ namespace drafter {
         }
 
         template <typename T>
-        struct MakeNodeInfo_ {
+        struct MakeNodeInfoFunctor {
             const bool hasSourceMap;
-            MakeNodeInfo_(bool hasSourceMap) : hasSourceMap(hasSourceMap) {}
+            MakeNodeInfoFunctor(bool hasSourceMap) : hasSourceMap(hasSourceMap) {}
 
             NodeInfo<T> operator()(const T& v, const snowcrash::SourceMap<T>& sm) {
                 return MakeNodeInfo<T>(v, sm, hasSourceMap);
@@ -613,7 +614,7 @@ namespace drafter {
             }
 
             typedef std::vector<NodeInfo< typename T::ValueType> > ValueNodeInfoCollection;
-            ValueNodeInfoCollection valuesNodeInfo = Zip<ValueNodeInfoCollection>(data.values, data.valuesSourceMap, MakeNodeInfo_<typename T::ValueType>(hasSourceMap));
+            ValueNodeInfoCollection valuesNodeInfo = Zip<ValueNodeInfoCollection>(data.values, data.valuesSourceMap, MakeNodeInfoFunctor<typename T::ValueType>(hasSourceMap));
 
             std::for_each(valuesNodeInfo.begin(), valuesNodeInfo.end(), Append<T>(element));
 
