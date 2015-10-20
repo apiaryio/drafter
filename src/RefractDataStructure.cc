@@ -26,11 +26,13 @@ namespace drafter {
 
         void operator()(const NodeInfo<ValueType>& value)
         {
-            //throw std::logic_error("Can not append to primitive type");
             // FIXME: snowcrash warn about "Primitive type can not have member"
             // but in real it create "empty" member
             //
             // solution for now: set if element has no already value, otherwise silently ignore
+            //
+            //throw snowcrash::Error("can not append to primitive type", snowcrash::MSONError);
+           
             if (element->empty()) {
                 element->set(value.node);
                 AttachSourceMap(element, value);
@@ -640,9 +642,9 @@ namespace drafter {
         element->set(description);
 
         snowcrash::SourceMap<std::string> sourceMap;
-        typedef typename std::vector<snowcrash::SourceMap<std::string> >::const_iterator iterator;
+        typedef typename std::vector<snowcrash::SourceMap<std::string> >::const_iterator Iterator;
 
-        for (iterator it = data.descriptionsSourceMap.begin() ; it != data.descriptionsSourceMap.end() ; ++it) {
+        for (Iterator it = data.descriptionsSourceMap.begin() ; it != data.descriptionsSourceMap.end() ; ++it) {
             // FIXME: sourcemaps comming from snowcrash are empty there 
             sourceMap.sourceMap.append(it->sourceMap);
         }

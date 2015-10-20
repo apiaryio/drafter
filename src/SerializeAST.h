@@ -10,7 +10,7 @@
 #define DRAFTER_SERIALIZEAST_H
 
 #include "Serialize.h"
-#include "SectionProcessor.h" // from Blueprint
+#include "SectionProcessor.h"
 
 namespace drafter {
 
