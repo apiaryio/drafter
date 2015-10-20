@@ -12,7 +12,8 @@
 
 #include "BlueprintSourcemap.h"
 
-#define MAKE_NODE_INFO(from, member) MakeNodeInfo(from.node.member, from.sourceMap.member, from.hasSourceMap())
+#define NODE_INFO(from, member) from.node.member, from.sourceMap.member
+#define MAKE_NODE_INFO(from, member) MakeNodeInfo(NODE_INFO(from, member), from.hasSourceMap())
 
 namespace drafter {
 
@@ -87,6 +88,22 @@ namespace drafter {
         static NodeInfo<U> MakeNodeInfo(const U& node, const snowcrash::SourceMap<U>& sourceMap)
         {
             return NodeInfo<U>(node, sourceMap);
+        }
+
+        NodeInfoCollection(const NodeInfo<T>& nodeInfo)
+        {
+            const T& collection = nodeInfo.node;
+            const snowcrash::SourceMap<T>& sourceMaps = nodeInfo.sourceMap;
+
+            if (collection.size() == sourceMaps.collection.size()) {
+                CollectionType nodes = Zip<CollectionType>(collection, sourceMaps.collection, NodeInfoCollection::MakeNodeInfo<typename T::value_type>);
+                std::copy(nodes.begin(), nodes.end(), std::back_inserter(*this));
+            }
+            else {
+                std::transform(collection.begin(), collection.end(), 
+                               std::back_inserter(*this), 
+                               MakeNodeInfoWithoutSourceMap<typename T::value_type>);
+            }
         }
 
         NodeInfoCollection(const T& collection, const snowcrash::SourceMap<T>& sourceMaps)

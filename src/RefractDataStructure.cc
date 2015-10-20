@@ -187,7 +187,7 @@ namespace drafter {
         //               std::back_inserter(result),
         //               std::bind2nd(std::ptr_fun(MsonElementToRefract), nestedTypeName));
 
-        NodeInfoCollection<mson::Elements> elementsNodeInfo(elements.node, elements.sourceMap);
+        NodeInfoCollection<mson::Elements> elementsNodeInfo(elements);
         
         for (NodeInfoCollection<mson::Elements>::const_iterator it = elementsNodeInfo.begin() ; it != elementsNodeInfo.end() ; ++it) {
             result.push_back(MsonElementToRefract(*it, defaultNestedType));
@@ -670,7 +670,7 @@ namespace drafter {
 
         SetElementType(element, value.node.valueDefinition.typeDefinition);
 
-        NodeInfoCollection<mson::TypeSections> typeSections(value.node.sections, value.sourceMap.sections);
+        NodeInfoCollection<mson::TypeSections> typeSections(MAKE_NODE_INFO(value, sections));
 
         std::for_each(typeSections.begin(), typeSections.end(), ExtractTypeSection<T>(data, value));
         
@@ -759,7 +759,7 @@ namespace drafter {
             addNewLine = true;
         }
 
-        NodeInfoCollection<mson::TypeSections> typeSections(property.node.sections, property.sourceMap.sections);
+        NodeInfoCollection<mson::TypeSections> typeSections(MAKE_NODE_INFO(property, sections));
 
         for (NodeInfoCollection<mson::TypeSections>::const_iterator it = typeSections.begin() ; it != typeSections.end(); ++it) {
            if (it->node.klass == mson::TypeSection::BlockDescriptionClass) {
@@ -872,7 +872,7 @@ namespace drafter {
         refract::ArrayElement* select = new refract::ArrayElement;
         select->element(SerializeKey::Select);
 
-        NodeInfoCollection<mson::OneOf> oneOfNodeInfo(oneOf.node, oneOf.sourceMap);
+        NodeInfoCollection<mson::OneOf> oneOfNodeInfo(oneOf);
 
         for (NodeInfoCollection<mson::OneOf>::const_iterator it = oneOfNodeInfo.begin(); it != oneOfNodeInfo.end(); ++it) {
             refract::ArrayElement* option = new refract::ArrayElement;
@@ -952,7 +952,7 @@ namespace drafter {
 
         ElementData<T> data;
 
-        NodeInfoCollection<mson::TypeSections> typeSections(ds.node.sections, ds.sourceMap.sections);
+        NodeInfoCollection<mson::TypeSections> typeSections(MAKE_NODE_INFO(ds, sections));
 
         std::for_each(typeSections.begin(), typeSections.end(), ExtractTypeSection<T>(data, ds));
 

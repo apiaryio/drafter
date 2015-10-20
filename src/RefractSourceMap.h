@@ -13,7 +13,6 @@
 
 namespace drafter {
 
-
     refract::IElement* BytesRangeToRefract(const mdp::BytesRange& bytesRange);
 
     template<typename T>
