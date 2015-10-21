@@ -2,6 +2,7 @@
 #define DRAFTER_DRAFTERTEST_H
 
 #include "catch.hpp"
+#include "dtl.hpp"
 
 #include <string>
 #include <cstring>
@@ -24,6 +25,10 @@
 }
 
 namespace draftertest {
+    const std::string ExtRefract = ".json";
+    const std::string ExtRefractSourceMap = ".sourcemap.json";
+    const std::string ExtAst = ".ast.json";
+    const std::string ExtAstSourceMap = ".ast.sourcemap.json";
 
     class ITFixtureFiles {
 
@@ -67,6 +72,31 @@ namespace draftertest {
     };
 
     struct FixtureHelper {
+        static const char *printDiff(const std::string& actual, const std::string& expected) {
+          // First, convert strings into arrays of lines.
+          std::vector <std::string> actualLines, expectedLines;
+
+          std::stringstream actualStream(actual.c_str());
+          std::stringstream expectedStream(expected.c_str());
+          std::stringstream output;
+          std::string buf;
+
+          while(getline(actualStream, buf)) {
+            actualLines.push_back(buf);
+          }
+
+          while(getline(expectedStream, buf)) {
+            expectedLines.push_back(buf);
+          }
+
+          // Now, diff the arrays of lines and save the output.
+          dtl::Diff <std::string> d(actualLines, expectedLines);
+          d.compose();
+          d.composeUnifiedHunks();
+          d.printUnifiedFormat(output);
+
+          return output.str().c_str();
+        }
 
         static bool handleBlueprintJSON(const std::string& basepath, drafter::ASTType astType = drafter::NormalASTType, bool expand = false, bool mustBeOk = true) {
             ITFixtureFiles fixture = ITFixtureFiles(basepath);
@@ -108,30 +138,35 @@ namespace draftertest {
             serializer.process(drafter::WrapResult(blueprint, options, astType), outStream);
             outStream << "\n";
 
-            std::string output = outStream.str();
+            std::string actual = outStream.str();
+            std::string expected;
+            std::string extension;
             bool matches = false;
 
             if (astType == drafter::RefractASTType) {
               if (sourceMap) {
-                matches = output == fixture.get(".sourcemap.json");
+                extension = ExtRefractSourceMap;
               } else {
-                matches = output == fixture.get(".json");
+                extension = ExtRefract;
               }
             } else {
               if (sourceMap) {
-                matches = output == fixture.get(".ast.sourcemap.json");
+                extension = ExtAstSourceMap;
               } else {
-                matches = output == fixture.get(".ast.json");
+                extension = ExtAst;
               }
             }
 
-            if (!matches) {
-              // If the two don't match, then output the parsed result to help
-              // with debugging the differences.
-              FAIL(output);
+            INFO("Filename: \x1b[35m" << basepath << extension << "\x1b[0m");
+            expected = fixture.get(extension);
+
+            if (actual != expected) {
+              // If the two don't match, then output the diff.
+              const char *diff = FixtureHelper::printDiff(actual, expected);
+              FAIL(diff);
             }
 
-            return matches;
+            return actual == expected;
         }
     };
 }
