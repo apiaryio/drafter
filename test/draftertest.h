@@ -11,6 +11,18 @@
 #include "SerializeResult.h"
 #include "sosJSON.h"
 
+#define TEST_REFRACT(category, name) TEST_CASE("Testing refract serialization for " category " " name, "[refract][" category "]") { \
+  FixtureHelper::handleResultJSON("test/fixtures/" category "/" name); \
+}
+
+#define TEST_AST(category, name) TEST_CASE("Testing AST serialization for " category " " name, "[ast][" category "]") { \
+  FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, drafter::NormalASTType); \
+}
+
+#define TEST_AST_SOURCE_MAP(category, name) TEST_CASE("Testing AST + source map serialization for " category " " name, "[ast][" category "]") { \
+  FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, drafter::NormalASTType, true); \
+}
+
 namespace draftertest {
 
     class ITFixtureFiles {
@@ -75,11 +87,16 @@ namespace draftertest {
             return (outStream.str() == fixture.get(".json"));
         }
 
-        static bool handleResultJSON(const std::string& basepath, bool mustBeOk = false) {
+        static bool handleResultJSON(const std::string& basepath, drafter::ASTType astType = drafter::RefractASTType, bool sourceMap = false, bool mustBeOk = false) {
             ITFixtureFiles fixture = ITFixtureFiles(basepath);
+            int options = 0;
+
+            if (sourceMap) {
+              options |= snowcrash::ExportSourcemapOption;
+            }
 
             snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
-            int result = snowcrash::parse(fixture.get(".apib"), 0, blueprint);
+            int result = snowcrash::parse(fixture.get(".apib"), options, blueprint);
 
             if (mustBeOk) {
                 REQUIRE(result == snowcrash::Error::OK);
@@ -88,10 +105,33 @@ namespace draftertest {
             std::stringstream outStream;
             sos::SerializeJSON serializer;
 
-            serializer.process(drafter::WrapResult(blueprint, 0, drafter::RefractASTType), outStream);
+            serializer.process(drafter::WrapResult(blueprint, options, astType), outStream);
             outStream << "\n";
 
-            return (outStream.str() == fixture.get(".json"));
+            std::string output = outStream.str();
+            bool matches = false;
+
+            if (astType == drafter::RefractASTType) {
+              if (sourceMap) {
+                matches = output == fixture.get(".sourcemap.json");
+              } else {
+                matches = output == fixture.get(".json");
+              }
+            } else {
+              if (sourceMap) {
+                matches = output == fixture.get(".ast.sourcemap.json");
+              } else {
+                matches = output == fixture.get(".ast.json");
+              }
+            }
+
+            if (!matches) {
+              // If the two don't match, then output the parsed result to help
+              // with debugging the differences.
+              FAIL(output);
+            }
+
+            return matches;
         }
     };
 }
