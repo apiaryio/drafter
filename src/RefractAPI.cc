@@ -247,7 +247,7 @@ namespace drafter {
         element->meta[SerializeKey::Classes] = refract::ArrayElement::Create(metaClass);
 
         if (!contentType.empty()) {
-            // FIXME: has SourceMap?
+            // FIXME: has "contentType" SourceMap?
             element->attributes[SerializeKey::ContentType] = refract::IElement::Create(contentType);
         }
 
@@ -342,8 +342,12 @@ namespace drafter {
         element->meta[SerializeKey::Title] = PrimitiveToRefract(MAKE_NODE_INFO(action, name));
 
         if (!action.node.relation.str.empty()) {
-            // FIXME: add SourceMap
-            element->attributes[SerializeKey::Relation] = refract::IElement::Create(action.node.relation.str);
+            snowcrash::SourceMap<std::string> sourceMap;
+            sourceMap.sourceMap.append(action.sourceMap.relation.sourceMap);
+            const NodeInfo<std::string> relation = MakeNodeInfo(action.node.relation.str,
+                                                               sourceMap,
+                                                               action.hasSourceMap());
+            element->attributes[SerializeKey::Relation] = PrimitiveToRefract(relation);
         }
 
         if (!action.node.uriTemplate.empty()) {

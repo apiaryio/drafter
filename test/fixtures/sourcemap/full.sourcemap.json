@@ -420,7 +420,23 @@
                     }
                   },
                   "attributes": {
-                    "relation": "relation-name",
+                    "relation": {
+                      "element": "string",
+                      "attributes": {
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
+                              [
+                                828,
+                                24
+                              ]
+                            ]
+                          }
+                        ]
+                      },
+                      "content": "relation-name"
+                    },
                     "href": {
                       "element": "string",
                       "attributes": {
