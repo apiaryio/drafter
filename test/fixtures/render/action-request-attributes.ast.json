@@ -1,179 +1,188 @@
 {
-  "_version": "4.0",
-  "metadata": [],
-  "name": "API name",
-  "description": "",
-  "element": "category",
-  "resourceGroups": [
-    {
-      "name": "Users",
-      "description": "",
-      "resources": [
-        {
-          "element": "resource",
-          "name": "User",
-          "description": "",
-          "uriTemplate": "/users",
-          "model": {},
-          "parameters": [],
-          "actions": [
-            {
-              "name": "Create User",
-              "description": "",
-              "method": "POST",
-              "parameters": [],
-              "attributes": {
-                "relation": "",
-                "uriTemplate": ""
-              },
-              "content": [
-                {
-                  "element": "dataStructure",
-                  "content": [
-                    {
-                      "element": "object",
-                      "content": [
-                        {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "username"
-                            },
-                            "value": {
-                              "element": "string",
-                              "content": "pavan"
+  "_version": "2.2",
+  "ast": {
+    "_version": "4.0",
+    "metadata": [],
+    "name": "API name",
+    "description": "",
+    "element": "category",
+    "resourceGroups": [
+      {
+        "name": "Users",
+        "description": "",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "User",
+            "description": "",
+            "uriTemplate": "/users",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "Create User",
+                "description": "",
+                "method": "POST",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [
+                  {
+                    "element": "dataStructure",
+                    "content": [
+                      {
+                        "element": "object",
+                        "content": [
+                          {
+                            "element": "member",
+                            "content": {
+                              "key": {
+                                "element": "string",
+                                "content": "username"
+                              },
+                              "value": {
+                                "element": "string",
+                                "content": "pavan"
+                              }
                             }
                           }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ],
-              "examples": [
-                {
-                  "name": "",
-                  "description": "",
-                  "requests": [
-                    {
-                      "name": "",
-                      "description": "",
-                      "headers": [
-                        {
-                          "name": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "body": "{\n  \"username\": \"pavan\"\n}",
-                      "schema": "",
-                      "content": []
-                    }
-                  ],
-                  "responses": [
-                    {
-                      "name": "204",
-                      "description": "",
-                      "headers": [],
-                      "body": "",
-                      "schema": "",
-                      "content": []
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "content": []
-        }
-      ]
-    }
-  ],
-  "content": [
-    {
-      "element": "category",
-      "attributes": {
-        "name": "Users"
-      },
-      "content": [
-        {
-          "element": "resource",
-          "name": "User",
-          "description": "",
-          "uriTemplate": "/users",
-          "model": {},
-          "parameters": [],
-          "actions": [
-            {
-              "name": "Create User",
-              "description": "",
-              "method": "POST",
-              "parameters": [],
-              "attributes": {
-                "relation": "",
-                "uriTemplate": ""
-              },
-              "content": [
-                {
-                  "element": "dataStructure",
-                  "content": [
-                    {
-                      "element": "object",
-                      "content": [
-                        {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "username"
-                            },
-                            "value": {
-                              "element": "string",
-                              "content": "pavan"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"username\": \"pavan\"\n}",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "204",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      }
+    ],
+    "content": [
+      {
+        "element": "category",
+        "attributes": {
+          "name": "Users"
+        },
+        "content": [
+          {
+            "element": "resource",
+            "name": "User",
+            "description": "",
+            "uriTemplate": "/users",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "Create User",
+                "description": "",
+                "method": "POST",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [
+                  {
+                    "element": "dataStructure",
+                    "content": [
+                      {
+                        "element": "object",
+                        "content": [
+                          {
+                            "element": "member",
+                            "content": {
+                              "key": {
+                                "element": "string",
+                                "content": "username"
+                              },
+                              "value": {
+                                "element": "string",
+                                "content": "pavan"
+                              }
                             }
                           }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ],
-              "examples": [
-                {
-                  "name": "",
-                  "description": "",
-                  "requests": [
-                    {
-                      "name": "",
-                      "description": "",
-                      "headers": [
-                        {
-                          "name": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "body": "{\n  \"username\": \"pavan\"\n}",
-                      "schema": "",
-                      "content": []
-                    }
-                  ],
-                  "responses": [
-                    {
-                      "name": "204",
-                      "description": "",
-                      "headers": [],
-                      "body": "",
-                      "schema": "",
-                      "content": []
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "content": []
-        }
-      ]
-    }
-  ]
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"username\": \"pavan\"\n}",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "204",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      }
+    ]
+  },
+  "error": {
+    "code": 0,
+    "message": "",
+    "location": []
+  },
+  "warnings": []
 }

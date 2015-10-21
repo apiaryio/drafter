@@ -1,61 +1,66 @@
 {
-  "element": "category",
-  "meta": {
-    "classes": [
-      "api"
-    ],
-    "title": "API name"
-  },
+  "element": "parseResult",
   "content": [
     {
       "element": "category",
       "meta": {
         "classes": [
-          "resourceGroup"
+          "api"
         ],
-        "title": "Users"
+        "title": "API name"
       },
       "content": [
         {
-          "element": "resource",
+          "element": "category",
           "meta": {
-            "title": "User"
-          },
-          "attributes": {
-            "href": "/users"
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": "Users"
           },
           "content": [
             {
-              "element": "transition",
+              "element": "resource",
               "meta": {
-                "title": "List all users"
+                "title": "User"
               },
               "attributes": {
-                "href": "/users/all"
+                "href": "/users"
               },
               "content": [
                 {
-                  "element": "httpTransaction",
+                  "element": "transition",
+                  "meta": {
+                    "title": "List all users"
+                  },
+                  "attributes": {
+                    "href": "/users/all"
+                  },
                   "content": [
                     {
-                      "element": "httpRequest",
-                      "attributes": {
-                        "method": "GET"
-                      },
-                      "content": []
-                    },
-                    {
-                      "element": "httpResponse",
-                      "attributes": {
-                        "statusCode": "200"
-                      },
+                      "element": "httpTransaction",
                       "content": [
                         {
-                          "element": "asset",
-                          "meta": {
-                            "classes": "messageBody"
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
                           },
-                          "content": "[]\n"
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200"
+                          },
+                          "content": [
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": "messageBody"
+                              },
+                              "content": "[]\n"
+                            }
+                          ]
                         }
                       ]
                     }

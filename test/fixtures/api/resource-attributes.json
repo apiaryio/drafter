@@ -1,51 +1,56 @@
 {
-  "element": "category",
-  "meta": {
-    "classes": [
-      "api"
-    ],
-    "title": "API name"
-  },
+  "element": "parseResult",
   "content": [
     {
       "element": "category",
       "meta": {
         "classes": [
-          "resourceGroup"
+          "api"
         ],
-        "title": "Users"
+        "title": "API name"
       },
       "content": [
         {
-          "element": "resource",
+          "element": "category",
           "meta": {
-            "title": "User"
-          },
-          "attributes": {
-            "href": "/users"
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": "Users"
           },
           "content": [
             {
-              "element": "dataStructure",
+              "element": "resource",
+              "meta": {
+                "title": "User"
+              },
+              "attributes": {
+                "href": "/users"
+              },
               "content": [
                 {
-                  "element": "object",
-                  "meta": {
-                    "id": "User"
-                  },
+                  "element": "dataStructure",
                   "content": [
                     {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "username"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "pavan"
+                      "element": "object",
+                      "meta": {
+                        "id": "User"
+                      },
+                      "content": [
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "username"
+                            },
+                            "value": {
+                              "element": "string",
+                              "content": "pavan"
+                            }
+                          }
                         }
-                      }
+                      ]
                     }
                   ]
                 }

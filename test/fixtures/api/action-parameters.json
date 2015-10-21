@@ -1,107 +1,112 @@
 {
-  "element": "category",
-  "meta": {
-    "classes": [
-      "api"
-    ],
-    "title": "API name"
-  },
+  "element": "parseResult",
   "content": [
     {
       "element": "category",
       "meta": {
         "classes": [
-          "resourceGroup"
+          "api"
         ],
-        "title": "Users"
+        "title": "API name"
       },
       "content": [
         {
-          "element": "resource",
+          "element": "category",
           "meta": {
-            "title": "User"
-          },
-          "attributes": {
-            "href": "/users/{id}"
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": "Users"
           },
           "content": [
             {
-              "element": "transition",
+              "element": "resource",
               "meta": {
-                "title": "Retrieve User"
+                "title": "User"
               },
               "attributes": {
-                "hrefVariables": {
-                  "element": "hrefVariables",
-                  "content": [
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": "Username"
-                      },
-                      "attributes": {
-                        "typeAttributes": [
-                          "required"
-                        ]
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "id"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "pavan"
-                        }
-                      }
-                    }
-                  ]
-                }
+                "href": "/users/{id}"
               },
               "content": [
                 {
-                  "element": "httpTransaction",
-                  "content": [
-                    {
-                      "element": "httpRequest",
-                      "attributes": {
-                        "method": "GET"
-                      },
-                      "content": []
-                    },
-                    {
-                      "element": "httpResponse",
-                      "attributes": {
-                        "statusCode": "200",
-                        "headers": {
-                          "element": "httpHeaders",
-                          "content": [
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "Content-Type"
-                                },
-                                "value": {
-                                  "element": "string",
-                                  "content": "application/json"
-                                }
-                              }
-                            }
-                          ]
-                        }
-                      },
+                  "element": "transition",
+                  "meta": {
+                    "title": "Retrieve User"
+                  },
+                  "attributes": {
+                    "hrefVariables": {
+                      "element": "hrefVariables",
                       "content": [
                         {
-                          "element": "asset",
+                          "element": "member",
                           "meta": {
-                            "classes": "messageBody"
+                            "description": "Username"
                           },
                           "attributes": {
-                            "contentType": "application/json"
+                            "typeAttributes": [
+                              "required"
+                            ]
                           },
-                          "content": "{}\n"
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "id"
+                            },
+                            "value": {
+                              "element": "string",
+                              "content": "pavan"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": "messageBody"
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{}\n"
+                            }
+                          ]
                         }
                       ]
                     }

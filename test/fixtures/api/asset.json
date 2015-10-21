@@ -1,102 +1,107 @@
 {
-  "element": "category",
-  "meta": {
-    "classes": [
-      "api"
-    ],
-    "title": "API name"
-  },
+  "element": "parseResult",
   "content": [
     {
       "element": "category",
       "meta": {
         "classes": [
-          "resourceGroup"
+          "api"
         ],
-        "title": "Users"
+        "title": "API name"
       },
       "content": [
         {
-          "element": "resource",
+          "element": "category",
           "meta": {
-            "title": "User"
-          },
-          "attributes": {
-            "href": "/users"
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": "Users"
           },
           "content": [
             {
-              "element": "transition",
+              "element": "resource",
               "meta": {
-                "title": "List all users"
+                "title": "User"
+              },
+              "attributes": {
+                "href": "/users"
               },
               "content": [
                 {
-                  "element": "httpTransaction",
+                  "element": "transition",
+                  "meta": {
+                    "title": "List all users"
+                  },
                   "content": [
                     {
-                      "element": "httpRequest",
-                      "attributes": {
-                        "method": "GET"
-                      },
-                      "content": []
-                    },
-                    {
-                      "element": "httpResponse",
-                      "attributes": {
-                        "statusCode": "200",
-                        "headers": {
-                          "element": "httpHeaders",
-                          "content": [
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "Content-Type"
-                                },
-                                "value": {
-                                  "element": "string",
-                                  "content": "application/json"
-                                }
-                              }
-                            }
-                          ]
-                        }
-                      },
+                      "element": "httpTransaction",
                       "content": [
                         {
-                          "element": "dataStructure",
-                          "content": [
-                            {
-                              "element": "object",
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200",
+                            "headers": {
+                              "element": "httpHeaders",
                               "content": [
                                 {
                                   "element": "member",
                                   "content": {
                                     "key": {
                                       "element": "string",
-                                      "content": "username"
+                                      "content": "Content-Type"
                                     },
                                     "value": {
                                       "element": "string",
-                                      "content": "pavan"
+                                      "content": "application/json"
                                     }
                                   }
                                 }
                               ]
                             }
+                          },
+                          "content": [
+                            {
+                              "element": "dataStructure",
+                              "content": [
+                                {
+                                  "element": "object",
+                                  "content": [
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "username"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "content": "pavan"
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": "messageBody"
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n  \"username\": \"pavan\"\n}"
+                            }
                           ]
-                        },
-                        {
-                          "element": "asset",
-                          "meta": {
-                            "classes": "messageBody"
-                          },
-                          "attributes": {
-                            "contentType": "application/json"
-                          },
-                          "content": "{\n  \"username\": \"pavan\"\n}"
                         }
                       ]
                     }
