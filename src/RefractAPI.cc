@@ -27,7 +27,7 @@ namespace drafter {
 
         void FindNamedTypes(const snowcrash::Elements& elements, DataStructures& found)
         {
-            for (snowcrash::Elements::const_iterator i = elements.begin(); i != elements.end(); ++i) {
+            for (snowcrash::Elements::const_iterator i = elements.begin() ; i != elements.end(); ++i) {
 
                 if (i->element == snowcrash::Element::DataStructureElement) {
                     found.push_back(&(i->content.dataStructure));
@@ -153,7 +153,6 @@ namespace drafter {
         // Add sample value
         if (!parameter.node.exampleValue.empty()) {
             refract::ArrayElement* samples = new refract::ArrayElement;
-            // FIXME: sourcemap of exampleValue does is not equal to
             samples->push_back(CreateArrayElement(LiteralToRefract<T>(MAKE_NODE_INFO(parameter, exampleValue)), true));
             element->attributes[SerializeKey::Samples] = samples;
         }
@@ -247,7 +246,7 @@ namespace drafter {
         element->meta[SerializeKey::Classes] = refract::ArrayElement::Create(metaClass);
 
         if (!contentType.empty()) {
-            // FIXME: has "contentType" SourceMap?
+            // FIXME: "contentType" has no sourceMap?
             element->attributes[SerializeKey::ContentType] = refract::IElement::Create(contentType);
         }
 
@@ -293,8 +292,9 @@ namespace drafter {
         }
 
         // Render using boutique
-        // FIXME: has asset sourcemap?
-        snowcrash::Asset payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
+        NodeInfoByValue<snowcrash::Asset> bodyNodeInfo = renderPayloadBody(payload, action, GetNamedTypesRegistry());
+        NodeInfo<snowcrash::Asset> payloadBody(bodyNodeInfo);
+
         snowcrash::Asset payloadSchema = renderPayloadSchema(payload);
 
         content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
@@ -304,7 +304,7 @@ namespace drafter {
         std::string contentType = getContentTypeFromHeaders(payload.node.headers);
 
         // Assets
-        content.push_back(AssetToRefract(MakeNodeInfoWithoutSourceMap(payloadBody), contentType, SerializeKey::MessageBody));
+        content.push_back(AssetToRefract(payloadBody, contentType, SerializeKey::MessageBody));
         content.push_back(AssetToRefract(MakeNodeInfoWithoutSourceMap(payloadSchema), contentType, SerializeKey::MessageSchema));
 
         RemoveEmptyElements(content);

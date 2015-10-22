@@ -40,47 +40,47 @@ namespace drafter {
         return "";
     }
 
-    Asset renderPayloadBody(const NodeInfo<Payload>& payload, const NodeInfo<Action>& action, const refract::Registry& registry) {
-        Asset body = payload.node.body;
-        RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node.headers));
+    static std::string CreateJSONFromAttributes(const snowcrash::Attributes& attributes, const refract::Registry& registry)
+    {
+        const std::string null;
+        refract::RenderJSONVisitor renderer;
 
-        NodeInfo<Attributes> payloadAttributes = MAKE_NODE_INFO(payload, attributes);
-        NodeInfo<Attributes> actionAttributes = MAKE_NODE_INFO(action, attributes);
+        refract::IElement* element = MSONToRefract(MakeNodeInfoWithoutSourceMap(attributes));
 
-        // hold attributes via pointer - because problems with assignment in NodeInfo<>
-        NodeInfo<Attributes>* attributes = &payloadAttributes;
-
-        if (payload.node.attributes.empty() && !action.isNull() && !action.node.attributes.empty()) {
-           attributes = &actionAttributes;
+        if (!element) {
+            return null;
         }
 
-        if (!payload.node.body.empty() || attributes->node.empty() || renderFormat == UndefinedRenderFormat) {
+        refract::IElement* expanded = ExpandRefract(element, registry);
+
+        if (!expanded) {
+            return null;
+        }
+
+        renderer.visit(*expanded);
+
+        delete expanded;
+
+        return renderer.getString();
+    }
+
+    NodeInfoByValue<snowcrash::Asset> renderPayloadBody(const NodeInfo<Payload>& payload, const NodeInfo<Action>& action, const refract::Registry& registry) {
+        NodeInfoByValue<snowcrash::Asset> body = std::make_pair(payload.node.body, &payload.sourceMap.body);
+        RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node.headers));
+
+        const Attributes* attributes = &payload.node.attributes;
+
+        if (payload.node.attributes.empty() && !action.isNull() && !action.node.attributes.empty()) {
+           attributes = &action.node.attributes;
+        }
+
+        if (!body.first.empty() || attributes->empty() || renderFormat == UndefinedRenderFormat) {
             return body;
         }
 
         switch (renderFormat) {
             case JSONRenderFormat:
-            {
-                refract::RenderJSONVisitor renderer;
-
-                refract::IElement* element = MSONToRefract(*attributes);
-
-                if (!element) {
-                    return body;
-                }
-
-                refract::IElement* expanded = ExpandRefract(element, registry);
-
-                if (!expanded) {
-                    return body;
-                }
-
-                renderer.visit(*expanded);
-
-                delete expanded;
-
-                return renderer.getString();
-            }
+                return make_pair(CreateJSONFromAttributes(*attributes, registry), &NodeInfo<snowcrash::Asset>::NullSourceMap());
 
             default:
                 break;

@@ -17,6 +17,25 @@
 
 namespace drafter {
 
+    /**
+     * For returned values,
+     * used eg. for Assets. There is duality directly "blueprint value" 
+     * vs value generated via JSON Rendering (aka. boutique)
+     *
+     * For boutique is used (<generated JSON>, NullSourceMap)
+     *
+     * There is NodeInfo<> constructor accepting directly NodeInfoByValue<> for simplified conversion
+     */
+    template <typename T>
+    struct NodeInfoByValue : public std::pair<T, const snowcrash::SourceMap<T>* > {
+        typedef std::pair<T, const snowcrash::SourceMap<T>* > BaseType;
+
+        NodeInfoByValue(const BaseType& info) {
+            BaseType::first = info.first;
+            BaseType::second = info.second;
+        }
+    };
+
     template<typename T>
     struct NodeInfo {
         typedef T NodeType;
@@ -28,6 +47,7 @@ namespace drafter {
         const bool empty;
 
         NodeInfo(const NodeType& node, const SourceMapType& sourceMap) : node(node), sourceMap(sourceMap), empty(false) {}
+        NodeInfo(const NodeInfoByValue<T>& node) : node(node.first), sourceMap(node.second ? *node.second : NodeInfo<T>::NullSourceMap()), empty(false) {}
         NodeInfo() : node(Type::NullNode()), sourceMap(Type::NullSourceMap()), empty(true) {}
 
         /**
@@ -60,6 +80,7 @@ namespace drafter {
         }
     };
 
+
     template <typename T>
     NodeInfo<T> MakeNodeInfo(const T& node, const snowcrash::SourceMap<T>& sourceMap, const bool hasSourceMap)
     {
@@ -85,13 +106,11 @@ namespace drafter {
         typedef std::vector<NodeInfo<typename T::value_type> > CollectionType;
 
         template <typename U>
-        static NodeInfo<U> MakeNodeInfo(const U& node, const snowcrash::SourceMap<U>& sourceMap)
-        {
+        static NodeInfo<U> MakeNodeInfo(const U& node, const snowcrash::SourceMap<U>& sourceMap) {
             return NodeInfo<U>(node, sourceMap);
         }
 
-        NodeInfoCollection(const NodeInfo<T>& nodeInfo)
-        {
+        NodeInfoCollection(const NodeInfo<T>& nodeInfo) {
             const T& collection = nodeInfo.node;
             const snowcrash::SourceMap<T>& sourceMaps = nodeInfo.sourceMap;
 
@@ -106,9 +125,7 @@ namespace drafter {
             }
         }
 
-        NodeInfoCollection(const T& collection, const snowcrash::SourceMap<T>& sourceMaps)
-        {
-
+        NodeInfoCollection(const T& collection, const snowcrash::SourceMap<T>& sourceMaps) {
             if (collection.size() == sourceMaps.collection.size()) {
                 CollectionType nodes = Zip<CollectionType>(collection, sourceMaps.collection, NodeInfoCollection::MakeNodeInfo<typename T::value_type>);
                 std::copy(nodes.begin(), nodes.end(), std::back_inserter(*this));
