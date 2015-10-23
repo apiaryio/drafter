@@ -1,107 +1,112 @@
 {
-  "element": "category",
-  "meta": {
-    "classes": [
-      "api"
-    ],
-    "title": "API name"
-  },
+  "element": "parseResult",
   "content": [
     {
       "element": "category",
       "meta": {
         "classes": [
-          "resourceGroup"
+          "api"
         ],
-        "title": "Users"
+        "title": "API name"
       },
       "content": [
         {
-          "element": "resource",
+          "element": "category",
           "meta": {
-            "title": "User"
-          },
-          "attributes": {
-            "href": "/users"
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": "Users"
           },
           "content": [
             {
-              "element": "transition",
+              "element": "resource",
               "meta": {
-                "title": "Create User"
+                "title": "User"
               },
               "attributes": {
-                "data": {
-                  "element": "dataStructure",
-                  "content": [
-                    {
-                      "element": "object",
-                      "content": [
-                        {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "username"
-                            },
-                            "value": {
-                              "element": "string",
-                              "content": "pavan"
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
+                "href": "/users"
               },
               "content": [
                 {
-                  "element": "httpTransaction",
-                  "content": [
-                    {
-                      "element": "httpRequest",
-                      "attributes": {
-                        "method": "POST",
-                        "title": "",
-                        "headers": {
-                          "element": "httpHeaders",
+                  "element": "transition",
+                  "meta": {
+                    "title": "Create User"
+                  },
+                  "attributes": {
+                    "data": {
+                      "element": "dataStructure",
+                      "content": [
+                        {
+                          "element": "object",
                           "content": [
                             {
                               "element": "member",
                               "content": {
                                 "key": {
                                   "element": "string",
-                                  "content": "Content-Type"
+                                  "content": "username"
                                 },
                                 "value": {
                                   "element": "string",
-                                  "content": "application/json"
+                                  "content": "pavan"
                                 }
                               }
                             }
                           ]
                         }
-                      },
+                      ]
+                    }
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
                       "content": [
                         {
-                          "element": "asset",
-                          "meta": {
-                            "classes": "messageBody"
-                          },
+                          "element": "httpRequest",
                           "attributes": {
-                            "contentType": "application/json"
+                            "method": "POST",
+                            "title": "",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
                           },
-                          "content": "{\n  \"username\": \"pavan\"\n}"
+                          "content": [
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": "messageBody"
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n  \"username\": \"pavan\"\n}"
+                            }
+                          ]
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "204"
+                          },
+                          "content": []
                         }
                       ]
-                    },
-                    {
-                      "element": "httpResponse",
-                      "attributes": {
-                        "statusCode": "204"
-                      },
-                      "content": []
                     }
                   ]
                 }

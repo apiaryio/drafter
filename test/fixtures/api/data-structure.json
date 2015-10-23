@@ -1,55 +1,60 @@
 {
-  "element": "category",
-  "meta": {
-    "classes": [
-      "api"
-    ],
-    "title": "API name"
-  },
+  "element": "parseResult",
   "content": [
     {
       "element": "category",
       "meta": {
         "classes": [
-          "dataStructures"
-        ]
+          "api"
+        ],
+        "title": "API name"
       },
       "content": [
         {
-          "element": "dataStructure",
+          "element": "category",
+          "meta": {
+            "classes": [
+              "dataStructures"
+            ]
+          },
           "content": [
             {
-              "element": "object",
-              "meta": {
-                "id": "User"
-              },
+              "element": "dataStructure",
               "content": [
                 {
-                  "element": "member",
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "id"
-                    },
-                    "value": {
-                      "element": "number"
-                    }
-                  }
-                },
-                {
-                  "element": "member",
+                  "element": "object",
                   "meta": {
-                    "description": "Username of the user"
+                    "id": "User"
                   },
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "username"
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "id"
+                        },
+                        "value": {
+                          "element": "number"
+                        }
+                      }
                     },
-                    "value": {
-                      "element": "string"
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "Username of the user"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "username"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
                     }
-                  }
+                  ]
                 }
               ]
             }

@@ -100,6 +100,7 @@
         'src',
         'test',
         'test/vendor/Catch/include',
+        'test/vendor/dtl/dtl',
         "ext/snowcrash/src",
         "ext/snowcrash/ext/markdown-parser/src",
         "ext/snowcrash/ext/markdown-parser/ext/sundown/src",

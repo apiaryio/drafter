@@ -1,33 +1,38 @@
 {
-  "element": "category",
-  "meta": {
-    "classes": [
-      "api"
-    ],
-    "title": "API name"
-  },
+  "element": "parseResult",
   "content": [
     {
       "element": "category",
       "meta": {
         "classes": [
-          "resourceGroup"
+          "api"
         ],
-        "title": "Users"
+        "title": "API name"
       },
       "content": [
         {
-          "element": "resource",
+          "element": "category",
           "meta": {
-            "title": "User"
-          },
-          "attributes": {
-            "href": "/users"
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": "Users"
           },
           "content": [
             {
-              "element": "copy",
-              "content": "Users resource\n"
+              "element": "resource",
+              "meta": {
+                "title": "User"
+              },
+              "attributes": {
+                "href": "/users"
+              },
+              "content": [
+                {
+                  "element": "copy",
+                  "content": "Users resource\n"
+                }
+              ]
             }
           ]
         }

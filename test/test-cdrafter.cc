@@ -5,7 +5,7 @@ using namespace draftertest;
 
 TEST_CASE("C-interface parse blueprint", "[c-interface]")
 {
-    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/blueprint");
+    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/result/blueprint");
 
     std::string source = fixture.get(".apib");
 
@@ -16,14 +16,14 @@ TEST_CASE("C-interface parse blueprint", "[c-interface]")
     REQUIRE(ret == 0);
 
     REQUIRE(result);
-    REQUIRE(strcmp(result, fixture.get(".result.json").c_str()) == 0);
+    REQUIRE(strcmp(result, fixture.get(".ast.json").c_str()) == 0);
 
     free(result);
 }
 
 TEST_CASE("C-interface parse blueprint with sourceMap", "[c-interface]")
 {
-    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/blueprint");
+    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/result/blueprint");
 
     std::string source = fixture.get(".apib");
 
@@ -34,14 +34,14 @@ TEST_CASE("C-interface parse blueprint with sourceMap", "[c-interface]")
     REQUIRE(ret == 0);
 
     REQUIRE(result);
-    REQUIRE(strcmp(result, fixture.get(".result.sourcemap.json").c_str()) == 0);
+    REQUIRE(strcmp(result, fixture.get(".ast.sourcemap.json").c_str()) == 0);
 
     free(result);
 }
 
 TEST_CASE("C-interface check result, without memory alloc", "[c-interface]")
 {
-    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/blueprint");
+    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/result/blueprint");
 
     std::string source = fixture.get(".apib");
 
@@ -54,7 +54,7 @@ TEST_CASE("C-interface check result, without memory alloc", "[c-interface]")
 
 TEST_CASE("C-interface parse blueprint for refract", "[c-interface]")
 {
-    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/blueprint");
+    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/result/blueprint");
 
     std::string source = fixture.get(".apib");
 
@@ -65,8 +65,7 @@ TEST_CASE("C-interface parse blueprint for refract", "[c-interface]")
     REQUIRE(ret == 0);
 
     REQUIRE(result);
-    REQUIRE(strcmp(result, fixture.get(".refract.result.json").c_str()) == 0);
+    REQUIRE(strcmp(result, fixture.get(".json").c_str()) == 0);
 
     free(result);
 }
-

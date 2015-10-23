@@ -10,3 +10,6 @@
 [submodule "ext/cmdline"]
 	path = ext/cmdline
 	url = https://github.com/apiaryio/cmdline.git
+[submodule "test/vendor/dtl"]
+	path = test/vendor/dtl
+	url = https://github.com/apiaryio/dtl
