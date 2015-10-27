@@ -13,10 +13,12 @@
 #include "RefractAPI.h"
 #include "Render.h"
 
+#include "RefractSourceMap.h"
+
 namespace drafter {
 
     // Forward Declarations
-    refract::IElement* ElementToRefract(const snowcrash::Element& element);
+    refract::IElement* ElementToRefract(const NodeInfo<snowcrash::Element>& element);
 
     namespace {
 
@@ -25,7 +27,7 @@ namespace drafter {
 
         void FindNamedTypes(const snowcrash::Elements& elements, DataStructures& found)
         {
-            for (snowcrash::Elements::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
+            for (snowcrash::Elements::const_iterator i = elements.begin(); i != elements.end(); ++i) {
 
                 if (i->element == snowcrash::Element::DataStructureElement) {
                     found.push_back(&(i->content.dataStructure));
@@ -39,6 +41,18 @@ namespace drafter {
             }
         }
 
+        refract::ArrayElement* CreateArrayElement(refract::IElement* value, bool rFull = false)
+        {
+            refract::ArrayElement* array = new refract::ArrayElement;
+
+            if (rFull) {
+                value->renderType(refract::IElement::rFull);
+            }
+
+            array->push_back(value);
+            return array;
+        }
+
         template <typename T>
         bool IsNull(const T* ptr)
         {
@@ -50,8 +64,16 @@ namespace drafter {
             elements.erase(std::remove_if(elements.begin(), elements.end(), IsNull<refract::IElement>), elements.end());
         }
 
+        template <typename T, typename F>
+        void NodeInfoToElements(const NodeInfo<T>& nodeInfo, const F& transformFunctor, RefractElements& content) 
+        {
+            NodeInfoCollection<T> nodeInfoCollection(nodeInfo);
+            std::transform(nodeInfoCollection.begin(), nodeInfoCollection.end(), std::back_inserter(content), transformFunctor);
+
+        }
+
         template<typename T, typename C, typename F>
-        refract::IElement* CollectionToRefract(const C& collection, const F& transformFunctor, const std::string& key = std::string(), const refract::IElement::renderFlags renderType = refract::IElement::rCompact)
+        T* CollectionToRefract(const NodeInfo<C>& collection, const F& transformFunctor, const std::string& key = std::string(), const refract::IElement::renderFlags renderType = refract::IElement::rCompact)
         {
             T* element = new T;
             RefractElements content;
@@ -60,7 +82,9 @@ namespace drafter {
                 element->element(key);
             }
 
-            std::transform(collection.begin(), collection.end(), std::back_inserter(content), transformFunctor);
+            NodeInfoToElements(collection, transformFunctor, content);
+
+            RemoveEmptyElements(content);
 
             element->set(content);
 
@@ -73,15 +97,8 @@ namespace drafter {
     template <typename T>
     refract::ArrayElement* CreateArrayElement(const T& content, bool rFull)
     {
-        refract::ArrayElement* array = new refract::ArrayElement;
         refract::IElement* value = refract::IElement::Create(content);
-
-        if (rFull) {
-            value->renderType(refract::IElement::rFull);
-        }
-
-        array->push_back(value);
-        return array;
+        return CreateArrayElement(value);
     }
 
     void RegisterNamedTypes(const snowcrash::Elements& elements)
@@ -92,13 +109,13 @@ namespace drafter {
         for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
 
             if (!(*i)->name.symbol.literal.empty()) {
-                refract::IElement* element = MSONToRefract(*(*i));
+                refract::IElement* element = MSONToRefract(MakeNodeInfoWithoutSourceMap(*(*i)));
                 GetNamedTypesRegistry().add(element);
             }
         }
     }
 
-    refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure, bool expand)
+    refract::IElement* DataStructureToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure, bool expand)
     {
         refract::IElement* msonElement = MSONToRefract(dataStructure);
 
@@ -118,7 +135,7 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* MetadataToRefract(const snowcrash::Metadata metadata)
+    refract::IElement* MetadataToRefract(const NodeInfo<snowcrash::Metadata>& metadata)
     {
         refract::MemberElement* element = new refract::MemberElement;
 
@@ -126,66 +143,58 @@ namespace drafter {
         classes->renderType(refract::IElement::rCompact);
 
         element->meta[SerializeKey::Classes] = classes;
-        element->set(refract::IElement::Create(metadata.first), refract::IElement::Create(metadata.second));
+        element->set(refract::IElement::Create(metadata.node.first), refract::IElement::Create(metadata.node.second));
         element->renderType(refract::IElement::rFull);
+
+        AttachSourceMap(element, metadata);
 
         return element;
     }
 
-    refract::IElement* CopyToRefract(const std::string& copy)
+    refract::IElement* CopyToRefract(const NodeInfo<std::string>& copy)
     {
-        if (copy.empty()) {
+        if (copy.node.empty()) {
             return NULL;
         }
 
-        refract::IElement* element = refract::IElement::Create(copy);
+        refract::IElement* element = PrimitiveToRefract(copy);
         element->element(SerializeKey::Copy);
 
         return element;
     }
 
     template<typename T>
-    refract::IElement* ParameterValuesToRefract(const snowcrash::Parameter& parameter)
+    refract::IElement* ParameterValuesToRefract(const NodeInfo<snowcrash::Parameter>& parameter)
     {
-        refract::ArrayElement* element = new refract::ArrayElement;
-        RefractElements content;
+        refract::ArrayElement* element = CollectionToRefract<refract::ArrayElement>(MAKE_NODE_INFO(parameter, values), LiteralToRefract<T>, SerializeKey::Enum, refract::IElement::rDefault);
 
-        element->element(SerializeKey::Enum);
-
+        // FIXME: nearly duplicit code in ExtractParameter()
         // Add sample value
-        if (!parameter.exampleValue.empty()) {
+        if (!parameter.node.exampleValue.empty()) {
             refract::ArrayElement* samples = new refract::ArrayElement;
-            samples->push_back(CreateArrayElement(LiteralTo<T>(parameter.exampleValue), true));
+            // FIXME: sourcemap of exampleValue does is not equal to
+            samples->push_back(CreateArrayElement(LiteralToRefract<T>(MAKE_NODE_INFO(parameter, exampleValue)), true));
             element->attributes[SerializeKey::Samples] = samples;
         }
 
         // Add default value
-        if (!parameter.defaultValue.empty()) {
-            element->attributes[SerializeKey::Default] = CreateArrayElement(LiteralTo<T>(parameter.defaultValue), true);
+        if (!parameter.node.defaultValue.empty()) {
+            element->attributes[SerializeKey::Default] = CreateArrayElement(LiteralToRefract<T>(MAKE_NODE_INFO(parameter, defaultValue)), true);
         }
-
-        for (snowcrash::Values::const_iterator it = parameter.values.begin();
-             it != parameter.values.end();
-             ++it) {
-
-            content.push_back(refract::IElement::Create(LiteralTo<T>(*it)));
-        }
-
-        element->set(content);
 
         return element;
     }
 
     template<typename T>
-    refract::IElement* ExtractParameter(const snowcrash::Parameter& parameter)
+    refract::IElement* ExtractParameter(const NodeInfo<snowcrash::Parameter>& parameter)
     {
         refract::IElement* element = NULL;
 
-        if (parameter.values.empty()) {
-            element = refract::IElement::Create(LiteralTo<T>(parameter.exampleValue));
+        if (parameter.node.values.empty()) {
+            element = LiteralToRefract<T>(MAKE_NODE_INFO(parameter, exampleValue));
 
-            if (!parameter.defaultValue.empty()) {
-                element->attributes[SerializeKey::Default] = refract::IElement::Create(LiteralTo<T>(parameter.defaultValue));
+            if (!parameter.node.defaultValue.empty()) {
+                element->attributes[SerializeKey::Default] = PrimitiveToRefract(MAKE_NODE_INFO(parameter, defaultValue));
             }
         }
         else {
@@ -195,116 +204,127 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* ParameterToRefract(const snowcrash::Parameter& parameter)
+    refract::IElement* ParameterToRefract(const NodeInfo<snowcrash::Parameter>& parameter)
     {
         refract::MemberElement* element = new refract::MemberElement;
         refract::IElement *value = NULL;
 
         // Parameter type, exampleValue, defaultValue, values
-        if (parameter.type == "boolean") {
+        if (parameter.node.type == "boolean") {
             value = ExtractParameter<bool>(parameter);
         }
-        else if (parameter.type == "number") {
+        else if (parameter.node.type == "number") {
             value = ExtractParameter<double>(parameter);
         }
         else {
             value = ExtractParameter<std::string>(parameter);
         }
 
-        element->set(refract::IElement::Create(parameter.name), value);
+        element->set(PrimitiveToRefract(MAKE_NODE_INFO(parameter, name)), value);
 
         // Description
-        if (!parameter.description.empty()) {
-            element->meta[SerializeKey::Description] = refract::IElement::Create(parameter.description);
+        if (!parameter.node.description.empty()) {
+            element->meta[SerializeKey::Description] = PrimitiveToRefract(MAKE_NODE_INFO(parameter, description));
         }
 
         // Parameter use
-        if (parameter.use == snowcrash::RequiredParameterUse || parameter.use == snowcrash::OptionalParameterUse) {
+        if (parameter.node.use == snowcrash::RequiredParameterUse || parameter.node.use == snowcrash::OptionalParameterUse) {
             refract::ArrayElement* typeAttributes = new refract::ArrayElement;
 
-            typeAttributes->push_back(refract::IElement::Create(parameter.use == snowcrash::RequiredParameterUse ? SerializeKey::Required : SerializeKey::Optional));
+            typeAttributes->push_back(refract::IElement::Create(parameter.node.use == snowcrash::RequiredParameterUse ? SerializeKey::Required : SerializeKey::Optional));
             element->attributes[SerializeKey::TypeAttributes] = typeAttributes;
         }
 
         return element;
     }
 
-    refract::IElement* ParametersToRefract(const snowcrash::Parameters& parameters)
+    refract::IElement* ParametersToRefract(const NodeInfo<snowcrash::Parameters>& parameters)
     {
         return CollectionToRefract<refract::ObjectElement>(parameters, ParameterToRefract, SerializeKey::HrefVariables, refract::IElement::rFull);
     }
 
-    refract::IElement* HeaderToRefract(const snowcrash::Header& header)
+    refract::IElement* HeaderToRefract(const NodeInfo<snowcrash::Header>& header)
     {
         refract::MemberElement* element = new refract::MemberElement;
-        element->set(refract::IElement::Create(header.first), refract::IElement::Create(header.second));
+
+        element->set(refract::IElement::Create(header.node.first), refract::IElement::Create(header.node.second));
+
+        AttachSourceMap(element, header);
 
         return element;
     }
 
-    refract::IElement* AssetToRefract(const snowcrash::Asset& asset, const std::string& contentType, bool messageBody = true)
+    refract::IElement* AssetToRefract(const NodeInfo<snowcrash::Asset>& asset, const std::string& contentType, const std::string&  metaClass)
     {
-        if (asset.empty()) {
+        if (asset.node.empty()) {
             return NULL;
         }
 
-        refract::IElement* element = refract::IElement::Create(asset);
+        refract::IElement* element = PrimitiveToRefract(asset);
 
         element->element(SerializeKey::Asset);
-        element->meta[SerializeKey::Classes] = refract::ArrayElement::Create(messageBody ? SerializeKey::MessageBody : SerializeKey::MessageSchema);
+        element->meta[SerializeKey::Classes] = refract::ArrayElement::Create(metaClass);
 
         if (!contentType.empty()) {
+            // FIXME: has SourceMap?
             element->attributes[SerializeKey::ContentType] = refract::IElement::Create(contentType);
         }
 
         return element;
     }
 
-    refract::IElement* PayloadToRefract(const snowcrash::Payload* payload, const snowcrash::Action* action = NULL)
+    refract::IElement* PayloadToRefract(const NodeInfo<snowcrash::Payload>& payload, const NodeInfo<snowcrash::Action>& action)
     {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
 
         // Use HTTP method to recognize if request or response
-        if (action == NULL || action->method.empty()) {
+        if (action.isNull() || action.node.method.empty()) {
             element->element(SerializeKey::HTTPResponse);
 
-            if (payload != NULL && !payload->name.empty()) {
-                element->attributes[SerializeKey::StatusCode] = refract::IElement::Create(payload->name);
+            // FIXME: tests pass without commented out part of condition 
+            // delivery test to see this part is required else remove it
+            // related discussion: https://github.com/apiaryio/drafter/pull/148/files#r42275194
+            if (!payload.isNull() /* && !payload.node.name.empty() */) {
+                element->attributes[SerializeKey::StatusCode] = PrimitiveToRefract(MAKE_NODE_INFO(payload, name));
             }
         }
         else {
             element->element(SerializeKey::HTTPRequest);
-            element->attributes[SerializeKey::Method] = refract::IElement::Create(action->method);
+            element->attributes[SerializeKey::Method] = PrimitiveToRefract(MAKE_NODE_INFO(action, method));
 
-            if (payload != NULL) {
-                element->attributes[SerializeKey::Title] = refract::IElement::Create(payload->name);
+            if (!payload.isNull()) {
+                element->attributes[SerializeKey::Title] = PrimitiveToRefract(MAKE_NODE_INFO(payload, name));
             }
         }
 
         // If no payload, return immediately
-        if (payload == NULL) {
+        if (payload.isNull()) {
             element->set(content);
             return element;
         }
 
-        if (!payload->headers.empty()) {
-            element->attributes[SerializeKey::Headers] = CollectionToRefract<refract::ArrayElement>(payload->headers, HeaderToRefract, SerializeKey::HTTPHeaders, refract::IElement::rFull);
+        if (!payload.node.headers.empty()) {
+            element->attributes[SerializeKey::Headers] = CollectionToRefract<refract::ArrayElement>(MAKE_NODE_INFO(payload, headers),
+                                                                                                    HeaderToRefract,
+                                                                                                    SerializeKey::HTTPHeaders,
+                                                                                                    refract::IElement::rFull);
         }
 
         // Render using boutique
-        snowcrash::Asset payloadBody = renderPayloadBody(*payload, action, GetNamedTypesRegistry());
-        snowcrash::Asset payloadSchema = renderPayloadSchema(*payload);
+        // FIXME: has asset sourcemap?
+        snowcrash::Asset payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
+        snowcrash::Asset payloadSchema = renderPayloadSchema(payload);
 
-        content.push_back(CopyToRefract(payload->description));
-        content.push_back(DataStructureToRefract(payload->attributes));
+        content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
+        content.push_back(DataStructureToRefract(MAKE_NODE_INFO(payload, attributes)));
 
         // Get content type
-        std::string contentType = getContentTypeFromHeaders(payload->headers);
+        std::string contentType = getContentTypeFromHeaders(payload.node.headers);
 
         // Assets
-        content.push_back(AssetToRefract(payloadBody, contentType));
-        content.push_back(AssetToRefract(payloadSchema, contentType, false));
+        content.push_back(AssetToRefract(MakeNodeInfoWithoutSourceMap(payloadBody), contentType, SerializeKey::MessageBody));
+        content.push_back(AssetToRefract(MakeNodeInfoWithoutSourceMap(payloadSchema), contentType, SerializeKey::MessageSchema));
 
         RemoveEmptyElements(content);
         element->set(content);
@@ -312,19 +332,19 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* TransactionToRefract(const snowcrash::TransactionExample& transaction,
-                                            const snowcrash::Action& action,
-                                            const snowcrash::Request* request = NULL,
-                                            const snowcrash::Response* response = NULL)
+    refract::IElement* TransactionToRefract(const NodeInfo<snowcrash::TransactionExample>& transaction,
+                                            const NodeInfo<snowcrash::Action>& action,
+                                            const NodeInfo<snowcrash::Request>& request,
+                                            const NodeInfo<snowcrash::Response>& response)
     {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
 
         element->element(SerializeKey::HTTPTransaction);
-        content.push_back(CopyToRefract(transaction.description));
+        content.push_back(CopyToRefract(MAKE_NODE_INFO(transaction, description)));
 
-        content.push_back(PayloadToRefract(request, &action));
-        content.push_back(PayloadToRefract(response));
+        content.push_back(PayloadToRefract(request, action));
+        content.push_back(PayloadToRefract(response, NodeInfo<snowcrash::Action>()));
 
         RemoveEmptyElements(content);
         element->set(content);
@@ -332,63 +352,79 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* ActionToRefract(const snowcrash::Action& action)
+    refract::IElement* ActionToRefract(const NodeInfo<snowcrash::Action>& action)
     {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
 
         element->element(SerializeKey::Transition);
-        element->meta[SerializeKey::Title] = refract::IElement::Create(action.name);
+        element->meta[SerializeKey::Title] = PrimitiveToRefract(MAKE_NODE_INFO(action, name));
 
-        if (!action.relation.str.empty()) {
-            element->attributes[SerializeKey::Relation] = refract::IElement::Create(action.relation.str);
+        if (!action.node.relation.str.empty()) {
+            // FIXME: add SourceMap
+            element->attributes[SerializeKey::Relation] = refract::IElement::Create(action.node.relation.str);
         }
 
-        if (!action.uriTemplate.empty()) {
-            element->attributes[SerializeKey::Href] = refract::IElement::Create(action.uriTemplate);
+        if (!action.node.uriTemplate.empty()) {
+            // FIXME: There is no differece between output with original code and new one
+            // probably there is no example with uriTemplate
+            // original code: element->attributes[SerializeKey::Href] = refract::IElement::Create(action.uriTemplate);
+            element->attributes[SerializeKey::Href] = PrimitiveToRefract(MAKE_NODE_INFO(action, uriTemplate));
         }
 
-        if (!action.parameters.empty()) {
-            element->attributes[SerializeKey::HrefVariables] = ParametersToRefract(action.parameters);
+        if (!action.node.parameters.empty()) {
+            element->attributes[SerializeKey::HrefVariables] = ParametersToRefract(MAKE_NODE_INFO(action, parameters));
         }
 
-        if (!action.attributes.empty()) {
-            refract::IElement* dataStructure = DataStructureToRefract(action.attributes);
+        if (!action.node.attributes.empty()) {
+            refract::IElement* dataStructure = DataStructureToRefract(MAKE_NODE_INFO(action, attributes));
             dataStructure->renderType(refract::IElement::rFull);
             element->attributes[SerializeKey::Data] = dataStructure;
         }
 
-        content.push_back(CopyToRefract(action.description));
+        content.push_back(CopyToRefract(MAKE_NODE_INFO(action, description)));
 
-        for (snowcrash::TransactionExamples::const_iterator it = action.examples.begin();
-             it != action.examples.end();
+        typedef NodeInfoCollection<snowcrash::TransactionExamples> ExamplesType;
+        ExamplesType examples(MAKE_NODE_INFO(action, examples));
+
+        for (ExamplesType::const_iterator it = examples.begin();
+             it != examples.end();
              ++it) {
 
             // When there are only responses
-            if (it->requests.empty() && !it->responses.empty()) {
+            if (it->node.requests.empty() && !it->node.responses.empty()) {
 
-                for (snowcrash::Responses::const_iterator resIt = it->responses.begin();
-                     resIt != it->responses.end();
+                typedef NodeInfoCollection<snowcrash::Responses> ResponsesType;
+                ResponsesType responses(it->node.responses, it->sourceMap.responses);
+
+                for (ResponsesType::const_iterator resIt = responses.begin();
+                     resIt != responses.end();
                      ++resIt) {
 
-                    content.push_back(TransactionToRefract(*it, action, NULL, &*resIt));
+                    content.push_back(TransactionToRefract(*it, action, NodeInfo<snowcrash::Request>(), *resIt));
                 }
             }
 
             // When there are only requests or both responses and requests
-            for (snowcrash::Requests::const_iterator reqIt = it->requests.begin();
-                 reqIt != it->requests.end();
+            typedef NodeInfoCollection<snowcrash::Requests> RequestsType;
+            RequestsType requests(it->node.requests, it->sourceMap.requests);
+
+            for (RequestsType::const_iterator reqIt = requests.begin();
+                 reqIt != requests.end();
                  ++reqIt) {
 
-                if (it->responses.empty()) {
-                    content.push_back(TransactionToRefract(*it, action, &*reqIt));
+                if (it->node.responses.empty()) {
+                    content.push_back(TransactionToRefract(*it, action, *reqIt, NodeInfo<snowcrash::Response>()));
                 }
 
-                for (snowcrash::Responses::const_iterator resIt = it->responses.begin();
-                     resIt != it->responses.end();
+                typedef NodeInfoCollection<snowcrash::Responses> ResponsesType;
+                ResponsesType responses(it->node.responses, it->sourceMap.responses);
+
+                for (ResponsesType::const_iterator resIt = responses.begin();
+                     resIt != responses.end();
                      ++resIt) {
 
-                    content.push_back(TransactionToRefract(*it, action, &*reqIt, &*resIt));
+                    content.push_back(TransactionToRefract(*it, action, *reqIt, *resIt));
                 }
             }
         }
@@ -399,47 +435,59 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* ResourceToRefract(const snowcrash::Resource& resource)
+    refract::IElement* ResourceToRefract(const NodeInfo<snowcrash::Resource>& resource)
     {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
 
         element->element(SerializeKey::Resource);
-        element->meta[SerializeKey::Title] = refract::IElement::Create(resource.name);
-        element->attributes[SerializeKey::Href] = refract::IElement::Create(resource.uriTemplate);
 
-        if (!resource.parameters.empty()) {
-            element->attributes[SerializeKey::HrefVariables] = ParametersToRefract(resource.parameters);
+        element->meta[SerializeKey::Title] = PrimitiveToRefract(MAKE_NODE_INFO(resource, name));
+
+        element->attributes[SerializeKey::Href] = PrimitiveToRefract(MAKE_NODE_INFO(resource, uriTemplate));
+
+        if (!resource.node.parameters.empty()) {
+            element->attributes[SerializeKey::HrefVariables] = ParametersToRefract(MAKE_NODE_INFO(resource, parameters));
         }
 
-        content.push_back(CopyToRefract(resource.description));
-        content.push_back(DataStructureToRefract(resource.attributes));
-
-        std::transform(resource.actions.begin(), resource.actions.end(), std::back_inserter(content), ActionToRefract);
+        content.push_back(CopyToRefract(MAKE_NODE_INFO(resource, description)));
+        content.push_back(DataStructureToRefract(MAKE_NODE_INFO(resource, attributes)));
+        NodeInfoToElements(MAKE_NODE_INFO(resource, actions), ActionToRefract, content);
 
         RemoveEmptyElements(content);
+
         element->set(content);
 
         return element;
     }
 
-    refract::IElement* CategoryToRefract(const snowcrash::Element& element)
+    const snowcrash::SourceMap<snowcrash::Elements>& GetElementChildrenSourceMap(const NodeInfo<snowcrash::Element>& element)
+    {
+        return element.sourceMap.content.elements().collection.empty()
+            ? NodeInfo<snowcrash::Elements>::NullSourceMap()
+            : element.sourceMap.content.elements();
+    }
+
+    refract::IElement* CategoryToRefract(const NodeInfo<snowcrash::Element>& element)
     {
         refract::ArrayElement* category = new refract::ArrayElement;
         RefractElements content;
 
         category->element(SerializeKey::Category);
 
-        if (element.category == snowcrash::Element::ResourceGroupCategory) {
+        if (element.node.category == snowcrash::Element::ResourceGroupCategory) {
             category->meta[SerializeKey::Classes] = CreateArrayElement(SerializeKey::ResourceGroup);
-            category->meta[SerializeKey::Title] = refract::IElement::Create(element.attributes.name);
+            category->meta[SerializeKey::Title] = PrimitiveToRefract(MAKE_NODE_INFO(element, attributes.name));
         }
-        else if (element.category == snowcrash::Element::DataStructureGroupCategory) {
+        else if (element.node.category == snowcrash::Element::DataStructureGroupCategory) {
             category->meta[SerializeKey::Classes] = CreateArrayElement(SerializeKey::DataStructures);
         }
 
-        snowcrash::Elements elements = element.content.elements();
-        std::transform(elements.begin(), elements.end(), std::back_inserter(content), ElementToRefract);
+        if (!element.node.content.elements().empty()) {
+            const NodeInfo<snowcrash::Elements> elementsNodeInfo = MakeNodeInfo(element.node.content.elements(), GetElementChildrenSourceMap(element), element.hasSourceMap());
+
+            NodeInfoToElements(elementsNodeInfo, ElementToRefract, content);
+        }
 
         RemoveEmptyElements(content);
         category->set(content);
@@ -447,15 +495,15 @@ namespace drafter {
         return category;
     }
 
-    refract::IElement* ElementToRefract(const snowcrash::Element& element)
+    refract::IElement* ElementToRefract(const NodeInfo<snowcrash::Element>& element) 
     {
-        switch (element.element) {
+        switch (element.node.element) {
             case snowcrash::Element::ResourceElement:
-                return ResourceToRefract(element.content.resource);
+                return ResourceToRefract(MAKE_NODE_INFO(element, content.resource));
             case snowcrash::Element::DataStructureElement:
-                return DataStructureToRefract(element.content.dataStructure);
+                return DataStructureToRefract(MAKE_NODE_INFO(element, content.dataStructure));
             case snowcrash::Element::CopyElement:
-                return CopyToRefract(element.content.copy);
+                return CopyToRefract(MAKE_NODE_INFO(element, content.copy));
             case snowcrash::Element::CategoryElement:
                 return CategoryToRefract(element);
             default:
@@ -463,24 +511,23 @@ namespace drafter {
         }
     }
 
-    refract::IElement* BlueprintToRefract(const snowcrash::Blueprint& blueprint)
+    refract::IElement* BlueprintToRefract(const NodeInfo<snowcrash::Blueprint>& blueprint)
     {
         refract::ArrayElement* ast = new refract::ArrayElement;
         RefractElements content;
 
         ast->element(SerializeKey::Category);
+
         ast->meta[SerializeKey::Classes] = CreateArrayElement(SerializeKey::API);
-        ast->meta[SerializeKey::Title] = refract::IElement::Create(blueprint.name);
+        ast->meta[SerializeKey::Title] = PrimitiveToRefract(MAKE_NODE_INFO(blueprint, name));
 
-        content.push_back(CopyToRefract(blueprint.description));
+        content.push_back(CopyToRefract(MAKE_NODE_INFO(blueprint, description)));
 
-        if (!blueprint.metadata.empty()) {
-            ast->attributes[SerializeKey::Meta] = CollectionToRefract<refract::ArrayElement>(blueprint.metadata, MetadataToRefract);
+        if (!blueprint.node.metadata.empty()) {
+            ast->attributes[SerializeKey::Meta] = CollectionToRefract<refract::ArrayElement>(MAKE_NODE_INFO(blueprint, metadata), MetadataToRefract);
         }
 
-        // Append set of elements to content
-        const snowcrash::Elements& scElements = blueprint.content.elements();
-        std::transform(scElements.begin(), scElements.end(), std::back_inserter(content), ElementToRefract);
+        NodeInfoToElements(MAKE_NODE_INFO(blueprint, content.elements()), ElementToRefract, content);
 
         RemoveEmptyElements(content);
         ast->set(content);

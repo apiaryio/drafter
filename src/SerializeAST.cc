@@ -445,7 +445,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     sos::Object dataStructureObject;
 
 #if _WITH_REFRACT_
-    refract::IElement *element = DataStructureToRefract(dataStructure, ExpandMSON);
+    refract::IElement *element = DataStructureToRefract(MakeNodeInfoWithoutSourceMap(dataStructure), ExpandMSON);
     dataStructureObject = SerializeRefract(element);
 
     if (element) {
@@ -453,7 +453,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     }
 
     return dataStructureObject;
-#endif
+#else
 
     // Element
     dataStructureObject.set(SerializeKey::Element, ElementClassToString(Element::DataStructureElement));
@@ -469,6 +469,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
                             WrapCollection<mson::TypeSection>()(dataStructure.sections, WrapTypeSection));
 
     return dataStructureObject;
+#endif
 }
 
 sos::Object WrapAsset(const Asset& asset, const AssetRole& role)
@@ -511,9 +512,8 @@ sos::Object WrapPayload(const Payload& payload, const Action* action = NULL)
     payloadObject.set(SerializeKey::Headers,
                       WrapCollection<Header>()(payload.headers, WrapHeader));
 
-    // Render using boutique
-    snowcrash::Asset payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
-    snowcrash::Asset payloadSchema = renderPayloadSchema(payload);
+    snowcrash::Asset payloadBody = renderPayloadBody(MakeNodeInfoWithoutSourceMap(payload), action ? MakeNodeInfoWithoutSourceMap(*action) : NodeInfo<Action>(), GetNamedTypesRegistry());
+    snowcrash::Asset payloadSchema = renderPayloadSchema(MakeNodeInfoWithoutSourceMap(payload));
 
     // Body
     payloadObject.set(SerializeKey::Body, sos::String(payloadBody));
@@ -770,16 +770,18 @@ bool IsElementResourceGroup(const Element& element)
     return element.element == Element::CategoryElement && element.category == Element::ResourceGroupCategory;
 }
 
-sos::Object WrapBlueprintRefract(const Blueprint& blueprint)
+sos::Object WrapBlueprintRefract(const snowcrash::ParseResult<Blueprint>& blueprint, const WrapperOptions& options)
 {
-    refract::IElement* element = BlueprintToRefract(blueprint);
-    sos::Object object = SerializeRefract(element);
+    NodeInfo<Blueprint> section = MakeNodeInfo(blueprint.node, blueprint.sourceMap, options.exportSourceMap);
+
+    refract::IElement* element = BlueprintToRefract(section);
+    sos::Object blueprintObject = SerializeRefract(element);
 
     if (element) {
         delete element;
     }
 
-    return object;
+    return blueprintObject;
 }
 
 sos::Object WrapBlueprintAST(const Blueprint& blueprint)
@@ -813,20 +815,20 @@ sos::Object WrapBlueprintAST(const Blueprint& blueprint)
     return blueprintObject;
 }
 
-sos::Object drafter::WrapBlueprint(const Blueprint& blueprint, const ASTType astType, bool expand)
+sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options)
 {
     sos::Object blueprintObject;
     snowcrash::Error error;
 
     try {
-        RegisterNamedTypes(blueprint.content.elements());
-        ExpandMSON = expand;
+        RegisterNamedTypes(blueprint.node.content.elements());
+        ExpandMSON = options.expandMSON;
 
-        if (astType == RefractASTType) {
-            blueprintObject = WrapBlueprintRefract(blueprint);
+        if (options.astType == RefractASTType) {
+            blueprintObject = WrapBlueprintRefract(blueprint, options);
         }
         else {
-            blueprintObject = WrapBlueprintAST(blueprint);
+            blueprintObject = WrapBlueprintAST(blueprint.node);
         }
     }
     catch (std::exception& e) {

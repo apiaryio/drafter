@@ -38,15 +38,15 @@ sos::Object drafter::WrapAnnotation(const snowcrash::SourceAnnotation& annotatio
 }
 
 sos::Object WrapParseResultAST(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-                               const snowcrash::BlueprintParserOptions options)
+                               const WrapperOptions& options)
 {
     sos::Object object;
 
     object.set(SerializeKey::Version, sos::String(PARSE_RESULT_SERIALIZATION_VERSION));
 
-    object.set(SerializeKey::Ast, WrapBlueprint(blueprint.node, drafter::NormalASTType));
+    object.set(SerializeKey::Ast, WrapBlueprint(blueprint, options));
 
-    if (options & snowcrash::ExportSourcemapOption) {
+    if (options.exportSourceMap) {
         object.set(SerializeKey::Sourcemap, WrapBlueprintSourcemap(blueprint.sourceMap));
     }
 
@@ -57,9 +57,9 @@ sos::Object WrapParseResultAST(const snowcrash::ParseResult<snowcrash::Blueprint
 }
 
 sos::Object WrapParseResultRefract(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-                                   const snowcrash::BlueprintParserOptions options)
+                                   const WrapperOptions& options)
 {
-    refract::IElement* element = ParseResultToRefract(blueprint);
+    refract::IElement* element = ParseResultToRefract(blueprint, options);
     sos::Object object = SerializeRefract(element);
 
     if (element) {
@@ -70,8 +70,7 @@ sos::Object WrapParseResultRefract(const snowcrash::ParseResult<snowcrash::Bluep
 }
 
 sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-                                const snowcrash::BlueprintParserOptions options,
-                                const ASTType astType)
+                                const WrapperOptions& options)
 {
     sos::Object object;
     snowcrash::Error error;
@@ -79,7 +78,7 @@ sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprin
     try {
         RegisterNamedTypes(blueprint.node.content.elements());
 
-        if (astType == RefractASTType) {
+        if (options.astType == RefractASTType) {
             object = WrapParseResultRefract(blueprint, options);
         }
         else {
@@ -103,7 +102,7 @@ sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprin
 }
 
 sos::Object drafter::WrapParseResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-                                     const snowcrash::BlueprintParserOptions options)
+                                     const WrapperOptions& options)
 {
-    return WrapResult(blueprint, options, drafter::RefractASTType);
+    return WrapResult(blueprint, options);
 }

@@ -46,8 +46,10 @@ SC_API int drafter_c_parse(const char* source,
 
     if (result) {
         std::stringstream resultStream;
+        drafter::WrapperOptions wrapperOptions(drafter::ASTType(astType), false, options & SC_EXPORT_SORUCEMAP_OPTION);
+
         try {
-            serializer.process(drafter::WrapResult(blueprint, options, drafter::ASTType(astType)), resultStream);
+            serializer.process(drafter::WrapResult(blueprint, wrapperOptions), resultStream);
         }
         catch (std::exception& e) {
             blueprint.report.error.message = e.what();

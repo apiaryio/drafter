@@ -15,6 +15,8 @@
 #include "BlueprintSourcemap.h"
 #include "sos.h"
 
+#include "NodeInfo.h"
+
 #include "refract/Element.h"
 #include "refract/Registry.h"
 #include "refract/Visitors.h"
@@ -29,6 +31,22 @@ namespace drafter {
         NormalASTType = 0,   // Normal AST
         RefractASTType,      // Refract AST
         UnknownASTType = -1
+    };
+
+    enum SerializeFormat {
+        JSONFormat = 0,     // JSON Format
+        YAMLFormat,         // YAML Format
+        UnknownFormat = -1
+    };
+
+    // Options struct for drafter
+    struct WrapperOptions {
+        const ASTType astType;
+        const bool expandMSON;
+        const bool exportSourceMap;
+
+        WrapperOptions(const ASTType astType, const bool expandMSON, const bool exportSourceMap)
+        : astType(astType), expandMSON(expandMSON), exportSourceMap(exportSourceMap) {}
     };
 
     refract::Registry& GetNamedTypesRegistry();
@@ -153,6 +171,12 @@ namespace drafter {
         static const std::string Annotation;
         static const std::string SourceMap;
     };
+
+    template<typename T> T LiteralTo(const mson::Literal&);
+
+    template <> bool LiteralTo<bool>(const mson::Literal& literal);
+    template <> double LiteralTo<double>(const mson::Literal& literal);
+    template <> std::string LiteralTo<std::string>(const mson::Literal& literal);
 
     /**
      * \brief functor pattern to translate _collection_ into sos::Array on serialization

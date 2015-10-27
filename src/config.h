@@ -11,12 +11,15 @@
 
 #include <string>
 
+#include "Serialize.h"
+
 struct Config {
     std::string input;
     bool lineNumbers;
     bool validate;
-    std::string format;
-    std::string astType;
+    bool refractSourceMap;
+    drafter::SerializeFormat format;
+    drafter::ASTType astType;
     std::string sourceMap;
     std::string output;
 };

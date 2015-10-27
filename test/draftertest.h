@@ -13,15 +13,19 @@
 #include "sosJSON.h"
 
 #define TEST_REFRACT(category, name) TEST_CASE("Testing refract serialization for " category " " name, "[refract][" category "]") { \
-  FixtureHelper::handleResultJSON("test/fixtures/" category "/" name); \
+    FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::RefractASTType, false, false)); \
+}
+
+#define TEST_REFRACT_SOURCE_MAP(category, name) TEST_CASE("Testing refract + source map serialization for " category " " name, "[refract][" category "]") { \
+    FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::RefractASTType, false, true)); \
 }
 
 #define TEST_AST(category, name) TEST_CASE("Testing AST serialization for " category " " name, "[ast][" category "]") { \
-  FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, drafter::NormalASTType); \
+    FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::NormalASTType, false, false)); \
 }
 
 #define TEST_AST_SOURCE_MAP(category, name) TEST_CASE("Testing AST + source map serialization for " category " " name, "[ast][" category "]") { \
-  FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, drafter::NormalASTType, true); \
+    FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::NormalASTType, false, true)); \
 }
 
 namespace draftertest {
@@ -98,11 +102,17 @@ namespace draftertest {
           return output.str().c_str();
         }
 
-        static bool handleBlueprintJSON(const std::string& basepath, drafter::ASTType astType = drafter::NormalASTType, bool expand = false, bool mustBeOk = true) {
+        static bool handleBlueprintJSON(const std::string& basepath, const drafter::WrapperOptions& options, bool mustBeOk = true) {
             ITFixtureFiles fixture = ITFixtureFiles(basepath);
 
             snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
-            int result = snowcrash::parse(fixture.get(".apib"), 0, blueprint);
+            snowcrash::BlueprintParserOptions parserOptions = 0;
+
+            if (options.exportSourceMap) {
+                parserOptions |= snowcrash::ExportSourcemapOption;
+            }
+
+            int result = snowcrash::parse(fixture.get(".apib"), parserOptions, blueprint);
 
             if (mustBeOk) {
                 REQUIRE(result == snowcrash::Error::OK);
@@ -111,22 +121,23 @@ namespace draftertest {
             std::stringstream outStream;
             sos::SerializeJSON serializer;
 
-            serializer.process(drafter::WrapBlueprint(blueprint.node, astType, expand), outStream);
+            serializer.process(drafter::WrapBlueprint(blueprint, options), outStream);
             outStream << "\n";
 
             return (outStream.str() == fixture.get(".json"));
         }
 
-        static bool handleResultJSON(const std::string& basepath, drafter::ASTType astType = drafter::RefractASTType, bool sourceMap = false, bool mustBeOk = false) {
+        static bool handleResultJSON(const std::string& basepath, const drafter::WrapperOptions& options, bool mustBeOk = false) {
             ITFixtureFiles fixture = ITFixtureFiles(basepath);
-            int options = 0;
-
-            if (sourceMap) {
-              options |= snowcrash::ExportSourcemapOption;
-            }
 
             snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
-            int result = snowcrash::parse(fixture.get(".apib"), options, blueprint);
+            snowcrash::BlueprintParserOptions parserOptions = 0;
+
+            if (options.exportSourceMap) {
+              parserOptions |= snowcrash::ExportSourcemapOption;
+            }
+
+            int result = snowcrash::parse(fixture.get(".apib"), parserOptions, blueprint);
 
             if (mustBeOk) {
                 REQUIRE(result == snowcrash::Error::OK);
@@ -135,7 +146,7 @@ namespace draftertest {
             std::stringstream outStream;
             sos::SerializeJSON serializer;
 
-            serializer.process(drafter::WrapResult(blueprint, options, astType), outStream);
+            serializer.process(drafter::WrapResult(blueprint, options), outStream);
             outStream << "\n";
 
             std::string actual = outStream.str();
@@ -143,14 +154,14 @@ namespace draftertest {
             std::string extension;
             bool matches = false;
 
-            if (astType == drafter::RefractASTType) {
-              if (sourceMap) {
+            if (options.astType == drafter::RefractASTType) {
+              if (options.exportSourceMap) {
                 extension = ExtRefractSourceMap;
               } else {
                 extension = ExtRefract;
               }
             } else {
-              if (sourceMap) {
+              if (options.exportSourceMap) {
                 extension = ExtAstSourceMap;
               } else {
                 extension = ExtAst;

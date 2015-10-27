@@ -124,3 +124,25 @@ const std::string SerializeKey::Data = "data";
 const std::string SerializeKey::ParseResult = "parseResult";
 const std::string SerializeKey::Annotation = "annotation";
 const std::string SerializeKey::SourceMap = "sourceMap";
+
+
+namespace drafter {
+
+    template <>
+    bool LiteralTo<bool>(const mson::Literal& literal)
+    {
+        return literal == SerializeKey::True;
+    }
+
+    template <>
+    double LiteralTo<double>(const mson::Literal& literal)
+    {
+        return atof(literal.c_str());
+    }
+
+    template <>
+    std::string LiteralTo<std::string>(const mson::Literal& literal)
+    {
+        return literal;
+    }
+};

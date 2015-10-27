@@ -11,10 +11,11 @@
 
 #include "Serialize.h"
 #include "SectionProcessor.h"
+#include "RefractSourceMap.h"
 
 namespace drafter {
 
-    refract::IElement* ParseResultToRefract(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint);
+    refract::IElement* ParseResultToRefract(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const WrapperOptions& options);
 }
 
 #endif

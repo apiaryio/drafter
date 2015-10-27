@@ -29,6 +29,7 @@
         "src/stream.h",
         "src/Version.h",
 
+        "src/NodeInfo.h",
         "src/Serialize.h",
         "src/Serialize.cc",
         "src/SerializeAST.h",
@@ -43,6 +44,8 @@
         "src/RefractDataStructure.cc",
         "src/RefractParseResult.h",
         "src/RefractParseResult.cc",
+        "src/RefractSourceMap.h",
+        "src/RefractSourceMap.cc",
         "src/Render.h",
         "src/Render.cc",
 
@@ -114,6 +117,7 @@
         "test/test-RefractAPITest.cc",
         "test/test-RefractParseResultTest.cc",
         "test/test-RenderTest.cc",
+        "test/test-RefractSourceMapTest.cc",
       ],
       'dependencies': [
         "libdrafter",

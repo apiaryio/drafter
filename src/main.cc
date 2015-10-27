@@ -28,16 +28,13 @@ namespace sc = snowcrash;
  *
  *  \param format - output format for serialization
  */
-sos::Serialize* CreateSerializer(const std::string& format)
+sos::Serialize* CreateSerializer(const drafter::SerializeFormat& format)
 {
-    if (format == "json") {
+    if (format == drafter::JSONFormat) {
         return new sos::SerializeJSON;
-    } else if (format == "yaml") {
-        return new sos::SerializeYAML;
     }
 
-    std::cerr << "fatal: unknow serialization format: '" << format << "'\n";
-    exit(EXIT_FAILURE);
+    return new sos::SerializeYAML;
 }
 
 /**
@@ -59,7 +56,7 @@ int main(int argc, const char *argv[])
 
     sc::BlueprintParserOptions options = 0;  // Or snowcrash::RequireBlueprintNameOption
 
-    if (!config.sourceMap.empty()) {
+    if (!config.sourceMap.empty() || config.refractSourceMap) {
         options |= snowcrash::ExportSourcemapOption;
     }
 
@@ -76,8 +73,7 @@ int main(int argc, const char *argv[])
         std::ostream *out = CreateStreamFromName<std::ostream>(config.output);
 
         try {
-            drafter::ASTType astType = (config.astType == "ast") ? drafter::NormalASTType : drafter::RefractASTType;
-            Serialization(out, drafter::WrapBlueprint(blueprint.node, astType), serializer);
+            Serialization(out, drafter::WrapBlueprint(blueprint, drafter::WrapperOptions(config.astType, false, options & snowcrash::ExportSourcemapOption)), serializer);
         }
         catch (snowcrash::Error& e) {
             blueprint.report.error = e;
@@ -89,7 +85,7 @@ int main(int argc, const char *argv[])
 
         delete out;
 
-        if (options & snowcrash::ExportSourcemapOption) {
+        if (!config.sourceMap.empty()) {
             std::ostream *sourcemap = CreateStreamFromName<std::ostream>(config.sourceMap);
             Serialization(sourcemap, drafter::WrapBlueprintSourcemap(blueprint.sourceMap), serializer);
             delete sourcemap;

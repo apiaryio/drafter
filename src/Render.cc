@@ -40,16 +40,21 @@ namespace drafter {
         return "";
     }
 
-    Asset renderPayloadBody(const Payload& payload, const Action* action, const refract::Registry& registry) {
-        Asset body = payload.body;
-        RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.headers));
-        Attributes attributes = payload.attributes;
+    Asset renderPayloadBody(const NodeInfo<Payload>& payload, const NodeInfo<Action>& action, const refract::Registry& registry) {
+        Asset body = payload.node.body;
+        RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node.headers));
 
-        if (attributes.empty() && action != NULL && !action->attributes.empty()) {
-            attributes = action->attributes;
+        NodeInfo<Attributes> payloadAttributes = MAKE_NODE_INFO(payload, attributes);
+        NodeInfo<Attributes> actionAttributes = MAKE_NODE_INFO(action, attributes);
+
+        // hold attributes via pointer - because problems with assignment in NodeInfo<>
+        NodeInfo<Attributes>* attributes = &payloadAttributes;
+
+        if (payload.node.attributes.empty() && !action.isNull() && !action.node.attributes.empty()) {
+           attributes = &actionAttributes;
         }
 
-        if (!payload.body.empty() || attributes.empty() || renderFormat == UndefinedRenderFormat) {
+        if (!payload.node.body.empty() || attributes->node.empty() || renderFormat == UndefinedRenderFormat) {
             return body;
         }
 
@@ -57,10 +62,21 @@ namespace drafter {
             case JSONRenderFormat:
             {
                 refract::RenderJSONVisitor renderer;
-                refract::IElement* element = MSONToRefract(attributes);
+
+                refract::IElement* element = MSONToRefract(*attributes);
+
+                if (!element) {
+                    return body;
+                }
+
                 refract::IElement* expanded = ExpandRefract(element, registry);
 
+                if (!expanded) {
+                    return body;
+                }
+
                 renderer.visit(*expanded);
+
                 delete expanded;
 
                 return renderer.getString();
@@ -73,11 +89,11 @@ namespace drafter {
         return body;
     }
 
-    Asset renderPayloadSchema(const Payload& payload) {
-        Asset schema = payload.schema;
+    Asset renderPayloadSchema(const NodeInfo<Payload>& payload) {
+        Asset schema = payload.node.schema;
         RenderFormat renderFormat = JSONSchemaRenderFormat;
 
-        if (!payload.schema.empty() || payload.attributes.empty() || renderFormat == UndefinedRenderFormat) {
+        if (!payload.node.schema.empty() || payload.node.attributes.empty() || renderFormat == UndefinedRenderFormat) {
             return schema;
         }
 

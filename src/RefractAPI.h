@@ -18,8 +18,8 @@ namespace drafter {
 
     void RegisterNamedTypes(const snowcrash::Elements& elements);
 
-    refract::IElement* DataStructureToRefract(const snowcrash::DataStructure& dataStructure, bool expand = false);
-    refract::IElement* BlueprintToRefract(const snowcrash::Blueprint& blueprint);
+    refract::IElement* DataStructureToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure, bool expand = false);
+    refract::IElement* BlueprintToRefract(const NodeInfo<snowcrash::Blueprint>& blueprint);
 }
 
 #endif // #ifndef DRAFTER_REFRACTAST_H
