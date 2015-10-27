@@ -88,8 +88,8 @@ void ParseCommadLineOptions(int argc, const char *argv[], /* out */Config& conf)
 
     conf.lineNumbers      = parser.exist(config::UseLineNumbers);
     conf.validate         = parser.exist(config::Validate);
-    conf.format           = parser.get<std::string>(config::Format) == "yaml" ? drafter::YamlFormat : drafter::JsonFormat;
-    conf.astType          = parser.get<std::string>(config::Type) == "ast" ? drafter::NormalASTType : drafter::RefractASTType ;
+    conf.format           = parser.get<std::string>(config::Format) == "json" ? drafter::JSONFormat : drafter::YAMLFormat;
+    conf.astType          = parser.get<std::string>(config::Type) == "ast" ? drafter::NormalASTType : drafter::RefractASTType;
     conf.output           = parser.get<std::string>(config::Output);
     conf.sourceMap        = parser.get<std::string>(config::Sourcemap);
     conf.refractSourceMap = parser.exist(config::RefractSourceMap);

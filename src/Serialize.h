@@ -34,8 +34,9 @@ namespace drafter {
     };
 
     enum SerializeFormat {
-        JsonFormat,
-        YamlFormat
+        JSONFormat = 0,     // JSON Format
+        YAMLFormat,         // YAML Format
+        UnknownFormat = -1
     };
 
     refract::Registry& GetNamedTypesRegistry();

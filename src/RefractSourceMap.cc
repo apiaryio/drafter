@@ -10,7 +10,6 @@ static refract::IElement* CharacterRangeToRefract(const mdp::CharactersRange& so
     return range;
 }
 
-
 refract::IElement* drafter::SourceMapToRefract(const mdp::CharactersRangeSet& sourceMap)
 {
     refract::ArrayElement* sourceMapElement = new refract::ArrayElement;

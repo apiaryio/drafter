@@ -191,7 +191,7 @@ namespace drafter {
 
         NodeInfoCollection<mson::Elements> elementsNodeInfo(elements);
         
-        for (NodeInfoCollection<mson::Elements>::const_iterator it = elementsNodeInfo.begin() ; it != elementsNodeInfo.end() ; ++it) {
+        for (NodeInfoCollection<mson::Elements>::const_iterator it = elementsNodeInfo.begin(); it != elementsNodeInfo.end(); ++it) {
             result.push_back(MsonElementToRefract(*it, defaultNestedType));
         }
 
@@ -443,7 +443,7 @@ namespace drafter {
                 if (!nestedTypes.empty() && GetType(valueMember.node.valueDefinition) != mson::EnumTypeName) {
 
                     RefractElements types;
-                    for (mson::TypeNames::const_iterator it = nestedTypes.begin() ; it != nestedTypes.end(); ++it) {
+                    for (mson::TypeNames::const_iterator it = nestedTypes.begin(); it != nestedTypes.end(); ++it) {
                         RefractElementFactory& f = FactoryFromType(it->base);
                         types.push_back(f.Create(it->symbol.literal, it->symbol.variable));
                     }
@@ -644,7 +644,7 @@ namespace drafter {
         snowcrash::SourceMap<std::string> sourceMap;
         typedef typename std::vector<snowcrash::SourceMap<std::string> >::const_iterator Iterator;
 
-        for (Iterator it = data.descriptionsSourceMap.begin() ; it != data.descriptionsSourceMap.end() ; ++it) {
+        for (Iterator it = data.descriptionsSourceMap.begin(); it != data.descriptionsSourceMap.end(); ++it) {
             // FIXME: sourcemaps comming from snowcrash are empty there 
             sourceMap.sourceMap.append(it->sourceMap);
         }
@@ -730,6 +730,7 @@ namespace drafter {
         }
 
         mson::TypeAttributes attrs = property.node.valueDefinition.typeDefinition.attributes;
+
         // there is no source map for attributes
         if (refract::IElement* attributes = MsonTypeAttributesToRefract(attrs)) {
             element->attributes[SerializeKey::TypeAttributes] = attributes;
@@ -764,7 +765,7 @@ namespace drafter {
 
         NodeInfoCollection<mson::TypeSections> typeSections(MAKE_NODE_INFO(property, sections));
 
-        for (NodeInfoCollection<mson::TypeSections>::const_iterator it = typeSections.begin() ; it != typeSections.end(); ++it) {
+        for (NodeInfoCollection<mson::TypeSections>::const_iterator it = typeSections.begin(); it != typeSections.end(); ++it) {
            if (it->node.klass == mson::TypeSection::BlockDescriptionClass) {
                if (addNewLine) {
                    descriptionRef.append("\n");

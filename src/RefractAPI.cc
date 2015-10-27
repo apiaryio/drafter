@@ -27,7 +27,7 @@ namespace drafter {
 
         void FindNamedTypes(const snowcrash::Elements& elements, DataStructures& found)
         {
-            for (snowcrash::Elements::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
+            for (snowcrash::Elements::const_iterator i = elements.begin(); i != elements.end(); ++i) {
 
                 if (i->element == snowcrash::Element::DataStructureElement) {
                     found.push_back(&(i->content.dataStructure));
@@ -397,7 +397,7 @@ namespace drafter {
                 typedef NodeInfoCollection<snowcrash::Responses> ResponsesType;
                 ResponsesType responses(it->node.responses, it->sourceMap.responses);
 
-                for (ResponsesType::const_iterator resIt = responses.begin() ;
+                for (ResponsesType::const_iterator resIt = responses.begin();
                      resIt != responses.end();
                      ++resIt) {
 
@@ -463,9 +463,9 @@ namespace drafter {
 
     const snowcrash::SourceMap<snowcrash::Elements>& GetElementChildrenSourceMap(const NodeInfo<snowcrash::Element>& element)
     {
-            return element.sourceMap.content.elements().collection.empty()
-                ? NodeInfo<snowcrash::Elements>::NullSourceMap()
-                : element.sourceMap.content.elements();
+        return element.sourceMap.content.elements().collection.empty()
+            ? NodeInfo<snowcrash::Elements>::NullSourceMap()
+            : element.sourceMap.content.elements();
     }
 
     refract::IElement* CategoryToRefract(const NodeInfo<snowcrash::Element>& element)

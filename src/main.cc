@@ -30,7 +30,7 @@ namespace sc = snowcrash;
  */
 sos::Serialize* CreateSerializer(const drafter::SerializeFormat& format)
 {
-    if (format == drafter::JsonFormat) {
+    if (format == drafter::JSONFormat) {
         return new sos::SerializeJSON;
     }
 
