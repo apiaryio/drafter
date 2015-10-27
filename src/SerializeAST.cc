@@ -770,10 +770,9 @@ bool IsElementResourceGroup(const Element& element)
     return element.element == Element::CategoryElement && element.category == Element::ResourceGroupCategory;
 }
 
-sos::Object WrapBlueprintRefract(const snowcrash::ParseResult<Blueprint>& blueprint, const WrappingContext& context)
+sos::Object WrapBlueprintRefract(const snowcrash::ParseResult<Blueprint>& blueprint, const WrapperOptions& options)
 {
-    
-    NodeInfo<Blueprint> section = MakeNodeInfo(blueprint.node, blueprint.sourceMap, context.exportSourceMap);
+    NodeInfo<Blueprint> section = MakeNodeInfo(blueprint.node, blueprint.sourceMap, options.exportSourceMap);
 
     refract::IElement* element = BlueprintToRefract(section);
     sos::Object blueprintObject = SerializeRefract(element);
@@ -816,17 +815,17 @@ sos::Object WrapBlueprintAST(const Blueprint& blueprint)
     return blueprintObject;
 }
 
-sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrappingContext& context)
+sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options)
 {
     sos::Object blueprintObject;
     snowcrash::Error error;
 
     try {
         RegisterNamedTypes(blueprint.node.content.elements());
-        ExpandMSON = context.expandMSON;
+        ExpandMSON = options.expandMSON;
 
-        if (context.astType == RefractASTType) {
-            blueprintObject = WrapBlueprintRefract(blueprint, context);
+        if (options.astType == RefractASTType) {
+            blueprintObject = WrapBlueprintRefract(blueprint, options);
         }
         else {
             blueprintObject = WrapBlueprintAST(blueprint.node);

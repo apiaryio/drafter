@@ -33,17 +33,15 @@ namespace drafter {
         return AnnotationToRefract(annotation, false);
     }
 
-    refract::IElement* ParseResultToRefract(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint)
+    refract::IElement* ParseResultToRefract(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
+                                            const WrapperOptions& options)
     {
         refract::ArrayElement* element = new refract::ArrayElement;
         RefractElements content;
 
         element->element(SerializeKey::ParseResult);
 
-        snowcrash::SourceMap<snowcrash::Blueprint> nullSourceMap = NodeInfo<snowcrash::Blueprint>::NullSourceMap() ;
-
-        NodeInfo<snowcrash::Blueprint> sectionBlueprint(blueprint.node, nullSourceMap);
-        content.push_back(BlueprintToRefract((sectionBlueprint)));
+        content.push_back(BlueprintToRefract(MakeNodeInfo(blueprint.node, blueprint.sourceMap, options.exportSourceMap)));
 
         if (blueprint.report.error.code != snowcrash::Error::OK) {
             content.push_back(AnnotationToRefract(blueprint.report.error, true));
