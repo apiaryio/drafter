@@ -59,17 +59,21 @@
 		19A129FF1B70B8D000366AA7 /* sos.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129FB1B70B8D000366AA7 /* sos.h */; };
 		19A12A001B70B8D000366AA7 /* sosJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129FC1B70B8D000366AA7 /* sosJSON.h */; };
 		19A12A011B70B8D000366AA7 /* sosYAML.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129FD1B70B8D000366AA7 /* sosYAML.h */; };
-		19A12A021B70B92800366AA7 /* liblibsos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129EF1B70B88E00366AA7 /* liblibsos.a */; };
+		19A12A021B70B92800366AA7 /* libsos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129EF1B70B88E00366AA7 /* libsos.a */; };
 		19FD76A41B9720D300B160CF /* config.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A1296A1B70ABE100366AA7 /* config.cc */; };
 		19FD76A51B9720D600B160CF /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A1296E1B70ABE100366AA7 /* main.cc */; };
 		19FD76A61B97215B00B160CF /* liblibdrafter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19BD7B971B70AAAF00A11E83 /* liblibdrafter.a */; };
-		19FD76A71B97216100B160CF /* liblibsos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129EF1B70B88E00366AA7 /* liblibsos.a */; };
+		19FD76A71B97216100B160CF /* libsos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129EF1B70B88E00366AA7 /* libsos.a */; };
 		19FD76A81B97216700B160CF /* libmarkdownparser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129E91B70AFA900366AA7 /* libmarkdownparser.a */; };
 		19FD76A91B97216700B160CF /* libsnowcrash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129E71B70AFA600366AA7 /* libsnowcrash.a */; };
 		401074A31B833A1000B66442 /* Render.cc in Sources */ = {isa = PBXBuildFile; fileRef = 401074A21B833A1000B66442 /* Render.cc */; };
 		40AEEC391BB4AA7E005866DD /* RefractParseResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 40AEEC371BB4AA7E005866DD /* RefractParseResult.h */; };
 		40AEEC3B1BB4CB30005866DD /* RefractParseResult.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40AEEC3A1BB4CB30005866DD /* RefractParseResult.cc */; };
 		40AEEC3D1BB60CB6005866DD /* test-RefractParseResultTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40AEEC3C1BB60CB6005866DD /* test-RefractParseResultTest.cc */; };
+		40DDBDD61BE14EA700B10819 /* NodeInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 40DDBDD31BE14EA700B10819 /* NodeInfo.h */; };
+		40DDBDD71BE14EA700B10819 /* RefractSourceMap.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40DDBDD41BE14EA700B10819 /* RefractSourceMap.cc */; };
+		40DDBDD81BE14EA700B10819 /* RefractSourceMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 40DDBDD51BE14EA700B10819 /* RefractSourceMap.h */; };
+		40DDBDDA1BE14EE700B10819 /* test-RefractSourceMapTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40DDBDD91BE14EE700B10819 /* test-RefractSourceMapTest.cc */; };
 		40EF03D51B7210F300865990 /* RefractDataStructure.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40EF03D31B7210F300865990 /* RefractDataStructure.cc */; };
 		40EF03D61B7210F300865990 /* RefractDataStructure.h in Headers */ = {isa = PBXBuildFile; fileRef = 40EF03D41B7210F300865990 /* RefractDataStructure.h */; };
 		40EF03D91B72134000865990 /* RefractAPI.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40EF03D71B72134000865990 /* RefractAPI.cc */; };
@@ -162,7 +166,7 @@
 		19A129D81B70AE1900366AA7 /* test-libdrafter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "test-libdrafter"; sourceTree = BUILT_PRODUCTS_DIR; };
 		19A129E71B70AFA600366AA7 /* libsnowcrash.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsnowcrash.a; path = "../../../Library/Developer/Xcode/DerivedData/drafter-gsbusumgxawcfndzeqzwyaefkhkh/Build/Products/Debug/libsnowcrash.a"; sourceTree = "<group>"; };
 		19A129E91B70AFA900366AA7 /* libmarkdownparser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmarkdownparser.a; path = "../../../Library/Developer/Xcode/DerivedData/drafter-gsbusumgxawcfndzeqzwyaefkhkh/Build/Products/Debug/libmarkdownparser.a"; sourceTree = "<group>"; };
-		19A129EF1B70B88E00366AA7 /* liblibsos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibsos.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		19A129EF1B70B88E00366AA7 /* libsos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsos.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		19A129FA1B70B8D000366AA7 /* sos.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sos.cc; path = ext/sos/src/sos.cc; sourceTree = SOURCE_ROOT; };
 		19A129FB1B70B8D000366AA7 /* sos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sos.h; path = ext/sos/src/sos.h; sourceTree = SOURCE_ROOT; };
 		19A129FC1B70B8D000366AA7 /* sosJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sosJSON.h; path = ext/sos/src/sosJSON.h; sourceTree = SOURCE_ROOT; };
@@ -173,6 +177,10 @@
 		40AEEC371BB4AA7E005866DD /* RefractParseResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefractParseResult.h; path = src/RefractParseResult.h; sourceTree = SOURCE_ROOT; };
 		40AEEC3A1BB4CB30005866DD /* RefractParseResult.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractParseResult.cc; path = src/RefractParseResult.cc; sourceTree = SOURCE_ROOT; };
 		40AEEC3C1BB60CB6005866DD /* test-RefractParseResultTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-RefractParseResultTest.cc"; path = "test/test-RefractParseResultTest.cc"; sourceTree = "<group>"; };
+		40DDBDD31BE14EA700B10819 /* NodeInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NodeInfo.h; path = src/NodeInfo.h; sourceTree = SOURCE_ROOT; };
+		40DDBDD41BE14EA700B10819 /* RefractSourceMap.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractSourceMap.cc; path = src/RefractSourceMap.cc; sourceTree = SOURCE_ROOT; };
+		40DDBDD51BE14EA700B10819 /* RefractSourceMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefractSourceMap.h; path = src/RefractSourceMap.h; sourceTree = SOURCE_ROOT; };
+		40DDBDD91BE14EE700B10819 /* test-RefractSourceMapTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-RefractSourceMapTest.cc"; path = "test/test-RefractSourceMapTest.cc"; sourceTree = "<group>"; };
 		40EF03D31B7210F300865990 /* RefractDataStructure.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractDataStructure.cc; path = src/RefractDataStructure.cc; sourceTree = SOURCE_ROOT; };
 		40EF03D41B7210F300865990 /* RefractDataStructure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefractDataStructure.h; path = src/RefractDataStructure.h; sourceTree = SOURCE_ROOT; };
 		40EF03D71B72134000865990 /* RefractAPI.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractAPI.cc; path = src/RefractAPI.cc; sourceTree = SOURCE_ROOT; };
@@ -186,7 +194,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19A12A021B70B92800366AA7 /* liblibsos.a in Frameworks */,
+				19A12A021B70B92800366AA7 /* libsos.a in Frameworks */,
 				19A129EA1B70AFA900366AA7 /* libmarkdownparser.a in Frameworks */,
 				19A129E81B70AFA600366AA7 /* libsnowcrash.a in Frameworks */,
 				19A129E61B70AFA100366AA7 /* liblibdrafter.a in Frameworks */,
@@ -213,7 +221,7 @@
 			files = (
 				19FD76A81B97216700B160CF /* libmarkdownparser.a in Frameworks */,
 				19FD76A91B97216700B160CF /* libsnowcrash.a in Frameworks */,
-				19FD76A71B97216100B160CF /* liblibsos.a in Frameworks */,
+				19FD76A71B97216100B160CF /* libsos.a in Frameworks */,
 				19FD76A61B97215B00B160CF /* liblibdrafter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -242,6 +250,7 @@
 				40EF03DB1B72135E00865990 /* test-RefractAPITest.cc */,
 				40EF03DC1B72135E00865990 /* test-RefractDataStructureTest.cc */,
 				40AEEC3C1BB60CB6005866DD /* test-RefractParseResultTest.cc */,
+				40DDBDD91BE14EE700B10819 /* test-RefractSourceMapTest.cc */,
 				19A129CC1B70ADC300366AA7 /* test-RenderTest.cc */,
 				19A129CD1B70ADC300366AA7 /* test-SerializeResult.cc */,
 			);
@@ -279,7 +288,7 @@
 			name = refract;
 			sourceTree = "<group>";
 		};
-		19A129F01B70B88F00366AA7 /* libsos */ = {
+		19A129F01B70B88F00366AA7 /* sos */ = {
 			isa = PBXGroup;
 			children = (
 				19A129FA1B70B8D000366AA7 /* sos.cc */,
@@ -287,7 +296,7 @@
 				19A129FC1B70B8D000366AA7 /* sosJSON.h */,
 				19A129FD1B70B8D000366AA7 /* sosYAML.h */,
 			);
-			path = libsos;
+			path = sos;
 			sourceTree = "<group>";
 		};
 		19BD7B8E1B70AAAF00A11E83 = {
@@ -295,10 +304,10 @@
 			children = (
 				19A129E91B70AFA900366AA7 /* libmarkdownparser.a */,
 				19A129E71B70AFA600366AA7 /* libsnowcrash.a */,
+				19A129F01B70B88F00366AA7 /* sos */,
 				19A129941B70AC2100366AA7 /* drafter */,
 				19BD7B991B70AAAF00A11E83 /* libdrafter */,
 				19A129951B70AC2F00366AA7 /* test-libdrafter */,
-				19A129F01B70B88F00366AA7 /* libsos */,
 				19BD7B981B70AAAF00A11E83 /* Products */,
 			);
 			indentWidth = 4;
@@ -308,9 +317,9 @@
 		19BD7B981B70AAAF00A11E83 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				19A129EF1B70B88E00366AA7 /* libsos.a */,
 				19BD7B971B70AAAF00A11E83 /* liblibdrafter.a */,
 				19A129D81B70AE1900366AA7 /* test-libdrafter */,
-				19A129EF1B70B88E00366AA7 /* liblibsos.a */,
 				19FD769D1B9720CB00B160CF /* drafter */,
 			);
 			name = Products;
@@ -324,12 +333,15 @@
 				19A129691B70ABE100366AA7 /* cdrafter.h */,
 				19A1296C1B70ABE100366AA7 /* drafter.cc */,
 				19A1296D1B70ABE100366AA7 /* drafter.h */,
+				40DDBDD31BE14EA700B10819 /* NodeInfo.h */,
 				40EF03D71B72134000865990 /* RefractAPI.cc */,
 				40EF03D81B72134000865990 /* RefractAPI.h */,
 				40EF03D31B7210F300865990 /* RefractDataStructure.cc */,
 				40EF03D41B7210F300865990 /* RefractDataStructure.h */,
 				40AEEC3A1BB4CB30005866DD /* RefractParseResult.cc */,
 				40AEEC371BB4AA7E005866DD /* RefractParseResult.h */,
+				40DDBDD41BE14EA700B10819 /* RefractSourceMap.cc */,
+				40DDBDD51BE14EA700B10819 /* RefractSourceMap.h */,
 				401074A21B833A1000B66442 /* Render.cc */,
 				19A129711B70ABE100366AA7 /* Render.h */,
 				19A129741B70ABE100366AA7 /* Serialize.cc */,
@@ -371,12 +383,14 @@
 				19A129B81B70AC9A00366AA7 /* IsExpandableVisitor.h in Headers */,
 				19A129911B70ABE100366AA7 /* SerializeSourcemap.h in Headers */,
 				19A129AF1B70AC9A00366AA7 /* AppendDecorator.h in Headers */,
+				40DDBDD81BE14EA700B10819 /* RefractSourceMap.h in Headers */,
 				19A129C61B70AC9A00366AA7 /* Visitors.h in Headers */,
 				19A129931B70ABE100366AA7 /* Version.h in Headers */,
 				19A1298D1B70ABE100366AA7 /* SerializeAST.h in Headers */,
 				19A129921B70ABE100366AA7 /* stream.h in Headers */,
 				40EF03DA1B72134000865990 /* RefractAPI.h in Headers */,
 				19A129831B70ABE100366AA7 /* drafter.h in Headers */,
+				40DDBDD61BE14EA700B10819 /* NodeInfo.h in Headers */,
 				19A129BA1B70AC9A00366AA7 /* Registry.h in Headers */,
 				40EF03D61B7210F300865990 /* RefractDataStructure.h in Headers */,
 				19A129C11B70AC9A00366AA7 /* Typelist.h in Headers */,
@@ -415,9 +429,9 @@
 			productReference = 19A129D81B70AE1900366AA7 /* test-libdrafter */;
 			productType = "com.apple.product-type.tool";
 		};
-		19A129EE1B70B88E00366AA7 /* libsos */ = {
+		19A129EE1B70B88E00366AA7 /* sos */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 19A129F71B70B88F00366AA7 /* Build configuration list for PBXNativeTarget "libsos" */;
+			buildConfigurationList = 19A129F71B70B88F00366AA7 /* Build configuration list for PBXNativeTarget "sos" */;
 			buildPhases = (
 				19A129EB1B70B88E00366AA7 /* Sources */,
 				19A129EC1B70B88E00366AA7 /* Frameworks */,
@@ -427,9 +441,9 @@
 			);
 			dependencies = (
 			);
-			name = libsos;
-			productName = libsos;
-			productReference = 19A129EF1B70B88E00366AA7 /* liblibsos.a */;
+			name = sos;
+			productName = sos;
+			productReference = 19A129EF1B70B88E00366AA7 /* libsos.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		19BD7B961B70AAAF00A11E83 /* libdrafter */ = {
@@ -445,7 +459,7 @@
 			dependencies = (
 			);
 			name = libdrafter;
-			productName = libdrafter;
+			productName = drafter;
 			productReference = 19BD7B971B70AAAF00A11E83 /* liblibdrafter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
@@ -503,7 +517,7 @@
 			targets = (
 				19BD7B961B70AAAF00A11E83 /* libdrafter */,
 				19A129D71B70AE1900366AA7 /* test-libdrafter */,
-				19A129EE1B70B88E00366AA7 /* libsos */,
+				19A129EE1B70B88E00366AA7 /* sos */,
 				19FD769C1B9720CB00B160CF /* drafter */,
 			);
 		};
@@ -517,6 +531,7 @@
 				40EF03DE1B72135E00865990 /* test-RefractDataStructureTest.cc in Sources */,
 				19A129E31B70AE3200366AA7 /* test-SerializeResult.cc in Sources */,
 				19A129E01B70AE3200366AA7 /* test-drafter.cc in Sources */,
+				40DDBDDA1BE14EE700B10819 /* test-RefractSourceMapTest.cc in Sources */,
 				19A129DF1B70AE2F00366AA7 /* test-cdrafter.cc in Sources */,
 				19A129E21B70AE3200366AA7 /* test-RenderTest.cc in Sources */,
 				40EF03DD1B72135E00865990 /* test-RefractAPITest.cc in Sources */,
@@ -544,6 +559,7 @@
 				19A129BB1B70AC9A00366AA7 /* RenderJSONVisitor.cc in Sources */,
 				40EF03D51B7210F300865990 /* RefractDataStructure.cc in Sources */,
 				19A129B91B70AC9A00366AA7 /* Registry.cc in Sources */,
+				40DDBDD71BE14EA700B10819 /* RefractSourceMap.cc in Sources */,
 				19A1298C1B70ABE100366AA7 /* SerializeAST.cc in Sources */,
 				19A129B21B70AC9A00366AA7 /* Element.cc in Sources */,
 				40EF03D91B72134000865990 /* RefractAPI.cc in Sources */,
@@ -591,7 +607,7 @@
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/drafter-gsbusumgxawcfndzeqzwyaefkhkh/Build/Products/Debug",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "ext/snowcrash/src ext/sos/src ext/snowcrash/ext/markdown-parser/ext/sundown/src ext/snowcrash/ext/markdown-parser/src test/vendor/Catch/include";
+				USER_HEADER_SEARCH_PATHS = "ext/snowcrash/src ext/sos/src ext/snowcrash/ext/markdown-parser/ext/sundown/src ext/snowcrash/ext/markdown-parser/src test/vendor/Catch/include test/vendor/dtl/dtl";
 			};
 			name = Debug;
 		};
@@ -603,7 +619,7 @@
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/drafter-gsbusumgxawcfndzeqzwyaefkhkh/Build/Products/Debug",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "ext/snowcrash/src ext/sos/src ext/snowcrash/ext/markdown-parser/ext/sundown/src ext/snowcrash/ext/markdown-parser/src test/vendor/Catch/include";
+				USER_HEADER_SEARCH_PATHS = "ext/snowcrash/src ext/sos/src ext/snowcrash/ext/markdown-parser/ext/sundown/src ext/snowcrash/ext/markdown-parser/src test/vendor/Catch/include test/vendor/dtl/dtl";
 			};
 			name = Release;
 		};
@@ -774,7 +790,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		19A129F71B70B88F00366AA7 /* Build configuration list for PBXNativeTarget "libsos" */ = {
+		19A129F71B70B88F00366AA7 /* Build configuration list for PBXNativeTarget "sos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				19A129F81B70B88F00366AA7 /* Debug */,
