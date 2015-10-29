@@ -33,3 +33,4 @@ TEST_AST("render", "mixin-object-sample");
 TEST_AST("render", "nullable");
 TEST_AST("render", "override");
 TEST_AST("render", "action-request-attributes");
+TEST_AST("render", "object-array-string");
