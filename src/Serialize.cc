@@ -23,6 +23,18 @@ namespace drafter {
 
         return namedTypesRegistry;
     }
+
+    refract::ArrayElement* CreateArrayElement(refract::IElement* value, bool rFull)
+    {
+        refract::ArrayElement* array = new refract::ArrayElement;
+
+        if (rFull) {
+            value->renderType(refract::IElement::rFull);
+        }
+
+        array->push_back(value);
+        return array;
+    }
 }
 
 const std::string SerializeKey::Metadata = "metadata";

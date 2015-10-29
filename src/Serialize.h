@@ -178,6 +178,16 @@ namespace drafter {
     template <> double LiteralTo<double>(const mson::Literal& literal);
     template <> std::string LiteralTo<std::string>(const mson::Literal& literal);
 
+
+    refract::ArrayElement* CreateArrayElement(refract::IElement* value, bool rFull = false);
+
+    template <typename T>
+    refract::ArrayElement* CreateArrayElement(const T& content, bool rFull = false)
+    {
+        refract::IElement* value = refract::IElement::Create(content);
+        return CreateArrayElement(value);
+    }
+
     /**
      * \brief functor pattern to translate _collection_ into sos::Array on serialization
      * \requests for collection - must define typedef member ::const_iterator
