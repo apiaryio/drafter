@@ -19,7 +19,6 @@
     {
       "target_name": "libdrafter",
       'type': '<(libdrafter_type)',
-
       "sources": [
         "src/drafter.h",
         "src/drafter.cc",
@@ -79,7 +78,6 @@
 
         "src/refract/AppendDecorator.h",
       ],
-
       # FIXME: replace by direct dependecies
       "include_dirs": [
         "ext/snowcrash/ext/markdown-parser/src",
@@ -87,15 +85,11 @@
         "ext/sos/src",
         "ext/snowcrash/src",
       ],
-
       "dependencies": [
         "libsos",
         "ext/snowcrash/snowcrash.gyp:libsnowcrash",
-        "ext/snowcrash/snowcrash.gyp:libmarkdownparser",
-        "ext/snowcrash/snowcrash.gyp:libsundown",
       ],
     },
-
     {
       'target_name': 'test-libdrafter',
       'type': 'executable',
@@ -121,16 +115,11 @@
       ],
       'dependencies': [
         "libdrafter",
-        "libsos",
-        "ext/snowcrash/snowcrash.gyp:libsnowcrash",
-        "ext/snowcrash/snowcrash.gyp:libmarkdownparser",
-        "ext/snowcrash/snowcrash.gyp:libsundown",
       ],
       'conditions': [
          [ 'OS=="win"', { 'defines' : [ 'WIN' ] } ]
       ],
     },
-
     {
       "target_name": "drafter",
       "type": "executable",
@@ -141,7 +130,6 @@
         "src/reporting.cc",
         "src/reporting.h",
       ],
-
       # FIXME: replace by direct dependecies
       "include_dirs": [
         "ext/cmdline",
@@ -150,15 +138,9 @@
         "ext/sos/src",
         "ext/snowcrash/src",
       ],
-
       "dependencies": [
         "libdrafter",
-        "libsos",
-        "ext/snowcrash/snowcrash.gyp:libsnowcrash",
-        "ext/snowcrash/snowcrash.gyp:libmarkdownparser",
-        "ext/snowcrash/snowcrash.gyp:libsundown",
       ],
     },
-
   ],
 }
