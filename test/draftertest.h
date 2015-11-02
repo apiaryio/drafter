@@ -29,10 +29,13 @@
 }
 
 namespace draftertest {
-    const std::string ExtRefract = ".json";
-    const std::string ExtRefractSourceMap = ".sourcemap.json";
-    const std::string ExtAst = ".ast.json";
-    const std::string ExtAstSourceMap = ".ast.sourcemap.json";
+    namespace ext {
+      const std::string apib = ".apib";
+      const std::string json = ".json";
+      const std::string sourceMapJson = ".sourcemap.json";
+      const std::string astJson = ".ast.json";
+      const std::string astSourceMapJson = ".ast.sourcemap.json";
+    }
 
     class ITFixtureFiles {
 
@@ -76,7 +79,7 @@ namespace draftertest {
     };
 
     struct FixtureHelper {
-        static const char *printDiff(const std::string& actual, const std::string& expected) {
+        static std::string printDiff(const std::string& actual, const std::string& expected) {
           // First, convert strings into arrays of lines.
           std::vector <std::string> actualLines, expectedLines;
 
@@ -99,7 +102,7 @@ namespace draftertest {
           d.composeUnifiedHunks();
           d.printUnifiedFormat(output);
 
-          return output.str().c_str();
+          return output.str();
         }
 
         static bool handleBlueprintJSON(const std::string& basepath, const drafter::WrapperOptions& options, bool mustBeOk = true) {
@@ -112,7 +115,7 @@ namespace draftertest {
                 parserOptions |= snowcrash::ExportSourcemapOption;
             }
 
-            int result = snowcrash::parse(fixture.get(".apib"), parserOptions, blueprint);
+            int result = snowcrash::parse(fixture.get(ext::apib), parserOptions, blueprint);
 
             if (mustBeOk) {
                 REQUIRE(result == snowcrash::Error::OK);
@@ -124,7 +127,7 @@ namespace draftertest {
             serializer.process(drafter::WrapBlueprint(blueprint, options), outStream);
             outStream << "\n";
 
-            return (outStream.str() == fixture.get(".json"));
+            return (outStream.str() == fixture.get(ext::json));
         }
 
         static bool handleResultJSON(const std::string& basepath, const drafter::WrapperOptions& options, bool mustBeOk = false) {
@@ -137,7 +140,7 @@ namespace draftertest {
               parserOptions |= snowcrash::ExportSourcemapOption;
             }
 
-            int result = snowcrash::parse(fixture.get(".apib"), parserOptions, blueprint);
+            int result = snowcrash::parse(fixture.get(ext::apib), parserOptions, blueprint);
 
             if (mustBeOk) {
                 REQUIRE(result == snowcrash::Error::OK);
@@ -156,15 +159,15 @@ namespace draftertest {
 
             if (options.astType == drafter::RefractASTType) {
               if (options.exportSourceMap) {
-                extension = ExtRefractSourceMap;
+                extension = ext::sourceMapJson;
               } else {
-                extension = ExtRefract;
+                extension = ext::json;
               }
             } else {
               if (options.exportSourceMap) {
-                extension = ExtAstSourceMap;
+                extension = ext::astSourceMapJson;
               } else {
-                extension = ExtAst;
+                extension = ext::astJson;
               }
             }
 
@@ -173,7 +176,7 @@ namespace draftertest {
 
             if (actual != expected) {
               // If the two don't match, then output the diff.
-              const char *diff = FixtureHelper::printDiff(actual, expected);
+              std::string diff = FixtureHelper::printDiff(actual, expected);
               FAIL(diff);
             }
 
