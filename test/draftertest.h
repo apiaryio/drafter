@@ -79,7 +79,7 @@ namespace draftertest {
     };
 
     struct FixtureHelper {
-        static const char *printDiff(const std::string& actual, const std::string& expected) {
+        static std::string printDiff(const std::string& actual, const std::string& expected) {
           // First, convert strings into arrays of lines.
           std::vector <std::string> actualLines, expectedLines;
 
@@ -102,7 +102,7 @@ namespace draftertest {
           d.composeUnifiedHunks();
           d.printUnifiedFormat(output);
 
-          return output.str().c_str();
+          return output.str();
         }
 
         static bool handleBlueprintJSON(const std::string& basepath, const drafter::WrapperOptions& options, bool mustBeOk = true) {
@@ -176,7 +176,7 @@ namespace draftertest {
 
             if (actual != expected) {
               // If the two don't match, then output the diff.
-              const char *diff = FixtureHelper::printDiff(actual, expected);
+              std::string diff = FixtureHelper::printDiff(actual, expected);
               FAIL(diff);
             }
 
