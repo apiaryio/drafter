@@ -16,7 +16,8 @@ Module['parse'] = function(blueprint, options) {
   }
 
   var chptr = _malloc(4);
-  var buffer = _malloc(blueprint.length+1);
+  // at most 4 bytes per UTF-8 code point, +1 for the trailing '\0'
+  var buffer = _malloc(4*blueprint.length+1);
   var parseOptions = 0;
   var astType = 1;
 
