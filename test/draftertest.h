@@ -12,20 +12,25 @@
 #include "SerializeResult.h"
 #include "sosJSON.h"
 
+
+#define TEST_DRAFTER(description, category, name, tag,  wrapper, options, mustBeOk) TEST_CASE(description " " category " " name, "[" tag "][" category "]") { \
+    REQUIRE(FixtureHelper::handleResultJSON(wrapper, "test/fixtures/" category "/" name, options, mustBeOk)); \
+}
+
 #define TEST_REFRACT(category, name) TEST_CASE("Testing refract serialization for " category " " name, "[refract][" category "]") { \
-    FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::RefractASTType, false, false)); \
+    FixtureHelper::handleResultJSON(&drafter::WrapResult, "test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::RefractASTType, false, false)); \
 }
 
 #define TEST_REFRACT_SOURCE_MAP(category, name) TEST_CASE("Testing refract + source map serialization for " category " " name, "[refract][" category "]") { \
-    FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::RefractASTType, false, true)); \
+    FixtureHelper::handleResultJSON(&drafter::WrapResult, "test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::RefractASTType, false, true)); \
 }
 
 #define TEST_AST(category, name) TEST_CASE("Testing AST serialization for " category " " name, "[ast][" category "]") { \
-    FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::NormalASTType, false, false)); \
+    FixtureHelper::handleResultJSON(&drafter::WrapResult, "test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::NormalASTType, false, false)); \
 }
 
 #define TEST_AST_SOURCE_MAP(category, name) TEST_CASE("Testing AST + source map serialization for " category " " name, "[ast][" category "]") { \
-    FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::NormalASTType, false, true)); \
+    FixtureHelper::handleResultJSON(&drafter::WrapResult, "test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::NormalASTType, false, true)); \
 }
 
 namespace draftertest {
@@ -79,7 +84,7 @@ namespace draftertest {
     };
 
     struct FixtureHelper {
-        static std::string printDiff(const std::string& actual, const std::string& expected) {
+        static const std::string printDiff(const std::string& actual, const std::string& expected) {
           // First, convert strings into arrays of lines.
           std::vector <std::string> actualLines, expectedLines;
 
@@ -105,32 +110,28 @@ namespace draftertest {
           return output.str();
         }
 
-        static bool handleBlueprintJSON(const std::string& basepath, const drafter::WrapperOptions& options, bool mustBeOk = true) {
-            ITFixtureFiles fixture = ITFixtureFiles(basepath);
+        static std::string getFixtureExtension(const drafter::WrapperOptions& options) {
 
-            snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
-            snowcrash::BlueprintParserOptions parserOptions = 0;
-
-            if (options.exportSourceMap) {
-                parserOptions |= snowcrash::ExportSourcemapOption;
+            if (options.astType == drafter::RefractASTType) {
+              if (options.exportSourceMap) {
+                return ext::sourceMapJson;
+              } else {
+                return ext::json;
+              }
+            } else {
+              if (options.exportSourceMap) {
+                return ext::astSourceMapJson;
+              } else {
+                return ext::astJson;
+              }
             }
 
-            int result = snowcrash::parse(fixture.get(ext::apib), parserOptions, blueprint);
-
-            if (mustBeOk) {
-                REQUIRE(result == snowcrash::Error::OK);
-            }
-
-            std::stringstream outStream;
-            sos::SerializeJSON serializer;
-
-            serializer.process(drafter::WrapBlueprint(blueprint, options), outStream);
-            outStream << "\n";
-
-            return (outStream.str() == fixture.get(ext::json));
+            return ext::json;
         }
 
-        static bool handleResultJSON(const std::string& basepath, const drafter::WrapperOptions& options, bool mustBeOk = false) {
+        typedef sos::Object (*Wrapper)(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options);
+
+        static bool handleResultJSON(const Wrapper wrapper, const std::string& basepath, const drafter::WrapperOptions& options, bool mustBeOk = false) {
             ITFixtureFiles fixture = ITFixtureFiles(basepath);
 
             snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
@@ -142,42 +143,28 @@ namespace draftertest {
 
             int result = snowcrash::parse(fixture.get(ext::apib), parserOptions, blueprint);
 
-            if (mustBeOk) {
-                REQUIRE(result == snowcrash::Error::OK);
-            }
-
             std::stringstream outStream;
             sos::SerializeJSON serializer;
 
-            serializer.process(drafter::WrapResult(blueprint, options), outStream);
+            serializer.process((*wrapper)(blueprint, options), outStream);
             outStream << "\n";
 
             std::string actual = outStream.str();
             std::string expected;
-            std::string extension;
+            std::string extension = getFixtureExtension(options);
             bool matches = false;
-
-            if (options.astType == drafter::RefractASTType) {
-              if (options.exportSourceMap) {
-                extension = ext::sourceMapJson;
-              } else {
-                extension = ext::json;
-              }
-            } else {
-              if (options.exportSourceMap) {
-                extension = ext::astSourceMapJson;
-              } else {
-                extension = ext::astJson;
-              }
-            }
 
             INFO("Filename: \x1b[35m" << basepath << extension << "\x1b[0m");
             expected = fixture.get(extension);
 
             if (actual != expected) {
-              // If the two don't match, then output the diff.
-              std::string diff = FixtureHelper::printDiff(actual, expected);
-              FAIL(diff);
+                // If the two don't match, then output the diff.
+                std::string diff = FixtureHelper::printDiff(actual, expected);
+                FAIL(diff);
+            }
+
+            if (mustBeOk) {
+                REQUIRE(result == snowcrash::Error::OK);
             }
 
             return actual == expected;

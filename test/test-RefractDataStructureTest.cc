@@ -4,187 +4,47 @@ using namespace draftertest;
 
 static drafter::WrapperOptions MSONTestOptions(drafter::NormalASTType, true, false);
 
-TEST_CASE("Testing refract serialization for primitive types", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/primitives", MSONTestOptions));
-}
+#define TEST_MSON_(file, mustBeOk) TEST_DRAFTER("Testing MSON serialization for", "mson", file, "ast", &drafter::WrapBlueprint, MSONTestOptions, mustBeOk)
 
-TEST_CASE("Testing refract serialization for named types with inheritance", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/inheritance", MSONTestOptions));
-}
+#define TEST_MSON(file) TEST_MSON_(file, true)
 
-TEST_CASE("Testing refract serialization for array[type]", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/typed-array", MSONTestOptions));
-}
 
-TEST_CASE("Testing refract serialization for typed object", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/typed-object", MSONTestOptions));
-}
+TEST_MSON("primitives");
+TEST_MSON("inheritance");
+TEST_MSON("typed-array");
+TEST_MSON("typed-object");
+TEST_MSON("nontyped-object");
+TEST_MSON("enum");
+TEST_MSON("oneof");
+TEST_MSON("mixin");
+TEST_MSON_("mixin-nonexistent", false); // can fail, nonvalid blueprint
+TEST_MSON("string-sample"); 
+TEST_MSON("typed-array-sample"); 
+TEST_MSON("group"); 
+TEST_MSON("empty-sample"); 
+TEST_MSON("inner-inheritance"); 
+TEST_MSON("oneof-sample"); 
+TEST_MSON("multiline-description"); 
+TEST_MSON("primitive-variables"); 
+TEST_MSON("named-with-types"); 
+TEST_MSON("nontyped-array"); 
+TEST_MSON("number-wrong-value"); 
+TEST_MSON("enum-sample"); 
+TEST_MSON_("primitive-with-members", false); // can fail, nonvalid blueprint
+TEST_MSON("nontyped-array-sample");
+TEST_MSON("resource-anonymous");
+TEST_MSON("resource-nested-inheritance");
+TEST_MSON("resource-nested-mixin");
+TEST_MSON("resource-unresolved-reference");
+TEST_MSON("resource-resolve-basetype");
+TEST_MSON("resource-primitive-mixin");
+TEST_MSON("array-typed-content");
+TEST_MSON("resource-nested-member");
+TEST_MSON("array-sample");
+TEST_MSON("object-sample");
+TEST_MSON("enum-members-description");
+TEST_MSON("array-reference");
+TEST_MSON("reference-override");
+TEST_MSON("enum-variants");
 
-TEST_CASE("Testing refract serialization for nontypped object", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/nontyped-object", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract serialization for enums", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/enum", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract serialization for oneof", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/oneof", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract serialization for mixin", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/mixin", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract serialization for nonexistent mixin", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/mixin-nonexistent", MSONTestOptions, false));
-}
-
-TEST_CASE("Testing refract serialization for primitive with samples", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/string-sample", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract serialization for typed array samples", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/typed-array-sample", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract serialization for 'One Of' with grouped elements", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/group", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract serialization array with empty sample", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/empty-sample", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract serialization with inner inheritance", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/inner-inheritance", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract serialization oneof w/ sample", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/oneof-sample", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract serialization with multiline comments", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/multiline-description", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract serialization for primitive variables", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/primitive-variables", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract serialization for NamedTypes w/ type specification", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/named-with-types", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract serialization for nontypes array", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/nontyped-array", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract serialization for wrong number value", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/number-wrong-value", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract serialization for enum samples", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/enum-sample", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract serialization primitive elements w/ members", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/primitive-with-members", MSONTestOptions, false));
-}
-
-TEST_CASE("Testing refract serialization of nontyped array w/ samples", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/nontyped-array-sample", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract with anonymous resource", "[refract][mson][drafter.js]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/resource-anonymous", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract resource w/ nested inheritance", "[refract][mson][drafter.js]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/resource-nested-inheritance", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract resource w/ nested mixin", "[refract][mson][drafter.js]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/resource-nested-mixin", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract resource w/ unresolved reference", "[refract][mson][drafter.js]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/resource-unresolved-reference", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract resource resolve basetype from other resource", "[refract][mson][drafter.js]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/resource-resolve-basetype", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract resource - mixin from primitive type", "[refract][mson][drafter.js]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/resource-primitive-mixin", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract - array typed content", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/array-typed-content", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract resource - nested type in array", "[refract][mson][drafter.js]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/resource-nested-member", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract named structure - array samples and default", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/array-sample", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract named structure - object samples and default", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/object-sample", MSONTestOptions));
-}
-
-TEST_CASE("Testing description on members of enum|array", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/enum-members-description", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract array containing reference", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/array-reference", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract reference getting overridden", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/reference-override", MSONTestOptions));
-}
-
-TEST_CASE("Testing refract enum count of different variants value/samples", "[refract][mson]")
-{
-    REQUIRE(FixtureHelper::handleBlueprintJSON("test/fixtures/mson/enum-variants", MSONTestOptions));
-}
+#undef TEST_MSON
