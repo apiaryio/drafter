@@ -13,9 +13,7 @@
 #include "sosJSON.h"
 #include "sosYAML.h"
 
-#include "SerializeAST.h"
-#include "RefractAPI.h"
-#include "SerializeSourcemap.h"
+#include "SerializeResult.h"
 
 #include "reporting.h"
 #include "config.h"
@@ -56,7 +54,7 @@ int main(int argc, const char *argv[])
 
     sc::BlueprintParserOptions options = 0;  // Or snowcrash::RequireBlueprintNameOption
 
-    if (!config.sourceMap.empty() || config.refractSourceMap) {
+    if (config.sourceMap) {
         options |= snowcrash::ExportSourcemapOption;
     }
 
@@ -73,7 +71,7 @@ int main(int argc, const char *argv[])
         std::ostream *out = CreateStreamFromName<std::ostream>(config.output);
 
         try {
-            Serialization(out, drafter::WrapBlueprint(blueprint, drafter::WrapperOptions(config.astType, false, options & snowcrash::ExportSourcemapOption)), serializer);
+            Serialization(out, drafter::WrapResult(blueprint, drafter::WrapperOptions(config.astType, false, config.sourceMap)), serializer);
         }
         catch (snowcrash::Error& e) {
             blueprint.report.error = e;
@@ -84,13 +82,6 @@ int main(int argc, const char *argv[])
         }
 
         delete out;
-
-        if (!config.sourceMap.empty()) {
-            std::ostream *sourcemap = CreateStreamFromName<std::ostream>(config.sourceMap);
-            Serialization(sourcemap, drafter::WrapBlueprintSourcemap(blueprint.sourceMap), serializer);
-            delete sourcemap;
-        }
-
         delete serializer;
     }
 
