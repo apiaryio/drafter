@@ -102,14 +102,6 @@ function testSerialization(filename, type, done) {
         }
         var duration = process.hrtime(start);
 
-        // Remove the parse result wrapper, since the `drafter` tool does this
-        // before outputting the contents.
-        if (type === 'ast') {
-          result = result.ast;
-        } else {
-          result = result.content[0];
-        }
-
         callback(null, {
           output: result,
           duration: ms(duration),
