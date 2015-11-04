@@ -11,6 +11,9 @@ tar -xjf $OS-amd64-github-release.tar.bz2
 ./bin/$OS/amd64/github-release upload -u apiaryio -r drafter --tag $TAG --name drafter.js --file emcc/drafter.js
 ./bin/$OS/amd64/github-release upload -u apiaryio -r drafter --tag $TAG --name drafter.js.mem --file emcc/drafter.js.mem
 
+# Use the CI host's NPM_TOKEN environment variable for auth
+echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' >.npmrc
+
 # Publish to npm
 npm --no-git-tag-version version $TAG
 npm publish
