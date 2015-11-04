@@ -493,7 +493,7 @@ sos::Object WrapAsset(const Asset& asset, const AssetRole& role)
     return assetObject;
 }
 
-sos::Object WrapPayload(const Payload& payload, const Action* action = NULL)
+sos::Object WrapPayload(const Payload& payload, const Action* action)
 {
     sos::Object payloadObject;
 
@@ -663,7 +663,7 @@ sos::Object WrapResource(const Resource& resource)
     resourceObject.set(SerializeKey::URITemplate, sos::String(resource.uriTemplate));
 
     // Model
-    sos::Object model = (resource.model.name.empty() ? sos::Object() : WrapPayload(resource.model));
+    sos::Object model = (resource.model.name.empty() ? sos::Object() : WrapPayload(resource.model, NULL));
     resourceObject.set(SerializeKey::Model, model);
 
     // Parameters
