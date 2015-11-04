@@ -1,611 +1,641 @@
 {
-  "_version": "4.0",
-  "metadata": [
-    {
-      "name": "Format",
-      "value": "1A"
-    }
-  ],
-  "name": "<API name>",
-  "description": "<API description>\n\n",
-  "element": "category",
-  "resourceGroups": [
-    {
-      "name": "<resource group name>",
-      "description": "<resource group description>\n\n",
-      "resources": [
-        {
-          "element": "resource",
-          "name": "<resource name>",
-          "description": "<resource description>\n\n",
-          "uriTemplate": "/resource/{parameter}",
-          "model": {
+  "_version": "2.2",
+  "ast": {
+    "_version": "4.0",
+    "metadata": [
+      {
+        "name": "Format",
+        "value": "1A"
+      }
+    ],
+    "name": "<API name>",
+    "description": "<API description>\n\n",
+    "element": "category",
+    "resourceGroups": [
+      {
+        "name": "<resource group name>",
+        "description": "<resource group description>\n\n",
+        "resources": [
+          {
+            "element": "resource",
             "name": "<resource name>",
-            "description": "<resource model description>\n",
-            "headers": [
-              {
-                "name": "header1",
-                "value": "<header1 value>"
-              }
-            ],
-            "body": "<resource model body>\n",
-            "schema": "<resource model schema>\n",
-            "content": [
-              {
-                "element": "asset",
-                "attributes": {
-                  "role": "bodyExample"
-                },
-                "content": "<resource model body>\n"
-              },
-              {
-                "element": "asset",
-                "attributes": {
-                  "role": "bodySchema"
-                },
-                "content": "<resource model schema>\n"
-              }
-            ]
-          },
-          "parameters": [
-            {
-              "name": "parameter",
-              "description": "<description>",
-              "type": "<type>",
-              "required": false,
-              "default": "<default value>",
-              "example": "<example value>",
-              "values": [
+            "description": "<resource description>\n\n",
+            "uriTemplate": "/resource/{parameter}",
+            "model": {
+              "name": "<resource name>",
+              "description": "<resource model description>\n",
+              "headers": [
                 {
-                  "value": "<default value>"
-                },
-                {
-                  "value": "<example value>"
-                }
-              ]
-            }
-          ],
-          "actions": [
-            {
-              "name": "<action name>",
-              "description": "<action description>\n\n",
-              "method": "POST",
-              "parameters": [
-                {
-                  "name": "parameter",
-                  "description": "<description>",
-                  "type": "<type>",
-                  "required": false,
-                  "default": "<default value>",
-                  "example": "<example value>",
-                  "values": [
-                    {
-                      "value": "<default value>"
-                    },
-                    {
-                      "value": "<example value>"
-                    }
-                  ]
+                  "name": "header1",
+                  "value": "<header1 value>"
                 }
               ],
-              "attributes": {
-                "relation": "relation-name",
-                "uriTemplate": ""
-              },
-              "content": [],
-              "examples": [
-                {
-                  "name": "",
-                  "description": "",
-                  "requests": [
-                    {
-                      "name": "<request name>",
-                      "description": "<request description>\n",
-                      "headers": [
-                        {
-                          "name": "header2",
-                          "value": "<header2 value>"
-                        },
-                        {
-                          "name": "header3",
-                          "value": "<header3 value>"
-                        },
-                        {
-                          "name": "Content-Type",
-                          "value": "text/plain"
-                        },
-                        {
-                          "name": "header4",
-                          "value": "<header4 value>"
-                        }
-                      ],
-                      "body": "<request body>\n",
-                      "schema": "<request schema>\n",
-                      "content": [
-                        {
-                          "element": "asset",
-                          "attributes": {
-                            "role": "bodyExample"
-                          },
-                          "content": "<request body>\n"
-                        },
-                        {
-                          "element": "asset",
-                          "attributes": {
-                            "role": "bodySchema"
-                          },
-                          "content": "<request schema>\n"
-                        }
-                      ]
-                    }
-                  ],
-                  "responses": [
-                    {
-                      "name": "200",
-                      "description": "<response description>\n",
-                      "headers": [
-                        {
-                          "name": "header2",
-                          "value": "<header2 value>"
-                        },
-                        {
-                          "name": "header3",
-                          "value": "<header3 value>"
-                        },
-                        {
-                          "name": "Content-Type",
-                          "value": "text/plain"
-                        },
-                        {
-                          "name": "header5",
-                          "value": "<header5 value>"
-                        }
-                      ],
-                      "body": "<response body>\n",
-                      "schema": "<response schema>\n",
-                      "content": [
-                        {
-                          "element": "asset",
-                          "attributes": {
-                            "role": "bodyExample"
-                          },
-                          "content": "<response body>\n"
-                        },
-                        {
-                          "element": "asset",
-                          "attributes": {
-                            "role": "bodySchema"
-                          },
-                          "content": "<response schema>\n"
-                        }
-                      ]
-                    },
-                    {
-                      "reference": {
-                        "id": "<resource name>"
-                      },
-                      "name": "201",
-                      "description": "<resource model description>\n",
-                      "headers": [
-                        {
-                          "name": "header2",
-                          "value": "<header2 value>"
-                        },
-                        {
-                          "name": "header3",
-                          "value": "<header3 value>"
-                        },
-                        {
-                          "name": "header1",
-                          "value": "<header1 value>"
-                        }
-                      ],
-                      "body": "<resource model body>\n",
-                      "schema": "<resource model schema>\n",
-                      "content": [
-                        {
-                          "element": "asset",
-                          "attributes": {
-                            "role": "bodyExample"
-                          },
-                          "content": "<resource model body>\n"
-                        },
-                        {
-                          "element": "asset",
-                          "attributes": {
-                            "role": "bodySchema"
-                          },
-                          "content": "<resource model schema>\n"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "201",
-                      "description": "",
-                      "headers": [
-                        {
-                          "name": "header2",
-                          "value": "<header2 value>"
-                        },
-                        {
-                          "name": "header3",
-                          "value": "<header3 value>"
-                        },
-                        {
-                          "name": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "body": "{\n  \"<data structure property name>\": \"<data structure property value>\"\n}",
-                      "schema": "",
-                      "content": [
-                        {
-                          "element": "dataStructure",
-                          "content": [
-                            {
-                              "element": "<data structure name>"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "content": [
-            {
-              "element": "dataStructure",
+              "body": "<resource model body>\n",
+              "schema": "<resource model schema>\n",
               "content": [
                 {
-                  "element": "object",
-                  "meta": {
-                    "id": "<resource name>"
+                  "element": "asset",
+                  "attributes": {
+                    "role": "bodyExample"
                   },
-                  "content": [
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": "<attribute property description>"
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "<attribute property name>"
-                        },
-                        "value": {
-                          "element": "number",
-                          "content": 0
-                        }
-                      }
-                    }
-                  ]
+                  "content": "<resource model body>\n"
+                },
+                {
+                  "element": "asset",
+                  "attributes": {
+                    "role": "bodySchema"
+                  },
+                  "content": "<resource model schema>\n"
                 }
               ]
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "content": [
-    {
-      "element": "category",
-      "attributes": {
-        "name": "<resource group name>"
-      },
-      "content": [
-        {
-          "element": "copy",
-          "content": "<resource group description>\n\n"
+            },
+            "parameters": [
+              {
+                "name": "parameter",
+                "description": "<description>",
+                "type": "<type>",
+                "required": false,
+                "default": "<default value>",
+                "example": "<example value>",
+                "values": [
+                  {
+                    "value": "<default value>"
+                  },
+                  {
+                    "value": "<example value>"
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "name": "<action name>",
+                "description": "<action description>\n\n",
+                "method": "POST",
+                "parameters": [
+                  {
+                    "name": "parameter",
+                    "description": "<description>",
+                    "type": "<type>",
+                    "required": false,
+                    "default": "<default value>",
+                    "example": "<example value>",
+                    "values": [
+                      {
+                        "value": "<default value>"
+                      },
+                      {
+                        "value": "<example value>"
+                      }
+                    ]
+                  }
+                ],
+                "attributes": {
+                  "relation": "relation-name",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "<request name>",
+                        "description": "<request description>\n",
+                        "headers": [
+                          {
+                            "name": "header2",
+                            "value": "<header2 value>"
+                          },
+                          {
+                            "name": "header3",
+                            "value": "<header3 value>"
+                          },
+                          {
+                            "name": "Content-Type",
+                            "value": "text/plain"
+                          },
+                          {
+                            "name": "header4",
+                            "value": "<header4 value>"
+                          }
+                        ],
+                        "body": "<request body>\n",
+                        "schema": "<request schema>\n",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "<request body>\n"
+                          },
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodySchema"
+                            },
+                            "content": "<request schema>\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "<response description>\n",
+                        "headers": [
+                          {
+                            "name": "header2",
+                            "value": "<header2 value>"
+                          },
+                          {
+                            "name": "header3",
+                            "value": "<header3 value>"
+                          },
+                          {
+                            "name": "Content-Type",
+                            "value": "text/plain"
+                          },
+                          {
+                            "name": "header5",
+                            "value": "<header5 value>"
+                          }
+                        ],
+                        "body": "<response body>\n",
+                        "schema": "<response schema>\n",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "<response body>\n"
+                          },
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodySchema"
+                            },
+                            "content": "<response schema>\n"
+                          }
+                        ]
+                      },
+                      {
+                        "reference": {
+                          "id": "<resource name>"
+                        },
+                        "name": "201",
+                        "description": "<resource model description>\n",
+                        "headers": [
+                          {
+                            "name": "header2",
+                            "value": "<header2 value>"
+                          },
+                          {
+                            "name": "header3",
+                            "value": "<header3 value>"
+                          },
+                          {
+                            "name": "header1",
+                            "value": "<header1 value>"
+                          }
+                        ],
+                        "body": "<resource model body>\n",
+                        "schema": "<resource model schema>\n",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "<resource model body>\n"
+                          },
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodySchema"
+                            },
+                            "content": "<resource model schema>\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "201",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "header2",
+                            "value": "<header2 value>"
+                          },
+                          {
+                            "name": "header3",
+                            "value": "<header3 value>"
+                          },
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"<data structure property name>\": \"<data structure property value>\"\n}",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "<data structure name>"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": [
+              {
+                "element": "dataStructure",
+                "content": [
+                  {
+                    "element": "object",
+                    "meta": {
+                      "id": "<resource name>"
+                    },
+                    "content": [
+                      {
+                        "element": "member",
+                        "meta": {
+                          "description": "<attribute property description>"
+                        },
+                        "content": {
+                          "key": {
+                            "element": "string",
+                            "content": "<attribute property name>"
+                          },
+                          "value": {
+                            "element": "number",
+                            "content": 0
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "content": [
+      {
+        "element": "category",
+        "attributes": {
+          "name": "<resource group name>"
         },
-        {
-          "element": "resource",
-          "name": "<resource name>",
-          "description": "<resource description>\n\n",
-          "uriTemplate": "/resource/{parameter}",
-          "model": {
-            "name": "<resource name>",
-            "description": "<resource model description>\n",
-            "headers": [
-              {
-                "name": "header1",
-                "value": "<header1 value>"
-              }
-            ],
-            "body": "<resource model body>\n",
-            "schema": "<resource model schema>\n",
-            "content": [
-              {
-                "element": "asset",
-                "attributes": {
-                  "role": "bodyExample"
-                },
-                "content": "<resource model body>\n"
-              },
-              {
-                "element": "asset",
-                "attributes": {
-                  "role": "bodySchema"
-                },
-                "content": "<resource model schema>\n"
-              }
-            ]
+        "content": [
+          {
+            "element": "copy",
+            "content": "<resource group description>\n\n"
           },
-          "parameters": [
-            {
-              "name": "parameter",
-              "description": "<description>",
-              "type": "<type>",
-              "required": false,
-              "default": "<default value>",
-              "example": "<example value>",
-              "values": [
+          {
+            "element": "resource",
+            "name": "<resource name>",
+            "description": "<resource description>\n\n",
+            "uriTemplate": "/resource/{parameter}",
+            "model": {
+              "name": "<resource name>",
+              "description": "<resource model description>\n",
+              "headers": [
                 {
-                  "value": "<default value>"
-                },
-                {
-                  "value": "<example value>"
-                }
-              ]
-            }
-          ],
-          "actions": [
-            {
-              "name": "<action name>",
-              "description": "<action description>\n\n",
-              "method": "POST",
-              "parameters": [
-                {
-                  "name": "parameter",
-                  "description": "<description>",
-                  "type": "<type>",
-                  "required": false,
-                  "default": "<default value>",
-                  "example": "<example value>",
-                  "values": [
-                    {
-                      "value": "<default value>"
-                    },
-                    {
-                      "value": "<example value>"
-                    }
-                  ]
+                  "name": "header1",
+                  "value": "<header1 value>"
                 }
               ],
-              "attributes": {
-                "relation": "relation-name",
-                "uriTemplate": ""
-              },
-              "content": [],
-              "examples": [
-                {
-                  "name": "",
-                  "description": "",
-                  "requests": [
-                    {
-                      "name": "<request name>",
-                      "description": "<request description>\n",
-                      "headers": [
-                        {
-                          "name": "header2",
-                          "value": "<header2 value>"
-                        },
-                        {
-                          "name": "header3",
-                          "value": "<header3 value>"
-                        },
-                        {
-                          "name": "Content-Type",
-                          "value": "text/plain"
-                        },
-                        {
-                          "name": "header4",
-                          "value": "<header4 value>"
-                        }
-                      ],
-                      "body": "<request body>\n",
-                      "schema": "<request schema>\n",
-                      "content": [
-                        {
-                          "element": "asset",
-                          "attributes": {
-                            "role": "bodyExample"
-                          },
-                          "content": "<request body>\n"
-                        },
-                        {
-                          "element": "asset",
-                          "attributes": {
-                            "role": "bodySchema"
-                          },
-                          "content": "<request schema>\n"
-                        }
-                      ]
-                    }
-                  ],
-                  "responses": [
-                    {
-                      "name": "200",
-                      "description": "<response description>\n",
-                      "headers": [
-                        {
-                          "name": "header2",
-                          "value": "<header2 value>"
-                        },
-                        {
-                          "name": "header3",
-                          "value": "<header3 value>"
-                        },
-                        {
-                          "name": "Content-Type",
-                          "value": "text/plain"
-                        },
-                        {
-                          "name": "header5",
-                          "value": "<header5 value>"
-                        }
-                      ],
-                      "body": "<response body>\n",
-                      "schema": "<response schema>\n",
-                      "content": [
-                        {
-                          "element": "asset",
-                          "attributes": {
-                            "role": "bodyExample"
-                          },
-                          "content": "<response body>\n"
-                        },
-                        {
-                          "element": "asset",
-                          "attributes": {
-                            "role": "bodySchema"
-                          },
-                          "content": "<response schema>\n"
-                        }
-                      ]
-                    },
-                    {
-                      "reference": {
-                        "id": "<resource name>"
-                      },
-                      "name": "201",
-                      "description": "<resource model description>\n",
-                      "headers": [
-                        {
-                          "name": "header2",
-                          "value": "<header2 value>"
-                        },
-                        {
-                          "name": "header3",
-                          "value": "<header3 value>"
-                        },
-                        {
-                          "name": "header1",
-                          "value": "<header1 value>"
-                        }
-                      ],
-                      "body": "<resource model body>\n",
-                      "schema": "<resource model schema>\n",
-                      "content": [
-                        {
-                          "element": "asset",
-                          "attributes": {
-                            "role": "bodyExample"
-                          },
-                          "content": "<resource model body>\n"
-                        },
-                        {
-                          "element": "asset",
-                          "attributes": {
-                            "role": "bodySchema"
-                          },
-                          "content": "<resource model schema>\n"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "201",
-                      "description": "",
-                      "headers": [
-                        {
-                          "name": "header2",
-                          "value": "<header2 value>"
-                        },
-                        {
-                          "name": "header3",
-                          "value": "<header3 value>"
-                        },
-                        {
-                          "name": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "body": "{\n  \"<data structure property name>\": \"<data structure property value>\"\n}",
-                      "schema": "",
-                      "content": [
-                        {
-                          "element": "dataStructure",
-                          "content": [
-                            {
-                              "element": "<data structure name>"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "content": [
-            {
-              "element": "dataStructure",
+              "body": "<resource model body>\n",
+              "schema": "<resource model schema>\n",
               "content": [
                 {
-                  "element": "object",
-                  "meta": {
-                    "id": "<resource name>"
+                  "element": "asset",
+                  "attributes": {
+                    "role": "bodyExample"
                   },
-                  "content": [
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": "<attribute property description>"
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "<attribute property name>"
-                        },
-                        "value": {
-                          "element": "number",
-                          "content": 0
-                        }
-                      }
-                    }
-                  ]
+                  "content": "<resource model body>\n"
+                },
+                {
+                  "element": "asset",
+                  "attributes": {
+                    "role": "bodySchema"
+                  },
+                  "content": "<resource model schema>\n"
                 }
               ]
-            }
-          ]
+            },
+            "parameters": [
+              {
+                "name": "parameter",
+                "description": "<description>",
+                "type": "<type>",
+                "required": false,
+                "default": "<default value>",
+                "example": "<example value>",
+                "values": [
+                  {
+                    "value": "<default value>"
+                  },
+                  {
+                    "value": "<example value>"
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "name": "<action name>",
+                "description": "<action description>\n\n",
+                "method": "POST",
+                "parameters": [
+                  {
+                    "name": "parameter",
+                    "description": "<description>",
+                    "type": "<type>",
+                    "required": false,
+                    "default": "<default value>",
+                    "example": "<example value>",
+                    "values": [
+                      {
+                        "value": "<default value>"
+                      },
+                      {
+                        "value": "<example value>"
+                      }
+                    ]
+                  }
+                ],
+                "attributes": {
+                  "relation": "relation-name",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "<request name>",
+                        "description": "<request description>\n",
+                        "headers": [
+                          {
+                            "name": "header2",
+                            "value": "<header2 value>"
+                          },
+                          {
+                            "name": "header3",
+                            "value": "<header3 value>"
+                          },
+                          {
+                            "name": "Content-Type",
+                            "value": "text/plain"
+                          },
+                          {
+                            "name": "header4",
+                            "value": "<header4 value>"
+                          }
+                        ],
+                        "body": "<request body>\n",
+                        "schema": "<request schema>\n",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "<request body>\n"
+                          },
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodySchema"
+                            },
+                            "content": "<request schema>\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "<response description>\n",
+                        "headers": [
+                          {
+                            "name": "header2",
+                            "value": "<header2 value>"
+                          },
+                          {
+                            "name": "header3",
+                            "value": "<header3 value>"
+                          },
+                          {
+                            "name": "Content-Type",
+                            "value": "text/plain"
+                          },
+                          {
+                            "name": "header5",
+                            "value": "<header5 value>"
+                          }
+                        ],
+                        "body": "<response body>\n",
+                        "schema": "<response schema>\n",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "<response body>\n"
+                          },
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodySchema"
+                            },
+                            "content": "<response schema>\n"
+                          }
+                        ]
+                      },
+                      {
+                        "reference": {
+                          "id": "<resource name>"
+                        },
+                        "name": "201",
+                        "description": "<resource model description>\n",
+                        "headers": [
+                          {
+                            "name": "header2",
+                            "value": "<header2 value>"
+                          },
+                          {
+                            "name": "header3",
+                            "value": "<header3 value>"
+                          },
+                          {
+                            "name": "header1",
+                            "value": "<header1 value>"
+                          }
+                        ],
+                        "body": "<resource model body>\n",
+                        "schema": "<resource model schema>\n",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "<resource model body>\n"
+                          },
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodySchema"
+                            },
+                            "content": "<resource model schema>\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "201",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "header2",
+                            "value": "<header2 value>"
+                          },
+                          {
+                            "name": "header3",
+                            "value": "<header3 value>"
+                          },
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"<data structure property name>\": \"<data structure property value>\"\n}",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "<data structure name>"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": [
+              {
+                "element": "dataStructure",
+                "content": [
+                  {
+                    "element": "object",
+                    "meta": {
+                      "id": "<resource name>"
+                    },
+                    "content": [
+                      {
+                        "element": "member",
+                        "meta": {
+                          "description": "<attribute property description>"
+                        },
+                        "content": {
+                          "key": {
+                            "element": "string",
+                            "content": "<attribute property name>"
+                          },
+                          "value": {
+                            "element": "number",
+                            "content": 0
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "element": "category",
+        "content": [
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "object",
+                "meta": {
+                  "id": "<data structure name>",
+                  "description": "<data structure description>\n\n"
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": "<data structure property description>"
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "<data structure property name>"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "<data structure property value>"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "error": {
+    "code": 0,
+    "message": "",
+    "location": []
+  },
+  "warnings": [
+    {
+      "code": 9,
+      "message": "the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead",
+      "location": [
+        {
+          "index": 685,
+          "length": 45
         }
       ]
     },
     {
-      "element": "category",
-      "content": [
+      "code": 9,
+      "message": "the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead",
+      "location": [
         {
-          "element": "dataStructure",
-          "content": [
-            {
-              "element": "object",
-              "meta": {
-                "id": "<data structure name>",
-                "description": "<data structure description>\n\n"
-              },
-              "content": [
-                {
-                  "element": "member",
-                  "meta": {
-                    "description": "<data structure property description>"
-                  },
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "<data structure property name>"
-                    },
-                    "value": {
-                      "element": "string",
-                      "content": "<data structure property value>"
-                    }
-                  }
-                }
-              ]
-            }
-          ]
+          "index": 992,
+          "length": 45
         }
       ]
     }
