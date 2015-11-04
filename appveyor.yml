@@ -1,10 +1,15 @@
 version: 1.0.{build}
 
+environment:
+  matrix:
+#   - VS_VERSION: MSVC2012
+    - VS_VERSION: MSVC2013
+
 build_script:
   - git submodule update --init --recursive
   - gem install bundler
-  - vcbuild.bat MSVC2013
+  - vcbuild.bat %VS_VERSION%
 
 test_script:
-  - vcbuild.bat MSVC2013 test
-  - vcbuild.bat MSVC2013 inttest
+  - vcbuild.bat %VS_VERSION% test
+  - vcbuild.bat %VS_VERSION% inttest
