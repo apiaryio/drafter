@@ -4,47 +4,46 @@ using namespace draftertest;
 
 static drafter::WrapperOptions MSONTestOptions(drafter::NormalASTType, true, false);
 
-#define TEST_MSON_(file, mustBeOk) TEST_DRAFTER("Testing MSON serialization for", "mson", file, "ast", &drafter::WrapBlueprint, MSONTestOptions, mustBeOk)
+#define TEST_MSON(file, mustBeOk) TEST_DRAFTER("Testing MSON serialization for", "mson", file, "ast", &drafter::WrapBlueprint, MSONTestOptions, mustBeOk)
+#define TEST_MSON_SUCCESS(file) TEST_MSON(file, true)
 
-#define TEST_MSON(file) TEST_MSON_(file, true)
+TEST_MSON_SUCCESS("primitives");
+TEST_MSON_SUCCESS("inheritance");
+TEST_MSON_SUCCESS("typed-array");
+TEST_MSON_SUCCESS("typed-object");
+TEST_MSON_SUCCESS("nontyped-object");
+TEST_MSON_SUCCESS("enum");
+TEST_MSON_SUCCESS("oneof");
+TEST_MSON_SUCCESS("mixin");
+TEST_MSON("mixin-nonexistent", false); // can fail, nonvalid blueprint
+TEST_MSON_SUCCESS("string-sample");
+TEST_MSON_SUCCESS("typed-array-sample");
+TEST_MSON_SUCCESS("group");
+TEST_MSON_SUCCESS("empty-sample");
+TEST_MSON_SUCCESS("inner-inheritance");
+TEST_MSON_SUCCESS("oneof-sample");
+TEST_MSON_SUCCESS("multiline-description");
+TEST_MSON_SUCCESS("primitive-variables");
+TEST_MSON_SUCCESS("named-with-types");
+TEST_MSON_SUCCESS("nontyped-array");
+TEST_MSON_SUCCESS("number-wrong-value");
+TEST_MSON_SUCCESS("enum-sample");
+TEST_MSON("primitive-with-members", false); // can fail, nonvalid blueprint
+TEST_MSON_SUCCESS("nontyped-array-sample");
+TEST_MSON_SUCCESS("resource-anonymous");
+TEST_MSON_SUCCESS("resource-nested-inheritance");
+TEST_MSON_SUCCESS("resource-nested-mixin");
+TEST_MSON_SUCCESS("resource-unresolved-reference");
+TEST_MSON_SUCCESS("resource-resolve-basetype");
+TEST_MSON_SUCCESS("resource-primitive-mixin");
+TEST_MSON_SUCCESS("array-typed-content");
+TEST_MSON_SUCCESS("resource-nested-member");
+TEST_MSON_SUCCESS("array-sample");
+TEST_MSON_SUCCESS("object-sample");
+TEST_MSON_SUCCESS("enum-members-description");
+TEST_MSON_SUCCESS("array-reference");
+TEST_MSON_SUCCESS("reference-override");
+TEST_MSON_SUCCESS("enum-variants");
 
-
-TEST_MSON("primitives");
-TEST_MSON("inheritance");
-TEST_MSON("typed-array");
-TEST_MSON("typed-object");
-TEST_MSON("nontyped-object");
-TEST_MSON("enum");
-TEST_MSON("oneof");
-TEST_MSON("mixin");
-TEST_MSON_("mixin-nonexistent", false); // can fail, nonvalid blueprint
-TEST_MSON("string-sample"); 
-TEST_MSON("typed-array-sample"); 
-TEST_MSON("group"); 
-TEST_MSON("empty-sample"); 
-TEST_MSON("inner-inheritance"); 
-TEST_MSON("oneof-sample"); 
-TEST_MSON("multiline-description"); 
-TEST_MSON("primitive-variables"); 
-TEST_MSON("named-with-types"); 
-TEST_MSON("nontyped-array"); 
-TEST_MSON("number-wrong-value"); 
-TEST_MSON("enum-sample"); 
-TEST_MSON_("primitive-with-members", false); // can fail, nonvalid blueprint
-TEST_MSON("nontyped-array-sample");
-TEST_MSON("resource-anonymous");
-TEST_MSON("resource-nested-inheritance");
-TEST_MSON("resource-nested-mixin");
-TEST_MSON("resource-unresolved-reference");
-TEST_MSON("resource-resolve-basetype");
-TEST_MSON("resource-primitive-mixin");
-TEST_MSON("array-typed-content");
-TEST_MSON("resource-nested-member");
-TEST_MSON("array-sample");
-TEST_MSON("object-sample");
-TEST_MSON("enum-members-description");
-TEST_MSON("array-reference");
-TEST_MSON("reference-override");
-TEST_MSON("enum-variants");
-
+#undef TEST_MSON_SUCCESS
 #undef TEST_MSON
