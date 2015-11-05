@@ -17,10 +17,9 @@ struct Config {
     std::string input;
     bool lineNumbers;
     bool validate;
-    bool refractSourceMap;
     drafter::SerializeFormat format;
     drafter::ASTType astType;
-    std::string sourceMap;
+    bool sourceMap;
     std::string output;
 };
 

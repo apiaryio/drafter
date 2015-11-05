@@ -13,12 +13,12 @@ Additionally Drafter provide set of Wrappers for serialization, of parsing resul
 
 Drafter also provides the user ability to select the type of the output. There are two possible values:
 
-* **Refract AST:** AST is defined in Refract elements according to [Parse Result Namespace](https://github.com/refractproject/refract-spec/blob/master/namespaces/parse-result-namespace.md)
-* **Normal AST:** AST defined by the [API Blueprint AST](https://github.com/apiaryio/api-blueprint-ast) Parse Result.
+* **Refract Parse Result:** Parse Result is defined in Refract elements according to [Parse Result Namespace](https://github.com/refractproject/refract-spec/blob/master/namespaces/parse-result-namespace.md)
+* **Normal AST Parse Result:** Parse Result defined by the [API Blueprint AST](https://github.com/apiaryio/api-blueprint-ast) Parse Result.
 
-By default, Drafter assumes the Refract AST.
+By default, Drafter assumes the Refract Parse Result.
 
-Both the types of AST are available in two different serialization formats, YAML and JSON. YAML is the default for the CLI.
+Both the types of Parse Results are available in two different serialization formats, YAML and JSON. YAML is the default for the CLI.
 
 ## Status
 - [Format 1A9](https://github.com/apiaryio/api-blueprint/releases/tag/format-1A9) fully implemented
@@ -59,7 +59,7 @@ std::cout << "API Name: " << ast.node.name << std::endl;
 
 // Serialization to JSON format
 sos::SerializeJSON serializer;
-serializer.process(drafter::WrapBlueprint(ast.node, drafter::RefractASTType), std::cout);
+serializer.process(drafter::WrapBlueprint(ast.node, drafter::WrapperOptions(drafter::RefractASTType, false, false)), std::cout);
 
 ```
 
@@ -93,12 +93,15 @@ $ cat << 'EOF' > blueprint.apib
 EOF
 
 $ drafter blueprint.apib
-element: "category"
-meta:
-  classes:
-    - "api"
-  title: "My API"
- ...
+element: "parseResult"
+content:
+  -
+    element: "category"
+    meta:
+      classes:
+        - "api"
+      title: "My API"
+...
 ```
 
 See [parse feature](features/parse.feature) for the details on using the `drafter` command line tool.
