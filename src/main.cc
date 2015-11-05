@@ -71,7 +71,7 @@ int main(int argc, const char *argv[])
         std::ostream *out = CreateStreamFromName<std::ostream>(config.output);
 
         try {
-            Serialization(out, drafter::WrapResult(blueprint, drafter::WrapperOptions(config.astType, false, config.sourceMap)), serializer);
+            Serialization(out, drafter::WrapResult(blueprint, drafter::WrapperOptions(config.astType, config.sourceMap)), serializer);
         }
         catch (snowcrash::Error& e) {
             blueprint.report.error = e;

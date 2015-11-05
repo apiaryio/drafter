@@ -59,7 +59,7 @@ std::cout << "API Name: " << ast.node.name << std::endl;
 
 // Serialization to JSON format
 sos::SerializeJSON serializer;
-serializer.process(drafter::WrapBlueprint(ast.node, drafter::WrapperOptions(drafter::RefractASTType, false, false)), std::cout);
+serializer.process(drafter::WrapBlueprint(ast.node, drafter::WrapperOptions(drafter::RefractASTType)), std::cout);
 
 ```
 

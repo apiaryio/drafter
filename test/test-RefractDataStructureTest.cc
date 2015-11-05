@@ -2,7 +2,7 @@
 
 using namespace draftertest;
 
-static drafter::WrapperOptions MSONTestOptions(drafter::NormalASTType, true, false);
+static drafter::WrapperOptions MSONTestOptions(drafter::NormalASTType, false, true);
 
 #define TEST_MSON(file, mustBeOk) TEST_DRAFTER("Testing MSON serialization for", "mson", file, "ast", &drafter::WrapBlueprint, MSONTestOptions, mustBeOk)
 #define TEST_MSON_SUCCESS(file) TEST_MSON(file, true)

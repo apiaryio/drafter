@@ -42,11 +42,17 @@ namespace drafter {
     // Options struct for drafter
     struct WrapperOptions {
         const ASTType astType;
-        const bool expandMSON;
         const bool exportSourceMap;
+        const bool expandMSON;
 
-        WrapperOptions(const ASTType astType, const bool expandMSON, const bool exportSourceMap)
-        : astType(astType), expandMSON(expandMSON), exportSourceMap(exportSourceMap) {}
+        WrapperOptions(const ASTType astType, const bool exportSourceMap, const bool expandMSON)
+        : astType(astType), exportSourceMap(exportSourceMap), expandMSON(expandMSON) {}
+
+        WrapperOptions(const ASTType astType, const bool exportSourceMap)
+        : astType(astType), exportSourceMap(exportSourceMap), expandMSON(false) {}
+
+        WrapperOptions(const ASTType astType)
+        : astType(astType), exportSourceMap(false), expandMSON(false) {}
     };
 
     refract::Registry& GetNamedTypesRegistry();
