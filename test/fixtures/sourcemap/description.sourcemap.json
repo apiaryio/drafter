@@ -1,0 +1,49 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": {
+          "element": "string",
+          "attributes": {
+            "sourceMap": [
+              {
+                "element": "sourceMap",
+                "content": [
+                  [
+                    0,
+                    12
+                  ]
+                ]
+              }
+            ]
+          },
+          "content": "API name"
+        }
+      },
+      "content": [
+        {
+          "element": "copy",
+          "attributes": {
+            "sourceMap": [
+              {
+                "element": "sourceMap",
+                "content": [
+                  [
+                    12,
+                    27
+                  ]
+                ]
+              }
+            ]
+          },
+          "content": "This is an API description\n"
+        }
+      ]
+    }
+  ]
+}

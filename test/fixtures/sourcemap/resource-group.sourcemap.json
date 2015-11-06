@@ -1,0 +1,76 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": {
+          "element": "string",
+          "attributes": {
+            "sourceMap": [
+              {
+                "element": "sourceMap",
+                "content": [
+                  [
+                    0,
+                    12
+                  ]
+                ]
+              }
+            ]
+          },
+          "content": "API name"
+        }
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": {
+              "element": "string",
+              "attributes": {
+                "sourceMap": [
+                  {
+                    "element": "sourceMap",
+                    "content": [
+                      [
+                        12,
+                        15
+                      ]
+                    ]
+                  }
+                ]
+              },
+              "content": "Users"
+            }
+          },
+          "content": [
+            {
+              "element": "copy",
+              "attributes": {
+                "sourceMap": [
+                  {
+                    "element": "sourceMap",
+                    "content": [
+                      [
+                        27,
+                        23
+                      ]
+                    ]
+                  }
+                ]
+              },
+              "content": "User related endpoints\n"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
