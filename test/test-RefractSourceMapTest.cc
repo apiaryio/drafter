@@ -2,7 +2,6 @@
 
 using namespace draftertest;
 
-TEST_REFRACT_SOURCE_MAP("sourcemap", "full");
 TEST_REFRACT_SOURCE_MAP("sourcemap", "description");
 TEST_REFRACT_SOURCE_MAP("sourcemap", "metadata");
 TEST_REFRACT_SOURCE_MAP("sourcemap", "resource-group");
@@ -19,3 +18,4 @@ TEST_REFRACT_SOURCE_MAP("sourcemap", "headers");
 TEST_REFRACT_SOURCE_MAP("sourcemap", "resource-parameters");
 TEST_REFRACT_SOURCE_MAP("sourcemap", "action-parameters");
 TEST_REFRACT_SOURCE_MAP("sourcemap", "asset");
+TEST_REFRACT_SOURCE_MAP("sourcemap", "mson");
