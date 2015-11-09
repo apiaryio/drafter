@@ -225,6 +225,17 @@
                                 "classes": "messageBody"
                               },
                               "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        170,
+                                        7
+                                      ]
+                                    ]
+                                  }
+                                ],
                                 "contentType": "application/json"
                               },
                               "content": "[]\n"

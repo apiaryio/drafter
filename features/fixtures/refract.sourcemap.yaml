@@ -259,7 +259,17 @@ content:
                               - 25
                     content: "<action name>"
                 attributes:
-                  relation: "relation-name"
+                  relation:
+                    element: "string"
+                    attributes:
+                      sourceMap:
+                        -
+                          element: "sourceMap"
+                          content:
+                            -
+                              - 779
+                              - 24
+                    content: "relation-name"
                   hrefVariables:
                     element: "hrefVariables"
                     content:
@@ -471,6 +481,13 @@ content:
                             meta:
                               classes: "messageBody"
                             attributes:
+                              sourceMap:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      - 1176
+                                      - 19
                               contentType: "text/plain"
                             content: "<request body>\n"
                           -
@@ -478,6 +495,13 @@ content:
                             meta:
                               classes: "messageSchema"
                             attributes:
+                              sourceMap:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      - 1218
+                                      - 21
                               contentType: "text/plain"
                             content: "<request schema>\n"
                       -
@@ -582,6 +606,13 @@ content:
                             meta:
                               classes: "messageBody"
                             attributes:
+                              sourceMap:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      - 1370
+                                      - 20
                               contentType: "text/plain"
                             content: "<response body>\n"
                           -
@@ -589,6 +620,13 @@ content:
                             meta:
                               classes: "messageSchema"
                             attributes:
+                              sourceMap:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      - 1413
+                                      - 22
                               contentType: "text/plain"
                             content: "<response schema>\n"
                   -
@@ -707,6 +745,13 @@ content:
                             meta:
                               classes: "messageBody"
                             attributes:
+                              sourceMap:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      - 1176
+                                      - 19
                               contentType: "text/plain"
                             content: "<request body>\n"
                           -
@@ -714,6 +759,13 @@ content:
                             meta:
                               classes: "messageSchema"
                             attributes:
+                              sourceMap:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      - 1218
+                                      - 21
                               contentType: "text/plain"
                             content: "<request schema>\n"
                       -
@@ -800,11 +852,27 @@ content:
                             element: "asset"
                             meta:
                               classes: "messageBody"
+                            attributes:
+                              sourceMap:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      - 419
+                                      - 26
                             content: "<resource model body>\n"
                           -
                             element: "asset"
                             meta:
                               classes: "messageSchema"
+                            attributes:
+                              sourceMap:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      - 468
+                                      - 28
                             content: "<resource model schema>\n"
                   -
                     element: "httpTransaction"
@@ -922,6 +990,13 @@ content:
                             meta:
                               classes: "messageBody"
                             attributes:
+                              sourceMap:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      - 1176
+                                      - 19
                               contentType: "text/plain"
                             content: "<request body>\n"
                           -
@@ -929,6 +1004,13 @@ content:
                             meta:
                               classes: "messageSchema"
                             attributes:
+                              sourceMap:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      - 1218
+                                      - 21
                               contentType: "text/plain"
                             content: "<request schema>\n"
                       -

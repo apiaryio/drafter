@@ -186,6 +186,19 @@
                               "meta": {
                                 "classes": "messageBody"
                               },
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        109,
+                                        7
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
                               "content": "[]\n"
                             }
                           ]

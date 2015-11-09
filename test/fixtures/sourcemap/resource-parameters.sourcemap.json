@@ -352,6 +352,17 @@
                                 "classes": "messageBody"
                               },
                               "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        319,
+                                        7
+                                      ]
+                                    ]
+                                  }
+                                ],
                                 "contentType": "application/json"
                               },
                               "content": "{}\n"

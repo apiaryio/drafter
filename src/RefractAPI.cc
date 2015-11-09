@@ -292,8 +292,8 @@ namespace drafter {
         }
 
         // Render using boutique
-        NodeInfo<snowcrash::Asset> payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
-        NodeInfo<snowcrash::Asset> payloadSchema = renderPayloadSchema(payload);
+        NodeInfoByValue<snowcrash::Asset> payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
+        NodeInfoByValue<snowcrash::Asset> payloadSchema = renderPayloadSchema(payload);
 
         content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
         content.push_back(DataStructureToRefract(MAKE_NODE_INFO(payload, attributes)));
@@ -302,8 +302,8 @@ namespace drafter {
         std::string contentType = getContentTypeFromHeaders(payload.node.headers);
 
         // Assets
-        content.push_back(AssetToRefract(payloadBody, contentType, SerializeKey::MessageBody));
-        content.push_back(AssetToRefract(payloadSchema, contentType, SerializeKey::MessageSchema));
+        content.push_back(AssetToRefract(NodeInfo<snowcrash::Asset>(payloadBody), contentType, SerializeKey::MessageBody));
+        content.push_back(AssetToRefract(NodeInfo<snowcrash::Asset>(payloadSchema), contentType, SerializeKey::MessageSchema));
 
         RemoveEmptyElements(content);
         element->set(content);

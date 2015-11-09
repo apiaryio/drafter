@@ -161,6 +161,19 @@
                               "meta": {
                                 "classes": "messageBody"
                               },
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        93,
+                                        7
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
                               "content": "{}\n"
                             }
                           ]
@@ -191,6 +204,19 @@
                               "element": "asset",
                               "meta": {
                                 "classes": "messageBody"
+                              },
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        121,
+                                        7
+                                      ]
+                                    ]
+                                  }
+                                ]
                               },
                               "content": "[]\n"
                             }

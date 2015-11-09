@@ -403,7 +403,23 @@
                     }
                   },
                   "attributes": {
-                    "relation": "relation-name",
+                    "relation": {
+                      "element": "string",
+                      "attributes": {
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
+                              [
+                                779,
+                                24
+                              ]
+                            ]
+                          }
+                        ]
+                      },
+                      "content": "relation-name"
+                    },
                     "hrefVariables": {
                       "element": "hrefVariables",
                       "content": [
@@ -729,6 +745,17 @@
                                 "classes": "messageBody"
                               },
                               "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        1176,
+                                        19
+                                      ]
+                                    ]
+                                  }
+                                ],
                                 "contentType": "text/plain"
                               },
                               "content": "<request body>\n"
@@ -739,6 +766,17 @@
                                 "classes": "messageSchema"
                               },
                               "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        1218,
+                                        21
+                                      ]
+                                    ]
+                                  }
+                                ],
                                 "contentType": "text/plain"
                               },
                               "content": "<request schema>\n"
@@ -899,6 +937,17 @@
                                 "classes": "messageBody"
                               },
                               "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        1370,
+                                        20
+                                      ]
+                                    ]
+                                  }
+                                ],
                                 "contentType": "text/plain"
                               },
                               "content": "<response body>\n"
@@ -909,6 +958,17 @@
                                 "classes": "messageSchema"
                               },
                               "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        1413,
+                                        22
+                                      ]
+                                    ]
+                                  }
+                                ],
                                 "contentType": "text/plain"
                               },
                               "content": "<response schema>\n"
@@ -1091,6 +1151,17 @@
                                 "classes": "messageBody"
                               },
                               "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        1176,
+                                        19
+                                      ]
+                                    ]
+                                  }
+                                ],
                                 "contentType": "text/plain"
                               },
                               "content": "<request body>\n"
@@ -1101,6 +1172,17 @@
                                 "classes": "messageSchema"
                               },
                               "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        1218,
+                                        21
+                                      ]
+                                    ]
+                                  }
+                                ],
                                 "contentType": "text/plain"
                               },
                               "content": "<request schema>\n"
@@ -1234,12 +1316,38 @@
                               "meta": {
                                 "classes": "messageBody"
                               },
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        419,
+                                        26
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
                               "content": "<resource model body>\n"
                             },
                             {
                               "element": "asset",
                               "meta": {
                                 "classes": "messageSchema"
+                              },
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        468,
+                                        28
+                                      ]
+                                    ]
+                                  }
+                                ]
                               },
                               "content": "<resource model schema>\n"
                             }
@@ -1421,6 +1529,17 @@
                                 "classes": "messageBody"
                               },
                               "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        1176,
+                                        19
+                                      ]
+                                    ]
+                                  }
+                                ],
                                 "contentType": "text/plain"
                               },
                               "content": "<request body>\n"
@@ -1431,6 +1550,17 @@
                                 "classes": "messageSchema"
                               },
                               "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        1218,
+                                        21
+                                      ]
+                                    ]
+                                  }
+                                ],
                                 "contentType": "text/plain"
                               },
                               "content": "<request schema>\n"
