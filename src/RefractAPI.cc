@@ -293,9 +293,8 @@ namespace drafter {
         }
 
         // Render using boutique
-        // FIXME: has asset sourcemap?
-        snowcrash::Asset payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
-        snowcrash::Asset payloadSchema = renderPayloadSchema(payload);
+        NodeInfo<snowcrash::Asset> payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
+        NodeInfo<snowcrash::Asset> payloadSchema = renderPayloadSchema(payload);
 
         content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
         content.push_back(DataStructureToRefract(MAKE_NODE_INFO(payload, attributes)));
@@ -304,8 +303,8 @@ namespace drafter {
         std::string contentType = getContentTypeFromHeaders(payload.node.headers);
 
         // Assets
-        content.push_back(AssetToRefract(MakeNodeInfoWithoutSourceMap(payloadBody), contentType, SerializeKey::MessageBody));
-        content.push_back(AssetToRefract(MakeNodeInfoWithoutSourceMap(payloadSchema), contentType, SerializeKey::MessageSchema));
+        content.push_back(AssetToRefract(payloadBody, contentType, SerializeKey::MessageBody));
+        content.push_back(AssetToRefract(payloadSchema, contentType, SerializeKey::MessageSchema));
 
         RemoveEmptyElements(content);
         element->set(content);
@@ -349,9 +348,6 @@ namespace drafter {
         }
 
         if (!action.node.uriTemplate.empty()) {
-            // FIXME: There is no differece between output with original code and new one
-            // probably there is no example with uriTemplate
-            // original code: element->attributes[SerializeKey::Href] = refract::IElement::Create(action.uriTemplate);
             element->attributes[SerializeKey::Href] = PrimitiveToRefract(MAKE_NODE_INFO(action, uriTemplate));
         }
 

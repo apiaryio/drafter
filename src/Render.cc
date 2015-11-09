@@ -40,8 +40,8 @@ namespace drafter {
         return "";
     }
 
-    Asset renderPayloadBody(const NodeInfo<Payload>& payload, const NodeInfo<Action>& action, const refract::Registry& registry) {
-        Asset body = payload.node.body;
+    NodeInfo<Asset> renderPayloadBody(const NodeInfo<Payload>& payload, const NodeInfo<Action>& action, const refract::Registry& registry) {
+        NodeInfo<Asset> body = MAKE_NODE_INFO(payload, body);
         RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node.headers));
 
         NodeInfo<Attributes> payloadAttributes = MAKE_NODE_INFO(payload, attributes);
@@ -79,7 +79,7 @@ namespace drafter {
 
                 delete expanded;
 
-                return renderer.getString();
+                return MakeNodeInfoWithoutSourceMap((Asset) renderer.getString());
             }
 
             default:
@@ -89,8 +89,8 @@ namespace drafter {
         return body;
     }
 
-    Asset renderPayloadSchema(const NodeInfo<Payload>& payload) {
-        Asset schema = payload.node.schema;
+    NodeInfo<Asset> renderPayloadSchema(const NodeInfo<Payload>& payload) {
+        NodeInfo<Asset> schema = MAKE_NODE_INFO(payload, schema);
         RenderFormat renderFormat = JSONSchemaRenderFormat;
 
         if (!payload.node.schema.empty() || payload.node.attributes.empty() || renderFormat == UndefinedRenderFormat) {
