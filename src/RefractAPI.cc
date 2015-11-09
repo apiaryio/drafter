@@ -153,7 +153,6 @@ namespace drafter {
         // Add sample value
         if (!parameter.node.exampleValue.empty()) {
             refract::ArrayElement* samples = new refract::ArrayElement;
-            // FIXME: sourcemap of exampleValue does is not equal to
             samples->push_back(CreateArrayElement(LiteralToRefract<T>(MAKE_NODE_INFO(parameter, exampleValue)), true));
             element->attributes[SerializeKey::Samples] = samples;
         }
@@ -247,7 +246,7 @@ namespace drafter {
         element->meta[SerializeKey::Classes] = refract::ArrayElement::Create(metaClass);
 
         if (!contentType.empty()) {
-            // FIXME: has SourceMap?
+            // FIXME: "contentType" has no sourceMap?
             element->attributes[SerializeKey::ContentType] = refract::IElement::Create(contentType);
         }
 

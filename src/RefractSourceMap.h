@@ -17,32 +17,32 @@ namespace drafter {
     refract::IElement* SourceMapToRefract(const mdp::CharactersRangeSet& sourceMap);
 
     template<typename T>
-    void AttachSourceMap(refract::IElement* element, const T& sectionInfo) 
+    void AttachSourceMap(refract::IElement* element, const T& nodeInfo)
     {
-        if (sectionInfo.hasSourceMap() && !sectionInfo.sourceMap.sourceMap.empty()) {
-            element->attributes[SerializeKey::SourceMap] = SourceMapToRefract(sectionInfo.sourceMap.sourceMap);
+        if (nodeInfo.hasSourceMap() && !nodeInfo.sourceMap.sourceMap.empty()) {
+            element->attributes[SerializeKey::SourceMap] = SourceMapToRefract(nodeInfo.sourceMap.sourceMap);
             element->renderType(refract::IElement::rFull);
         }
     }
 
     template<typename T>
-    refract::IElement* PrimitiveToRefract(const NodeInfo<T>& sectionInfo)
+    refract::IElement* PrimitiveToRefract(const NodeInfo<T>& primitive)
     {
         typedef typename refract::ElementTypeSelector<T>::ElementType ElementType;
 
-        ElementType* element = refract::IElement::Create(sectionInfo.node);
+        ElementType* element = refract::IElement::Create(primitive.node);
 
-        AttachSourceMap(element, sectionInfo);
+        AttachSourceMap(element, primitive);
 
         return element;
     }
 
     template<typename T>
-    refract::IElement* LiteralToRefract(const NodeInfo<std::string>& sectionInfo)
+    refract::IElement* LiteralToRefract(const NodeInfo<std::string>& literal)
     {
-        refract::IElement* element = refract::IElement::Create(LiteralTo<T>(sectionInfo.node));
+        refract::IElement* element = refract::IElement::Create(LiteralTo<T>(literal.node));
 
-        AttachSourceMap(element, sectionInfo);
+        AttachSourceMap(element, literal);
 
         return element;
     }
