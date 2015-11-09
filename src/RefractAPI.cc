@@ -342,8 +342,10 @@ namespace drafter {
         element->meta[SerializeKey::Title] = PrimitiveToRefract(MAKE_NODE_INFO(action, name));
 
         if (!action.node.relation.str.empty()) {
-            // FIXME: add SourceMap
-            element->attributes[SerializeKey::Relation] = refract::IElement::Create(action.node.relation.str);
+            refract::StringElement* relation = refract::IElement::Create(action.node.relation.str);
+            AttachSourceMap(relation, MAKE_NODE_INFO(action, relation));
+
+            element->attributes[SerializeKey::Relation] = relation;
         }
 
         if (!action.node.uriTemplate.empty()) {

@@ -114,7 +114,23 @@
                     }
                   },
                   "attributes": {
-                    "relation": "list"
+                    "relation": {
+                      "element": "string",
+                      "attributes": {
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
+                              [
+                                73,
+                                15
+                              ]
+                            ]
+                          }
+                        ]
+                      },
+                      "content": "list"
+                    }
                   },
                   "content": [
                     {
