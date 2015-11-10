@@ -24,3 +24,4 @@ TEST_REFRACT("api", "action-request-attributes");
 
 // regressions
 TEST_REFRACT("api", "attributes-array")
+TEST_REFRACT("api", "attributes-object")
