@@ -84,28 +84,33 @@ namespace refract
 
             // FIXME: add check against recursive inheritance
 
-            // walk recursive in registry an expand inheritance tree
+            // walk recursive in registry and expand inheritance tree
             for (const IElement* parent = registry.find(en)
                 ; parent && !isReserved(en)
                 ; en = parent->element(), parent = registry.find(en) ) {
 
-                IElement* clone = parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId);
+                T* clone = static_cast<T*>(parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId));
                 clone->meta["ref"] = IElement::Create(en);
 
                 if (e) {
                     e->push_back(clone);
                 }
                 else {
-                    e = static_cast<T*>(clone);
+                    e = clone;
                 }
             }
 
             // FIXME: posible solution while referenced type is not found in regisry
             // \see test/fixtures/mson-resource-unresolved-reference.apib
             //
-            //if (o->value.empty()) {
-            //   o->meta["ref"] = IElement::Create(name);
+            //if (e->value.empty()) {
+            //   e->meta["ref"] = IElement::Create(name);
             //}
+
+            if (T* expanded = TypeQueryVisitor::as<T>(ExpandOrClone(e, registry))) {
+                delete e;
+                return expanded;
+            }
 
             return e;
         }
