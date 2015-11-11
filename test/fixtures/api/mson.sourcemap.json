@@ -1,0 +1,483 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": {
+          "element": "string",
+          "attributes": {
+            "sourceMap": [
+              {
+                "element": "sourceMap",
+                "content": [
+                  [
+                    0,
+                    12
+                  ]
+                ]
+              }
+            ]
+          },
+          "content": "API name"
+        }
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "dataStructures"
+            ]
+          },
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": {
+                      "element": "string",
+                      "attributes": {
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
+                              [
+                                31,
+                                8
+                              ]
+                            ]
+                          }
+                        ]
+                      },
+                      "content": "User"
+                    },
+                    "description": "User of the application\n\n"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "attributes": {
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    81,
+                                    16
+                                  ]
+                                ]
+                              }
+                            ]
+                          },
+                          "content": "username"
+                        },
+                        "value": {
+                          "element": "string",
+                          "attributes": {
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    81,
+                                    16
+                                  ]
+                                ]
+                              }
+                            ]
+                          },
+                          "content": "pavan"
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "Id of the user"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "attributes": {
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    99,
+                                    32
+                                  ]
+                                ]
+                              }
+                            ]
+                          },
+                          "content": "id"
+                        },
+                        "value": {
+                          "element": "number",
+                          "attributes": {
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    99,
+                                    32
+                                  ]
+                                ]
+                              }
+                            ]
+                          },
+                          "content": 5
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "attributes": {
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    133,
+                                    8
+                                  ]
+                                ]
+                              }
+                            ]
+                          },
+                          "content": "address"
+                        },
+                        "value": {
+                          "element": "object",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "attributes": {
+                                    "sourceMap": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          [
+                                            147,
+                                            7
+                                          ]
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "content": "street"
+                                },
+                                "value": {
+                                  "element": "string"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "attributes": {
+                                    "sourceMap": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          [
+                                            160,
+                                            5
+                                          ]
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "content": "city"
+                                },
+                                "value": {
+                                  "element": "string"
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "meta": {
+                                "description": "zip description"
+                              },
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "attributes": {
+                                    "sourceMap": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          [
+                                            171,
+                                            37
+                                          ]
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "content": "zip"
+                                },
+                                "value": {
+                                  "element": "number",
+                                  "attributes": {
+                                    "sourceMap": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          [
+                                            171,
+                                            37
+                                          ]
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "content": 1234
+                                }
+                              }
+                            },
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "attributes": {
+                                    "sourceMap": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          [
+                                            214,
+                                            20
+                                          ]
+                                        ]
+                                      }
+                                    ],
+                                    "variable": true
+                                  },
+                                  "content": "variable"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "attributes": {
+                                    "sourceMap": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          [
+                                            214,
+                                            20
+                                          ]
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "content": "trololo"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "array description"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "attributes": {
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    236,
+                                    34
+                                  ]
+                                ]
+                              }
+                            ]
+                          },
+                          "content": "array"
+                        },
+                        "value": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        276,
+                                        2
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "3"
+                            },
+                            {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        284,
+                                        2
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "4"
+                            },
+                            {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        292,
+                                        2
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "5"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "desc"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "attributes": {
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    296,
+                                    35
+                                  ]
+                                ]
+                              }
+                            ]
+                          },
+                          "content": "inline array"
+                        },
+                        "value": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "1"
+                            },
+                            {
+                              "element": "string",
+                              "content": "2"
+                            },
+                            {
+                              "element": "string",
+                              "content": "3"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": {
+                          "element": "string",
+                          "attributes": {
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    379,
+                                    22
+                                  ],
+                                  [
+                                    405,
+                                    19
+                                  ]
+                                ]
+                              }
+                            ]
+                          },
+                          "content": "some dummy text\n\nand it continue there\nand will end there\n"
+                        }
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "attributes": {
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    333,
+                                    42
+                                  ]
+                                ]
+                              }
+                            ]
+                          },
+                          "content": "multilined description"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": {
+          "element": "string",
+          "attributes": {
+            "sourceMap": [
+              {
+                "element": "sourceMap",
+                "content": [
+                  [
+                    0,
+                    12
+                  ]
+                ]
+              }
+            ]
+          },
+          "content": "API name"
+        }
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": {
+              "element": "string",
+              "attributes": {
+                "sourceMap": [
+                  {
+                    "element": "sourceMap",
+                    "content": [
+                      [
+                        12,
+                        15
+                      ]
+                    ]
+                  }
+                ]
+              },
+              "content": "Users"
+            }
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": {
+                  "element": "string",
+                  "attributes": {
+                    "sourceMap": [
+                      {
+                        "element": "sourceMap",
+                        "content": [
+                          [
+                            27,
+                            18
+                          ]
+                        ]
+                      }
+                    ]
+                  },
+                  "content": "User"
+                }
+              },
+              "attributes": {
+                "href": {
+                  "element": "string",
+                  "attributes": {
+                    "sourceMap": [
+                      {
+                        "element": "sourceMap",
+                        "content": [
+                          [
+                            27,
+                            18
+                          ]
+                        ]
+                      }
+                    ]
+                  },
+                  "content": "/users"
+                }
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": {
+                      "element": "string",
+                      "attributes": {
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
+                              [
+                                45,
+                                26
+                              ]
+                            ]
+                          }
+                        ]
+                      },
+                      "content": "List all users"
+                    }
+                  },
+                  "content": [
+                    {
+                      "element": "copy",
+                      "attributes": {
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
+                              [
+                                71,
+                                31
+                              ]
+                            ]
+                          }
+                        ]
+                      },
+                      "content": "Get the list of all the users\n\n"
+                    },
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        45,
+                                        26
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "GET"
+                            }
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        104,
+                                        14
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "200"
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": "messageBody"
+                              },
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        122,
+                                        7
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "[]\n"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

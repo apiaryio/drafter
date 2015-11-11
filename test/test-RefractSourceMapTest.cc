@@ -2,4 +2,20 @@
 
 using namespace draftertest;
 
-TEST_REFRACT_SOURCE_MAP("sourcemap", "full");
+TEST_REFRACT_SOURCE_MAP("api", "description");
+TEST_REFRACT_SOURCE_MAP("api", "metadata");
+TEST_REFRACT_SOURCE_MAP("api", "resource-group");
+TEST_REFRACT_SOURCE_MAP("api", "data-structure");
+TEST_REFRACT_SOURCE_MAP("api", "resource");
+TEST_REFRACT_SOURCE_MAP("api", "action");
+TEST_REFRACT_SOURCE_MAP("api", "advanced-action");
+TEST_REFRACT_SOURCE_MAP("api", "relation");
+TEST_REFRACT_SOURCE_MAP("api", "resource-attributes");
+TEST_REFRACT_SOURCE_MAP("api", "action-attributes");
+TEST_REFRACT_SOURCE_MAP("api", "payload-attributes");
+TEST_REFRACT_SOURCE_MAP("api", "transaction");
+TEST_REFRACT_SOURCE_MAP("api", "headers");
+TEST_REFRACT_SOURCE_MAP("api", "resource-parameters");
+TEST_REFRACT_SOURCE_MAP("api", "action-parameters");
+TEST_REFRACT_SOURCE_MAP("api", "asset");
+TEST_REFRACT_SOURCE_MAP("api", "mson");

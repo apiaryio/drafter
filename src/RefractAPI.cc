@@ -153,7 +153,6 @@ namespace drafter {
         // Add sample value
         if (!parameter.node.exampleValue.empty()) {
             refract::ArrayElement* samples = new refract::ArrayElement;
-            // FIXME: sourcemap of exampleValue does is not equal to
             samples->push_back(CreateArrayElement(LiteralToRefract<T>(MAKE_NODE_INFO(parameter, exampleValue)), true));
             element->attributes[SerializeKey::Samples] = samples;
         }
@@ -247,7 +246,7 @@ namespace drafter {
         element->meta[SerializeKey::Classes] = refract::ArrayElement::Create(metaClass);
 
         if (!contentType.empty()) {
-            // FIXME: has SourceMap?
+            // FIXME: "contentType" has no sourceMap?
             element->attributes[SerializeKey::ContentType] = refract::IElement::Create(contentType);
         }
 
@@ -293,9 +292,8 @@ namespace drafter {
         }
 
         // Render using boutique
-        // FIXME: has asset sourcemap?
-        snowcrash::Asset payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
-        snowcrash::Asset payloadSchema = renderPayloadSchema(payload);
+        NodeInfoByValue<snowcrash::Asset> payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
+        NodeInfoByValue<snowcrash::Asset> payloadSchema = renderPayloadSchema(payload);
 
         content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
         content.push_back(DataStructureToRefract(MAKE_NODE_INFO(payload, attributes)));
@@ -304,8 +302,8 @@ namespace drafter {
         std::string contentType = getContentTypeFromHeaders(payload.node.headers);
 
         // Assets
-        content.push_back(AssetToRefract(MakeNodeInfoWithoutSourceMap(payloadBody), contentType, SerializeKey::MessageBody));
-        content.push_back(AssetToRefract(MakeNodeInfoWithoutSourceMap(payloadSchema), contentType, SerializeKey::MessageSchema));
+        content.push_back(AssetToRefract(NodeInfo<snowcrash::Asset>(payloadBody), contentType, SerializeKey::MessageBody));
+        content.push_back(AssetToRefract(NodeInfo<snowcrash::Asset>(payloadSchema), contentType, SerializeKey::MessageSchema));
 
         RemoveEmptyElements(content);
         element->set(content);
@@ -342,14 +340,14 @@ namespace drafter {
         element->meta[SerializeKey::Title] = PrimitiveToRefract(MAKE_NODE_INFO(action, name));
 
         if (!action.node.relation.str.empty()) {
-            // FIXME: add SourceMap
-            element->attributes[SerializeKey::Relation] = refract::IElement::Create(action.node.relation.str);
+            // We can't use PrimitiveToRefract() because `action.node.relation` here is a struct Relation
+            refract::StringElement* relation = refract::IElement::Create(action.node.relation.str);
+            AttachSourceMap(relation, MAKE_NODE_INFO(action, relation));
+
+            element->attributes[SerializeKey::Relation] = relation;
         }
 
         if (!action.node.uriTemplate.empty()) {
-            // FIXME: There is no differece between output with original code and new one
-            // probably there is no example with uriTemplate
-            // original code: element->attributes[SerializeKey::Href] = refract::IElement::Create(action.uriTemplate);
             element->attributes[SerializeKey::Href] = PrimitiveToRefract(MAKE_NODE_INFO(action, uriTemplate));
         }
 

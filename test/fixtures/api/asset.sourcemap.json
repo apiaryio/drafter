@@ -1,0 +1,268 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": {
+          "element": "string",
+          "attributes": {
+            "sourceMap": [
+              {
+                "element": "sourceMap",
+                "content": [
+                  [
+                    0,
+                    12
+                  ]
+                ]
+              }
+            ]
+          },
+          "content": "API name"
+        }
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": {
+              "element": "string",
+              "attributes": {
+                "sourceMap": [
+                  {
+                    "element": "sourceMap",
+                    "content": [
+                      [
+                        12,
+                        15
+                      ]
+                    ]
+                  }
+                ]
+              },
+              "content": "Users"
+            }
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": {
+                  "element": "string",
+                  "attributes": {
+                    "sourceMap": [
+                      {
+                        "element": "sourceMap",
+                        "content": [
+                          [
+                            27,
+                            18
+                          ]
+                        ]
+                      }
+                    ]
+                  },
+                  "content": "User"
+                }
+              },
+              "attributes": {
+                "href": {
+                  "element": "string",
+                  "attributes": {
+                    "sourceMap": [
+                      {
+                        "element": "sourceMap",
+                        "content": [
+                          [
+                            27,
+                            18
+                          ]
+                        ]
+                      }
+                    ]
+                  },
+                  "content": "/users"
+                }
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": {
+                      "element": "string",
+                      "attributes": {
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
+                              [
+                                45,
+                                26
+                              ]
+                            ]
+                          }
+                        ]
+                      },
+                      "content": "List all users"
+                    }
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        45,
+                                        26
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "GET"
+                            }
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        73,
+                                        32
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "200"
+                            },
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "attributes": {
+                                    "sourceMap": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          [
+                                            73,
+                                            32
+                                          ]
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "dataStructure",
+                              "content": [
+                                {
+                                  "element": "object",
+                                  "content": [
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "attributes": {
+                                            "sourceMap": [
+                                              {
+                                                "element": "sourceMap",
+                                                "content": [
+                                                  [
+                                                    132,
+                                                    16
+                                                  ]
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          "content": "username"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "attributes": {
+                                            "sourceMap": [
+                                              {
+                                                "element": "sourceMap",
+                                                "content": [
+                                                  [
+                                                    132,
+                                                    16
+                                                  ]
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          "content": "pavan"
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": "messageBody"
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n  \"username\": \"pavan\"\n}"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

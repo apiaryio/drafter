@@ -17,6 +17,25 @@
 
 namespace drafter {
 
+    /**
+     * For returned values,
+     * used eg. for Assets. There is duality directly "blueprint value"
+     * vs value generated via JSON Rendering (aka. boutique)
+     *
+     * For boutique is used (<generated JSON>, NullSourceMap)
+     *
+     * There is NodeInfo<> constructor accepting directly NodeInfoByValue<> for simplified conversion
+     */
+    template <typename T>
+    struct NodeInfoByValue : public std::pair<T, const snowcrash::SourceMap<T>* > {
+        typedef std::pair<T, const snowcrash::SourceMap<T>* > BaseType;
+
+        NodeInfoByValue(const BaseType& info) {
+            BaseType::first = info.first;
+            BaseType::second = info.second;
+        }
+    };
+
     template<typename T>
     struct NodeInfo {
         typedef T NodeType;
@@ -28,6 +47,7 @@ namespace drafter {
         const bool empty;
 
         NodeInfo(const NodeType& node, const SourceMapType& sourceMap) : node(node), sourceMap(sourceMap), empty(false) {}
+        NodeInfo(const NodeInfoByValue<T>& node) : node(node.first), sourceMap(node.second ? *node.second : NodeInfo<T>::NullSourceMap()), empty(false) {}
         NodeInfo() : node(Type::NullNode()), sourceMap(Type::NullSourceMap()), empty(true) {}
 
         /**
@@ -36,8 +56,8 @@ namespace drafter {
          *
          * alternative solution is store `node` and `sourceMap` in C++11 smart pointers
          */
-        NodeInfo<T>& operator=(const NodeInfo<T>& other) { 
-            return *this; 
+        NodeInfo<T>& operator=(const NodeInfo<T>& other) {
+            return *this;
         }
 
         static const NodeType& NullNode() {
