@@ -23,6 +23,6 @@ TEST_REFRACT("api", "attributes-references");
 TEST_REFRACT("api", "action-request-attributes");
 
 // regressions
-TEST_REFRACT("api", "attributes-array")
-TEST_REFRACT("api", "attributes-object")
-TEST_REFRACT("api", "attributes-mixin")
+TEST_REFRACT("api", "attributes-array-nested-named-type");
+TEST_REFRACT("api", "attributes-named-type-member-reference");
+TEST_REFRACT("api", "attributes-named-type-mixin");
