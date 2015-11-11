@@ -340,6 +340,7 @@ namespace drafter {
         element->meta[SerializeKey::Title] = PrimitiveToRefract(MAKE_NODE_INFO(action, name));
 
         if (!action.node.relation.str.empty()) {
+            // We can't use PrimitiveToRefract() because `action.node.relation` here is a struct Relation
             refract::StringElement* relation = refract::IElement::Create(action.node.relation.str);
             AttachSourceMap(relation, MAKE_NODE_INFO(action, relation));
 
