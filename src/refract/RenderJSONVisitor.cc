@@ -11,6 +11,8 @@
 #include "sosJSON.h"
 #include <sstream>
 
+#include <iostream>
+
 namespace refract
 {
 
@@ -223,6 +225,61 @@ namespace refract
         assign(renderer.get());
     }
 
+    namespace {
+
+        void FetchArray(const ArrayElement::ValueType* val, RenderJSONVisitor& renderer)
+        {
+            for (ArrayElement::ValueType::const_iterator it = val->begin();
+                 it != val->end();
+                 ++it) {
+
+                if (*it && !(*it)->empty()) {
+                    renderer.visit(*(*it));
+                }
+            }
+        }
+
+        IElement* getEnumValue(const ArrayElement::ValueType* extend) 
+        {
+            if (!extend || extend->empty()) {
+                return NULL;
+            }
+
+            for (ArrayElement::ValueType::const_reverse_iterator it = extend->rbegin();
+                 it != extend->rend();
+                 ++it) {
+
+                const ArrayElement* element = TypeQueryVisitor::as<ArrayElement>(*it);
+
+                if (!element) {
+                    continue;
+                }
+
+                const ArrayElement::ValueType* items = getValue<ArrayElement>(*element);
+
+                if (!items->empty()) {
+                    return *items->begin();
+                }
+            }
+
+            return NULL;
+        }
+
+        bool isEnum(const ArrayElement::ValueType* val) 
+        {
+            for (ArrayElement::ValueType::const_iterator it = val->begin();
+                 it != val->end();
+                 ++it) {
+
+                if ((*it)->element() == "enum") {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+
     void RenderJSONVisitor::visit(const ArrayElement& e) {
         RenderJSONVisitor renderer(sos::Base::ArrayType);
 
@@ -233,18 +290,24 @@ namespace refract
         }
 
         if (e.element() == "extend") {
+            if (isEnum(val)) {
+                IElement* value = getEnumValue(val);
+
+                if (!value) {
+                    assign(sos::String());
+                    return;
+                }
+
+                RenderJSONVisitor renderer;
+                value->content(renderer);
+                assign(renderer.get());
+                return;
+            } 
+
             renderer.isExtend = true;
         }
 
-        for (ArrayElement::ValueType::const_iterator it = val->begin();
-             it != val->end();
-             ++it) {
-
-            if (*it && !(*it)->empty()) {
-                renderer.visit(*(*it));
-            }
-        }
-
+        FetchArray(val, renderer);
         assign(renderer.get());
     }
 

@@ -92,6 +92,10 @@ namespace refract
                 T* clone = static_cast<T*>(parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId));
                 clone->meta["ref"] = IElement::Create(en);
 
+                if (parent->element() == "enum") {
+                    clone->element("enum");
+                }
+
                 if (e) {
                     e->push_back(clone);
                 }
@@ -151,9 +155,26 @@ namespace refract
             return extend;
         }
 
+        IElement* FindRootAncestor(const std::string& name, const Registry& registry)
+        {
+            IElement* parent = registry.find(name);
+
+            while (parent && !isReserved(parent->element())) {
+                IElement* next = registry.find(parent->element());
+
+                if (!next || (next == parent)) {
+                    return parent;
+                }
+
+                parent = next;
+            }
+
+            return parent;
+        }
+
         IElement* ExpandInheritance(const ObjectElement& e, const Registry& registry)
         {
-            IElement* base = registry.find(e.element());
+            IElement* base = FindRootAncestor(e.element(), registry);
             TypeQueryVisitor t;
 
             if (base) {
@@ -166,7 +187,6 @@ namespace refract
             else {
                 return CreateExtend<ObjectElement>(e, registry);
             }
-
         }
 
         IElement* ExpandReference(const ObjectElement& e, const Registry& registry)
