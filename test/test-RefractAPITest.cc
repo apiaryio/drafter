@@ -21,3 +21,9 @@ TEST_REFRACT("api", "request-only");
 TEST_REFRACT("api", "asset");
 TEST_REFRACT("api", "attributes-references");
 TEST_REFRACT("api", "action-request-attributes");
+
+// regressions
+TEST_REFRACT("api", "attributes-array-nested-named-type");
+TEST_REFRACT("api", "attributes-named-type-member-reference");
+TEST_REFRACT("api", "attributes-named-type-mixin");
+TEST_REFRACT("api", "attributes-named-type-enum-reference");

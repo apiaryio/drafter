@@ -84,28 +84,37 @@ namespace refract
 
             // FIXME: add check against recursive inheritance
 
-            // walk recursive in registry an expand inheritance tree
+            // walk recursive in registry and expand inheritance tree
             for (const IElement* parent = registry.find(en)
                 ; parent && !isReserved(en)
                 ; en = parent->element(), parent = registry.find(en) ) {
 
-                IElement* clone = parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId);
+                T* clone = static_cast<T*>(parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId));
                 clone->meta["ref"] = IElement::Create(en);
+
+                if (parent->element() == "enum") {
+                    clone->element("enum");
+                }
 
                 if (e) {
                     e->push_back(clone);
                 }
                 else {
-                    e = static_cast<T*>(clone);
+                    e = clone;
                 }
             }
 
             // FIXME: posible solution while referenced type is not found in regisry
             // \see test/fixtures/mson-resource-unresolved-reference.apib
             //
-            //if (o->value.empty()) {
-            //   o->meta["ref"] = IElement::Create(name);
+            //if (e->value.empty()) {
+            //   e->meta["ref"] = IElement::Create(name);
             //}
+
+            if (T* expanded = TypeQueryVisitor::as<T>(ExpandOrClone(e, registry))) {
+                delete e;
+                return expanded;
+            }
 
             return e;
         }
@@ -146,9 +155,26 @@ namespace refract
             return extend;
         }
 
+        IElement* FindRootAncestor(const std::string& name, const Registry& registry)
+        {
+            IElement* parent = registry.find(name);
+
+            while (parent && !isReserved(parent->element())) {
+                IElement* next = registry.find(parent->element());
+
+                if (!next || (next == parent)) {
+                    return parent;
+                }
+
+                parent = next;
+            }
+
+            return parent;
+        }
+
         IElement* ExpandInheritance(const ObjectElement& e, const Registry& registry)
         {
-            IElement* base = registry.find(e.element());
+            IElement* base = FindRootAncestor(e.element(), registry);
             TypeQueryVisitor t;
 
             if (base) {
@@ -161,7 +187,6 @@ namespace refract
             else {
                 return CreateExtend<ObjectElement>(e, registry);
             }
-
         }
 
         IElement* ExpandReference(const ObjectElement& e, const Registry& registry)

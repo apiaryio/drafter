@@ -101,7 +101,7 @@ namespace draftertest {
           }
 
           // Now, diff the arrays of lines and save the output.
-          dtl::Diff <std::string> d(actualLines, expectedLines);
+          dtl::Diff <std::string> d(expectedLines, actualLines);
           d.compose();
           d.composeUnifiedHunks();
           d.printUnifiedFormat(output);
