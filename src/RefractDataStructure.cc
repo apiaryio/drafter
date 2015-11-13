@@ -75,6 +75,10 @@ namespace drafter {
 
     static refract::ArrayElement* MsonTypeAttributesToRefract(const mson::TypeAttributes& ta)
     {
+        if (ta == 0) {
+            return NULL;
+        }
+
         refract::ArrayElement* attr = new refract::ArrayElement;
 
         if (ta & mson::RequiredTypeAttribute) {
@@ -351,7 +355,7 @@ namespace drafter {
     };
 
 
-    template <typename T, typename V = typename T::ValueType>
+    template <typename T>
     struct ExtractTypeDefinition {
 
         typedef T ElementType;
@@ -486,59 +490,9 @@ namespace drafter {
             }
         };
 
-        template<typename X, bool dummy = true>
-        struct InjectNestedTypeInfo {
-            void operator()(const NodeInfo<mson::ValueMember>&, ValueCollectionType&) {
-                // do nothing
-            }
-        };
-
-        template<bool dummy>
-        struct InjectNestedTypeInfo<RefractElements, dummy> {
-            void operator()(const NodeInfo<mson::ValueMember>& valueMember, ValueCollectionType& values) {
-                // inject type info into arrays [ "type", {}, {}, null ]
-                const mson::TypeNames& nestedTypes = valueMember.node.valueDefinition.typeDefinition.typeSpecification.nestedTypes;
-                if (!nestedTypes.empty() && GetType(valueMember.node.valueDefinition) != mson::EnumTypeName) {
-
-                    RefractElements types;
-                    for (mson::TypeNames::const_iterator it = nestedTypes.begin(); it != nestedTypes.end(); ++it) {
-                        RefractElementFactory& f = FactoryFromType(it->base);
-                        types.push_back(f.Create(it->symbol.literal, it->symbol.variable));
-                    }
-
-                    values.push_back(types);
-                }
-            }
-        };
-
-        /*
-        template<typename X, bool dummy = true>
-        struct InjectNestedTypeInfoSourceMaps {
-            void operator()(const NodeInfo<mson::ValueMember>&, ValueSourceMapCollectionType&) {
-            }
-        };
-
-        template<bool dummy>
-        struct InjectNestedTypeInfoSourceMaps<RefractElements, dummy> {
-            void operator()(const NodeInfo<mson::ValueMember>& valueMember, ValueSourceMapCollectionType& values) {
-                // inject type info into arrays [ "type", {}, {}, null ]
-                const mson::TypeNames& nestedTypes = valueMember.node.valueDefinition.typeDefinition.typeSpecification.nestedTypes;
-
-                if (!nestedTypes.empty() && GetType(valueMember.node.valueDefinition) != mson::EnumTypeName) {
-                    snowcrash::SourceMap<typename T::ValueType> sourceMap = NodeInfo<typename T::ValueType>::NullSourceMap();
-
-                    if (valueMember.hasSourceMap()) {
-                        sourceMap.sourceMap = valueMember.sourceMap.valueDefinition.sourceMap;
-                    }
-
-                    values.push_back(sourceMap);
-                }
-            }
-        };
-        */
-
         template<typename Y, bool dummy = true>
         struct IsValueVariable {
+
             bool operator()(const mson::Value& value) {
                 return value.variable;
             }
@@ -546,6 +500,7 @@ namespace drafter {
 
         template<bool dummy>
         struct IsValueVariable<RefractElements, dummy>{
+
             bool operator()(const mson::Value&) {
                 return false;
             }
@@ -1021,7 +976,6 @@ namespace drafter {
 
         ExtractTypeDefinition<ElementType> extd(data);
         extd(MAKE_NODE_INFO(ds, typeDefinition));
-        //ExtractTypeDefinition<T>(data)(MAKE_NODE_INFO(ds, typeDefinition));
 
         NodeInfoCollection<mson::TypeSections> typeSections(MAKE_NODE_INFO(ds, sections));
 
