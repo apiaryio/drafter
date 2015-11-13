@@ -11,8 +11,6 @@
 #include "sosJSON.h"
 #include <sstream>
 
-#include <iostream>
-
 namespace refract
 {
 
@@ -65,31 +63,101 @@ namespace refract
         e.content(*this);
     }
 
-    template<typename T>
-    bool IsTypeAttribute(const T& e, std::string typeAttribute) {
-        IElement::MemberElementCollection::const_iterator ta = e.attributes.find("typeAttributes");
-        
-        if (ta == e.attributes.end()) {
+    namespace {
+
+        template<typename T>
+        bool IsTypeAttribute(const T& e, std::string typeAttribute) {
+            IElement::MemberElementCollection::const_iterator ta = e.attributes.find("typeAttributes");
+            
+            if (ta == e.attributes.end()) {
+                return false;
+            }
+
+            ArrayElement* attrs = TypeQueryVisitor::as<ArrayElement>((*ta)->value.second);
+
+            if (!attrs) {
+                return false;
+            }
+
+            for (ArrayElement::ValueType::const_iterator it = attrs->value.begin() ; it != attrs->value.end() ; ++it ) {
+                StringElement* attr = TypeQueryVisitor::as<StringElement>(*it);
+                if (!attr) {
+                    continue;
+                }
+                if (attr->value == typeAttribute) {
+                    return true;
+                }
+            }
+
             return false;
         }
 
-        ArrayElement* attrs = TypeQueryVisitor::as<ArrayElement>((*ta)->value.second);
+        template<typename T>
+        const T* getDefault(const T& e) {
+            IElement::MemberElementCollection::const_iterator i = e.attributes.find("default");
 
-        if (!attrs) {
-            return false;
+            if (i == e.attributes.end()) {
+                return NULL;
+            }
+
+            return TypeQueryVisitor::as<T>((*i)->value.second);
         }
 
-        for (ArrayElement::ValueType::const_iterator it = attrs->value.begin() ; it != attrs->value.end() ; ++it ) {
-            StringElement* attr = TypeQueryVisitor::as<StringElement>(*it);
-            if (!attr) {
-                continue;
+        template<typename T>
+        const T* getSample(const T& e) {
+            IElement::MemberElementCollection::const_iterator i = e.attributes.find("samples");
+
+            if (i == e.attributes.end()) {
+                return NULL;
             }
-            if (attr->value == typeAttribute) {
-                return true;
+
+            ArrayElement* a = TypeQueryVisitor::as<ArrayElement>((*i)->value.second);
+
+            if (!a || a->value.empty()) {
+                return NULL;
             }
+
+            return TypeQueryVisitor::as<T>(*(a->value.begin()));
         }
 
-        return false;
+        template<typename T, typename R = typename T::ValueType>
+        struct getValue {
+            const T& element;
+
+            getValue(const T& e) : element(e) {}
+
+            operator const R*() {
+                // FIXME: if value is propageted as first
+                // following example will be rendered w/ empty members
+                // ```
+                // - o
+                //     - m1
+                //     - m2
+                //         - sample
+                //             - m1: a
+                //             - m2: b
+                // ```
+                // because `o` has members `m1` and  `m2` , but members has no sed value
+                if (!element.empty()) {
+                    return &element.value;
+                }
+
+                if (const T* s = getSample(element)) {
+                    return &s->value;
+                }
+
+                if (const T* d = getDefault(element)) {
+                    return &d->value;
+                }
+
+                if (element.empty() && IsTypeAttribute(element, "nullable")) {
+                    return NULL;
+                }
+
+                return &element.value;
+            }
+        };
+
     }
 
     void RenderJSONVisitor::visit(const MemberElement& e) {
@@ -112,72 +180,6 @@ namespace refract
             throw std::logic_error("A property's key in the object is not of type string");
         }
     }
-
-    template<typename T>
-    const T* getDefault(const T& e) {
-        IElement::MemberElementCollection::const_iterator i = e.attributes.find("default");
-
-        if (i == e.attributes.end()) {
-            return NULL;
-        }
-
-        return TypeQueryVisitor::as<T>((*i)->value.second);
-    }
-
-    template<typename T>
-    const T* getSample(const T& e) {
-        IElement::MemberElementCollection::const_iterator i = e.attributes.find("samples");
-
-        if (i == e.attributes.end()) {
-            return NULL;
-        }
-
-        ArrayElement* a = TypeQueryVisitor::as<ArrayElement>((*i)->value.second);
-
-        if (!a || a->value.empty()) {
-            return NULL;
-        }
-
-        return TypeQueryVisitor::as<T>(*(a->value.begin()));
-    }
-
-    template<typename T, typename R = typename T::ValueType>
-    struct getValue {
-        const T& element;
-
-        getValue(const T& e) : element(e) {}
-
-        operator const R*() {
-            // FIXME: if value is propageted as first
-            // following example will be rendered w/ empty members
-            // ```
-            // - o
-            //     - m1
-            //     - m2
-            //         - sample
-            //             - m1: a
-            //             - m2: b
-            // ```
-            // because `o` has members `m1` and  `m2` , but members has no sed value
-            if (!element.empty()) {
-                return &element.value;
-            }
-
-            if (const T* s = getSample(element)) {
-                return &s->value;
-            }
-
-            if (const T* d = getDefault(element)) {
-                return &d->value;
-            }
-
-            if (element.empty() && IsTypeAttribute(element, "nullable")) {
-                return NULL;
-            }
-
-            return &element.value;
-        }
-    };
 
     void RenderJSONVisitor::visit(const ObjectElement& e) {
         // If the element is a mixin reference
@@ -278,7 +280,6 @@ namespace refract
             return false;
         }
     }
-
 
     void RenderJSONVisitor::visit(const ArrayElement& e) {
         RenderJSONVisitor renderer(sos::Base::ArrayType);
