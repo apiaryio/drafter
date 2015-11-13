@@ -26,4 +26,4 @@ TEST_REFRACT("api", "action-request-attributes");
 TEST_REFRACT("api", "attributes-array-nested-named-type");
 TEST_REFRACT("api", "attributes-named-type-member-reference");
 TEST_REFRACT("api", "attributes-named-type-mixin");
-TEST_REFRACT("api", "attributes-named-type-enum");
+TEST_REFRACT("api", "attributes-named-type-enum-reference");
