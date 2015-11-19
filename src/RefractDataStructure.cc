@@ -651,25 +651,19 @@ namespace drafter {
             return NULL;
         }
 
-        refract::StringElement* element = new refract::StringElement;
         std::string description;
         Join join(description);
 
         for_each(data.descriptions.begin(), data.descriptions.end(), join);
 
-        element->set(description);
-
         snowcrash::SourceMap<std::string> sourceMap;
         typedef typename std::vector<snowcrash::SourceMap<std::string> >::const_iterator Iterator;
 
         for (Iterator it = data.descriptionsSourceMap.begin(); it != data.descriptionsSourceMap.end(); ++it) {
-            // FIXME: sourcemaps comming from snowcrash are empty there 
             sourceMap.sourceMap.append(it->sourceMap);
         }
 
-        PrimitiveToRefract(NodeInfo<std::string>(description, sourceMap));
-
-        return element; 
+        return PrimitiveToRefract(NodeInfo<std::string>(description, sourceMap));
     }
 
     template <typename T>
