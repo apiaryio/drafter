@@ -39,9 +39,9 @@ Other systems refer to [build notes](#build).
 
 ### C++ library
 ```c++
-#include "drafter.h"      // Blueprint Parser
-#include "SerializeAST.h" // Blueprint Result Wrapper for serialization
-#include "sosJSON.h"      // Serializer
+#include "drafter.h"         // Blueprint Parser
+#include "SerializeResult.h" // Result Wrapper for serialization
+#include "sosJSON.h"         // Serializer
 
 mdp::ByteBuffer blueprint = R"(
 # My API
@@ -59,7 +59,7 @@ std::cout << "API Name: " << ast.node.name << std::endl;
 
 // Serialization to JSON format
 sos::SerializeJSON serializer;
-serializer.process(drafter::WrapBlueprint(ast.node, drafter::WrapperOptions(drafter::RefractASTType)), std::cout);
+serializer.process(drafter::WrapResult(ast.node, drafter::WrapperOptions(drafter::RefractASTType)), std::cout);
 
 ```
 

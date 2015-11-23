@@ -26,7 +26,7 @@ sos::Object WrapLocation(const mdp::BytesRange& range)
     return location;
 }
 
-sos::Object drafter::WrapAnnotation(const snowcrash::SourceAnnotation& annotation)
+sos::Object WrapAnnotation(const snowcrash::SourceAnnotation& annotation)
 {
     sos::Object object;
 
@@ -43,8 +43,7 @@ sos::Object WrapParseResultAST(const snowcrash::ParseResult<snowcrash::Blueprint
     sos::Object object;
 
     object.set(SerializeKey::Version, sos::String(PARSE_RESULT_SERIALIZATION_VERSION));
-
-    object.set(SerializeKey::Ast, WrapBlueprint(blueprint, options));
+    object.set(SerializeKey::Ast, WrapBlueprint(blueprint, options.expandMSON));
 
     if (options.exportSourceMap) {
         object.set(SerializeKey::Sourcemap, WrapBlueprintSourcemap(blueprint.sourceMap));
@@ -59,12 +58,16 @@ sos::Object WrapParseResultAST(const snowcrash::ParseResult<snowcrash::Blueprint
 sos::Object WrapParseResultRefract(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
                                    const WrapperOptions& options)
 {
+    RegisterNamedTypes(blueprint.node.content.elements());
+
     refract::IElement* element = ParseResultToRefract(blueprint, options);
     sos::Object object = SerializeRefract(element);
 
     if (element) {
         delete element;
     }
+
+    GetNamedTypesRegistry().clearAll(true);
 
     return object;
 }
@@ -76,8 +79,6 @@ sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprin
     snowcrash::Error error;
 
     try {
-        RegisterNamedTypes(blueprint.node.content.elements());
-
         if (options.astType == RefractASTType) {
             object = WrapParseResultRefract(blueprint, options);
         }
@@ -92,17 +93,9 @@ sos::Object drafter::WrapResult(const snowcrash::ParseResult<snowcrash::Blueprin
         error = e;
     }
 
-    GetNamedTypesRegistry().clearAll(true);
-
     if (error.code != snowcrash::Error::OK) {
         throw error;
     }
 
     return object;
-}
-
-sos::Object drafter::WrapParseResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-                                     const WrapperOptions& options)
-{
-    return WrapResult(blueprint, options);
 }
