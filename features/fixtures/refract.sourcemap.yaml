@@ -479,7 +479,8 @@ content:
                           -
                             element: "asset"
                             meta:
-                              classes: "messageBody"
+                              classes:
+                                - "messageBody"
                             attributes:
                               sourceMap:
                                 -
@@ -493,7 +494,8 @@ content:
                           -
                             element: "asset"
                             meta:
-                              classes: "messageSchema"
+                              classes:
+                                - "messageSchema"
                             attributes:
                               sourceMap:
                                 -
@@ -604,7 +606,8 @@ content:
                           -
                             element: "asset"
                             meta:
-                              classes: "messageBody"
+                              classes:
+                                - "messageBody"
                             attributes:
                               sourceMap:
                                 -
@@ -618,7 +621,8 @@ content:
                           -
                             element: "asset"
                             meta:
-                              classes: "messageSchema"
+                              classes:
+                                - "messageSchema"
                             attributes:
                               sourceMap:
                                 -
@@ -743,7 +747,8 @@ content:
                           -
                             element: "asset"
                             meta:
-                              classes: "messageBody"
+                              classes:
+                                - "messageBody"
                             attributes:
                               sourceMap:
                                 -
@@ -757,7 +762,8 @@ content:
                           -
                             element: "asset"
                             meta:
-                              classes: "messageSchema"
+                              classes:
+                                - "messageSchema"
                             attributes:
                               sourceMap:
                                 -
@@ -851,7 +857,8 @@ content:
                           -
                             element: "asset"
                             meta:
-                              classes: "messageBody"
+                              classes:
+                                - "messageBody"
                             attributes:
                               sourceMap:
                                 -
@@ -864,7 +871,8 @@ content:
                           -
                             element: "asset"
                             meta:
-                              classes: "messageSchema"
+                              classes:
+                                - "messageSchema"
                             attributes:
                               sourceMap:
                                 -
@@ -988,7 +996,8 @@ content:
                           -
                             element: "asset"
                             meta:
-                              classes: "messageBody"
+                              classes:
+                                - "messageBody"
                             attributes:
                               sourceMap:
                                 -
@@ -1002,7 +1011,8 @@ content:
                           -
                             element: "asset"
                             meta:
-                              classes: "messageSchema"
+                              classes:
+                                - "messageSchema"
                             attributes:
                               sourceMap:
                                 -
@@ -1090,7 +1100,8 @@ content:
                           -
                             element: "asset"
                             meta:
-                              classes: "messageBody"
+                              classes:
+                                - "messageBody"
                             attributes:
                               contentType: "application/json"
                             content: "{\n  \"<data structure property name>\": \"<data structure property value>\"\n}"

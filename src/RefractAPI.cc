@@ -243,7 +243,7 @@ namespace drafter {
         refract::IElement* element = PrimitiveToRefract(asset);
 
         element->element(SerializeKey::Asset);
-        element->meta[SerializeKey::Classes] = refract::ArrayElement::Create(metaClass);
+        element->meta[SerializeKey::Classes] = CreateArrayElement(metaClass);
 
         if (!contentType.empty()) {
             // FIXME: "contentType" has no sourceMap?

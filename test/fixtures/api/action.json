@@ -57,7 +57,9 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": "messageBody"
+                                "classes": [
+                                  "messageBody"
+                                ]
                               },
                               "content": "[]\n"
                             }
