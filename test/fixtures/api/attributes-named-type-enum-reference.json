@@ -142,7 +142,9 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": "messageBody"
+                                "classes": [
+                                  "messageBody"
+                                ]
                               },
                               "attributes": {
                                 "contentType": "application/json"

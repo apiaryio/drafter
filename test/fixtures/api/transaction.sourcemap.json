@@ -159,7 +159,9 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": "messageBody"
+                                "classes": [
+                                  "messageBody"
+                                ]
                               },
                               "attributes": {
                                 "sourceMap": [
@@ -203,7 +205,9 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": "messageBody"
+                                "classes": [
+                                  "messageBody"
+                                ]
                               },
                               "attributes": {
                                 "sourceMap": [
