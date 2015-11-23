@@ -742,7 +742,9 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": "messageBody"
+                                "classes": [
+                                  "messageBody"
+                                ]
                               },
                               "attributes": {
                                 "sourceMap": [
@@ -763,7 +765,9 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": "messageSchema"
+                                "classes": [
+                                  "messageSchema"
+                                ]
                               },
                               "attributes": {
                                 "sourceMap": [
@@ -934,7 +938,9 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": "messageBody"
+                                "classes": [
+                                  "messageBody"
+                                ]
                               },
                               "attributes": {
                                 "sourceMap": [
@@ -955,7 +961,9 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": "messageSchema"
+                                "classes": [
+                                  "messageSchema"
+                                ]
                               },
                               "attributes": {
                                 "sourceMap": [
@@ -1148,7 +1156,9 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": "messageBody"
+                                "classes": [
+                                  "messageBody"
+                                ]
                               },
                               "attributes": {
                                 "sourceMap": [
@@ -1169,7 +1179,9 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": "messageSchema"
+                                "classes": [
+                                  "messageSchema"
+                                ]
                               },
                               "attributes": {
                                 "sourceMap": [
@@ -1314,7 +1326,9 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": "messageBody"
+                                "classes": [
+                                  "messageBody"
+                                ]
                               },
                               "attributes": {
                                 "sourceMap": [
@@ -1334,7 +1348,9 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": "messageSchema"
+                                "classes": [
+                                  "messageSchema"
+                                ]
                               },
                               "attributes": {
                                 "sourceMap": [
@@ -1526,7 +1542,9 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": "messageBody"
+                                "classes": [
+                                  "messageBody"
+                                ]
                               },
                               "attributes": {
                                 "sourceMap": [
@@ -1547,7 +1565,9 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": "messageSchema"
+                                "classes": [
+                                  "messageSchema"
+                                ]
                               },
                               "attributes": {
                                 "sourceMap": [
@@ -1683,7 +1703,9 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": "messageBody"
+                                "classes": [
+                                  "messageBody"
+                                ]
                               },
                               "attributes": {
                                 "contentType": "application/json"
