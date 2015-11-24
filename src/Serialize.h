@@ -30,8 +30,6 @@ namespace snowcrash {
 
     template <typename T>
     struct ParseResult;
-
-    struct SourceAnnotation;
 }
 
 namespace drafter {
