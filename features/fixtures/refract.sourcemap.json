@@ -1753,7 +1753,23 @@
                       },
                       "content": "<data structure name>"
                     },
-                    "description": "<data structure description>\n\n"
+                    "description": {
+                      "element": "string",
+                      "attributes": {
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
+                              [
+                                1598,
+                                30
+                              ]
+                            ]
+                          }
+                        ]
+                      },
+                      "content": "<data structure description>\n\n"
+                    }
                   },
                   "content": [
                     {

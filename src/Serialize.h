@@ -25,6 +25,13 @@
 #define AST_SERIALIZATION_VERSION "4.0"
 #define PARSE_RESULT_SERIALIZATION_VERSION "2.2"
 
+// Forward declaration
+namespace snowcrash {
+
+    template <typename T>
+    struct ParseResult;
+}
+
 namespace drafter {
 
     enum ASTType {

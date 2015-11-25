@@ -11,12 +11,8 @@
 
 #include "Serialize.h"
 
-#include "SectionProcessor.h"
-
 namespace drafter {
 
-    sos::Object WrapAnnotation(const snowcrash::SourceAnnotation& annotation);
-    sos::Object WrapParseResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const WrapperOptions& options);
     sos::Object WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const WrapperOptions& options);
 }
 

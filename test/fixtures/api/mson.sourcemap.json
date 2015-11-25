@@ -57,7 +57,23 @@
                       },
                       "content": "User"
                     },
-                    "description": "User of the application\n\n"
+                    "description": {
+                      "element": "string",
+                      "attributes": {
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
+                              [
+                                39,
+                                25
+                              ]
+                            ]
+                          }
+                        ]
+                      },
+                      "content": "User of the application\n\n"
+                    }
                   },
                   "content": [
                     {

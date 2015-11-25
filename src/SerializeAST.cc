@@ -15,6 +15,7 @@
 #include "RefractDataStructure.h"
 #include "RefractAPI.h"
 #include "Render.h"
+#include "SectionProcessor.h"
 
 using namespace drafter;
 
@@ -770,20 +771,6 @@ bool IsElementResourceGroup(const Element& element)
     return element.element == Element::CategoryElement && element.category == Element::ResourceGroupCategory;
 }
 
-sos::Object WrapBlueprintRefract(const snowcrash::ParseResult<Blueprint>& blueprint, const WrapperOptions& options)
-{
-    NodeInfo<Blueprint> section = MakeNodeInfo(blueprint.node, blueprint.sourceMap, options.exportSourceMap);
-
-    refract::IElement* element = BlueprintToRefract(section);
-    sos::Object blueprintObject = SerializeRefract(element);
-
-    if (element) {
-        delete element;
-    }
-
-    return blueprintObject;
-}
-
 sos::Object WrapBlueprintAST(const Blueprint& blueprint)
 {
     sos::Object blueprintObject;
@@ -815,21 +802,15 @@ sos::Object WrapBlueprintAST(const Blueprint& blueprint)
     return blueprintObject;
 }
 
-sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options)
+sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const bool expandMSON)
 {
     sos::Object blueprintObject;
     snowcrash::Error error;
 
     try {
+        ExpandMSON = expandMSON;
         RegisterNamedTypes(blueprint.node.content.elements());
-        ExpandMSON = options.expandMSON;
-
-        if (options.astType == RefractASTType) {
-            blueprintObject = WrapBlueprintRefract(blueprint, options);
-        }
-        else {
-            blueprintObject = WrapBlueprintAST(blueprint.node);
-        }
+        blueprintObject = WrapBlueprintAST(blueprint.node);
     }
     catch (std::exception& e) {
         error = snowcrash::Error(e.what(), snowcrash::MSONError);

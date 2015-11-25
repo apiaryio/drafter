@@ -10,11 +10,18 @@
 #define DRAFTER_SERIALIZEAST_H
 
 #include "Serialize.h"
-#include "SectionProcessor.h"
 
 namespace drafter {
 
-    sos::Object WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const WrapperOptions& options);
+    /**
+     * NOTE: depracated as entry point for serialization
+     *
+     * Since version 2.0.0 you should use everywhere `WrapResult()` function instead of this one
+     *
+     * This function now works just as AST serialization wrapper
+     * additionaly there is changed function interface 
+     */
+    sos::Object WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const bool expandMSON);
 }
 
 #endif
