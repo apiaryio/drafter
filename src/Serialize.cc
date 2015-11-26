@@ -130,7 +130,7 @@ const std::string SerializeKey::HTTPRequest = "httpRequest";
 const std::string SerializeKey::StatusCode = "statusCode";
 const std::string SerializeKey::Asset = "asset";
 const std::string SerializeKey::MessageBody = "messageBody";
-const std::string SerializeKey::MessageSchema = "messageSchema";
+const std::string SerializeKey::MessageBodySchema = "messageBodySchema";
 const std::string SerializeKey::Data = "data";
 
 const std::string SerializeKey::ParseResult = "parseResult";

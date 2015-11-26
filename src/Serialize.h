@@ -176,7 +176,7 @@ namespace drafter {
         static const std::string StatusCode;
         static const std::string Asset;
         static const std::string MessageBody;
-        static const std::string MessageSchema;
+        static const std::string MessageBodySchema;
         static const std::string Data;
 
         // Parse Result Namespace

@@ -45,7 +45,7 @@
                           }
                         ],
                         "body": "[\n  \"pksunkara\",\n  12,\n  false\n]",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -119,7 +119,7 @@
                           }
                         ],
                         "body": "[\n  \"pksunkara\",\n  12,\n  false\n]",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
                         "content": [
                           {
                             "element": "dataStructure",

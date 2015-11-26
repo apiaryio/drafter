@@ -106,6 +106,12 @@ namespace refract
             return &element.value;
         }
     };
+
+    IElement* DefaultAttribute(const IElement& e);
+
+    IElement* GetFirstSample(const IElement& e);
+
+    StringElement* GetDescription(const IElement& e);
 }
 
 #endif /* REFRACT_VISITORUTILS_H */

@@ -766,7 +766,7 @@
                               "element": "asset",
                               "meta": {
                                 "classes": [
-                                  "messageSchema"
+                                  "messageBodySchema"
                                 ]
                               },
                               "attributes": {
@@ -962,7 +962,7 @@
                               "element": "asset",
                               "meta": {
                                 "classes": [
-                                  "messageSchema"
+                                  "messageBodySchema"
                                 ]
                               },
                               "attributes": {
@@ -1180,7 +1180,7 @@
                               "element": "asset",
                               "meta": {
                                 "classes": [
-                                  "messageSchema"
+                                  "messageBodySchema"
                                 ]
                               },
                               "attributes": {
@@ -1349,7 +1349,7 @@
                               "element": "asset",
                               "meta": {
                                 "classes": [
-                                  "messageSchema"
+                                  "messageBodySchema"
                                 ]
                               },
                               "attributes": {
@@ -1566,7 +1566,7 @@
                               "element": "asset",
                               "meta": {
                                 "classes": [
-                                  "messageSchema"
+                                  "messageBodySchema"
                                 ]
                               },
                               "attributes": {
@@ -1711,6 +1711,18 @@
                                 "contentType": "application/json"
                               },
                               "content": "{\n  \"<data structure property name>\": \"<data structure property value>\"\n}"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBodySchema"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"type\": \"object\"\n  }\n}"
                             }
                           ]
                         }

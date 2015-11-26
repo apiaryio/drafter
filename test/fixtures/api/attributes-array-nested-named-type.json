@@ -157,6 +157,18 @@
                                 "contentType": "application/json"
                               },
                               "content": "[\n  {\n    \"username\": \"pksunkara\"\n  },\n  {\n    \"name\": \"Apiary\"\n  }\n]"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBodySchema"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}"
                             }
                           ]
                         }

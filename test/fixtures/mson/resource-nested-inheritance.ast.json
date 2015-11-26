@@ -43,7 +43,7 @@
                         }
                       ],
                       "body": "{\n  \"b\": {\n    \"c\": {\n      \"id\": \"pavan\"\n    }\n  }\n}",
-                      "schema": "",
+                      "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"b\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"c\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"type\": \"object\"\n          }\n        }\n      }\n    }\n  }\n}",
                       "content": [
                         {
                           "element": "dataStructure",
@@ -157,7 +157,7 @@
                         }
                       ],
                       "body": "{\n  \"b\": {\n    \"c\": {\n      \"id\": \"pavan\"\n    }\n  }\n}",
-                      "schema": "",
+                      "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"b\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"c\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"type\": \"object\"\n          }\n        }\n      }\n    }\n  }\n}",
                       "content": [
                         {
                           "element": "dataStructure",

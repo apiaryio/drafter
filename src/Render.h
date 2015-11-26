@@ -16,15 +16,14 @@ namespace drafter {
     enum RenderFormat {
         UndefinedRenderFormat = 0,   // Undefined format
         JSONRenderFormat = 1,        // JSON format
-        JSONSchemaRenderFormat = 2   // JSON Schema format (not used yet)
+        JSONSchemaRenderFormat = 2   // JSON Schema format
     };
 
     RenderFormat findRenderFormat(const std::string& contentType);
     std::string getContentTypeFromHeaders(const snowcrash::Headers& headers);
 
     NodeInfoByValue<snowcrash::Asset> renderPayloadBody(const NodeInfo<snowcrash::Payload>& payload, const NodeInfo<snowcrash::Action>& action, const refract::Registry& registry);
-    NodeInfoByValue<snowcrash::Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload);
-
+    NodeInfoByValue<snowcrash::Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload, const NodeInfo<snowcrash::Action>& action, const refract::Registry& registry);
 }
 
 #endif

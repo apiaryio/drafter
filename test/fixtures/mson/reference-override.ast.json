@@ -43,7 +43,7 @@
                         }
                       ],
                       "body": "{\n  \"data\": {\n    \"users\": [\n      {\n        \"username\": \"kyle\",\n        \"relation\": \"family\"\n      }\n    ]\n  }\n}",
-                      "schema": "",
+                      "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"data\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"users\": {\n          \"type\": \"array\"\n        }\n      },\n      \"required\": [\n        \"users\"\n      ]\n    }\n  },\n  \"required\": [\n    \"data\"\n  ]\n}",
                       "content": [
                         {
                           "element": "dataStructure",
@@ -218,7 +218,7 @@
                         }
                       ],
                       "body": "{\n  \"data\": {\n    \"users\": [\n      {\n        \"username\": \"kyle\",\n        \"relation\": \"family\"\n      }\n    ]\n  }\n}",
-                      "schema": "",
+                      "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"data\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"users\": {\n          \"type\": \"array\"\n        }\n      },\n      \"required\": [\n        \"users\"\n      ]\n    }\n  },\n  \"required\": [\n    \"data\"\n  ]\n}",
                       "content": [
                         {
                           "element": "dataStructure",

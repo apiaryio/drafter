@@ -45,7 +45,7 @@
                           }
                         ],
                         "body": "{\n  \"address\": {\n    \"street\": {\n      \"name\": \"\",\n      \"house number\": 0\n    },\n    \"city\": \"\",\n    \"zip\": \"34567\"\n  },\n  \"hobby\": [\n    \"inlining\",\n    \"swimming\",\n    \"run\"\n  ]\n}",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"address\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"street\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"name\": {\n              \"type\": \"string\"\n            },\n            \"house number\": {\n              \"type\": \"number\"\n            }\n          }\n        },\n        \"city\": {\n          \"type\": \"string\"\n        },\n        \"zip\": {\n          \"type\": \"string\"\n        }\n      }\n    },\n    \"hobby\": {\n      \"type\": \"array\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -210,7 +210,7 @@
                           }
                         ],
                         "body": "{\n  \"address\": {\n    \"street\": {\n      \"name\": \"\",\n      \"house number\": 0\n    },\n    \"city\": \"\",\n    \"zip\": \"34567\"\n  },\n  \"hobby\": [\n    \"inlining\",\n    \"swimming\",\n    \"run\"\n  ]\n}",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"address\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"street\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"name\": {\n              \"type\": \"string\"\n            },\n            \"house number\": {\n              \"type\": \"number\"\n            }\n          }\n        },\n        \"city\": {\n          \"type\": \"string\"\n        },\n        \"zip\": {\n          \"type\": \"string\"\n        }\n      }\n    },\n    \"hobby\": {\n      \"type\": \"array\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",

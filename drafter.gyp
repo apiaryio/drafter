@@ -58,6 +58,7 @@
         "src/refract/Visitor.h",
         "src/refract/Visitors.h",
         "src/refract/VisitorUtils.h",
+        "src/refract/VisitorUtils.cc",
 
         "src/refract/SerializeCompactVisitor.h",
         "src/refract/SerializeCompactVisitor.cc",
@@ -75,6 +76,8 @@
         "src/refract/RenderJSONVisitor.cc",
         "src/refract/PrintVisitor.h",
         "src/refract/PrintVisitor.cc",
+        "src/refract/JSONSchemaVisitor.h",
+        "src/refract/JSONSchemaVisitor.cc",
 
         "src/refract/Registry.h",
         "src/refract/Registry.cc",
@@ -115,6 +118,7 @@
         "test/test-RefractParseResultTest.cc",
         "test/test-RenderTest.cc",
         "test/test-RefractSourceMapTest.cc",
+        "test/test-SchemaTest.cc",
       ],
       'dependencies': [
         "libdrafter",

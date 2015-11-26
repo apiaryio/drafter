@@ -45,7 +45,7 @@
                           }
                         ],
                         "body": "[\n  \"Karlin\",\n  {\n    \"city\": \"Prague\",\n    \"zip\": 34567\n  }\n]",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -142,7 +142,7 @@
                           }
                         ],
                         "body": "[\n  \"Karlin\",\n  {\n    \"city\": \"Prague\",\n    \"zip\": 34567\n  }\n]",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
                         "content": [
                           {
                             "element": "dataStructure",
