@@ -40,6 +40,7 @@ namespace refract
     class IsExpandableVisitor;
     class TypeQueryVisitor;
     class RenderJSONVisitor;
+    class PrintVisitor;
 
     template <typename T> struct ElementTypeSelector;
 
@@ -96,7 +97,8 @@ namespace refract
             ExpandVisitor,
             IsExpandableVisitor,
             TypeQueryVisitor,
-            RenderJSONVisitor
+            RenderJSONVisitor,
+            PrintVisitor
         >::type Visitors;
 
         IElement() : hasContent(false), renderStrategy(rDefault)

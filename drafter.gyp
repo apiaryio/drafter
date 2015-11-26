@@ -57,6 +57,7 @@
 
         "src/refract/Visitor.h",
         "src/refract/Visitors.h",
+        "src/refract/VisitorUtils.h",
 
         "src/refract/SerializeCompactVisitor.h",
         "src/refract/SerializeCompactVisitor.cc",
@@ -72,6 +73,8 @@
         "src/refract/ExpandVisitor.cc",
         "src/refract/RenderJSONVisitor.h",
         "src/refract/RenderJSONVisitor.cc",
+        "src/refract/PrintVisitor.h",
+        "src/refract/PrintVisitor.cc",
 
         "src/refract/Registry.h",
         "src/refract/Registry.cc",
