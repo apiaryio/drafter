@@ -53,7 +53,7 @@ namespace drafter {
         }
 
         template <typename T, typename F>
-        void NodeInfoToElements(const NodeInfo<T>& nodeInfo, const F& transformFunctor, RefractElements& content) 
+        void NodeInfoToElements(const NodeInfo<T>& nodeInfo, const F& transformFunctor, RefractElements& content)
         {
             NodeInfoCollection<T> nodeInfoCollection(nodeInfo);
             std::transform(nodeInfoCollection.begin(), nodeInfoCollection.end(), std::back_inserter(content), transformFunctor);
@@ -262,7 +262,7 @@ namespace drafter {
         if (action.isNull() || action.node.method.empty()) {
             element->element(SerializeKey::HTTPResponse);
 
-            // FIXME: tests pass without commented out part of condition 
+            // FIXME: tests pass without commented out part of condition
             // delivery test to see this part is required else remove it
             // related discussion: https://github.com/apiaryio/drafter/pull/148/files#r42275194
             if (!payload.isNull() /* && !payload.node.name.empty() */) {
@@ -293,7 +293,7 @@ namespace drafter {
 
         // Render using boutique
         NodeInfoByValue<snowcrash::Asset> payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
-        NodeInfoByValue<snowcrash::Asset> payloadSchema = renderPayloadSchema(payload);
+        NodeInfoByValue<snowcrash::Asset> payloadSchema = renderPayloadSchema(payload, action, GetNamedTypesRegistry());
 
         content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
         content.push_back(DataStructureToRefract(MAKE_NODE_INFO(payload, attributes)));
@@ -474,7 +474,7 @@ namespace drafter {
         return category;
     }
 
-    refract::IElement* ElementToRefract(const NodeInfo<snowcrash::Element>& element) 
+    refract::IElement* ElementToRefract(const NodeInfo<snowcrash::Element>& element)
     {
         switch (element.node.element) {
             case snowcrash::Element::ResourceElement:

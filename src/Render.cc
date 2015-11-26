@@ -89,12 +89,57 @@ namespace drafter {
         return body;
     }
 
-    NodeInfoByValue<Asset> renderPayloadSchema(const NodeInfo<Payload>& payload) {
-        NodeInfoByValue<Asset> schema = std::make_pair(payload.node.schema, &payload.sourceMap.schema);
+        NodeInfoByValue<Asset> renderPayloadSchema(
+        const NodeInfo<snowcrash::Payload>& payload,
+        const NodeInfo<snowcrash::Action>& action,
+        const refract::Registry& registry) {
+        NodeInfoByValue<Asset> schema = std::make_pair(payload.node.schema,
+                                                       &payload.sourceMap.schema);
         RenderFormat renderFormat = JSONSchemaRenderFormat;
 
-        if (!payload.node.schema.empty() || payload.node.attributes.empty() || renderFormat == UndefinedRenderFormat) {
+        NodeInfo<Attributes> payloadAttributes = MAKE_NODE_INFO(payload, attributes);
+        NodeInfo<Attributes> actionAttributes = MAKE_NODE_INFO(action, attributes);
+
+        // hold attributes via pointer - because problems with assignment in NodeInfo<>
+        NodeInfo<Attributes>* attributes = &payloadAttributes;
+
+        if (payload.node.attributes.empty() &&
+            !action.isNull() &&
+            !action.node.attributes.empty()) {
+            attributes = &actionAttributes;
+        }
+
+        if (!payload.node.schema.empty() ||
+            payload.node.attributes.empty() ||
+            renderFormat == UndefinedRenderFormat) {
             return schema;
+        }
+
+        switch (renderFormat) {
+        case JSONSchemaRenderFormat:
+            {
+                refract::JSONSchemaVisitor renderer;
+
+                refract::IElement* element = MSONToRefract(*attributes);
+
+                if (!element) {
+                    return schema;
+                }
+
+                refract::IElement* expanded = ExpandRefract(element, registry);
+
+                if (!expanded) {
+                    return schema;
+                }
+
+                std::string res = renderer.getSchema(*expanded);
+
+                delete expanded;
+                return std::make_pair(res, &NodeInfo<Asset>::NullSourceMap());
+            }
+
+        default:
+            break;
         }
 
         return schema;

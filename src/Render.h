@@ -23,8 +23,7 @@ namespace drafter {
     std::string getContentTypeFromHeaders(const snowcrash::Headers& headers);
 
     NodeInfoByValue<snowcrash::Asset> renderPayloadBody(const NodeInfo<snowcrash::Payload>& payload, const NodeInfo<snowcrash::Action>& action, const refract::Registry& registry);
-    NodeInfoByValue<snowcrash::Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload);
-
+    NodeInfoByValue<snowcrash::Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload, const NodeInfo<snowcrash::Action>& action, const refract::Registry& registry);
 }
 
 #endif

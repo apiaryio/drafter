@@ -41,6 +41,7 @@ namespace refract
     class TypeQueryVisitor;
     class RenderJSONVisitor;
     class PrintVisitor;
+    class JSONSchemaVisitor;
 
     template <typename T> struct ElementTypeSelector;
 
@@ -98,7 +99,8 @@ namespace refract
             IsExpandableVisitor,
             TypeQueryVisitor,
             RenderJSONVisitor,
-            PrintVisitor
+            PrintVisitor,
+            JSONSchemaVisitor
         >::type Visitors;
 
         IElement() : hasContent(false), renderStrategy(rDefault)
