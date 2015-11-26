@@ -6,8 +6,7 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
-#include "Element.h"
-#include "Visitors.h"
+#include "VisitorUtils.h"
 #include "sosJSON.h"
 #include <sstream>
 
@@ -63,103 +62,6 @@ namespace refract
         e.content(*this);
     }
 
-    namespace {
-
-        template<typename T>
-        bool IsTypeAttribute(const T& e, std::string typeAttribute) {
-            IElement::MemberElementCollection::const_iterator ta = e.attributes.find("typeAttributes");
-            
-            if (ta == e.attributes.end()) {
-                return false;
-            }
-
-            ArrayElement* attrs = TypeQueryVisitor::as<ArrayElement>((*ta)->value.second);
-
-            if (!attrs) {
-                return false;
-            }
-
-            for (ArrayElement::ValueType::const_iterator it = attrs->value.begin() ; it != attrs->value.end() ; ++it ) {
-                StringElement* attr = TypeQueryVisitor::as<StringElement>(*it);
-                if (!attr) {
-                    continue;
-                }
-                if (attr->value == typeAttribute) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        template<typename T>
-        const T* getDefault(const T& e) {
-            IElement::MemberElementCollection::const_iterator i = e.attributes.find("default");
-
-            if (i == e.attributes.end()) {
-                return NULL;
-            }
-
-            return TypeQueryVisitor::as<T>((*i)->value.second);
-        }
-
-        template<typename T>
-        const T* getSample(const T& e) {
-            IElement::MemberElementCollection::const_iterator i = e.attributes.find("samples");
-
-            if (i == e.attributes.end()) {
-                return NULL;
-            }
-
-            ArrayElement* a = TypeQueryVisitor::as<ArrayElement>((*i)->value.second);
-
-            if (!a || a->value.empty()) {
-                return NULL;
-            }
-
-            return TypeQueryVisitor::as<T>(*(a->value.begin()));
-        }
-
-        template<typename T, typename R = typename T::ValueType>
-        struct getValue {
-            const T& element;
-
-            getValue(const T& e) : element(e) {}
-
-            operator const R*() {
-                // FIXME: if value is propageted as first
-                // following example will be rendered w/ empty members
-                // ```
-                // - o
-                //     - m1
-                //     - m2
-                //         - sample
-                //             - m1: a
-                //             - m2: b
-                // ```
-                // because `o` has members `m1` and  `m2` , but members has no sed value
-                if (!element.empty()) {
-                    return &element.value;
-                }
-
-                if (const T* s = getSample(element)) {
-                    return &s->value;
-                }
-
-                if (const T* d = getDefault(element)) {
-                    return &d->value;
-                }
-
-                if (element.empty() && IsTypeAttribute(element, "nullable")) {
-                    return NULL;
-                }
-
-                return &element.value;
-            }
-        };
-
-    }
-
     void RenderJSONVisitor::visit(const MemberElement& e) {
         RenderJSONVisitor renderer;
 
@@ -205,7 +107,7 @@ namespace refract
 
         RenderJSONVisitor renderer(sos::Base::ObjectType);
 
-        const ObjectElement::ValueType* val = getValue<ObjectElement>(e);
+        const ObjectElement::ValueType* val = GetValue<ObjectElement>(e);
 
         if (!val) {
             return;
@@ -241,7 +143,7 @@ namespace refract
             }
         }
 
-        IElement* getEnumValue(const ArrayElement::ValueType* extend) 
+        IElement* getEnumValue(const ArrayElement::ValueType* extend)
         {
             if (!extend || extend->empty()) {
                 return NULL;
@@ -257,7 +159,7 @@ namespace refract
                     continue;
                 }
 
-                const ArrayElement::ValueType* items = getValue<ArrayElement>(*element);
+                const ArrayElement::ValueType* items = GetValue<ArrayElement>(*element);
 
                 if (!items->empty()) {
                     return *items->begin();
@@ -267,7 +169,7 @@ namespace refract
             return NULL;
         }
 
-        bool isEnum(const ArrayElement::ValueType* val) 
+        bool isEnum(const ArrayElement::ValueType* val)
         {
             for (ArrayElement::ValueType::const_iterator it = val->begin();
                  it != val->end();
@@ -284,7 +186,7 @@ namespace refract
     void RenderJSONVisitor::visit(const ArrayElement& e) {
         RenderJSONVisitor renderer(sos::Base::ArrayType);
 
-        const ArrayElement::ValueType* val = getValue<ArrayElement>(e);
+        const ArrayElement::ValueType* val = GetValue<ArrayElement>(e);
 
         if (!val) {
             return;
@@ -303,7 +205,7 @@ namespace refract
                 value->content(renderer);
                 assign(renderer.get());
                 return;
-            } 
+            }
 
             renderer.isExtend = true;
         }
@@ -315,7 +217,7 @@ namespace refract
     void RenderJSONVisitor::visit(const NullElement& e) {}
 
     void RenderJSONVisitor::visit(const StringElement& e) {
-        const StringElement::ValueType* v = getValue<StringElement>(e);
+        const StringElement::ValueType* v = GetValue<StringElement>(e);
 
         if (v) {
             assign(sos::String(*v));
@@ -323,7 +225,7 @@ namespace refract
     }
 
     void RenderJSONVisitor::visit(const NumberElement& e) {
-        const NumberElement::ValueType* v = getValue<NumberElement>(e);
+        const NumberElement::ValueType* v = GetValue<NumberElement>(e);
 
         if (v) {
             assign(sos::Number(*v));
@@ -331,7 +233,7 @@ namespace refract
     }
 
     void RenderJSONVisitor::visit(const BooleanElement& e) {
-        const BooleanElement::ValueType* v = getValue<BooleanElement>(e);
+        const BooleanElement::ValueType* v = GetValue<BooleanElement>(e);
 
         if (v) {
             assign(sos::Boolean(*v));
