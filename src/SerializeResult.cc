@@ -26,7 +26,7 @@ sos::Object WrapLocation(const mdp::BytesRange& range)
     return location;
 }
 
-sos::Object WrapAnnotation(const snowcrash::SourceAnnotation& annotation)
+sos::Object drafter::WrapAnnotation(const snowcrash::SourceAnnotation& annotation)
 {
     sos::Object object;
 

@@ -10,9 +10,15 @@
 #define DRAFTER_SERIALIZERESULT_H
 
 #include "Serialize.h"
+#include "SectionParserData.h"
+
+namespace snowcrash {
+    struct SourceAnnotation;
+}
 
 namespace drafter {
 
+    sos::Object WrapAnnotation(const snowcrash::SourceAnnotation& annotation);
     sos::Object WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const WrapperOptions& options);
 }
 
