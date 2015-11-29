@@ -7,6 +7,9 @@
     "install": "echo 'Setting up Drafter.js...'",
     "test": "cd emcc && node test-drafter"
   },
+  "browser": {
+    "ws": false
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/apiaryio/drafter"
