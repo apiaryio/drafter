@@ -89,7 +89,7 @@ namespace refract
             // walk recursive in registry and expand inheritance tree
             for (const IElement* parent = registry.find(en)
                 ; parent && !isReserved(en)
-                ; en = parent->element(), parent = registry.find(en) ) {
+                ; en = parent->element(), parent = registry.find(en)) {
 
                 inheritance.push(parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId));
                 inheritance.top()->meta["ref"] = IElement::Create(en);
