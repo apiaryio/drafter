@@ -85,7 +85,6 @@ namespace refract
 
     struct IElement
     {
-        bool hasContent; ///< was content of element already set? \see empty()
 
         /**
          * define __visitors__ which can visit element
@@ -102,10 +101,6 @@ namespace refract
             PrintVisitor,
             JSONSchemaVisitor
         >::type Visitors;
-
-        IElement() : hasContent(false), renderStrategy(rDefault)
-        {
-        }
 
         /**
          * Returns new element with content set as `value`
@@ -177,10 +172,7 @@ namespace refract
 
         virtual IElement* clone(const int flag = cAll) const = 0;
 
-        virtual bool empty() const
-        {
-            return !hasContent;
-        }
+        virtual bool empty() const = 0;
 
         /**
          * select seriaization/rendering type of element
@@ -198,21 +190,10 @@ namespace refract
             rCompactContent
         } renderFlags;
 
-        renderFlags renderStrategy;
+        virtual renderFlags renderType() const = 0;
+        virtual void renderType(const renderFlags render) = 0;
 
-        virtual renderFlags renderType() const
-        {
-            return renderStrategy;
-        }
-
-        virtual void renderType(const renderFlags render)
-        {
-            renderStrategy = render;
-        }
-
-        virtual ~IElement()
-        {
-        }
+        virtual ~IElement() {}
     };
 
     bool isReserved(const std::string& element);
@@ -222,14 +203,24 @@ namespace refract
      * CRTP implementation of RefractElement
      */
     template <typename T, typename Trait>
-    struct Element : public IElement, public VisitableBy<IElement::Visitors>
+    class Element : public IElement, public VisitableBy<IElement::Visitors>
     {
+
+    public:
+
         typedef Element<T, Trait> Type;
         typedef Trait TraitType;
         typedef typename TraitType::ValueType ValueType;
 
-        ValueType value;
+    protected:
         std::string element_;
+        bool hasContent; ///< was content of element already set? \see empty()
+        renderFlags renderStrategy;
+
+    public:
+
+        // FIXME: move into protected part, currently still required in ComparableVisitor
+        ValueType value;
 
         virtual std::string element() const
         {
@@ -287,8 +278,24 @@ namespace refract
             return element;
         }
 
-        Element() : value(TraitType::init())
+        Element() : hasContent(false), renderStrategy(IElement::rDefault), value(TraitType::init())
         {
+        }
+
+        virtual bool empty() const
+        {
+            return !hasContent;
+        }
+
+
+        virtual renderFlags renderType() const
+        {
+            return renderStrategy;
+        }
+
+        virtual void renderType(const renderFlags render)
+        {
+            renderStrategy = render;
         }
 
         virtual ~Element()
