@@ -9,6 +9,7 @@
 #include "Element.h"
 #include "Visitors.h"
 #include "Registry.h"
+#include <stack>
 
 namespace refract
 {
@@ -83,25 +84,30 @@ namespace refract
             }
 
             // FIXME: add check against recursive inheritance
+            std::stack<IElement*> inheritance;
 
             // walk recursive in registry and expand inheritance tree
             for (const IElement* parent = registry.find(en)
                 ; parent && !isReserved(en)
                 ; en = parent->element(), parent = registry.find(en) ) {
 
-                T* clone = static_cast<T*>(parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId));
-                clone->meta["ref"] = IElement::Create(en);
+                inheritance.push(parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId));
+                inheritance.top()->meta["ref"] = IElement::Create(en);
 
                 if (parent->element() == "enum") {
-                    clone->element("enum");
+                    inheritance.top()->element("enum");
                 }
+            }
 
+            while (!inheritance.empty()) {
+                IElement* clone = inheritance.top();
                 if (e) {
                     e->push_back(clone);
                 }
                 else {
-                    e = clone;
+                    e = static_cast<T*>(clone);
                 }
+                inheritance.pop();
             }
 
             // FIXME: posible solution while referenced type is not found in regisry
