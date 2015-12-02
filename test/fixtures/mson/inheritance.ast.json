@@ -108,30 +108,6 @@
                 {
                   "element": "object",
                   "meta": {
-                    "ref": "Customer"
-                  },
-                  "content": [
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": "unique number"
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "id"
-                        },
-                        "value": {
-                          "element": "number",
-                          "content": 0
-                        }
-                      }
-                    }
-                  ]
-                },
-                {
-                  "element": "object",
-                  "meta": {
                     "description": "The User description\n\n",
                     "ref": "User"
                   },
@@ -148,6 +124,30 @@
                         },
                         "value": {
                           "element": "string"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "element": "object",
+                  "meta": {
+                    "ref": "Customer"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "unique number"
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "id"
+                        },
+                        "value": {
+                          "element": "number",
+                          "content": 0
                         }
                       }
                     }
