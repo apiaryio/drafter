@@ -35,4 +35,4 @@ deployment:
   release:
     tag: /v.*/
     commands:
-      - ./emcc/release.sh
+      - ./tools/release.sh

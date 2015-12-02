@@ -1,15 +1,14 @@
 #!/bin/bash
-OS=`uname -s | tr '[:upper:]' '[:lower:]'`
+
+if [ "x$1" = "x" ] ; then
+  echo "Usage: $0 GIT_RELEASE_BIN"
+  exit 1
+fi
+
 TAG=`git describe --tags $CIRCLE_SHA1`
 
-# Publish to GitHub releases
-curl -L -O https://github.com/aktau/github-release/releases/download/v0.6.2/$OS-amd64-github-release.tar.bz2
-
-tar -xjf $OS-amd64-github-release.tar.bz2
-
-./bin/$OS/amd64/github-release release -u apiaryio -r drafter --tag $TAG
-./bin/$OS/amd64/github-release upload -u apiaryio -r drafter --tag $TAG --name drafter.js --file emcc/drafter.js
-./bin/$OS/amd64/github-release upload -u apiaryio -r drafter --tag $TAG --name drafter.js.mem --file emcc/drafter.js.mem
+$1 upload -u apiaryio -r drafter --tag $TAG --name drafter.js --file emcc/drafter.js
+$1 upload -u apiaryio -r drafter --tag $TAG --name drafter.js.mem --file emcc/drafter.js.mem
 
 # Use the CI host's NPM_TOKEN environment variable for auth
 echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' >.npmrc
