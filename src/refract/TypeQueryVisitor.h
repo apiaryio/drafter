@@ -25,11 +25,9 @@ namespace refract
 
     class TypeQueryVisitor : public IVisitor
     {
-        typedef unsigned char ElementType;
-        ElementType typeInfo;
-    public:
 
-        enum
+    public:
+        typedef enum
         {
             Null,
             String,
@@ -40,7 +38,12 @@ namespace refract
             Object,
 
             Unknown = 0,
-        };
+        } ElementType;
+
+    private:
+        ElementType typeInfo;
+
+    public:
 
         TypeQueryVisitor();
 
