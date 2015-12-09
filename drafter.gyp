@@ -115,6 +115,7 @@
         "test/test-RefractParseResultTest.cc",
         "test/test-RenderTest.cc",
         "test/test-RefractSourceMapTest.cc",
+        "test/test-Boutique.cc",
       ],
       'dependencies': [
         "libdrafter",

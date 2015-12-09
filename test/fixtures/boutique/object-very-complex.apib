@@ -1,0 +1,25 @@
+# Resource [/example]
+
+## Action [GET]
+
++ Attributes
+  - id: 1 (required)
+  - name: A green door
+  - price: 12.50 (number, optional)
+  - tags: home, green
+  - vector (array)
+      - 1
+      - 2
+      - 3
+  - address (object)
+      - street (required)
+      - number (number, required)
+      - zip_code (required)
+      - state
+          - name
+          - code
+      - country (enum, required)
+          - Czech Republic
+          - United States of America
+  
++ Response 200 (application/json)
