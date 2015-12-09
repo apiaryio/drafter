@@ -13,29 +13,31 @@
 namespace refract
 {
     PrintVisitor::PrintVisitor()
-        :indent(0), os(std::cout) {}
+    : indent(0), os(std::cout) {}
 
-    PrintVisitor::PrintVisitor(int indentation, std::ostream& os)
-        :indent(indentation), os(os) {}
+    PrintVisitor::PrintVisitor(int indent_, std::ostream& os_)
+    : indent(indent_), os(os_) {}
 
     void PrintVisitor::indentOS(int ind)
     {
-        for(int i = 0; i < ind; i++)
-        {
+        for (int i = 0; i < ind; i++) {
             os << "  ";
         }
     }
 
-    void PrintVisitor::printMeta(const IElement& e) {
+    void PrintVisitor::printMeta(const IElement& e)
+    {
         if (e.meta.size() > 0) {
             os << "meta {\n";
             indentOS(indent);
 
-            for(IElement::MemberElementCollection::const_iterator i = e.meta.begin();
+            for (IElement::MemberElementCollection::const_iterator i = e.meta.begin();
                 i != e.meta.end();
                 ++i) {
+
                 visit(*(*i));
             }
+
             indentOS(indent);
             os << "}\n";
         }
@@ -62,6 +64,7 @@ namespace refract
     void PrintVisitor::visit(const NumberElement& e)
     {
         const NumberElement::ValueType* v = GetValue<NumberElement>(e);
+
         os << "NumberElement(";
         if (v) {
             os << *v;
@@ -141,7 +144,8 @@ namespace refract
         os << "}\n";
     }
 
-    void PrintVisitor::Visit(const IElement& e) {
+    void PrintVisitor::Visit(const IElement& e)
+    {
         PrintVisitor ps;
         ps.visit(e);
     }

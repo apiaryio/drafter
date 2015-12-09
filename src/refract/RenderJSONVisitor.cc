@@ -19,7 +19,8 @@ namespace refract
     RenderJSONVisitor::RenderJSONVisitor()
     : type(sos::Base::UndefinedType), isExtend(false) {}
 
-    void RenderJSONVisitor::assign(sos::Base value) {
+    void RenderJSONVisitor::assign(sos::Base value)
+    {
         if (isExtend) {
             extend(value);
         }
@@ -31,13 +32,15 @@ namespace refract
         }
     }
 
-    void RenderJSONVisitor::assign(std::string key, sos::Base value) {
+    void RenderJSONVisitor::assign(std::string key, sos::Base value)
+    {
         if (!key.empty() && type == sos::Base::ObjectType) {
             pObj.set(key, value);
         }
     }
 
-    void RenderJSONVisitor::extend(sos::Base value) {
+    void RenderJSONVisitor::extend(sos::Base value)
+    {
         if (type == sos::Base::ObjectType) {
 
             for (sos::KeyValues::iterator it = value.object().begin();
@@ -58,11 +61,13 @@ namespace refract
         }
     }
 
-    void RenderJSONVisitor::visit(const IElement& e) {
+    void RenderJSONVisitor::visit(const IElement& e)
+    {
         e.content(*this);
     }
 
-    void RenderJSONVisitor::visit(const MemberElement& e) {
+    void RenderJSONVisitor::visit(const MemberElement& e)
+    {
         RenderJSONVisitor renderer;
 
         if (e.value.second) {
@@ -83,7 +88,8 @@ namespace refract
         }
     }
 
-    void RenderJSONVisitor::visit(const ObjectElement& e) {
+    void RenderJSONVisitor::visit(const ObjectElement& e)
+    {
         // If the element is a mixin reference
         if (e.element() == "ref") {
             IElement::MemberElementCollection::const_iterator resolved = e.attributes.find("resolved");
@@ -183,7 +189,8 @@ namespace refract
         }
     }
 
-    void RenderJSONVisitor::visit(const ArrayElement& e) {
+    void RenderJSONVisitor::visit(const ArrayElement& e)
+    {
         RenderJSONVisitor renderer(sos::Base::ArrayType);
 
         const ArrayElement::ValueType* val = GetValue<ArrayElement>(e);
@@ -216,7 +223,8 @@ namespace refract
 
     void RenderJSONVisitor::visit(const NullElement& e) {}
 
-    void RenderJSONVisitor::visit(const StringElement& e) {
+    void RenderJSONVisitor::visit(const StringElement& e)
+    {
         const StringElement::ValueType* v = GetValue<StringElement>(e);
 
         if (v) {
@@ -224,7 +232,8 @@ namespace refract
         }
     }
 
-    void RenderJSONVisitor::visit(const NumberElement& e) {
+    void RenderJSONVisitor::visit(const NumberElement& e)
+    {
         const NumberElement::ValueType* v = GetValue<NumberElement>(e);
 
         if (v) {
@@ -232,7 +241,8 @@ namespace refract
         }
     }
 
-    void RenderJSONVisitor::visit(const BooleanElement& e) {
+    void RenderJSONVisitor::visit(const BooleanElement& e)
+    {
         const BooleanElement::ValueType* v = GetValue<BooleanElement>(e);
 
         if (v) {
@@ -240,7 +250,8 @@ namespace refract
         }
     }
 
-    sos::Base RenderJSONVisitor::get() const {
+    sos::Base RenderJSONVisitor::get() const
+    {
         if (type == sos::Base::ArrayType) {
             return pArr;
         }
@@ -251,7 +262,8 @@ namespace refract
         return result;
     }
 
-    std::string RenderJSONVisitor::getString() const {
+    std::string RenderJSONVisitor::getString() const
+    {
         sos::SerializeJSON serializer;
         std::stringstream ss;
 
