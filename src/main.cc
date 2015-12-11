@@ -65,25 +65,26 @@ int main(int argc, const char *argv[])
     sc::ParseResult<sc::Blueprint> blueprint;
     sc::parse(inputStream.str(), options, blueprint);
 
-    if (!config.validate) {  // not just validate -> we will serialize
+    sos::Serialize* serializer = CreateSerializer(config.format);
+    std::ostream *out = CreateStreamFromName<std::ostream>(config.output);
 
-        sos::Serialize* serializer = CreateSerializer(config.format);
-        std::ostream *out = CreateStreamFromName<std::ostream>(config.output);
+    try {
+        sos::Object resultObject = drafter::WrapResult(blueprint, drafter::WrapperOptions(config.astType, config.sourceMap));
 
-        try {
-            Serialization(out, drafter::WrapResult(blueprint, drafter::WrapperOptions(config.astType, config.sourceMap)), serializer);
+        if (!config.validate) { // If not validate, we serialize
+            Serialization(out, resultObject, serializer);
         }
-        catch (snowcrash::Error& e) {
-            blueprint.report.error = e;
-        }
-        catch (std::exception& e) {
-            blueprint.report.error.message = e.what();
-            blueprint.report.error.code = snowcrash::ApplicationError;
-        }
-
-        delete out;
-        delete serializer;
     }
+    catch (snowcrash::Error& e) {
+        blueprint.report.error = e;
+    }
+    catch (std::exception& e) {
+        blueprint.report.error.message = e.what();
+        blueprint.report.error.code = snowcrash::ApplicationError;
+    }
+
+    delete out;
+    delete serializer;
 
     PrintReport(blueprint.report, inputStream.str(), config.lineNumbers);
 
