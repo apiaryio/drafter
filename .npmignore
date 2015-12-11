@@ -6,8 +6,6 @@ config.*
 drafter.xcodeproj
 drafter.xcworkspace
 emcc/node_modules
-emcc/*.mem
-emcc/drafter.js
 emcc/*.sh
 emcc/post.js
 emcc/pre.js
