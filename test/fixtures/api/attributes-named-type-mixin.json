@@ -165,6 +165,18 @@
                                 "contentType": "application/json"
                               },
                               "content": "{\n  \"b\": \"b\"\n}"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBodySchema"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"type\": \"object\"\n  }\n}"
                             }
                           ]
                         }

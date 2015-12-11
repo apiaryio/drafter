@@ -45,7 +45,7 @@
                           }
                         ],
                         "body": "[\n  \"Karlin\",\n  [\n    \"Prague\"\n  ]\n]",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -114,7 +114,7 @@
                           }
                         ],
                         "body": "[\n  \"Karlin\",\n  [\n    \"Prague\"\n  ]\n]",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
                         "content": [
                           {
                             "element": "dataStructure",

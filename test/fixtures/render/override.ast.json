@@ -45,7 +45,7 @@
                           }
                         ],
                         "body": "{\n  \"a1\": \"1\",\n  \"a2\": \"1\"\n}",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"type\": \"object\"\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -120,7 +120,7 @@
                           }
                         ],
                         "body": "{\n  \"a1\": \"1\",\n  \"a2\": \"1\"\n}",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"type\": \"object\"\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",

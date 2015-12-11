@@ -50,7 +50,7 @@
                           }
                         ],
                         "body": "{\n  \"a\": [\n    \"b\",\n    \"c\"\n  ]\n}",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"a\": {\n      \"type\": \"array\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -137,7 +137,7 @@
                           }
                         ],
                         "body": "{\n  \"a\": [\n    \"b\",\n    \"c\"\n  ]\n}",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"a\": {\n      \"type\": \"array\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",

@@ -1,0 +1,99 @@
+//
+//  test-RenderTest.cc
+//  drafter
+//
+//  Created by Vilibald Wanča on 19/11/15.
+//  Copyright (c) 2015 Apiary Inc. All rights reserved.
+//
+
+#include "draftertest.h"
+
+using namespace draftertest;
+
+TEST_REFRACT("schema", "boolean");
+TEST_REFRACT("schema", "number");
+TEST_REFRACT("schema", "string");
+TEST_REFRACT("schema", "required");
+TEST_REFRACT("schema", "optional");
+TEST_REFRACT("schema", "object-simple");
+TEST_REFRACT("schema", "required-object");
+TEST_REFRACT("schema", "array-simple");
+TEST_REFRACT("schema", "description");
+TEST_REFRACT("schema", "required-array");
+TEST_REFRACT("schema", "default-sample");
+// FIXME: enum bug #176
+TEST_REFRACT("schema", "default-attribute");
+TEST_REFRACT("schema", "escaping");
+TEST_REFRACT("schema", "array-inline");
+TEST_REFRACT("schema", "array-of-arrays");
+TEST_REFRACT("schema", "array-of-types");
+TEST_REFRACT("schema", "array-of-types-only");
+TEST_REFRACT("schema", "array-with-nested-type");
+TEST_REFRACT("schema", "array-with-nested-types");
+TEST_REFRACT("schema", "array-of-types-mixed");
+TEST_REFRACT("schema", "array-of-types-mixed-complex");
+// FIXME: enum bug #176
+TEST_REFRACT("schema", "enum-with-type");
+// FIXME: enum bug #176
+TEST_REFRACT("schema", "default-section");
+// FIXME: enum bug #176
+TEST_REFRACT("schema", "enum-of-strings");
+// FIXME: enum bug #176
+TEST_REFRACT("schema", "enum-containing-object");
+// FIXME: enum bug #176
+TEST_REFRACT("schema", "enum-containing-enum");
+// FIXME: enum bug #176
+TEST_REFRACT("schema", "enum-containing-sample");
+// FIXME: enum bug #176
+TEST_REFRACT("schema", "sample");
+
+TEST_REFRACT("schema", "sample-complex");
+
+// FIXME: enum bug #176
+TEST_REFRACT("schema", "sample-inline-attribute");
+
+// FIXME: enum bug #176
+// FIXME: Discuss it with hj, as current drafter seems legit
+// boutique version of schema
+//   "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"list\": {}\n  }\n}"
+TEST_REFRACT("schema", "sample-inline-variable");
+
+TEST_REFRACT("schema", "boolean-literal");
+TEST_REFRACT("schema", "string-literal");
+TEST_REFRACT("schema", "number-literal");
+TEST_REFRACT("schema", "array-fixed");
+TEST_REFRACT("schema", "array-fixed-inline");
+TEST_REFRACT("schema", "array-fixed-inline-samples");
+TEST_REFRACT("schema", "array-fixed-samples");
+TEST_REFRACT("schema", "array-fixed-types-only");
+
+//FIXME: Discuss it with hj, as current drafter seems legit
+//boutique version of schema
+//"content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"tags\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\",\n          \"enum\": [\n           \"hello\"\n          ]\n        },\n        {\n          \"type\": \"number\"\n        },\n        {\n          \"type\": \"object\",\n          \"properties\": {\n            \"name\": {\n              \"type\": \"string\"\n            },\n            \"color\": {\n              \"type\": \"string\",\n              \"enum\": [\"white\"]\n            },\n            \"description\": {\n              \"type\": \"string\"\n            }\n          },\n          \"additionalProperties\": false,\n          \"required\": [\"name\", \"color\", \"description\"]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\"world\"]\n        }\n      ]\n    }\n  },\n  \"required\": [\"tags\"]\n}"
+TEST_REFRACT("schema", "array-fixed-samples-complex");
+
+//FIXME: fixed bug #193
+//TEST_REFRACT("schema", "array-restricted-to-type");
+
+//FIXME: fixed bug #193
+//TEST_REFRACT("schema", "array-restricted-to-types-complex");
+
+TEST_REFRACT("schema", "object-fixed");
+TEST_REFRACT("schema", "object-fixed-values");
+TEST_REFRACT("schema", "object-fixed-optional");
+
+//FIXME: Why it fails when the output is the same?
+//TEST_REFRACT("schema", "object-complex");
+
+// FIXME:  enum bug #176
+TEST_REFRACT("schema", "object-very-complex");
+
+//FIXME: Discuss with Z and hj
+//TEST_REFRACT("schema", "variable-property");
+
+// FIXME: One Of
+// TEST_REFRACT("schema", "one-of");
+// TEST_REFRACT("schema", "one-of-complex");
+// TEST_REFRACT("schema", "one-of-properties");
+
+

@@ -1,0 +1,167 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": "Resource"
+              },
+              "attributes": {
+                "href": "/example"
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": "Action"
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "dataStructure",
+                              "content": [
+                                {
+                                  "element": "object",
+                                  "content": [
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "tag"
+                                        },
+                                        "value": {
+                                          "element": "enum",
+                                          "content": [
+                                            {
+                                              "element": "string",
+                                              "content": "green"
+                                            },
+                                            {
+                                              "element": "object",
+                                              "content": [
+                                                {
+                                                  "element": "member",
+                                                  "content": {
+                                                    "key": {
+                                                      "element": "string",
+                                                      "content": "tag_id"
+                                                    },
+                                                    "value": {
+                                                      "element": "string",
+                                                      "content": "1"
+                                                    }
+                                                  }
+                                                },
+                                                {
+                                                  "element": "member",
+                                                  "content": {
+                                                    "key": {
+                                                      "element": "string",
+                                                      "content": "label"
+                                                    },
+                                                    "value": {
+                                                      "element": "string",
+                                                      "content": "green"
+                                                    }
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBody"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n  \"tag\": [\n    \"green\",\n    {\n      \"tag_id\": \"1\",\n      \"label\": \"green\"\n    }\n  ]\n}"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBodySchema"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"tag\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"green\"\n          ]\n        },\n        {\n          \"type\": \"object\",\n          \"properties\": {\n            \"tag_id\": {\n              \"type\": \"string\"\n            },\n            \"label\": {\n              \"type\": \"string\"\n            }\n          }\n        }\n      ]\n    }\n  }\n}"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

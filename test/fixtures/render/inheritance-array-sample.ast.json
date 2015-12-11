@@ -45,7 +45,7 @@
                           }
                         ],
                         "body": "[\n  \"a\",\n  \"b\"\n]",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -105,7 +105,7 @@
                           }
                         ],
                         "body": "[\n  \"a\",\n  \"b\"\n]",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
                         "content": [
                           {
                             "element": "dataStructure",

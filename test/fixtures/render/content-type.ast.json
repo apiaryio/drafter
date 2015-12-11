@@ -45,7 +45,7 @@
                           }
                         ],
                         "body": "{\n  \"user\": \"pksunkara\"\n}",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"user\": {\n      \"type\": \"string\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -113,7 +113,7 @@
                           }
                         ],
                         "body": "{\n  \"user\": \"pksunkara\"\n}",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"user\": {\n      \"type\": \"string\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -181,7 +181,7 @@
                           }
                         ],
                         "body": "",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"user\": {\n      \"type\": \"string\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -256,7 +256,7 @@
                           }
                         ],
                         "body": "{\n  \"user\": \"pksunkara\"\n}",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"user\": {\n      \"type\": \"string\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -324,7 +324,7 @@
                           }
                         ],
                         "body": "{\n  \"user\": \"pksunkara\"\n}",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"user\": {\n      \"type\": \"string\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -392,7 +392,7 @@
                           }
                         ],
                         "body": "",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"user\": {\n      \"type\": \"string\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",

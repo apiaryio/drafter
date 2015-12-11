@@ -45,7 +45,7 @@
                           }
                         ],
                         "body": "{\n  \"user\": \"pksunkara\",\n  \"social\": {\n    \"github\": \"pksunkara\"\n  }\n}",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"user\": {\n      \"type\": \"string\"\n    },\n    \"social\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"github\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -147,7 +147,7 @@
                           }
                         ],
                         "body": "{\n  \"user\": \"pksunkara\",\n  \"social\": {\n    \"github\": \"pksunkara\"\n  }\n}",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"user\": {\n      \"type\": \"string\"\n    },\n    \"social\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"github\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",

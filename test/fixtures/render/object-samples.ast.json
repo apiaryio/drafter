@@ -45,7 +45,7 @@
                           }
                         ],
                         "body": "{\n  \"o1\": {\n    \"p1\": \"\",\n    \"p2\": \"\"\n  }\n}",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"o1\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"p1\": {\n          \"type\": \"string\"\n        },\n        \"p2\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -205,7 +205,7 @@
                           }
                         ],
                         "body": "{\n  \"o1\": {\n    \"p1\": \"\",\n    \"p2\": \"\"\n  }\n}",
-                        "schema": "",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"o1\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"p1\": {\n          \"type\": \"string\"\n        },\n        \"p2\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",

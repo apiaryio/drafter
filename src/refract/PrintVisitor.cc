@@ -87,12 +87,22 @@ namespace refract
     void PrintVisitor::visit(const ArrayElement& e)
     {
         typedef ArrayElement::ValueType::const_iterator iterator;
+        const ArrayElement::ValueType* v = GetValue<ArrayElement>(e);
+
         PrintVisitor ps(indent + 1, os);
 
-        os << "ArrayElement {\n";
-        for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-            ps.visit(*(*it));
+        if (e.element() == "enum") {
+            os << "EnumElement {\n";
+        } else {
+            os << "ArrayElement {\n";
         }
+
+        if (v) {
+            for (iterator it = v->begin(); it != v->end(); ++it) {
+                ps.visit(*(*it));
+            }
+        }
+
         indentOS(indent);
         os << "}\n";
     }
@@ -129,6 +139,11 @@ namespace refract
         }
         indentOS(indent);
         os << "}\n";
+    }
+
+    void PrintVisitor::Visit(const IElement& e) {
+        PrintVisitor ps;
+        ps.visit(e);
     }
 
 }; // namespace refract
