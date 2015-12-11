@@ -38,6 +38,7 @@ namespace refract
 
     public:
         JSONSchemaVisitor();
+        ~JSONSchemaVisitor();
         void setFixed(bool fixit);
         void visit(const IElement& e);
         void visit(const MemberElement& e);
@@ -50,6 +51,7 @@ namespace refract
         void visit(const BooleanElement& e);
 
         IElement* get();
+        IElement* getOwnership();
         std::string getSchema(const IElement& e);
     };
 }
