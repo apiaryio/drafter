@@ -22,6 +22,13 @@ namespace refract
         fixed = false;
     }
 
+    JSONSchemaVisitor::~JSONSchemaVisitor()
+    {
+        if (NULL != pObj) {
+            delete pObj;
+        }
+    }
+
     void JSONSchemaVisitor::setFixed(bool fixit)
     {
         fixed = fixit;
@@ -90,7 +97,7 @@ namespace refract
                 renderer.addMember("description", d);
             }
 
-            addMember(str->value, renderer.get());
+            addMember(str->value, renderer.getOwnership());
         }
         else {
             throw std::logic_error("A property's key in the object is not of type string");
@@ -134,9 +141,8 @@ namespace refract
                 renderer.visit(*(*it));
 
                 ObjectElement *o1 = TypeQueryVisitor::as<ObjectElement>(renderer.get());
-                MemberElement *m1 = TypeQueryVisitor::as<MemberElement>(o1->value[0]);
+                MemberElement *m1 = TypeQueryVisitor::as<MemberElement>(o1->value[0]->clone());
 
-                o1->renderType(IElement::rCompact);
                 m1->renderType(IElement::rCompact);
                 o->push_back(m1);
             }
@@ -146,6 +152,9 @@ namespace refract
 
         if (!required->value.empty()) {
             addMember("required", required);
+        }
+        else {
+            delete required;
         }
 
         if (fixed) {
@@ -166,16 +175,18 @@ namespace refract
 
             const std::vector<IElement*>& items = types[*i];
             JSONSchemaVisitor v;
-            ArrayElement *enm = new ArrayElement;
             IElement *elm = items.front();
 
             v.visit(*elm);
 
             if (elm->element() == "enum"){
-                v.addMember("enum", elm);
+                IElement *e = NULL;
+                e = elm->clone();
+                v.addMember("enum", e);
             }
             else if (elm->element() != "object") {
-                for(std::vector<IElement*>::const_iterator i = items.begin();
+                ArrayElement *enm = new ArrayElement;
+                for (std::vector<IElement*>::const_iterator i = items.begin();
                     i != items.end();
                     ++i) {
 
@@ -191,9 +202,12 @@ namespace refract
                 if (!enm->empty()) {
                     v.addMember("enum", enm);
                 }
+                else {
+                    delete enm;
+                }
             }
 
-            a->push_back(v.get());
+            a->push_back(v.getOwnership());
         }
         addMember("anyOf", a);
     }
@@ -269,24 +283,27 @@ namespace refract
                         // want them in the schema, otherwise skip
                         // empty ones
                         if (allEmpty) {
-                            JSONSchemaVisitor renderer;
+                            JSONSchemaVisitor v;
 
-                            renderer.setFixed(true);
-                            renderer.visit(*(*it));
-                            a->push_back(renderer.get());
+                            v.setFixed(true);
+                            v.visit(*(*it));
+                            a->push_back(v.getOwnership());
                         }
                         else if (!(*it)->empty()) {
-                            JSONSchemaVisitor renderer;
+                            JSONSchemaVisitor v;
 
-                            renderer.setFixed(true);
-                            renderer.visit(*(*it));
-                            a->push_back(renderer.get());
+                            v.setFixed(true);
+                            v.visit(*(*it));
+                            a->push_back(v.getOwnership());
                         }
                     }
                 }
 
                 if (!a->empty()) {
                     addMember("items", a);
+                }
+                else {
+                    delete a;
                 }
             }
 
@@ -300,7 +317,7 @@ namespace refract
                     }
                 }
 
-                addMember("items", renderer.get());
+                addMember("items", renderer.getOwnership());
             }
         }
 
@@ -384,6 +401,13 @@ namespace refract
     IElement* JSONSchemaVisitor::get()
     {
         return pObj;
+    }
+
+    IElement* JSONSchemaVisitor::getOwnership()
+    {
+        IElement* ret = pObj;
+        pObj = NULL;
+        return ret;
     }
 
     std::string JSONSchemaVisitor::getSchema(const IElement& e)
