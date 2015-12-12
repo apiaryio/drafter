@@ -10,6 +10,7 @@
 #define REFRACT_JSONSCHEMAVISITOR_H
 
 #include "Visitor.h"
+#include "VisitorUtils.h"
 #include <string>
 
 namespace refract
@@ -36,8 +37,19 @@ namespace refract
         void enumElement(const ArrayElement& e, const ArrayElement::ValueType *val);
         bool allItemsEmpty(const ArrayElement::ValueType* val);
 
+        template<typename T>
+        void setPrimitiveType(const T& e)
+        {
+            //FIXME: static_assert is missing in our code base
+            //static_assert(sizeof(T) == 0, "Only String, Number, Boolean types allowed");
+
+            throw std::runtime_error("Only String, Number, Boolean types allowed");
+        };
+
+        template<typename T> void primitiveType(const T& e);
+
     public:
-        JSONSchemaVisitor();
+        JSONSchemaVisitor(bool fixit = false);
         ~JSONSchemaVisitor();
         void setFixed(bool fixit);
         void visit(const IElement& e);

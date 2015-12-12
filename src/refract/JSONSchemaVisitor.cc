@@ -15,11 +15,10 @@
 namespace refract
 {
 
-    JSONSchemaVisitor::JSONSchemaVisitor()
+    JSONSchemaVisitor::JSONSchemaVisitor(bool fixit /*= false*/) : fixed(fixit)
     {
         pObj = new ObjectElement;
         pObj->renderType(IElement::rCompact);
-        fixed = false;
     }
 
     JSONSchemaVisitor::~JSONSchemaVisitor()
@@ -32,6 +31,24 @@ namespace refract
     void JSONSchemaVisitor::setFixed(bool fixit)
     {
         fixed = fixit;
+    }
+
+    template<>
+    void JSONSchemaVisitor::setPrimitiveType(const BooleanElement& e)
+    {
+        setSchemaType("boolean");
+    }
+
+    template<>
+    void JSONSchemaVisitor::setPrimitiveType(const StringElement& e)
+    {
+        setSchemaType("string");
+    }
+
+    template<>
+    void JSONSchemaVisitor::setPrimitiveType(const NumberElement& e)
+    {
+        setSchemaType("number");
     }
 
     void JSONSchemaVisitor::setSchemaType(const std::string& type)
@@ -66,6 +83,22 @@ namespace refract
         return true;
     }
 
+    template<typename T>
+    void JSONSchemaVisitor::primitiveType(const T& e)
+    {
+        const typename T::ValueType *v = GetValue<T>(e);
+
+        if (v) {
+            setPrimitiveType(e);
+
+            if (fixed && !e.empty()) {
+                ArrayElement *a = new ArrayElement;
+                a->push_back(IElement::Create(*v));
+                addMember("enum", a);
+            }
+        }
+    }
+
     void JSONSchemaVisitor::visit(const IElement& e)
     {
         e.content(*this);
@@ -76,16 +109,10 @@ namespace refract
         JSONSchemaVisitor renderer;
 
         if (e.value.second) {
-            if (IsTypeAttribute(e, "nullable") && e.value.second->empty()) {
-                renderer.visit(*e.value.second);
-            }
-            else if (IsTypeAttribute(e, "fixed") || fixed) {
+           if (IsTypeAttribute(e, "fixed") || fixed) {
                 renderer.setFixed(true);
-                renderer.visit(*e.value.second);
             }
-            else {
-                renderer.visit(*e.value.second);
-            }
+           renderer.visit(*e.value.second);
         }
 
         if (StringElement* str = TypeQueryVisitor::as<StringElement>(e.value.first)) {
@@ -114,10 +141,9 @@ namespace refract
         }
 
         ObjectElement *o = new ObjectElement;
-        ArrayElement *required = new ArrayElement;
+        ArrayElement::ValueType reqVals;
 
         o->renderType(IElement::rCompact);
-        required->renderType(IElement::rCompact);
 
         for (std::vector<refract::IElement*>::const_iterator it = val->begin();
              it != val->end();
@@ -130,17 +156,16 @@ namespace refract
 
                     MemberElement *mr = TypeQueryVisitor::as<MemberElement>(*it);
                     StringElement *n = TypeQueryVisitor::as<StringElement>(mr->value.first);
-                    StringElement *s = new StringElement;
-
-                    s->set(n->value);
-                    required->push_back(s);
+                    reqVals.push_back(IElement::Create(n->value));
                 }
 
-                JSONSchemaVisitor renderer;
-                renderer.setFixed(fixed);
+                JSONSchemaVisitor renderer(fixed);
                 renderer.visit(*(*it));
 
                 ObjectElement *o1 = TypeQueryVisitor::as<ObjectElement>(renderer.get());
+                // the o1->value is never emtpy as the object returned
+                // by JSONSchema visitor always has a member, at least a type
+                // key for primitive types
                 MemberElement *m1 = TypeQueryVisitor::as<MemberElement>(o1->value[0]->clone());
 
                 m1->renderType(IElement::rCompact);
@@ -150,17 +175,15 @@ namespace refract
 
         addMember("properties", o);
 
-        if (!required->value.empty()) {
-            addMember("required", required);
-        }
-        else {
-            delete required;
+        if (!reqVals.empty()) {
+            ArrayElement *a = new ArrayElement;
+            a->renderType(IElement::rCompact);
+            a->set(reqVals);
+            addMember("required", a);
         }
 
         if (fixed) {
-            BooleanElement *b = new BooleanElement;
-            b->set(false);
-            addMember("additionalProperties", b);
+            addMember("additionalProperties", IElement::Create(false));
         }
     }
 
@@ -180,30 +203,25 @@ namespace refract
             v.visit(*elm);
 
             if (elm->element() == "enum"){
-                IElement *e = NULL;
-                e = elm->clone();
-                v.addMember("enum", e);
+                v.addMember("enum", elm->clone());
             }
-            else if (elm->element() != "object") {
-                ArrayElement *enm = new ArrayElement;
+            else if (NULL == TypeQueryVisitor::as<ObjectElement>(elm)) {
+                ArrayElement::ValueType enmVals;
                 for (std::vector<IElement*>::const_iterator i = items.begin();
                     i != items.end();
                     ++i) {
 
-                    IElement *e = NULL;
-
                     if (!(*i)->empty()) {
-                        e = (*i)->clone();
+                        IElement *e = (*i)->clone();
                         e->renderType(IElement::rCompact);
-                        enm->push_back(e);
+                        enmVals.push_back(e);
                     }
                 }
 
-                if (!enm->empty()) {
+                if (!enmVals.empty()) {
+                    ArrayElement *enm = new ArrayElement;
+                    enm->set(enmVals);
                     v.addMember("enum", enm);
-                }
-                else {
-                    delete enm;
                 }
             }
 
@@ -271,7 +289,7 @@ namespace refract
             setSchemaType("array");
 
             if (fixed) {
-                ArrayElement *a = new ArrayElement;
+                ArrayElement::ValueType av;
                 bool allEmpty = allItemsEmpty(val);
 
                 for (ArrayElement::ValueType::const_iterator it = val->begin();
@@ -282,28 +300,19 @@ namespace refract
                         // if all items are just type items then we
                         // want them in the schema, otherwise skip
                         // empty ones
-                        if (allEmpty) {
-                            JSONSchemaVisitor v;
+                        if (allEmpty || !(*it)->empty()) {
+                            JSONSchemaVisitor v(true);
 
-                            v.setFixed(true);
                             v.visit(*(*it));
-                            a->push_back(v.getOwnership());
-                        }
-                        else if (!(*it)->empty()) {
-                            JSONSchemaVisitor v;
-
-                            v.setFixed(true);
-                            v.visit(*(*it));
-                            a->push_back(v.getOwnership());
+                            av.push_back(v.getOwnership());
                         }
                     }
                 }
 
-                if (!a->empty()) {
+                if (!av.empty()) {
+                    ArrayElement *a = new ArrayElement;
+                    a->set(av);
                     addMember("items", a);
-                }
-                else {
-                    delete a;
                 }
             }
 
@@ -340,62 +349,22 @@ namespace refract
 
     void JSONSchemaVisitor::visit(const NullElement& e)
     {
-        NullElement nil;
-        addMember("type", &nil);
+        addMember("type", new NullElement);
     }
 
     void JSONSchemaVisitor::visit(const StringElement& e)
     {
-        const StringElement::ValueType* v = GetValue<StringElement>(e);
-
-        if (v) {
-            setSchemaType("string");
-
-            if (fixed && !e.empty()) {
-                ArrayElement *a = new ArrayElement;
-                StringElement *s = new StringElement;
-
-                s->set(*v);
-                a->push_back(s);
-                addMember("enum", a);
-            }
-        }
+        primitiveType(e);
     }
 
     void JSONSchemaVisitor::visit(const NumberElement& e)
     {
-        const NumberElement::ValueType* v = GetValue<NumberElement>(e);
-
-        if (v) {
-            setSchemaType("number");
-
-            if (fixed && !e.empty()) {
-                ArrayElement *a = new ArrayElement;
-                NumberElement *n = new NumberElement;
-
-                n->set(*v);
-                a->push_back(n);
-                addMember("enum", a);
-            }
-        }
+        primitiveType(e);
     }
 
     void JSONSchemaVisitor::visit(const BooleanElement& e)
     {
-        const BooleanElement::ValueType* v = GetValue<BooleanElement>(e);
-
-        if (v) {
-            setSchemaType("boolean");
-
-            if (fixed && !e.empty()) {
-                ArrayElement *a = new ArrayElement;
-                BooleanElement *b = new BooleanElement;
-
-                b->set(*v);
-                a->push_back(b);
-                addMember("enum", a);
-            }
-        }
+        primitiveType(e);
     }
 
     IElement* JSONSchemaVisitor::get()
