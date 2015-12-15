@@ -34,6 +34,8 @@ namespace refract
             reserved.insert("select");
             reserved.insert("option");
             reserved.insert("extend");
+
+            reserved.insert("generic");
         }
 
         return reserved.find(element) != reserved.end();

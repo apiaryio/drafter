@@ -28,21 +28,12 @@ namespace refract
 
     class RenderJSONVisitor : public IVisitor
     {
-        sos::Object pObj; // partial object
-        sos::Array pArr;  // partial array
-        sos::Base result;
-
-        sos::Base::Type type;
-        bool isExtend;
-
+        IElement* result;
+        IElement* enumValue;
     public:
-        RenderJSONVisitor(const sos::Base::Type& type);
+
         RenderJSONVisitor();
-
-        void assign(sos::Base value);
-        void assign(std::string key, sos::Base value);
-
-        void extend(sos::Base value);
+        virtual ~RenderJSONVisitor();
 
         void visit(const IElement& e);
         void visit(const MemberElement& e);
@@ -54,8 +45,8 @@ namespace refract
         void visit(const NumberElement& e);
         void visit(const BooleanElement& e);
 
-        sos::Base get() const;
         std::string getString() const;
+        IElement* getOwnership(); 
     };
 }
 

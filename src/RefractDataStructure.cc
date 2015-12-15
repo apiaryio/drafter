@@ -68,9 +68,46 @@ namespace drafter {
         }
     }
 
+    static mson::BaseTypeName NamedTypeFromElement(const refract::IElement* element) {
+        refract::TypeQueryVisitor type;
+        type.visit(*element);
+
+        switch (type.get()) {
+            case refract::TypeQueryVisitor::Boolean:
+                return mson::BooleanTypeName;
+
+            case refract::TypeQueryVisitor::Number:
+                return mson::NumberTypeName;
+
+            case refract::TypeQueryVisitor::String:
+                return mson::StringTypeName;
+
+            case refract::TypeQueryVisitor::Array:
+                return mson::ArrayTypeName;
+
+            case refract::TypeQueryVisitor::Object:
+                return mson::ObjectTypeName;
+
+            default:
+                return mson::UndefinedTypeName;
+        }
+
+        return mson::UndefinedTypeName;
+    }
+
     template<typename T>
     static mson::BaseTypeName GetType(const T& type) {
-        return type.typeDefinition.typeSpecification.name.base;
+        mson::BaseTypeName nameType =  type.typeDefinition.typeSpecification.name.base;
+        const std::string& parent = type.typeDefinition.typeSpecification.name.symbol.literal;
+
+        if (nameType == mson::UndefinedTypeName && !parent.empty()) {
+            refract::IElement* base = FindRootAncestor(parent, GetNamedTypesRegistry());
+            if (base) {
+                nameType = NamedTypeFromElement(base);
+            }
+        }
+
+        return nameType;
     }
 
     static refract::ArrayElement* MsonTypeAttributesToRefract(const mson::TypeAttributes& ta)
@@ -837,6 +874,7 @@ namespace drafter {
     template <typename Trait>
     static refract::IElement* MsonMemberToRefract(const typename Trait::InputType& input, const mson::BaseTypeName defaultNestedType) {
         mson::BaseTypeName nameType = GetType(input.node.valueDefinition);
+
         switch (nameType) {
             case mson::BooleanTypeName:
                 return Trait::template Invoke<refract::BooleanElement>(input, defaultNestedType);
@@ -994,6 +1032,7 @@ namespace drafter {
         IElement* element = NULL;
 
         mson::BaseTypeName nameType = GetType(dataStructure.node);
+
         switch (nameType) {
             case mson::BooleanTypeName:
                 element = RefractElementFromMSON<refract::BooleanElement>(dataStructure);

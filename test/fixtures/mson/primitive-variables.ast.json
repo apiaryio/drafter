@@ -185,11 +185,36 @@
                   },
                   "content": {
                     "key": {
-                      "element": "Color",
-                      "attributes": {
-                        "variable": true
-                      },
-                      "content": "c8"
+                      "element": "extend",
+                      "content": [
+                        {
+                          "element": "object",
+                          "meta": {
+                            "ref": "Color"
+                          },
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "hex"
+                                },
+                                "value": {
+                                  "element": "string"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "element": "string",
+                          "attributes": {
+                            "variable": true
+                          },
+                          "content": "c8"
+                        }
+                      ]
                     },
                     "value": {
                       "element": "string"
