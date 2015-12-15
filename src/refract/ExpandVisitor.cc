@@ -55,7 +55,8 @@ namespace refract
         {
             IElement::MemberElementCollection::const_iterator name = e.meta.find("id");
             if (name != e.meta.end() && (*name)->value.second && !(*name)->value.second->empty()) {
-                e.meta["ref"] = (*name)->value.second->clone();
+                IElement* clone = (*name)->value.second->clone();
+                e.meta["ref"] = clone;
                 e.meta.erase("id");
             }
         }
