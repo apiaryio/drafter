@@ -166,10 +166,13 @@ namespace refract
                 // the o1->value is never emtpy as the object returned
                 // by JSONSchema visitor always has a member, at least a type
                 // key for primitive types
-                MemberElement *m1 = TypeQueryVisitor::as<MemberElement>(o1->value[0]->clone());
+                if (!o1->value.empty()) {
+                    MemberElement *m1 = TypeQueryVisitor::as<MemberElement>(o1->value[0]->clone());
 
-                m1->renderType(IElement::rCompact);
-                o->push_back(m1);
+                    m1->renderType(IElement::rCompact);
+                    o->push_back(m1);
+                }
+
             }
         }
 
