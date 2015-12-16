@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
-#include <iterator>
 
 #include "SourceAnnotation.h"
 #include "RefractDataStructure.h"
@@ -14,6 +13,9 @@
 #include "Render.h"
 
 #include "RefractSourceMap.h"
+
+#include <iterator>
+#include <set>
 
 namespace drafter {
 
@@ -82,10 +84,138 @@ namespace drafter {
         }
     }
 
+    struct InheritanceComparator {
+
+        typedef std::map<std::string, std::string> InheritanceMap;
+        InheritanceMap childToParent;
+
+        typedef std::set<std::string> Members;
+        typedef std::map<std::string, Members> MembersMap;
+
+        MembersMap objectToMembers;
+
+        const std::string& parent(const snowcrash::DataStructure* ds) {
+            return ds->typeDefinition.typeSpecification.name.symbol.literal;
+        }
+
+        bool hasParent(const snowcrash::DataStructure* ds) {
+            return !parent(ds).empty();
+        }
+
+        const std::string& name(const snowcrash::DataStructure* ds) {
+            return ds->name.symbol.literal;
+        }
+
+        const std::string& name(const mson::ValueMember& vm) {
+            return vm.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal;
+        }
+
+        const std::string& name(const mson::PropertyMember& pm) {
+            return pm.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal;
+        }
+
+        Members collectMembers(const mson::Elements& elements) {
+            Members members;
+
+            for (mson::Elements::const_iterator ie = elements.begin() ; ie != elements.end() ; ++ie) {
+
+                std::string member;
+                const mson::TypeSections* ts = NULL;
+
+                if (!ie->content.value.empty() ) {
+                    if (!name(ie->content.value).empty()) {
+                        member = name(ie->content.value);
+                    } 
+                    else {
+                        ts = &ie->content.value.sections;
+                    }
+                }
+                else if (!ie->content.property.empty()) {
+                    if(!name(ie->content.property).empty()) {
+                        member = name(ie->content.property);
+                    }
+                    else {
+                        ts = &ie->content.property.sections;
+                    }
+                }
+
+                if (!member.empty()) {
+                    members.insert(member);
+                }
+                else if (ts) {
+                    Members sub = collectMembers(*ts);
+                    members.insert(sub.begin(), sub.end());
+                }
+            }
+
+            return members;
+        }
+
+        Members collectMembers(const mson::TypeSections& ts) {
+            Members members;
+
+            // map direct members
+            for (mson::TypeSections::const_iterator its = ts.begin() ; its != ts.end() ; ++its) {
+                Members sub = collectMembers(its->content.elements());
+                members.insert(sub.begin(), sub.end());
+            }
+
+            return members;
+        }
+
+        Members collectMembers(const snowcrash::DataStructure* ds) {
+            return collectMembers(ds->sections);
+        }
+
+        InheritanceComparator(const DataStructures& elements) {
+
+            // map inheritance
+            for (DataStructures::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
+                if (hasParent(*i)) {
+                    childToParent[name(*i)] = parent(*i);
+                }
+            }
+
+            for (DataStructures::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
+                objectToMembers[name(*i)] = collectMembers(*i);
+            }
+        }
+
+        bool hasMember(const snowcrash::DataStructure* object, const snowcrash::DataStructure* member) {
+            MembersMap::const_iterator members = objectToMembers.find(name(object));
+            if (members == objectToMembers.end()) {
+                return false;
+            }
+
+            return members->second.find(name(member)) == members->second.end();
+        }
+
+        bool hasAncestor(const snowcrash::DataStructure* object, const snowcrash::DataStructure* ancestor) {
+            std::string s = name(object);
+            const std::string& isAncestor = name(ancestor);
+
+            while(!s.empty()) {
+                if (s == isAncestor) {
+                    return true;
+                }
+                s = childToParent[s];
+            }
+
+            return false;
+        }
+
+
+        bool operator()(const snowcrash::DataStructure* first, const snowcrash::DataStructure* second) {
+            return !hasAncestor(first, second) && hasMember(first, second);
+        }
+
+    };
+
     void RegisterNamedTypes(const snowcrash::Elements& elements)
     {
         DataStructures found;
         FindNamedTypes(elements, found);
+        std::sort(found.begin(), found.end(), InheritanceComparator(found));
 
         for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
 
