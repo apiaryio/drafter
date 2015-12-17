@@ -13,7 +13,7 @@
 
 namespace refract
 {
-    typedef ObjectElement ExtendElement;
+    typedef ObjectElement _ExtendElement;
 
     namespace
     {
@@ -81,12 +81,12 @@ namespace refract
         }
 
         template<typename T>
-        ExtendElement* ExpandNamedType(const Registry& registry, const std::string& name)
+        _ExtendElement* ExpandNamedType(const Registry& registry, const std::string& name)
         {
             std::string en = name;
-            ExtendElement* e = NULL;
+            _ExtendElement* e = NULL;
 
-            e = new ExtendElement;
+            e = new _ExtendElement;
 
             std::stack<IElement*> inheritance;
 
@@ -124,7 +124,7 @@ namespace refract
             //   e->meta["ref"] = IElement::Create(name);
             //}
             
-            ExtendElement* expanded = static_cast<ExtendElement*>(ExpandOrClone(e, registry));
+            _ExtendElement* expanded = static_cast<_ExtendElement*>(ExpandOrClone(e, registry));
             delete e;
             return expanded;
         }
@@ -301,6 +301,10 @@ namespace refract
 
     void ExpandVisitor::visit(const ObjectElement& e) {
         result = Expand(e, registry);
+    }
+
+    void ExpandVisitor::visit(const ExtendElement& e) {
+        throw "NI";
     }
 
     IElement* ExpandVisitor::get() const {

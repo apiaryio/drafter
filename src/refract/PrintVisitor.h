@@ -25,6 +25,7 @@ namespace refract
     struct ArrayElement;
     struct ObjectElement;
     struct MemberElement;
+    struct ExtendElement;
 
     class PrintVisitor : public IVisitor
     {
@@ -46,6 +47,7 @@ namespace refract
         void visit(const StringElement& e);
         void visit(const NumberElement& e);
         void visit(const BooleanElement& e);
+        void visit(const ExtendElement& e);
 
         static void Visit(const IElement& e);
     };

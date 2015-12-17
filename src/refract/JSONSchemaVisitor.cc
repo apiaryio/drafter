@@ -370,6 +370,11 @@ namespace refract
         primitiveType(e);
     }
 
+    void JSONSchemaVisitor::visit(const ExtendElement& e)
+    {
+        throw "NI";
+    }
+
     IElement* JSONSchemaVisitor::get()
     {
         return pObj;

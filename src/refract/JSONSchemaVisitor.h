@@ -25,6 +25,7 @@ namespace refract
     struct ArrayElement;
     struct ObjectElement;
     struct MemberElement;
+    struct ExtendElement;
 
     class JSONSchemaVisitor : public IVisitor
     {
@@ -61,6 +62,7 @@ namespace refract
         void visit(const StringElement& e);
         void visit(const NumberElement& e);
         void visit(const BooleanElement& e);
+        void visit(const ExtendElement& e);
 
         IElement* get();
         IElement* getOwnership();

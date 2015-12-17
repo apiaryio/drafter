@@ -434,6 +434,10 @@ namespace refract
         result = getResult(e);
     }
 
+    void RenderJSONVisitor::visit(const ExtendElement& e) {
+        throw "NI";
+    }
+
    IElement* RenderJSONVisitor::getOwnership() {
        IElement* ret = result;
        result = NULL;

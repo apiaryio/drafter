@@ -144,6 +144,11 @@ namespace refract
         os << "}\n";
     }
 
+    void PrintVisitor::visit(const ExtendElement& e)
+    {
+        throw "NI";
+    }
+
     void PrintVisitor::Visit(const IElement& e)
     {
         PrintVisitor ps;

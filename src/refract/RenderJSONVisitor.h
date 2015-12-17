@@ -25,6 +25,7 @@ namespace refract
     struct ArrayElement;
     struct ObjectElement;
     struct MemberElement;
+    struct ExtendElement;
 
     class RenderJSONVisitor : public IVisitor
     {
@@ -44,6 +45,7 @@ namespace refract
         void visit(const StringElement& e);
         void visit(const NumberElement& e);
         void visit(const BooleanElement& e);
+        void visit(const ExtendElement& e);
 
         std::string getString() const;
         IElement* getOwnership(); 

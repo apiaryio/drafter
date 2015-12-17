@@ -153,5 +153,10 @@ namespace refract
         SetSerializerValue(*this, array);
     }
 
+    void SerializeVisitor::visit(const ExtendElement& e)
+    {
+        throw "NI";
+    }
+
 
 }; // namespace refract

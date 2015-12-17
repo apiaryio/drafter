@@ -32,6 +32,7 @@ namespace refract
     struct ArrayElement;
     struct ObjectElement;
     struct MemberElement;
+    struct ExtendElement;
 
     class ComparableVisitor;
     class SerializeVisitor;
@@ -496,6 +497,34 @@ namespace refract
             hasContent = true;
             value.push_back(e);
         }
+    };
+
+    struct ExtendElementTrait
+    {
+        typedef std::vector<IElement*> ValueType;
+
+        static ValueType init() { return ValueType(); }
+
+        static const std::string element() { return "extend"; }
+
+        static void release(ValueType& obj)
+        {
+            for (ValueType::iterator it = obj.begin(); it != obj.end(); ++it) {
+                delete (*it);
+            }
+
+            obj.clear();
+        }
+
+        static void cloneValue(const ValueType& self, ValueType& other) {
+            std::transform(self.begin(), self.end(),
+                           std::back_inserter(other),
+                           std::bind2nd(std::mem_fun(&IElement::clone), IElement::cAll));
+        }
+    };
+
+    struct ExtendElement : Element<ExtendElement, ExtendElementTrait>
+    {
     };
 };
 

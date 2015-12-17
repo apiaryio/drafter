@@ -37,6 +37,13 @@ namespace refract
             }
         };
 
+        template <>
+        struct IsExpandable<ExtendElement, typename ExtendElement::ValueType> {
+            bool operator()(const ExtendElement* e) const {
+                throw "NI";
+            }
+        };
+
         template <typename T>
         struct IsExpandable<T, MemberElement::ValueType> : public CheckElement {
             bool operator()(const T* e) const {
@@ -102,6 +109,7 @@ namespace refract
     template void IsExpandableVisitor::visit<ArrayElement>(const ArrayElement&);
     template void IsExpandableVisitor::visit<MemberElement>(const MemberElement&);
     template void IsExpandableVisitor::visit<ObjectElement>(const ObjectElement&);
+    template void IsExpandableVisitor::visit<ExtendElement>(const ExtendElement&);
 
     bool IsExpandableVisitor::get() const {
         return result;
