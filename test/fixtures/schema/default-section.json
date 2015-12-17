@@ -118,7 +118,7 @@
                               "attributes": {
                                 "contentType": "application/json"
                               },
-                              "content": "{\n  \"list\": [\n    \"3\",\n    \"4\"\n  ]\n}"
+                              "content": "{\n  \"list\": \"3\"\n}"
                             },
                             {
                               "element": "asset",

@@ -374,8 +374,15 @@ namespace refract
         // FIXME: introduce EnumElement
         if (e.element() == "enum") {
 
-            if (!enumValue) {
-                enumValue = new StringElement;
+            if (!enumValue) { // there is no enumValue injected from ExtendElement,try to pick value directly
+
+                const ArrayElement::ValueType* val = GetValue<ArrayElement>(e);
+                if (val && !val->empty()) {
+                    enumValue = val->front()->clone();
+                } 
+                else {
+                    enumValue = new StringElement;
+                }
             }
 
             RenderJSONVisitor renderer;
@@ -396,6 +403,10 @@ namespace refract
         result = a;
     }
 
+    void RenderJSONVisitor::visit(const NullElement& e) {
+        result = new NullElement;
+    }
+
     template <typename T>
     IElement* getResult(const T& e)
     {
@@ -410,8 +421,6 @@ namespace refract
 
         return result;
     }
-
-    void RenderJSONVisitor::visit(const NullElement& e) {}
 
     void RenderJSONVisitor::visit(const StringElement& e) {
         result = getResult(e);
