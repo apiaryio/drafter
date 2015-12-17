@@ -131,4 +131,69 @@ namespace refract
         }
     }
 
+    namespace {
+        struct TypeChecker {
+            const ExtendElement::ValueType& values;
+
+            TypeChecker(const ExtendElement::ValueType& values) : values(values)
+            {
+            }
+
+            operator bool() {
+                if (values.empty()) {
+                    return true;
+                }
+
+                TypeQueryVisitor v;
+                v.visit(*values.front());
+
+                const TypeQueryVisitor::ElementType base = v.get();
+                for (ExtendElement::ValueType::const_iterator i = values.begin() ; i != values.end() ; ++i) {
+                    v.visit(*(*i));
+                    if (base != v.get()) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+    }
+
+    void ExtendElement::set(const ExtendElement::ValueType& val)
+    {
+        if (TypeChecker(val)) {
+            throw LogicError("ExtendElement require to be composed form Elements of Equal Type");
+        }
+
+        if (val.empty()) {
+            return;
+        }
+
+        hasContent = true;
+        value = val;
+    }
+
+    void ExtendElement::push_back(IElement* e) 
+    {
+
+        if (!e) {
+            return;
+        }
+
+        if (!value.empty()) {
+            TypeQueryVisitor baseType;
+            baseType.visit(*value.front());
+
+            TypeQueryVisitor type;
+            type.visit(*e);
+
+            if (baseType.get() == type.get()) {
+                throw LogicError("ExtendElement require to be composed form Elements of Equal Type");
+            }
+
+            hasContent = true;
+            value.push_back(e);
+        }
+    }
+
 }; // namespace refract

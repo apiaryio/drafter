@@ -525,6 +525,8 @@ namespace refract
 
     struct ExtendElement : Element<ExtendElement, ExtendElementTrait>
     {
+        void push_back(IElement* e);
+        void set(const ValueType& val);
     };
 };
 
