@@ -115,7 +115,7 @@ namespace refract
 
     void SerializeCompactVisitor::visit(const ExtendElement& e) 
     {
-        throw "NI";
+        throw NotImplemented("ExtendElement serialization Not Implemented");
     }
 
 }; // namespace refract

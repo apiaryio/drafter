@@ -35,6 +35,18 @@ namespace refract
             return s.get();
         }
 
+        template <typename T>
+        sos::Array SerializeValuelist(const T& e) {
+            sos::Array array;
+            typedef typename T::ValueType::const_iterator iterator;
+
+            for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
+                array.push(ElementToObject(*it));
+            }
+
+            return array;
+        }
+
     } // end of anonymous namespace
 
     void SerializeVisitor::visit(const IElement& e)
@@ -113,17 +125,6 @@ namespace refract
         SetSerializerValue(*this, value);
     }
 
-    void SerializeVisitor::visit(const ArrayElement& e)
-    {
-        sos::Array array;
-        typedef ArrayElement::ValueType::const_iterator iterator;
-
-        for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-            array.push(ElementToObject(*it));
-        }
-
-        SetSerializerValue(*this, array);
-    }
 
     void SerializeVisitor::visit(const MemberElement& e)
     {
@@ -140,23 +141,22 @@ namespace refract
         SetSerializerValue(*this, object);
     }
 
+    void SerializeVisitor::visit(const ArrayElement& e)
+    {
+        sos::Array array = SerializeValuelist(e);
+        SetSerializerValue(*this, array);
+    }
 
     void SerializeVisitor::visit(const ObjectElement& e)
     {
-        sos::Array array;
-        typedef ObjectElement::ValueType::const_iterator iterator;
-
-        for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-            array.push(ElementToObject(*it));
-        }
-
+        sos::Array array = SerializeValuelist(e);
         SetSerializerValue(*this, array);
     }
 
     void SerializeVisitor::visit(const ExtendElement& e)
     {
-        throw "NI";
+        sos::Array array = SerializeValuelist(e);
+        SetSerializerValue(*this, array);
     }
-
 
 }; // namespace refract

@@ -372,7 +372,15 @@ namespace refract
 
     void JSONSchemaVisitor::visit(const ExtendElement& e)
     {
-        throw "NI";
+        IElement* merged = e.merge();
+        if (!merged) {
+            return;
+        }
+
+        JSONSchemaVisitor v;
+        v.visit(*merged);
+        pObj->push_back(v.getOwnership());
+        delete merged;
     }
 
     IElement* JSONSchemaVisitor::get()

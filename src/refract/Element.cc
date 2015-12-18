@@ -161,7 +161,7 @@ namespace refract
 
     void ExtendElement::set(const ExtendElement::ValueType& val)
     {
-        if (TypeChecker(val)) {
+        if (!TypeChecker(val)) {
             throw LogicError("ExtendElement require to be composed form Elements of Equal Type");
         }
 
@@ -187,13 +187,189 @@ namespace refract
             TypeQueryVisitor type;
             type.visit(*e);
 
-            if (baseType.get() == type.get()) {
-                throw LogicError("ExtendElement require to be composed form Elements of Equal Type");
+            if (baseType.get() != type.get()) {
+                throw LogicError("ExtendElement must be composed from Elements of same type");
+            }
+        }
+
+        hasContent = true;
+        value.push_back(e);
+    }
+
+    namespace {
+        typedef std::vector<IElement*> RefractElements;
+
+        class ElementMerger {
+
+            IElement* result;
+            TypeQueryVisitor::ElementType base;
+
+
+            /**
+             * Merge strategy for Primitive types - just replace by latest value
+             */
+            template <typename T, typename V = typename T::ValueType> 
+            struct ValueMerge {
+                V& value;
+                ValueMerge(T& element) : value(element.value) {}
+
+                void operator()(const T& merge) { 
+                    value = merge.value;
+                }
+            };
+
+            /**
+             * Merge stategy for objects/array
+             * - if member 
+             *   - without existing key -> append
+             *   - with existing key - replace old value
+             * - if not member
+             *   - if empty value -> ignore (type holder for array)
+             *   - else append
+             */
+            template <typename T>
+            struct ValueMerge<T, RefractElements> {
+                typename T::ValueType& value;
+
+                ValueMerge(T& element) : value(element.value) {}
+
+                void operator()(const T& merge) {
+                    typedef std::map<std::string, MemberElement*> MapKeyToMember;
+                    MapKeyToMember keysBase;
+
+                    for (RefractElements::iterator it = value.begin() ; it != value.end() ; ++it) {
+                        if (MemberElement* member = TypeQueryVisitor::as<MemberElement>(*it)) {
+
+                            if (StringElement* key = TypeQueryVisitor::as<StringElement>(member->value.first)) {
+                                keysBase[key->value] = member;
+                            }
+                        }
+                    }
+
+                    for (RefractElements::const_iterator it = merge.value.begin() ; it != merge.value.end() ; ++it) {
+                        if (MemberElement* member = TypeQueryVisitor::as<MemberElement>(*it)) {
+                            if (StringElement* key = TypeQueryVisitor::as<StringElement>(member->value.first)) {
+                                MapKeyToMember::iterator iKey = keysBase.find(key->value);
+
+                                if (iKey != keysBase.end()) { // key is already presented, replace value
+                                    delete iKey->second->value.second;
+                                    iKey->second->value.second = member->value.second->clone();
+                                } 
+                                else { // unknown key, append value
+                                    MemberElement* clone = static_cast<MemberElement*>(member->clone());
+                                    value.push_back(clone);
+                                    keysBase[key->value] = clone;
+                                }
+                            }
+                        }
+                        else if(!(*it)->empty()) { // merge member is not MemberElement, append value
+                            value.push_back((*it)->clone());
+                        }
+                    }
+                }
+            };
+
+            template <typename T>
+            struct InfoMerge {
+                IElement::MemberElementCollection& info;
+                InfoMerge(IElement::MemberElementCollection& info) : info(info) {}
+
+                void operator()(const IElement::MemberElementCollection& append) {
+                    for (IElement::MemberElementCollection::const_iterator it = append.begin() ; it != append.end() ; ++it) {
+                        if (StringElement* key = TypeQueryVisitor::as<StringElement>((*it)->value.first)) {
+                            IElement::MemberElementCollection::iterator item = info.find(key->value);
+
+                            if (item != info.end()) {
+                                delete (*item)->value.second;
+                                (*item)->value.second = (*it)->value.second->clone();
+                            }
+                        }
+                    }
+                }
+            };
+
+            /**
+             * precondition - target && append element MUST BE of same type
+             * we use static_cast<> without checking type t is responsibility if caller
+             */
+            template <typename T>
+            static void doMerge(IElement* target, const IElement* append) {
+                typedef T ElementType;
+
+                InfoMerge<T>(target->meta)(append->meta);
+                InfoMerge<T>(target->attributes)(append->attributes);
+
+                ValueMerge<T>(static_cast<ElementType&>(*target))
+                             (static_cast<const ElementType&>(*append));
             }
 
-            hasContent = true;
-            value.push_back(e);
-        }
+        public:
+
+            ElementMerger() : result(NULL), base(TypeQueryVisitor::Unknown) {}
+
+            void operator()(const IElement* e) {
+                if (!e) {
+                    return;
+                }
+
+                if (!result) {
+                    result = e->clone();
+
+                    TypeQueryVisitor type;
+                    type.visit(*result);
+                    base = type.get();
+                    return;
+                }
+
+                TypeQueryVisitor type;
+                e->content(type);
+
+                if(type.get() != base) {
+                    throw refract::LogicError("Can not merge different types of elements");
+                }
+
+                switch(base) {
+                    case TypeQueryVisitor::String:
+                        doMerge<StringElement>(result, e);
+                        return;
+
+                    case TypeQueryVisitor::Number:
+                        doMerge<NumberElement>(result, e);
+                        return;
+
+                    case TypeQueryVisitor::Boolean:
+                        doMerge<BooleanElement>(result, e);
+                        return;
+
+                    case TypeQueryVisitor::Array:
+                        doMerge<ArrayElement>(result, e);
+                        return;
+
+                    case TypeQueryVisitor::Object:
+                        doMerge<ObjectElement>(result, e);
+                        return;
+
+                    case TypeQueryVisitor::Member:
+                        doMerge<MemberElement>(result, e);
+                        return;
+
+                    case TypeQueryVisitor::Null:
+                    case TypeQueryVisitor::Extend:
+                    default:
+                        ;
+                }
+            }
+
+            operator IElement* () const { 
+                return result; 
+            }
+
+        };
+    }
+
+    IElement* ExtendElement::merge() const
+    {
+        return std::for_each(value.begin(), value.end(), ElementMerger());
     }
 
 }; // namespace refract

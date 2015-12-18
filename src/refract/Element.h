@@ -527,6 +527,8 @@ namespace refract
     {
         void push_back(IElement* e);
         void set(const ValueType& val);
+
+        IElement* merge() const;
     };
 };
 

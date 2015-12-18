@@ -13,7 +13,6 @@
 
 namespace refract
 {
-    typedef ObjectElement _ExtendElement;
 
     namespace
     {
@@ -80,54 +79,6 @@ namespace refract
             return NULL;
         }
 
-        template<typename T>
-        _ExtendElement* ExpandNamedType(const Registry& registry, const std::string& name)
-        {
-            std::string en = name;
-            _ExtendElement* e = NULL;
-
-            e = new _ExtendElement;
-
-            std::stack<IElement*> inheritance;
-
-            // FIXME: introduce EnumElement
-            bool isEnum = false;
-
-            // FIXME: add check against recursive inheritance
-            // walk recursive in registry and expand inheritance tree
-            for (const IElement* parent = registry.find(en)
-                ; parent && !isReserved(en)
-                ; en = parent->element(), parent = registry.find(en)) {
-
-                inheritance.push(parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId));
-                inheritance.top()->meta["ref"] = IElement::Create(en);
-
-                //if (inheritance.top()->element() == "enum") {
-                if (parent->element() == "enum") {
-                    isEnum = true;
-                }
-            }
-
-            while (!inheritance.empty()) {
-                IElement* clone = inheritance.top();
-                if (isEnum) {
-                    clone->element("enum");
-                }
-                e->push_back(clone);
-                inheritance.pop();
-            }
-
-            // FIXME: posible solution while referenced type is not found in regisry
-            // \see test/fixtures/mson-resource-unresolved-reference.apib
-            //
-            //if (e->value.empty()) {
-            //   e->meta["ref"] = IElement::Create(name);
-            //}
-            
-            _ExtendElement* expanded = static_cast<_ExtendElement*>(ExpandOrClone(e, registry));
-            delete e;
-            return expanded;
-        }
 
         typedef std::vector<IElement*> RefractElements;
 
@@ -167,16 +118,63 @@ namespace refract
             return o;
         }
 
-        bool isExtendEnum(const ObjectElement& e) 
+        bool isExtendEnum(const ExtendElement& e) 
         {
             return !e.value.empty() && *e.value.begin() && ((*e.value.begin())->element() == "enum");
+        }
+
+        ExtendElement* GetInheritanceTree(const std::string& name, const Registry& registry)
+        {
+            std::string en = name;
+            ExtendElement* e = NULL;
+
+            e = new ExtendElement;
+
+            std::stack<IElement*> inheritance;
+
+            // FIXME: introduce EnumElement
+            bool isEnum = false;
+
+            // FIXME: add check against recursive inheritance
+            // walk recursive in registry and expand inheritance tree
+            for (const IElement* parent = registry.find(en)
+                ; parent && !isReserved(en)
+                ; en = parent->element(), parent = registry.find(en)) {
+
+                inheritance.push(parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId));
+                inheritance.top()->meta["ref"] = IElement::Create(en);
+
+                if (parent->element() == "enum") {
+                    isEnum = true;
+                }
+            }
+
+            while (!inheritance.empty()) {
+                IElement* clone = inheritance.top();
+                if (isEnum) {
+                    clone->element("enum");
+                }
+                e->push_back(clone);
+                inheritance.pop();
+            }
+
+            // FIXME: posible solution while referenced type is not found in regisry
+            // \see test/fixtures/mson-resource-unresolved-reference.apib
+            //
+            //if (e->value.empty()) {
+            //   e->meta["ref"] = IElement::Create(name);
+            //}
+            
+            ExtendElement* result = ExpandMembers(*e, registry);
+            delete e;
+
+            return result;
         }
 
         template <typename T>
         IElement* ExpandNamedType(const T& e, const Registry& registry)
         {
-            ObjectElement* extend = ExpandNamedType<T>(registry, e.element());
-            extend->element("extend");
+            ExtendElement* extend = GetInheritanceTree(e.element(), registry);
 
             CopyMetaId(*extend, e);
 
@@ -304,7 +302,7 @@ namespace refract
     }
 
     void ExpandVisitor::visit(const ExtendElement& e) {
-        throw "NI";
+        result = Expand(e, registry);
     }
 
     IElement* ExpandVisitor::get() const {
