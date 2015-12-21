@@ -760,11 +760,21 @@ namespace drafter {
 
             if (property.node.name.variable.values.size() > 1) {
                 // FIXME: is there example for multiple variables?
-                throw snowcrash::Error("multiple variables in property definition are not allowed", snowcrash::MSONError);
+                throw snowcrash::Error("multiple variables in property definition are not implemented", snowcrash::MSONError);
             }
 
             snowcrash::SourceMap<mson::Literal> sourceMap;
             sourceMap.sourceMap.append(property.sourceMap.name.sourceMap);
+
+            // check if base variable type is StringElement
+            if (!property.node.name.variable.typeDefinition.empty()) {
+                const std::string& type = property.node.name.variable.typeDefinition.typeSpecification.name.symbol.literal;
+                if (!type.empty()) {
+                    if (!refract::TypeQueryVisitor::as<refract::StringElement>(FindRootAncestor(type, GetNamedTypesRegistry()))) {
+                        throw snowcrash::Error("variable named property must be string ot its sub-type", snowcrash::MSONError);
+                    }
+                }
+            }
 
             refract::IElement* key = PrimitiveToRefract(MakeNodeInfo(property.node.name.variable.values.begin()->literal, sourceMap, property.hasSourceMap()));
 
