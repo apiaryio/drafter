@@ -107,11 +107,32 @@ namespace refract
         }
     };
 
+
+    template <typename T>
+    MemberElement* FindMemberByKey(const T& e,
+                                   const std::string& name)
+    {
+        for (typename T::ValueType::const_iterator it = e.value.begin()
+                 ; it != e.value.end()
+                 ; ++it ) {
+
+            ComparableVisitor cmp(name, ComparableVisitor::key);
+            (*it)->content(cmp);
+
+            if (cmp.get()) { // key was recognized - it is save to cast to MemberElement
+                return static_cast<MemberElement*>(*it);
+            }
+        }
+
+        return NULL;
+    }
+
     ArrayElement*  DefaultAttribute(const IElement& e);
 
     IElement* GetFirstSample(const IElement& e);
 
     StringElement* GetDescription(const IElement& e);
+
 }
 
 #endif /* REFRACT_VISITORUTILS_H */

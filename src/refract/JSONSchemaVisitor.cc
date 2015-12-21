@@ -60,6 +60,21 @@ namespace refract
         addMember("type", s);
     }
 
+    void JSONSchemaVisitor::addSchemaType(const std::string& type)
+    {
+        MemberElement *m = FindMemberByKey(*pObj, "type");
+
+        if (m && m->value.second) {
+            IElement *t = m->value.second;
+            ArrayElement *a = new ArrayElement;
+            a->push_back(t);
+            a->push_back(IElement::Create(type));
+            m->value.second = a;
+        } else {
+            setSchemaType(type);
+        }
+    }
+
     void JSONSchemaVisitor::addMember(const std::string& key, IElement *val)
     {
         MemberElement *m = new MemberElement;
@@ -122,6 +137,10 @@ namespace refract
                 IElement *d = desc->clone();
                 d->renderType(IElement::rCompact);
                 renderer.addMember("description", d);
+            }
+
+            if (IsTypeAttribute(e, "nullable")) {
+                renderer.addSchemaType("null");
             }
 
             addMember(str->value, renderer.getOwnership());
