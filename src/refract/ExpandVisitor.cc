@@ -60,26 +60,6 @@ namespace refract
             }
         }
 
-        template <typename T>
-        IElement* FindMemberByKey(const T& e, const std::string& name)
-        {
-            for (ObjectElement::ValueType::const_iterator it = e.value.begin()
-                ; it != e.value.end()
-                ; ++it ) {
-
-                ComparableVisitor cmp(name, ComparableVisitor::key);
-                (*it)->content(cmp);
-
-                if (cmp.get()) { // key was recognized - it is save to cast to MemberElement
-                    MemberElement* m = static_cast<MemberElement*>(*it);
-                    return m->value.second;
-                }
-            }
-
-            return NULL;
-        }
-
-
         typedef std::vector<IElement*> RefractElements;
 
         template <typename T>
@@ -195,7 +175,12 @@ namespace refract
         {
             T* ref = static_cast<T*>(e.clone());
 
-            StringElement* href = TypeQueryVisitor::as<StringElement>(FindMemberByKey(e, "href"));
+            MemberElement *m = FindMemberByKey(e, "href");
+            if (!m) {
+                return NULL;
+            }
+
+            StringElement* href = TypeQueryVisitor::as<StringElement>(m->value.second);
             if (!href || href->value.empty()) {
                 return ref;
             }
