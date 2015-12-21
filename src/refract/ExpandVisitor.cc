@@ -60,26 +60,6 @@ namespace refract
             }
         }
 
-        template <typename T>
-        IElement* FindMemberByKey(const T& e, const std::string& name)
-        {
-            for (ObjectElement::ValueType::const_iterator it = e.value.begin()
-                ; it != e.value.end()
-                ; ++it ) {
-
-                ComparableVisitor cmp(name, ComparableVisitor::key);
-                (*it)->content(cmp);
-
-                if (cmp.get()) { // key was recognized - it is save to cast to MemberElement
-                    MemberElement* m = static_cast<MemberElement*>(*it);
-                    return m->value.second;
-                }
-            }
-
-            return NULL;
-        }
-
-
         typedef std::vector<IElement*> RefractElements;
 
         template <typename T>
@@ -118,7 +98,7 @@ namespace refract
             return o;
         }
 
-        bool isExtendEnum(const ExtendElement& e) 
+        bool isExtendEnum(const ExtendElement& e)
         {
             return !e.value.empty() && *e.value.begin() && ((*e.value.begin())->element() == "enum");
         }
@@ -164,7 +144,7 @@ namespace refract
             //if (e->value.empty()) {
             //   e->meta["ref"] = IElement::Create(name);
             //}
-            
+
             ExtendElement* result = ExpandMembers(*e, registry);
             delete e;
 
@@ -195,11 +175,16 @@ namespace refract
         {
             T* ref = static_cast<T*>(e.clone());
 
-            StringElement* href = TypeQueryVisitor::as<StringElement>(FindMemberByKey(e, "href"));
+            MemberElement *m = FindMemberByKey(e, "href");
+            if (!m) {
+                return NULL;
+            }
+
+            StringElement* href = TypeQueryVisitor::as<StringElement>(m->value.second);
             if (!href || href->value.empty()) {
                 return ref;
             }
-            
+
             if (IElement* referenced = registry.find(href->value)) {
                 referenced = ExpandOrClone(referenced, registry);
                 MetaIdToRef(*referenced);

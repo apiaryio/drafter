@@ -43,7 +43,7 @@
                         }
                       ],
                       "body": "{\n  \"hello\": \"42\",\n  \"nested\": {\n    \"question\": \"\",\n    \"url\": \"\"\n  }\n}",
-                      "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"hello\": {\n      \"type\": \"string\"\n    },\n    \"nested\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"type\": \"object\"\n      }\n    }\n  }\n}",
+                      "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"hello\": {\n      \"type\": \"string\"\n    },\n    \"nested\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"question\": {\n          \"type\": \"string\"\n        },\n        \"url\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}",
                       "content": [
                         {
                           "element": "dataStructure",
@@ -221,7 +221,7 @@
                         }
                       ],
                       "body": "{\n  \"hello\": \"42\",\n  \"nested\": {\n    \"question\": \"\",\n    \"url\": \"\"\n  }\n}",
-                      "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"hello\": {\n      \"type\": \"string\"\n    },\n    \"nested\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"type\": \"object\"\n      }\n    }\n  }\n}",
+                      "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"hello\": {\n      \"type\": \"string\"\n    },\n    \"nested\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"question\": {\n          \"type\": \"string\"\n        },\n        \"url\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}",
                       "content": [
                         {
                           "element": "dataStructure",

@@ -161,7 +161,7 @@
                               "attributes": {
                                 "contentType": "application/json"
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"type\": \"object\"\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"a\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"valueB\",\n        \"valueA\"\n      ]\n    }\n  },\n  \"required\": [\n    \"a\"\n  ]\n}"
                             }
                           ]
                         }

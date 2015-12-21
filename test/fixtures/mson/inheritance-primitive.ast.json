@@ -43,7 +43,7 @@
                         }
                       ],
                       "body": "{\n  \"created\": \"2012-12-03\\n\\n\",\n  \"text\": \"\"\n}",
-                      "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"type\": \"object\"\n  }\n}",
+                      "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"created\": {\n      \"type\": \"string\"\n    },\n    \"text\": {\n      \"type\": \"string\"\n    }\n  }\n}",
                       "content": [
                         {
                           "element": "dataStructure",
@@ -189,7 +189,7 @@
                         }
                       ],
                       "body": "{\n  \"created\": \"2012-12-03\\n\\n\",\n  \"text\": \"\"\n}",
-                      "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"type\": \"object\"\n  }\n}",
+                      "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"created\": {\n      \"type\": \"string\"\n    },\n    \"text\": {\n      \"type\": \"string\"\n    }\n  }\n}",
                       "content": [
                         {
                           "element": "dataStructure",

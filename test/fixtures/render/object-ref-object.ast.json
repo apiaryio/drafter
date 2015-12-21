@@ -45,7 +45,7 @@
                           }
                         ],
                         "body": "{\n  \"p\": {\n    \"city\": \"Prague\",\n    \"zip\": 34567\n  }\n}",
-                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"p\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"type\": \"object\"\n      }\n    }\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"p\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"city\": {\n          \"type\": \"string\"\n        },\n        \"zip\": {\n          \"type\": \"number\"\n        }\n      }\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -119,7 +119,7 @@
                           }
                         ],
                         "body": "{\n  \"p\": {\n    \"city\": \"Prague\",\n    \"zip\": 34567\n  }\n}",
-                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"p\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"type\": \"object\"\n      }\n    }\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"p\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"city\": {\n          \"type\": \"string\"\n        },\n        \"zip\": {\n          \"type\": \"number\"\n        }\n      }\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
