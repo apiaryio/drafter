@@ -107,7 +107,7 @@ namespace refract
         }
     };
 
-    IElement* DefaultAttribute(const IElement& e);
+    ArrayElement*  DefaultAttribute(const IElement& e);
 
     IElement* GetFirstSample(const IElement& e);
 

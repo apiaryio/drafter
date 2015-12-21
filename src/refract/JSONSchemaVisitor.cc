@@ -257,7 +257,7 @@ namespace refract
             anyOf(types, typesOrder);
         }
         else {
-            if (!e.empty() || DefaultAttribute(e) != NULL) {
+            if (!e.empty() || NULL != DefaultAttribute(e) && !(DefaultAttribute(e))->empty()) {
                 ArrayElement *a = new ArrayElement;
                 a->renderType(IElement::rCompact);
 
@@ -333,19 +333,23 @@ namespace refract
             }
         }
 
-        IElement *def = DefaultAttribute(e);
+        ArrayElement *def = DefaultAttribute(e);
 
-        if (def) {
-            IElement *d = def->clone();
-            d->renderType(IElement::rCompact);
-
+        if (def && !def->empty()) {
             if (e.element() == "enum") {
+                IElement *d = def->value[0]->clone();
+                d->renderType(IElement::rCompact);
                 addMember("default", d);
             }
             else {
-                ArrayElement *a = new ArrayElement;
-                a->push_back(d);
-                addMember("default", a);
+                ArrayElement *d = static_cast<ArrayElement*>(def->clone());
+                d->renderType(IElement::rCompact);
+                for (ArrayElement::ValueType::iterator i = d->value.begin();
+                     i != d->value.end();
+                     ++i) {
+                    (*i)->renderType(IElement::rCompact);
+                }
+                addMember("default", d);
             }
         }
     }
@@ -377,9 +381,7 @@ namespace refract
             return;
         }
 
-        JSONSchemaVisitor v;
-        v.visit(*merged);
-        pObj->push_back(v.getOwnership());
+        visit(*merged);
         delete merged;
     }
 

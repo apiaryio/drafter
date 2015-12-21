@@ -45,7 +45,7 @@
                           }
                         ],
                         "body": "{\n  \"a1\": [\n    \"d\",\n    \"f\",\n    \"l\",\n    \"t\"\n  ],\n  \"a2\": [\n    \"s\",\n    \"m\",\n    \"p\",\n    \"l\"\n  ],\n  \"a3\": [\n    \"1\",\n    \"2\",\n    \"3\"\n  ]\n}",
-                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"a1\": {\n      \"type\": \"array\",\n      \"default\": [\n        \"d\"\n      ]\n    },\n    \"a2\": {\n      \"type\": \"array\"\n    },\n    \"a3\": {\n      \"type\": \"array\"\n    }\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"a1\": {\n      \"type\": \"array\",\n      \"default\": [\n        \"d\",\n        \"f\",\n        \"l\",\n        \"t\"\n      ]\n    },\n    \"a2\": {\n      \"type\": \"array\"\n    },\n    \"a3\": {\n      \"type\": \"array\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -221,7 +221,7 @@
                           }
                         ],
                         "body": "{\n  \"a1\": [\n    \"d\",\n    \"f\",\n    \"l\",\n    \"t\"\n  ],\n  \"a2\": [\n    \"s\",\n    \"m\",\n    \"p\",\n    \"l\"\n  ],\n  \"a3\": [\n    \"1\",\n    \"2\",\n    \"3\"\n  ]\n}",
-                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"a1\": {\n      \"type\": \"array\",\n      \"default\": [\n        \"d\"\n      ]\n    },\n    \"a2\": {\n      \"type\": \"array\"\n    },\n    \"a3\": {\n      \"type\": \"array\"\n    }\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"a1\": {\n      \"type\": \"array\",\n      \"default\": [\n        \"d\",\n        \"f\",\n        \"l\",\n        \"t\"\n      ]\n    },\n    \"a2\": {\n      \"type\": \"array\"\n    },\n    \"a3\": {\n      \"type\": \"array\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",

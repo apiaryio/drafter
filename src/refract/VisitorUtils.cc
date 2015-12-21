@@ -12,7 +12,7 @@
 namespace refract
 {
 
-    IElement* DefaultAttribute(const IElement& e)
+    ArrayElement* DefaultAttribute(const IElement& e)
     {
         IElement::MemberElementCollection::const_iterator i = e.attributes.find("default");
 
@@ -26,7 +26,7 @@ namespace refract
             return NULL;
         }
 
-        return vals->value[0];
+        return vals;
     }
 
     IElement* GetFirstSample(const IElement& e)
