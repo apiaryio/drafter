@@ -218,24 +218,23 @@ namespace refract
     void RenderJSONVisitor::visit(const ExtendElement& e) {
 
         RenderJSONVisitor renderer;
-        IElement* resolved = e.merge();
+        IElement* merged = e.merge();
 
-        if (!resolved) {
+        if (!merged) {
             return;
         }
-        resolved->renderType(IElement::rCompact);
 
-        if (resolved->element() == "enum") {
+        if (merged->element() == "enum") {
             renderer.enumValue = getEnumValue(e);
             if (renderer.enumValue) {
                 renderer.enumValue = renderer.enumValue->clone();
             }
         }
 
-        renderer.visit(*resolved);
+        renderer.visit(*merged);
         result = renderer.getOwnership();
 
-        delete resolved;
+        delete merged;
     }
 
    IElement* RenderJSONVisitor::getOwnership() {

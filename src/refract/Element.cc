@@ -132,37 +132,31 @@ namespace refract
     }
 
     namespace {
-        struct TypeChecker {
-            const ExtendElement::ValueType& values;
 
-            TypeChecker(const ExtendElement::ValueType& values) : values(values)
-            {
-            }
-
-            operator bool() {
-                if (values.empty()) {
-                    return true;
-                }
-
-                TypeQueryVisitor v;
-                v.visit(*values.front());
-
-                const TypeQueryVisitor::ElementType base = v.get();
-                for (ExtendElement::ValueType::const_iterator i = values.begin() ; i != values.end() ; ++i) {
-                    v.visit(*(*i));
-                    if (base != v.get()) {
-                        return false;
-                    }
-                }
+        bool TypeChecker(const ExtendElement::ValueType& values)
+        {
+            if (values.empty()) {
                 return true;
             }
-        };
+
+            TypeQueryVisitor v;
+            v.visit(*values.front());
+
+            const TypeQueryVisitor::ElementType base = v.get();
+            for (ExtendElement::ValueType::const_iterator i = values.begin() ; i != values.end() ; ++i) {
+                v.visit(*(*i));
+                if (base != v.get()) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 
     void ExtendElement::set(const ExtendElement::ValueType& val)
     {
         if (!TypeChecker(val)) {
-            throw LogicError("ExtendElement require to be composed form Elements of Equal Type");
+            throw LogicError("ExtendElement must be composed from Elements of same type");
         }
 
         if (val.empty()) {

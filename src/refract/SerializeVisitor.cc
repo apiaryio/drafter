@@ -36,7 +36,7 @@ namespace refract
         }
 
         template <typename T>
-        sos::Array SerializeValuelist(const T& e) {
+        sos::Array SerializeValueList(const T& e) {
             sos::Array array;
             typedef typename T::ValueType::const_iterator iterator;
 
@@ -143,19 +143,19 @@ namespace refract
 
     void SerializeVisitor::visit(const ArrayElement& e)
     {
-        sos::Array array = SerializeValuelist(e);
+        sos::Array array = SerializeValueList(e);
         SetSerializerValue(*this, array);
     }
 
     void SerializeVisitor::visit(const ObjectElement& e)
     {
-        sos::Array array = SerializeValuelist(e);
+        sos::Array array = SerializeValueList(e);
         SetSerializerValue(*this, array);
     }
 
     void SerializeVisitor::visit(const ExtendElement& e)
     {
-        sos::Array array = SerializeValuelist(e);
+        sos::Array array = SerializeValueList(e);
         SetSerializerValue(*this, array);
     }
 

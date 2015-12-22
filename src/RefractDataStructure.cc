@@ -97,7 +97,7 @@ namespace drafter {
 
     template<typename T>
     static mson::BaseTypeName GetType(const T& type) {
-        mson::BaseTypeName nameType =  type.typeDefinition.typeSpecification.name.base;
+        mson::BaseTypeName nameType = type.typeDefinition.typeSpecification.name.base;
         const std::string& parent = type.typeDefinition.typeSpecification.name.symbol.literal;
 
         if (nameType == mson::UndefinedTypeName && !parent.empty()) {
@@ -771,7 +771,7 @@ namespace drafter {
                 const std::string& type = property.node.name.variable.typeDefinition.typeSpecification.name.symbol.literal;
                 if (!type.empty()) {
                     if (!refract::TypeQueryVisitor::as<refract::StringElement>(FindRootAncestor(type, GetNamedTypesRegistry()))) {
-                        throw snowcrash::Error("variable named property must be string ot its sub-type", snowcrash::MSONError);
+                        throw snowcrash::Error("'variable named property' must be string or its sub-type", snowcrash::MSONError);
                     }
                 }
             }

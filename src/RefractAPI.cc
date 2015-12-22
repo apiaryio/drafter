@@ -121,28 +121,28 @@ namespace drafter {
         Members collectMembers(const mson::Elements& elements) {
             Members members;
 
-            for (mson::Elements::const_iterator ie = elements.begin() ; ie != elements.end() ; ++ie) {
+            for (mson::Elements::const_iterator it = elements.begin() ; it != elements.end() ; ++it) {
 
                 std::string member;
                 const mson::TypeSections* ts = NULL;
 
-                if (!ie->content.value.empty() ) {
-                    if (!name(ie->content.value).empty()) {
-                        member = name(ie->content.value);
+                if (!it->content.value.empty() ) {
+                    if (!name(it->content.value).empty()) {
+                        member = name(it->content.value);
                     } 
                     else {
-                        ts = &ie->content.value.sections;
+                        ts = &it->content.value.sections;
                     }
                 }
-                else if (!ie->content.property.empty()) {
-                    if(!name(ie->content.property).empty()) {
-                        member = name(ie->content.property);
+                else if (!it->content.property.empty()) {
+                    if(!name(it->content.property).empty()) {
+                        member = name(it->content.property);
                     } 
-                    else if (!name(ie->content.property.name.variable).empty()) {
-                        member = name(ie->content.property.name.variable);
+                    else if (!name(it->content.property.name.variable).empty()) {
+                        member = name(it->content.property.name.variable);
                     }
                     else {
-                        ts = &ie->content.property.sections;
+                        ts = &it->content.property.sections;
                     }
                 }
 
@@ -194,7 +194,7 @@ namespace drafter {
                 return false;
             }
 
-            return members->second.find(name(member)) == members->second.end();
+            return members->second.find(name(member)) != members->second.end();
         }
 
         bool hasAncestor(const snowcrash::DataStructure* object, const snowcrash::DataStructure* ancestor) {
@@ -213,7 +213,7 @@ namespace drafter {
 
 
         bool operator()(const snowcrash::DataStructure* first, const snowcrash::DataStructure* second) {
-            return !hasAncestor(first, second) && hasMember(first, second);
+            return !hasAncestor(first, second) && !hasMember(first, second);
         }
 
     };

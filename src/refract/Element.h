@@ -287,7 +287,6 @@ namespace refract
             return !hasContent;
         }
 
-
         virtual renderFlags renderType() const
         {
             return renderStrategy;

@@ -37,13 +37,6 @@ namespace refract
             }
         };
 
-        //template <>
-        //struct IsExpandable<ExtendElement, typename ExtendElement::ValueType> {
-        //    bool operator()(const ExtendElement* e) const {
-        //        return false;
-        //    }
-        //};
-
         template <typename T>
         struct IsExpandable<T, MemberElement::ValueType> : public CheckElement {
             bool operator()(const T* e) const {
