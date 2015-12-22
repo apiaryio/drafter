@@ -127,8 +127,6 @@ namespace refract
         return NULL;
     }
 
-    ArrayElement*  DefaultAttribute(const IElement& e);
-
     IElement* GetFirstSample(const IElement& e);
 
     StringElement* GetDescription(const IElement& e);

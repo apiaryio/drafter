@@ -276,7 +276,8 @@ namespace refract
             anyOf(types, typesOrder);
         }
         else {
-            if (!e.empty() || NULL != DefaultAttribute(e) && !(DefaultAttribute(e))->empty()) {
+            const ArrayElement* def = GetDefault(e);
+            if (!e.empty() || (def && !def->empty())) {
                 ArrayElement *a = new ArrayElement;
                 a->renderType(IElement::rCompact);
 
@@ -352,7 +353,7 @@ namespace refract
             }
         }
 
-        ArrayElement *def = DefaultAttribute(e);
+        const ArrayElement *def = GetDefault(e);
 
         if (def && !def->empty()) {
             if (e.element() == "enum") {

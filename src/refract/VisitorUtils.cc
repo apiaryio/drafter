@@ -12,23 +12,6 @@
 namespace refract
 {
 
-    ArrayElement* DefaultAttribute(const IElement& e)
-    {
-        IElement::MemberElementCollection::const_iterator i = e.attributes.find("default");
-
-        if (i == e.attributes.end()) {
-            return NULL;
-        }
-
-        ArrayElement* vals = TypeQueryVisitor::as<ArrayElement>((*i)->value.second);
-
-        if (!vals || vals->empty()) {
-            return NULL;
-        }
-
-        return vals;
-    }
-
     IElement* GetFirstSample(const IElement& e)
     {
         IElement::MemberElementCollection::const_iterator i = e.attributes.find("samples");
