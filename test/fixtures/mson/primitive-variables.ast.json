@@ -13,24 +13,15 @@
           "element": "dataStructure",
           "content": [
             {
-              "element": "object",
+              "element": "string",
               "meta": {
                 "id": "Color"
               },
-              "content": [
-                {
-                  "element": "member",
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "hex"
-                    },
-                    "value": {
-                      "element": "string"
-                    }
-                  }
-                }
-              ]
+              "attributes": {
+                "samples": [
+                  "red\n\n\n"
+                ]
+              }
             }
           ]
         },
@@ -188,24 +179,15 @@
                       "element": "extend",
                       "content": [
                         {
-                          "element": "object",
+                          "element": "string",
                           "meta": {
                             "ref": "Color"
                           },
-                          "content": [
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "hex"
-                                },
-                                "value": {
-                                  "element": "string"
-                                }
-                              }
-                            }
-                          ]
+                          "attributes": {
+                            "samples": [
+                              "red\n\n\n"
+                            ]
+                          }
                         },
                         {
                           "element": "string",

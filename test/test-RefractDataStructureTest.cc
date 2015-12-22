@@ -27,8 +27,7 @@ TEST_MSON_SUCCESS("empty-sample");
 TEST_MSON_SUCCESS("inner-inheritance");
 TEST_MSON_SUCCESS("oneof-sample");
 TEST_MSON_SUCCESS("multiline-description");
-// FIXME: fixtures: - c8 should be resolved as object
-//TEST_MSON_SUCCESS("primitive-variables");
+TEST_MSON_SUCCESS("primitive-variables");
 TEST_MSON_SUCCESS("named-with-types");
 TEST_MSON_SUCCESS("nontyped-array");
 TEST_MSON_SUCCESS("number-wrong-value");
