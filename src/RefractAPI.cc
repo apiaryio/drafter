@@ -20,11 +20,11 @@
 namespace drafter {
 
     // Forward Declarations
+    using refract::RefractElements;
     refract::IElement* ElementToRefract(const NodeInfo<snowcrash::Element>& element);
 
     namespace {
 
-        typedef std::vector<refract::IElement*> RefractElements;
         typedef std::vector<const snowcrash::DataStructure*> DataStructures;
 
         void FindNamedTypes(const snowcrash::Elements& elements, DataStructures& found)

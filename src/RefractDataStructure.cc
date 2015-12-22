@@ -56,7 +56,7 @@ namespace drafter {
         }
     };
 
-    typedef std::vector<refract::IElement*> RefractElements;
+    using refract::RefractElements;
 
     static void SetElementType(refract::IElement* element, const mson::TypeDefinition& td)
     {

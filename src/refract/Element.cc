@@ -197,13 +197,11 @@ namespace refract
     }
 
     namespace {
-        typedef std::vector<IElement*> RefractElements;
 
         class ElementMerger {
 
             IElement* result;
             TypeQueryVisitor::ElementType base;
-
 
             /**
              * Merge strategy for Primitive types - just replace by latest value
@@ -290,7 +288,7 @@ namespace refract
 
             /**
              * precondition - target && append element MUST BE of same type
-             * we use static_cast<> without checking type t is responsibility if caller
+             * we use static_cast<> without checking type this is responsibility of caller
              */
             template <typename T>
             static void doMerge(IElement* target, const IElement* append) {

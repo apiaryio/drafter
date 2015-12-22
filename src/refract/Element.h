@@ -199,7 +199,6 @@ namespace refract
 
     bool isReserved(const std::string& element);
 
-
     /**
      * CRTP implementation of RefractElement
      */
@@ -350,20 +349,21 @@ namespace refract
     };
     struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {};
 
-    struct ArrayElementTrait
+    typedef std::vector<IElement*> RefractElements;
+
+    struct ElementCollectionTrait
     {
-        typedef std::vector<IElement*> ValueType;
+        typedef RefractElements  ValueType;
 
         static ValueType init() { return ValueType(); }
-        static const std::string element() { return "array"; }
 
-        static void release(ValueType& array)
+        static void release(ValueType& values)
         {
-            for (ValueType::iterator it = array.begin(); it != array.end(); ++it) {
+            for (ValueType::iterator it = values.begin(); it != values.end(); ++it) {
                 delete (*it);
             }
 
-            array.clear();
+            values.clear();
         }
 
         static void cloneValue(const ValueType& self, ValueType& other) {
@@ -371,6 +371,12 @@ namespace refract
                            std::back_inserter(other),
                            std::bind2nd(std::mem_fun(&IElement::clone), IElement::cAll));
         }
+    };
+
+
+    struct ArrayElementTrait : public ElementCollectionTrait
+    {
+        static const std::string element() { return "array"; }
     };
 
     struct ArrayElement : Element<ArrayElement, ArrayElementTrait>
@@ -453,12 +459,10 @@ namespace refract
         }
     };
 
-    struct ObjectElementTrait
+    struct ObjectElementTrait : public ElementCollectionTrait
     {
-        typedef std::vector<IElement*> ValueType;
-
-        // We don't use std::vector<MemberElement*> there, because
-        // ObjectElement can contain:
+        // Use inherited ValueType definition instead of specialized std::vector<MemberElement*> 
+        // because ObjectElement can contain:
         // - (array[Member Element])
         // - (object)
         // - (Extend Element)
@@ -468,24 +472,7 @@ namespace refract
         // FIXME: behavioration for content types different than
         // `(array[Member Element])` is not currently implemented
 
-        static ValueType init() { return ValueType(); }
-
         static const std::string element() { return "object"; }
-
-        static void release(ValueType& obj)
-        {
-            for (ValueType::iterator it = obj.begin(); it != obj.end(); ++it) {
-                delete (*it);
-            }
-
-            obj.clear();
-        }
-
-        static void cloneValue(const ValueType& self, ValueType& other) {
-            std::transform(self.begin(), self.end(),
-                           std::back_inserter(other),
-                           std::bind2nd(std::mem_fun(&IElement::clone), IElement::cAll));
-        }
     };
 
     struct ObjectElement : Element<ObjectElement, ObjectElementTrait>
@@ -499,28 +486,9 @@ namespace refract
         }
     };
 
-    struct ExtendElementTrait
+    struct ExtendElementTrait : public ElementCollectionTrait
     {
-        typedef std::vector<IElement*> ValueType;
-
-        static ValueType init() { return ValueType(); }
-
         static const std::string element() { return "extend"; }
-
-        static void release(ValueType& obj)
-        {
-            for (ValueType::iterator it = obj.begin(); it != obj.end(); ++it) {
-                delete (*it);
-            }
-
-            obj.clear();
-        }
-
-        static void cloneValue(const ValueType& self, ValueType& other) {
-            std::transform(self.begin(), self.end(),
-                           std::back_inserter(other),
-                           std::bind2nd(std::mem_fun(&IElement::clone), IElement::cAll));
-        }
     };
 
     struct ExtendElement : Element<ExtendElement, ExtendElementTrait>

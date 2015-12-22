@@ -11,7 +11,7 @@
 
 namespace drafter {
 
-    typedef std::vector<refract::IElement*> RefractElements;
+    using refract::RefractElements;
 
     refract::IElement* AnnotationToRefract(const snowcrash::SourceAnnotation& annotation, bool isError)
     {
