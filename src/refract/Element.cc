@@ -262,21 +262,46 @@ namespace refract
             };
 
             template <typename T>
-            struct InfoMerge {
+            class InfoMerge {
                 IElement::MemberElementCollection& info;
-                InfoMerge(IElement::MemberElementCollection& info) : info(info) {}
+                const std::set<std::string>& noMergeKeys;
+
+            public:
+
+                InfoMerge(IElement::MemberElementCollection& info, const std::set<std::string>& noMergeKeys) : info(info), noMergeKeys(noMergeKeys) {}
 
                 void operator()(const IElement::MemberElementCollection& append) {
-                    for (IElement::MemberElementCollection::const_iterator it = append.begin() ; it != append.end() ; ++it) {
-                        if (StringElement* key = TypeQueryVisitor::as<StringElement>((*it)->value.first)) {
-                            IElement::MemberElementCollection::iterator item = info.find(key->value);
+                    IElement::MemberElementCollection toAppend;
 
+                    for (IElement::MemberElementCollection::const_iterator it = append.begin() ; it != append.end() ; ++it) {
+
+                        if (!*it) {
+                            continue;
+                        }
+
+                        if (StringElement* key = TypeQueryVisitor::as<StringElement>((*it)->value.first)) {
+                            if (noMergeKeys.find(key->value) != noMergeKeys.end()) {
+                                // this key should not be merged
+                                continue;
+                            }
+
+                            IElement::MemberElementCollection::iterator item = info.find(key->value);
                             if (item != info.end()) {
+                                // this key alrady exist, replace value
                                 delete (*item)->value.second;
                                 (*item)->value.second = (*it)->value.second->clone();
-                            }
-                        }
+                                continue;
+                            } 
+                        } 
+
+                        toAppend.push_back(static_cast<MemberElement*>((*it)->clone()));
                     }
+
+                    for (IElement::MemberElementCollection::const_iterator it = toAppend.begin() ; it != toAppend.end() ; ++it) {
+                        info.push_back(*it);
+                    }
+
+                    toAppend.clear();
                 }
             };
 
@@ -288,8 +313,18 @@ namespace refract
             static void doMerge(IElement* target, const IElement* append) {
                 typedef T ElementType;
 
-                InfoMerge<T>(target->meta)(append->meta);
-                InfoMerge<T>(target->attributes)(append->attributes);
+                // FIXME: static initialization on C++11
+                static std::set<std::string> noMeta;
+                static std::set<std::string> noAttributes;
+
+                if (noMeta.empty()) {
+                    noMeta.insert("id");
+                    noMeta.insert("prefix");
+                    noMeta.insert("namespace");
+                }
+
+                InfoMerge<T>(target->meta, noMeta)(append->meta);
+                InfoMerge<T>(target->attributes, noAttributes)(append->attributes);
 
                 ValueMerge<T>(static_cast<ElementType&>(*target))
                              (static_cast<const ElementType&>(*append));
@@ -342,13 +377,11 @@ namespace refract
                         return;
 
                     case TypeQueryVisitor::Member:
-                        doMerge<MemberElement>(result, e);
-                        return;
-
-                    case TypeQueryVisitor::Null:
                     case TypeQueryVisitor::Extend:
+                    case TypeQueryVisitor::Null:
+                        throw LogicError("Unappropriate kind of element to merging");
                     default:
-                        ;
+                        throw LogicError("Element has no implemented merging");
                 }
             }
 
