@@ -102,6 +102,7 @@ namespace refract
     template void IsExpandableVisitor::visit<ArrayElement>(const ArrayElement&);
     template void IsExpandableVisitor::visit<MemberElement>(const MemberElement&);
     template void IsExpandableVisitor::visit<ObjectElement>(const ObjectElement&);
+    template void IsExpandableVisitor::visit<ExtendElement>(const ExtendElement&);
 
     bool IsExpandableVisitor::get() const {
         return result;

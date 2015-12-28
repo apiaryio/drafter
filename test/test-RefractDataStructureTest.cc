@@ -48,6 +48,7 @@ TEST_MSON_SUCCESS("enum-members-description");
 TEST_MSON_SUCCESS("array-reference");
 TEST_MSON_SUCCESS("reference-override");
 TEST_MSON_SUCCESS("enum-variants");
+TEST_MSON_SUCCESS("inheritance-primitive");
 
 #undef TEST_MSON_SUCCESS
 #undef TEST_MSON

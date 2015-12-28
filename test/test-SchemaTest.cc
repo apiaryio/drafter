@@ -21,7 +21,6 @@ TEST_REFRACT("schema", "array-simple");
 TEST_REFRACT("schema", "description");
 TEST_REFRACT("schema", "required-array");
 TEST_REFRACT("schema", "default-sample");
-// FIXME: enum bug #176
 TEST_REFRACT("schema", "default-attribute");
 TEST_REFRACT("schema", "escaping");
 TEST_REFRACT("schema", "array-inline");
@@ -32,27 +31,16 @@ TEST_REFRACT("schema", "array-with-nested-type");
 TEST_REFRACT("schema", "array-with-nested-types");
 TEST_REFRACT("schema", "array-of-types-mixed");
 TEST_REFRACT("schema", "array-of-types-mixed-complex");
-// FIXME: enum bug #176
 TEST_REFRACT("schema", "enum-with-type");
-// FIXME: enum bug #176
 TEST_REFRACT("schema", "default-section");
-// FIXME: enum bug #176
 TEST_REFRACT("schema", "enum-of-strings");
-// FIXME: enum bug #176
 TEST_REFRACT("schema", "enum-containing-object");
-// FIXME: enum bug #176
 TEST_REFRACT("schema", "enum-containing-enum");
-// FIXME: enum bug #176
 TEST_REFRACT("schema", "enum-containing-sample");
-// FIXME: enum bug #176
 TEST_REFRACT("schema", "sample");
-
 TEST_REFRACT("schema", "sample-complex");
-
-// FIXME: enum bug #176
 TEST_REFRACT("schema", "sample-inline-attribute");
 
-// FIXME: enum bug #176
 // FIXME: Discuss it with hj, as current drafter seems legit
 // boutique version of schema
 //   "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"list\": {}\n  }\n}"
@@ -85,7 +73,6 @@ TEST_REFRACT("schema", "object-fixed-optional");
 //FIXME: Why it fails when the output is the same?
 //TEST_REFRACT("schema", "object-complex");
 
-// FIXME:  enum bug #176
 TEST_REFRACT("schema", "object-very-complex");
 
 //FIXME: Discuss with Z and hj

@@ -315,7 +315,7 @@
                               "attributes": {
                                 "contentType": "application/json"
                               },
-                              "content": "{\n  \"id\": \"1\",\n  \"name\": \"A green door\",\n  \"price\": 12.5,\n  \"tags\": [\n    \"home\",\n    \"green\"\n  ],\n  \"vector\": [\n    \"1\",\n    \"2\",\n    \"3\"\n  ],\n  \"address\": {\n    \"street\": \"\",\n    \"number\": 0,\n    \"zip_code\": \"\",\n    \"state\": {\n      \"name\": \"\",\n      \"code\": \"\"\n    },\n    \"country\": [\n      \"Czech Republic\",\n      \"United States of America\"\n    ]\n  }\n}"
+                              "content": "{\n  \"id\": \"1\",\n  \"name\": \"A green door\",\n  \"price\": 12.5,\n  \"tags\": [\n    \"home\",\n    \"green\"\n  ],\n  \"vector\": [\n    \"1\",\n    \"2\",\n    \"3\"\n  ],\n  \"address\": {\n    \"street\": \"\",\n    \"number\": 0,\n    \"zip_code\": \"\",\n    \"state\": {\n      \"name\": \"\",\n      \"code\": \"\"\n    },\n    \"country\": \"Czech Republic\"\n  }\n}"
                             },
                             {
                               "element": "asset",

@@ -36,6 +36,8 @@ namespace refract
         void clearAll(bool releaseElements = false);
     };
 
+    IElement* FindRootAncestor(const std::string& name, const Registry& registry);
+
 }; // namespace refract
 
 #endif // #ifndef REFRACT_REGISTRY_H

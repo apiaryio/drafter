@@ -24,6 +24,7 @@ namespace refract
     struct ArrayElement;
     struct ObjectElement;
     struct MemberElement;
+    struct ExtendElement;
 
     class SerializeCompactVisitor : public IVisitor
     {
@@ -40,6 +41,7 @@ namespace refract
         void visit(const ArrayElement& e);
         void visit(const MemberElement& e);
         void visit(const ObjectElement& e);
+        void visit(const ExtendElement& e);
 
         std::string key()
         {

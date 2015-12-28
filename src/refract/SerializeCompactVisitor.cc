@@ -12,7 +12,7 @@ namespace refract
 {
 
     static bool IsFullRender(const IElement* element) {
-        return element->renderType() == IElement::rFull || element->renderType() == IElement::rCompactContent;
+        return element && (element->renderType() == IElement::rFull || element->renderType() == IElement::rCompactContent);
     }
 
     void SerializeCompactVisitor::visit(const IElement& e)
@@ -111,6 +111,11 @@ namespace refract
 
             value_ = obj;
         }
+    }
+
+    void SerializeCompactVisitor::visit(const ExtendElement& e) 
+    {
+        throw NotImplemented("ExtendElement serialization Not Implemented");
     }
 
 }; // namespace refract

@@ -144,6 +144,19 @@ namespace refract
         os << "}\n";
     }
 
+    void PrintVisitor::visit(const ExtendElement& e)
+    {
+        typedef ExtendElement::ValueType::const_iterator iterator;
+        PrintVisitor ps(indent + 1, os);
+
+        os << "ExtendElement {\n";
+        for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
+            ps.visit(*(*it));
+        }
+        indentOS(indent);
+        os << "}\n";
+    }
+
     void PrintVisitor::Visit(const IElement& e)
     {
         PrintVisitor ps;

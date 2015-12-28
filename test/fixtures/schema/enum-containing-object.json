@@ -137,7 +137,7 @@
                               "attributes": {
                                 "contentType": "application/json"
                               },
-                              "content": "{\n  \"tag\": [\n    \"green\",\n    {\n      \"tag_id\": \"1\",\n      \"label\": \"green\"\n    }\n  ]\n}"
+                              "content": "{\n  \"tag\": \"green\"\n}"
                             },
                             {
                               "element": "asset",

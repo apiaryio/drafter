@@ -114,7 +114,7 @@
                               "attributes": {
                                 "contentType": "application/json"
                               },
-                              "content": "{\n  \"tag\": [\n    \"green\"\n  ]\n}"
+                              "content": "{\n  \"tag\": \"green\"\n}"
                             },
                             {
                               "element": "asset",

@@ -27,6 +27,8 @@ namespace refract
     struct BooleanElement;
     struct ArrayElement;
 
+    struct ExtendElement;
+
     class ExpandVisitor : public IVisitor {
 
         IElement* result;
@@ -45,6 +47,7 @@ namespace refract
         void visit(const NumberElement& e);
         void visit(const BooleanElement& e);
         void visit(const ArrayElement& e);
+        void visit(const ExtendElement& e);
 
         // return expanded elemnt or NULL if expansion is not needed
         // caller responsibility is to delete returned Element

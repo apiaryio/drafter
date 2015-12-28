@@ -110,7 +110,7 @@
                               "attributes": {
                                 "contentType": "application/json"
                               },
-                              "content": "{\n  \"gender\": [\n    \"male\",\n    \"female\"\n  ]\n}"
+                              "content": "{\n  \"gender\": \"male\"\n}"
                             },
                             {
                               "element": "asset",

@@ -56,7 +56,7 @@ namespace drafter {
         }
     };
 
-    typedef std::vector<refract::IElement*> RefractElements;
+    using refract::RefractElements;
 
     static void SetElementType(refract::IElement* element, const mson::TypeDefinition& td)
     {
@@ -68,9 +68,46 @@ namespace drafter {
         }
     }
 
+    static mson::BaseTypeName NamedTypeFromElement(const refract::IElement* element) {
+        refract::TypeQueryVisitor type;
+        type.visit(*element);
+
+        switch (type.get()) {
+            case refract::TypeQueryVisitor::Boolean:
+                return mson::BooleanTypeName;
+
+            case refract::TypeQueryVisitor::Number:
+                return mson::NumberTypeName;
+
+            case refract::TypeQueryVisitor::String:
+                return mson::StringTypeName;
+
+            case refract::TypeQueryVisitor::Array:
+                return mson::ArrayTypeName;
+
+            case refract::TypeQueryVisitor::Object:
+                return mson::ObjectTypeName;
+
+            default:
+                return mson::UndefinedTypeName;
+        }
+
+        return mson::UndefinedTypeName;
+    }
+
     template<typename T>
     static mson::BaseTypeName GetType(const T& type) {
-        return type.typeDefinition.typeSpecification.name.base;
+        mson::BaseTypeName nameType = type.typeDefinition.typeSpecification.name.base;
+        const std::string& parent = type.typeDefinition.typeSpecification.name.symbol.literal;
+
+        if (nameType == mson::UndefinedTypeName && !parent.empty()) {
+            refract::IElement* base = FindRootAncestor(parent, GetNamedTypesRegistry());
+            if (base) {
+                nameType = NamedTypeFromElement(base);
+            }
+        }
+
+        return nameType;
     }
 
     static refract::ArrayElement* MsonTypeAttributesToRefract(const mson::TypeAttributes& ta)
@@ -723,11 +760,21 @@ namespace drafter {
 
             if (property.node.name.variable.values.size() > 1) {
                 // FIXME: is there example for multiple variables?
-                throw snowcrash::Error("multiple variables in property definition are not allowed", snowcrash::MSONError);
+                throw snowcrash::Error("multiple variables in property definition are not implemented", snowcrash::MSONError);
             }
 
             snowcrash::SourceMap<mson::Literal> sourceMap;
             sourceMap.sourceMap.append(property.sourceMap.name.sourceMap);
+
+            // check if base variable type is StringElement
+            if (!property.node.name.variable.typeDefinition.empty()) {
+                const std::string& type = property.node.name.variable.typeDefinition.typeSpecification.name.symbol.literal;
+                if (!type.empty()) {
+                    if (!refract::TypeQueryVisitor::as<refract::StringElement>(FindRootAncestor(type, GetNamedTypesRegistry()))) {
+                        throw snowcrash::Error("'variable named property' must be string or its sub-type", snowcrash::MSONError);
+                    }
+                }
+            }
 
             refract::IElement* key = PrimitiveToRefract(MakeNodeInfo(property.node.name.variable.values.begin()->literal, sourceMap, property.hasSourceMap()));
 
@@ -837,6 +884,7 @@ namespace drafter {
     template <typename Trait>
     static refract::IElement* MsonMemberToRefract(const typename Trait::InputType& input, const mson::BaseTypeName defaultNestedType) {
         mson::BaseTypeName nameType = GetType(input.node.valueDefinition);
+
         switch (nameType) {
             case mson::BooleanTypeName:
                 return Trait::template Invoke<refract::BooleanElement>(input, defaultNestedType);
@@ -994,6 +1042,7 @@ namespace drafter {
         IElement* element = NULL;
 
         mson::BaseTypeName nameType = GetType(dataStructure.node);
+
         switch (nameType) {
             case mson::BooleanTypeName:
                 element = RefractElementFromMSON<refract::BooleanElement>(dataStructure);

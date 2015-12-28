@@ -9,6 +9,7 @@
 #include "Element.h"
 #include "Visitors.h"
 #include "Registry.h"
+#include <stack>
 
 namespace refract
 {
@@ -49,59 +50,92 @@ namespace refract
             }
         }
 
-        IElement* FindMemberByKey(const ObjectElement& e, const std::string& name)
+        void MetaIdToRef(IElement& e)
         {
-            for (ObjectElement::ValueType::const_iterator it = e.value.begin()
-                ; it != e.value.end()
-                ; ++it ) {
-
-                ComparableVisitor cmp(name, ComparableVisitor::key);
-                (*it)->content(cmp);
-
-                if (cmp.get()) { // key was recognized - it is save to cast to MemberElement
-                    MemberElement* m = static_cast<MemberElement*>(*it);
-                    return m->value.second;
-                }
+            IElement::MemberElementCollection::const_iterator name = e.meta.find("id");
+            if (name != e.meta.end() && (*name)->value.second && !(*name)->value.second->empty()) {
+                IElement* clone = (*name)->value.second->clone();
+                e.meta["ref"] = clone;
+                e.meta.erase("id");
             }
-
-            return NULL;
         }
 
-        typedef enum {
-            Inherited,
-            Referenced,
-        } NamedTypeExpansion;
+        typedef std::vector<IElement*> RefractElements;
+
+        template <typename T>
+        struct ExpandValue {
+
+            T operator()(const T& value, const Registry& registry) {
+                return value;
+            }
+        };
+
+        template <>
+        struct ExpandValue<RefractElements> {
+
+            RefractElements operator()(const RefractElements& value, const Registry& registry) {
+                RefractElements members;
+
+                for (RefractElements::const_iterator it = value.begin() ; it != value.end() ; ++it) {
+                    members.push_back(ExpandOrClone(*it, registry));
+                }
+
+                return members;
+            }
+        };
 
         template<typename T>
-        T* ExpandNamedType(const Registry& registry, const std::string& name, NamedTypeExpansion expansion)
+        T* ExpandMembers(const T& e, const Registry& registry)
         {
-            std::string en = name;
-            T* e = NULL;
+            T* o = new T;
+            o->attributes.clone(e.attributes);
+            o->meta.clone(e.meta);
 
-            if (expansion == Inherited) {
-                e = new T;
+            if (!e.empty()) {
+                o->set(ExpandValue<typename T::ValueType>()(e.value, registry));
             }
 
-            // FIXME: add check against recursive inheritance
+            return o;
+        }
 
+        bool isExtendEnum(const ExtendElement& e)
+        {
+            return !e.value.empty() && *e.value.begin() && ((*e.value.begin())->element() == "enum");
+        }
+
+        ExtendElement* GetInheritanceTree(const std::string& name, const Registry& registry)
+        {
+            std::string en = name;
+            ExtendElement* e = NULL;
+
+            e = new ExtendElement;
+
+            std::stack<IElement*> inheritance;
+
+            // FIXME: introduce EnumElement
+            bool isEnum = false;
+
+            // FIXME: add check against recursive inheritance
             // walk recursive in registry and expand inheritance tree
             for (const IElement* parent = registry.find(en)
                 ; parent && !isReserved(en)
-                ; en = parent->element(), parent = registry.find(en) ) {
+                ; en = parent->element(), parent = registry.find(en)) {
 
-                T* clone = static_cast<T*>(parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId));
-                clone->meta["ref"] = IElement::Create(en);
+                inheritance.push(parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId));
+                inheritance.top()->meta["ref"] = IElement::Create(en);
 
                 if (parent->element() == "enum") {
+                    isEnum = true;
+                }
+            }
+
+            while (!inheritance.empty()) {
+                IElement* clone = inheritance.top();
+                if (isEnum) {
                     clone->element("enum");
                 }
-
-                if (e) {
-                    e->push_back(clone);
-                }
-                else {
-                    e = clone;
-                }
+                e->push_back(clone);
+                inheritance.pop();
             }
 
             // FIXME: posible solution while referenced type is not found in regisry
@@ -111,124 +145,102 @@ namespace refract
             //   e->meta["ref"] = IElement::Create(name);
             //}
 
-            if (T* expanded = TypeQueryVisitor::as<T>(ExpandOrClone(e, registry))) {
-                delete e;
-                return expanded;
-            }
+            ExtendElement* result = ExpandMembers(*e, registry);
+            delete e;
 
-            return e;
+            return result;
         }
 
-        template<typename T>
-        T* ExpandMembers(const T& e, const Registry& registry)
+        template <typename T>
+        IElement* ExpandNamedType(const T& e, const Registry& registry)
         {
-            std::vector<IElement*> members;
-
-            for (typename T::ValueType::const_iterator it = e.value.begin() ; it != e.value.end() ; ++it) {
-                members.push_back(ExpandOrClone(*it, registry));
-            }
-
-            T* o = new T;
-            o->attributes.clone(e.attributes);
-            o->meta.clone(e.meta);
-
-            if (!members.empty()) {
-                o->set(members);
-            }
-
-            return o;
-        }
-
-        template<typename T>
-        T* CreateExtend(const IElement& e, const Registry& registry) {
-            typedef T ElementType;
-
-            ElementType* extend = ExpandNamedType<T>(registry, e.element(), Inherited);
-            extend->element("extend");
+            ExtendElement* extend = GetInheritanceTree(e.element(), registry);
 
             CopyMetaId(*extend, e);
 
-            ElementType* origin = ExpandMembers(static_cast<const ElementType&>(e), registry);
+            T* origin = ExpandMembers(e, registry);
             origin->meta.erase("id");
+
+            if (isExtendEnum(*extend)) {
+                origin->element("enum");
+            }
+
             extend->push_back(origin);
 
             return extend;
         }
 
-        IElement* FindRootAncestor(const std::string& name, const Registry& registry)
+        template <typename T>
+        T* ExpandReference(const T& e, const Registry& registry)
         {
-            IElement* parent = registry.find(name);
+            T* ref = static_cast<T*>(e.clone());
 
-            while (parent && !isReserved(parent->element())) {
-                IElement* next = registry.find(parent->element());
-
-                if (!next || (next == parent)) {
-                    return parent;
-                }
-
-                parent = next;
+            MemberElement *m = FindMemberByKey(e, "href");
+            if (!m) {
+                return NULL;
             }
 
-            return parent;
-        }
-
-        IElement* ExpandInheritance(const ObjectElement& e, const Registry& registry)
-        {
-            IElement* base = FindRootAncestor(e.element(), registry);
-            TypeQueryVisitor t;
-
-            if (base) {
-                base->content(t);
-            }
-
-            if (t.get() == TypeQueryVisitor::Array) {
-                return CreateExtend<ArrayElement>(e, registry);
-            }
-            else {
-                return CreateExtend<ObjectElement>(e, registry);
-            }
-        }
-
-        IElement* ExpandReference(const ObjectElement& e, const Registry& registry)
-        {
-
-            ObjectElement* ref = ExpandMembers(e, registry);
-            ref->element("ref");
-            ref->renderType(e.renderType());
-
-            StringElement* href = TypeQueryVisitor::as<StringElement>(FindMemberByKey(e, "href"));
-
+            StringElement* href = TypeQueryVisitor::as<StringElement>(m->value.second);
             if (!href || href->value.empty()) {
                 return ref;
             }
 
-            IElement* referenced = registry.find(href->value);
-
-            if (!referenced) {
-                return ref;
+            if (IElement* referenced = registry.find(href->value)) {
+                referenced = ExpandOrClone(referenced, registry);
+                MetaIdToRef(*referenced);
+                referenced->renderType(IElement::rFull);
+                ref->attributes["resolved"] = referenced;
             }
-
-            TypeQueryVisitor t;
-            referenced->content(t);
-
-            IElement* resolved = NULL;
-
-            if (t.get() == TypeQueryVisitor::Array) {
-                resolved = ExpandNamedType<ArrayElement>(registry, href->value, Referenced);
-            }
-            else {
-                resolved = ExpandNamedType<ObjectElement>(registry, href->value, Referenced);
-            }
-
-            if (!resolved) {
-                return ref;
-            }
-
-            resolved->renderType(IElement::rFull);
-            ref->attributes["resolved"] = resolved;
 
             return ref;
+        }
 
+        template <typename T, typename V = typename T::ValueType>
+        struct ExpandElement {
+            IElement* result;
+
+            ExpandElement(const T& e, const Registry& registry) : result(NULL) {
+                if (!isReserved(e.element())) { // expand named type
+                    result = ExpandNamedType(e, registry);
+                }
+            }
+
+            operator IElement* () {
+                return result;
+            }
+        };
+
+        template <typename T>
+        struct ExpandElement<T, RefractElements> {
+            IElement* result;
+
+            ExpandElement(const T& e, const Registry& registry) : result(NULL) {
+
+                if (!Expandable(e)) {  // do we have some expandable members?
+                    return;
+                }
+
+                std::string en = e.element();
+
+                if (!isReserved(en)) { // expand named type
+                    result = ExpandNamedType(e, registry);
+                }
+                else if (en == "ref") { // expand reference
+                    result = ExpandReference(e, registry);
+                }
+                else { // walk throught members and expand them
+                    result = ExpandMembers(e, registry);
+                }
+            }
+
+            operator IElement* () {
+                return result;
+            }
+        };
+
+        template <typename T>
+        inline IElement* Expand(const T& e, const Registry& registry) {
+            return ExpandElement<T>(e, registry);
         }
 
     } // end of anonymous namespace
@@ -236,60 +248,46 @@ namespace refract
     ExpandVisitor::ExpandVisitor(const Registry& registry) : result(NULL), registry(registry) {};
 
     void ExpandVisitor::visit(const IElement& e) {
-
-        if (!Expandable(e)) {
-            return;
-        }
-
         e.content(*this);
     }
 
     void ExpandVisitor::visit(const MemberElement& e) {
-
         if (!Expandable(e)) {
             return;
         }
 
         MemberElement* expanded = static_cast<MemberElement*>(e.clone(IElement::cAll ^ IElement::cValue));
-
         expanded->set(ExpandOrClone(e.value.first, registry), ExpandOrClone(e.value.second, registry));
 
         result = expanded;
     }
 
-    void ExpandVisitor::visit(const ObjectElement& e) {
 
-        if (!Expandable(e)) {  // do we have some expandable members?
-            return;
-        }
+    // do nothing, NullElements are not expandable
+    void ExpandVisitor::visit(const NullElement& e) {}
 
-        std::string en = e.element();
-
-        if (!isReserved(en)) { // expand named type
-            result = ExpandInheritance(e, registry);
-        }
-        else if (en == "ref") { // expand reference
-            result = ExpandReference(e, registry);
-        }
-        else { // walk throught members and expand them
-            result = ExpandMembers(e, registry);
-        }
-
+    void ExpandVisitor::visit(const StringElement& e) {
+        result = Expand(e, registry);
     }
 
-    // do nothing, primitive elements are not expandable
-    void ExpandVisitor::visit(const NullElement& e) {}
-    void ExpandVisitor::visit(const StringElement& e) {}
-    void ExpandVisitor::visit(const NumberElement& e) {}
-    void ExpandVisitor::visit(const BooleanElement& e) {}
+    void ExpandVisitor::visit(const NumberElement& e) {
+        result = Expand(e, registry);
+    }
+
+    void ExpandVisitor::visit(const BooleanElement& e) {
+        result = Expand(e, registry);
+    }
 
     void ExpandVisitor::visit(const ArrayElement& e) {
+        result = Expand(e, registry);
+    }
 
-        if (!Expandable(e)) {  // do we have some expandable members?
-            return;
-        }
+    void ExpandVisitor::visit(const ObjectElement& e) {
+        result = Expand(e, registry);
+    }
 
-        result = ExpandMembers(e, registry);
+    void ExpandVisitor::visit(const ExtendElement& e) {
+        result = Expand(e, registry);
     }
 
     IElement* ExpandVisitor::get() const {

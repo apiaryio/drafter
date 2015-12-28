@@ -32,6 +32,7 @@ namespace refract
     struct ArrayElement;
     struct ObjectElement;
     struct MemberElement;
+    struct ExtendElement;
 
     class ComparableVisitor;
     class SerializeVisitor;
@@ -85,7 +86,6 @@ namespace refract
 
     struct IElement
     {
-        bool hasContent; ///< was content of element already set? \see empty()
 
         /**
          * define __visitors__ which can visit element
@@ -102,10 +102,6 @@ namespace refract
             PrintVisitor,
             JSONSchemaVisitor
         >::type Visitors;
-
-        IElement() : hasContent(false), renderStrategy(rDefault)
-        {
-        }
 
         /**
          * Returns new element with content set as `value`
@@ -177,10 +173,7 @@ namespace refract
 
         virtual IElement* clone(const int flag = cAll) const = 0;
 
-        virtual bool empty() const
-        {
-            return !hasContent;
-        }
+        virtual bool empty() const = 0;
 
         /**
          * select seriaization/rendering type of element
@@ -198,38 +191,36 @@ namespace refract
             rCompactContent
         } renderFlags;
 
-        renderFlags renderStrategy;
+        virtual renderFlags renderType() const = 0;
+        virtual void renderType(const renderFlags render) = 0;
 
-        virtual renderFlags renderType() const
-        {
-            return renderStrategy;
-        }
-
-        virtual void renderType(const renderFlags render)
-        {
-            renderStrategy = render;
-        }
-
-        virtual ~IElement()
-        {
-        }
+        virtual ~IElement() {}
     };
 
     bool isReserved(const std::string& element);
-
 
     /**
      * CRTP implementation of RefractElement
      */
     template <typename T, typename Trait>
-    struct Element : public IElement, public VisitableBy<IElement::Visitors>
+    class Element : public IElement, public VisitableBy<IElement::Visitors>
     {
+
+    public:
+
         typedef Element<T, Trait> Type;
         typedef Trait TraitType;
         typedef typename TraitType::ValueType ValueType;
 
-        ValueType value;
+    protected:
         std::string element_;
+        bool hasContent; ///< was content of element already set? \see empty()
+        renderFlags renderStrategy;
+
+    public:
+
+        // FIXME: move into protected part, currently still required in ComparableVisitor
+        ValueType value;
 
         virtual std::string element() const
         {
@@ -287,8 +278,23 @@ namespace refract
             return element;
         }
 
-        Element() : value(TraitType::init())
+        Element() : hasContent(false), renderStrategy(IElement::rDefault), value(TraitType::init())
         {
+        }
+
+        virtual bool empty() const
+        {
+            return !hasContent;
+        }
+
+        virtual renderFlags renderType() const
+        {
+            return renderStrategy;
+        }
+
+        virtual void renderType(const renderFlags render)
+        {
+            renderStrategy = render;
         }
 
         virtual ~Element()
@@ -342,20 +348,21 @@ namespace refract
     };
     struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {};
 
-    struct ArrayElementTrait
+    typedef std::vector<IElement*> RefractElements;
+
+    struct ElementCollectionTrait
     {
-        typedef std::vector<IElement*> ValueType;
+        typedef RefractElements  ValueType;
 
         static ValueType init() { return ValueType(); }
-        static const std::string element() { return "array"; }
 
-        static void release(ValueType& array)
+        static void release(ValueType& values)
         {
-            for (ValueType::iterator it = array.begin(); it != array.end(); ++it) {
+            for (ValueType::iterator it = values.begin(); it != values.end(); ++it) {
                 delete (*it);
             }
 
-            array.clear();
+            values.clear();
         }
 
         static void cloneValue(const ValueType& self, ValueType& other) {
@@ -363,6 +370,12 @@ namespace refract
                            std::back_inserter(other),
                            std::bind2nd(std::mem_fun(&IElement::clone), IElement::cAll));
         }
+    };
+
+
+    struct ArrayElementTrait : public ElementCollectionTrait
+    {
+        static const std::string element() { return "array"; }
     };
 
     struct ArrayElement : Element<ArrayElement, ArrayElementTrait>
@@ -445,12 +458,10 @@ namespace refract
         }
     };
 
-    struct ObjectElementTrait
+    struct ObjectElementTrait : public ElementCollectionTrait
     {
-        typedef std::vector<IElement*> ValueType;
-
-        // We don't use std::vector<MemberElement*> there, because
-        // ObjectElement can contain:
+        // Use inherited ValueType definition instead of specialized std::vector<MemberElement*> 
+        // because ObjectElement can contain:
         // - (array[Member Element])
         // - (object)
         // - (Extend Element)
@@ -460,24 +471,7 @@ namespace refract
         // FIXME: behavioration for content types different than
         // `(array[Member Element])` is not currently implemented
 
-        static ValueType init() { return ValueType(); }
-
         static const std::string element() { return "object"; }
-
-        static void release(ValueType& obj)
-        {
-            for (ValueType::iterator it = obj.begin(); it != obj.end(); ++it) {
-                delete (*it);
-            }
-
-            obj.clear();
-        }
-
-        static void cloneValue(const ValueType& self, ValueType& other) {
-            std::transform(self.begin(), self.end(),
-                           std::back_inserter(other),
-                           std::bind2nd(std::mem_fun(&IElement::clone), IElement::cAll));
-        }
     };
 
     struct ObjectElement : Element<ObjectElement, ObjectElementTrait>
@@ -489,6 +483,19 @@ namespace refract
             hasContent = true;
             value.push_back(e);
         }
+    };
+
+    struct ExtendElementTrait : public ElementCollectionTrait
+    {
+        static const std::string element() { return "extend"; }
+    };
+
+    struct ExtendElement : Element<ExtendElement, ExtendElementTrait>
+    {
+        void push_back(IElement* e);
+        void set(const ValueType& val);
+
+        IElement* merge() const;
     };
 };
 

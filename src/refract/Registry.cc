@@ -15,6 +15,23 @@
 namespace refract
 {
 
+    IElement* FindRootAncestor(const std::string& name, const Registry& registry)
+    {
+        IElement* parent = registry.find(name);
+
+        while (parent && !isReserved(parent->element())) {
+            IElement* next = registry.find(parent->element());
+
+            if (!next || (next == parent)) {
+                return parent;
+            }
+
+            parent = next;
+        }
+
+        return parent;
+    }
+
     std::string Registry::getElementId(IElement* element)
     {
         IElement::MemberElementCollection::const_iterator it = element->meta.find("id");

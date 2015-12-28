@@ -56,6 +56,11 @@ namespace refract
         typeInfo = Object;
     }
 
+    void TypeQueryVisitor::visit(const ExtendElement& e)
+    {
+        typeInfo = Extend;
+    }
+
     TypeQueryVisitor::ElementType TypeQueryVisitor::get() const {
         return typeInfo;
     }

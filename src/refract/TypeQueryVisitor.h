@@ -22,25 +22,33 @@ namespace refract
     struct ArrayElement;
     struct ObjectElement;
     struct MemberElement;
+    struct ExtendElement;
 
     class TypeQueryVisitor : public IVisitor
     {
-        typedef unsigned char ElementType;
-        ElementType typeInfo;
-    public:
 
-        enum
+    public:
+        typedef enum
         {
             Null,
+
             String,
             Number,
             Boolean,
+
             Array,
             Member,
             Object,
 
+            Extend,
+
             Unknown = 0,
-        };
+        } ElementType;
+
+    private:
+        ElementType typeInfo;
+
+    public:
 
         TypeQueryVisitor();
 
@@ -52,6 +60,7 @@ namespace refract
         void visit(const ArrayElement& e);
         void visit(const MemberElement& e);
         void visit(const ObjectElement& e);
+        void visit(const ExtendElement& e);
 
         ElementType get() const;
 

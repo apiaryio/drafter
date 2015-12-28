@@ -60,6 +60,21 @@ namespace refract
         addMember("type", s);
     }
 
+    void JSONSchemaVisitor::addSchemaType(const std::string& type)
+    {
+        MemberElement *m = FindMemberByKey(*pObj, "type");
+
+        if (m && m->value.second) {
+            IElement *t = m->value.second;
+            ArrayElement *a = new ArrayElement;
+            a->push_back(t);
+            a->push_back(IElement::Create(type));
+            m->value.second = a;
+        } else {
+            setSchemaType(type);
+        }
+    }
+
     void JSONSchemaVisitor::addMember(const std::string& key, IElement *val)
     {
         MemberElement *m = new MemberElement;
@@ -124,6 +139,10 @@ namespace refract
                 renderer.addMember("description", d);
             }
 
+            if (IsTypeAttribute(e, "nullable")) {
+                renderer.addSchemaType("null");
+            }
+
             addMember(str->value, renderer.getOwnership());
         }
         else {
@@ -166,10 +185,13 @@ namespace refract
                 // the o1->value is never emtpy as the object returned
                 // by JSONSchema visitor always has a member, at least a type
                 // key for primitive types
-                MemberElement *m1 = TypeQueryVisitor::as<MemberElement>(o1->value[0]->clone());
+                if (!o1->value.empty()) {
+                    MemberElement *m1 = TypeQueryVisitor::as<MemberElement>(o1->value[0]->clone());
 
-                m1->renderType(IElement::rCompact);
-                o->push_back(m1);
+                    m1->renderType(IElement::rCompact);
+                    o->push_back(m1);
+                }
+
             }
         }
 
@@ -254,7 +276,8 @@ namespace refract
             anyOf(types, typesOrder);
         }
         else {
-            if (!e.empty() || DefaultAttribute(e) != NULL) {
+            const ArrayElement* def = GetDefault(e);
+            if (!e.empty() || (def && !def->empty())) {
                 ArrayElement *a = new ArrayElement;
                 a->renderType(IElement::rCompact);
 
@@ -330,19 +353,23 @@ namespace refract
             }
         }
 
-        IElement *def = DefaultAttribute(e);
+        const ArrayElement *def = GetDefault(e);
 
-        if (def) {
-            IElement *d = def->clone();
-            d->renderType(IElement::rCompact);
-
+        if (def && !def->empty()) {
             if (e.element() == "enum") {
+                IElement *d = def->value[0]->clone();
+                d->renderType(IElement::rCompact);
                 addMember("default", d);
             }
             else {
-                ArrayElement *a = new ArrayElement;
-                a->push_back(d);
-                addMember("default", a);
+                ArrayElement *d = static_cast<ArrayElement*>(def->clone());
+                d->renderType(IElement::rCompact);
+                for (ArrayElement::ValueType::iterator i = d->value.begin();
+                     i != d->value.end();
+                     ++i) {
+                    (*i)->renderType(IElement::rCompact);
+                }
+                addMember("default", d);
             }
         }
     }
@@ -365,6 +392,17 @@ namespace refract
     void JSONSchemaVisitor::visit(const BooleanElement& e)
     {
         primitiveType(e);
+    }
+
+    void JSONSchemaVisitor::visit(const ExtendElement& e)
+    {
+        IElement* merged = e.merge();
+        if (!merged) {
+            return;
+        }
+
+        visit(*merged);
+        delete merged;
     }
 
     IElement* JSONSchemaVisitor::get()

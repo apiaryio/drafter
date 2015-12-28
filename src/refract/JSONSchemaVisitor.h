@@ -25,6 +25,7 @@ namespace refract
     struct ArrayElement;
     struct ObjectElement;
     struct MemberElement;
+    struct ExtendElement;
 
     class JSONSchemaVisitor : public IVisitor
     {
@@ -32,6 +33,7 @@ namespace refract
         bool fixed;
 
         void setSchemaType(const std::string& type);
+        void addSchemaType(const std::string& type);
         void addMember(const std::string& key, IElement *val);
         void anyOf(std::map<std::string, std::vector<IElement*> >& types, std::vector<std::string>& typesOrder);
         void enumElement(const ArrayElement& e, const ArrayElement::ValueType *val);
@@ -61,6 +63,7 @@ namespace refract
         void visit(const StringElement& e);
         void visit(const NumberElement& e);
         void visit(const BooleanElement& e);
+        void visit(const ExtendElement& e);
 
         IElement* get();
         IElement* getOwnership();
