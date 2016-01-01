@@ -131,6 +131,8 @@ namespace refract
 
     StringElement* GetDescription(const IElement& e);
 
+    void SetRenderFlag(RefractElements& elements, const IElement::renderFlags flag);
+
 }
 
 #endif /* REFRACT_VISITORUTILS_H */

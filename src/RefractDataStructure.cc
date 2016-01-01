@@ -11,6 +11,7 @@
 #include "refract/AppendDecorator.h"
 
 #include "RefractSourceMap.h"
+#include "refract/VisitorUtils.h"
 
 namespace drafter {
 
@@ -63,9 +64,6 @@ namespace drafter {
         if (!td.typeSpecification.name.symbol.literal.empty()) {
             element->element(td.typeSpecification.name.symbol.literal);
         }
-        else if (td.typeSpecification.name.base == mson::EnumTypeName) {
-            element->element(SerializeKey::Enum);
-        }
     }
 
     static mson::BaseTypeName NamedTypeFromElement(const refract::IElement* element) {
@@ -84,6 +82,9 @@ namespace drafter {
 
             case refract::TypeQueryVisitor::Array:
                 return mson::ArrayTypeName;
+
+            case refract::TypeQueryVisitor::Enum:
+                return mson::EnumTypeName;
 
             case refract::TypeQueryVisitor::Object:
                 return mson::ObjectTypeName;
@@ -614,14 +615,17 @@ namespace drafter {
             if (query.get() == refract::TypeQueryVisitor::Array) {
                 children = &static_cast<refract::ArrayElement*>(element)->value;
             }
+            else if (query.get() == refract::TypeQueryVisitor::Enum) {
+                children = &static_cast<refract::EnumElement*>(element)->value;
+
+            }
             else if (query.get() == refract::TypeQueryVisitor::Object) {
                 children = &static_cast<refract::ObjectElement*>(element)->value;
 
             }
 
             if (children) {
-                for_each((*children).begin(), (*children).end(),
-                         std::bind2nd(std::mem_fun((void (refract::IElement::*)(const refract::IElement::renderFlags))&refract::IElement::renderType), refract::IElement::rFull));
+                refract::SetRenderFlag(*children, refract::IElement::rFull);
             }
 
             return element;
@@ -896,6 +900,8 @@ namespace drafter {
                 return Trait::template Invoke<refract::StringElement>(input, defaultNestedType);
 
             case mson::EnumTypeName:
+                return Trait::template Invoke<refract::EnumElement>(input, defaultNestedType);
+
             case mson::ArrayTypeName:
                 return Trait::template Invoke<refract::ArrayElement>(input, defaultNestedType);
 
@@ -905,6 +911,7 @@ namespace drafter {
             case mson::UndefinedTypeName:
             {
                 if (ValueHasChildren(input.node)) {
+                    // FIXME: what about EnumElement
                     return Trait::template Invoke<refract::ArrayElement>(input, defaultNestedType);
                 }
                 else if (ValueHasName(input.node) || ValueHasMembers(input.node)) {
@@ -1057,6 +1064,9 @@ namespace drafter {
                 break;
 
             case mson::EnumTypeName:
+                element = RefractElementFromMSON<refract::EnumElement>(dataStructure);
+                break;
+
             case mson::ArrayTypeName:
                 element = RefractElementFromMSON<refract::ArrayElement>(dataStructure);
                 break;

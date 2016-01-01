@@ -56,6 +56,11 @@ namespace refract
         typeInfo = Object;
     }
 
+    void TypeQueryVisitor::visit(const EnumElement& e)
+    {
+        typeInfo = Enum;
+    }
+
     void TypeQueryVisitor::visit(const ExtendElement& e)
     {
         typeInfo = Extend;

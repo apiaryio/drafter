@@ -21,18 +21,10 @@
 #include "Exception.h"
 #include "Visitor.h"
 
+#include "ElementFwd.h"
+
 namespace refract
 {
-
-    // Forward declarations of Elements
-    struct StringElement;
-    struct NullElement;
-    struct NumberElement;
-    struct BooleanElement;
-    struct ArrayElement;
-    struct ObjectElement;
-    struct MemberElement;
-    struct ExtendElement;
 
     class ComparableVisitor;
     class SerializeVisitor;
@@ -384,6 +376,20 @@ namespace refract
         {
             // FIXME: warn if MemberElement
             // there is no way to present "key: value" in array
+            hasContent = true;
+            value.push_back(e);
+        }
+    };
+
+    struct EnumElementTrait : public ElementCollectionTrait
+    {
+        static const std::string element() { return "enum"; }
+    };
+
+    struct EnumElement : Element<EnumElement, EnumElementTrait>
+    {
+        void push_back(IElement* e)
+        {
             hasContent = true;
             value.push_back(e);
         }

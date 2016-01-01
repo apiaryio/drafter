@@ -13,19 +13,10 @@
 #include "VisitorUtils.h"
 #include <string>
 
+#include "ElementFwd.h"
+
 namespace refract
 {
-
-    // Forward declarations of Elements
-    struct IElement;
-    struct StringElement;
-    struct NullElement;
-    struct NumberElement;
-    struct BooleanElement;
-    struct ArrayElement;
-    struct ObjectElement;
-    struct MemberElement;
-    struct ExtendElement;
 
     class JSONSchemaVisitor : public IVisitor
     {
@@ -36,7 +27,7 @@ namespace refract
         void addSchemaType(const std::string& type);
         void addMember(const std::string& key, IElement *val);
         void anyOf(std::map<std::string, std::vector<IElement*> >& types, std::vector<std::string>& typesOrder);
-        void enumElement(const ArrayElement& e, const ArrayElement::ValueType *val);
+        void enumElement(const EnumElement& e, const EnumElement::ValueType *val);
         bool allItemsEmpty(const ArrayElement::ValueType* val);
 
         template<typename T>
@@ -58,6 +49,7 @@ namespace refract
         void visit(const MemberElement& e);
         void visit(const ObjectElement& e);
         void visit(const ArrayElement& e);
+        void visit(const EnumElement& e);
 
         void visit(const NullElement& e);
         void visit(const StringElement& e);
