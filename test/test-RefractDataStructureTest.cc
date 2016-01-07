@@ -49,6 +49,7 @@ TEST_MSON_SUCCESS("array-reference");
 TEST_MSON_SUCCESS("reference-override");
 TEST_MSON_SUCCESS("enum-variants");
 TEST_MSON_SUCCESS("inheritance-primitive");
+TEST_MSON_SUCCESS("regression-207");
 
 #undef TEST_MSON_SUCCESS
 #undef TEST_MSON
