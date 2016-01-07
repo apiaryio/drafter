@@ -79,6 +79,9 @@ namespace refract
 
     void JSONSchemaVisitor::addSchemaType(const std::string& type)
     {
+        // FIXME: this will not work corretly if "type" attribute will already
+        // have more members
+        // need to check if type is it is Array and for already pushed types
         MemberElement *m = FindMemberByKey(*pObj, "type");
 
         if (m && m->value.second) {
@@ -251,41 +254,6 @@ namespace refract
         addMember("anyOf", a);
     }
 
-    void JSONSchemaVisitor::enumElement(const EnumElement& e, const EnumElement::ValueType *val)
-    {
-        std::map<std::string, std::vector<IElement*> > types;
-        std::vector<std::string> typesOrder;
-
-        for (ArrayElement::ValueType::const_iterator it = val->begin();
-             it != val->end();
-             ++it) {
-
-            if (*it) {
-                std::vector<IElement*>& items = types[(*it)->element()];
-
-                if (items.empty()) {
-                    typesOrder.push_back((*it)->element());
-                }
-
-                items.push_back(*it);
-            }
-        }
-
-        if (types.size() > 1) {
-            anyOf(types, typesOrder);
-        }
-        else {
-            const EnumElement* def = GetDefault(e);
-            if (!e.empty() || (def && !def->empty())) {
-                ArrayElement *a = new ArrayElement;
-                a->renderType(IElement::rCompact);
-                CloneMembers(a, val);
-                setSchemaType(types.begin()->first);
-                addMember("enum", a);
-            }
-        }
-    }
-
     void JSONSchemaVisitor::visit(const ArrayElement& e) {
         const ArrayElement::ValueType* val = GetValue<ArrayElement>(e);
 
@@ -354,7 +322,37 @@ namespace refract
             return;
         }
 
-        enumElement(e, val);
+        std::map<std::string, std::vector<IElement*> > types;
+        std::vector<std::string> typesOrder;
+
+        for (ArrayElement::ValueType::const_iterator it = val->begin();
+             it != val->end();
+             ++it) {
+
+            if (*it) {
+                std::vector<IElement*>& items = types[(*it)->element()];
+
+                if (items.empty()) {
+                    typesOrder.push_back((*it)->element());
+                }
+
+                items.push_back(*it);
+            }
+        }
+
+        if (types.size() > 1) {
+            anyOf(types, typesOrder);
+        }
+        else {
+            const EnumElement* def = GetDefault(e);
+            if (!e.empty() || (def && !def->empty())) {
+                ArrayElement *a = new ArrayElement;
+                a->renderType(IElement::rCompact);
+                CloneMembers(a, val);
+                setSchemaType(types.begin()->first);
+                addMember("enum", a);
+            }
+        }
 
         const EnumElement *def = GetDefault(e);
 

@@ -27,7 +27,6 @@ namespace refract
         void addSchemaType(const std::string& type);
         void addMember(const std::string& key, IElement *val);
         void anyOf(std::map<std::string, std::vector<IElement*> >& types, std::vector<std::string>& typesOrder);
-        void enumElement(const EnumElement& e, const EnumElement::ValueType *val);
         bool allItemsEmpty(const ArrayElement::ValueType* val);
 
         template<typename T>
