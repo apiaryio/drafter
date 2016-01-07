@@ -32,7 +32,7 @@ namespace drafter {
             // solution for now: set if element has no already value, otherwise silently ignore
             //
             //throw snowcrash::Error("can not append to primitive type", snowcrash::MSONError);
-           
+
             if (element->empty()) {
                 element->set(value.node);
                 AttachSourceMap(element, value);
@@ -208,6 +208,7 @@ namespace drafter {
                 return nef;
             case mson::StringTypeName:
                 return sef;
+            case mson::ObjectTypeName:
             case mson::UndefinedTypeName:
                 return oef;
             default:
@@ -231,7 +232,7 @@ namespace drafter {
         //               std::bind2nd(std::ptr_fun(MsonElementToRefract), nestedTypeName));
 
         NodeInfoCollection<mson::Elements> elementsNodeInfo(elements);
-        
+
         for (NodeInfoCollection<mson::Elements>::const_iterator it = elementsNodeInfo.begin(); it != elementsNodeInfo.end(); ++it) {
             result.push_back(MsonElementToRefract(*it, defaultNestedType));
         }
@@ -297,7 +298,7 @@ namespace drafter {
         struct Fetch<RefractElements, dummy> {
             RefractElements operator()(const NodeInfo<mson::TypeSection>& typeSection, const mson::BaseTypeName& defaultNestedType) {
                 return MsonElementsToRefract(MakeNodeInfo(typeSection.node.content.elements(),
-                                                          typeSection.sourceMap.elements(), 
+                                                          typeSection.sourceMap.elements(),
                                                           typeSection.hasSourceMap()),
                                              defaultNestedType);
             }
@@ -366,7 +367,7 @@ namespace drafter {
                     //
                     // FIXME: handle this by specialization for **Primitives**
                     // rewrite it to similar way to ExtractValueMember
-                    if (!typeSection.node.content.elements().empty()) { 
+                    if (!typeSection.node.content.elements().empty()) {
                         data.values.push_back(fetch(typeSection, defaultNestedType));
                         data.valuesSourceMap.push_back(fetchSourceMap(typeSection, defaultNestedType));
                     }
@@ -451,7 +452,7 @@ namespace drafter {
 
     template <typename T, typename V = typename T::ValueType>
     struct ExtractValueMember
-    { 
+    {
         typedef T ElementType;
         typedef typename ElementData<T>::ValueCollectionType ValueCollectionType;
         typedef typename ElementData<T>::ValueSourceMapCollectionType ValueSourceMapCollectionType;
@@ -491,7 +492,7 @@ namespace drafter {
             }
         };
 
-        template<bool dummy> 
+        template<bool dummy>
         struct Fetch<RefractElements, dummy> { // Array|Object
 
             template <typename S>
@@ -571,7 +572,7 @@ namespace drafter {
                 data.descriptionsSourceMap.push_back(valueMember.sourceMap.description);
             }
 
-            if ((valueMember.node.valueDefinition.values.empty() || 
+            if ((valueMember.node.valueDefinition.values.empty() ||
                 (valueMember.node.valueDefinition.typeDefinition.typeSpecification.nestedTypes.size() > 1))  &&
                 (GetType(valueMember.node.valueDefinition) != mson::EnumTypeName)) {
 
@@ -682,7 +683,7 @@ namespace drafter {
     }
 
     template<typename T>
-    refract::IElement* DescriptionToRefract(const ElementData<T>& data) 
+    refract::IElement* DescriptionToRefract(const ElementData<T>& data)
     {
         if (data.descriptions.empty()) {
             return NULL;
@@ -725,8 +726,8 @@ namespace drafter {
         NodeInfoCollection<mson::TypeSections> typeSections(MAKE_NODE_INFO(value, sections));
 
         std::for_each(typeSections.begin(), typeSections.end(), ExtractTypeSection<T>(data, value));
-        
-        if (!value.node.valueDefinition.values.empty() && (valuesCount != data.values.size())) { 
+
+        if (!value.node.valueDefinition.values.empty() && (valuesCount != data.values.size())) {
             // there are some values coming from TypeSections -> move first value into examples
             ElementType* element = new ElementType;
             element->set(data.values.front());
@@ -1010,7 +1011,7 @@ namespace drafter {
             snowcrash::SourceMap<mson::Literal> sourceMap = NodeInfo<mson::Literal>::NullSourceMap();
 
             sourceMap.sourceMap.append(ds.sourceMap.name.sourceMap);
-            
+
             element->meta[SerializeKey::Id] = PrimitiveToRefract(MakeNodeInfo(ds.node.name.symbol.literal, sourceMap, ds.hasSourceMap()));
         }
 

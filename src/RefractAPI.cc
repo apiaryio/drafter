@@ -129,7 +129,7 @@ namespace drafter {
                 if (!it->content.value.empty() ) {
                     if (!name(it->content.value).empty()) {
                         member = name(it->content.value);
-                    } 
+                    }
                     else {
                         ts = &it->content.value.sections;
                     }
@@ -137,7 +137,7 @@ namespace drafter {
                 else if (!it->content.property.empty()) {
                     if(!name(it->content.property).empty()) {
                         member = name(it->content.property);
-                    } 
+                    }
                     else if (!name(it->content.property.name.variable).empty()) {
                         member = name(it->content.property.name.variable);
                     }
@@ -212,8 +212,24 @@ namespace drafter {
         }
 
 
+        /* This is a comparator for std::sort so it has to compare
+         * objects in strictly weak ordering otherwise it would crash
+         * with sort going out of container bounds, see
+         * http://stackoverflow.com/questions/24048022/what-causes-stdsort-to-access-address-out-of-range
+         * for more details.
+         * The order is following, if F has S as an ancestor or a member
+         * then S < F and conversely, if none of this applies we compare objects by
+         * names to provide some ordering for all objects as we don't
+         * really care.
+         */
         bool operator()(const snowcrash::DataStructure* first, const snowcrash::DataStructure* second) {
-            return !hasAncestor(first, second) && !hasMember(first, second);
+            if (hasAncestor(first, second) || hasMember(first, second)) {
+                return false;
+            }
+            if (hasAncestor(second, first) || hasMember(second, first)) {
+                return true;
+            }
+            return name(first) < name (second);
         }
 
     };
