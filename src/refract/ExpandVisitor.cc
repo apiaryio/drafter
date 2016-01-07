@@ -98,22 +98,10 @@ namespace refract
             return o;
         }
 
-        bool isExtendEnum(const ExtendElement& e)
-        {
-            return !e.value.empty() && *e.value.begin() && ((*e.value.begin())->element() == "enum");
-        }
-
         ExtendElement* GetInheritanceTree(const std::string& name, const Registry& registry)
         {
-            std::string en = name;
-            ExtendElement* e = NULL;
-
-            e = new ExtendElement;
-
             std::stack<IElement*> inheritance;
-
-            // FIXME: introduce EnumElement
-            bool isEnum = false;
+            std::string en = name;
 
             // FIXME: add check against recursive inheritance
             // walk recursive in registry and expand inheritance tree
@@ -123,18 +111,12 @@ namespace refract
 
                 inheritance.push(parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId));
                 inheritance.top()->meta["ref"] = IElement::Create(en);
-
-                if (parent->element() == "enum") {
-                    isEnum = true;
-                }
             }
 
+            ExtendElement* e = new ExtendElement;
+
             while (!inheritance.empty()) {
-                IElement* clone = inheritance.top();
-                if (isEnum) {
-                    clone->element("enum");
-                }
-                e->push_back(clone);
+                e->push_back(inheritance.top());
                 inheritance.pop();
             }
 
@@ -160,10 +142,6 @@ namespace refract
 
             T* origin = ExpandMembers(e, registry);
             origin->meta.erase("id");
-
-            if (isExtendEnum(*extend)) {
-                origin->element("enum");
-            }
 
             extend->push_back(origin);
 
@@ -279,6 +257,10 @@ namespace refract
     }
 
     void ExpandVisitor::visit(const ArrayElement& e) {
+        result = Expand(e, registry);
+    }
+
+    void ExpandVisitor::visit(const EnumElement& e) {
         result = Expand(e, registry);
     }
 

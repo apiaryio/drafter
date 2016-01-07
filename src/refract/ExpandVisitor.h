@@ -10,24 +10,12 @@
 #define REFRACT_EXPANDVISITOR_H
 
 #include "Visitor.h"
+#include "ElementFwd.h"
 
 namespace refract
 {
 
-    // Forward declarations of Elements
-    struct IElement;
-    struct ObjectElement;
-    struct MemberElement;
-
     class Registry;
-
-    struct NullElement;
-    struct StringElement;
-    struct NumberElement;
-    struct BooleanElement;
-    struct ArrayElement;
-
-    struct ExtendElement;
 
     class ExpandVisitor : public IVisitor {
 
@@ -39,14 +27,19 @@ namespace refract
         ExpandVisitor(const Registry& registry);
 
         void visit(const IElement& e);
-        void visit(const MemberElement& e);
-        void visit(const ObjectElement& e);
 
         void visit(const NullElement& e);
+
         void visit(const StringElement& e);
         void visit(const NumberElement& e);
         void visit(const BooleanElement& e);
+
+        void visit(const MemberElement& e);
+
         void visit(const ArrayElement& e);
+        void visit(const EnumElement& e);
+        void visit(const ObjectElement& e);
+
         void visit(const ExtendElement& e);
 
         // return expanded elemnt or NULL if expansion is not needed

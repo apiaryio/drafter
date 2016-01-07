@@ -66,7 +66,7 @@ namespace refract
         };
 
         template <typename T>
-        struct IsExpandable<T, std::vector<IElement*> > : public CheckElement {
+        struct IsExpandable<T, RefractElements> : public CheckElement {
             bool operator()(const T* e) const {
 
                 if (checkElement(e)) {
@@ -100,6 +100,7 @@ namespace refract
     template void IsExpandableVisitor::visit<NumberElement>(const NumberElement&);
     template void IsExpandableVisitor::visit<BooleanElement>(const BooleanElement&);
     template void IsExpandableVisitor::visit<ArrayElement>(const ArrayElement&);
+    template void IsExpandableVisitor::visit<EnumElement>(const EnumElement&);
     template void IsExpandableVisitor::visit<MemberElement>(const MemberElement&);
     template void IsExpandableVisitor::visit<ObjectElement>(const ObjectElement&);
     template void IsExpandableVisitor::visit<ExtendElement>(const ExtendElement&);

@@ -52,6 +52,7 @@
 
         "src/refract/Element.h",
         "src/refract/Element.cc",
+        "src/refract/ElementFwd.h",
         "src/refract/Typelist.h",
         "src/refract/VisitableBy.h",
 

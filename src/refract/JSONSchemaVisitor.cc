@@ -15,6 +15,23 @@
 namespace refract
 {
 
+    template <typename T>
+    void CloneMembers(T* a, const RefractElements* val)
+    {
+            for (RefractElements::const_iterator it = val->begin();
+                 it != val->end();
+                 ++it) {
+
+                if ((*it)->empty()) {
+                    continue;
+                }
+
+                IElement *e = (*it)->clone();
+                e->renderType(IElement::rCompact);
+                a->push_back(e);
+            }
+    }
+
     JSONSchemaVisitor::JSONSchemaVisitor(bool fixit /*= false*/) : fixed(fixit)
     {
         pObj = new ObjectElement;
@@ -86,16 +103,7 @@ namespace refract
 
     bool JSONSchemaVisitor::allItemsEmpty(const ArrayElement::ValueType* val)
     {
-        for (ArrayElement::ValueType::const_iterator i = val->begin();
-             i != val->end();
-             ++i) {
-
-            if (!(*i)->empty()) {
-                return false;
-            }
-        }
-
-        return true;
+        return std::find_if(val->begin(),val->end(), std::not1(std::mem_fun(&refract::IElement::empty))) == val->end();
     }
 
     template<typename T>
@@ -224,21 +232,12 @@ namespace refract
 
             v.visit(*elm);
 
-            if (elm->element() == "enum"){
+            if (TypeQueryVisitor::as<EnumElement>(elm)){
                 v.addMember("enum", elm->clone());
             }
-            else if (NULL == TypeQueryVisitor::as<ObjectElement>(elm)) {
+            else if (!TypeQueryVisitor::as<ObjectElement>(elm)) {
                 ArrayElement::ValueType enmVals;
-                for (std::vector<IElement*>::const_iterator i = items.begin();
-                    i != items.end();
-                    ++i) {
-
-                    if (!(*i)->empty()) {
-                        IElement *e = (*i)->clone();
-                        e->renderType(IElement::rCompact);
-                        enmVals.push_back(e);
-                    }
-                }
+                CloneMembers(&enmVals, &items);
 
                 if (!enmVals.empty()) {
                     ArrayElement *enm = new ArrayElement;
@@ -252,7 +251,7 @@ namespace refract
         addMember("anyOf", a);
     }
 
-    void JSONSchemaVisitor::enumElement(const ArrayElement& e, const ArrayElement::ValueType *val)
+    void JSONSchemaVisitor::enumElement(const EnumElement& e, const EnumElement::ValueType *val)
     {
         std::map<std::string, std::vector<IElement*> > types;
         std::vector<std::string> typesOrder;
@@ -276,26 +275,16 @@ namespace refract
             anyOf(types, typesOrder);
         }
         else {
-            const ArrayElement* def = GetDefault(e);
+            const EnumElement* def = GetDefault(e);
             if (!e.empty() || (def && !def->empty())) {
                 ArrayElement *a = new ArrayElement;
                 a->renderType(IElement::rCompact);
-
-                for (ArrayElement::ValueType::const_iterator it = val->begin();
-                     it != val->end();
-                     ++it) {
-
-                    IElement *e = (*it)->clone();
-                    e->renderType(IElement::rCompact);
-                    a->push_back(e);
-                }
-
+                CloneMembers(a, val);
                 setSchemaType(types.begin()->first);
                 addMember("enum", a);
             }
         }
     }
-
 
     void JSONSchemaVisitor::visit(const ArrayElement& e) {
         const ArrayElement::ValueType* val = GetValue<ArrayElement>(e);
@@ -304,73 +293,75 @@ namespace refract
             return;
         }
 
-        if (e.element() == "enum") {
-            enumElement(e, val);
+        JSONSchemaVisitor renderer;
+        setSchemaType("array");
+
+        if (fixed) {
+            ArrayElement::ValueType av;
+            bool allEmpty = allItemsEmpty(val);
+
+            for (ArrayElement::ValueType::const_iterator it = val->begin();
+                 it != val->end();
+                 ++it) {
+
+                if (*it) {
+                    // if all items are just type items then we
+                    // want them in the schema, otherwise skip
+                    // empty ones
+                    if (allEmpty || !(*it)->empty()) {
+                        JSONSchemaVisitor v(true);
+
+                        v.visit(*(*it));
+                        av.push_back(v.getOwnership());
+                    }
+                }
+            }
+
+            if (!av.empty()) {
+                ArrayElement *a = new ArrayElement;
+                a->set(av);
+                addMember("items", a);
+            }
         }
-        else {
-            JSONSchemaVisitor renderer;
-            setSchemaType("array");
 
-            if (fixed) {
-                ArrayElement::ValueType av;
-                bool allEmpty = allItemsEmpty(val);
+        if (IsTypeAttribute(e, "required")) {
+            for (ArrayElement::ValueType::const_iterator it = val->begin();
+                 it != val->end();
+                 ++it) {
 
-                for (ArrayElement::ValueType::const_iterator it = val->begin();
-                     it != val->end();
-                     ++it) {
-
-                    if (*it) {
-                        // if all items are just type items then we
-                        // want them in the schema, otherwise skip
-                        // empty ones
-                        if (allEmpty || !(*it)->empty()) {
-                            JSONSchemaVisitor v(true);
-
-                            v.visit(*(*it));
-                            av.push_back(v.getOwnership());
-                        }
-                    }
-                }
-
-                if (!av.empty()) {
-                    ArrayElement *a = new ArrayElement;
-                    a->set(av);
-                    addMember("items", a);
+                if (*it && !(*it)->empty()) {
+                    renderer.visit(*(*it));
                 }
             }
 
-            if (IsTypeAttribute(e, "required")) {
-                for (ArrayElement::ValueType::const_iterator it = val->begin();
-                     it != val->end();
-                     ++it) {
-
-                    if (*it && !(*it)->empty()) {
-                        renderer.visit(*(*it));
-                    }
-                }
-
-                addMember("items", renderer.getOwnership());
-            }
+            addMember("items", renderer.getOwnership());
         }
 
         const ArrayElement *def = GetDefault(e);
 
         if (def && !def->empty()) {
-            if (e.element() == "enum") {
-                IElement *d = def->value[0]->clone();
-                d->renderType(IElement::rCompact);
-                addMember("default", d);
-            }
-            else {
-                ArrayElement *d = static_cast<ArrayElement*>(def->clone());
-                d->renderType(IElement::rCompact);
-                for (ArrayElement::ValueType::iterator i = d->value.begin();
-                     i != d->value.end();
-                     ++i) {
-                    (*i)->renderType(IElement::rCompact);
-                }
-                addMember("default", d);
-            }
+            ArrayElement *d = static_cast<ArrayElement*>(def->clone());
+            d->renderType(IElement::rCompact);
+            SetRenderFlag(d->value, IElement::rCompact);
+            addMember("default", d);
+        }
+    }
+
+    void JSONSchemaVisitor::visit(const EnumElement& e) {
+        const EnumElement::ValueType* val = GetValue<EnumElement>(e);
+
+        if (!val || val->empty()) {
+            return;
+        }
+
+        enumElement(e, val);
+
+        const EnumElement *def = GetDefault(e);
+
+        if (def && !def->empty()) {
+            IElement *d = def->value.front()->clone();
+            d->renderType(IElement::rCompact);
+            addMember("default", d);
         }
     }
 

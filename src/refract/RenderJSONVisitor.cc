@@ -22,17 +22,17 @@ namespace refract
                 return NULL;
             }
 
-            for (ObjectElement::ValueType::const_reverse_iterator it = extend.value.rbegin();
+            for (ExtendElement::ValueType::const_reverse_iterator it = extend.value.rbegin();
                  it != extend.value.rend();
                  ++it) {
 
-                const ArrayElement* element = TypeQueryVisitor::as<ArrayElement>(*it);
+                const EnumElement* element = TypeQueryVisitor::as<EnumElement>(*it);
 
                 if (!element) {
                     continue;
                 }
 
-                const ArrayElement::ValueType* items = GetValue<ArrayElement>(*element);
+                const ArrayElement::ValueType* items = GetValue<EnumElement>(*element);
 
                 if (!items->empty()) {
                     return *items->begin();
@@ -139,9 +139,7 @@ namespace refract
         }
     }
 
-
     void RenderJSONVisitor::visit(const ObjectElement& e) {
-
         ObjectElement::ValueType members;
         FetchMembers(e, members);
         ObjectElement* o = new ObjectElement;
@@ -150,32 +148,29 @@ namespace refract
         result = o;
     }
 
-    void RenderJSONVisitor::visit(const ArrayElement& e) {
+    void RenderJSONVisitor::visit(const EnumElement& e) {
 
-        // FIXME: introduce EnumElement
-        if (e.element() == "enum") {
+        if (!enumValue) { // there is no enumValue injected from ExtendElement,try to pick value directly
 
-            if (!enumValue) { // there is no enumValue injected from ExtendElement,try to pick value directly
-
-                const ArrayElement::ValueType* val = GetValue<ArrayElement>(e);
-                if (val && !val->empty()) {
-                    enumValue = val->front()->clone();
-                } 
-                else {
-                    enumValue = new StringElement;
-                }
+            const EnumElement::ValueType* val = GetValue<EnumElement>(e);
+            if (val && !val->empty()) {
+                enumValue = val->front()->clone();
+            } 
+            else {
+                enumValue = new StringElement;
             }
-
-            RenderJSONVisitor renderer;
-            enumValue->content(renderer);
-            result = renderer.getOwnership();
-
-            delete enumValue;
-            enumValue = NULL;
-
-            return;
         }
 
+        RenderJSONVisitor renderer;
+        enumValue->content(renderer);
+        result = renderer.getOwnership();
+
+        delete enumValue;
+        enumValue = NULL;
+
+    }
+
+    void RenderJSONVisitor::visit(const ArrayElement& e) {
         ArrayElement::ValueType members;
         FetchMembers(e, members);
         ArrayElement* a = new ArrayElement;
@@ -224,7 +219,7 @@ namespace refract
             return;
         }
 
-        if (merged->element() == "enum") {
+        if (TypeQueryVisitor::as<EnumElement>(merged)) {
             renderer.enumValue = getEnumValue(e);
             if (renderer.enumValue) {
                 renderer.enumValue = renderer.enumValue->clone();

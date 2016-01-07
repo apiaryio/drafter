@@ -40,24 +40,37 @@ namespace refract
         value_ = sos::Boolean(e.value);
     }
 
+    namespace {
+
+        void SerializeValues(sos::Array& array, const RefractElements& values)
+        {
+
+            for (RefractElements::const_iterator it = values.begin(); it != values.end(); ++it) {
+                if (IsFullRender((*it))) {
+                    SerializeVisitor s;
+                    s.visit(*(*it));
+                    array.push(s.get());
+                }
+                else {
+                    SerializeCompactVisitor s;
+                    (*it)->content(s);
+                    array.push(s.value());
+                }
+            }
+        }
+    }
+
+    void SerializeCompactVisitor::visit(const EnumElement& e)
+    {
+        sos::Array array;
+        SerializeValues(array, e.value);
+        value_ = array;
+    }
+
     void SerializeCompactVisitor::visit(const ArrayElement& e)
     {
         sos::Array array;
-        typedef ArrayElement::ValueType::const_iterator iterator;
-
-        for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-            if (IsFullRender((*it))) {
-                SerializeVisitor s;
-                s.visit(*(*it));
-                array.push(s.get());
-            }
-            else {
-                SerializeCompactVisitor s;
-                (*it)->content(s);
-                array.push(s.value());
-            }
-        }
-
+        SerializeValues(array, e.value);
         value_ = array;
     }
 

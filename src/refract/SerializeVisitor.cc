@@ -147,6 +147,12 @@ namespace refract
         SetSerializerValue(*this, array);
     }
 
+    void SerializeVisitor::visit(const EnumElement& e)
+    {
+        sos::Array array = SerializeValueList(e);
+        SetSerializerValue(*this, array);
+    }
+
     void SerializeVisitor::visit(const ObjectElement& e)
     {
         sos::Array array = SerializeValueList(e);

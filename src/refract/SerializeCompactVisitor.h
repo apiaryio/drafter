@@ -12,19 +12,10 @@
 #include "sos.h"
 #include <string>
 
+#include "ElementFwd.h"
+
 namespace refract
 {
-
-    // Forward declarations of Elements
-    struct IElement;
-    struct StringElement;
-    struct NullElement;
-    struct NumberElement;
-    struct BooleanElement;
-    struct ArrayElement;
-    struct ObjectElement;
-    struct MemberElement;
-    struct ExtendElement;
 
     class SerializeCompactVisitor : public IVisitor
     {
@@ -39,6 +30,7 @@ namespace refract
         void visit(const NumberElement& e);
         void visit(const BooleanElement& e);
         void visit(const ArrayElement& e);
+        void visit(const EnumElement& e);
         void visit(const MemberElement& e);
         void visit(const ObjectElement& e);
         void visit(const ExtendElement& e);

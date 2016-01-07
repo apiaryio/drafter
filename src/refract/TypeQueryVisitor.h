@@ -9,20 +9,10 @@
 #define REFRACT_TYPEQUERYVISITOR_H
 
 #include "Visitor.h"
+#include "ElementFwd.h"
 
 namespace refract
 {
-
-    // Forward declarations of Elements
-    struct IElement;
-    struct StringElement;
-    struct NullElement;
-    struct NumberElement;
-    struct BooleanElement;
-    struct ArrayElement;
-    struct ObjectElement;
-    struct MemberElement;
-    struct ExtendElement;
 
     class TypeQueryVisitor : public IVisitor
     {
@@ -39,6 +29,7 @@ namespace refract
             Array,
             Member,
             Object,
+            Enum,
 
             Extend,
 
@@ -60,6 +51,7 @@ namespace refract
         void visit(const ArrayElement& e);
         void visit(const MemberElement& e);
         void visit(const ObjectElement& e);
+        void visit(const EnumElement& e);
         void visit(const ExtendElement& e);
 
         ElementType get() const;

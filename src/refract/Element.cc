@@ -376,6 +376,10 @@ namespace refract
                         doMerge<ObjectElement>(result, e);
                         return;
 
+                    case TypeQueryVisitor::Enum:
+                        doMerge<EnumElement>(result, e);
+                        return;
+
                     case TypeQueryVisitor::Member:
                     case TypeQueryVisitor::Extend:
                     case TypeQueryVisitor::Null:
