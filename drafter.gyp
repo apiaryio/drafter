@@ -125,6 +125,7 @@
         "test/test-RenderTest.cc",
         "test/test-RefractSourceMapTest.cc",
         "test/test-SchemaTest.cc",
+        "test/test-ApplyVisitorTest.cc",
       ],
       'dependencies': [
         "libdrafter",
