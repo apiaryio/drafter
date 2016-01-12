@@ -89,6 +89,7 @@
 
         "src/refract/AppendDecorator.h",
         "src/refract/Query.h",
+        "src/refract/Iterate.h",
       ],
       # FIXME: replace by direct dependecies
       "include_dirs": [

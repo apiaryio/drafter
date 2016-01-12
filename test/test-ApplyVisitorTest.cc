@@ -4,6 +4,7 @@
 #include "refract/Element.h"
 #include "refract/Query.h"
 #include "refract/Build.h"
+#include "refract/Iterate.h"
 
 #include <iostream>
 
@@ -107,6 +108,64 @@ TEST_CASE("It should recognize Element Type by `Is` type operand","[ApplyVisitor
     REQUIRE(isNumber);
 
     delete n;
+    delete e;
+}
+
+struct Fixture {
+
+    static IElement* Complex() 
+    {
+        return Build(new ObjectElement)
+                    ("m1", IElement::Create("Str1"))
+                    ("m2", Build(new ArrayElement)
+                                (IElement::Create("m2[0]"))
+                                (IElement::Create(2.1))
+                    )
+                    ("m3", Build(new ObjectElement)
+                                ("m3.1", IElement::Create("Str3.1"))
+                                ("m3.2", IElement::Create(3.2))
+                                ("m3.3", Build(new ArrayElement)
+                                              (IElement::Create("m[3][3][0]"))
+                                              (IElement::Create(false))
+                     )
+                     ("m3.4", Build(new ObjectElement)
+                                   ("m3.4.1", IElement::Create("Str3/4/1"))
+                                   ("m3.4.2", IElement::Create(3.42))
+                                   ("m3.4.2", new NullElement)
+                     )
+        );
+    }
+
+    static IElement* SimpleObject() 
+    {
+        return Build(new ObjectElement)
+                    ("m1", IElement::Create("Str1"))
+                    ("m2", IElement::Create("Str2"))
+                    ("m3", IElement::Create(3))
+        ;
+    }
+
+    static IElement* SimpleArray() 
+    {
+        return Build(new ArrayElement)
+                    (IElement::Create("1"))
+                    (IElement::Create(2))
+                    (IElement::Create("3"))
+        ;
+    }
+};
+
+TEST_CASE("Matcher with Is<>","[ApplyVisitor]")
+{
+    IElement* e = Fixture::SimpleArray();
+
+    Functor f;
+    Iterate<> i(f);
+    i(*e);
+
+    REQUIRE(f.GCounter == 2); // array + number
+    REQUIRE(f.SCounter == 2); // there are two strings
+
     delete e;
 }
 
