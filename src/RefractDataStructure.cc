@@ -12,6 +12,7 @@
 
 #include "RefractSourceMap.h"
 #include "refract/VisitorUtils.h"
+#include "refract/Iterate.h"
 
 namespace drafter {
 
@@ -1040,6 +1041,70 @@ namespace drafter {
         return element;
     }
 
+    namespace {
+
+        using namespace refract;
+
+        class CircularReferenceChecker {
+
+            const refract::Registry& registry;
+            std::string name;
+            bool result;
+
+        public:
+
+            CircularReferenceChecker(const refract::Registry& registry) : registry(registry), result(false) {}
+
+            template <typename T>
+            void operator()(const T& e) {
+
+                // there is already found circular reference, we need no to continue
+                if (result) {
+                    return;
+                };
+
+                if (name.empty()) {
+                    IElement::MemberElementCollection::const_iterator id = e.meta.find("id");
+
+                    if (id == e.meta.end()) {
+                        return;
+                    }
+
+                    refract::StringElement* str = TypeQueryVisitor::as<StringElement>((*id)->value.second);
+                    name = str->value;
+                } 
+
+                if (refract::isReserved(e.element())) {
+                    return;
+                }
+
+                if (name == e.element()) {
+                    result = true;
+                }
+
+                // recursive check
+                IElement* child = registry.find(e.element());
+
+                if (!child) {
+                    return;
+                }
+
+                refract::Iterate<> iterate(*this);
+                iterate(*child);
+
+            }
+
+            operator bool() const {
+                return result;
+            }
+
+            const std::string& elementName() const {
+                return name;
+            }
+        };
+
+    }
+
     refract::IElement* MSONToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure)
     {
         if (dataStructure.node.empty()) {
@@ -1079,6 +1144,20 @@ namespace drafter {
 
             default:
                 throw snowcrash::Error("unknown type of data structure", snowcrash::MSONError);
+        }
+
+        CircularReferenceChecker cr(GetNamedTypesRegistry());
+        refract::Iterate<> iterate(cr);
+        iterate(*element);
+
+        if (cr) {
+            std::stringstream msg;
+            msg << "base type '"
+                << cr.elementName()
+                << "' circularly referencing itself";
+
+            delete element;
+            throw snowcrash::Error(msg.str(), snowcrash::MSONError, dataStructure.sourceMap.sourceMap);
         }
 
         return element;
