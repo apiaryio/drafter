@@ -73,9 +73,9 @@ namespace refract
         return it;
     }
 
-    StringElement* IElement::Create(const char* value)
+    StringElement* IElement::Create(const char* value, IElement::renderFlags render /* = IElement::rDefault */)
     {
-        return Create(std::string(value));
+        return Create(std::string(value), render);
     };
 
     MemberElement& IElement::MemberElementCollection::operator[](const std::string& name)
@@ -86,11 +86,8 @@ namespace refract
         }
 
         // key not found - create new one and return reference
-        StringElement* key = new StringElement;
-        key->set(name);
-
         MemberElement* member = new MemberElement;
-        member->value.first = key;
+        member->value.first = new StringElement(name);
         push_back(member);
 
         return *member;

@@ -79,11 +79,16 @@
         "src/refract/PrintVisitor.cc",
         "src/refract/JSONSchemaVisitor.h",
         "src/refract/JSONSchemaVisitor.cc",
+        "src/refract/ApplyVisitor.h",
+        "src/refract/ApplyVisitor.cc",
 
         "src/refract/Registry.h",
         "src/refract/Registry.cc",
 
+        "src/refract/Build.h",
+
         "src/refract/AppendDecorator.h",
+        "src/refract/Query.h",
       ],
       # FIXME: replace by direct dependecies
       "include_dirs": [

@@ -35,6 +35,7 @@ namespace refract
     class RenderJSONVisitor;
     class PrintVisitor;
     class JSONSchemaVisitor;
+    class ApplyVisitor;
 
     template <typename T> struct ElementTypeSelector;
 
@@ -92,29 +93,9 @@ namespace refract
             TypeQueryVisitor,
             RenderJSONVisitor,
             PrintVisitor,
-            JSONSchemaVisitor
+            JSONSchemaVisitor,
+            ApplyVisitor
         >::type Visitors;
-
-        /**
-         * Returns new element with content set as `value`
-         * Type of returned element depends on type of `value`
-         *
-         * In current implementation iis able create just primitive element types: (Bool|Number|String)
-         */
-        template <typename T>
-        static typename ElementTypeSelector<T>::ElementType* Create(const T& value)
-        {
-            typedef typename ElementTypeSelector<T>::ElementType ElementType;
-            ElementType* element = new ElementType;
-            element->set(value);
-
-            return element;
-        };
-
-        /**
-         * overrided for static function `Create()` with classic c-string
-         */
-        static StringElement* Create(const char* value);
 
         struct MemberElementCollection : public std::vector<MemberElement*>
         {
@@ -185,6 +166,24 @@ namespace refract
 
         virtual renderFlags renderType() const = 0;
         virtual void renderType(const renderFlags render) = 0;
+
+        /**
+         * Returns new element with content set as `value`
+         * Type of returned element depends on type of `value`
+         *
+         * In current implementation iis able create just primitive element types: (Bool|Number|String)
+         */
+        template <typename T>
+        static typename ElementTypeSelector<T>::ElementType* Create(const T& value, IElement::renderFlags render = IElement::rDefault)
+        {
+            typedef typename ElementTypeSelector<T>::ElementType ElementType;
+            return new ElementType(value, render);
+        };
+
+        /**
+         * overrided for static function `Create()` with classic c-string
+         */
+        static StringElement* Create(const char* value, IElement::renderFlags render = IElement::rDefault);
 
         virtual ~IElement() {}
     };
@@ -305,6 +304,7 @@ namespace refract
         static void release(ValueType&) {}
         static void cloneValue(const ValueType&, ValueType&) {}
     };
+
     struct NullElement : Element<NullElement, NullElementTrait> {};
 
     struct StringElementTrait
@@ -316,7 +316,17 @@ namespace refract
         static void release(ValueType&) {}
         static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
     };
-    struct StringElement : Element<StringElement, StringElementTrait> {};
+
+    struct StringElement : Element<StringElement, StringElementTrait> {
+
+        StringElement() : Type() {}
+
+        StringElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type()
+        {
+            set(value);
+            renderType(render);
+        }
+    };
 
     struct NumberElementTrait
     {
@@ -327,7 +337,17 @@ namespace refract
         static void release(ValueType&) {}
         static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
     };
-    struct NumberElement : Element<NumberElement, NumberElementTrait> {};
+
+    struct NumberElement : Element<NumberElement, NumberElementTrait> {
+
+        NumberElement() : Type() {}
+
+        NumberElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type()
+        {
+            set(value);
+            renderType(render);
+        }
+    };
 
     struct BooleanElementTrait
     {
@@ -338,7 +358,16 @@ namespace refract
         static void release(ValueType&) {}
         static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
     };
-    struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {};
+
+    struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {
+
+        BooleanElement() : Type() {}
+
+        BooleanElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type() {
+            set(value);
+            renderType(render);
+        }
+    };
 
     typedef std::vector<IElement*> RefractElements;
 
@@ -372,6 +401,17 @@ namespace refract
 
     struct ArrayElement : Element<ArrayElement, ArrayElementTrait>
     {
+
+        ArrayElement() : Type()
+        {
+        }
+
+        ArrayElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type()
+        {
+            set(value);
+            renderType(render);
+        }
+
         void push_back(IElement* e)
         {
             // FIXME: warn if MemberElement
@@ -388,6 +428,16 @@ namespace refract
 
     struct EnumElement : Element<EnumElement, EnumElementTrait>
     {
+        EnumElement() : Type()
+        {
+        }
+
+        EnumElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type()
+        {
+            set(value);
+            renderType(render);
+        }
+
         void push_back(IElement* e)
         {
             hasContent = true;
@@ -428,6 +478,23 @@ namespace refract
 
     struct MemberElement : Element<MemberElement, MemberElementTrait>
     {
+
+        MemberElement() : Type() 
+        {
+        }
+
+        MemberElement(IElement* key, IElement* value, IElement::renderFlags render = IElement::rDefault) : Type()
+        {
+            set(key, value);
+            renderType(render);
+        }
+
+        MemberElement(const std::string& key, IElement* value, IElement::renderFlags render = IElement::rDefault) : Type()
+        {
+            set(key, value);
+            renderType(render);
+        }
+
         void set(const std::string& key, IElement* element)
         {
             set(IElement::Create(key), element);
@@ -482,6 +549,17 @@ namespace refract
 
     struct ObjectElement : Element<ObjectElement, ObjectElementTrait>
     {
+
+        ObjectElement() : Type()
+        {
+        }
+
+        ObjectElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type()
+        {
+            set(value);
+            renderType(render);
+        }
+
         void push_back(IElement* e)
         {
             // FIXME:
@@ -498,6 +576,16 @@ namespace refract
 
     struct ExtendElement : Element<ExtendElement, ExtendElementTrait>
     {
+        ExtendElement() : Type()
+        {
+        }
+
+        ExtendElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type()
+        {
+            set(value);
+            renderType(render);
+        }
+
         void push_back(IElement* e);
         void set(const ValueType& val);
 
