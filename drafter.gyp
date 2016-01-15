@@ -41,8 +41,6 @@
         "src/RefractAPI.cc",
         "src/RefractDataStructure.h",
         "src/RefractDataStructure.cc",
-        "src/RefractParseResult.h",
-        "src/RefractParseResult.cc",
         "src/RefractSourceMap.h",
         "src/RefractSourceMap.cc",
         "src/Render.h",
@@ -88,6 +86,7 @@
         "src/refract/Build.h",
 
         "src/refract/AppendDecorator.h",
+        "src/refract/ElementInserter.h",
         "src/refract/Query.h",
         "src/refract/Iterate.h",
       ],

@@ -128,7 +128,7 @@ namespace draftertest {
             return ext::json;
         }
 
-        typedef sos::Object (*Wrapper)(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options);
+        typedef sos::Object (*Wrapper)(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options);
 
         static bool handleResultJSON(const Wrapper wrapper, const std::string& basepath, const drafter::WrapperOptions& options, bool mustBeOk = false) {
             ITFixtureFiles fixture = ITFixtureFiles(basepath);

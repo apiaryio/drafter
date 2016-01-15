@@ -42,6 +42,7 @@ namespace drafter {
         typedef NodeInfo<T> Type;
         typedef snowcrash::SourceMap<T> SourceMapType;
 
+        // FIXME: backport std::ref
         const NodeType& node;
         const SourceMapType& sourceMap;
         const bool empty;

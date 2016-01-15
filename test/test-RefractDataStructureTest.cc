@@ -4,7 +4,7 @@ using namespace draftertest;
 
 static drafter::WrapperOptions MSONTestOptions(drafter::NormalASTType, false, true);
 
-static sos::Object Wrapper(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options) {
+static sos::Object Wrapper(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options) {
     return drafter::WrapBlueprint(blueprint, options.expandMSON);
 }
 

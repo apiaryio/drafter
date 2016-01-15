@@ -243,7 +243,7 @@ namespace drafter {
         for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
 
             if (!(*i)->name.symbol.literal.empty()) {
-                refract::IElement* element = MSONToRefract(MakeNodeInfoWithoutSourceMap(*(*i)));
+                refract::IElement* element = MSONToRefract(MakeNodeInfoWithoutSourceMap(*(*i)), true);
                 GetNamedTypesRegistry().add(element);
             }
         }
@@ -665,6 +665,20 @@ namespace drafter {
         ast->set(content);
 
         return ast;
+    }
+
+    refract::IElement* AnnotationToRefract(const snowcrash::SourceAnnotation& annotation, const std::string& key)
+    {
+        refract::IElement* element = refract::IElement::Create(annotation.message);
+
+        element->element(SerializeKey::Annotation);
+
+        element->meta[SerializeKey::Classes] = CreateArrayElement(key);
+
+        element->attributes[SerializeKey::AnnotationCode] = refract::IElement::Create(annotation.code);
+        element->attributes[SerializeKey::SourceMap] = SourceMapToRefract(annotation.location);
+
+        return element;
     }
 
 } // namespace drafter

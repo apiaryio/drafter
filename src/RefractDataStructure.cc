@@ -1045,15 +1045,29 @@ namespace drafter {
 
         using namespace refract;
 
+        std::string getElementName(const IElement& e) {
+                IElement::MemberElementCollection::const_iterator id = e.meta.find("id");
+
+                if (id == e.meta.end()) {
+                    return std::string();
+                }
+
+                if (refract::StringElement* str = TypeQueryVisitor::as<StringElement>((*id)->value.second)) {
+                    return str->value;
+                }
+
+                return std::string();
+        }
+
         class CircularReferenceChecker {
 
             const refract::Registry& registry;
-            std::string name;
+            const std::string& name;
             bool result;
 
         public:
 
-            CircularReferenceChecker(const refract::Registry& registry) : registry(registry), result(false) {}
+            CircularReferenceChecker(const refract::Registry& registry, const std::string& name) : registry(registry), name(name), result(false) {}
 
             template <typename T>
             void operator()(const T& e) {
@@ -1064,14 +1078,7 @@ namespace drafter {
                 };
 
                 if (name.empty()) {
-                    IElement::MemberElementCollection::const_iterator id = e.meta.find("id");
-
-                    if (id == e.meta.end()) {
-                        return;
-                    }
-
-                    refract::StringElement* str = TypeQueryVisitor::as<StringElement>((*id)->value.second);
-                    name = str->value;
+                    return;
                 } 
 
                 if (refract::isReserved(e.element())) {
@@ -1105,7 +1112,7 @@ namespace drafter {
 
     }
 
-    refract::IElement* MSONToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure)
+    refract::IElement* MSONToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure, bool checkCircularReference)
     {
         if (dataStructure.node.empty()) {
             return NULL;
@@ -1146,19 +1153,26 @@ namespace drafter {
                 throw snowcrash::Error("unknown type of data structure", snowcrash::MSONError);
         }
 
-        CircularReferenceChecker cr(GetNamedTypesRegistry());
-        refract::Iterate<> iterate(cr);
-        iterate(*element);
+        if (element && checkCircularReference) {
+            const std::string name = getElementName(*element);
+            if (!name.empty()) {
+                //std::cout << "Name: " << name << std::endl;
+                CircularReferenceChecker cr(GetNamedTypesRegistry(), name);
+                refract::Iterate<> iterate(cr);
+                iterate(*element);
 
-        if (cr) {
-            std::stringstream msg;
-            msg << "base type '"
-                << cr.elementName()
-                << "' circularly referencing itself";
+                if (cr) {
+                    std::stringstream msg;
+                    msg << "base type '"
+                       << cr.elementName()
+                       << "' circularly referencing itself";
 
-            delete element;
-            throw snowcrash::Error(msg.str(), snowcrash::MSONError, dataStructure.sourceMap.sourceMap);
+                    delete element;
+                    throw snowcrash::Error(msg.str(), snowcrash::MSONError);
+                }
+            }
         }
+
 
         return element;
     }
