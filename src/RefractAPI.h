@@ -11,9 +11,15 @@
 
 #include "Serialize.h"
 
+namespace snowcrash {
+    struct SourceAnnotation;
+}
+
 namespace drafter {
 
     void RegisterNamedTypes(const snowcrash::Elements& elements);
+
+    refract::IElement* AnnotationToRefract(const snowcrash::SourceAnnotation& annotation, const std::string& key);
 
     refract::IElement* DataStructureToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure, bool expand = false);
     refract::IElement* BlueprintToRefract(const NodeInfo<snowcrash::Blueprint>& blueprint);
