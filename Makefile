@@ -4,7 +4,8 @@ BUILDTYPE ?= Release
 BUILD_DIR ?= ./build
 PYTHON ?= python
 GYP ?= ./ext/snowcrash/tools/gyp/gyp
-DESTDIR ?= /usr/local/bin
+DESTDIR ?= /usr/local
+BINDIR ?= $(DESTDIR)/bin
 
 # Default to verbose builds
 V ?= 1
@@ -26,7 +27,8 @@ drafter: config.gypi $(BUILD_DIR)/Makefile
 	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/$@ ./bin/$@
 
 install: drafter
-	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/drafter $(DESTDIR)/drafter
+	mkdir -p $(BINDIR)
+	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/drafter $(BINDIR)/drafter
 
 config.gypi: configure
 	$(PYTHON) ./configure
