@@ -13,6 +13,8 @@
 #include "RefractSourceMap.h"
 #include "refract/VisitorUtils.h"
 
+#include "NamedTypesRegistry.h"
+
 namespace drafter {
 
     template <typename T, typename V = typename T::ValueType>
