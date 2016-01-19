@@ -45,6 +45,8 @@
         "src/RefractSourceMap.cc",
         "src/Render.h",
         "src/Render.cc",
+        "src/NamedTypesRegistry.cc",
+        "src/NamedTypesRegistry.h",
 
         # librefract parts - will be separated into other project
 

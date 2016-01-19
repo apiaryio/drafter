@@ -13,17 +13,6 @@ using namespace drafter;
 
 namespace drafter {
 
-    /**
-     * Proxy function to retrieve the NamedTypesRegistry
-     * NOTE: DO NOT USE THIS
-     */
-    refract::Registry& GetNamedTypesRegistry()
-    {
-        static refract::Registry namedTypesRegistry;
-
-        return namedTypesRegistry;
-    }
-
     refract::ArrayElement* CreateArrayElement(refract::IElement* value, bool rFull)
     {
         refract::ArrayElement* array = new refract::ArrayElement;

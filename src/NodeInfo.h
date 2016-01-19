@@ -9,8 +9,8 @@
 #ifndef DRAFTER_NODEINFO_H
 #define DRAFTER_NODEINFO_H
 
-
 #include "BlueprintSourcemap.h"
+#include <algorithm>
 
 #define NODE_INFO(from, member) from.node.member, from.sourceMap.member
 #define MAKE_NODE_INFO(from, member) MakeNodeInfo(NODE_INFO(from, member), from.hasSourceMap())

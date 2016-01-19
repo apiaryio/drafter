@@ -17,7 +17,7 @@ namespace snowcrash {
 
 namespace drafter {
 
-    void RegisterNamedTypes(const snowcrash::Elements& elements);
+    void RegisterNamedTypes(const NodeInfo<snowcrash::Elements>& elements);
 
     refract::IElement* AnnotationToRefract(const snowcrash::SourceAnnotation& annotation, const std::string& key);
 

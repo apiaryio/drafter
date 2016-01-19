@@ -809,7 +809,8 @@ sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Bluep
 
     try {
         ExpandMSON = expandMSON;
-        RegisterNamedTypes(blueprint.node.content.elements());
+        bool hasSourceMap = blueprint.node.content.elements().size() == blueprint.sourceMap.content.elements().collection.size();
+        RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements(), hasSourceMap));
         blueprintObject = WrapBlueprintAST(blueprint.node);
     }
     catch (std::exception& e) {

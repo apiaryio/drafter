@@ -1110,6 +1110,16 @@ namespace drafter {
             }
         };
 
+        const mdp::CharactersRangeSet& findSourceMap(const snowcrash::SourceMap<snowcrash::DataStructure>& dataStructure) {
+            if (dataStructure.sourceMap.empty()) {
+                if (!dataStructure.name.sourceMap.empty()) {
+                    return  dataStructure.name.sourceMap;
+                }
+            }
+
+            return dataStructure.sourceMap;
+        }
+
     }
 
     refract::IElement* MSONToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure, bool checkCircularReference)
@@ -1168,7 +1178,7 @@ namespace drafter {
                        << "' circularly referencing itself";
 
                     delete element;
-                    throw snowcrash::Error(msg.str(), snowcrash::MSONError);
+                    throw snowcrash::Error(msg.str(), snowcrash::MSONError, findSourceMap(dataStructure.sourceMap));
                 }
             }
         }
