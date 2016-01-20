@@ -43,8 +43,8 @@ namespace drafter {
     NodeInfoByValue<Asset> renderPayloadBody(const NodeInfo<Payload>& payload,
                                              const NodeInfo<Action>& action,
                                              const refract::Registry& registry) {
-        NodeInfoByValue<Asset> body = std::make_pair(payload.node.body, &payload.sourceMap.body);
-        RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node.headers));
+        NodeInfoByValue<Asset> body = std::make_pair(payload.node->body, &payload.sourceMap->body);
+        RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node->headers));
 
         NodeInfo<Attributes> payloadAttributes = MAKE_NODE_INFO(payload, attributes);
         NodeInfo<Attributes> actionAttributes = MAKE_NODE_INFO(action, attributes);
@@ -52,11 +52,11 @@ namespace drafter {
         // hold attributes via pointer - because problems with assignment in NodeInfo<>
         NodeInfo<Attributes>* attributes = &payloadAttributes;
 
-        if (payload.node.attributes.empty() && !action.isNull() && !action.node.attributes.empty()) {
+        if (payload.node->attributes.empty() && !action.isNull() && !action.node->attributes.empty()) {
            attributes = &actionAttributes;
         }
 
-        if (!payload.node.body.empty() || attributes->node.empty() || renderFormat == UndefinedRenderFormat) {
+        if (!payload.node->body.empty() || attributes->node->empty() || renderFormat == UndefinedRenderFormat) {
             return body;
         }
 
@@ -81,7 +81,7 @@ namespace drafter {
 
                 delete expanded;
 
-                return std::make_pair(renderer.getString(), &NodeInfo<Asset>::NullSourceMap());
+                return std::make_pair(renderer.getString(), NodeInfo<Asset>::NullSourceMap());
             }
 
             default:
@@ -93,22 +93,22 @@ namespace drafter {
 
     NodeInfoByValue<Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload, const NodeInfo<snowcrash::Action>& action, const refract::Registry& registry) {
 
-        NodeInfoByValue<Asset> schema = std::make_pair(payload.node.schema,
-                                                       &payload.sourceMap.schema);
+        NodeInfoByValue<Asset> schema = std::make_pair(payload.node->schema,
+                                                       &payload.sourceMap->schema);
         NodeInfo<Attributes> payloadAttributes = MAKE_NODE_INFO(payload, attributes);
         NodeInfo<Attributes> actionAttributes = MAKE_NODE_INFO(action, attributes);
 
         // hold attributes via pointer - because problems with assignment in NodeInfo<>
         NodeInfo<Attributes>* attributes = &payloadAttributes;
 
-        if (payload.node.attributes.empty() &&
+        if (payload.node->attributes.empty() &&
             !action.isNull() &&
-            !action.node.attributes.empty()) {
+            !action.node->attributes.empty()) {
             attributes = &actionAttributes;
         }
 
-        if (!payload.node.schema.empty() ||
-            payload.node.attributes.empty()) {
+        if (!payload.node->schema.empty() ||
+            payload.node->attributes.empty()) {
             return schema;
         }
 
@@ -127,6 +127,6 @@ namespace drafter {
         std::string result = renderer.getSchema(*expanded);
         delete expanded;
 
-        return std::make_pair(result, &NodeInfo<Asset>::NullSourceMap());
+        return std::make_pair(result, NodeInfo<Asset>::NullSourceMap());
     }
 }

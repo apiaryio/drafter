@@ -1,4 +1,4 @@
-#include "Registry.h"
+#include "NamedTypesRegistry.h"
 
 #include <string>
 #include <map>
@@ -25,16 +25,14 @@ namespace drafter {
 
             for (NodeInfoCollection<snowcrash::Elements>::const_iterator i = elements.begin(); i != elements.end(); ++i) {
 
-                if (i->node.element == snowcrash::Element::DataStructureElement) {
-                    //found.push_back(&(i->node.content.dataStructure));
-                    found.push_back(MakeNodeInfo(i->node.content.dataStructure, i->sourceMap.content.dataStructure, i->hasSourceMap()));
+                if (i->node->element == snowcrash::Element::DataStructureElement) {
+                    found.push_back(MakeNodeInfo(i->node->content.dataStructure, i->sourceMap->content.dataStructure, i->hasSourceMap()));
                 }
-                else if (!i->node.content.resource.attributes.empty()) {
-                    //found.push_back(&i->node.content.resource.attributes);
-                    found.push_back(MakeNodeInfo(i->node.content.resource.attributes, i->sourceMap.content.resource.attributes, i->hasSourceMap()));
+                else if (!i->node->content.resource.attributes.empty()) {
+                    found.push_back(MakeNodeInfo(i->node->content.resource.attributes, i->sourceMap->content.resource.attributes, i->hasSourceMap()));
                 }
-                else if (i->node.element == snowcrash::Element::CategoryElement) {
-                    NodeInfoCollection<snowcrash::Elements> children(MakeNodeInfo(i->node.content.elements(), i->sourceMap.content.elements(), i->hasSourceMap()));
+                else if (i->node->element == snowcrash::Element::CategoryElement) {
+                    NodeInfoCollection<snowcrash::Elements> children(MakeNodeInfo(i->node->content.elements(), i->sourceMap->content.elements(), i->hasSourceMap()));
                     FindNamedTypes(children, found);
                 }
             }
@@ -134,13 +132,13 @@ namespace drafter {
 
                 // map inheritance
                 for (DataStructures::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
-                    if (hasParent(&i->node)) {
-                        childToParent[name(&i->node)] = parent(&i->node);
+                    if (hasParent(i->node)) {
+                        childToParent[name(i->node)] = parent(i->node);
                     }
                 }
 
                 for (DataStructures::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
-                    objectToMembers[name(&i->node)] = collectMembers(&i->node);
+                    objectToMembers[name(i->node)] = collectMembers(i->node);
                 }
             }
 
@@ -179,13 +177,16 @@ namespace drafter {
              * really care.
              */
             bool operator()(DataStructures::const_reference first, DataStructures::const_reference second) {
-                if (hasAncestor(&first.node, &second.node) || hasMember(&first.node, &second.node)) {
+
+                if (hasAncestor(first.node, second.node) || hasMember(first.node, second.node)) {
                     return false;
                 }
-                if (hasAncestor(&second.node, &first.node) || hasMember(&second.node, &first.node)) {
+
+                if (hasAncestor(second.node, first.node) || hasMember(second.node, first.node)) {
                     return true;
                 }
-                return name(&first.node) < name (&second.node);
+
+                return name(first.node) < name(second.node);
             }
 
         };
@@ -199,7 +200,6 @@ namespace drafter {
         return namedTypesRegistry;
     }
 
-
     void RegisterNamedTypes(const NodeInfo<snowcrash::Elements>& elements)
     {
         DataStructures found;
@@ -211,7 +211,7 @@ namespace drafter {
 
         for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
 
-            if (!i->node.name.symbol.literal.empty()) {
+            if (!i->node->name.symbol.literal.empty()) {
                 refract::IElement* element = MSONToRefract(*i, true);
                 GetNamedTypesRegistry().add(element);
             }
