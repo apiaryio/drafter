@@ -19,8 +19,8 @@ namespace drafter {
     template<typename T>
     void AttachSourceMap(refract::IElement* element, const T& nodeInfo)
     {
-        if (nodeInfo.hasSourceMap() && !nodeInfo.sourceMap.sourceMap.empty()) {
-            element->attributes[SerializeKey::SourceMap] = SourceMapToRefract(nodeInfo.sourceMap.sourceMap);
+        if (nodeInfo.hasSourceMap() && !nodeInfo.sourceMap->sourceMap.empty()) {
+            element->attributes[SerializeKey::SourceMap] = SourceMapToRefract(nodeInfo.sourceMap->sourceMap);
             element->renderType(refract::IElement::rFull);
         }
     }
@@ -30,7 +30,7 @@ namespace drafter {
     {
         typedef typename refract::ElementTypeSelector<T>::ElementType ElementType;
 
-        ElementType* element = refract::IElement::Create(primitive.node);
+        ElementType* element = refract::IElement::Create(*primitive.node);
 
         AttachSourceMap(element, primitive);
 
@@ -40,7 +40,7 @@ namespace drafter {
     template<typename T>
     refract::IElement* LiteralToRefract(const NodeInfo<std::string>& literal)
     {
-        refract::IElement* element = refract::IElement::Create(LiteralTo<T>(literal.node));
+        refract::IElement* element = refract::IElement::Create(LiteralTo<T>(*literal.node));
 
         AttachSourceMap(element, literal);
 
