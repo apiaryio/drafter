@@ -84,97 +84,101 @@ namespace refract
             }
         };
 
-        template<typename T>
-        T* ExpandMembers(const T& e, const Registry& registry)
-        {
-            T* o = new T;
-            o->attributes.clone(e.attributes);
-            o->meta.clone(e.meta);
+        struct Expander {
 
-            if (!e.empty()) {
-                o->set(ExpandValue<typename T::ValueType>()(e.value, registry));
+            template<typename T>
+            T* ExpandMembers(const T& e, const Registry& registry)
+            {
+                T* o = new T;
+                o->attributes.clone(e.attributes);
+                o->meta.clone(e.meta);
+
+                if (!e.empty()) {
+                    o->set(ExpandValue<typename T::ValueType>()(e.value, registry));
+                }
+
+                return o;
             }
 
-            return o;
-        }
+            ExtendElement* GetInheritanceTree(const std::string& name, const Registry& registry)
+            {
+                std::stack<IElement*> inheritance;
+                std::string en = name;
 
-        ExtendElement* GetInheritanceTree(const std::string& name, const Registry& registry)
-        {
-            std::stack<IElement*> inheritance;
-            std::string en = name;
+                // FIXME: add check against recursive inheritance
+                // walk recursive in registry and expand inheritance tree
+                for (const IElement* parent = registry.find(en)
+                    ; parent && !isReserved(en)
+                    ; en = parent->element(), parent = registry.find(en)) {
 
-            // FIXME: add check against recursive inheritance
-            // walk recursive in registry and expand inheritance tree
-            for (const IElement* parent = registry.find(en)
-                ; parent && !isReserved(en)
-                ; en = parent->element(), parent = registry.find(en)) {
+                    inheritance.push(parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId));
+                    inheritance.top()->meta["ref"] = IElement::Create(en);
+                }
 
-                inheritance.push(parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId));
-                inheritance.top()->meta["ref"] = IElement::Create(en);
+                ExtendElement* e = new ExtendElement;
+
+                while (!inheritance.empty()) {
+                    e->push_back(inheritance.top());
+                    inheritance.pop();
+                }
+
+                // FIXME: posible solution while referenced type is not found in regisry
+                // \see test/fixtures/mson-resource-unresolved-reference.apib
+                //
+                //if (e->value.empty()) {
+                //   e->meta["ref"] = IElement::Create(name);
+                //}
+
+                ExtendElement* result = ExpandMembers(*e, registry);
+                delete e;
+
+                return result;
             }
 
-            ExtendElement* e = new ExtendElement;
+            template <typename T>
+            IElement* ExpandNamedType(const T& e, const Registry& registry)
+            {
+                ExtendElement* extend = GetInheritanceTree(e.element(), registry);
 
-            while (!inheritance.empty()) {
-                e->push_back(inheritance.top());
-                inheritance.pop();
+                CopyMetaId(*extend, e);
+
+                T* origin = ExpandMembers(e, registry);
+                origin->meta.erase("id");
+
+                extend->push_back(origin);
+
+                return extend;
             }
 
-            // FIXME: posible solution while referenced type is not found in regisry
-            // \see test/fixtures/mson-resource-unresolved-reference.apib
-            //
-            //if (e->value.empty()) {
-            //   e->meta["ref"] = IElement::Create(name);
-            //}
+            template <typename T>
+            T* ExpandReference(const T& e, const Registry& registry)
+            {
+                T* ref = static_cast<T*>(e.clone());
 
-            ExtendElement* result = ExpandMembers(*e, registry);
-            delete e;
+                MemberElement *m = FindMemberByKey(e, "href");
+                if (!m) {
+                    return NULL;
+                }
 
-            return result;
-        }
+                StringElement* href = TypeQueryVisitor::as<StringElement>(m->value.second);
+                if (!href || href->value.empty()) {
+                    return ref;
+                }
 
-        template <typename T>
-        IElement* ExpandNamedType(const T& e, const Registry& registry)
-        {
-            ExtendElement* extend = GetInheritanceTree(e.element(), registry);
+                if (IElement* referenced = registry.find(href->value)) {
+                    referenced = ExpandOrClone(referenced, registry);
+                    MetaIdToRef(*referenced);
+                    referenced->renderType(IElement::rFull);
+                    ref->attributes["resolved"] = referenced;
+                }
 
-            CopyMetaId(*extend, e);
-
-            T* origin = ExpandMembers(e, registry);
-            origin->meta.erase("id");
-
-            extend->push_back(origin);
-
-            return extend;
-        }
-
-        template <typename T>
-        T* ExpandReference(const T& e, const Registry& registry)
-        {
-            T* ref = static_cast<T*>(e.clone());
-
-            MemberElement *m = FindMemberByKey(e, "href");
-            if (!m) {
-                return NULL;
-            }
-
-            StringElement* href = TypeQueryVisitor::as<StringElement>(m->value.second);
-            if (!href || href->value.empty()) {
                 return ref;
             }
 
-            if (IElement* referenced = registry.find(href->value)) {
-                referenced = ExpandOrClone(referenced, registry);
-                MetaIdToRef(*referenced);
-                referenced->renderType(IElement::rFull);
-                ref->attributes["resolved"] = referenced;
-            }
-
-            return ref;
-        }
+        };
 
         template <typename T, typename V = typename T::ValueType>
-        struct ExpandElement {
+        struct ExpandElement : public Expander {
             IElement* result;
 
             ExpandElement(const T& e, const Registry& registry) : result(NULL) {
@@ -189,7 +193,7 @@ namespace refract
         };
 
         template <typename T>
-        struct ExpandElement<T, RefractElements> {
+        struct ExpandElement<T, RefractElements> : public Expander {
             IElement* result;
 
             ExpandElement(const T& e, const Registry& registry) : result(NULL) {
