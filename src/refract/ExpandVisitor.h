@@ -19,12 +19,11 @@ namespace refract
 
     class ExpandVisitor : public IVisitor {
 
-        IElement* result;
-        const Registry& registry;
-
     public:
+        struct Context;
 
         ExpandVisitor(const Registry& registry);
+        ~ExpandVisitor();
 
         void visit(const IElement& e);
 
@@ -45,6 +44,11 @@ namespace refract
         // return expanded elemnt or NULL if expansion is not needed
         // caller responsibility is to delete returned Element
         IElement* get() const;
+
+    private:
+
+        IElement* result;
+        Context* context;
     };
 
 }; // namespace refract
