@@ -401,7 +401,6 @@ namespace refract
 
     struct ArrayElement : Element<ArrayElement, ArrayElementTrait>
     {
-
         ArrayElement() : Type()
         {
         }

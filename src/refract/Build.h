@@ -33,34 +33,34 @@ namespace refract
      * ```
      */
     template <typename T>
-    struct ElementInserter {
+    struct ElementBuilder {
         T* element;
 
-        ElementInserter(T* element) : element(element) {}
+        ElementBuilder(T* element) : element(element) {}
 
         operator T*() {
             return element;
         }
 
-        ElementInserter<T>& operator()(IElement* member) {
+        ElementBuilder<T>& operator()(IElement* member) {
             element->push_back(member);
             return *this;
         }
 
-        ElementInserter<T>& operator()(IElement* key, IElement* value) {
+        ElementBuilder<T>& operator()(IElement* key, IElement* value) {
             element->push_back(new MemberElement(key, value));
             return *this;
         }
 
-        ElementInserter<T>& operator()(const std::string& key, IElement* value) {
+        ElementBuilder<T>& operator()(const std::string& key, IElement* value) {
             element->push_back(new MemberElement(key, value));
             return *this;
         }
     };
 
     template <typename E>
-    ElementInserter<E> Build(E* e) {
-        return ElementInserter<E>(e);
+    ElementBuilder<E> Build(E* e) {
+        return ElementBuilder<E>(e);
     }
 }; // namespace refract
 

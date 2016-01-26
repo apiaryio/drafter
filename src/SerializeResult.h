@@ -19,7 +19,7 @@ namespace snowcrash {
 namespace drafter {
 
     sos::Object WrapAnnotation(const snowcrash::SourceAnnotation& annotation);
-    sos::Object WrapResult(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const WrapperOptions& options);
+    sos::Object WrapResult(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const WrapperOptions& options);
 }
 
 #endif // #ifndef DRAFTER_SERIALIZERESULT_H
