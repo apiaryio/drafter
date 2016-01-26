@@ -44,8 +44,6 @@ namespace refract
             }
         }
 
-        typedef std::vector<IElement*> RefractElements;
-
         template <typename T>
         struct ExpandValueImpl {
 
