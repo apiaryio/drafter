@@ -44,4 +44,38 @@ namespace refract
         std::for_each(elements.begin(), elements.end(),
                  std::bind2nd(std::mem_fun((void (refract::IElement::*)(const refract::IElement::renderFlags))&refract::IElement::renderType), flag));
     }
+
+    std::string GetKeyAsString(const MemberElement& e)
+    {
+
+        IElement* element = e.value.first;
+
+        if (StringElement* str = TypeQueryVisitor::as<StringElement>(element)) {
+            return str->value;
+        }
+
+        if (ExtendElement* ext = TypeQueryVisitor::as<ExtendElement>(element)) {
+            IElement* merged = ext->merge();
+
+            if (StringElement* str = TypeQueryVisitor::as<StringElement>(merged)) {
+
+                std::string key = str->value;
+                if (key.empty()) {
+                    const std::string* k = GetValue<StringElement>(*str);
+                    if (k) {
+                        key = *k;
+                    }
+                }
+                delete merged;
+
+                return key;
+
+            }
+
+            delete merged;
+        }
+
+        return std::string();
+    }
+
 }

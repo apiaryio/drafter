@@ -180,8 +180,19 @@ namespace refract
             }
            renderer.visit(*e.value.second);
         }
+        
+        StringElement* str = TypeQueryVisitor::as<StringElement>(e.value.first);
+        ExtendElement* ext = TypeQueryVisitor::as<ExtendElement>(e.value.first);
 
-        if (StringElement* str = TypeQueryVisitor::as<StringElement>(e.value.first)) {
+        if (ext) {
+            IElement* merged = ext->merge();
+            str = TypeQueryVisitor::as<StringElement>(merged);
+            if (!str) {
+                delete merged;
+            }
+        }
+
+        if (str) {
             IElement *desc = GetDescription(e);
 
             if (desc) {
@@ -198,6 +209,10 @@ namespace refract
         }
         else {
             throw std::logic_error("A property's key in the object is not of type string");
+        }
+
+        if (ext && str) {
+            delete str; // if Extend -> remove resolved (merged) element
         }
     }
 

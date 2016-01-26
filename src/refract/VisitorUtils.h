@@ -127,6 +127,8 @@ namespace refract
         return NULL;
     }
 
+    std::string GetKeyAsString(const MemberElement& e);
+
     IElement* GetFirstSample(const IElement& e);
 
     StringElement* GetDescription(const IElement& e);
