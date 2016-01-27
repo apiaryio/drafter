@@ -62,8 +62,6 @@ namespace drafter {
         : astType(astType), exportSourceMap(false), expandMSON(false) {}
     };
 
-    refract::Registry& GetNamedTypesRegistry();
-
     /**
      *  AST and Refract entities serialization keys
      */

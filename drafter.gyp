@@ -41,12 +41,12 @@
         "src/RefractAPI.cc",
         "src/RefractDataStructure.h",
         "src/RefractDataStructure.cc",
-        "src/RefractParseResult.h",
-        "src/RefractParseResult.cc",
         "src/RefractSourceMap.h",
         "src/RefractSourceMap.cc",
         "src/Render.h",
         "src/Render.cc",
+        "src/NamedTypesRegistry.cc",
+        "src/NamedTypesRegistry.h",
 
         # librefract parts - will be separated into other project
 
@@ -79,11 +79,18 @@
         "src/refract/PrintVisitor.cc",
         "src/refract/JSONSchemaVisitor.h",
         "src/refract/JSONSchemaVisitor.cc",
+        "src/refract/ApplyVisitor.h",
+        "src/refract/ApplyVisitor.cc",
 
         "src/refract/Registry.h",
         "src/refract/Registry.cc",
 
+        "src/refract/Build.h",
+
         "src/refract/AppendDecorator.h",
+        "src/refract/ElementInserter.h",
+        "src/refract/Query.h",
+        "src/refract/Iterate.h",
       ],
       # FIXME: replace by direct dependecies
       "include_dirs": [
@@ -120,6 +127,8 @@
         "test/test-RenderTest.cc",
         "test/test-RefractSourceMapTest.cc",
         "test/test-SchemaTest.cc",
+        "test/test-CircularReferenceTest.cc",
+        "test/test-ApplyVisitorTest.cc",
       ],
       'dependencies': [
         "libdrafter",
