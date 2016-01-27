@@ -10,9 +10,13 @@
                              missing a title.
  * - `type`: Either `refract` (default) or `ast`.
  */
-Module['parse'] = function(blueprint, options) {
+Module['parse'] = function(blueprint, options, callback) {
   if (false === this.ready) {
-    return {err: -1, result: null};
+    var err = new Error('Module not ready!');
+    if (callback) {
+      return callback(err, null);
+    }
+    return err;
   }
 
   var chptr = _malloc(4);
@@ -24,7 +28,7 @@ Module['parse'] = function(blueprint, options) {
   writeStringToMemory(blueprint, buffer);
 
   if (options) {
-    if (options.exportSourcemap) {
+    if (options.exportSourcemap || options.generateSourceMap) {
       parseOptions |= (1 << 2);
     }
 
@@ -42,7 +46,11 @@ Module['parse'] = function(blueprint, options) {
       case undefined:
         break;
       default:
-        throw new Error('Unknown type option ' + options.type);
+        var err = new Error('Unknown type option ' + options.type);
+        if (callback) {
+          return callback(err, null);
+        }
+        throw err;
     }
   }
 
@@ -59,10 +67,19 @@ Module['parse'] = function(blueprint, options) {
   if (res) {
     var err = new Error('Error parsing blueprint!');
     err.result = (options && options.json === false) ? output : JSON.parse(output);
+    if (callback) {
+      return callback(err, err.result);
+    }
     throw err;
   }
-
+  if (callback) {
+    return callback(null, (options && options.json === false) ? output : JSON.parse(output));
+  }
   return (options && options.json === false) ? output : JSON.parse(output);
+};
+
+Module['parseSync'] = function(blueprint, options) {
+  return Module.parse(blueprint, options);
 };
 
 var drafter = Module;

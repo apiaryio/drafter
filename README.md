@@ -189,6 +189,27 @@ Supported options:
   missing a title.
 - `type`: Either `refract` (default) or `ast`.
 
+`drafter.js` can serve as drop in replacement for
+[protagonist](https://github.com/apiaryio/protagonist), it supports
+the same API. So stuff like
+```js
+try {
+  var protagonist = require('protagonist');
+}
+catch (e) {
+  console.log("protagonist not found, using drafter.js.");
+  var protagonist = require('drafter.js');
+}
+
+protagonist.parse(data, options, function(err, result) {
+  if (err) {
+    console.log(JOSN.stringify(err));
+  }
+  console.log(JSON.stringify(data));
+});
+```
+is possible. Protagonist `parseSync` function is available too.
+
 ### Build drafter.js
 
 *Unfortunately building drafter.js works only on a *nix environment at the moment.*
