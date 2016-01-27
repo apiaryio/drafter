@@ -3,7 +3,7 @@
 //  librefract
 //
 //  Created by Vilibald Wanča on 09/11/15.
-//  Copyright (c) 2015 Apiary Inc. All rights reserved.
+//  Copyright (c) 2015, 2016 Apiary Inc. All rights reserved.
 //
 
 #include "VisitorUtils.h"
@@ -25,8 +25,9 @@ namespace refract
                 if ((*it)->empty()) {
                     continue;
                 }
-
-                IElement *e = (*it)->clone();
+                RenderJSONVisitor v;
+                v.visit(*(*it)->clone());
+                IElement *e = v.getOwnership();
                 e->renderType(IElement::rCompact);
                 a->push_back(e);
             }
