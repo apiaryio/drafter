@@ -95,14 +95,6 @@ namespace drafter {
         return NodeInfo<T>(&node, NodeInfo<T>::NullSourceMap());
     }
 
-    /*
-    template <typename T>
-    NodeInfo<T> MakeNodeInfoWithoutSourceMap(const T* node)
-    {
-        return NodeInfo<T>(node, NodeInfo<T>::NullSourceMap());
-    }
-    */
-
     template<typename ResultType, typename Collection1, typename Collection2, typename BinOp>
     ResultType Zip(const Collection1& collection1, const Collection2& collection2, const BinOp& Combinator) {
         ResultType result;
