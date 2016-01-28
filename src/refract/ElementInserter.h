@@ -41,7 +41,6 @@ namespace refract
         return ElementInsertIterator<T>(element);
     }
 
-
 }; // namespace refract
 
 #endif // #ifndef REFRACT_ELEMENTINSERTER_H

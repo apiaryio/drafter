@@ -106,6 +106,7 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
 
     try {
         bool hasSourceMap = blueprint.node.content.elements().size() == blueprint.sourceMap.content.elements().collection.size();
+
         RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements(), hasSourceMap));
         blueprintRefract = BlueprintToRefract(MakeNodeInfo(blueprint.node, blueprint.sourceMap, options.exportSourceMap));
         GetNamedTypesRegistry().clearAll(true);
@@ -135,7 +136,8 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
     }
 
     snowcrash::Warnings& warnings = blueprint.report.warnings;
-    if(!warnings.empty()) {
+
+    if (!warnings.empty()) {
         std::transform(warnings.begin(), warnings.end(),
                        refract::ElementInserter(*parseResult),
                        helper::AnnotationToRefract(SerializeKey::Warning));
@@ -151,8 +153,6 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
     }
 
     return result;
-
-
 }
 
 sos::Object drafter::WrapResult(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
