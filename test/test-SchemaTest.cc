@@ -3,7 +3,7 @@
 //  drafter
 //
 //  Created by Vilibald Wanča on 19/11/15.
-//  Copyright (c) 2015 Apiary Inc. All rights reserved.
+//  Copyright (c) 2015, 2016 Apiary Inc. All rights reserved.
 //
 
 #include "draftertest.h"
@@ -69,11 +69,10 @@ TEST_REFRACT("schema", "array-fixed-samples-complex");
 TEST_REFRACT("schema", "object-fixed");
 TEST_REFRACT("schema", "object-fixed-values");
 TEST_REFRACT("schema", "object-fixed-optional");
-
-//FIXME: Why it fails when the output is the same?
-//TEST_REFRACT("schema", "object-complex");
-
+TEST_REFRACT("schema", "object-complex");
 TEST_REFRACT("schema", "object-very-complex");
+
+TEST_REFRACT("schema", "mixin-simple");
 
 //FIXME: Discuss with Z and hj
 //TEST_REFRACT("schema", "variable-property");

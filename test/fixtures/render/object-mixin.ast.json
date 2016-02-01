@@ -45,7 +45,7 @@
                           }
                         ],
                         "body": "{\n  \"area\": \"Karlin\",\n  \"city\": \"Prague\",\n  \"zip\": 34567\n}",
-                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"area\": {\n      \"type\": \"string\"\n    },\n    \"type\": \"object\"\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"area\": {\n      \"type\": \"string\"\n    },\n    \"city\": {\n      \"type\": \"string\"\n    },\n    \"zip\": {\n      \"type\": \"number\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -127,7 +127,7 @@
                           }
                         ],
                         "body": "{\n  \"area\": \"Karlin\",\n  \"city\": \"Prague\",\n  \"zip\": 34567\n}",
-                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"area\": {\n      \"type\": \"string\"\n    },\n    \"type\": \"object\"\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"area\": {\n      \"type\": \"string\"\n    },\n    \"city\": {\n      \"type\": \"string\"\n    },\n    \"zip\": {\n      \"type\": \"number\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",

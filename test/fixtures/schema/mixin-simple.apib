@@ -1,0 +1,21 @@
+# Resource [/example]
+
+## Action [GET]
+
++ Response 200 (application/json)
+
+    + Attributes (Notification Token Full)
+
+
+# Data Structures
+
+## Notification Token Create (object)
+- device_type: `ios`    (string) - The platform. Should be `ios` or `gcm`.
+- token: `a-push-token` (string) - The token given by the platform.
+- links                 (object, optional)
+  - user: 123           (string)
+
+## Notification Token Full (object)
+- id: `122` (string)
+- Include Notification Token Create
+

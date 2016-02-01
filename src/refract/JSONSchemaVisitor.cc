@@ -33,6 +33,45 @@ namespace refract
             }
     }
 
+
+    template <typename T>
+    void IncludeMembers(const T& element, typename T::ValueType& members)
+    {
+        const typename T::ValueType* val = GetValue<T>(element);
+
+        if (!val) {
+            return;
+        }
+
+        for (typename T::ValueType::const_iterator it = val->begin();
+             it != val->end();
+             ++it) {
+
+            if (!(*it) || (*it)->empty()) {
+                continue;
+            }
+
+            if ((*it)->element() == "ref") {
+                IElement::MemberElementCollection::const_iterator found = (*it)->attributes.find("resolved");
+
+                if (found == (*it)->attributes.end()) {
+                    continue;
+                }
+
+                const T* resolved = TypeQueryVisitor::as<T>((*found)->value.second);
+
+                if (!resolved) {
+                    throw refract::LogicError("Mixin must refer to same type as parent");
+                }
+
+                IncludeMembers(*resolved, members);
+                continue;
+            }
+
+            members.push_back(*it);
+        }
+    }
+
     JSONSchemaVisitor::JSONSchemaVisitor(bool fixit /*= false*/) : fixed(fixit)
     {
         pObj = new ObjectElement;
@@ -164,20 +203,17 @@ namespace refract
 
     void JSONSchemaVisitor::visit(const ObjectElement& e)
     {
-        const ObjectElement::ValueType* val = GetValue<ObjectElement>(e);
+        ObjectElement::ValueType val;
+        IncludeMembers(e, val);
         setSchemaType("object");
-
-        if (!val) {
-            return;
-        }
 
         ObjectElement *o = new ObjectElement;
         ArrayElement::ValueType reqVals;
 
         o->renderType(IElement::rCompact);
 
-        for (std::vector<refract::IElement*>::const_iterator it = val->begin();
-             it != val->end();
+        for (std::vector<refract::IElement*>::const_iterator it = val.begin();
+             it != val.end();
              ++it) {
 
             if (*it) {
@@ -194,9 +230,6 @@ namespace refract
                 renderer.visit(*(*it));
 
                 ObjectElement *o1 = TypeQueryVisitor::as<ObjectElement>(renderer.get());
-                // the o1->value is never emtpy as the object returned
-                // by JSONSchema visitor always has a member, at least a type
-                // key for primitive types
                 if (!o1->value.empty()) {
                     MemberElement *m1 = TypeQueryVisitor::as<MemberElement>(o1->value[0]->clone());
 
