@@ -13,6 +13,10 @@
 
 #include <functional>
 
+#include <sstream>
+
+#include"SourceAnnotation.h"
+
 namespace refract
 {
 
@@ -155,6 +159,7 @@ namespace refract
             if (std::find(members.begin(), members.end(), e.element()) != members.end()) {
                 // To avoid unfinised recursion just clone
                 const IElement* root = FindRootAncestor(e.element(), registry);
+                // FIXME: if not found root
                 IElement* result = root->clone(IElement::cMeta | IElement::cAttributes | IElement::cNoMetaId);
                 result->meta["ref"] = IElement::Create(e.element());
                 return result;
@@ -194,12 +199,27 @@ namespace refract
                 return ref;
             }
 
+            if (std::find(members.begin(), members.end(), href->value) != members.end()) {
+
+                std::stringstream msg;
+                msg <<  "mixin '";
+                msg << href->value;
+                msg << "' circular reference itself";
+
+                throw snowcrash::Error(msg.str(), snowcrash::MSONError);
+            }
+
+            members.push_back(href->value);
+
+
             if (IElement* referenced = registry.find(href->value)) {
                 referenced = ExpandOrClone(referenced);
                 MetaIdToRef(*referenced);
                 referenced->renderType(IElement::rFull);
                 ref->attributes["resolved"] = referenced;
             }
+
+            members.pop_back();
 
             return ref;
         }
@@ -275,8 +295,6 @@ namespace refract
     inline IElement* Expand(const T& e, ExpandVisitor::Context* context) {
         return ExpandElement<T>(e, context);
     }
-
-
 
     ExpandVisitor::ExpandVisitor(const Registry& registry) : result(NULL), context(new Context(registry, this)) {};
 

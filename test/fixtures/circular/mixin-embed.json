@@ -1,0 +1,23 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "error"
+        ]
+      },
+      "attributes": {
+        "code": 4,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": []
+          }
+        ]
+      },
+      "content": "mixin 'C' circular reference itself"
+    }
+  ]
+}

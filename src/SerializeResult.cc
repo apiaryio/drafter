@@ -109,7 +109,6 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
 
         RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements(), hasSourceMap));
         blueprintRefract = BlueprintToRefract(MakeNodeInfo(blueprint.node, blueprint.sourceMap, options.exportSourceMap));
-        GetNamedTypesRegistry().clearAll(true);
     }
     catch (std::exception& e) {
         error = snowcrash::Error(e.what(), snowcrash::MSONError);
@@ -117,6 +116,8 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
     catch (snowcrash::Error& e) {
         error = e;
     }
+
+    GetNamedTypesRegistry().clearAll(true);
 
     if (error.code != snowcrash::Error::OK) {
         if (blueprint.report.error.code != snowcrash::Error::OK) {

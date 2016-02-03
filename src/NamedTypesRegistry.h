@@ -18,7 +18,7 @@ namespace refract {
 namespace drafter {
 
     template <typename T>
-    class NodeInfo;
+    struct NodeInfo;
 
     refract::Registry& GetNamedTypesRegistry();
     void RegisterNamedTypes(const NodeInfo<snowcrash::Elements>& elements);
