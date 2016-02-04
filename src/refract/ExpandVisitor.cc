@@ -202,15 +202,14 @@ namespace refract
             if (std::find(members.begin(), members.end(), href->value) != members.end()) {
 
                 std::stringstream msg;
-                msg <<  "mixin '";
+                msg <<  "named type '";
                 msg << href->value;
-                msg << "' circular reference itself";
+                msg << "' is circularly referencing itself by mixin";
 
                 throw snowcrash::Error(msg.str(), snowcrash::MSONError);
             }
 
             members.push_back(href->value);
-
 
             if (IElement* referenced = registry.find(href->value)) {
                 referenced = ExpandOrClone(referenced);

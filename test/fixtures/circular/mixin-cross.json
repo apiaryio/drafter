@@ -17,7 +17,7 @@
           }
         ]
       },
-      "content": "mixin 'A' circular reference itself"
+      "content": "named type 'A' is circularly referencing itself by mixin"
     }
   ]
 }
