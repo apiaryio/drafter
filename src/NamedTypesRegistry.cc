@@ -60,8 +60,12 @@ namespace drafter {
                 return ds->name.symbol.literal;
             }
 
+            const std::string& name(const mson::TypeSpecification& ts) {
+                return ts.name.symbol.literal;
+            }
+
             const std::string& name(const mson::ValueDefinition& vd) {
-                return vd.typeDefinition.typeSpecification.name.symbol.literal;
+                return name(vd.typeDefinition.typeSpecification);
             }
 
             const std::string& name(const mson::ValueMember& vm) {
@@ -70,6 +74,10 @@ namespace drafter {
 
             const std::string& name(const mson::PropertyMember& pm) {
                 return name(pm.valueDefinition);
+            }
+
+            const std::string& name(const mson::Mixin& mx) {
+                return name(mx.typeSpecification);
             }
 
             Members collectMembers(const mson::Elements& elements) {
@@ -97,6 +105,11 @@ namespace drafter {
                         }
                         else {
                             ts = &it->content.property.sections;
+                        }
+                    }
+                    else if (!it->content.mixin.empty()) {
+                        if (!name(it->content.mixin).empty()) {
+                            member = name(it->content.mixin);
                         }
                     }
 
