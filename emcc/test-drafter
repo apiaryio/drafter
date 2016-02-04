@@ -114,24 +114,41 @@ function testSerialization(filename, type, done) {
     if (err) return done(err);
 
     try {
-      assert.deepEqual(results.js.output, results.cpp.output, 'Parsed correctly as expected');
+      if (!results.js.error && !results.cpp.error) {
+        assert.deepEqual(results.js.output, results.cpp.output, 'Parsed correctly as expected');
+      } else if (results.js.error && results.cpp.error) {
+        if (results.js.error.result) {
+          assert.deepEqual(results.js.error.result, results.cpp.output, 'JS and CPP both failed.');
+        } else{
+          throw Error("JS without result: " + JSON.stringify(results.js.error));
+        }
+      } else if (results.js.error) {
+        throw Error("JS parsing failed: " + JSON.stringify(results.js.error));
+      } else {
+        throw Error("CPP parsing failed: " + JSON.stringify(results.cpp.error));
+      }
+
       var durationDiff = results.js.duration / results.cpp.duration;
       console.log('OK ' + filename + ' (' + type + ')' + ' JS:' + parseInt(results.js.duration) + 'ms P:' + parseInt(results.protagonist.duration) + 'ms CPP:' + parseInt(results.cpp.duration) + 'ms (' + parseInt(durationDiff * 100) + '%)');
       testRun.pass++;
     } catch (err) {
       console.log('FAIL ' + filename + ' (' + type + ')');
 
-      // Get a smart diff and display only the parts that have changed.
-      var diff = jsdiff.diffJson(results.js.output, results.cpp.output);
-      if (!diff.length) {
-        console.log(err);
-      }
-      diff.forEach(function (part) {
-        if (part.added || part.removed) {
-          var color = part.added ? 'green' : 'red';
-          console.log(chalk[color](part.value));
+      if (!results.js.ouptut) {
+        console.log(chalk['red'](err));
+      } else {
+        // Get a smart diff and display only the parts that have changed.
+        var diff = jsdiff.diffJson(results.js.output, results.cpp.output);
+        if (!diff.length) {
+          console.log(err);
         }
-      });
+        diff.forEach(function (part) {
+          if (part.added || part.removed) {
+            var color = part.added ? 'green' : 'red';
+            console.log(chalk[color](part.value));
+          }
+        });
+      }
       testRun.fail++;
     }
 
