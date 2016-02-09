@@ -66,11 +66,11 @@ namespace draftertest {
     public:
         ITFixtureFiles(const std::string& base) : base_(base) {}
 
-        typedef std::auto_ptr<std::istream> stream_type;
+        typedef std::auto_ptr<std::istream> input_stream_type;
 
         const std::string fetchContent(const std::string& filename) const {
 
-            stream_type in(CreateStreamFromName<std::istream>(normalizePath(filename)));
+            input_stream_type in(CreateStreamFromName<std::istream>(normalizePath(filename)));
             std::stringstream strStream;
             strStream << in->rdbuf();
 
@@ -79,6 +79,13 @@ namespace draftertest {
 
         const std::string get(const std::string& ext) const {
             return fetchContent(base_ + ext);
+        }
+
+        /// Set the contents of the fixture with the given file extension
+        void set(const std::string& extension, const std::string& content) {
+            std::string filename = base_ + extension;
+            std::ofstream outputStream(normalizePath(filename).c_str());
+            outputStream << content;
         }
     };
 
@@ -157,9 +164,16 @@ namespace draftertest {
             expected = fixture.get(extension);
 
             if (actual != expected) {
-                // If the two don't match, then output the diff.
-                std::string diff = FixtureHelper::printDiff(actual, expected);
-                FAIL(diff);
+                const char* generate = std::getenv("GENERATE");
+
+                if (generate && std::string(generate) == "1") {
+                    INFO("Updating incorrect fixture")
+                    fixture.set(extension, actual);
+                } else {
+                    // If the two don't match, then output the diff.
+                    std::string diff = FixtureHelper::printDiff(actual, expected);
+                    FAIL(diff);
+                }
             }
 
             if (mustBeOk) {
