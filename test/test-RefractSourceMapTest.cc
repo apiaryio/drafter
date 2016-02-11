@@ -17,5 +17,6 @@ TEST_REFRACT_SOURCE_MAP("api", "transaction");
 TEST_REFRACT_SOURCE_MAP("api", "headers");
 TEST_REFRACT_SOURCE_MAP("api", "resource-parameters");
 TEST_REFRACT_SOURCE_MAP("api", "action-parameters");
+TEST_REFRACT_SOURCE_MAP("api", "request-parameters");
 TEST_REFRACT_SOURCE_MAP("api", "asset");
 TEST_REFRACT_SOURCE_MAP("api", "mson");

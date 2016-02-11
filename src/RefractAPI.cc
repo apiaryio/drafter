@@ -255,6 +255,10 @@ namespace drafter {
             return element;
         }
 
+        if (!payload.node->parameters.empty()) {
+            element->attributes[SerializeKey::HrefVariables] = ParametersToRefract(MAKE_NODE_INFO(payload, parameters));
+        }
+
         if (!payload.node->headers.empty()) {
             element->attributes[SerializeKey::Headers] = CollectionToRefract<refract::ArrayElement>(MAKE_NODE_INFO(payload, headers),
                                                                                                     HeaderToRefract,
