@@ -146,29 +146,6 @@
           ]
         }
       ]
-    },
-    {
-      "element": "annotation",
-      "meta": {
-        "classes": [
-          "error"
-        ]
-      },
-      "attributes": {
-        "code": 4,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                89,
-                6
-              ]
-            ]
-          }
-        ]
-      },
-      "content": "base type 'A' circularly referencing itself"
     }
   ]
 }

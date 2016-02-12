@@ -1,0 +1,35 @@
+# API name
+
+# Group Users
+
+## Users [/users{?limit}]
+
+### List Users [GET]
+
++ Parameters
+    + limit (number, optional) - The maximum number of users to return.
+        + Default: `20`
+
++ Response 200 (application/json)
+
+        [
+          {
+            "username": "pksunkara"
+          },
+          {
+            "username": "kylef"
+          }
+        ]
+
++ Request Only one user
+
+    + Parameters
+        + limit: 1
+
++ Response 200 (application/json)
+
+        [
+          {
+            "username": "pksunkara"
+          }
+        ]

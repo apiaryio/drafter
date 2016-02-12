@@ -1,0 +1,196 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": "API name"
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": "Users"
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": "Users"
+              },
+              "attributes": {
+                "href": "/users{?limit}"
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": "List Users"
+                  },
+                  "attributes": {
+                    "hrefVariables": {
+                      "element": "hrefVariables",
+                      "content": [
+                        {
+                          "element": "member",
+                          "meta": {
+                            "description": "The maximum number of users to return."
+                          },
+                          "attributes": {
+                            "typeAttributes": [
+                              "optional"
+                            ]
+                          },
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "limit"
+                            },
+                            "value": {
+                              "element": "number",
+                              "attributes": {
+                                "default": "20"
+                              },
+                              "content": 0
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBody"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "[\n  {\n    \"username\": \"pksunkara\"\n  },\n  {\n    \"username\": \"kylef\"\n  }\n]\n"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET",
+                            "title": "Only one user",
+                            "hrefVariables": {
+                              "element": "hrefVariables",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "limit"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "1"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBody"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "[\n  {\n    \"username\": \"pksunkara\"\n  }\n]\n"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

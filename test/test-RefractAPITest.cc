@@ -17,6 +17,7 @@ TEST_REFRACT("api", "transaction");
 TEST_REFRACT("api", "headers");
 TEST_REFRACT("api", "resource-parameters");
 TEST_REFRACT("api", "action-parameters");
+TEST_REFRACT("api", "request-parameters");
 TEST_REFRACT("api", "request-only");
 TEST_REFRACT("api", "asset");
 TEST_REFRACT("api", "attributes-references");
