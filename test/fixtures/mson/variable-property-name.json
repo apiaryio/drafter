@@ -1,0 +1,342 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": ""
+              },
+              "attributes": {
+                "href": "/"
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": ""
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "dataStructure",
+                              "content": [
+                                {
+                                  "element": "A"
+                                }
+                              ]
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBody"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n  \"s\": \"start\",\n  \"direct\": \"v1\",\n  \"str\": \"v2\",\n  \"str sample\\n\\n\": \"s1\",\n  \"ss\": \"s2\",\n  \"str default\\n\\n\": \"d1\",\n  \"sd\": \"d2\",\n  \"se\": \"e2\",\n  \"e\": \"end\"\n}"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBodySchema"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"s\": {\n      \"type\": \"string\"\n    },\n    \"direct\": {\n      \"type\": \"string\"\n    },\n    \"str\": {\n      \"type\": \"string\"\n    },\n    \"ss\": {\n      \"type\": \"string\"\n    },\n    \"sd\": {\n      \"type\": \"string\"\n    },\n    \"\": {\n      \"type\": \"string\"\n    },\n    \"se\": {\n      \"type\": \"string\"\n    },\n    \"e\": {\n      \"type\": \"string\"\n    }\n  }\n}"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "dataStructures"
+            ]
+          },
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "string",
+                  "meta": {
+                    "id": "StrSample"
+                  },
+                  "attributes": {
+                    "samples": [
+                      "str sample\n\n"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "string",
+                  "meta": {
+                    "id": "StrDefault"
+                  },
+                  "attributes": {
+                    "default": "str default\n\n"
+                  }
+                }
+              ]
+            },
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "string",
+                  "meta": {
+                    "id": "StrEmpty"
+                  }
+                }
+              ]
+            },
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": "StrObj"
+                  }
+                }
+              ]
+            },
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": "A"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "s"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "start"
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "attributes": {
+                            "variable": true
+                          },
+                          "content": "direct"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "v1"
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "attributes": {
+                            "variable": true
+                          },
+                          "content": "str"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "v2"
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "StrSample",
+                          "attributes": {
+                            "variable": true
+                          }
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "s1"
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "StrSample",
+                          "attributes": {
+                            "variable": true
+                          },
+                          "content": "ss"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "s2"
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "StrDefault",
+                          "attributes": {
+                            "variable": true
+                          }
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "d1"
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "StrDefault",
+                          "attributes": {
+                            "variable": true
+                          },
+                          "content": "sd"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "d2"
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "StrEmpty",
+                          "attributes": {
+                            "variable": true
+                          }
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "e1"
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "StrEmpty",
+                          "attributes": {
+                            "variable": true
+                          },
+                          "content": "se"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "e2"
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "e"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "end"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
