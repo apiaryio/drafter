@@ -13,7 +13,7 @@
 #include <algorithm>
 
 #define NODE_INFO(from, member) from.node->member, from.sourceMap->member
-#define MAKE_NODE_INFO(from, member) MakeNodeInfo(NODE_INFO(from, member), from.hasSourceMap())
+#define MAKE_NODE_INFO(from, member) MakeNodeInfo(NODE_INFO(from, member))
 
 namespace drafter {
 
@@ -67,8 +67,8 @@ namespace drafter {
             return &nullSourceMap;
         }
 
-        bool isNull() const { 
-            return empty; 
+        bool isNull() const {
+            return empty;
         }
 
         bool hasSourceMap() const {
@@ -78,15 +78,15 @@ namespace drafter {
     };
 
     template <typename T>
-    NodeInfo<T> MakeNodeInfo(const T& node, const snowcrash::SourceMap<T>& sourceMap, const bool hasSourceMap)
+    NodeInfo<T> MakeNodeInfo(const T& node, const snowcrash::SourceMap<T>& sourceMap)
     {
-        return NodeInfo<T>(&node, hasSourceMap ? &sourceMap : NodeInfo<T>::NullSourceMap());
+        return NodeInfo<T>(&node, &sourceMap);
     }
 
     template <typename T>
-    NodeInfo<T> MakeNodeInfo(const T* node, const snowcrash::SourceMap<T>* sourceMap, const bool hasSourceMap)
+    NodeInfo<T> MakeNodeInfo(const T* node, const snowcrash::SourceMap<T>* sourceMap)
     {
-        return NodeInfo<T>(node, hasSourceMap ? sourceMap : NodeInfo<T>::NullSourceMap());
+        return NodeInfo<T>(node, sourceMap);
     }
 
     template <typename T>
@@ -123,8 +123,8 @@ namespace drafter {
                 std::copy(nodes.begin(), nodes.end(), std::back_inserter(*this));
             }
             else {
-                std::transform(collection.begin(), collection.end(), 
-                               std::back_inserter(*this), 
+                std::transform(collection.begin(), collection.end(),
+                               std::back_inserter(*this),
                                MakeNodeInfoWithoutSourceMap<typename T::value_type>);
             }
         }
@@ -137,8 +137,8 @@ namespace drafter {
                 std::copy(nodes.begin(), nodes.end(), std::back_inserter(*this));
             }
             else {
-                std::transform(collection.begin(), collection.end(), 
-                               std::back_inserter(*this), 
+                std::transform(collection.begin(), collection.end(),
+                               std::back_inserter(*this),
                                MakeNodeInfoWithoutSourceMap<typename T::value_type>);
             }
         }
