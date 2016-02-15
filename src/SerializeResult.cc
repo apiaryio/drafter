@@ -107,8 +107,8 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
     try {
         bool hasSourceMap = blueprint.node.content.elements().size() == blueprint.sourceMap.content.elements().collection.size();
 
-        RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements(), hasSourceMap));
-        blueprintRefract = BlueprintToRefract(MakeNodeInfo(blueprint.node, blueprint.sourceMap, options.exportSourceMap));
+        RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()));
+        blueprintRefract = BlueprintToRefract(MakeNodeInfo(blueprint.node, blueprint.sourceMap));
     }
     catch (std::exception& e) {
         error = snowcrash::Error(e.what(), snowcrash::MSONError);
@@ -145,7 +145,7 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
     }
 
     sos::Object result;
-   
+
     // NOTE: can throw(), but it will be handled in main
     result = SerializeRefract(parseResult);
 

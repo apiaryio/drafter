@@ -301,8 +301,7 @@ namespace drafter {
         struct Fetch<RefractElements, dummy> {
             RefractElements operator()(const NodeInfo<mson::TypeSection>& typeSection, const mson::BaseTypeName& defaultNestedType) {
                 return MsonElementsToRefract(MakeNodeInfo(typeSection.node->content.elements(),
-                                                          typeSection.sourceMap->elements(),
-                                                          typeSection.hasSourceMap()),
+                                                          typeSection.sourceMap->elements()),
                                              defaultNestedType);
             }
         };
@@ -666,7 +665,7 @@ namespace drafter {
             MakeNodeInfoFunctor(bool hasSourceMap) : hasSourceMap(hasSourceMap) {}
 
             NodeInfo<T> operator()(const T& v, const snowcrash::SourceMap<T>& sm) {
-                return MakeNodeInfo<T>(v, sm, hasSourceMap);
+                return MakeNodeInfo<T>(v, sm);
             }
         };
 
@@ -759,7 +758,7 @@ namespace drafter {
             snowcrash::SourceMap<mson::Literal> sourceMap;
             sourceMap.sourceMap.append(property.sourceMap->name.sourceMap);
 
-            refract::IElement* key = PrimitiveToRefract(MakeNodeInfo(property.node->name.literal, sourceMap, property.hasSourceMap()));
+            refract::IElement* key = PrimitiveToRefract(MakeNodeInfo(property.node->name.literal, sourceMap));
 
             element->set(key, value);
         }
@@ -783,7 +782,7 @@ namespace drafter {
                 }
             }
 
-            refract::IElement* key = PrimitiveToRefract(MakeNodeInfo(property.node->name.variable.values.begin()->literal, sourceMap, property.hasSourceMap()));
+            refract::IElement* key = PrimitiveToRefract(MakeNodeInfo(property.node->name.variable.values.begin()->literal, sourceMap));
 
             key->attributes[SerializeKey::Variable] = refract::IElement::Create(true);
 
@@ -844,7 +843,7 @@ namespace drafter {
         }
 
         if (!description.empty()) {
-            element->meta[SerializeKey::Description] = PrimitiveToRefract(MakeNodeInfo(description, sourceMap, property.hasSourceMap()));
+            element->meta[SerializeKey::Description] = PrimitiveToRefract(MakeNodeInfo(description, sourceMap));
         }
 
         return element;
@@ -955,7 +954,7 @@ namespace drafter {
             // we can not use MsonElementToRefract() for groups,
             // "option" element handles directly all elements in group
             if (it->node->klass == mson::Element::GroupClass) {
-                option->set(MsonElementsToRefract(MakeNodeInfo(it->node->content.elements(), it->sourceMap->elements(), it->hasSourceMap())));
+                option->set(MsonElementsToRefract(MakeNodeInfo(it->node->content.elements(), it->sourceMap->elements())));
             }
             else {
                 option->push_back(MsonElementToRefract(*it, mson::StringTypeName));
@@ -988,16 +987,16 @@ namespace drafter {
     {
         switch (mse.node->klass) {
             case mson::Element::PropertyClass:
-                return MsonMemberToRefract<PropertyTrait>(MakeNodeInfo(mse.node->content.property, mse.sourceMap->property, mse.hasSourceMap()), defaultNestedType);
+                return MsonMemberToRefract<PropertyTrait>(MakeNodeInfo(mse.node->content.property, mse.sourceMap->property), defaultNestedType);
 
             case mson::Element::ValueClass:
-                return MsonMemberToRefract<ValueTrait>(MakeNodeInfo(mse.node->content.value, mse.sourceMap->value, mse.hasSourceMap()), defaultNestedType);
+                return MsonMemberToRefract<ValueTrait>(MakeNodeInfo(mse.node->content.value, mse.sourceMap->value), defaultNestedType);
 
             case mson::Element::MixinClass:
-                return MsonMixinToRefract(MakeNodeInfo(mse.node->content.mixin, mse.sourceMap->mixin, mse.hasSourceMap()));
+                return MsonMixinToRefract(MakeNodeInfo(mse.node->content.mixin, mse.sourceMap->mixin));
 
             case mson::Element::OneOfClass:
-                return MsonOneofToRefract(MakeNodeInfo(mse.node->content.oneOf(), mse.sourceMap->oneOf(), mse.hasSourceMap()));
+                return MsonOneofToRefract(MakeNodeInfo(mse.node->content.oneOf(), mse.sourceMap->oneOf()));
 
             case mson::Element::GroupClass:
                 throw snowcrash::Error("unable to handle element group", snowcrash::MSONError);
@@ -1019,7 +1018,7 @@ namespace drafter {
         if (!ds.node->name.symbol.literal.empty()) {
             snowcrash::SourceMap<mson::Literal> sourceMap = *NodeInfo<mson::Literal>::NullSourceMap();
             sourceMap.sourceMap.append(ds.sourceMap->name.sourceMap);
-            element->meta[SerializeKey::Id] = PrimitiveToRefract(MakeNodeInfo(ds.node->name.symbol.literal, sourceMap, ds.hasSourceMap()));
+            element->meta[SerializeKey::Id] = PrimitiveToRefract(MakeNodeInfo(ds.node->name.symbol.literal, sourceMap));
         }
 
         ElementData<T> data;
