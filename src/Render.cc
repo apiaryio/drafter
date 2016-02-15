@@ -8,6 +8,8 @@
 
 #include "Render.h"
 #include "RefractDataStructure.h"
+
+#include "SourceAnnotation.h"
 #include "BlueprintUtility.h"
 #include "RegexMatch.h"
 
@@ -100,14 +102,10 @@ namespace drafter {
 
                 return std::make_pair(result, NodeInfo<Asset>::NullSourceMap());
             }
-
-            default:
-                break;
         }
 
-        // Just to be cautious
-        delete expanded;
-        return body;
+        // Throw exception
+        throw snowcrash::Error("unknown content type for messageBody to be rendered", snowcrash::ApplicationError);
     }
 
     NodeInfoByValue<Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload,
