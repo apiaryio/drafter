@@ -120,7 +120,7 @@
                                 ]
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": "application/schema+json"
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"digits\": {\n      \"type\": \"array\"\n    }\n  },\n  \"required\": [\n    \"digits\"\n  ]\n}"
                             }

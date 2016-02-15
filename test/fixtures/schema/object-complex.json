@@ -208,7 +208,7 @@
                                 ]
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": "application/schema+json"
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"string\"\n    },\n    \"name\": {\n      \"type\": \"string\"\n    },\n    \"price\": {\n      \"type\": \"number\"\n    },\n    \"tags\": {\n      \"type\": \"array\"\n    },\n    \"vector\": {\n      \"type\": \"array\"\n    },\n    \"available\": {\n      \"type\": \"boolean\"\n    }\n  },\n  \"required\": [\n    \"id\"\n  ]\n}"
                             }

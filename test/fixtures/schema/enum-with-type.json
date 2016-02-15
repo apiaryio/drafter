@@ -124,7 +124,7 @@
                                 ]
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": "application/schema+json"
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"address\": {\n      \"type\": \"number\",\n      \"enum\": [\n        4,\n        2,\n        42\n      ]\n    }\n  }\n}"
                             }
