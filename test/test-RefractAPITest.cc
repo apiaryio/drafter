@@ -20,6 +20,7 @@ TEST_REFRACT("api", "action-parameters");
 TEST_REFRACT("api", "request-parameters");
 TEST_REFRACT("api", "request-only");
 TEST_REFRACT("api", "asset");
+TEST_REFRACT("api", "schema-body");
 TEST_REFRACT("api", "attributes-references");
 TEST_REFRACT("api", "action-request-attributes");
 

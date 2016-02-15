@@ -8,6 +8,8 @@
 
 #include "Render.h"
 #include "RefractDataStructure.h"
+
+#include "SourceAnnotation.h"
 #include "BlueprintUtility.h"
 #include "RegexMatch.h"
 
@@ -16,11 +18,15 @@ using namespace snowcrash;
 namespace drafter {
 
     // JSON content-type regex
-    const char* const JSONRegex = "^[[:blank:]]*application/(.*\\+)?json";
+    const char* const JSONRegex = "^[[:blank:]]*application/(.*\\+)?json[[:blank:]]*(;.*|$)";
+    const char* const JSONSchemaRegex = "^[[:blank:]]*application/schema\\+json[[:blank:]]*(;.*|$)";
 
     RenderFormat findRenderFormat(const std::string& contentType) {
 
-        if (RegexMatch(contentType, JSONRegex)) {
+        if (RegexMatch(contentType, JSONSchemaRegex)) {
+            return JSONSchemaRenderFormat;
+        }
+        else if (RegexMatch(contentType, JSONRegex)) {
             return JSONRenderFormat;
         }
 
@@ -57,27 +63,29 @@ namespace drafter {
            attributes = &actionAttributes;
         }
 
+        // Only continue down if we have a render format
         if (!payload.node->body.empty() || attributes->node->empty() || renderFormat == UndefinedRenderFormat) {
             return body;
         }
 
+        // Expand MSON into Refract
+        refract::IElement* element = MSONToRefract(*attributes);
+
+        if (!element) {
+            return body;
+        }
+
+        refract::IElement* expanded = ExpandRefract(element, registry);
+
+        if (!expanded) {
+            return body;
+        }
+
+        // One of this will always execute since we have a catch above for not having render format
         switch (renderFormat) {
             case JSONRenderFormat:
             {
                 refract::RenderJSONVisitor renderer;
-
-                refract::IElement* element = MSONToRefract(*attributes);
-
-                if (!element) {
-                    return body;
-                }
-
-                refract::IElement* expanded = ExpandRefract(element, registry);
-
-                if (!expanded) {
-                    return body;
-                }
-
                 renderer.visit(*expanded);
 
                 delete expanded;
@@ -85,11 +93,19 @@ namespace drafter {
                 return std::make_pair(renderer.getString(), NodeInfo<Asset>::NullSourceMap());
             }
 
-            default:
-                break;
+            case JSONSchemaRenderFormat:
+            {
+                refract::JSONSchemaVisitor renderer;
+                std::string result = renderer.getSchema(*expanded);
+
+                delete expanded;
+
+                return std::make_pair(result, NodeInfo<Asset>::NullSourceMap());
+            }
         }
 
-        return body;
+        // Throw exception
+        throw snowcrash::Error("unknown content type for messageBody to be rendered", snowcrash::ApplicationError);
     }
 
     NodeInfoByValue<Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload,
