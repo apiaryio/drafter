@@ -277,9 +277,15 @@ namespace drafter {
         std::string contentType = getContentTypeFromHeaders(payload.node->headers);
         std::string schemaContentType = (payload.node->schema == payloadSchema.first ? contentType : JSONSchemaContentType);
 
-        // Assets
+        // Push Body Asset
         content.push_back(AssetToRefract(NodeInfo<snowcrash::Asset>(payloadBody), contentType, SerializeKey::MessageBody));
-        content.push_back(AssetToRefract(NodeInfo<snowcrash::Asset>(payloadSchema), schemaContentType, SerializeKey::MessageBodySchema));
+
+        // Push BodySchema Asset if body is not JSON Schema already
+        RenderFormat renderFormat = findRenderFormat(contentType);
+
+        if (renderFormat != JSONSchemaRenderFormat) {
+            content.push_back(AssetToRefract(NodeInfo<snowcrash::Asset>(payloadSchema), schemaContentType, SerializeKey::MessageBodySchema));
+        }
 
         RemoveEmptyElements(content);
         element->set(content);
