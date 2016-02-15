@@ -153,7 +153,7 @@
                                 ]
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": "application/schema+json"
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"address\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"street\": {\n          \"type\": \"string\"\n        },\n        \"city\": {\n          \"type\": \"string\"\n        },\n        \"state\": {\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"state\"\n      ]\n    }\n  }\n}"
                             }

@@ -128,7 +128,7 @@
                                 ]
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": "application/schema+json"
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"street\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"boolean\",\n          \"enum\": [\n            true\n          ]\n        },\n        {\n          \"type\": \"boolean\",\n          \"enum\": [\n            false\n          ]\n        }\n      ]\n    }\n  },\n  \"required\": [\n    \"street\"\n  ]\n}"
                             }

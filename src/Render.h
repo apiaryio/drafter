@@ -13,6 +13,8 @@
 
 namespace drafter {
 
+    const char* const JSONSchemaContentType = "application/schema+json";
+
     enum RenderFormat {
         UndefinedRenderFormat = 0,   // Undefined format
         JSONRenderFormat = 1,        // JSON format

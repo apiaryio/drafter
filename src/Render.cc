@@ -43,6 +43,7 @@ namespace drafter {
     NodeInfoByValue<Asset> renderPayloadBody(const NodeInfo<Payload>& payload,
                                              const NodeInfo<Action>& action,
                                              const refract::Registry& registry) {
+
         NodeInfoByValue<Asset> body = std::make_pair(payload.node->body, &payload.sourceMap->body);
         RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node->headers));
 
@@ -91,10 +92,12 @@ namespace drafter {
         return body;
     }
 
-    NodeInfoByValue<Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload, const NodeInfo<snowcrash::Action>& action, const refract::Registry& registry) {
+    NodeInfoByValue<Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload,
+                                               const NodeInfo<snowcrash::Action>& action,
+                                               const refract::Registry& registry) {
 
-        NodeInfoByValue<Asset> schema = std::make_pair(payload.node->schema,
-                                                       &payload.sourceMap->schema);
+        NodeInfoByValue<Asset> schema = std::make_pair(payload.node->schema, &payload.sourceMap->schema);
+
         NodeInfo<Attributes> payloadAttributes = MAKE_NODE_INFO(payload, attributes);
         NodeInfo<Attributes> actionAttributes = MAKE_NODE_INFO(action, attributes);
 
