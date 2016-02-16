@@ -27,7 +27,7 @@ test:
   pre:
     - ./configure -i
   override:
-    - make test
+    - env CXXFLAGS="-Werror" make test
     - docker run -v $(pwd):/src -t apiaryio/base-emscripten-dev emcc/emcbuild.sh
     - npm test
 
