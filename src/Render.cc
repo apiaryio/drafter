@@ -102,6 +102,9 @@ namespace drafter {
 
                 return std::make_pair(result, NodeInfo<Asset>::NullSourceMap());
             }
+
+            case UndefinedRenderFormat:
+                break;
         }
 
         // Throw exception
