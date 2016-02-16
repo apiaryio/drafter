@@ -283,7 +283,7 @@ namespace drafter {
         // Push BodySchema Asset if body is not JSON Schema already
         RenderFormat renderFormat = findRenderFormat(contentType);
 
-        if (renderFormat != JSONSchemaRenderFormat) {
+        if (renderFormat == JSONRenderFormat) {
             content.push_back(AssetToRefract(NodeInfo<snowcrash::Asset>(payloadSchema), schemaContentType, SerializeKey::MessageBodySchema));
         }
 
