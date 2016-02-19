@@ -51,7 +51,6 @@ namespace drafter {
                                              const refract::Registry& registry) {
 
         NodeInfoByValue<Asset> body = std::make_pair(payload.node->body, &payload.sourceMap->body);
-        RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node->headers));
 
         NodeInfo<Attributes> payloadAttributes = MAKE_NODE_INFO(payload, attributes);
         NodeInfo<Attributes> actionAttributes = MAKE_NODE_INFO(action, attributes);
@@ -62,6 +61,8 @@ namespace drafter {
         if (payload.node->attributes.empty() && !action.isNull() && !action.node->attributes.empty()) {
            attributes = &actionAttributes;
         }
+
+        RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node->headers));
 
         // Only continue down if we have a render format
         if (!payload.node->body.empty() || attributes->node->empty() || renderFormat == UndefinedRenderFormat) {
@@ -116,7 +117,6 @@ namespace drafter {
                                                const refract::Registry& registry) {
 
         NodeInfoByValue<Asset> schema = std::make_pair(payload.node->schema, &payload.sourceMap->schema);
-        RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node->headers));
 
         NodeInfo<Attributes> payloadAttributes = MAKE_NODE_INFO(payload, attributes);
         NodeInfo<Attributes> actionAttributes = MAKE_NODE_INFO(action, attributes);
@@ -128,23 +128,22 @@ namespace drafter {
             attributes = &actionAttributes;
         }
 
-        if (!payload.node->schema.empty() || payload.node->attributes.empty()) {
-            return schema;
-        }
-
         // Generate Schema only if Body content type is JSON
-        if (renderFormat != JSONRenderFormat) {
+        if (!payload.node->schema.empty() || payload.node->attributes.empty() ||
+            findRenderFormat(getContentTypeFromHeaders(payload.node->headers)) != JSONRenderFormat) {
+
             return schema;
         }
 
         refract::JSONSchemaVisitor renderer;
-
         refract::IElement* element = MSONToRefract(*attributes);
+
         if (!element) {
             return schema;
         }
 
         refract::IElement* expanded = ExpandRefract(element, registry);
+
         if (!expanded) {
             return schema;
         }
