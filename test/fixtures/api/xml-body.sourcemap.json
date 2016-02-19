@@ -7,23 +7,7 @@
         "classes": [
           "api"
         ],
-        "title": {
-          "element": "string",
-          "attributes": {
-            "sourceMap": [
-              {
-                "element": "sourceMap",
-                "content": [
-                  [
-                    0,
-                    12
-                  ]
-                ]
-              }
-            ]
-          },
-          "content": "API name"
-        }
+        "title": ""
       },
       "content": [
         {
@@ -32,45 +16,13 @@
             "classes": [
               "resourceGroup"
             ],
-            "title": {
-              "element": "string",
-              "attributes": {
-                "sourceMap": [
-                  {
-                    "element": "sourceMap",
-                    "content": [
-                      [
-                        12,
-                        15
-                      ]
-                    ]
-                  }
-                ]
-              },
-              "content": "Users"
-            }
+            "title": ""
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": {
-                  "element": "string",
-                  "attributes": {
-                    "sourceMap": [
-                      {
-                        "element": "sourceMap",
-                        "content": [
-                          [
-                            27,
-                            18
-                          ]
-                        ]
-                      }
-                    ]
-                  },
-                  "content": "User"
-                }
+                "title": ""
               },
               "attributes": {
                 "href": {
@@ -81,37 +33,21 @@
                         "element": "sourceMap",
                         "content": [
                           [
-                            27,
-                            18
+                            0,
+                            9
                           ]
                         ]
                       }
                     ]
                   },
-                  "content": "/users"
+                  "content": "/"
                 }
               },
               "content": [
                 {
                   "element": "transition",
                   "meta": {
-                    "title": {
-                      "element": "string",
-                      "attributes": {
-                        "sourceMap": [
-                          {
-                            "element": "sourceMap",
-                            "content": [
-                              [
-                                45,
-                                26
-                              ]
-                            ]
-                          }
-                        ]
-                      },
-                      "content": "List all users"
-                    }
+                    "title": ""
                   },
                   "content": [
                     {
@@ -128,8 +64,8 @@
                                     "element": "sourceMap",
                                     "content": [
                                       [
-                                        45,
-                                        26
+                                        0,
+                                        9
                                       ]
                                     ]
                                   }
@@ -151,8 +87,8 @@
                                     "element": "sourceMap",
                                     "content": [
                                       [
-                                        73,
-                                        32
+                                        11,
+                                        31
                                       ]
                                     ]
                                   }
@@ -171,8 +107,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            73,
-                                            32
+                                            11,
+                                            31
                                           ]
                                         ]
                                       }
@@ -185,7 +121,7 @@
                                     },
                                     "value": {
                                       "element": "string",
-                                      "content": "application/json"
+                                      "content": "application/xml"
                                     }
                                   }
                                 }
@@ -210,14 +146,14 @@
                                                 "element": "sourceMap",
                                                 "content": [
                                                   [
-                                                    133,
-                                                    16
+                                                    69,
+                                                    11
                                                   ]
                                                 ]
                                               }
                                             ]
                                           },
-                                          "content": "username"
+                                          "content": "name"
                                         },
                                         "value": {
                                           "element": "string",
@@ -227,44 +163,20 @@
                                                 "element": "sourceMap",
                                                 "content": [
                                                   [
-                                                    133,
-                                                    16
+                                                    69,
+                                                    11
                                                   ]
                                                 ]
                                               }
                                             ]
                                           },
-                                          "content": "pavan"
+                                          "content": "kyle"
                                         }
                                       }
                                     }
                                   ]
                                 }
                               ]
-                            },
-                            {
-                              "element": "asset",
-                              "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
-                              },
-                              "attributes": {
-                                "contentType": "application/json"
-                              },
-                              "content": "{\n  \"username\": \"pavan\"\n}"
-                            },
-                            {
-                              "element": "asset",
-                              "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
-                              },
-                              "attributes": {
-                                "contentType": "application/schema+json"
-                              },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"username\": {\n      \"type\": \"string\"\n    }\n  }\n}"
                             }
                           ]
                         }

@@ -116,6 +116,7 @@ namespace drafter {
                                                const refract::Registry& registry) {
 
         NodeInfoByValue<Asset> schema = std::make_pair(payload.node->schema, &payload.sourceMap->schema);
+        RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node->headers));
 
         NodeInfo<Attributes> payloadAttributes = MAKE_NODE_INFO(payload, attributes);
         NodeInfo<Attributes> actionAttributes = MAKE_NODE_INFO(action, attributes);
@@ -123,14 +124,16 @@ namespace drafter {
         // hold attributes via pointer - because problems with assignment in NodeInfo<>
         NodeInfo<Attributes>* attributes = &payloadAttributes;
 
-        if (payload.node->attributes.empty() &&
-            !action.isNull() &&
-            !action.node->attributes.empty()) {
+        if (payload.node->attributes.empty() && !action.isNull() && !action.node->attributes.empty()) {
             attributes = &actionAttributes;
         }
 
-        if (!payload.node->schema.empty() ||
-            payload.node->attributes.empty()) {
+        if (!payload.node->schema.empty() || payload.node->attributes.empty()) {
+            return schema;
+        }
+
+        // Generate Schema only if Body content type is JSON
+        if (renderFormat != JSONRenderFormat) {
             return schema;
         }
 
