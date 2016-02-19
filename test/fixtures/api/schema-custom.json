@@ -7,7 +7,7 @@
         "classes": [
           "api"
         ],
-        "title": "API name"
+        "title": ""
       },
       "content": [
         {
@@ -16,22 +16,22 @@
             "classes": [
               "resourceGroup"
             ],
-            "title": "Users"
+            "title": ""
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": "User"
+                "title": ""
               },
               "attributes": {
-                "href": "/users"
+                "href": "/"
               },
               "content": [
                 {
                   "element": "transition",
                   "meta": {
-                    "title": "List all users"
+                    "title": ""
                   },
                   "content": [
                     {
@@ -60,7 +60,7 @@
                                     },
                                     "value": {
                                       "element": "string",
-                                      "content": "application/json"
+                                      "content": "application/xml"
                                     }
                                   }
                                 }
@@ -79,11 +79,11 @@
                                       "content": {
                                         "key": {
                                           "element": "string",
-                                          "content": "username"
+                                          "content": "name"
                                         },
                                         "value": {
                                           "element": "string",
-                                          "content": "pavan"
+                                          "content": "kyle"
                                         }
                                       }
                                     }
@@ -95,25 +95,13 @@
                               "element": "asset",
                               "meta": {
                                 "classes": [
-                                  "messageBody"
-                                ]
-                              },
-                              "attributes": {
-                                "contentType": "application/json"
-                              },
-                              "content": "{\n  \"username\": \"pavan\"\n}"
-                            },
-                            {
-                              "element": "asset",
-                              "meta": {
-                                "classes": [
                                   "messageBodySchema"
                                 ]
                               },
                               "attributes": {
-                                "contentType": "application/schema+json"
+                                "contentType": "application/xml"
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"username\": {\n      \"type\": \"string\"\n    }\n  }\n}"
+                              "content": "<some XML schema>\n"
                             }
                           ]
                         }
