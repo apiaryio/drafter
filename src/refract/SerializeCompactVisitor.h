@@ -21,9 +21,11 @@ namespace refract
     {
         std::string key_;
         sos::Base value_;
+        bool exportSourceMap;
 
     public:
-
+        SerializeCompactVisitor() : exportSourceMap(true) {}
+        SerializeCompactVisitor(bool exportSourceMap) : exportSourceMap(exportSourceMap) {}
         void visit(const IElement& e);
         void visit(const NullElement& e);
         void visit(const StringElement& e);
