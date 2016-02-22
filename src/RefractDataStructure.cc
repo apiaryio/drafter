@@ -1071,13 +1071,13 @@ namespace drafter {
         return element;
     }
 
-    sos::Object SerializeRefract(refract::IElement* element)
+    sos::Object SerializeRefract(refract::IElement* element, bool exportSourceMap /* = true*/)
     {
         if (!element) {
             return sos::Object();
         }
 
-        refract::SerializeVisitor serializer;
+        refract::SerializeVisitor serializer(exportSourceMap);
         serializer.visit(*element);
 
         return serializer.get();
