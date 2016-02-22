@@ -147,7 +147,7 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
     sos::Object result;
 
     // NOTE: can throw(), but it will be handled in main
-    result = SerializeRefract(parseResult);
+    result = SerializeRefract(parseResult, options.exportSourceMap);
 
     if (parseResult) {
         delete parseResult;
