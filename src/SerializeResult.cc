@@ -105,8 +105,6 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
     parseResult->element(SerializeKey::ParseResult);
 
     try {
-        bool hasSourceMap = blueprint.node.content.elements().size() == blueprint.sourceMap.content.elements().collection.size();
-
         RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()));
         blueprintRefract = BlueprintToRefract(MakeNodeInfo(blueprint.node, blueprint.sourceMap));
     }
