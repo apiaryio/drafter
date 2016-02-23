@@ -1,0 +1,2 @@
+# Always use LF for .apib files
+*.apib text eol=lf
