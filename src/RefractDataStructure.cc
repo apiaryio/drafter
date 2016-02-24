@@ -517,11 +517,7 @@ namespace drafter {
             template <typename S>
             void operator()(S& storage, const NodeInfo<mson::ValueMember>& valueMember) {
                 snowcrash::SourceMap<typename T::ValueType> sourceMap = *NodeInfo<typename T::ValueType>::NullSourceMap();
-
-                // if (valueMember.hasSourceMap()) {
                 sourceMap.sourceMap = valueMember.sourceMap->valueDefinition.sourceMap;
-//                }
-
                 storage.push_back(sourceMap);
             }
         };
