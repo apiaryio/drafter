@@ -7,7 +7,6 @@
 //
 #include "Element.h"
 #include "Visitors.h"
-#include <iostream>
 
 namespace refract
 {
@@ -21,6 +20,7 @@ namespace refract
             sos::Object result;
 
             for (iterator it = collection.begin(); it != collection.end(); ++it) {
+
                 if (!exportSourceMap) {
                     StringElement* str = TypeQueryVisitor::as<StringElement>((*it)->value.first);
                     if (str && str->value == "sourceMap"){
