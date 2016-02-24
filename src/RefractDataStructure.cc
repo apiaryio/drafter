@@ -232,10 +232,6 @@ namespace drafter {
         struct FetchSourceMap {
             snowcrash::SourceMap<U> operator()(const NodeInfo<mson::TypeSection>& typeSection, const mson::BaseTypeName& defaultNestedType) {
                 // conversion of source map from "string" into "typed" sourcemap
-                if (!typeSection.hasSourceMap()) {
-                    return *NodeInfo<U>::NullSourceMap();
-                }
-
                 snowcrash::SourceMap<U> sourceMap;
                 sourceMap.sourceMap = typeSection.sourceMap->value.sourceMap;
                 return sourceMap;
@@ -488,9 +484,9 @@ namespace drafter {
             void operator()(S& storage, const NodeInfo<mson::ValueMember>& valueMember) {
                 snowcrash::SourceMap<typename T::ValueType> sourceMap = *NodeInfo<typename T::ValueType>::NullSourceMap();
 
-                if (valueMember.hasSourceMap()) {
-                    sourceMap.sourceMap = valueMember.sourceMap->valueDefinition.sourceMap;
-                }
+                // if (valueMember.hasSourceMap()) {
+                sourceMap.sourceMap = valueMember.sourceMap->valueDefinition.sourceMap;
+//                }
 
                 storage.push_back(sourceMap);
             }
@@ -627,23 +623,20 @@ namespace drafter {
 
         template <typename T>
         struct MakeNodeInfoFunctor {
-            const bool hasSourceMap;
-            MakeNodeInfoFunctor(bool hasSourceMap) : hasSourceMap(hasSourceMap) {}
-
             NodeInfo<T> operator()(const T& v, const snowcrash::SourceMap<T>& sm) {
                 return MakeNodeInfo<T>(v, sm);
             }
         };
 
         template<typename T>
-        void TransformElementData(T* element, ElementData<T>& data, bool hasSourceMap) {
+        void TransformElementData(T* element, ElementData<T>& data) {
 
             if (data.values.size() != data.valuesSourceMap.size()) {
                 throw snowcrash::Error("count of source maps is not equal to count of elements");
             }
 
             typedef std::vector<NodeInfo< typename T::ValueType> > ValueNodeInfoCollection;
-            ValueNodeInfoCollection valuesNodeInfo = Zip<ValueNodeInfoCollection>(data.values, data.valuesSourceMap, MakeNodeInfoFunctor<typename T::ValueType>(hasSourceMap));
+            ValueNodeInfoCollection valuesNodeInfo = Zip<ValueNodeInfoCollection>(data.values, data.valuesSourceMap, MakeNodeInfoFunctor<typename T::ValueType>());
 
             std::for_each(valuesNodeInfo.begin(), valuesNodeInfo.end(), Append<T>(element));
 
@@ -709,7 +702,7 @@ namespace drafter {
             data.valuesSourceMap.erase(data.valuesSourceMap.begin());
         }
 
-        TransformElementData(element, data, value.hasSourceMap());
+        TransformElementData(element, data);
 
         return element;
     }
@@ -987,7 +980,7 @@ namespace drafter {
 
         std::for_each(typeSections.begin(), typeSections.end(), ExtractTypeSection<T>(data, ds));
 
-        TransformElementData<T>(element, data, ds.hasSourceMap());
+        TransformElementData<T>(element, data);
 
         if (refract::IElement* description = DescriptionToRefract(data)) {
             element->meta[SerializeKey::Description] = description;
