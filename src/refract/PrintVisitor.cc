@@ -43,10 +43,30 @@ namespace refract
         }
     }
 
+    void PrintVisitor::printAttr(const IElement& e)
+    {
+        if (e.attributes.size() > 0) {
+            os << "attributes {\n";
+            indentOS(indent);
+
+            for (IElement::MemberElementCollection::const_iterator i = e.attributes.begin();
+                i != e.attributes.end();
+                ++i) {
+
+                visit(*(*i));
+            }
+
+            indentOS(indent);
+            os << "}\n";
+        }
+    }
+
+
     void PrintVisitor::visit(const IElement& e)
     {
         indentOS(indent);
         printMeta(e);
+        printAttr(e);
         e.content(*this);
     }
 
