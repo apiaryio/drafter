@@ -25,6 +25,7 @@ namespace refract
 
         void indentOS(int ind);
         void printMeta(const IElement& e);
+        void printAttr(const IElement& e);
 
     public:
         PrintVisitor();
