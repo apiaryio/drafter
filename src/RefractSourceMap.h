@@ -19,7 +19,7 @@ namespace drafter {
     template<typename T>
     void AttachSourceMap(refract::IElement* element, const T& nodeInfo)
     {
-        if (nodeInfo.hasSourceMap() && !nodeInfo.sourceMap->sourceMap.empty()) {
+        if (!nodeInfo.sourceMap->sourceMap.empty()) {
             element->attributes[SerializeKey::SourceMap] = SourceMapToRefract(nodeInfo.sourceMap->sourceMap);
             element->renderType(refract::IElement::rFull);
         }

@@ -70,11 +70,6 @@ namespace drafter {
         bool isNull() const {
             return empty;
         }
-
-        bool hasSourceMap() const {
-            const SourceMapType* null = NullSourceMap();
-            return sourceMap != null;
-        }
     };
 
     template <typename T>
