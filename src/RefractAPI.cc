@@ -443,7 +443,7 @@ namespace drafter {
         }
 
         if (!element.node->content.elements().empty()) {
-            const NodeInfo<snowcrash::Elements> elementsNodeInfo = MakeNodeInfo(&element.node->content.elements(), GetElementChildrenSourceMap(element), element.hasSourceMap());
+            const NodeInfo<snowcrash::Elements> elementsNodeInfo = MakeNodeInfo(&element.node->content.elements(), GetElementChildrenSourceMap(element));
 
             NodeInfoToElements(elementsNodeInfo, ElementToRefract, content);
         }
