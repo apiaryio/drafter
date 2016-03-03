@@ -148,7 +148,7 @@ namespace drafter {
         virtual refract::IElement* Create(const std::string& literal, bool) = 0;
     };
 
-    template <typename E>
+    template <typename E, typename V = typename E::ValueType>
     struct RefractElementFactoryImpl : RefractElementFactory
     {
         virtual refract::IElement* Create(const std::string& literal, bool sample = false)
@@ -165,15 +165,15 @@ namespace drafter {
                 element->attributes[SerializeKey::Samples] = samples;
             }
             else {
-                element->set(LiteralTo<typename E::ValueType>(literal));
+                element->set(LiteralTo<V>(literal));
             }
 
             return element;
         }
     };
 
-    template <>
-    struct RefractElementFactoryImpl<refract::ObjectElement> : RefractElementFactory
+    template <typename E>
+    struct RefractElementFactoryImpl<E, refract::RefractElements> : RefractElementFactory
     {
         virtual refract::IElement* Create(const std::string& literal, bool sample = false)
         {
@@ -184,7 +184,7 @@ namespace drafter {
                 return element;
             }
 
-            refract::ObjectElement* element = new refract::ObjectElement;
+            E* element = new E;
 
             if (literal.empty()) {
                 return element;
@@ -199,24 +199,31 @@ namespace drafter {
 
     RefractElementFactory& FactoryFromType(const mson::BaseTypeName typeName)
     {
-        static RefractElementFactoryImpl<refract::BooleanElement> bef;
-        static RefractElementFactoryImpl<refract::NumberElement> nef;
-        static RefractElementFactoryImpl<refract::StringElement> sef;
-        static RefractElementFactoryImpl<refract::ObjectElement> oef;
 
-        switch (typeName) {
-            case mson::BooleanTypeName:
-                return bef;
-            case mson::NumberTypeName:
-                return nef;
-            case mson::StringTypeName:
-                return sef;
-            case mson::ObjectTypeName:
-            case mson::UndefinedTypeName:
-                return oef;
-            default:
-                ; // do nothing
-        }
+        static RefractElementFactoryImpl<refract::BooleanElement> boolFactory;
+        static RefractElementFactoryImpl<refract::NumberElement> numberFactory;
+        static RefractElementFactoryImpl<refract::StringElement> stringFactory;
+        static RefractElementFactoryImpl<refract::EnumElement> enumFactory;
+        static RefractElementFactoryImpl<refract::ArrayElement> arrayFactory;
+        static RefractElementFactoryImpl<refract::ObjectElement> objectFactory;
+
+         switch (typeName) {
+             case mson::BooleanTypeName:
+                return boolFactory;
+             case mson::NumberTypeName:
+                return numberFactory;
+             case mson::StringTypeName:
+                return stringFactory;
+            case mson::ArrayTypeName:
+                return arrayFactory;
+            case mson::EnumTypeName:
+                return enumFactory;
+             case mson::ObjectTypeName:
+             case mson::UndefinedTypeName:
+                return objectFactory;
+             default:
+                 ; // do nothing
+         }
 
         throw snowcrash::Error("unknown type of mson value", snowcrash::MSONError);
     }
@@ -395,6 +402,44 @@ namespace drafter {
         }
     };
 
+    static mson::BaseTypeName RefractElementTypeToMsonType(refract::TypeQueryVisitor::ElementType type) {
+        switch (type) {
+            case refract::TypeQueryVisitor::String:
+                return mson::StringTypeName;
+
+            case refract::TypeQueryVisitor::Number:
+                return mson::NumberTypeName;
+
+            case refract::TypeQueryVisitor::Boolean:
+                return mson::BooleanTypeName;
+
+            case refract::TypeQueryVisitor::Array:
+                return mson::ArrayTypeName;
+
+            case refract::TypeQueryVisitor::Object:
+                return mson::ObjectTypeName;
+
+            case refract::TypeQueryVisitor::Enum:
+                return mson::EnumTypeName;
+
+            case refract::TypeQueryVisitor::Null:
+            case refract::TypeQueryVisitor::Member:
+            case refract::TypeQueryVisitor::Extend:
+                ;
+        };
+        return mson::UndefinedTypeName;
+    }
+
+    static mson::BaseTypeName GetMsonTypeFromName(const std::string& name) {
+        refract::IElement* e = FindRootAncestor(name, GetNamedTypesRegistry());
+        if (!e) {
+            return mson::UndefinedTypeName;
+        }
+
+        refract::TypeQueryVisitor query;
+        e->content(query);
+        return RefractElementTypeToMsonType(query.get());
+    }
 
     template <typename T>
     struct ExtractTypeDefinition {
@@ -419,7 +464,13 @@ namespace drafter {
 
                 RefractElements types;
                 for (mson::TypeNames::const_iterator it = typeNames.begin(); it != typeNames.end(); ++it) {
-                    RefractElementFactory& f = FactoryFromType(it->base);
+                    mson::BaseTypeName typeName = it->base;
+
+                    if (typeName == mson::UndefinedTypeName && !it->symbol.literal.empty()) {
+                        typeName = GetMsonTypeFromName(it->symbol.literal);
+                    }
+
+                    RefractElementFactory& f = FactoryFromType(typeName);
                     types.push_back(f.Create(it->symbol.literal, it->symbol.variable));
                 }
 
@@ -889,8 +940,7 @@ namespace drafter {
     };
 
     template <typename Trait>
-    static refract::IElement* MsonMemberToRefract(const typename Trait::InputType& input, const mson::BaseTypeName defaultNestedType) {
-        mson::BaseTypeName nameType = GetType(input.node->valueDefinition);
+    static refract::IElement* MsonMemberToRefract(const typename Trait::InputType& input, const mson::BaseTypeName nameType, const mson::BaseTypeName defaultNestedType) {
 
         switch (nameType) {
             case mson::BooleanTypeName:
@@ -921,19 +971,7 @@ namespace drafter {
                     return Trait::template Invoke<refract::ObjectElement>(input, defaultNestedType);
                 }
 
-                switch (defaultNestedType) {
-                   case mson::BooleanTypeName:
-                       return Trait::template Invoke<refract::BooleanElement>(input, defaultNestedType);
-
-                   case mson::NumberTypeName:
-                       return Trait::template Invoke<refract::NumberElement>(input, defaultNestedType);
-
-                   case mson::StringTypeName:
-                       return Trait::template Invoke<refract::StringElement>(input, defaultNestedType);
-
-                   default:
-                       throw snowcrash::Error("nested complex types are not implemented", snowcrash::MSONError);
-                }
+                return MsonMemberToRefract<Trait>(input, defaultNestedType, defaultNestedType);
             }
 
             default:
@@ -988,10 +1026,14 @@ namespace drafter {
     {
         switch (mse.node->klass) {
             case mson::Element::PropertyClass:
-                return MsonMemberToRefract<PropertyTrait>(MakeNodeInfo(mse.node->content.property, mse.sourceMap->property, mse.hasSourceMap()), defaultNestedType);
+                return MsonMemberToRefract<PropertyTrait>(MakeNodeInfo(mse.node->content.property, mse.sourceMap->property, mse.hasSourceMap()),
+                                                          GetType(mse.node->content.property.valueDefinition),
+                                                          defaultNestedType);
 
             case mson::Element::ValueClass:
-                return MsonMemberToRefract<ValueTrait>(MakeNodeInfo(mse.node->content.value, mse.sourceMap->value, mse.hasSourceMap()), defaultNestedType);
+                return MsonMemberToRefract<ValueTrait>(MakeNodeInfo(mse.node->content.value, mse.sourceMap->value, mse.hasSourceMap()),
+                                                       GetType(mse.node->content.value.valueDefinition),
+                                                       defaultNestedType);
 
             case mson::Element::MixinClass:
                 return MsonMixinToRefract(MakeNodeInfo(mse.node->content.mixin, mse.sourceMap->mixin, mse.hasSourceMap()));

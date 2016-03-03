@@ -14,6 +14,8 @@
 
 #include "RefractDataStructure.h"
 
+#define DEBUG_DEPENDENCIES
+
 namespace drafter {
 
     namespace {
@@ -56,6 +58,10 @@ namespace drafter {
                 return !parent(ds).empty();
             }
 
+            const std::string& name(const mson::TypeName& tn) {
+                return tn.symbol.literal;
+            }
+
             const std::string& name(const snowcrash::DataStructure* ds) {
                 return ds->name.symbol.literal;
             }
@@ -87,6 +93,7 @@ namespace drafter {
 
                     std::string member;
                     const mson::TypeSections* ts = NULL;
+                    const mson::TypeNames* tn = NULL;
 
                     if (!it->content.value.empty() ) {
                         if (!name(it->content.value).empty()) {
@@ -103,6 +110,10 @@ namespace drafter {
                         else if (!name(it->content.property.name.variable).empty()) {
                             member = name(it->content.property.name.variable);
                         }
+                        else if (!it->content.property.valueDefinition.typeDefinition.typeSpecification.nestedTypes.empty()) {
+                            // - name (array|enum[<nested>, <type>])
+                            tn = &it->content.property.valueDefinition.typeDefinition.typeSpecification.nestedTypes;
+                        }
                         else {
                             ts = &it->content.property.sections;
                         }
@@ -118,6 +129,10 @@ namespace drafter {
                     }
                     else if (ts) {
                         Members sub = collectMembers(*ts);
+                        members.insert(sub.begin(), sub.end());
+                    }
+                    else if (tn) {
+                        Members sub = collectMembers(*tn);
                         members.insert(sub.begin(), sub.end());
                     }
                 }
@@ -137,8 +152,41 @@ namespace drafter {
                 return members;
             }
 
+            Members collectMembers(const mson::TypeNames& tn) {
+                Members members;
+
+                for (mson::TypeNames::const_iterator itn = tn.begin() ; itn != tn.end() ; ++itn) {
+                    members.insert(name(*itn));
+                }
+
+                return members;
+            }
+
             Members collectMembers(const snowcrash::DataStructure* ds) {
                 return collectMembers(ds->sections);
+            }
+
+            Members collectMembers(const std::string& id, const MembersMap& members, Members& resolved) {
+                Members collected;
+
+                if (resolved.find(id) != resolved.end()) {
+                    return collected;
+                }
+
+                resolved.insert(id);
+
+                MembersMap::const_iterator member = members.find(id);
+                if (member == members.end()) {
+                    return collected;
+                }
+
+                for (Members::const_iterator i = member->second.begin() ; i != member->second.end() ; ++i) {
+                    Members sub = collectMembers(*i, members, resolved);
+                    collected.insert(*i);
+                    collected.insert(sub.begin(), sub.end());
+                }
+
+                return collected;
             }
 
             InheritanceComparator(const DataStructures& elements) {
@@ -147,12 +195,34 @@ namespace drafter {
                 for (DataStructures::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
                     if (hasParent(i->node)) {
                         childToParent[name(i->node)] = parent(i->node);
+#ifdef DEBUG_DEPENDENCIES
+                        std::cout << "Parent: " << name(i->node) << "=>" << parent(i->node) << std::endl;
+#endif
                     }
                 }
 
+                // Map members
+                MembersMap members;
                 for (DataStructures::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
-                    objectToMembers[name(i->node)] = collectMembers(i->node);
+                    members[name(i->node)] = collectMembers(i->node);
                 }
+
+                // Map members into deep
+                for (MembersMap::const_iterator i = members.begin() ; i != members.end() ; ++i) {
+                    Members resolved;
+                    objectToMembers[i->first] = collectMembers(i->first, members, resolved);
+                }
+
+#ifdef DEBUG_DEPENDENCIES
+                // debug out members
+                for (MembersMap::const_iterator i = objectToMembers.begin() ; i != objectToMembers.end() ; ++i) {
+                    std::cout << "Members: " << i->first << std::endl;
+                    for (Members::const_iterator it = objectToMembers[i->first].begin() ; it != objectToMembers[i->first].end() ; ++it) {
+                        std::cout << " - " << *it << std::endl;
+                    }
+                }
+#endif /* DEBUG_DEPENDENCIES */
+
             }
 
             bool hasMember(const snowcrash::DataStructure* object, const snowcrash::DataStructure* member) {
@@ -220,15 +290,40 @@ namespace drafter {
 
         FindNamedTypes(elementCollection, found);
 
+#ifdef DEBUG_DEPENDENCIES
+        std::cout << "==DEPENDENCIES INFO BEGIN==" << std::endl;
+#endif /* DEBUG_DEPENDENCIES */
+
         std::sort(found.begin(), found.end(), InheritanceComparator(found));
+
+#ifdef DEBUG_DEPENDENCIES
+                std::cout << "==BASE TYPE ORDER==" << std::endl;
+#endif /* DEBUG_DEPENDENCIES */
 
         for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
 
             if (!i->node->name.symbol.literal.empty()) {
+
                 refract::IElement* element = MSONToRefract(*i);
+#ifdef DEBUG_DEPENDENCIES
+                refract::TypeQueryVisitor v;
+                v.visit(*element);
+                std::cout 
+                    << i->node->name.symbol.literal 
+                    << " ["
+                    << v.get()
+                    << "]"
+                    << std::endl;
+#endif /* DEBUG_DEPENDENCIES */
+
                 GetNamedTypesRegistry().add(element);
             }
         }
+
+#ifdef DEBUG_DEPENDENCIES
+        std::cout << "==DEPENDENCIES INFO END==" << std::endl;
+#endif /* DEBUG_DEPENDENCIES */
+
     }
 
 } // ns drafter
