@@ -14,6 +14,7 @@
 #include "refract/VisitorUtils.h"
 
 #include "NamedTypesRegistry.h"
+#include "RefractElementFactory.h"
 
 namespace drafter {
 
@@ -140,92 +141,6 @@ namespace drafter {
         }
 
         return attr;
-    }
-
-    struct RefractElementFactory
-    {
-        virtual ~RefractElementFactory() {}
-        virtual refract::IElement* Create(const std::string& literal, bool) = 0;
-    };
-
-    template <typename E, typename V = typename E::ValueType>
-    struct RefractElementFactoryImpl : RefractElementFactory
-    {
-        virtual refract::IElement* Create(const std::string& literal, bool sample = false)
-        {
-            E* element = new E;
-
-            if (literal.empty()) {
-                return element;
-            }
-
-            if (sample) {
-                refract::ArrayElement* samples = new refract::ArrayElement;
-                samples->push_back(refract::IElement::Create(LiteralTo<typename E::ValueType>(literal)));
-                element->attributes[SerializeKey::Samples] = samples;
-            }
-            else {
-                element->set(LiteralTo<V>(literal));
-            }
-
-            return element;
-        }
-    };
-
-    template <typename E>
-    struct RefractElementFactoryImpl<E, refract::RefractElements> : RefractElementFactory
-    {
-        virtual refract::IElement* Create(const std::string& literal, bool sample = false)
-        {
-            if (sample) {
-                refract::StringElement* element = new refract::StringElement;
-                element->element(SerializeKey::Generic);
-                element->set(literal);
-                return element;
-            }
-
-            E* element = new E;
-
-            if (literal.empty()) {
-                return element;
-            }
-
-            element->element(literal);
-
-            return element;
-        }
-    };
-
-
-    RefractElementFactory& FactoryFromType(const mson::BaseTypeName typeName)
-    {
-
-        static RefractElementFactoryImpl<refract::BooleanElement> boolFactory;
-        static RefractElementFactoryImpl<refract::NumberElement> numberFactory;
-        static RefractElementFactoryImpl<refract::StringElement> stringFactory;
-        static RefractElementFactoryImpl<refract::EnumElement> enumFactory;
-        static RefractElementFactoryImpl<refract::ArrayElement> arrayFactory;
-        static RefractElementFactoryImpl<refract::ObjectElement> objectFactory;
-
-         switch (typeName) {
-             case mson::BooleanTypeName:
-                return boolFactory;
-             case mson::NumberTypeName:
-                return numberFactory;
-             case mson::StringTypeName:
-                return stringFactory;
-            case mson::ArrayTypeName:
-                return arrayFactory;
-            case mson::EnumTypeName:
-                return enumFactory;
-             case mson::ObjectTypeName:
-             case mson::UndefinedTypeName:
-                return objectFactory;
-             default:
-                 ; // do nothing
-         }
-
-        throw snowcrash::Error("unknown type of mson value", snowcrash::MSONError);
     }
 
     static refract::IElement* MsonElementToRefract(const NodeInfo<mson::Element>& mse, mson::BaseTypeName defaultNestedType = mson::StringTypeName);

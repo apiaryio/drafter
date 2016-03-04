@@ -47,6 +47,8 @@
         "src/Render.cc",
         "src/NamedTypesRegistry.cc",
         "src/NamedTypesRegistry.h",
+        "src/RefractElementFactory.h",
+        "src/RefractElementFactory.cc",
 
         # librefract parts - will be separated into other project
 

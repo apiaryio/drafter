@@ -13,8 +13,13 @@
 #include <algorithm>
 
 #include "RefractDataStructure.h"
+#include "RefractElementFactory.h"
 
-#define DEBUG_DEPENDENCIES
+#undef DEBUG_DEPENDENCIES
+
+#ifdef DEBUG_DEPENDENCIES
+#include <iostream>
+#endif /* DEBUG_DEPENDENCIES */
 
 namespace drafter {
 
@@ -40,7 +45,7 @@ namespace drafter {
             }
         }
 
-        struct InheritanceComparator {
+        struct DependencyTypeInfo {
 
             typedef std::map<std::string, std::string> InheritanceMap;
             InheritanceMap childToParent;
@@ -50,39 +55,42 @@ namespace drafter {
 
             MembersMap objectToMembers;
 
-            const std::string& parent(const snowcrash::DataStructure* ds) {
+            typedef std::map<std::string, const snowcrash::DataStructure*> ElementMap;
+            ElementMap nameToElement;
+
+            const std::string& parent(const snowcrash::DataStructure* ds) const {
                 return ds->typeDefinition.typeSpecification.name.symbol.literal;
             }
 
-            bool hasParent(const snowcrash::DataStructure* ds) {
+            bool hasParent(const snowcrash::DataStructure* ds) const {
                 return !parent(ds).empty();
             }
 
-            const std::string& name(const mson::TypeName& tn) {
+            const std::string& name(const mson::TypeName& tn) const {
                 return tn.symbol.literal;
             }
 
-            const std::string& name(const snowcrash::DataStructure* ds) {
+            const std::string& name(const snowcrash::DataStructure* ds) const {
                 return ds->name.symbol.literal;
             }
 
-            const std::string& name(const mson::TypeSpecification& ts) {
+            const std::string& name(const mson::TypeSpecification& ts) const {
                 return ts.name.symbol.literal;
             }
 
-            const std::string& name(const mson::ValueDefinition& vd) {
+            const std::string& name(const mson::ValueDefinition& vd) const {
                 return name(vd.typeDefinition.typeSpecification);
             }
 
-            const std::string& name(const mson::ValueMember& vm) {
+            const std::string& name(const mson::ValueMember& vm) const {
                 return name(vm.valueDefinition);
             }
 
-            const std::string& name(const mson::PropertyMember& pm) {
+            const std::string& name(const mson::PropertyMember& pm) const {
                 return name(pm.valueDefinition);
             }
 
-            const std::string& name(const mson::Mixin& mx) {
+            const std::string& name(const mson::Mixin& mx) const {
                 return name(mx.typeSpecification);
             }
 
@@ -189,10 +197,13 @@ namespace drafter {
                 return collected;
             }
 
-            InheritanceComparator(const DataStructures& elements) {
+            DependencyTypeInfo(const DataStructures& elements) {
 
-                // map inheritance
+                // map inheritance && element
                 for (DataStructures::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
+
+                    nameToElement[name(i->node)] = &(*i->node);
+
                     if (hasParent(i->node)) {
                         childToParent[name(i->node)] = parent(i->node);
 #ifdef DEBUG_DEPENDENCIES
@@ -225,7 +236,7 @@ namespace drafter {
 
             }
 
-            bool hasMember(const snowcrash::DataStructure* object, const snowcrash::DataStructure* member) {
+            bool hasMember(const snowcrash::DataStructure* object, const snowcrash::DataStructure* member) const {
                 MembersMap::const_iterator members = objectToMembers.find(name(object));
                 if (members == objectToMembers.end()) {
                     return false;
@@ -234,7 +245,7 @@ namespace drafter {
                 return members->second.find(name(member)) != members->second.end();
             }
 
-            bool hasAncestor(const snowcrash::DataStructure* object, const snowcrash::DataStructure* ancestor) {
+            bool hasAncestor(const snowcrash::DataStructure* object, const snowcrash::DataStructure* ancestor) const {
                 std::string s = name(object);
                 const std::string& isAncestor = name(ancestor);
 
@@ -242,12 +253,55 @@ namespace drafter {
                     if (s == isAncestor) {
                         return true;
                     }
-                    s = childToParent[s];
+
+                    InheritanceMap::const_iterator i = childToParent.find(s);
+                    if (i == childToParent.end()) {
+                        return false;
+                    }
+
+                    s = i->second;
                 }
 
                 return false;
             }
 
+            mson::BaseTypeName GetType(const snowcrash::DataStructure* ds) const {
+                return ds->typeDefinition.typeSpecification.name.base;
+            }
+
+            mson::BaseTypeName ResolveType(const snowcrash::DataStructure* object) const {
+                std::string s = name(object);
+
+                while(!s.empty()) {
+                    ElementMap::const_iterator ei = nameToElement.find(s);
+                    if (ei == nameToElement.end()) {
+                        return mson::UndefinedTypeName;
+                    }
+
+                    mson::BaseTypeName type = GetType(ei->second);
+
+                    if ( type != mson::UndefinedTypeName) {
+                        return type;
+                    }
+
+                    InheritanceMap::const_iterator i = childToParent.find(s);
+                    if (i == childToParent.end()) {
+                        return mson::UndefinedTypeName;
+                    }
+
+                    s = i->second;
+                }
+
+                return mson::UndefinedTypeName;
+            }
+
+        };
+
+        struct InheritanceComparator {
+
+            const DependencyTypeInfo& typeInfo;
+
+            InheritanceComparator(const DependencyTypeInfo& typeInfo) : typeInfo(typeInfo) {}
 
             /* This is a comparator for std::sort so it has to compare
              * objects in strictly weak ordering otherwise it would crash
@@ -261,17 +315,16 @@ namespace drafter {
              */
             bool operator()(DataStructures::const_reference first, DataStructures::const_reference second) {
 
-                if (hasAncestor(first.node, second.node) || hasMember(first.node, second.node)) {
+                if (typeInfo.hasAncestor(first.node, second.node) || typeInfo.hasMember(first.node, second.node)) {
                     return false;
                 }
 
-                if (hasAncestor(second.node, first.node) || hasMember(second.node, first.node)) {
+                if (typeInfo.hasAncestor(second.node, first.node) || typeInfo.hasMember(second.node, first.node)) {
                     return true;
                 }
 
-                return name(first.node) < name(second.node);
+                return typeInfo.name(first.node) < typeInfo.name(second.node);
             }
-
         };
 
     } // ns anonymous
@@ -294,31 +347,52 @@ namespace drafter {
         std::cout << "==DEPENDENCIES INFO BEGIN==" << std::endl;
 #endif /* DEBUG_DEPENDENCIES */
 
-        std::sort(found.begin(), found.end(), InheritanceComparator(found));
+        DependencyTypeInfo typeInfo(found);
+
+        std::sort(found.begin(), found.end(), InheritanceComparator(typeInfo));
 
 #ifdef DEBUG_DEPENDENCIES
-                std::cout << "==BASE TYPE ORDER==" << std::endl;
+        std::cout << "==BASE TYPE ORDER==" << std::endl;
 #endif /* DEBUG_DEPENDENCIES */
+
+#if 1
+        // first level registration - we will create empty elements with correct type info
+        for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
+            const std::string& name = i->node->name.symbol.literal;
+
+            RefractElementFactory& factory = FactoryFromType(typeInfo.ResolveType(i->node));
+            refract::IElement* element = factory.Create(std::string(), false);
+            element->meta["id"] = refract::IElement::Create(name);
+
+            GetNamedTypesRegistry().add(element);
+        }
 
         for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
 
             if (!i->node->name.symbol.literal.empty()) {
 
+                const std::string& name = i->node->name.symbol.literal;
                 refract::IElement* element = MSONToRefract(*i);
 #ifdef DEBUG_DEPENDENCIES
                 refract::TypeQueryVisitor v;
                 v.visit(*element);
                 std::cout 
-                    << i->node->name.symbol.literal 
+                    << name
                     << " ["
                     << v.get()
                     << "]"
                     << std::endl;
 #endif /* DEBUG_DEPENDENCIES */
 
+                // remove preregistrated element
+                refract::IElement* pre = GetNamedTypesRegistry().find(name);
+                GetNamedTypesRegistry().remove(name);
+                delete pre;
+
                 GetNamedTypesRegistry().add(element);
             }
         }
+#endif
 
 #ifdef DEBUG_DEPENDENCIES
         std::cout << "==DEPENDENCIES INFO END==" << std::endl;
