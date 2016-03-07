@@ -131,6 +131,7 @@
         "test/test-SchemaTest.cc",
         "test/test-CircularReferenceTest.cc",
         "test/test-ApplyVisitorTest.cc",
+        "test/test-ExtendElementTest.cc",
       ],
       'dependencies': [
         "libdrafter",
