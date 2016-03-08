@@ -355,7 +355,6 @@ namespace drafter {
         std::cout << "==BASE TYPE ORDER==" << std::endl;
 #endif /* DEBUG_DEPENDENCIES */
 
-#if 1
         // first level registration - we will create empty elements with correct type info
         for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
             const std::string& name = i->node->name.symbol.literal;
@@ -392,7 +391,6 @@ namespace drafter {
                 GetNamedTypesRegistry().add(element);
             }
         }
-#endif
 
 #ifdef DEBUG_DEPENDENCIES
         std::cout << "==DEPENDENCIES INFO END==" << std::endl;
