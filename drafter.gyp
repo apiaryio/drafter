@@ -47,6 +47,8 @@
         "src/Render.cc",
         "src/NamedTypesRegistry.cc",
         "src/NamedTypesRegistry.h",
+        "src/RefractElementFactory.h",
+        "src/RefractElementFactory.cc",
 
         # librefract parts - will be separated into other project
 
@@ -129,6 +131,8 @@
         "test/test-SchemaTest.cc",
         "test/test-CircularReferenceTest.cc",
         "test/test-ApplyVisitorTest.cc",
+        "test/test-ExtendElementTest.cc",
+        "test/test-ElementFactoryTest.cc",
       ],
       'dependencies': [
         "libdrafter",
