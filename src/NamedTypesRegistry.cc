@@ -206,9 +206,11 @@ namespace drafter {
 
                     if (hasParent(i->node)) {
                         childToParent[name(i->node)] = parent(i->node);
+
 #ifdef DEBUG_DEPENDENCIES
                         std::cout << "Parent: " << name(i->node) << "=>" << parent(i->node) << std::endl;
 #endif
+
                     }
                 }
 
@@ -372,15 +374,11 @@ namespace drafter {
 
                 const std::string& name = i->node->name.symbol.literal;
                 refract::IElement* element = MSONToRefract(*i);
+
 #ifdef DEBUG_DEPENDENCIES
                 refract::TypeQueryVisitor v;
                 v.visit(*element);
-                std::cout 
-                    << name
-                    << " ["
-                    << v.get()
-                    << "]"
-                    << std::endl;
+                std::cout << name << " [" << v.get() << "]" << std::endl;
 #endif /* DEBUG_DEPENDENCIES */
 
                 // remove preregistrated element
@@ -397,5 +395,4 @@ namespace drafter {
 #endif /* DEBUG_DEPENDENCIES */
 
     }
-
 } // ns drafter
