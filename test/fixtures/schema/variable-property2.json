@@ -79,7 +79,7 @@
                                       "content": {
                                         "key": {
                                           "element": "string",
-                                          "content": "_links"
+                                          "content": "item"
                                         },
                                         "value": {
                                           "element": "object",
@@ -92,7 +92,7 @@
                                                   "attributes": {
                                                     "variable": true
                                                   },
-                                                  "content": "self"
+                                                  "content": "link"
                                                 },
                                                 "value": {
                                                   "element": "object",
@@ -107,6 +107,44 @@
                                                         "value": {
                                                           "element": "string",
                                                           "content": "a URI"
+                                                        }
+                                                      }
+                                                    }
+                                                  ]
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "id"
+                                                },
+                                                "value": {
+                                                  "element": "object",
+                                                  "content": [
+                                                    {
+                                                      "element": "member",
+                                                      "content": {
+                                                        "key": {
+                                                          "element": "string",
+                                                          "content": "name"
+                                                        },
+                                                        "value": {
+                                                          "element": "string"
+                                                        }
+                                                      }
+                                                    },
+                                                    {
+                                                      "element": "member",
+                                                      "content": {
+                                                        "key": {
+                                                          "element": "string",
+                                                          "content": "email"
+                                                        },
+                                                        "value": {
+                                                          "element": "string"
                                                         }
                                                       }
                                                     }
@@ -132,7 +170,7 @@
                               "attributes": {
                                 "contentType": "application/json"
                               },
-                              "content": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"a URI\"\n    }\n  }\n}"
+                              "content": "{\n  \"item\": {\n    \"link\": {\n      \"href\": \"a URI\"\n    },\n    \"id\": {\n      \"name\": \"\",\n      \"email\": \"\"\n    }\n  }\n}"
                             },
                             {
                               "element": "asset",
@@ -144,7 +182,7 @@
                               "attributes": {
                                 "contentType": "application/json"
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"_links\": {\n      \"$ref\": \"#/definitions/self\"\n    }\n  },\n  \"definitions\": {\n    \"self\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"href\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"item\": {\n      \"allOf\": [\n        {\n          \"$ref\": \"#/definitions/link\"\n        },\n        {\n          \"properties\": {\n            \"id\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"name\": {\n                  \"type\": \"string\"\n                },\n                \"email\": {\n                  \"type\": \"string\"\n                }\n              }\n            }\n          }\n        }\n      ]\n    }\n  },\n  \"definitions\": {\n    \"link\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"href\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}"
                             }
                           ]
                         }

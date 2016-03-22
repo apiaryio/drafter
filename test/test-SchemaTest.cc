@@ -74,8 +74,8 @@ TEST_REFRACT("schema", "object-very-complex");
 
 TEST_REFRACT("schema", "mixin-simple");
 
-//FIXME: Discuss with Z and hj
-//TEST_REFRACT("schema", "variable-property");
+TEST_REFRACT("schema", "variable-property");
+TEST_REFRACT("schema", "variable-property2");
 
 // FIXME: One Of
 // TEST_REFRACT("schema", "one-of");

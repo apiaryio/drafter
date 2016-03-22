@@ -164,7 +164,7 @@ namespace refract
         value = val;
     }
 
-    void ExtendElement::push_back(IElement* e) 
+    void ExtendElement::push_back(IElement* e)
     {
 
         if (!e) {
@@ -197,19 +197,19 @@ namespace refract
             /**
              * Merge strategy for Primitive types - just replace by latest value
              */
-            template <typename T, typename V = typename T::ValueType> 
+            template <typename T, typename V = typename T::ValueType>
             struct ValueMerge {
                 V& value;
                 ValueMerge(T& element) : value(element.value) {}
 
-                void operator()(const T& merge) { 
+                void operator()(const T& merge) {
                     value = merge.value;
                 }
             };
 
             /**
              * Merge stategy for objects/array
-             * - if member 
+             * - if member
              *   - without existing key -> append
              *   - with existing key - replace old value
              * - if not member
@@ -243,7 +243,7 @@ namespace refract
                                 if (iKey != keysBase.end()) { // key is already presented, replace value
                                     delete iKey->second->value.second;
                                     iKey->second->value.second = member->value.second->clone();
-                                } 
+                                }
                                 else { // unknown key, append value
                                     MemberElement* clone = static_cast<MemberElement*>(member->clone());
                                     value.push_back(clone);
@@ -288,8 +288,8 @@ namespace refract
                                 delete (*item)->value.second;
                                 (*item)->value.second = (*it)->value.second->clone();
                                 continue;
-                            } 
-                        } 
+                            }
+                        }
 
                         toAppend.push_back(static_cast<MemberElement*>((*it)->clone()));
                     }
@@ -386,8 +386,8 @@ namespace refract
                 }
             }
 
-            operator IElement* () const { 
-                return result; 
+            operator IElement* () const {
+                return result;
             }
 
         };
