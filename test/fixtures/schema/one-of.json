@@ -141,29 +141,28 @@
                                 }
                               ]
                             }
+                          ]
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": "messageBody"
                           },
-
-                          {
-                            "element": "asset",
-                            "meta": {
-                              "classes": "messageBody"
-                            },
-                            "attributes": {
-                              "contentType": "application/json"
-                            },
-                            "content": "{\n  \"city\": null,\n  \"state\": null,\n  \"country\": null\n}"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-]
+                          "attributes": {
+                            "contentType": "application/json"
+                          },
+                          "content": "{\n  \"city\": null,\n  \"state\": null,\n  \"country\": null\n}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
+

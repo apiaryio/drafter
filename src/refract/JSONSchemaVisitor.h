@@ -17,10 +17,10 @@
 
 namespace refract
 {
-
     class JSONSchemaVisitor : public IVisitor
     {
         ObjectElement *pObj;
+        ObjectElement *pDefs;
         bool fixed;
 
         void setSchemaType(const std::string& type);
@@ -28,6 +28,8 @@ namespace refract
         void addMember(const std::string& key, IElement *val);
         void anyOf(std::map<std::string, std::vector<IElement*> >& types, std::vector<std::string>& typesOrder);
         bool allItemsEmpty(const ArrayElement::ValueType* val);
+        void addVariableProps(std::vector<MemberElement*>& props,ObjectElement *o);
+        ArrayElement* arrayFromProps(std::vector<MemberElement*>& props);
 
         template<typename T>
         void setPrimitiveType(const T& e)
@@ -41,7 +43,8 @@ namespace refract
         template<typename T> void primitiveType(const T& e);
 
     public:
-        JSONSchemaVisitor(bool fixit = false);
+        JSONSchemaVisitor(ObjectElement *pDefinitions = NULL,
+                          bool fixit = false);
         ~JSONSchemaVisitor();
         void setFixed(bool fixit);
         void visit(const IElement& e);

@@ -478,7 +478,7 @@ namespace refract
     struct MemberElement : Element<MemberElement, MemberElementTrait>
     {
 
-        MemberElement() : Type() 
+        MemberElement() : Type()
         {
         }
 
@@ -532,7 +532,7 @@ namespace refract
 
     struct ObjectElementTrait : public ElementCollectionTrait
     {
-        // Use inherited ValueType definition instead of specialized std::vector<MemberElement*> 
+        // Use inherited ValueType definition instead of specialized std::vector<MemberElement*>
         // because ObjectElement can contain:
         // - (array[Member Element])
         // - (object)
@@ -557,6 +557,12 @@ namespace refract
         {
             set(value);
             renderType(render);
+        }
+
+        ObjectElement(IElement* e, IElement::renderFlags render = IElement::rDefault) : Type()
+        {
+            renderType(render);
+            value.push_back(e);
         }
 
         void push_back(IElement* e)
