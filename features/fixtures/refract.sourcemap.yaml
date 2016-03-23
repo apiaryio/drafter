@@ -393,6 +393,13 @@ content:
                                       - 1039
                                       - 37
                             content: "<request name>"
+                          sourceMap:
+                            -
+                              element: "sourceMap"
+                              content:
+                                -
+                                  - 1039
+                                  - 37
                           headers:
                             element: "httpHeaders"
                             content:
@@ -520,6 +527,13 @@ content:
                                       - 1242
                                       - 27
                             content: "200"
+                          sourceMap:
+                            -
+                              element: "sourceMap"
+                              content:
+                                -
+                                  - 1242
+                                  - 27
                           headers:
                             element: "httpHeaders"
                             content:
@@ -661,6 +675,13 @@ content:
                                       - 1039
                                       - 37
                             content: "<request name>"
+                          sourceMap:
+                            -
+                              element: "sourceMap"
+                              content:
+                                -
+                                  - 1039
+                                  - 37
                           headers:
                             element: "httpHeaders"
                             content:
@@ -788,6 +809,13 @@ content:
                                       - 1438
                                       - 14
                             content: "201"
+                          sourceMap:
+                            -
+                              element: "sourceMap"
+                              content:
+                                -
+                                  - 1438
+                                  - 14
                           headers:
                             element: "httpHeaders"
                             content:
@@ -910,6 +938,13 @@ content:
                                       - 1039
                                       - 37
                             content: "<request name>"
+                          sourceMap:
+                            -
+                              element: "sourceMap"
+                              content:
+                                -
+                                  - 1039
+                                  - 37
                           headers:
                             element: "httpHeaders"
                             content:
@@ -1037,6 +1072,13 @@ content:
                                       - 1479
                                       - 32
                             content: "201"
+                          sourceMap:
+                            -
+                              element: "sourceMap"
+                              content:
+                                -
+                                  - 1479
+                                  - 32
                           headers:
                             element: "httpHeaders"
                             content:

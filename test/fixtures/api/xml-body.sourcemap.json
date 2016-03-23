@@ -96,6 +96,17 @@
                               },
                               "content": "200"
                             },
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    11,
+                                    31
+                                  ]
+                                ]
+                              }
+                            ],
                             "headers": {
                               "element": "httpHeaders",
                               "content": [

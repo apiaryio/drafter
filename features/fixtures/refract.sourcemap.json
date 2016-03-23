@@ -611,6 +611,17 @@
                               },
                               "content": "<request name>"
                             },
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    1039,
+                                    37
+                                  ]
+                                ]
+                              }
+                            ],
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -807,6 +818,17 @@
                               },
                               "content": "200"
                             },
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    1242,
+                                    27
+                                  ]
+                                ]
+                              }
+                            ],
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -1025,6 +1047,17 @@
                               },
                               "content": "<request name>"
                             },
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    1039,
+                                    37
+                                  ]
+                                ]
+                              }
+                            ],
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -1221,6 +1254,17 @@
                               },
                               "content": "201"
                             },
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    1438,
+                                    14
+                                  ]
+                                ]
+                              }
+                            ],
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -1411,6 +1455,17 @@
                               },
                               "content": "<request name>"
                             },
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    1039,
+                                    37
+                                  ]
+                                ]
+                              }
+                            ],
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -1607,6 +1662,17 @@
                               },
                               "content": "201"
                             },
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    1479,
+                                    32
+                                  ]
+                                ]
+                              }
+                            ],
                             "headers": {
                               "element": "httpHeaders",
                               "content": [

@@ -236,6 +236,17 @@
                               },
                               "content": "200"
                             },
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    188,
+                                    33
+                                  ]
+                                ]
+                              }
+                            ],
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -364,6 +375,17 @@
                               },
                               "content": "Only one user"
                             },
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    361,
+                                    22
+                                  ]
+                                ]
+                              }
+                            ],
                             "hrefVariables": {
                               "element": "hrefVariables",
                               "content": [
@@ -431,6 +453,17 @@
                               },
                               "content": "200"
                             },
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    423,
+                                    33
+                                  ]
+                                ]
+                              }
+                            ],
                             "headers": {
                               "element": "httpHeaders",
                               "content": [

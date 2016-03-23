@@ -249,6 +249,8 @@ namespace drafter {
             }
         }
 
+        AttachSourceMap(element, payload);
+
         // If no payload, return immediately
         if (payload.isNull()) {
             element->set(content);

@@ -176,7 +176,18 @@
                                 ]
                               },
                               "content": "200"
-                            }
+                            },
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    104,
+                                    14
+                                  ]
+                                ]
+                              }
+                            ]
                           },
                           "content": [
                             {
