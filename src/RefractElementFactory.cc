@@ -83,6 +83,6 @@ namespace drafter {
                  ; // do nothing
          }
 
-        throw snowcrash::Error("unknown mson type", snowcrash::MSONError);
+        throw snowcrash::Error("unknown mson type", snowcrash::ApplicationError);
     }
 }

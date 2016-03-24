@@ -135,7 +135,7 @@ namespace refract
             result->renderType(IElement::rCompact);
         }
         else {
-            throw std::logic_error("A property's key in the object is not of type string");
+            throw refract::LogicError("A property's key in the object is not of type string");
         }
     }
 
