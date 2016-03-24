@@ -278,6 +278,7 @@
                                 "key": {
                                   "element": "string",
                                   "attributes": {
+                                    "variable": true,
                                     "sourceMap": [
                                       {
                                         "element": "sourceMap",
@@ -288,8 +289,7 @@
                                           ]
                                         ]
                                       }
-                                    ],
-                                    "variable": true
+                                    ]
                                   },
                                   "content": "variable"
                                 },

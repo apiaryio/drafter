@@ -40,6 +40,18 @@ namespace refract
         return false;
     }
 
+    template<typename T>
+    bool IsVariableProperty(const T& e) {
+        IElement::MemberElementCollection::const_iterator i = e.attributes.find("variable");
+
+        if (i == e.attributes.end()) {
+            return false;
+        }
+
+        BooleanElement* b =  TypeQueryVisitor::as<BooleanElement>((*i)->value.second);
+        return b ? b->value : false;
+    }
+
 
     template<typename T>
     const T* GetDefault(const T& e) {
@@ -126,6 +138,8 @@ namespace refract
 
         return NULL;
     }
+
+    std::string GetKeyAsString(const MemberElement& e);
 
     IElement* GetFirstSample(const IElement& e);
 

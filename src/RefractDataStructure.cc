@@ -715,51 +715,66 @@ namespace drafter {
         return element;
     }
 
-    template <typename T>
-    refract::MemberElement* RefractElementFromProperty(const NodeInfo<mson::PropertyMember>& property, const mson::BaseTypeName defaultNestedType)
+    static bool VariablePropertyIsString(const mson::ValueDefinition& variable)
     {
-        refract::MemberElement* element = new refract::MemberElement;
-        refract::IElement* value = RefractElementFromValue<T>(NodeInfo<mson::ValueMember>(property.node, property.sourceMap), defaultNestedType);
-
-        if (!property.node->name.literal.empty()) {
-            snowcrash::SourceMap<mson::Literal> sourceMap;
-            sourceMap.sourceMap.append(property.sourceMap->name.sourceMap);
-
-            refract::IElement* key = PrimitiveToRefract(MakeNodeInfo(property.node->name.literal, sourceMap, property.hasSourceMap()));
-
-            element->set(key, value);
+        if (variable.typeDefinition.typeSpecification.name.base == mson::StringTypeName) {
+            return true;
         }
-        else if (!property.node->name.variable.values.empty()) {
+
+        if (refract::TypeQueryVisitor::as<refract::StringElement>(FindRootAncestor(variable.typeDefinition.typeSpecification.name.symbol.literal, GetNamedTypesRegistry()))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    refract::IElement* GetPropertyKey(const NodeInfo<mson::PropertyMember>& property)
+    {
+
+        refract::StringElement* key = new refract::StringElement;
+        snowcrash::SourceMap<mson::Literal> sourceMap;
+        sourceMap.sourceMap.append(property.sourceMap->name.sourceMap);
+
+        if (!property.node->name.variable.empty()) {
 
             if (property.node->name.variable.values.size() > 1) {
                 // FIXME: is there example for multiple variables?
-                throw snowcrash::Error("multiple variables in property definition are not implemented", snowcrash::MSONError);
+                throw snowcrash::Error("multiple variables in property definition is not implemented", snowcrash::MSONError, sourceMap.sourceMap);
             }
 
-            snowcrash::SourceMap<mson::Literal> sourceMap;
-            sourceMap.sourceMap.append(property.sourceMap->name.sourceMap);
-
-            // check if base variable type is StringElement
+            // variable containt type definition
             if (!property.node->name.variable.typeDefinition.empty()) {
-                const std::string& type = property.node->name.variable.typeDefinition.typeSpecification.name.symbol.literal;
-                if (!type.empty()) {
-                    if (!refract::TypeQueryVisitor::as<refract::StringElement>(FindRootAncestor(type, GetNamedTypesRegistry()))) {
-                        throw snowcrash::Error("'variable named property' must be string or its sub-type", snowcrash::MSONError);
-                    }
+                if (!VariablePropertyIsString(property.node->name.variable)) {
+                    delete key;
+                    throw snowcrash::Error("'variable named property' must be string or its sub-type", snowcrash::MSONError, sourceMap.sourceMap);
                 }
-            }
 
-            refract::IElement* key = PrimitiveToRefract(MakeNodeInfo(property.node->name.variable.values.begin()->literal, sourceMap, property.hasSourceMap()));
+                SetElementType(key, property.node->name.variable.typeDefinition);
+
+            }
 
             key->attributes[SerializeKey::Variable] = refract::IElement::Create(true);
 
-            element->set(key, value);
+            if (!property.node->name.variable.values.empty()) {
+                key->set(property.node->name.variable.values.begin()->literal);
+            }
+        }
 
-            SetElementType(element->value.first, property.node->name.variable.typeDefinition);
+        if (!property.node->name.literal.empty()) {
+            key->set(property.node->name.literal);
         }
-        else {
-            throw snowcrash::Error("no property name", snowcrash::MSONError);
-        }
+
+        AttachSourceMap(key, MakeNodeInfo(property.node->name.literal, sourceMap, property.hasSourceMap()));
+
+        return key;
+    }
+
+    template <typename T>
+    refract::MemberElement* RefractElementFromProperty(const NodeInfo<mson::PropertyMember>& property, const mson::BaseTypeName defaultNestedType)
+    {
+        refract::IElement* key = GetPropertyKey(property);
+        refract::IElement* value = RefractElementFromValue<T>(NodeInfo<mson::ValueMember>(property.node, property.sourceMap), defaultNestedType);
+        refract::MemberElement* element = new refract::MemberElement(key, value);
 
         mson::TypeAttributes attrs = property.node->valueDefinition.typeDefinition.attributes;
 
