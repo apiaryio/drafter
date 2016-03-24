@@ -307,7 +307,11 @@ namespace drafter {
                     break;
 
                 default:
-                    throw snowcrash::Error("unknown section type", snowcrash::MSONError);
+                    // we are not able to get sourcemap info there
+                    // It is strongly dependent on type of section.
+                    // For unknown type of Element we are not able to locate SourceMap
+                    // with adequate effort we do not provide it to upper level
+                    throw snowcrash::Error("unknown section type", snowcrash::ApplicationError);
             }
         }
     };
@@ -447,7 +451,7 @@ namespace drafter {
             template <typename S>
             void operator()(S& storage, const NodeInfo<mson::ValueMember>& valueMember) {
                 if (valueMember.node->valueDefinition.values.size() > 1) {
-                    throw snowcrash::Error("only one value is supported for primitive types", snowcrash::MSONError);
+                    throw snowcrash::Error("only one value is supported for primitive types", snowcrash::MSONError, valueMember.sourceMap->sourceMap);
                 }
 
                 const mson::Value& value = *valueMember.node->valueDefinition.values.begin();
@@ -628,7 +632,7 @@ namespace drafter {
         void TransformElementData(T* element, ElementData<T>& data) {
 
             if (data.values.size() != data.valuesSourceMap.size()) {
-                throw snowcrash::Error("count of source maps is not equal to count of elements");
+                throw snowcrash::Error("count of source maps is not equal to count of elements", snowcrash::ApplicationError);
             }
 
             typedef std::vector<NodeInfo< typename T::ValueType> > ValueNodeInfoCollection;
@@ -727,14 +731,17 @@ namespace drafter {
 
             if (property.node->name.variable.values.size() > 1) {
                 // FIXME: is there example for multiple variables?
-                throw snowcrash::Error("multiple variables in property definition is not implemented", snowcrash::MSONError, sourceMap.sourceMap);
+                throw snowcrash::Error("multiple variables in property definition are not implemented", snowcrash::MSONError, property.sourceMap->sourceMap);
             }
 
             // variable containt type definition
             if (!property.node->name.variable.typeDefinition.empty()) {
-                if (!VariablePropertyIsString(property.node->name.variable)) {
-                    delete key;
-                    throw snowcrash::Error("'variable named property' must be string or its sub-type", snowcrash::MSONError, sourceMap.sourceMap);
+                const std::string& type = property.node->name.variable.typeDefinition.typeSpecification.name.symbol.literal;
+                if (!type.empty()) {
+                    if (!refract::TypeQueryVisitor::as<refract::StringElement>(FindRootAncestor(type, GetNamedTypesRegistry()))) {
+                        delete key;
+                        throw snowcrash::Error("'variable named property' must be string or its sub-type", snowcrash::MSONError, property.sourceMap->sourceMap);
+                    }
                 }
 
                 SetElementType(key, property.node->name.variable.typeDefinition);
@@ -746,9 +753,8 @@ namespace drafter {
                 key->set(property.node->name.variable.values.begin()->literal);
             }
         }
-
-        if (!property.node->name.literal.empty()) {
-            key->set(property.node->name.literal);
+        else {
+            throw snowcrash::Error("no property name", snowcrash::MSONError, property.sourceMap->sourceMap);
         }
 
         AttachSourceMap(key, MakeNodeInfo(property.node->name.literal, sourceMap));
@@ -892,7 +898,7 @@ namespace drafter {
             }
 
             default:
-                throw snowcrash::Error("unknown type of mson member", snowcrash::MSONError);
+                throw snowcrash::Error("unknown type of mson member", snowcrash::MSONError, input.sourceMap->sourceMap);
         }
     }
 
@@ -959,10 +965,10 @@ namespace drafter {
                 return MsonOneofToRefract(MakeNodeInfo(mse.node->content.oneOf(), mse.sourceMap->oneOf()));
 
             case mson::Element::GroupClass:
-                throw snowcrash::Error("unable to handle element group", snowcrash::MSONError);
+                throw snowcrash::Error("unable to handle element group", snowcrash::ApplicationError);
 
             default:
-                throw snowcrash::Error("unknown type of mson element", snowcrash::MSONError);
+                throw snowcrash::Error("unknown type of mson element", snowcrash::ApplicationError);
         }
     }
 
@@ -1037,7 +1043,7 @@ namespace drafter {
                 break;
 
             default:
-                throw snowcrash::Error("unknown type of data structure", snowcrash::MSONError);
+                throw snowcrash::Error("unknown type of data structure", snowcrash::ApplicationError);
         }
 
         return element;
