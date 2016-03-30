@@ -66,6 +66,8 @@
 		19FD76A71B97216100B160CF /* libsos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129EF1B70B88E00366AA7 /* libsos.a */; };
 		19FD76A81B97216700B160CF /* libmarkdownparser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129E91B70AFA900366AA7 /* libmarkdownparser.a */; };
 		19FD76A91B97216700B160CF /* libsnowcrash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129E71B70AFA600366AA7 /* libsnowcrash.a */; };
+		273F3A311CAC76F500E9F017 /* RefractElementFactory.cc in Sources */ = {isa = PBXBuildFile; fileRef = 273F3A2F1CAC76F500E9F017 /* RefractElementFactory.cc */; };
+		273F3A321CAC76F500E9F017 /* RefractElementFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 273F3A301CAC76F500E9F017 /* RefractElementFactory.h */; };
 		400F53C61C5989C7004EA235 /* NamedTypesRegistry.cc in Sources */ = {isa = PBXBuildFile; fileRef = 400F53971C5989C7004EA235 /* NamedTypesRegistry.cc */; };
 		400F53C71C5989C7004EA235 /* NamedTypesRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = 400F53981C5989C7004EA235 /* NamedTypesRegistry.h */; };
 		400F53FB1C5989F1004EA235 /* ApplyVisitor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 400F53F41C5989F1004EA235 /* ApplyVisitor.cc */; };
@@ -189,6 +191,8 @@
 		19A129FD1B70B8D000366AA7 /* sosYAML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sosYAML.h; path = ext/sos/src/sosYAML.h; sourceTree = SOURCE_ROOT; };
 		19BD7B971B70AAAF00A11E83 /* liblibdrafter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibdrafter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		19FD769D1B9720CB00B160CF /* drafter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = drafter; sourceTree = BUILT_PRODUCTS_DIR; };
+		273F3A2F1CAC76F500E9F017 /* RefractElementFactory.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractElementFactory.cc; path = src/RefractElementFactory.cc; sourceTree = SOURCE_ROOT; };
+		273F3A301CAC76F500E9F017 /* RefractElementFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefractElementFactory.h; path = src/RefractElementFactory.h; sourceTree = SOURCE_ROOT; };
 		400F53971C5989C7004EA235 /* NamedTypesRegistry.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NamedTypesRegistry.cc; path = src/NamedTypesRegistry.cc; sourceTree = SOURCE_ROOT; };
 		400F53981C5989C7004EA235 /* NamedTypesRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NamedTypesRegistry.h; path = src/NamedTypesRegistry.h; sourceTree = SOURCE_ROOT; };
 		400F53F41C5989F1004EA235 /* ApplyVisitor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ApplyVisitor.cc; path = src/refract/ApplyVisitor.cc; sourceTree = SOURCE_ROOT; };
@@ -388,6 +392,8 @@
 				40EF03D81B72134000865990 /* RefractAPI.h */,
 				40EF03D31B7210F300865990 /* RefractDataStructure.cc */,
 				40EF03D41B7210F300865990 /* RefractDataStructure.h */,
+				273F3A2F1CAC76F500E9F017 /* RefractElementFactory.cc */,
+				273F3A301CAC76F500E9F017 /* RefractElementFactory.h */,
 				40DDBDD41BE14EA700B10819 /* RefractSourceMap.cc */,
 				40DDBDD51BE14EA700B10819 /* RefractSourceMap.h */,
 				401074A21B833A1000B66442 /* Render.cc */,
@@ -461,6 +467,7 @@
 				19A129C41B70AC9A00366AA7 /* VisitableBy.h in Headers */,
 				19A1298F1B70ABE100366AA7 /* SerializeResult.h in Headers */,
 				19A129B11B70AC9A00366AA7 /* ComparableVisitor.h in Headers */,
+				273F3A321CAC76F500E9F017 /* RefractElementFactory.h in Headers */,
 				19A129BC1B70AC9A00366AA7 /* RenderJSONVisitor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -624,6 +631,7 @@
 				19A1298C1B70ABE100366AA7 /* SerializeAST.cc in Sources */,
 				19A129B21B70AC9A00366AA7 /* Element.cc in Sources */,
 				40EF03D91B72134000865990 /* RefractAPI.cc in Sources */,
+				273F3A311CAC76F500E9F017 /* RefractElementFactory.cc in Sources */,
 				19A129901B70ABE100366AA7 /* SerializeSourcemap.cc in Sources */,
 				19A1297E1B70ABE100366AA7 /* cdrafter.cc in Sources */,
 				19A129B51B70AC9A00366AA7 /* ExpandVisitor.cc in Sources */,
