@@ -11,9 +11,24 @@
 namespace refract
 {
 
-    static bool IsFullRender(const IElement* element) {
-        return element && (element->renderType() == IElement::rFull || element->renderType() == IElement::rCompactContent);
-    }
+    struct IsFullRender {
+        typedef const IElement* first_argument_type;
+        typedef const bool second_argument_type;
+        typedef const bool result_type;
+
+        bool operator()(const IElement* element, const bool exportSourceMap) const {
+
+            if (exportSourceMap) {
+                IElement::MemberElementCollection::const_iterator it = element->attributes.find("sourceMap");
+                // there is sourceMap in attributes
+                if (it != element->attributes.end()) {
+                    return true;
+                }
+            }
+
+            return element && (element->renderType() == IElement::rFull || element->renderType() == IElement::rCompactContent);
+        }
+    };
 
     void SerializeCompactVisitor::visit(const IElement& e)
     {
@@ -46,7 +61,7 @@ namespace refract
         {
 
             for (RefractElements::const_iterator it = values.begin(); it != values.end(); ++it) {
-                if (IsFullRender((*it))) {
+                if (IsFullRender()((*it), exportSourceMap)) {
                     SerializeVisitor s(exportSourceMap);
                     s.visit(*(*it));
                     array.push(s.get());
@@ -83,7 +98,7 @@ namespace refract
         }
 
         if (e.value.second) {
-            if (!IsFullRender(e.value.second)) {
+            if (!IsFullRender()(e.value.second, exportSourceMap)) {
                 e.value.second->content(*this);
             }
             else { // value has request to be serialized in Expanded form
@@ -98,7 +113,7 @@ namespace refract
     {
 
         typedef ObjectElement::ValueType::const_iterator iterator;
-        iterator it = find_if(e.value.begin(), e.value.end(), IsFullRender);
+        iterator it = find_if(e.value.begin(), e.value.end(), std::bind2nd(IsFullRender(), exportSourceMap));
 
         // if there is ANY element required to be serialized in Full
         // we must use array to serialize

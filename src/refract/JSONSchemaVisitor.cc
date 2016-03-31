@@ -453,7 +453,7 @@ namespace refract
 
         sos::SerializeJSON s;
         std::stringstream ss;
-        SerializeCompactVisitor sv;
+        SerializeCompactVisitor sv(false);
 
         pObj->content(sv);
         s.process(sv.value(), ss);
