@@ -27,6 +27,7 @@ namespace refract
                         continue;
                     }
                 }
+
                 SerializeCompactVisitor s(exportSourceMap);
                 s.visit(*(*it));
                 result.set(s.key(), s.value());
@@ -54,6 +55,23 @@ namespace refract
             return array;
         }
 
+        IElement::renderFlags SelectSerializationType(const IElement& e, bool exportSourceMap) {
+
+            if (exportSourceMap) {
+                IElement::MemberElementCollection::const_iterator it = e.attributes.find("sourceMap");
+                // there is sourceMap in attributes
+                if (it != e.attributes.end()) {
+                    return IElement::rFull;
+                }
+            }
+
+            if (e.renderType() == IElement::rCompact || e.renderType() == IElement::rCompactContent) {
+                return IElement::rCompact;
+            }
+
+            return IElement::rFull;
+        }
+
     } // end of anonymous namespace
 
     void SerializeVisitor::visit(const IElement& e)
@@ -77,7 +95,9 @@ namespace refract
         if (e.empty())
             return;
 
-        if (e.renderType() == IElement::rCompact || e.renderType() == IElement::rCompactContent) {
+        const IElement::renderFlags render = SelectSerializationType(e, exportSourceMap);
+
+        if (render == IElement::rCompact) {
             SerializeCompactVisitor s(exportSourceMap);
             e.content(s);
             result.set("content", s.value());

@@ -731,20 +731,18 @@ namespace drafter {
 
             if (property.node->name.variable.values.size() > 1) {
                 // FIXME: is there example for multiple variables?
-                throw snowcrash::Error("multiple variables in property definition are not implemented", snowcrash::MSONError, property.sourceMap->sourceMap);
+                throw snowcrash::Error("multiple variables in property definition is not implemented", snowcrash::MSONError, sourceMap.sourceMap);
             }
 
             // variable containt type definition
             if (!property.node->name.variable.typeDefinition.empty()) {
-                const std::string& type = property.node->name.variable.typeDefinition.typeSpecification.name.symbol.literal;
-                if (!type.empty()) {
-                    if (!refract::TypeQueryVisitor::as<refract::StringElement>(FindRootAncestor(type, GetNamedTypesRegistry()))) {
-                        delete key;
-                        throw snowcrash::Error("'variable named property' must be string or its sub-type", snowcrash::MSONError, property.sourceMap->sourceMap);
-                    }
+                if (!VariablePropertyIsString(property.node->name.variable)) {
+                    delete key;
+                    throw snowcrash::Error("'variable named property' must be string or its sub-type", snowcrash::MSONError, sourceMap.sourceMap);
                 }
 
                 SetElementType(key, property.node->name.variable.typeDefinition);
+
             }
 
             key->attributes[SerializeKey::Variable] = refract::IElement::Create(true);
@@ -753,8 +751,9 @@ namespace drafter {
                 key->set(property.node->name.variable.values.begin()->literal);
             }
         }
-        else {
-            throw snowcrash::Error("no property name", snowcrash::MSONError, property.sourceMap->sourceMap);
+
+        if (!property.node->name.literal.empty()) {
+            key->set(property.node->name.literal);
         }
 
         AttachSourceMap(key, MakeNodeInfo(property.node->name.literal, sourceMap));

@@ -13,7 +13,12 @@
         "sourceMap": [
           {
             "element": "sourceMap",
-            "content": []
+            "content": [
+              [
+                11,
+                32
+              ]
+            ]
           }
         ]
       },

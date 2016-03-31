@@ -21,7 +21,6 @@ namespace drafter {
     {
         if (!nodeInfo.sourceMap->sourceMap.empty()) {
             element->attributes[SerializeKey::SourceMap] = SourceMapToRefract(nodeInfo.sourceMap->sourceMap);
-            element->renderType(refract::IElement::rFull);
         }
     }
 
