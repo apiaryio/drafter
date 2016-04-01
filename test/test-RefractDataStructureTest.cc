@@ -4,11 +4,7 @@ using namespace draftertest;
 
 static drafter::WrapperOptions MSONTestOptions(drafter::NormalASTType, false, true);
 
-static sos::Object Wrapper(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options) {
-    return drafter::WrapBlueprint(blueprint, options.expandMSON);
-}
-
-#define TEST_MSON(file, mustBeOk) TEST_DRAFTER("Testing MSON serialization for", "mson", file, "ast", &Wrapper, MSONTestOptions, mustBeOk)
+#define TEST_MSON(file, mustBeOk) TEST_DRAFTER("Testing MSON serialization for", "mson", file, "ast", &drafter::WrapResult, MSONTestOptions, mustBeOk)
 #define TEST_MSON_SUCCESS(file) TEST_MSON(file, true)
 
 TEST_MSON_SUCCESS("primitives");

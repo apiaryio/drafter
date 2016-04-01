@@ -1,64 +1,94 @@
 {
-  "_version": "4.0",
-  "metadata": [],
-  "name": "",
-  "description": "",
-  "element": "category",
-  "resourceGroups": [
-    {
-      "name": "",
-      "description": "",
-      "resources": [
-        {
-          "element": "resource",
-          "name": "Polls",
-          "description": "",
-          "uriTemplate": "/",
-          "model": {},
-          "parameters": [],
-          "actions": [],
-          "content": [
-            {
-              "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": "Polls"
+  "_version": "2.2",
+  "ast": {
+    "_version": "4.0",
+    "metadata": [],
+    "name": "",
+    "description": "",
+    "element": "category",
+    "resourceGroups": [
+      {
+        "name": "",
+        "description": "",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "Polls",
+            "description": "",
+            "uriTemplate": "/",
+            "model": {},
+            "parameters": [],
+            "actions": [],
+            "content": [
+              {
+                "element": "dataStructure",
+                "content": [
+                  {
+                    "element": "object",
+                    "meta": {
+                      "id": "Polls"
+                    }
                   }
-                }
-              ]
-            }
-          ]
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "content": [
+      {
+        "element": "category",
+        "content": [
+          {
+            "element": "resource",
+            "name": "Polls",
+            "description": "",
+            "uriTemplate": "/",
+            "model": {},
+            "parameters": [],
+            "actions": [],
+            "content": [
+              {
+                "element": "dataStructure",
+                "content": [
+                  {
+                    "element": "object",
+                    "meta": {
+                      "id": "Polls"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "error": {
+    "code": 0,
+    "message": "",
+    "location": []
+  },
+  "warnings": [
+    {
+      "code": 3,
+      "message": "mixin type may not include a type of a primitive sub-type",
+      "location": [
+        {
+          "index": 31,
+          "length": 15
         }
       ]
-    }
-  ],
-  "content": [
+    },
     {
-      "element": "category",
-      "content": [
+      "code": 8,
+      "message": "mixin base type should be the same as parent base type. objects should contain object mixins. arrays should contain array mixins",
+      "location": [
         {
-          "element": "resource",
-          "name": "Polls",
-          "description": "",
-          "uriTemplate": "/",
-          "model": {},
-          "parameters": [],
-          "actions": [],
-          "content": [
-            {
-              "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": "Polls"
-                  }
-                }
-              ]
-            }
-          ]
+          "index": 29,
+          "length": 17
         }
       ]
     }
