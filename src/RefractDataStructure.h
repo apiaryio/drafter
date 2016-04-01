@@ -16,7 +16,7 @@ namespace drafter {
     refract::IElement* MSONToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure);
     refract::IElement* ExpandRefract(refract::IElement*, const refract::Registry&);
 
-    sos::Object SerializeRefract(refract::IElement*);
+    sos::Object SerializeRefract(refract::IElement*, bool exportSourceMap = true);
 
 }
 

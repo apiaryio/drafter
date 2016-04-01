@@ -143,11 +143,7 @@ namespace draftertest {
             snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
             snowcrash::BlueprintParserOptions parserOptions = 0;
 
-            if (options.exportSourceMap) {
-              parserOptions |= snowcrash::ExportSourcemapOption;
-            }
-
-            int result = snowcrash::parse(fixture.get(ext::apib), parserOptions, blueprint);
+            int result = snowcrash::parse(fixture.get(ext::apib), 0, blueprint);
 
             std::stringstream outStream;
             sos::SerializeJSON serializer;

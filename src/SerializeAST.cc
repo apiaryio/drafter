@@ -449,7 +449,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
 
 #if _WITH_REFRACT_
     refract::IElement *element = DataStructureToRefract(MakeNodeInfoWithoutSourceMap(dataStructure), ExpandMSON);
-    dataStructureObject = SerializeRefract(element);
+    dataStructureObject = SerializeRefract(element, false);
 
     if (element) {
         delete element;
@@ -811,9 +811,8 @@ sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Bluep
 
     try {
         ExpandMSON = expandMSON;
-        bool hasSourceMap = (blueprint.node.content.elements().size() == blueprint.sourceMap.content.elements().collection.size());
 
-        RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements(), hasSourceMap));
+        RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()));
         blueprintObject = WrapBlueprintAST(blueprint.node);
     }
     catch (std::exception& e) {

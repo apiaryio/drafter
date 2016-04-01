@@ -33,13 +33,13 @@ namespace drafter {
             for (NodeInfoCollection<snowcrash::Elements>::const_iterator i = elements.begin(); i != elements.end(); ++i) {
 
                 if (i->node->element == snowcrash::Element::DataStructureElement) {
-                    found.push_back(MakeNodeInfo(i->node->content.dataStructure, i->sourceMap->content.dataStructure, i->hasSourceMap()));
+                    found.push_back(MakeNodeInfo(i->node->content.dataStructure, i->sourceMap->content.dataStructure));
                 }
                 else if (!i->node->content.resource.attributes.empty()) {
-                    found.push_back(MakeNodeInfo(i->node->content.resource.attributes, i->sourceMap->content.resource.attributes, i->hasSourceMap()));
+                    found.push_back(MakeNodeInfo(i->node->content.resource.attributes, i->sourceMap->content.resource.attributes));
                 }
                 else if (i->node->element == snowcrash::Element::CategoryElement) {
-                    NodeInfoCollection<snowcrash::Elements> children(MakeNodeInfo(i->node->content.elements(), i->sourceMap->content.elements(), i->hasSourceMap()));
+                    NodeInfoCollection<snowcrash::Elements> children(MakeNodeInfo(i->node->content.elements(), i->sourceMap->content.elements()));
                     FindNamedTypes(children, found);
                 }
             }

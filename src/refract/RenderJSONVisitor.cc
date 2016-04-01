@@ -136,7 +136,6 @@ namespace refract
         result = new MemberElement(key,
                                    renderer.result ? renderer.getOwnership() : new StringElement,
                                    IElement::rCompact);
-
     }
 
     void RenderJSONVisitor::visit(const ObjectElement& e) {

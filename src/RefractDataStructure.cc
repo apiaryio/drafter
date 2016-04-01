@@ -223,8 +223,7 @@ namespace drafter {
         struct Fetch<RefractElements, dummy> {
             RefractElements operator()(const NodeInfo<mson::TypeSection>& typeSection, const mson::BaseTypeName& defaultNestedType) {
                 return MsonElementsToRefract(MakeNodeInfo(typeSection.node->content.elements(),
-                                                          typeSection.sourceMap->elements(),
-                                                          typeSection.hasSourceMap()),
+                                                          typeSection.sourceMap->elements()),
                                              defaultNestedType);
             }
         };
@@ -233,10 +232,6 @@ namespace drafter {
         struct FetchSourceMap {
             snowcrash::SourceMap<U> operator()(const NodeInfo<mson::TypeSection>& typeSection, const mson::BaseTypeName& defaultNestedType) {
                 // conversion of source map from "string" into "typed" sourcemap
-                if (!typeSection.hasSourceMap()) {
-                    return *NodeInfo<U>::NullSourceMap();
-                }
-
                 snowcrash::SourceMap<U> sourceMap;
                 sourceMap.sourceMap = typeSection.sourceMap->value.sourceMap;
                 return sourceMap;
@@ -312,7 +307,11 @@ namespace drafter {
                     break;
 
                 default:
-                    throw snowcrash::Error("unknown section type", snowcrash::MSONError);
+                    // we are not able to get sourcemap info there
+                    // It is strongly dependent on type of section.
+                    // For unknown type of Element we are not able to locate SourceMap
+                    // with adequate effort we do not provide it to upper level
+                    throw snowcrash::Error("unknown section type", snowcrash::ApplicationError);
             }
         }
     };
@@ -452,7 +451,7 @@ namespace drafter {
             template <typename S>
             void operator()(S& storage, const NodeInfo<mson::ValueMember>& valueMember) {
                 if (valueMember.node->valueDefinition.values.size() > 1) {
-                    throw snowcrash::Error("only one value is supported for primitive types", snowcrash::MSONError);
+                    throw snowcrash::Error("only one value is supported for primitive types", snowcrash::MSONError, valueMember.sourceMap->sourceMap);
                 }
 
                 const mson::Value& value = *valueMember.node->valueDefinition.values.begin();
@@ -488,11 +487,7 @@ namespace drafter {
             template <typename S>
             void operator()(S& storage, const NodeInfo<mson::ValueMember>& valueMember) {
                 snowcrash::SourceMap<typename T::ValueType> sourceMap = *NodeInfo<typename T::ValueType>::NullSourceMap();
-
-                if (valueMember.hasSourceMap()) {
-                    sourceMap.sourceMap = valueMember.sourceMap->valueDefinition.sourceMap;
-                }
-
+                sourceMap.sourceMap = valueMember.sourceMap->valueDefinition.sourceMap;
                 storage.push_back(sourceMap);
             }
         };
@@ -628,23 +623,20 @@ namespace drafter {
 
         template <typename T>
         struct MakeNodeInfoFunctor {
-            const bool hasSourceMap;
-            MakeNodeInfoFunctor(bool hasSourceMap) : hasSourceMap(hasSourceMap) {}
-
             NodeInfo<T> operator()(const T& v, const snowcrash::SourceMap<T>& sm) {
-                return MakeNodeInfo<T>(v, sm, hasSourceMap);
+                return MakeNodeInfo<T>(v, sm);
             }
         };
 
         template<typename T>
-        void TransformElementData(T* element, ElementData<T>& data, bool hasSourceMap) {
+        void TransformElementData(T* element, ElementData<T>& data) {
 
             if (data.values.size() != data.valuesSourceMap.size()) {
-                throw snowcrash::Error("count of source maps is not equal to count of elements");
+                throw snowcrash::Error("count of source maps is not equal to count of elements", snowcrash::ApplicationError);
             }
 
             typedef std::vector<NodeInfo< typename T::ValueType> > ValueNodeInfoCollection;
-            ValueNodeInfoCollection valuesNodeInfo = Zip<ValueNodeInfoCollection>(data.values, data.valuesSourceMap, MakeNodeInfoFunctor<typename T::ValueType>(hasSourceMap));
+            ValueNodeInfoCollection valuesNodeInfo = Zip<ValueNodeInfoCollection>(data.values, data.valuesSourceMap, MakeNodeInfoFunctor<typename T::ValueType>());
 
             std::for_each(valuesNodeInfo.begin(), valuesNodeInfo.end(), Append<T>(element));
 
@@ -710,7 +702,7 @@ namespace drafter {
             data.valuesSourceMap.erase(data.valuesSourceMap.begin());
         }
 
-        TransformElementData(element, data, value.hasSourceMap());
+        TransformElementData(element, data);
 
         return element;
     }
@@ -764,7 +756,7 @@ namespace drafter {
             key->set(property.node->name.literal);
         }
 
-        AttachSourceMap(key, MakeNodeInfo(property.node->name.literal, sourceMap, property.hasSourceMap()));
+        AttachSourceMap(key, MakeNodeInfo(property.node->name.literal, sourceMap));
 
         return key;
     }
@@ -825,7 +817,7 @@ namespace drafter {
         }
 
         if (!description.empty()) {
-            element->meta[SerializeKey::Description] = PrimitiveToRefract(MakeNodeInfo(description, sourceMap, property.hasSourceMap()));
+            element->meta[SerializeKey::Description] = PrimitiveToRefract(MakeNodeInfo(description, sourceMap));
         }
 
         return element;
@@ -905,7 +897,7 @@ namespace drafter {
             }
 
             default:
-                throw snowcrash::Error("unknown type of mson member", snowcrash::MSONError);
+                throw snowcrash::Error("unknown type of mson member", snowcrash::MSONError, input.sourceMap->sourceMap);
         }
     }
 
@@ -923,7 +915,7 @@ namespace drafter {
             // we can not use MsonElementToRefract() for groups,
             // "option" element handles directly all elements in group
             if (it->node->klass == mson::Element::GroupClass) {
-                option->set(MsonElementsToRefract(MakeNodeInfo(it->node->content.elements(), it->sourceMap->elements(), it->hasSourceMap())));
+                option->set(MsonElementsToRefract(MakeNodeInfo(it->node->content.elements(), it->sourceMap->elements())));
             }
             else {
                 option->push_back(MsonElementToRefract(*it, mson::StringTypeName));
@@ -956,26 +948,26 @@ namespace drafter {
     {
         switch (mse.node->klass) {
             case mson::Element::PropertyClass:
-                return MsonMemberToRefract<PropertyTrait>(MakeNodeInfo(mse.node->content.property, mse.sourceMap->property, mse.hasSourceMap()),
+                return MsonMemberToRefract<PropertyTrait>(MakeNodeInfo(mse.node->content.property, mse.sourceMap->property),
                                                           GetType(mse.node->content.property.valueDefinition),
                                                           defaultNestedType);
 
             case mson::Element::ValueClass:
-                return MsonMemberToRefract<ValueTrait>(MakeNodeInfo(mse.node->content.value, mse.sourceMap->value, mse.hasSourceMap()),
+                return MsonMemberToRefract<ValueTrait>(MakeNodeInfo(mse.node->content.value, mse.sourceMap->value),
                                                        GetType(mse.node->content.value.valueDefinition),
                                                        defaultNestedType);
 
             case mson::Element::MixinClass:
-                return MsonMixinToRefract(MakeNodeInfo(mse.node->content.mixin, mse.sourceMap->mixin, mse.hasSourceMap()));
+                return MsonMixinToRefract(MakeNodeInfo(mse.node->content.mixin, mse.sourceMap->mixin));
 
             case mson::Element::OneOfClass:
-                return MsonOneofToRefract(MakeNodeInfo(mse.node->content.oneOf(), mse.sourceMap->oneOf(), mse.hasSourceMap()));
+                return MsonOneofToRefract(MakeNodeInfo(mse.node->content.oneOf(), mse.sourceMap->oneOf()));
 
             case mson::Element::GroupClass:
-                throw snowcrash::Error("unable to handle element group", snowcrash::MSONError);
+                throw snowcrash::Error("unable to handle element group", snowcrash::ApplicationError);
 
             default:
-                throw snowcrash::Error("unknown type of mson element", snowcrash::MSONError);
+                throw snowcrash::Error("unknown type of mson element", snowcrash::ApplicationError);
         }
     }
 
@@ -991,7 +983,7 @@ namespace drafter {
         if (!ds.node->name.symbol.literal.empty()) {
             snowcrash::SourceMap<mson::Literal> sourceMap = *NodeInfo<mson::Literal>::NullSourceMap();
             sourceMap.sourceMap.append(ds.sourceMap->name.sourceMap);
-            element->meta[SerializeKey::Id] = PrimitiveToRefract(MakeNodeInfo(ds.node->name.symbol.literal, sourceMap, ds.hasSourceMap()));
+            element->meta[SerializeKey::Id] = PrimitiveToRefract(MakeNodeInfo(ds.node->name.symbol.literal, sourceMap));
         }
 
         ElementData<T> data;
@@ -1003,7 +995,7 @@ namespace drafter {
 
         std::for_each(typeSections.begin(), typeSections.end(), ExtractTypeSection<T>(data, ds));
 
-        TransformElementData<T>(element, data, ds.hasSourceMap());
+        TransformElementData<T>(element, data);
 
         if (refract::IElement* description = DescriptionToRefract(data)) {
             element->meta[SerializeKey::Description] = description;
@@ -1050,7 +1042,7 @@ namespace drafter {
                 break;
 
             default:
-                throw snowcrash::Error("unknown type of data structure", snowcrash::MSONError);
+                throw snowcrash::Error("unknown type of data structure", snowcrash::ApplicationError);
         }
 
         return element;
@@ -1073,13 +1065,13 @@ namespace drafter {
         return element;
     }
 
-    sos::Object SerializeRefract(refract::IElement* element)
+    sos::Object SerializeRefract(refract::IElement* element, bool exportSourceMap /* = true*/)
     {
         if (!element) {
             return sos::Object();
         }
 
-        refract::SerializeVisitor serializer;
+        refract::SerializeVisitor serializer(exportSourceMap);
         serializer.visit(*element);
 
         return serializer.get();

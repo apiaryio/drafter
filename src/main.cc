@@ -52,18 +52,12 @@ int main(int argc, const char *argv[])
     Config config;
     ParseCommadLineOptions(argc, argv, config);
 
-    sc::BlueprintParserOptions options = 0;  // Or snowcrash::RequireBlueprintNameOption
-
-    if (config.sourceMap) {
-        options |= snowcrash::ExportSourcemapOption;
-    }
-
     std::stringstream inputStream;
     std::auto_ptr<std::istream> in(CreateStreamFromName<std::istream>(config.input));
     inputStream << in->rdbuf();
 
     sc::ParseResult<sc::Blueprint> blueprint;
-    sc::parse(inputStream.str(), options, blueprint);
+    sc::parse(inputStream.str(), 0, blueprint);
 
     sos::Serialize* serializer = CreateSerializer(config.format);
     std::ostream *out = CreateStreamFromName<std::ostream>(config.output);

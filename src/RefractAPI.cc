@@ -266,23 +266,41 @@ namespace drafter {
                                                                                                     refract::IElement::rFull);
         }
 
-        // Render using boutique
-        NodeInfoByValue<snowcrash::Asset> payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
-        NodeInfoByValue<snowcrash::Asset> payloadSchema = renderPayloadSchema(payload, action, GetNamedTypesRegistry());
-
         content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
         content.push_back(DataStructureToRefract(MAKE_NODE_INFO(payload, attributes)));
 
-        // Get content type
-        std::string contentType = getContentTypeFromHeaders(payload.node->headers);
-        std::string schemaContentType = (payload.node->schema == payloadSchema.first ? contentType : JSONSchemaContentType);
+        try {
+            // Render using boutique
+            NodeInfoByValue<snowcrash::Asset> payloadBody = renderPayloadBody(payload, action, GetNamedTypesRegistry());
+            NodeInfoByValue<snowcrash::Asset> payloadSchema = renderPayloadSchema(payload, action, GetNamedTypesRegistry());
 
-        // Push Body Asset
-        content.push_back(AssetToRefract(NodeInfo<snowcrash::Asset>(payloadBody), contentType, SerializeKey::MessageBody));
+            // Get content type
+            std::string contentType = getContentTypeFromHeaders(payload.node->headers);
+            std::string schemaContentType = (payload.node->schema == payloadSchema.first ? contentType : JSONSchemaContentType);
 
-        // Render only if Body is JSON or Schema is defined
-        if (!payloadSchema.first.empty()) {
-            content.push_back(AssetToRefract(NodeInfo<snowcrash::Asset>(payloadSchema), schemaContentType, SerializeKey::MessageBodySchema));
+            // Push Body Asset
+            content.push_back(AssetToRefract(NodeInfo<snowcrash::Asset>(payloadBody), contentType, SerializeKey::MessageBody));
+
+            // Render only if Body is JSON or Schema is defined
+            if (!payloadSchema.first.empty()) {
+                content.push_back(AssetToRefract(NodeInfo<snowcrash::Asset>(payloadSchema), schemaContentType, SerializeKey::MessageBodySchema));
+            }
+        }
+
+        // what to do?
+        // we are not able to generate JSON and/or JSON Schema
+        // this is not fatal, rethrow will finish conversion
+
+        // ideal solution is add warning into collection
+        // but there is no way how to do it
+        // in current time we solve it by rethrow
+
+        catch (snowcrash::Error& e) {
+            e.location = payload.sourceMap->sourceMap;
+            throw e;
+        }
+        catch (refract::LogicError& e) {
+            throw snowcrash::Error(e.what(), snowcrash::ApplicationError, payload.sourceMap->sourceMap);
         }
 
         RemoveEmptyElements(content);
@@ -443,7 +461,7 @@ namespace drafter {
         }
 
         if (!element.node->content.elements().empty()) {
-            const NodeInfo<snowcrash::Elements> elementsNodeInfo = MakeNodeInfo(&element.node->content.elements(), GetElementChildrenSourceMap(element), element.hasSourceMap());
+            const NodeInfo<snowcrash::Elements> elementsNodeInfo = MakeNodeInfo(&element.node->content.elements(), GetElementChildrenSourceMap(element));
 
             NodeInfoToElements(elementsNodeInfo, ElementToRefract, content);
         }
@@ -466,6 +484,10 @@ namespace drafter {
             case snowcrash::Element::CategoryElement:
                 return CategoryToRefract(element);
             default:
+                // we are not able to get sourcemap info there
+                // It is strongly dependent on type of element.
+                // For unknown type of Element we are not able to locate SourceMap
+                // with adequate effort we do not provide it to upper level
                 throw snowcrash::Error("unknown type of api description element", snowcrash::ApplicationError);
         }
     }
