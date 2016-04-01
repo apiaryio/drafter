@@ -892,13 +892,15 @@ namespace drafter {
                 else if (ValueHasName(input.node) || ValueHasMembers(input.node)) {
                     return Trait::template Invoke<refract::ObjectElement>(input, defaultNestedType);
                 }
+                else if (nameType != defaultNestedType) {
+                    return MsonMemberToRefract<Trait>(input, defaultNestedType, defaultNestedType);
+                }
 
-                return MsonMemberToRefract<Trait>(input, defaultNestedType, defaultNestedType);
+                return MsonMemberToRefract<Trait>(input, mson::StringTypeName, defaultNestedType);
             }
-
-            default:
-                throw snowcrash::Error("unknown type of mson member", snowcrash::MSONError, input.sourceMap->sourceMap);
         }
+
+        throw snowcrash::Error("unknown type of mson member", snowcrash::MSONError, input.sourceMap->sourceMap);
     }
 
     static refract::IElement* MsonOneofToRefract(const NodeInfo<mson::OneOf>& oneOf)

@@ -50,6 +50,7 @@ TEST_MSON_SUCCESS("reference-override");
 TEST_MSON_SUCCESS("enum-variants");
 TEST_MSON_SUCCESS("inheritance-primitive");
 TEST_MSON_SUCCESS("regression-207");
+TEST_MSON_SUCCESS("regression-267");
 
 TEST_REFRACT("mson", "variable-property-name");
 
