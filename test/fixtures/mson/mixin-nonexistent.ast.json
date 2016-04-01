@@ -1,4 +1,5 @@
 {
+  "_version": "2.2",
   "error": {
     "code": 4,
     "message": "base type 'XXX' is not defined in the document",

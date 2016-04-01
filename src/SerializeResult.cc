@@ -50,21 +50,19 @@ sos::Object WrapParseResultAST(snowcrash::ParseResult<snowcrash::Blueprint>& blu
     sos::Object object;
     snowcrash::Error error;
 
-    if (blueprint.report.error.code == snowcrash::Error::OK) {
-        try {
-            object.set(SerializeKey::Version, sos::String(PARSE_RESULT_SERIALIZATION_VERSION));
-            object.set(SerializeKey::Ast, WrapBlueprint(blueprint, options.expandMSON));
+    try {
+        object.set(SerializeKey::Version, sos::String(PARSE_RESULT_SERIALIZATION_VERSION));
+        object.set(SerializeKey::Ast, WrapBlueprint(blueprint, options.expandMSON));
 
-            if (options.exportSourceMap) {
-                object.set(SerializeKey::Sourcemap, WrapBlueprintSourcemap(blueprint.sourceMap));
-            }
+        if (options.exportSourceMap) {
+            object.set(SerializeKey::Sourcemap, WrapBlueprintSourcemap(blueprint.sourceMap));
         }
-        catch (std::exception& e) {
-            error = snowcrash::Error(e.what(), snowcrash::MSONError);
-        }
-        catch (snowcrash::Error& e) {
-            error = e;
-        }
+    }
+    catch (std::exception& e) {
+        error = snowcrash::Error(e.what(), snowcrash::MSONError);
+    }
+    catch (snowcrash::Error& e) {
+        error = e;
     }
 
     if (error.code != snowcrash::Error::OK) {
