@@ -1,6 +1,6 @@
 {
   "name": "drafter.js",
-  "version": "2.3.0-pre.0",
+  "version": "2.3.0-pre.1",
   "description": "Pure JS Drafter built with Emscripten",
   "main": "emcc/drafter.nomem.js",
   "scripts": {
