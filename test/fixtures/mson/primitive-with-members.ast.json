@@ -1,58 +1,178 @@
 {
-  "_version": "4.0",
-  "metadata": [],
-  "name": "<API name>",
-  "description": "<API description>\n\n",
-  "element": "category",
-  "resourceGroups": [],
-  "content": [
+  "_version": "2.2",
+  "ast": {
+    "_version": "4.0",
+    "metadata": [],
+    "name": "<API name>",
+    "description": "<API description>\n\n",
+    "element": "category",
+    "resourceGroups": [],
+    "content": [
+      {
+        "element": "category",
+        "content": [
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "string",
+                "meta": {
+                  "id": "StringType"
+                }
+              }
+            ]
+          },
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "boolean",
+                "meta": {
+                  "id": "BooleanType"
+                }
+              }
+            ]
+          },
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "number",
+                "meta": {
+                  "id": "NumberType"
+                }
+              }
+            ]
+          },
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "number",
+                "meta": {
+                  "id": "NumericType",
+                  "description": "FIXME: After following `### Properties` section showcrash finnish parsing\ndue to this `NonpasedObject` is not parsed :)\n\n"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "error": {
+    "code": 0,
+    "message": "",
+    "location": []
+  },
+  "warnings": [
     {
-      "element": "category",
-      "content": [
+      "code": 8,
+      "message": "sub-types of primitive types should not have nested members",
+      "location": [
         {
-          "element": "dataStructure",
-          "content": [
-            {
-              "element": "string",
-              "meta": {
-                "id": "StringType"
-              }
-            }
-          ]
-        },
+          "index": 75,
+          "length": 6
+        }
+      ]
+    },
+    {
+      "code": 5,
+      "message": "ignoring unrecognized block",
+      "location": [
         {
-          "element": "dataStructure",
-          "content": [
-            {
-              "element": "boolean",
-              "meta": {
-                "id": "BooleanType"
-              }
-            }
-          ]
-        },
+          "index": 75,
+          "length": 6
+        }
+      ]
+    },
+    {
+      "code": 8,
+      "message": "sub-types of primitive types should not have nested members",
+      "location": [
         {
-          "element": "dataStructure",
-          "content": [
-            {
-              "element": "number",
-              "meta": {
-                "id": "NumberType"
-              }
-            }
-          ]
-        },
+          "index": 106,
+          "length": 6
+        }
+      ]
+    },
+    {
+      "code": 5,
+      "message": "ignoring unrecognized block",
+      "location": [
         {
-          "element": "dataStructure",
-          "content": [
-            {
-              "element": "number",
-              "meta": {
-                "id": "NumericType",
-                "description": "FIXME: After following `### Properties` section showcrash finnish parsing\ndue to this `NonpasedObject` is not parsed :)\n\n"
-              }
-            }
-          ]
+          "index": 106,
+          "length": 6
+        }
+      ]
+    },
+    {
+      "code": 8,
+      "message": "sub-types of primitive types should not have nested members",
+      "location": [
+        {
+          "index": 135,
+          "length": 6
+        }
+      ]
+    },
+    {
+      "code": 5,
+      "message": "ignoring unrecognized block",
+      "location": [
+        {
+          "index": 135,
+          "length": 6
+        }
+      ]
+    },
+    {
+      "code": 8,
+      "message": "type section `Properties` is only allowed for a type sub-typed from an object type",
+      "location": [
+        {
+          "index": 286,
+          "length": 14
+        }
+      ]
+    },
+    {
+      "code": 5,
+      "message": "unexpected header block, expected a group, resource or an action definition, e.g. '# Group <name>', '# <resource name> [<URI>]' or '# <HTTP method> <URI>'",
+      "location": [
+        {
+          "index": 286,
+          "length": 14
+        }
+      ]
+    },
+    {
+      "code": 5,
+      "message": "ignoring unrecognized block",
+      "location": [
+        {
+          "index": 300,
+          "length": 6
+        }
+      ]
+    },
+    {
+      "code": 5,
+      "message": "unexpected header block, expected a group, resource or an action definition, e.g. '# Group <name>', '# <resource name> [<URI>]' or '# <HTTP method> <URI>'",
+      "location": [
+        {
+          "index": 306,
+          "length": 28
+        }
+      ]
+    },
+    {
+      "code": 5,
+      "message": "ignoring unrecognized block",
+      "location": [
+        {
+          "index": 334,
+          "length": 7
         }
       ]
     }

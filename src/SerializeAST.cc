@@ -809,6 +809,10 @@ sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Bluep
     sos::Object blueprintObject;
     snowcrash::Error error;
 
+    if (blueprint.report.error.code != snowcrash::Error::OK) {
+        throw blueprint.report.error;
+    }
+
     try {
         ExpandMSON = expandMSON;
 

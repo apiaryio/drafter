@@ -1,96 +1,105 @@
 {
-  "_version": "4.0",
-  "metadata": [],
-  "name": "<API name>",
-  "description": "<API description>\n\n",
-  "element": "category",
-  "resourceGroups": [],
-  "content": [
-    {
-      "element": "category",
-      "content": [
-        {
-          "element": "dataStructure",
-          "content": [
-            {
-              "element": "object",
-              "meta": {
-                "id": "User"
-              },
-              "content": [
-                {
-                  "element": "member",
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "city"
-                    },
-                    "value": {
-                      "element": "string"
-                    }
-                  }
+  "_version": "2.2",
+  "ast": {
+    "_version": "4.0",
+    "metadata": [],
+    "name": "<API name>",
+    "description": "<API description>\n\n",
+    "element": "category",
+    "resourceGroups": [],
+    "content": [
+      {
+        "element": "category",
+        "content": [
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "object",
+                "meta": {
+                  "id": "User"
                 },
-                {
-                  "element": "select",
-                  "content": [
-                    {
-                      "element": "option",
-                      "content": [
-                        {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "state"
-                            },
-                            "value": {
-                              "element": "array",
-                              "content": [
-                                {
-                                  "element": "string",
-                                  "content": "cz"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "sk"
-                                }
-                              ]
-                            }
-                          }
-                        }
-                      ]
-                    },
-                    {
-                      "element": "option",
-                      "content": [
-                        {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "province"
-                            },
-                            "value": {
-                              "element": "string",
-                              "attributes": {
-                                "samples": [
-                                  "one",
-                                  "uno",
-                                  "jedna"
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "city"
+                      },
+                      "value": {
+                        "element": "string"
+                      }
+                    }
+                  },
+                  {
+                    "element": "select",
+                    "content": [
+                      {
+                        "element": "option",
+                        "content": [
+                          {
+                            "element": "member",
+                            "content": {
+                              "key": {
+                                "element": "string",
+                                "content": "state"
+                              },
+                              "value": {
+                                "element": "array",
+                                "content": [
+                                  {
+                                    "element": "string",
+                                    "content": "cz"
+                                  },
+                                  {
+                                    "element": "string",
+                                    "content": "sk"
+                                  }
                                 ]
                               }
                             }
                           }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
+                        ]
+                      },
+                      {
+                        "element": "option",
+                        "content": [
+                          {
+                            "element": "member",
+                            "content": {
+                              "key": {
+                                "element": "string",
+                                "content": "province"
+                              },
+                              "value": {
+                                "element": "string",
+                                "attributes": {
+                                  "samples": [
+                                    "one",
+                                    "uno",
+                                    "jedna"
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "error": {
+    "code": 0,
+    "message": "",
+    "location": []
+  },
+  "warnings": []
 }

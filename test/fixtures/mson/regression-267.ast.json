@@ -1,54 +1,63 @@
 {
-  "_version": "4.0",
-  "metadata": [],
-  "name": "",
-  "description": "",
-  "element": "category",
-  "resourceGroups": [],
-  "content": [
-    {
-      "element": "category",
-      "content": [
-        {
-          "element": "dataStructure",
-          "content": [
-            {
-              "element": "object",
-              "meta": {
-                "id": "Object"
-              },
-              "content": [
-                {
-                  "element": "member",
-                  "attributes": {
-                    "typeAttributes": [
-                      "optional"
-                    ]
-                  },
-                  "content": {
-                    "key": {
-                      "element": "string",
-                      "content": "thing"
-                    },
-                    "value": {
-                      "element": "array",
-                      "content": [
-                        {
-                          "element": "object"
-                        },
-                        {
-                          "element": "string",
-                          "content": "foo: bar"
-                        }
+  "_version": "2.2",
+  "ast": {
+    "_version": "4.0",
+    "metadata": [],
+    "name": "",
+    "description": "",
+    "element": "category",
+    "resourceGroups": [],
+    "content": [
+      {
+        "element": "category",
+        "content": [
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "object",
+                "meta": {
+                  "id": "Object"
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "attributes": {
+                      "typeAttributes": [
+                        "optional"
                       ]
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "thing"
+                      },
+                      "value": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "object"
+                          },
+                          {
+                            "element": "string",
+                            "content": "foo: bar"
+                          }
+                        ]
+                      }
                     }
                   }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "error": {
+    "code": 0,
+    "message": "",
+    "location": []
+  },
+  "warnings": []
 }

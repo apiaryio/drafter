@@ -104,30 +104,32 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
     refract::ArrayElement* parseResult = new refract::ArrayElement;
     parseResult->element(SerializeKey::ParseResult);
 
-    try {
-        RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()));
-        blueprintRefract = BlueprintToRefract(MakeNodeInfo(blueprint.node, blueprint.sourceMap));
-    }
-    catch (std::exception& e) {
-        error = snowcrash::Error(e.what(), snowcrash::MSONError);
-    }
-    catch (snowcrash::Error& e) {
-        error = e;
-    }
-
-    GetNamedTypesRegistry().clearAll(true);
-
-    if (error.code != snowcrash::Error::OK) {
-        if (blueprint.report.error.code != snowcrash::Error::OK) {
-            blueprint.report.error = error;
+    if (blueprint.report.error.code == snowcrash::Error::OK) {
+        try {
+            RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()));
+            blueprintRefract = BlueprintToRefract(MakeNodeInfo(blueprint.node, blueprint.sourceMap));
         }
-        else {
-            blueprint.report.warnings.push_back(error);
+        catch (std::exception& e) {
+            error = snowcrash::Error(e.what(), snowcrash::MSONError);
         }
-    }
+        catch (snowcrash::Error& e) {
+            error = e;
+        }
 
-    if (blueprintRefract) {
-        parseResult->push_back(blueprintRefract);
+        GetNamedTypesRegistry().clearAll(true);
+
+        if (error.code != snowcrash::Error::OK) {
+            if (blueprint.report.error.code != snowcrash::Error::OK) {
+                blueprint.report.error = error;
+            }
+            else {
+                blueprint.report.warnings.push_back(error);
+            }
+        }
+
+        if (blueprintRefract) {
+            parseResult->push_back(blueprintRefract);
+        }
     }
 
     if (blueprint.report.error.code != snowcrash::Error::OK) {

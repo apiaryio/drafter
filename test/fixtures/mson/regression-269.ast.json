@@ -1,0 +1,25 @@
+{
+  "_version": "2.2",
+  "error": {
+    "code": 4,
+    "message": "base type 'X' circularly referencing itself",
+    "location": [
+      {
+        "index": 19,
+        "length": 10
+      }
+    ]
+  },
+  "warnings": [
+    {
+      "code": 8,
+      "message": "unable to find the symbol `X` in the list of named types",
+      "location": [
+        {
+          "index": 19,
+          "length": 10
+        }
+      ]
+    }
+  ]
+}
