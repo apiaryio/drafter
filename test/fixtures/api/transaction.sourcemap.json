@@ -153,7 +153,18 @@
                                 ]
                               },
                               "content": "Normal"
-                            }
+                            },
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    73,
+                                    16
+                                  ]
+                                ]
+                              }
+                            ]
                           },
                           "content": [
                             {
@@ -199,7 +210,18 @@
                                 ]
                               },
                               "content": "200"
-                            }
+                            },
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    103,
+                                    14
+                                  ]
+                                ]
+                              }
+                            ]
                           },
                           "content": [
                             {

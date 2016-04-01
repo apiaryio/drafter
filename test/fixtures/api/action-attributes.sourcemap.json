@@ -210,7 +210,18 @@
                                 ]
                               },
                               "content": "200"
-                            }
+                            },
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    109,
+                                    14
+                                  ]
+                                ]
+                              }
+                            ]
                           },
                           "content": [
                             {
