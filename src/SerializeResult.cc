@@ -50,19 +50,21 @@ sos::Object WrapParseResultAST(snowcrash::ParseResult<snowcrash::Blueprint>& blu
     sos::Object object;
     snowcrash::Error error;
 
-    try {
-        object.set(SerializeKey::Version, sos::String(PARSE_RESULT_SERIALIZATION_VERSION));
-        object.set(SerializeKey::Ast, WrapBlueprint(blueprint, options.expandMSON));
+    if (blueprint.report.error.code == snowcrash::Error::OK) {
+        try {
+            object.set(SerializeKey::Version, sos::String(PARSE_RESULT_SERIALIZATION_VERSION));
+            object.set(SerializeKey::Ast, WrapBlueprint(blueprint, options.expandMSON));
 
-        if (options.exportSourceMap) {
-            object.set(SerializeKey::Sourcemap, WrapBlueprintSourcemap(blueprint.sourceMap));
+            if (options.exportSourceMap) {
+                object.set(SerializeKey::Sourcemap, WrapBlueprintSourcemap(blueprint.sourceMap));
+            }
         }
-    }
-    catch (std::exception& e) {
-        error = snowcrash::Error(e.what(), snowcrash::MSONError);
-    }
-    catch (snowcrash::Error& e) {
-        error = e;
+        catch (std::exception& e) {
+            error = snowcrash::Error(e.what(), snowcrash::MSONError);
+        }
+        catch (snowcrash::Error& e) {
+            error = e;
+        }
     }
 
     if (error.code != snowcrash::Error::OK) {
@@ -104,30 +106,32 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
     refract::ArrayElement* parseResult = new refract::ArrayElement;
     parseResult->element(SerializeKey::ParseResult);
 
-    try {
-        RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()));
-        blueprintRefract = BlueprintToRefract(MakeNodeInfo(blueprint.node, blueprint.sourceMap));
-    }
-    catch (std::exception& e) {
-        error = snowcrash::Error(e.what(), snowcrash::MSONError);
-    }
-    catch (snowcrash::Error& e) {
-        error = e;
-    }
-
-    GetNamedTypesRegistry().clearAll(true);
-
-    if (error.code != snowcrash::Error::OK) {
-        if (blueprint.report.error.code != snowcrash::Error::OK) {
-            blueprint.report.error = error;
+    if (blueprint.report.error.code == snowcrash::Error::OK) {
+        try {
+            RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()));
+            blueprintRefract = BlueprintToRefract(MakeNodeInfo(blueprint.node, blueprint.sourceMap));
         }
-        else {
-            blueprint.report.warnings.push_back(error);
+        catch (std::exception& e) {
+            error = snowcrash::Error(e.what(), snowcrash::MSONError);
         }
-    }
+        catch (snowcrash::Error& e) {
+            error = e;
+        }
 
-    if (blueprintRefract) {
-        parseResult->push_back(blueprintRefract);
+        GetNamedTypesRegistry().clearAll(true);
+
+        if (error.code != snowcrash::Error::OK) {
+            if (blueprint.report.error.code != snowcrash::Error::OK) {
+                blueprint.report.error = error;
+            }
+            else {
+                blueprint.report.warnings.push_back(error);
+            }
+        }
+
+        if (blueprintRefract) {
+            parseResult->push_back(blueprintRefract);
+        }
     }
 
     if (blueprint.report.error.code != snowcrash::Error::OK) {

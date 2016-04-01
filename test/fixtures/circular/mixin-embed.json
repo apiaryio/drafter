@@ -15,14 +15,14 @@
             "element": "sourceMap",
             "content": [
               [
-                10,
-                32
+                89,
+                12
               ]
             ]
           }
         ]
       },
-      "content": "named type 'C' is circularly referencing itself by mixin"
+      "content": "base type 'C' circularly referencing itself"
     }
   ]
 }
