@@ -39,9 +39,11 @@
                       "content": [
                         {
                           "element": "httpRequest",
-                          "attributes": {
-                            "method": "GET",
+                          "meta": {
                             "title": "Normal"
+                          },
+                          "attributes": {
+                            "method": "GET"
                           },
                           "content": [
                             {

@@ -370,6 +370,18 @@ content:
                     content:
                       -
                         element: "httpRequest"
+                        meta:
+                          title:
+                            element: "string"
+                            attributes:
+                              sourceMap:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      - 1039
+                                      - 37
+                            content: "<request name>"
                         attributes:
                           method:
                             element: "string"
@@ -382,17 +394,6 @@ content:
                                       - 730
                                       - 25
                             content: "POST"
-                          title:
-                            element: "string"
-                            attributes:
-                              sourceMap:
-                                -
-                                  element: "sourceMap"
-                                  content:
-                                    -
-                                      - 1039
-                                      - 37
-                            content: "<request name>"
                           sourceMap:
                             -
                               element: "sourceMap"
@@ -652,6 +653,18 @@ content:
                     content:
                       -
                         element: "httpRequest"
+                        meta:
+                          title:
+                            element: "string"
+                            attributes:
+                              sourceMap:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      - 1039
+                                      - 37
+                            content: "<request name>"
                         attributes:
                           method:
                             element: "string"
@@ -664,17 +677,6 @@ content:
                                       - 730
                                       - 25
                             content: "POST"
-                          title:
-                            element: "string"
-                            attributes:
-                              sourceMap:
-                                -
-                                  element: "sourceMap"
-                                  content:
-                                    -
-                                      - 1039
-                                      - 37
-                            content: "<request name>"
                           sourceMap:
                             -
                               element: "sourceMap"
@@ -915,6 +917,18 @@ content:
                     content:
                       -
                         element: "httpRequest"
+                        meta:
+                          title:
+                            element: "string"
+                            attributes:
+                              sourceMap:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      - 1039
+                                      - 37
+                            content: "<request name>"
                         attributes:
                           method:
                             element: "string"
@@ -927,17 +941,6 @@ content:
                                       - 730
                                       - 25
                             content: "POST"
-                          title:
-                            element: "string"
-                            attributes:
-                              sourceMap:
-                                -
-                                  element: "sourceMap"
-                                  content:
-                                    -
-                                      - 1039
-                                      - 37
-                            content: "<request name>"
                           sourceMap:
                             -
                               element: "sourceMap"
