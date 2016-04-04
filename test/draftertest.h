@@ -7,7 +7,7 @@
 #include <string>
 #include <cstring>
 #include "stream.h"
-#include "snowcrash.h"
+#include "drafter.h"
 #include "SerializeAST.h"
 #include "SerializeResult.h"
 #include "sosJSON.h"
@@ -143,7 +143,7 @@ namespace draftertest {
             snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
             snowcrash::BlueprintParserOptions parserOptions = 0;
 
-            int result = snowcrash::parse(fixture.get(ext::apib), 0, blueprint);
+            int result = drafter::ParseBlueprint(fixture.get(ext::apib), 0, blueprint);
 
             std::stringstream outStream;
             sos::SerializeJSON serializer;
