@@ -244,8 +244,8 @@ namespace drafter {
             element->element(SerializeKey::HTTPRequest);
             element->attributes[SerializeKey::Method] = PrimitiveToRefract(MAKE_NODE_INFO(action, method));
 
-            if (!payload.isNull()) {
-                element->attributes[SerializeKey::Title] = PrimitiveToRefract(MAKE_NODE_INFO(payload, name));
+            if (!payload.isNull() && !payload.node->name.empty()) {
+                element->meta[SerializeKey::Title] = PrimitiveToRefract(MAKE_NODE_INFO(payload, name));
             }
         }
 

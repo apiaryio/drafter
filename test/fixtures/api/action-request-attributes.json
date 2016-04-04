@@ -66,7 +66,6 @@
                           "element": "httpRequest",
                           "attributes": {
                             "method": "POST",
-                            "title": "",
                             "headers": {
                               "element": "httpHeaders",
                               "content": [

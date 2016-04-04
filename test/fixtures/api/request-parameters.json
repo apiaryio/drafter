@@ -120,9 +120,11 @@
                       "content": [
                         {
                           "element": "httpRequest",
+                          "meta": {
+                            "title": "Only one user"
+                          },
                           "attributes": {
                             "method": "GET",
-                            "title": "Only one user",
                             "hrefVariables": {
                               "element": "hrefVariables",
                               "content": [

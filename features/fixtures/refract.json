@@ -211,9 +211,11 @@
                       "content": [
                         {
                           "element": "httpRequest",
+                          "meta": {
+                            "title": "<request name>"
+                          },
                           "attributes": {
                             "method": "POST",
-                            "title": "<request name>",
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -403,9 +405,11 @@
                       "content": [
                         {
                           "element": "httpRequest",
+                          "meta": {
+                            "title": "<request name>"
+                          },
                           "attributes": {
                             "method": "POST",
-                            "title": "<request name>",
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -576,9 +580,11 @@
                       "content": [
                         {
                           "element": "httpRequest",
+                          "meta": {
+                            "title": "<request name>"
+                          },
                           "attributes": {
                             "method": "POST",
-                            "title": "<request name>",
                             "headers": {
                               "element": "httpHeaders",
                               "content": [

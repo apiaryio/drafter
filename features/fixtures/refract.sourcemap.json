@@ -576,6 +576,25 @@
                       "content": [
                         {
                           "element": "httpRequest",
+                          "meta": {
+                            "title": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        1039,
+                                        37
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "<request name>"
+                            }
+                          },
                           "attributes": {
                             "method": {
                               "element": "string",
@@ -593,23 +612,6 @@
                                 ]
                               },
                               "content": "POST"
-                            },
-                            "title": {
-                              "element": "string",
-                              "attributes": {
-                                "sourceMap": [
-                                  {
-                                    "element": "sourceMap",
-                                    "content": [
-                                      [
-                                        1039,
-                                        37
-                                      ]
-                                    ]
-                                  }
-                                ]
-                              },
-                              "content": "<request name>"
                             },
                             "sourceMap": [
                               {
@@ -1012,6 +1014,25 @@
                       "content": [
                         {
                           "element": "httpRequest",
+                          "meta": {
+                            "title": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        1039,
+                                        37
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "<request name>"
+                            }
+                          },
                           "attributes": {
                             "method": {
                               "element": "string",
@@ -1029,23 +1050,6 @@
                                 ]
                               },
                               "content": "POST"
-                            },
-                            "title": {
-                              "element": "string",
-                              "attributes": {
-                                "sourceMap": [
-                                  {
-                                    "element": "sourceMap",
-                                    "content": [
-                                      [
-                                        1039,
-                                        37
-                                      ]
-                                    ]
-                                  }
-                                ]
-                              },
-                              "content": "<request name>"
                             },
                             "sourceMap": [
                               {
@@ -1420,6 +1424,25 @@
                       "content": [
                         {
                           "element": "httpRequest",
+                          "meta": {
+                            "title": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        1039,
+                                        37
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "<request name>"
+                            }
+                          },
                           "attributes": {
                             "method": {
                               "element": "string",
@@ -1437,23 +1460,6 @@
                                 ]
                               },
                               "content": "POST"
-                            },
-                            "title": {
-                              "element": "string",
-                              "attributes": {
-                                "sourceMap": [
-                                  {
-                                    "element": "sourceMap",
-                                    "content": [
-                                      [
-                                        1039,
-                                        37
-                                      ]
-                                    ]
-                                  }
-                                ]
-                              },
-                              "content": "<request name>"
                             },
                             "sourceMap": [
                               {

@@ -119,6 +119,25 @@
                       "content": [
                         {
                           "element": "httpRequest",
+                          "meta": {
+                            "title": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        73,
+                                        16
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "Normal"
+                            }
+                          },
                           "attributes": {
                             "method": {
                               "element": "string",
@@ -136,23 +155,6 @@
                                 ]
                               },
                               "content": "GET"
-                            },
-                            "title": {
-                              "element": "string",
-                              "attributes": {
-                                "sourceMap": [
-                                  {
-                                    "element": "sourceMap",
-                                    "content": [
-                                      [
-                                        73,
-                                        16
-                                      ]
-                                    ]
-                                  }
-                                ]
-                              },
-                              "content": "Normal"
                             },
                             "sourceMap": [
                               {
