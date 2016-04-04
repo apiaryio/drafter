@@ -141,9 +141,8 @@ namespace draftertest {
             ITFixtureFiles fixture = ITFixtureFiles(basepath);
 
             snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
-            snowcrash::BlueprintParserOptions parserOptions = 0;
 
-            int result = drafter::ParseBlueprint(fixture.get(ext::apib), 0, blueprint);
+            int result = drafter::ParseBlueprint(fixture.get(ext::apib), snowcrash::ExportSourcemapOption, blueprint);
 
             std::stringstream outStream;
             sos::SerializeJSON serializer;
