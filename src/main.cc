@@ -57,7 +57,7 @@ int main(int argc, const char *argv[])
     inputStream << in->rdbuf();
 
     sc::ParseResult<sc::Blueprint> blueprint;
-    sc::parse(inputStream.str(), 0, blueprint);
+    sc::parse(inputStream.str(), snowcrash::ExportSourcemapOption, blueprint);
 
     sos::Serialize* serializer = CreateSerializer(config.format);
     std::ostream *out = CreateStreamFromName<std::ostream>(config.output);
