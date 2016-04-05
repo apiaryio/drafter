@@ -26,7 +26,7 @@ namespace refract
                     continue;
                 }
                 RenderJSONVisitor v;
-                v.visit(*(*it)->clone());
+                v.visit(*(*it));
                 IElement *e = v.getOwnership();
                 e->renderType(IElement::rCompact);
                 a->push_back(e);
