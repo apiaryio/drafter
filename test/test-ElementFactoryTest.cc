@@ -19,6 +19,8 @@ TEST_CASE("Create empty primitive element","[ElementFactory]") {
     REQUIRE(str->meta.empty());
     REQUIRE(str->attributes.empty());
     REQUIRE(str->element() == StringElement::TraitType::element());
+
+    delete e;
 }
 
 TEST_CASE("Create primitive element w/ value","[ElementFactory]") {
@@ -31,6 +33,8 @@ TEST_CASE("Create primitive element w/ value","[ElementFactory]") {
     REQUIRE(number->meta.empty());
     REQUIRE(number->attributes.empty());
     REQUIRE(number->value == 42);
+
+    delete e;
 }
 
 TEST_CASE("Create primitive element w/ sample","[ElementFactory]") {
@@ -45,6 +49,8 @@ TEST_CASE("Create primitive element w/ sample","[ElementFactory]") {
     REQUIRE(number->attributes.size() == 1); // sample attr
     IElement::MemberElementCollection::const_iterator it = number->attributes.find("samples");
     REQUIRE((it != number->attributes.end()));
+
+    delete e;
 }
 
 TEST_CASE("Create empty complex element","[ElementFactory]") {
@@ -57,6 +63,8 @@ TEST_CASE("Create empty complex element","[ElementFactory]") {
     REQUIRE(enm->meta.empty());
     REQUIRE(enm->attributes.empty());
     REQUIRE(enm->element() == EnumElement::TraitType::element());
+
+    delete e;
 }
 
 TEST_CASE("Create element as generic","[ElementFactory]") {
@@ -70,4 +78,6 @@ TEST_CASE("Create element as generic","[ElementFactory]") {
     REQUIRE(generic->attributes.empty());
     REQUIRE(generic->element() == "generic");
     REQUIRE(generic->value == "Enumerator");
+
+    delete e;
 }
