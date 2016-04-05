@@ -78,8 +78,8 @@ TEST_CASE("It should invoke Functor for member of container elements","[ApplyVis
     refract::ApplyVisitor v(f);
 
     refract::IElement* e = Build(new refract::ArrayElement)
-                                (refract::IElement::Create(3));
-                                (refract::IElement::Create(false));
+                                (refract::IElement::Create(3))
+                                (refract::IElement::Create(false))
                                 (refract::IElement::Create("Ehlo"));
     v.visit(*e);
 
@@ -113,7 +113,7 @@ TEST_CASE("It should recognize Element Type by `Is` type operand","[ApplyVisitor
 
 struct Fixture {
 
-    static IElement* Complex() 
+    static IElement* Complex()
     {
         return Build(new ObjectElement)
                     ("m1", IElement::Create("Str1"))
@@ -136,7 +136,7 @@ struct Fixture {
         );
     }
 
-    static IElement* SimpleObject() 
+    static IElement* SimpleObject()
     {
         return Build(new ObjectElement)
                     ("m1", IElement::Create("Str1"))
@@ -145,7 +145,7 @@ struct Fixture {
         ;
     }
 
-    static IElement* SimpleArray() 
+    static IElement* SimpleArray()
     {
         return Build(new ArrayElement)
                     (IElement::Create("1"))
