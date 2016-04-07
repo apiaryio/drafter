@@ -49,102 +49,6 @@ sos::Array WrapSourcemap(const SourceMapBase& value)
     return sourceMap;
 }
 
-// Forward declarations
-sos::Array WrapTypeSectionSourcemap(const SourceMap<mson::TypeSection>& typeSection);
-
-sos::Object WrapPropertyMemberSourcemap(const SourceMap<mson::PropertyMember>& propertyMember)
-{
-    sos::Object propertyMemberObject;
-
-    // Name
-    propertyMemberObject.set(SerializeKey::Name, WrapSourcemap(propertyMember.name));
-
-    // Description
-    propertyMemberObject.set(SerializeKey::Description, WrapSourcemap(propertyMember.description));
-
-    // Value Definition
-    propertyMemberObject.set(SerializeKey::ValueDefinition, WrapSourcemap(propertyMember.valueDefinition));
-
-    // Type Sections
-    propertyMemberObject.set(SerializeKey::Sections,
-                             WrapCollection<mson::TypeSection>()(propertyMember.sections.collection, WrapTypeSectionSourcemap));
-
-    return propertyMemberObject;
-}
-
-sos::Object WrapValueMemberSourcemap(const SourceMap<mson::ValueMember>& valueMember)
-{
-    sos::Object valueMemberObject;
-
-    // Description
-    valueMemberObject.set(SerializeKey::Description, WrapSourcemap(valueMember.description));
-
-    // Value Definition
-    valueMemberObject.set(SerializeKey::ValueDefinition, WrapSourcemap(valueMember.valueDefinition));
-
-    // Type Sections
-    valueMemberObject.set(SerializeKey::Sections,
-                          WrapCollection<mson::TypeSection>()(valueMember.sections.collection, WrapTypeSectionSourcemap));
-
-    return valueMemberObject;
-}
-
-sos::Array WrapMixinSourcemap(const SourceMap<mson::Mixin>& mixin)
-{
-    return WrapSourcemap(mixin);
-}
-
-sos::Base WrapMSONElementSourcemap(const SourceMap<mson::Element>& element)
-{
-    if (!element.elements().collection.empty()) {
-        // Same for oneOf
-        return WrapCollection<mson::Element>()(element.elements().collection, WrapMSONElementSourcemap);
-    }
-    else if (!element.mixin.sourceMap.empty()) {
-        return WrapMixinSourcemap(element.mixin);             // return sos::Array
-    }
-    else if (!element.value.empty()) {
-        return WrapValueMemberSourcemap(element.value);       // return sos::Object
-    }
-    else if (!element.property.empty()) {
-        return WrapPropertyMemberSourcemap(element.property); // return sos::Object
-    }
-
-    return sos::Null();                                       // return sos::Null
-}
-
-sos::Array WrapTypeSectionSourcemap(const SourceMap<mson::TypeSection>& section)
-{
-    if (!section.description.sourceMap.empty()) {
-        return WrapSourcemap(section.description);
-    }
-    else if (!section.value.sourceMap.empty()) {
-        return WrapSourcemap(section.value);
-    }
-    else if (!section.elements().collection.empty()) {
-        return WrapCollection<mson::Element>()(section.elements().collection, WrapMSONElementSourcemap);
-    }
-
-    return sos::Array();
-}
-
-sos::Object WrapDataStructureSourcemap(const SourceMap<DataStructure>& dataStructure)
-{
-    sos::Object dataStructureObject;
-
-    // Name
-    dataStructureObject.set(SerializeKey::Name, WrapSourcemap(dataStructure.name));
-
-    // Type Definition
-    dataStructureObject.set(SerializeKey::TypeDefinition, WrapSourcemap(dataStructure.typeDefinition));
-
-    // Type Sections
-    dataStructureObject.set(SerializeKey::Sections,
-                            WrapCollection<mson::TypeSection>()(dataStructure.sections.collection, WrapTypeSectionSourcemap));
-
-    return dataStructureObject;
-}
-
 sos::Object WrapAssetSourcemap(const SourceMap<Asset>& asset)
 {
     sos::Object assetObject;
@@ -182,11 +86,6 @@ sos::Object WrapPayloadSourcemap(const SourceMap<Payload>& payload)
 
     // Content
     sos::Array content;
-
-    /// Attributes
-    if (!payload.attributes.empty()) {
-        content.push(WrapDataStructureSourcemap(payload.attributes));
-    }
 
     /// Asset 'bodyExample'
     if (!payload.body.sourceMap.empty()) {
@@ -295,11 +194,6 @@ sos::Object WrapActionSourcemap(const SourceMap<Action>& action)
     // Content
     sos::Array content;
 
-    /// Attributes
-    if (!action.attributes.empty()) {
-        content.push(WrapDataStructureSourcemap(action.attributes));
-    }
-
     actionObject.set(SerializeKey::Content, content);
 
     return actionObject;
@@ -332,11 +226,6 @@ sos::Object WrapResourceSourcemap(const SourceMap<Resource>& resource)
 
     // Content
     sos::Array content;
-
-    /// Attributes
-    if (!resource.attributes.empty()) {
-        content.push(WrapDataStructureSourcemap(resource.attributes));
-    }
 
     resourceObject.set(SerializeKey::Content, content);
 
@@ -391,11 +280,6 @@ sos::Object WrapElementSourcemap(const SourceMap<Element>& element)
             break;
         }
 
-        case Element::DataStructureElement:
-        {
-            return WrapDataStructureSourcemap(element.content.dataStructure);
-        }
-
         case Element::ResourceElement:
         {
             return WrapResourceSourcemap(element.content.resource);
@@ -440,7 +324,7 @@ sos::Object drafter::WrapBlueprintSourcemap(const SourceMap<Blueprint>& blueprin
 
     // Content
     blueprintObject.set(SerializeKey::Content,
-                        WrapCollection<Element>()(blueprint.content.elements().collection, WrapElementSourcemap));
+                        WrapCollection<Element>()(blueprint.content.elements().collection, WrapElementSourcemap, IsElementResourceGroup, false));
 
     return blueprintObject;
 }

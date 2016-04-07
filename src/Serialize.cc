@@ -64,16 +64,6 @@ const std::string SerializeKey::Values = "values";
 const std::string SerializeKey::Source = "source";
 const std::string SerializeKey::Resolved = "resolved";
 
-const std::string SerializeKey::Literal = "literal";
-const std::string SerializeKey::Variable = "variable";
-const std::string SerializeKey::TypeDefinition = "typeDefinition";
-const std::string SerializeKey::TypeSpecification = "typeSpecification";
-const std::string SerializeKey::NestedTypes = "nestedTypes";
-const std::string SerializeKey::Sections = "sections";
-const std::string SerializeKey::Class = "class";
-const std::string SerializeKey::Content = "content";
-const std::string SerializeKey::ValueDefinition = "valueDefinition";
-
 const std::string SerializeKey::Element = "element";
 const std::string SerializeKey::Role = "role";
 
@@ -89,6 +79,8 @@ const std::string SerializeKey::AnnotationLocation = "location";
 const std::string SerializeKey::AnnotationLocationIndex = "index";
 const std::string SerializeKey::AnnotationLocationLength = "length";
 
+const std::string SerializeKey::Variable = "variable";
+const std::string SerializeKey::Content = "content";
 const std::string SerializeKey::Meta = "meta";
 const std::string SerializeKey::Title = "title";
 const std::string SerializeKey::Classes = "classes";
