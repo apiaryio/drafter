@@ -119,13 +119,13 @@ namespace draftertest {
         static std::string getFixtureExtension(const drafter::WrapperOptions& options) {
 
             if (options.astType == drafter::RefractASTType) {
-              if (options.exportSourceMap) {
+              if (options.generateSourceMap) {
                 return ext::sourceMapJson;
               } else {
                 return ext::json;
               }
             } else {
-              if (options.exportSourceMap) {
+              if (options.generateSourceMap) {
                 return ext::astSourceMapJson;
               } else {
                 return ext::astJson;

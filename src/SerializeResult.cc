@@ -54,7 +54,7 @@ sos::Object WrapParseResultAST(snowcrash::ParseResult<snowcrash::Blueprint>& blu
         object.set(SerializeKey::Version, sos::String(PARSE_RESULT_SERIALIZATION_VERSION));
         object.set(SerializeKey::Ast, WrapBlueprint(blueprint, options.expandMSON));
 
-        if (options.exportSourceMap) {
+        if (options.generateSourceMap) {
             object.set(SerializeKey::Sourcemap, WrapBlueprintSourcemap(blueprint.sourceMap));
         }
     }
@@ -147,7 +147,7 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
     sos::Object result;
 
     // NOTE: can throw(), but it will be handled in main
-    result = SerializeRefract(parseResult, options.exportSourceMap);
+    result = SerializeRefract(parseResult, options.generateSourceMap);
 
     if (parseResult) {
         delete parseResult;
