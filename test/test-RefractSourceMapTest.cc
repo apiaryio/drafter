@@ -32,3 +32,4 @@ TEST_REFRACT_SOURCE_MAP("parse-result", "warning");
 TEST_REFRACT_SOURCE_MAP("parse-result", "warnings");
 TEST_REFRACT_SOURCE_MAP("parse-result", "error-warning");
 TEST_REFRACT_SOURCE_MAP("parse-result", "blueprint");
+TEST_REFRACT_SOURCE_MAP("parse-result", "mson");

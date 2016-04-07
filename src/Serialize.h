@@ -9,8 +9,6 @@
 #ifndef DRAFTER_SERIALIZE_H
 #define DRAFTER_SERIALIZE_H
 
-#define _WITH_REFRACT_ 1
-
 #include <string>
 #include "BlueprintSourcemap.h"
 #include "sos.h"
