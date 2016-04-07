@@ -141,8 +141,6 @@ namespace refract
 
     std::string GetKeyAsString(const MemberElement& e);
 
-    IElement* GetFirstSample(const IElement& e);
-
     StringElement* GetDescription(const IElement& e);
 
     void SetRenderFlag(RefractElements& elements, const IElement::renderFlags flag);
