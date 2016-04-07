@@ -49,17 +49,17 @@ namespace drafter {
     // Options struct for drafter
     struct WrapperOptions {
         const ASTType astType;
-        const bool exportSourceMap;
+        const bool generateSourceMap;
         const bool expandMSON;
 
-        WrapperOptions(const ASTType astType, const bool exportSourceMap, const bool expandMSON)
-        : astType(astType), exportSourceMap(exportSourceMap), expandMSON(expandMSON) {}
+        WrapperOptions(const ASTType astType, const bool generateSourceMap, const bool expandMSON)
+        : astType(astType), generateSourceMap(generateSourceMap), expandMSON(expandMSON) {}
 
-        WrapperOptions(const ASTType astType, const bool exportSourceMap)
-        : astType(astType), exportSourceMap(exportSourceMap), expandMSON(false) {}
+        WrapperOptions(const ASTType astType, const bool generateSourceMap)
+        : astType(astType), generateSourceMap(generateSourceMap), expandMSON(false) {}
 
         WrapperOptions(const ASTType astType)
-        : astType(astType), exportSourceMap(false), expandMSON(false) {}
+        : astType(astType), generateSourceMap(false), expandMSON(false) {}
     };
 
     /**

@@ -23,14 +23,14 @@ namespace refract
         sos::Object result;
         sos::Base partial;
         std::string key;
-        bool exportSourceMap;
+        bool generateSourceMap;
 
 
         static void SetSerializerValue(SerializeVisitor& s, sos::Base& value);
 
      public:
 
-        SerializeVisitor(bool exportSourceMap) : partial(sos::Null()), exportSourceMap(exportSourceMap) {}
+        SerializeVisitor(bool generateSourceMap) : partial(sos::Null()), generateSourceMap(generateSourceMap) {}
 
         void visit(const IElement& e);
         void visit(const NullElement& e);

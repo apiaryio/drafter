@@ -13,7 +13,7 @@ namespace refract
 
     namespace
     {
-        sos::Object SerializeElementCollection(const IElement::MemberElementCollection& collection, bool exportSourceMap)
+        sos::Object SerializeElementCollection(const IElement::MemberElementCollection& collection, bool generateSourceMap)
         {
             typedef IElement::MemberElementCollection::const_iterator iterator;
 
@@ -21,14 +21,14 @@ namespace refract
 
             for (iterator it = collection.begin(); it != collection.end(); ++it) {
 
-                if (!exportSourceMap) {
+                if (!generateSourceMap) {
                     StringElement* str = TypeQueryVisitor::as<StringElement>((*it)->value.first);
                     if (str && str->value == "sourceMap"){
                         continue;
                     }
                 }
 
-                SerializeCompactVisitor s(exportSourceMap);
+                SerializeCompactVisitor s(generateSourceMap);
                 s.visit(*(*it));
                 result.set(s.key(), s.value());
             }
@@ -36,28 +36,28 @@ namespace refract
             return result;
         }
 
-        sos::Object ElementToObject(const IElement* e, bool exportSourceMap)
+        sos::Object ElementToObject(const IElement* e, bool generateSourceMap)
         {
-            SerializeVisitor s(exportSourceMap);
+            SerializeVisitor s(generateSourceMap);
             s.visit(*e);
             return s.get();
         }
 
         template <typename T>
-        sos::Array SerializeValueList(const T& e, bool exportSourceMap) {
+        sos::Array SerializeValueList(const T& e, bool generateSourceMap) {
             sos::Array array;
             typedef typename T::ValueType::const_iterator iterator;
 
             for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-                array.push(ElementToObject(*it, exportSourceMap));
+                array.push(ElementToObject(*it, generateSourceMap));
             }
 
             return array;
         }
 
-        IElement::renderFlags SelectSerializationType(const IElement& e, bool exportSourceMap) {
+        IElement::renderFlags SelectSerializationType(const IElement& e, bool generateSourceMap) {
 
-            if (exportSourceMap) {
+            if (generateSourceMap) {
                 IElement::MemberElementCollection::const_iterator it = e.attributes.find("sourceMap");
                 // there is sourceMap in attributes
                 if (it != e.attributes.end()) {
@@ -77,7 +77,7 @@ namespace refract
     void SerializeVisitor::visit(const IElement& e)
     {
         result.set("element", sos::String(e.element()));
-        bool sourceMap = exportSourceMap;
+        bool sourceMap = generateSourceMap;
 
         sos::Object meta = SerializeElementCollection(e.meta, sourceMap);
         if (!meta.empty()) {
@@ -95,10 +95,10 @@ namespace refract
         if (e.empty())
             return;
 
-        const IElement::renderFlags render = SelectSerializationType(e, exportSourceMap);
+        const IElement::renderFlags render = SelectSerializationType(e, generateSourceMap);
 
         if (render == IElement::rCompact) {
-            SerializeCompactVisitor s(exportSourceMap);
+            SerializeCompactVisitor s(generateSourceMap);
             e.content(s);
             result.set("content", s.value());
         } else {
@@ -162,11 +162,11 @@ namespace refract
         sos::Object object;
 
         if (e.value.first) {
-            object.set("key", ElementToObject(e.value.first, exportSourceMap));
+            object.set("key", ElementToObject(e.value.first, generateSourceMap));
         }
 
         if (e.value.second) {
-            object.set("value", ElementToObject(e.value.second, exportSourceMap));
+            object.set("value", ElementToObject(e.value.second, generateSourceMap));
         }
 
         SetSerializerValue(*this, object);
@@ -174,25 +174,25 @@ namespace refract
 
     void SerializeVisitor::visit(const ArrayElement& e)
     {
-        sos::Array array = SerializeValueList(e, exportSourceMap);
+        sos::Array array = SerializeValueList(e, generateSourceMap);
         SetSerializerValue(*this, array);
     }
 
     void SerializeVisitor::visit(const EnumElement& e)
     {
-        sos::Array array = SerializeValueList(e, exportSourceMap);
+        sos::Array array = SerializeValueList(e, generateSourceMap);
         SetSerializerValue(*this, array);
     }
 
     void SerializeVisitor::visit(const ObjectElement& e)
     {
-        sos::Array array = SerializeValueList(e, exportSourceMap);
+        sos::Array array = SerializeValueList(e, generateSourceMap);
         SetSerializerValue(*this, array);
     }
 
     void SerializeVisitor::visit(const ExtendElement& e)
     {
-        sos::Array array = SerializeValueList(e, exportSourceMap);
+        sos::Array array = SerializeValueList(e, generateSourceMap);
         SetSerializerValue(*this, array);
     }
 
