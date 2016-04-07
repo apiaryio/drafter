@@ -21,7 +21,7 @@ namespace drafter {
      * This function now works just as AST serialization wrapper
      * additionaly there is changed function interface 
      */
-    sos::Object WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const bool expandMSON);
+    sos::Object WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const bool expandMSON, const bool generateSourceMapMSON);
 }
 
 #endif

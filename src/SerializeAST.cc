@@ -44,6 +44,7 @@ using snowcrash::Resource;
 using snowcrash::Blueprint;
 
 static bool ExpandMSON = false;
+static bool GenerateSourceMapMSON = false;
 
 sos::String AssetRoleToString(const AssetRole& role)
 {
@@ -134,7 +135,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
 {
     sos::Object dataStructureObject;
 
-    refract::IElement *element = DataStructureToRefract(MakeNodeInfoWithoutSourceMap(dataStructure), ExpandMSON);
+    refract::IElement *element = DataStructureToRefract((GenerateSourceMapMSON ? MakeNodeInfo(dataStructure) : MakeNodeInfoWithoutSourceMap(dataStructure)), ExpandMSON);
     dataStructureObject = SerializeRefract(element, false);
 
     if (element) {
@@ -473,7 +474,7 @@ sos::Object WrapBlueprintAST(const Blueprint& blueprint)
     return blueprintObject;
 }
 
-sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const bool expandMSON)
+sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const bool expandMSON, const bool generateSourceMapMSON)
 {
     sos::Object blueprintObject;
     snowcrash::Error error;
@@ -484,6 +485,7 @@ sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Bluep
 
     try {
         ExpandMSON = expandMSON;
+        GenerateSourceMapMSON = generateSourceMapMSON;
 
         RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()));
         blueprintObject = WrapBlueprintAST(blueprint.node);

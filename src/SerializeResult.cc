@@ -52,7 +52,7 @@ sos::Object WrapParseResultAST(snowcrash::ParseResult<snowcrash::Blueprint>& blu
 
     try {
         object.set(SerializeKey::Version, sos::String(PARSE_RESULT_SERIALIZATION_VERSION));
-        object.set(SerializeKey::Ast, WrapBlueprint(blueprint, options.expandMSON));
+        object.set(SerializeKey::Ast, WrapBlueprint(blueprint, options.expandMSON, options.generateSourceMap));
 
         if (options.generateSourceMap) {
             object.set(SerializeKey::Sourcemap, WrapBlueprintSourcemap(blueprint.sourceMap));
