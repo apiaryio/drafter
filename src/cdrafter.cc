@@ -40,13 +40,13 @@ SC_API int drafter_c_parse(const char* source,
     inputStream << source;
 
     sc::ParseResult<sc::Blueprint> blueprint;
-    sc::parse(inputStream.str(), options, blueprint);
+    sc::parse(inputStream.str(), options | sc::ExportSourcemapOption, blueprint);
 
     sos::SerializeJSON serializer;
 
     if (result) {
         std::stringstream resultStream;
-        drafter::WrapperOptions wrapperOptions(drafter::ASTType(astType), options & SC_EXPORT_SORUCEMAP_OPTION);
+        drafter::WrapperOptions wrapperOptions(drafter::ASTType(astType), options & snowcrash::ExportSourcemapOption);
 
         try {
             serializer.process(drafter::WrapResult(blueprint, wrapperOptions), resultStream);
