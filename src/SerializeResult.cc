@@ -119,12 +119,7 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
         GetNamedTypesRegistry().clearAll(true);
 
         if (error.code != snowcrash::Error::OK) {
-            if (blueprint.report.error.code != snowcrash::Error::OK) {
-                blueprint.report.error = error;
-            }
-            else {
-                blueprint.report.warnings.push_back(error);
-            }
+            blueprint.report.error = error;
         }
 
         if (blueprintRefract) {
