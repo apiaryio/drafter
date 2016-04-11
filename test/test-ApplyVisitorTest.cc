@@ -1,12 +1,10 @@
 #include "catch.hpp"
 
-#include "refract/Visitors.h"
-#include "refract/Element.h"
-#include "refract/Query.h"
-#include "refract/Build.h"
-#include "refract/Iterate.h"
-
-#include <iostream>
+#include "Visitors.h"
+#include "Element.h"
+#include "Query.h"
+#include "Build.h"
+#include "Iterate.h"
 
 using namespace refract;
 

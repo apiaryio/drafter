@@ -111,6 +111,7 @@
       'type': 'executable',
       'include_dirs': [
         'src',
+        'src/refract',
         'test',
         'test/vendor/Catch/include',
         'test/vendor/dtl/dtl',

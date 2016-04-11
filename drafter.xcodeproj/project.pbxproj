@@ -75,14 +75,18 @@
 		400F53FF1C5989F1004EA235 /* ElementInserter.h in Headers */ = {isa = PBXBuildFile; fileRef = 400F53F81C5989F1004EA235 /* ElementInserter.h */; };
 		400F54001C5989F1004EA235 /* Iterate.h in Headers */ = {isa = PBXBuildFile; fileRef = 400F53F91C5989F1004EA235 /* Iterate.h */; };
 		400F54011C5989F1004EA235 /* Query.h in Headers */ = {isa = PBXBuildFile; fileRef = 400F53FA1C5989F1004EA235 /* Query.h */; };
-		400F54041C598A35004EA235 /* test-ApplyVisitorTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 400F54021C598A35004EA235 /* test-ApplyVisitorTest.cc */; };
 		400F54051C598A35004EA235 /* test-CircularReferenceTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 400F54031C598A35004EA235 /* test-CircularReferenceTest.cc */; };
 		400FFA081C1B0DBB006A4CE0 /* JSONSchemaVisitor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 400FFA051C1B0DBB006A4CE0 /* JSONSchemaVisitor.cc */; };
 		400FFA091C1B0DBB006A4CE0 /* JSONSchemaVisitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 400FFA061C1B0DBB006A4CE0 /* JSONSchemaVisitor.h */; };
 		400FFA0A1C1B0DBB006A4CE0 /* VisitorUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = 400FFA071C1B0DBB006A4CE0 /* VisitorUtils.cc */; };
 		400FFA0C1C1B0E12006A4CE0 /* test-SchemaTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 400FFA0B1C1B0E12006A4CE0 /* test-SchemaTest.cc */; };
 		401074A31B833A1000B66442 /* Render.cc in Sources */ = {isa = PBXBuildFile; fileRef = 401074A21B833A1000B66442 /* Render.cc */; };
+		408560761CBB983100932414 /* test-ExtendElementTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40AEF8201CB80C4F000A0DEE /* test-ExtendElementTest.cc */; };
+		4093675E1CBB90DE0065A78A /* test-ApplyVisitorTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4093675C1CBB90DE0065A78A /* test-ApplyVisitorTest.cc */; };
+		4093675F1CBB90DE0065A78A /* test-ElementFactoryTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4093675D1CBB90DE0065A78A /* test-ElementFactoryTest.cc */; };
 		40AEEC3D1BB60CB6005866DD /* test-RefractParseResultTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40AEEC3C1BB60CB6005866DD /* test-RefractParseResultTest.cc */; };
+		40AEF81D1CB80C32000A0DEE /* RefractElementFactory.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40AEF81B1CB80C32000A0DEE /* RefractElementFactory.cc */; };
+		40AEF81E1CB80C32000A0DEE /* RefractElementFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 40AEF81C1CB80C32000A0DEE /* RefractElementFactory.h */; };
 		40D03D4D1C182FBD008AD2EF /* PrintVisitor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40D03D4A1C182FBD008AD2EF /* PrintVisitor.cc */; };
 		40D03D4E1C182FBD008AD2EF /* PrintVisitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 40D03D4B1C182FBD008AD2EF /* PrintVisitor.h */; };
 		40D03D4F1C182FBD008AD2EF /* VisitorUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 40D03D4C1C182FBD008AD2EF /* VisitorUtils.h */; };
@@ -198,14 +202,18 @@
 		400F53F81C5989F1004EA235 /* ElementInserter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ElementInserter.h; path = src/refract/ElementInserter.h; sourceTree = SOURCE_ROOT; };
 		400F53F91C5989F1004EA235 /* Iterate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Iterate.h; path = src/refract/Iterate.h; sourceTree = SOURCE_ROOT; };
 		400F53FA1C5989F1004EA235 /* Query.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Query.h; path = src/refract/Query.h; sourceTree = SOURCE_ROOT; };
-		400F54021C598A35004EA235 /* test-ApplyVisitorTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-ApplyVisitorTest.cc"; path = "test/test-ApplyVisitorTest.cc"; sourceTree = "<group>"; };
 		400F54031C598A35004EA235 /* test-CircularReferenceTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-CircularReferenceTest.cc"; path = "test/test-CircularReferenceTest.cc"; sourceTree = "<group>"; };
 		400FFA051C1B0DBB006A4CE0 /* JSONSchemaVisitor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JSONSchemaVisitor.cc; path = src/refract/JSONSchemaVisitor.cc; sourceTree = SOURCE_ROOT; };
 		400FFA061C1B0DBB006A4CE0 /* JSONSchemaVisitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONSchemaVisitor.h; path = src/refract/JSONSchemaVisitor.h; sourceTree = SOURCE_ROOT; };
 		400FFA071C1B0DBB006A4CE0 /* VisitorUtils.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VisitorUtils.cc; path = src/refract/VisitorUtils.cc; sourceTree = SOURCE_ROOT; };
 		400FFA0B1C1B0E12006A4CE0 /* test-SchemaTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-SchemaTest.cc"; path = "test/test-SchemaTest.cc"; sourceTree = "<group>"; };
 		401074A21B833A1000B66442 /* Render.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Render.cc; path = src/Render.cc; sourceTree = SOURCE_ROOT; };
+		4093675C1CBB90DE0065A78A /* test-ApplyVisitorTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-ApplyVisitorTest.cc"; path = "test/test-ApplyVisitorTest.cc"; sourceTree = "<group>"; };
+		4093675D1CBB90DE0065A78A /* test-ElementFactoryTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-ElementFactoryTest.cc"; path = "test/test-ElementFactoryTest.cc"; sourceTree = "<group>"; };
 		40AEEC3C1BB60CB6005866DD /* test-RefractParseResultTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-RefractParseResultTest.cc"; path = "test/test-RefractParseResultTest.cc"; sourceTree = "<group>"; };
+		40AEF81B1CB80C32000A0DEE /* RefractElementFactory.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractElementFactory.cc; path = src/RefractElementFactory.cc; sourceTree = SOURCE_ROOT; };
+		40AEF81C1CB80C32000A0DEE /* RefractElementFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefractElementFactory.h; path = src/RefractElementFactory.h; sourceTree = SOURCE_ROOT; };
+		40AEF8201CB80C4F000A0DEE /* test-ExtendElementTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-ExtendElementTest.cc"; path = "test/test-ExtendElementTest.cc"; sourceTree = "<group>"; };
 		40D03D4A1C182FBD008AD2EF /* PrintVisitor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrintVisitor.cc; path = src/refract/PrintVisitor.cc; sourceTree = SOURCE_ROOT; };
 		40D03D4B1C182FBD008AD2EF /* PrintVisitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrintVisitor.h; path = src/refract/PrintVisitor.h; sourceTree = SOURCE_ROOT; };
 		40D03D4C1C182FBD008AD2EF /* VisitorUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisitorUtils.h; path = src/refract/VisitorUtils.h; sourceTree = SOURCE_ROOT; };
@@ -279,8 +287,10 @@
 				19A129C81B70ADC300366AA7 /* draftertest.h */,
 				19A129C91B70ADC300366AA7 /* test-cdrafter.cc */,
 				19A129CA1B70ADC300366AA7 /* test-drafter.cc */,
-				400F54021C598A35004EA235 /* test-ApplyVisitorTest.cc */,
+				4093675C1CBB90DE0065A78A /* test-ApplyVisitorTest.cc */,
 				400F54031C598A35004EA235 /* test-CircularReferenceTest.cc */,
+				4093675D1CBB90DE0065A78A /* test-ElementFactoryTest.cc */,
+				40AEF8201CB80C4F000A0DEE /* test-ExtendElementTest.cc */,
 				40EF03DB1B72135E00865990 /* test-RefractAPITest.cc */,
 				40EF03DC1B72135E00865990 /* test-RefractDataStructureTest.cc */,
 				40AEEC3C1BB60CB6005866DD /* test-RefractParseResultTest.cc */,
@@ -388,6 +398,8 @@
 				40EF03D81B72134000865990 /* RefractAPI.h */,
 				40EF03D31B7210F300865990 /* RefractDataStructure.cc */,
 				40EF03D41B7210F300865990 /* RefractDataStructure.h */,
+				40AEF81B1CB80C32000A0DEE /* RefractElementFactory.cc */,
+				40AEF81C1CB80C32000A0DEE /* RefractElementFactory.h */,
 				40DDBDD41BE14EA700B10819 /* RefractSourceMap.cc */,
 				40DDBDD51BE14EA700B10819 /* RefractSourceMap.h */,
 				401074A21B833A1000B66442 /* Render.cc */,
@@ -461,6 +473,7 @@
 				19A129C41B70AC9A00366AA7 /* VisitableBy.h in Headers */,
 				19A1298F1B70ABE100366AA7 /* SerializeResult.h in Headers */,
 				19A129B11B70AC9A00366AA7 /* ComparableVisitor.h in Headers */,
+				40AEF81E1CB80C32000A0DEE /* RefractElementFactory.h in Headers */,
 				19A129BC1B70AC9A00366AA7 /* RenderJSONVisitor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -585,17 +598,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				408560761CBB983100932414 /* test-ExtendElementTest.cc in Sources */,
 				40EF03DE1B72135E00865990 /* test-RefractDataStructureTest.cc in Sources */,
+				4093675F1CBB90DE0065A78A /* test-ElementFactoryTest.cc in Sources */,
 				19A129E31B70AE3200366AA7 /* test-SerializeResult.cc in Sources */,
 				19A129E01B70AE3200366AA7 /* test-drafter.cc in Sources */,
 				400F54051C598A35004EA235 /* test-CircularReferenceTest.cc in Sources */,
 				40DDBDDA1BE14EE700B10819 /* test-RefractSourceMapTest.cc in Sources */,
 				19A129DF1B70AE2F00366AA7 /* test-cdrafter.cc in Sources */,
-				400F54041C598A35004EA235 /* test-ApplyVisitorTest.cc in Sources */,
 				400FFA0C1C1B0E12006A4CE0 /* test-SchemaTest.cc in Sources */,
 				19A129E21B70AE3200366AA7 /* test-RenderTest.cc in Sources */,
 				40EF03DD1B72135E00865990 /* test-RefractAPITest.cc in Sources */,
 				40AEEC3D1BB60CB6005866DD /* test-RefractParseResultTest.cc in Sources */,
+				4093675E1CBB90DE0065A78A /* test-ApplyVisitorTest.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,6 +639,7 @@
 				19A1298C1B70ABE100366AA7 /* SerializeAST.cc in Sources */,
 				19A129B21B70AC9A00366AA7 /* Element.cc in Sources */,
 				40EF03D91B72134000865990 /* RefractAPI.cc in Sources */,
+				40AEF81D1CB80C32000A0DEE /* RefractElementFactory.cc in Sources */,
 				19A129901B70ABE100366AA7 /* SerializeSourcemap.cc in Sources */,
 				19A1297E1B70ABE100366AA7 /* cdrafter.cc in Sources */,
 				19A129B51B70AC9A00366AA7 /* ExpandVisitor.cc in Sources */,
@@ -671,7 +687,7 @@
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/drafter-gsbusumgxawcfndzeqzwyaefkhkh/Build/Products/Debug",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "ext/snowcrash/src ext/sos/src ext/snowcrash/ext/markdown-parser/ext/sundown/src ext/snowcrash/ext/markdown-parser/src test/vendor/Catch/include test/vendor/dtl/dtl";
+				USER_HEADER_SEARCH_PATHS = "./ext/snowcrash/src/** ./ext/sos/src/** ./ext/snowcrash/ext/markdown-parser/ext/sundown/src/** ./ext/snowcrash/ext/markdown-parser/src/** ./test/**";
 			};
 			name = Debug;
 		};
@@ -683,7 +699,7 @@
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/drafter-gsbusumgxawcfndzeqzwyaefkhkh/Build/Products/Debug",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "ext/snowcrash/src ext/sos/src ext/snowcrash/ext/markdown-parser/ext/sundown/src ext/snowcrash/ext/markdown-parser/src test/vendor/Catch/include test/vendor/dtl/dtl";
+				USER_HEADER_SEARCH_PATHS = "./ext/snowcrash/src/** ./ext/sos/src/** ./ext/snowcrash/ext/markdown-parser/ext/sundown/src/** ./ext/snowcrash/ext/markdown-parser/src/** ./test/**";
 			};
 			name = Release;
 		};
@@ -800,6 +816,7 @@
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "./ext/snowcrash/src/** ./ext/sos/src/** ./ext/snowcrash/ext/markdown-parser/ext/sundown/src/** ./ext/snowcrash/ext/markdown-parser/src/**";
 			};
 			name = Debug;
 		};
@@ -811,6 +828,7 @@
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "./ext/snowcrash/src/** ./ext/sos/src/** ./ext/snowcrash/ext/markdown-parser/ext/sundown/src/** ./ext/snowcrash/ext/markdown-parser/src/**";
 			};
 			name = Release;
 		};
