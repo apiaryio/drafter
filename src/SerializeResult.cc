@@ -20,6 +20,7 @@
 #include "refract/ElementInserter.h"
 
 #include "NamedTypesRegistry.h"
+#include "ConversionContext.h"
 
 using namespace drafter;
 
@@ -94,7 +95,8 @@ namespace helper {
 }
 
 sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-                                   const WrapperOptions& options)
+                                   const WrapperOptions& options,
+                                   ConversionContext& context)
 {
     snowcrash::Error error;
     refract::IElement* blueprintRefract = NULL;
@@ -104,8 +106,8 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
 
     if (blueprint.report.error.code == snowcrash::Error::OK) {
         try {
-            RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()));
-            blueprintRefract = BlueprintToRefract(MakeNodeInfo(blueprint.node, blueprint.sourceMap));
+            RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()), context);
+            blueprintRefract = BlueprintToRefract(MakeNodeInfo(blueprint.node, blueprint.sourceMap), context);
         }
         catch (std::exception& e) {
             error = snowcrash::Error(e.what(), snowcrash::MSONError);
@@ -150,9 +152,10 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
 }
 
 sos::Object drafter::WrapResult(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-                                const WrapperOptions& options)
+                                const WrapperOptions& options,
+                                ConversionContext& context)
 {
     return options.astType == RefractASTType
-        ? WrapParseResultRefract(blueprint, options)
+        ? WrapParseResultRefract(blueprint, options, context)
         : WrapParseResultAST(blueprint, options);
 }

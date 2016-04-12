@@ -19,6 +19,8 @@
 #include "config.h"
 #include "stream.h"
 
+#include "ConversionContext.h"
+
 namespace sc = snowcrash;
 
 /**
@@ -62,8 +64,10 @@ int main(int argc, const char *argv[])
     sos::Serialize* serializer = CreateSerializer(config.format);
     std::ostream *out = CreateStreamFromName<std::ostream>(config.output);
 
+    drafter::ConversionContext context;
+
     try {
-        sos::Object resultObject = drafter::WrapResult(blueprint, drafter::WrapperOptions(config.astType, config.sourceMap));
+        sos::Object resultObject = drafter::WrapResult(blueprint, drafter::WrapperOptions(config.astType, config.sourceMap), context);
 
         if (!config.validate) { // If not validate, we serialize
             Serialization(out, resultObject, serializer);

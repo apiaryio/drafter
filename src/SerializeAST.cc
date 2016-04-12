@@ -18,6 +18,7 @@
 #include "SectionProcessor.h"
 
 #include "NamedTypesRegistry.h"
+#include "ConversionContext.h"
 
 using namespace drafter;
 
@@ -448,7 +449,8 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure)
     sos::Object dataStructureObject;
 
 #if _WITH_REFRACT_
-    refract::IElement *element = DataStructureToRefract(MakeNodeInfoWithoutSourceMap(dataStructure), ExpandMSON);
+    ConversionContext context;
+    refract::IElement *element = DataStructureToRefract(MakeNodeInfoWithoutSourceMap(dataStructure), context, ExpandMSON);
     dataStructureObject = SerializeRefract(element, false);
 
     if (element) {
@@ -816,7 +818,8 @@ sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Bluep
     try {
         ExpandMSON = expandMSON;
 
-        RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()));
+        drafter::ConversionContext context;
+        RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()), context);
         blueprintObject = WrapBlueprintAST(blueprint.node);
     }
     catch (std::exception& e) {

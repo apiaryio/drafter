@@ -10,9 +10,9 @@
 #define DRAFTER_REFRACTSOURCEMAP_H
 
 #include "Serialize.h"
+#include "ConversionContext.h"
 
 namespace drafter {
-
 
     refract::IElement* SourceMapToRefract(const mdp::CharactersRangeSet& sourceMap);
 
@@ -37,7 +37,7 @@ namespace drafter {
     }
 
     template<typename T>
-    refract::IElement* LiteralToRefract(const NodeInfo<std::string>& literal)
+    refract::IElement* LiteralToRefract(const NodeInfo<std::string>& literal, ConversionContext& context)
     {
         refract::IElement* element = refract::IElement::Create(LiteralTo<T>(*literal.node));
 

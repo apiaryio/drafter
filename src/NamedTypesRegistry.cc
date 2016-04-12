@@ -15,6 +15,8 @@
 #include "RefractDataStructure.h"
 #include "RefractElementFactory.h"
 
+#include "ConversionContext.h"
+
 #undef DEBUG_DEPENDENCIES
 
 #ifdef DEBUG_DEPENDENCIES
@@ -338,7 +340,7 @@ namespace drafter {
         return namedTypesRegistry;
     }
 
-    void RegisterNamedTypes(const NodeInfo<snowcrash::Elements>& elements)
+    void RegisterNamedTypes(const NodeInfo<snowcrash::Elements>& elements, ConversionContext& context)
     {
         DataStructures found;
         NodeInfoCollection<snowcrash::Elements> elementCollection(elements);
@@ -373,7 +375,7 @@ namespace drafter {
             if (!i->node->name.symbol.literal.empty()) {
 
                 const std::string& name = i->node->name.symbol.literal;
-                refract::IElement* element = MSONToRefract(*i);
+                refract::IElement* element = MSONToRefract(*i, context);
 
 #ifdef DEBUG_DEPENDENCIES
                 refract::TypeQueryVisitor v;

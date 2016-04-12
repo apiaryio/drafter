@@ -1006,7 +1006,7 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* MSONToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure)
+    refract::IElement* MSONToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context)
     {
         if (dataStructure.node->empty()) {
             return NULL;

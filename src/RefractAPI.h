@@ -17,10 +17,12 @@ namespace snowcrash {
 
 namespace drafter {
 
+    class ConversionContext;
+
     refract::IElement* AnnotationToRefract(const snowcrash::SourceAnnotation& annotation, const std::string& key);
 
-    refract::IElement* DataStructureToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure, bool expand = false);
-    refract::IElement* BlueprintToRefract(const NodeInfo<snowcrash::Blueprint>& blueprint);
+    refract::IElement* DataStructureToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context, bool expand = false);
+    refract::IElement* BlueprintToRefract(const NodeInfo<snowcrash::Blueprint>& blueprint, ConversionContext& context);
 }
 
 #endif // #ifndef DRAFTER_REFRACTAST_H

@@ -13,6 +13,8 @@
 #include "BlueprintUtility.h"
 #include "RegexMatch.h"
 
+#include "ConversionContext.h"
+
 using namespace snowcrash;
 
 namespace drafter {
@@ -50,6 +52,8 @@ namespace drafter {
                                              const NodeInfo<Action>& action,
                                              const refract::Registry& registry) {
 
+        ConversionContext context; // FIXME: CTX
+
         NodeInfoByValue<Asset> body = std::make_pair(payload.node->body, &payload.sourceMap->body);
 
         NodeInfo<Attributes> payloadAttributes = MAKE_NODE_INFO(payload, attributes);
@@ -70,7 +74,7 @@ namespace drafter {
         }
 
         // Expand MSON into Refract
-        refract::IElement* element = MSONToRefract(*attributes);
+        refract::IElement* element = MSONToRefract(*attributes, context);
 
         if (!element) {
             return body;
@@ -116,6 +120,8 @@ namespace drafter {
                                                const NodeInfo<snowcrash::Action>& action,
                                                const refract::Registry& registry) {
 
+        ConversionContext context; // FIXME: CTX
+
         NodeInfoByValue<Asset> schema = std::make_pair(payload.node->schema, &payload.sourceMap->schema);
 
         NodeInfo<Attributes> payloadAttributes = MAKE_NODE_INFO(payload, attributes);
@@ -136,7 +142,7 @@ namespace drafter {
         }
 
         refract::JSONSchemaVisitor renderer;
-        refract::IElement* element = MSONToRefract(*attributes);
+        refract::IElement* element = MSONToRefract(*attributes, context);
 
         if (!element) {
             return schema;

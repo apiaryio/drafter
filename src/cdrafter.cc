@@ -17,6 +17,8 @@
 #include "SerializeSourcemap.h"
 #include "SerializeResult.h"
 
+#include "ConversionContext.h"
+
 #include <string.h>
 
 namespace sc = snowcrash;
@@ -48,8 +50,10 @@ SC_API int drafter_c_parse(const char* source,
         std::stringstream resultStream;
         drafter::WrapperOptions wrapperOptions(drafter::ASTType(astType), options & SC_EXPORT_SORUCEMAP_OPTION);
 
+        drafter::ConversionContext context;
+
         try {
-            serializer.process(drafter::WrapResult(blueprint, wrapperOptions), resultStream);
+            serializer.process(drafter::WrapResult(blueprint, wrapperOptions, context), resultStream);
         }
         catch (snowcrash::Error& e) {
             blueprint.report.error = e;

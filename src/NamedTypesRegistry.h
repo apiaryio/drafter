@@ -20,8 +20,10 @@ namespace drafter {
     template <typename T>
     struct NodeInfo;
 
+    class ConversionContext;
+
     refract::Registry& GetNamedTypesRegistry();
-    void RegisterNamedTypes(const NodeInfo<snowcrash::Elements>& elements);
+    void RegisterNamedTypes(const NodeInfo<snowcrash::Elements>& elements, ConversionContext& context);
 
 }
 #endif // #ifndef DRAFTER_NAMEDTYPESREGISRTY_H

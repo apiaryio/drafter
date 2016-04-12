@@ -12,6 +12,8 @@
 #include "SerializeResult.h"
 #include "sosJSON.h"
 
+#include "ConversionContext.h"
+
 #define TEST_DRAFTER(description, category, name, tag,  wrapper, options, mustBeOk) TEST_CASE(description " " category " " name, "[" tag "][" category "]") { \
     REQUIRE(FixtureHelper::handleResultJSON(wrapper, "test/fixtures/" category "/" name, options, mustBeOk)); \
 }
@@ -135,7 +137,7 @@ namespace draftertest {
             return ext::json;
         }
 
-        typedef sos::Object (*Wrapper)(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options);
+        typedef sos::Object (*Wrapper)(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options, drafter::ConversionContext& context);
 
         static bool handleResultJSON(const Wrapper wrapper, const std::string& basepath, const drafter::WrapperOptions& options, bool mustBeOk = false) {
             ITFixtureFiles fixture = ITFixtureFiles(basepath);
@@ -146,8 +148,9 @@ namespace draftertest {
 
             std::stringstream outStream;
             sos::SerializeJSON serializer;
+            drafter::ConversionContext context;
 
-            serializer.process((*wrapper)(blueprint, options), outStream);
+            serializer.process((*wrapper)(blueprint, options, context), outStream);
             outStream << "\n";
 
             std::string actual = outStream.str();
