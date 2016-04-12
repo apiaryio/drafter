@@ -73,8 +73,7 @@ int main(int argc, const char *argv[])
         blueprint.report.error = e;
     }
     catch (std::exception& e) {
-        blueprint.report.error.message = e.what();
-        blueprint.report.error.code = snowcrash::ApplicationError;
+        blueprint.report.error = snowcrash::Error(e.what(), snowcrash::ApplicationError);
     }
 
     delete out;
