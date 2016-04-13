@@ -356,7 +356,7 @@ namespace drafter {
         for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
             const std::string& name = i->node->name.symbol.literal;
 
-            RefractElementFactory& factory = FactoryFromType(typeInfo.ResolveType(i->node));
+            const RefractElementFactory& factory = FactoryFromType(typeInfo.ResolveType(i->node));
             refract::IElement* element = factory.Create(std::string(), false);
             element->meta["id"] = refract::IElement::Create(name);
 
