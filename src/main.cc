@@ -64,10 +64,8 @@ int main(int argc, const char *argv[])
     sos::Serialize* serializer = CreateSerializer(config.format);
     std::ostream *out = CreateStreamFromName<std::ostream>(config.output);
 
-    drafter::ConversionContext context;
-
     try {
-        sos::Object resultObject = drafter::WrapResult(blueprint, drafter::WrapperOptions(config.astType, config.sourceMap), context);
+        sos::Object resultObject = drafter::WrapResult(blueprint, drafter::WrapperOptions(config.astType, config.sourceMap));
 
         if (!config.validate) { // If not validate, we serialize
             Serialization(out, resultObject, serializer);

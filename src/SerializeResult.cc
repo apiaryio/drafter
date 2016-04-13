@@ -153,9 +153,10 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
 }
 
 sos::Object drafter::WrapResult(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-                                const WrapperOptions& options,
-                                ConversionContext& context)
+                                const WrapperOptions& options)
 {
+    ConversionContext context;
+
     return options.astType == RefractASTType
         ? WrapParseResultRefract(blueprint, options, context)
         : WrapParseResultAST(blueprint, options, context);

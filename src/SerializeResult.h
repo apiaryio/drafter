@@ -18,10 +18,8 @@ namespace snowcrash {
 
 namespace drafter {
 
-    class ConversionContext;
-
     sos::Object WrapAnnotation(const snowcrash::SourceAnnotation& annotation);
-    sos::Object WrapResult(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const WrapperOptions& options, ConversionContext& context);
+    sos::Object WrapResult(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const WrapperOptions& options);
 }
 
 #endif // #ifndef DRAFTER_SERIALIZERESULT_H

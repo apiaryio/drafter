@@ -137,7 +137,7 @@ namespace draftertest {
             return ext::json;
         }
 
-        typedef sos::Object (*Wrapper)(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options, drafter::ConversionContext& context);
+        typedef sos::Object (*Wrapper)(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options);
 
         static bool handleResultJSON(const Wrapper wrapper, const std::string& basepath, const drafter::WrapperOptions& options, bool mustBeOk = false) {
             ITFixtureFiles fixture = ITFixtureFiles(basepath);
@@ -150,7 +150,7 @@ namespace draftertest {
             sos::SerializeJSON serializer;
             drafter::ConversionContext context;
 
-            serializer.process((*wrapper)(blueprint, options, context), outStream);
+            serializer.process((*wrapper)(blueprint, options), outStream);
             outStream << "\n";
 
             std::string actual = outStream.str();
