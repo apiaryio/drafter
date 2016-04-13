@@ -10,6 +10,7 @@
 
 #include "Element.h"
 #include "Visitors.h"
+#include "SourceAnnotation.h"
 
 namespace refract
 {
@@ -119,6 +120,43 @@ namespace refract
         }
     };
 
+    template <typename T>
+    void CheckMixinParent(refract::IElement* element)
+    {
+        const T* resolved = TypeQueryVisitor::as<T>(element);
+
+        if (!resolved) {
+            throw snowcrash::Error("mixin base type should be the same as parent base type. objects should contain object mixins. arrays should contain array mixins", snowcrash::MSONError);
+        }
+    }
+
+    template<typename T, typename Functor>
+    void HandleRefWhenFetchingMembers(const refract::IElement* e, typename T::ValueType& members, const Functor& functor)
+    {
+        IElement::MemberElementCollection::const_iterator found = e->attributes.find("resolved");
+
+        if (found == e->attributes.end()) {
+            return;
+        }
+
+        const ExtendElement* extended = TypeQueryVisitor::as<ExtendElement>((*found)->value.second);
+
+        if (!extended) {
+            CheckMixinParent<T>((*found)->value.second);
+            // We can safely cast it because we are already checking the type in the above line.
+            functor(static_cast<const T&>(*(*found)->value.second), members);
+            return;
+        }
+
+        for (RefractElements::const_iterator it = extended->value.begin();
+             it != extended->value.end();
+             ++it) {
+
+            CheckMixinParent<T>(*it);
+            // We can safely cast it because we are already checking the type in the above line.
+            functor(static_cast<const T&>(**it), members);
+        }
+    }
 
     template <typename T>
     MemberElement* FindMemberByKey(const T& e,

@@ -52,19 +52,7 @@ namespace refract
             }
 
             if ((*it)->element() == "ref") {
-                IElement::MemberElementCollection::const_iterator found = (*it)->attributes.find("resolved");
-
-                if (found == (*it)->attributes.end()) {
-                    continue;
-                }
-
-                const T* resolved = TypeQueryVisitor::as<T>((*found)->value.second);
-
-                if (!resolved) {
-                    throw refract::LogicError("Mixin must refer to same type as parent");
-                }
-
-                IncludeMembers(*resolved, members);
+                HandleRefWhenFetchingMembers<T>(*it, members, IncludeMembers<T>);
                 continue;
             }
 
