@@ -52,14 +52,14 @@ namespace drafter {
             }
         };
 
-        template <typename T, typename F>
-        void NodeInfoToElements(const NodeInfo<T>& nodeInfo, const F& transformFunctor, RefractElements& content, ConversionContext& context)
+        template <typename T, typename Functor>
+        void NodeInfoToElements(const NodeInfo<T>& nodeInfo, const Functor& transformFunctor, RefractElements& content, ConversionContext& context)
         {
             NodeInfoCollection<T> nodeInfoCollection(nodeInfo);
 
             std::transform(nodeInfoCollection.begin(), nodeInfoCollection.end(),
                            std::back_inserter(content),
-                           ContextBinder<typename T::value_type, F>(transformFunctor, context));
+                           ContextBinder<typename T::value_type, Functor>(transformFunctor, context));
         }
 
         template<typename T, typename C, typename F>
