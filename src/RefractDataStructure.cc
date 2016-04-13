@@ -1060,13 +1060,13 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* ExpandRefract(refract::IElement* element, ConversionContext& context, const refract::Registry& registry)
+    refract::IElement* ExpandRefract(refract::IElement* element, ConversionContext& context)
     {
         if (!element) {
             return element;
         }
 
-        refract::ExpandVisitor expander(registry);
+        refract::ExpandVisitor expander(context.GetNamedTypesRegistry());
         expander.visit(*element);
 
         if (refract::IElement* expanded = expander.get()) {

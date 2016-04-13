@@ -28,13 +28,11 @@ namespace drafter {
 
     NodeInfoByValue<snowcrash::Asset> renderPayloadBody(const NodeInfo<snowcrash::Payload>& payload,
                                                         const NodeInfo<snowcrash::Action>& action,
-                                                        ConversionContext& context,
-                                                        const refract::Registry& registry);
+                                                        ConversionContext& context);
 
     NodeInfoByValue<snowcrash::Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload,
                                                           const NodeInfo<snowcrash::Action>& action,
-                                                          ConversionContext& context,
-                                                          const refract::Registry& registry);
+                                                          ConversionContext& context);
 }
 
 #endif

@@ -89,7 +89,7 @@ namespace drafter {
         refract::IElement* msonElement = MSONToRefract(dataStructure, context);
 
         if (expand) {
-            refract::IElement* msonExpanded = ExpandRefract(msonElement, context, context.GetNamedTypesRegistry());
+            refract::IElement* msonExpanded = ExpandRefract(msonElement, context);
             msonElement = msonExpanded;
         }
 
@@ -300,8 +300,8 @@ namespace drafter {
 
         try {
             // Render using boutique
-            NodeInfoByValue<snowcrash::Asset> payloadBody = renderPayloadBody(payload, action, context, context.GetNamedTypesRegistry());
-            NodeInfoByValue<snowcrash::Asset> payloadSchema = renderPayloadSchema(payload, action, context, context.GetNamedTypesRegistry());
+            NodeInfoByValue<snowcrash::Asset> payloadBody = renderPayloadBody(payload, action, context);
+            NodeInfoByValue<snowcrash::Asset> payloadSchema = renderPayloadSchema(payload, action, context);
 
             // Get content type
             std::string contentType = getContentTypeFromHeaders(payload.node->headers);

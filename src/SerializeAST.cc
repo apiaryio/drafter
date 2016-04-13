@@ -518,13 +518,11 @@ sos::Object WrapPayload(const Payload& payload, const Action* action, Conversion
 
     snowcrash::Asset payloadBody = renderPayloadBody(MakeNodeInfoWithoutSourceMap(payload), 
                                                      action ? MakeNodeInfoWithoutSourceMap(*action) : NodeInfo<Action>(),
-                                                     context,
-                                                     context.GetNamedTypesRegistry()).first;
+                                                     context).first;
 
     snowcrash::Asset payloadSchema = renderPayloadSchema(MakeNodeInfoWithoutSourceMap(payload),
                                                          action ? MakeNodeInfoWithoutSourceMap(*action) : NodeInfo<Action>(),
-                                                         context,
-                                                         context.GetNamedTypesRegistry()).first;
+                                                         context).first;
 
     // Body
     payloadObject.set(SerializeKey::Body, sos::String(payloadBody));
