@@ -15,6 +15,8 @@
 #include "RefractDataStructure.h"
 #include "RefractElementFactory.h"
 
+#include "ConversionContext.h"
+
 #undef DEBUG_DEPENDENCIES
 
 #ifdef DEBUG_DEPENDENCIES
@@ -331,14 +333,7 @@ namespace drafter {
 
     } // ns anonymous
 
-    refract::Registry& GetNamedTypesRegistry()
-    {
-        static refract::Registry namedTypesRegistry;
-
-        return namedTypesRegistry;
-    }
-
-    void RegisterNamedTypes(const NodeInfo<snowcrash::Elements>& elements)
+    void RegisterNamedTypes(const NodeInfo<snowcrash::Elements>& elements, ConversionContext& context)
     {
         DataStructures found;
         NodeInfoCollection<snowcrash::Elements> elementCollection(elements);
@@ -365,7 +360,7 @@ namespace drafter {
             refract::IElement* element = factory.Create(std::string(), false);
             element->meta["id"] = refract::IElement::Create(name);
 
-            GetNamedTypesRegistry().add(element);
+            context.GetNamedTypesRegistry().add(element);
         }
 
         for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
@@ -373,7 +368,7 @@ namespace drafter {
             if (!i->node->name.symbol.literal.empty()) {
 
                 const std::string& name = i->node->name.symbol.literal;
-                refract::IElement* element = MSONToRefract(*i);
+                refract::IElement* element = MSONToRefract(*i, context);
 
 #ifdef DEBUG_DEPENDENCIES
                 refract::TypeQueryVisitor v;
@@ -382,11 +377,11 @@ namespace drafter {
 #endif /* DEBUG_DEPENDENCIES */
 
                 // remove preregistrated element
-                refract::IElement* pre = GetNamedTypesRegistry().find(name);
-                GetNamedTypesRegistry().remove(name);
+                refract::IElement* pre = context.GetNamedTypesRegistry().find(name);
+                context.GetNamedTypesRegistry().remove(name);
                 delete pre;
 
-                GetNamedTypesRegistry().add(element);
+                context.GetNamedTypesRegistry().add(element);
             }
         }
 

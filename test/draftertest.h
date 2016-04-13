@@ -12,6 +12,8 @@
 #include "SerializeResult.h"
 #include "sosJSON.h"
 
+#include "ConversionContext.h"
+
 #define TEST_DRAFTER(description, category, name, tag,  wrapper, options, mustBeOk) TEST_CASE(description " " category " " name, "[" tag "][" category "]") { \
     REQUIRE(FixtureHelper::handleResultJSON(wrapper, "test/fixtures/" category "/" name, options, mustBeOk)); \
 }
@@ -146,6 +148,7 @@ namespace draftertest {
 
             std::stringstream outStream;
             sos::SerializeJSON serializer;
+            drafter::ConversionContext context;
 
             serializer.process((*wrapper)(blueprint, options), outStream);
             outStream << "\n";

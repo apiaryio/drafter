@@ -17,6 +17,8 @@
 #include "SerializeSourcemap.h"
 #include "SerializeResult.h"
 
+#include "ConversionContext.h"
+
 #include <string.h>
 
 namespace sc = snowcrash;

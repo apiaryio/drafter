@@ -13,7 +13,6 @@
 
 namespace drafter {
 
-
     refract::IElement* SourceMapToRefract(const mdp::CharactersRangeSet& sourceMap);
 
     template<typename T>
@@ -36,8 +35,10 @@ namespace drafter {
         return element;
     }
 
+    class ConversionContext;
+
     template<typename T>
-    refract::IElement* LiteralToRefract(const NodeInfo<std::string>& literal)
+    refract::IElement* LiteralToRefract(const NodeInfo<std::string>& literal, ConversionContext& context)
     {
         refract::IElement* element = refract::IElement::Create(LiteralTo<T>(*literal.node));
 

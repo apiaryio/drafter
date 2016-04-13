@@ -13,6 +13,8 @@
 #include "BlueprintUtility.h"
 #include "RegexMatch.h"
 
+#include "ConversionContext.h"
+
 using namespace snowcrash;
 
 namespace drafter {
@@ -48,7 +50,7 @@ namespace drafter {
 
     NodeInfoByValue<Asset> renderPayloadBody(const NodeInfo<Payload>& payload,
                                              const NodeInfo<Action>& action,
-                                             const refract::Registry& registry) {
+                                             ConversionContext& context) {
 
         NodeInfoByValue<Asset> body = std::make_pair(payload.node->body, &payload.sourceMap->body);
 
@@ -70,13 +72,13 @@ namespace drafter {
         }
 
         // Expand MSON into Refract
-        refract::IElement* element = MSONToRefract(*attributes);
+        refract::IElement* element = MSONToRefract(*attributes, context);
 
         if (!element) {
             return body;
         }
 
-        refract::IElement* expanded = ExpandRefract(element, registry);
+        refract::IElement* expanded = ExpandRefract(element, context);
 
         if (!expanded) {
             return body;
@@ -114,7 +116,7 @@ namespace drafter {
 
     NodeInfoByValue<Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload,
                                                const NodeInfo<snowcrash::Action>& action,
-                                               const refract::Registry& registry) {
+                                               ConversionContext& context) {
 
         NodeInfoByValue<Asset> schema = std::make_pair(payload.node->schema, &payload.sourceMap->schema);
 
@@ -136,13 +138,13 @@ namespace drafter {
         }
 
         refract::JSONSchemaVisitor renderer;
-        refract::IElement* element = MSONToRefract(*attributes);
+        refract::IElement* element = MSONToRefract(*attributes, context);
 
         if (!element) {
             return schema;
         }
 
-        refract::IElement* expanded = ExpandRefract(element, registry);
+        refract::IElement* expanded = ExpandRefract(element, context);
 
         if (!expanded) {
             return schema;

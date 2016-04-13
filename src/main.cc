@@ -19,6 +19,8 @@
 #include "config.h"
 #include "stream.h"
 
+#include "ConversionContext.h"
+
 namespace sc = snowcrash;
 
 /**

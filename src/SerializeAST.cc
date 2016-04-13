@@ -18,6 +18,7 @@
 #include "SectionProcessor.h"
 
 #include "NamedTypesRegistry.h"
+#include "ConversionContext.h"
 
 using namespace drafter;
 
@@ -443,12 +444,12 @@ sos::Object WrapTypeSection(const mson::TypeSection& section)
     return object;
 }
 
-sos::Object WrapDataStructure(const DataStructure& dataStructure)
+sos::Object WrapDataStructure(const DataStructure& dataStructure, ConversionContext& context)
 {
     sos::Object dataStructureObject;
 
 #if _WITH_REFRACT_
-    refract::IElement *element = DataStructureToRefract(MakeNodeInfoWithoutSourceMap(dataStructure), ExpandMSON);
+    refract::IElement *element = DataStructureToRefract(MakeNodeInfoWithoutSourceMap(dataStructure), context, ExpandMSON);
     dataStructureObject = SerializeRefract(element, false);
 
     if (element) {
@@ -496,7 +497,7 @@ sos::Object WrapAsset(const Asset& asset, const AssetRole& role)
     return assetObject;
 }
 
-sos::Object WrapPayload(const Payload& payload, const Action* action)
+sos::Object WrapPayload(const Payload& payload, const Action* action, ConversionContext& context)
 {
     sos::Object payloadObject;
 
@@ -515,8 +516,13 @@ sos::Object WrapPayload(const Payload& payload, const Action* action)
     payloadObject.set(SerializeKey::Headers,
                       WrapCollection<Header>()(payload.headers, WrapHeader));
 
-    snowcrash::Asset payloadBody = renderPayloadBody(MakeNodeInfoWithoutSourceMap(payload), action ? MakeNodeInfoWithoutSourceMap(*action) : NodeInfo<Action>(), GetNamedTypesRegistry()).first;
-    snowcrash::Asset payloadSchema = renderPayloadSchema(MakeNodeInfoWithoutSourceMap(payload), action ? MakeNodeInfoWithoutSourceMap(*action) : NodeInfo<Action>(), GetNamedTypesRegistry()).first;
+    snowcrash::Asset payloadBody = renderPayloadBody(MakeNodeInfoWithoutSourceMap(payload), 
+                                                     action ? MakeNodeInfoWithoutSourceMap(*action) : NodeInfo<Action>(),
+                                                     context).first;
+
+    snowcrash::Asset payloadSchema = renderPayloadSchema(MakeNodeInfoWithoutSourceMap(payload),
+                                                         action ? MakeNodeInfoWithoutSourceMap(*action) : NodeInfo<Action>(),
+                                                         context).first;
 
     // Body
     payloadObject.set(SerializeKey::Body, sos::String(payloadBody));
@@ -529,7 +535,7 @@ sos::Object WrapPayload(const Payload& payload, const Action* action)
 
     /// Attributes
     if (!payload.attributes.empty()) {
-        content.push(WrapDataStructure(payload.attributes));
+        content.push(WrapDataStructure(payload.attributes, context));
     }
 
     /// Asset 'bodyExample'
@@ -584,7 +590,7 @@ sos::Object WrapParameter(const Parameter& parameter)
     return parameterObject;
 }
 
-sos::Object WrapTransactionExample(const TransactionExample& example, const Action& action)
+sos::Object WrapTransactionExample(const TransactionExample& example, const Action& action, ConversionContext& context)
 {
     sos::Object exampleObject;
 
@@ -596,16 +602,16 @@ sos::Object WrapTransactionExample(const TransactionExample& example, const Acti
 
     // Requests
     exampleObject.set(SerializeKey::Requests,
-                      WrapCollection<Request>()(example.requests, WrapPayload, &action));
+                      WrapCollection<Request>()(example.requests, WrapPayload, &action, context));
 
     // Responses
     exampleObject.set(SerializeKey::Responses,
-                      WrapCollection<Response>()(example.responses, WrapPayload, (Action *) NULL));
+                      WrapCollection<Response>()(example.responses, WrapPayload, (Action *) NULL, context));
 
     return exampleObject;
 }
 
-sos::Object WrapAction(const Action& action)
+sos::Object WrapAction(const Action& action, ConversionContext& context)
 {
     sos::Object actionObject;
 
@@ -637,19 +643,19 @@ sos::Object WrapAction(const Action& action)
     sos::Array content;
 
     if (!action.attributes.empty()) {
-        content.push(WrapDataStructure(action.attributes));
+        content.push(WrapDataStructure(action.attributes, context));
     }
 
     actionObject.set(SerializeKey::Content, content);
 
     // Transaction Examples
     actionObject.set(SerializeKey::Examples,
-                     WrapCollection<TransactionExample>()(action.examples, WrapTransactionExample, action));
+                     WrapCollection<TransactionExample>()(action.examples, WrapTransactionExample, action, context));
 
     return actionObject;
 }
 
-sos::Object WrapResource(const Resource& resource)
+sos::Object WrapResource(const Resource& resource, ConversionContext& context)
 {
     sos::Object resourceObject;
 
@@ -666,7 +672,7 @@ sos::Object WrapResource(const Resource& resource)
     resourceObject.set(SerializeKey::URITemplate, sos::String(resource.uriTemplate));
 
     // Model
-    sos::Object model = (resource.model.name.empty() ? sos::Object() : WrapPayload(resource.model, NULL));
+    sos::Object model = (resource.model.name.empty() ? sos::Object() : WrapPayload(resource.model, NULL, context));
     resourceObject.set(SerializeKey::Model, model);
 
     // Parameters
@@ -675,13 +681,13 @@ sos::Object WrapResource(const Resource& resource)
 
     // Actions
     resourceObject.set(SerializeKey::Actions,
-                       WrapCollection<Action>()(resource.actions, WrapAction));
+                       WrapCollection<Action>()(resource.actions, WrapAction, context));
 
     // Content
     sos::Array content;
 
     if (!resource.attributes.empty()) {
-        content.push(WrapDataStructure(resource.attributes));
+        content.push(WrapDataStructure(resource.attributes, context));
     }
 
     resourceObject.set(SerializeKey::Content, content);
@@ -689,7 +695,7 @@ sos::Object WrapResource(const Resource& resource)
     return resourceObject;
 }
 
-sos::Object WrapResourceGroup(const Element& resourceGroup)
+sos::Object WrapResourceGroup(const Element& resourceGroup, ConversionContext& context)
 {
     sos::Object resourceGroupObject;
 
@@ -705,7 +711,7 @@ sos::Object WrapResourceGroup(const Element& resourceGroup)
          ++it) {
 
         if (it->element == Element::ResourceElement) {
-            resources.push(WrapResource(it->content.resource));
+            resources.push(WrapResource(it->content.resource, context));
         }
         else if (it->element == Element::CopyElement) {
 
@@ -723,7 +729,7 @@ sos::Object WrapResourceGroup(const Element& resourceGroup)
     return resourceGroupObject;
 }
 
-sos::Object WrapElement(const Element& element)
+sos::Object WrapElement(const Element& element, ConversionContext& context)
 {
     sos::Object elementObject;
 
@@ -747,18 +753,18 @@ sos::Object WrapElement(const Element& element)
         case Element::CategoryElement:
         {
             elementObject.set(SerializeKey::Content,
-                              WrapCollection<Element>()(element.content.elements(), WrapElement));
+                              WrapCollection<Element>()(element.content.elements(), WrapElement, context));
             break;
         }
 
         case Element::DataStructureElement:
         {
-            return WrapDataStructure(element.content.dataStructure);
+            return WrapDataStructure(element.content.dataStructure, context);
         }
 
         case Element::ResourceElement:
         {
-            return WrapResource(element.content.resource);
+            return WrapResource(element.content.resource, context);
         }
 
         default:
@@ -773,7 +779,7 @@ bool IsElementResourceGroup(const Element& element)
     return element.element == Element::CategoryElement && element.category == Element::ResourceGroupCategory;
 }
 
-sos::Object WrapBlueprintAST(const Blueprint& blueprint)
+sos::Object WrapBlueprintAST(const Blueprint& blueprint, ConversionContext& context)
 {
     sos::Object blueprintObject;
 
@@ -795,16 +801,16 @@ sos::Object WrapBlueprintAST(const Blueprint& blueprint)
 
     // Resource Groups
     blueprintObject.set(SerializeKey::ResourceGroups,
-                        WrapCollection<Element>()(blueprint.content.elements(), WrapResourceGroup, IsElementResourceGroup, false));
+                        WrapCollectionIf<Element>()(blueprint.content.elements(), WrapResourceGroup, IsElementResourceGroup, context));
 
     // Content
     blueprintObject.set(SerializeKey::Content,
-                        WrapCollection<Element>()(blueprint.content.elements(), WrapElement));
+                        WrapCollection<Element>()(blueprint.content.elements(), WrapElement, context));
 
     return blueprintObject;
 }
 
-sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const bool expandMSON)
+sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, ConversionContext& context, const bool expandMSON)
 {
     sos::Object blueprintObject;
     snowcrash::Error error;
@@ -816,8 +822,8 @@ sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Bluep
     try {
         ExpandMSON = expandMSON;
 
-        RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()));
-        blueprintObject = WrapBlueprintAST(blueprint.node);
+        RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()), context);
+        blueprintObject = WrapBlueprintAST(blueprint.node, context);
     }
     catch (std::exception& e) {
         error = snowcrash::Error(e.what(), snowcrash::MSONError);
@@ -826,7 +832,7 @@ sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Bluep
         error = e;
     }
 
-    GetNamedTypesRegistry().clearAll(true);
+    context.GetNamedTypesRegistry().clearAll(true);
 
     if (error.code != snowcrash::Error::OK) {
         throw error;

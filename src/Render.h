@@ -21,11 +21,18 @@ namespace drafter {
         JSONSchemaRenderFormat = 2   // JSON Schema format
     };
 
+    class ConversionContext;
+
     RenderFormat findRenderFormat(const std::string& contentType);
     std::string getContentTypeFromHeaders(const snowcrash::Headers& headers);
 
-    NodeInfoByValue<snowcrash::Asset> renderPayloadBody(const NodeInfo<snowcrash::Payload>& payload, const NodeInfo<snowcrash::Action>& action, const refract::Registry& registry);
-    NodeInfoByValue<snowcrash::Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload, const NodeInfo<snowcrash::Action>& action, const refract::Registry& registry);
+    NodeInfoByValue<snowcrash::Asset> renderPayloadBody(const NodeInfo<snowcrash::Payload>& payload,
+                                                        const NodeInfo<snowcrash::Action>& action,
+                                                        ConversionContext& context);
+
+    NodeInfoByValue<snowcrash::Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload,
+                                                          const NodeInfo<snowcrash::Action>& action,
+                                                          ConversionContext& context);
 }
 
 #endif
