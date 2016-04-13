@@ -120,7 +120,6 @@ namespace drafter {
     {
         refract::ArrayElement* element = CollectionToRefract<refract::ArrayElement>(MAKE_NODE_INFO(parameter, values), LiteralToRefract<T>, SerializeKey::Enum, refract::IElement::rDefault);
 
-        // FIXME: nearly duplicit code in ExtractParameter()
         // Add sample value
         if (!parameter.node->exampleValue.empty()) {
             refract::ArrayElement* samples = new refract::ArrayElement;
@@ -142,7 +141,13 @@ namespace drafter {
         refract::IElement* element = NULL;
 
         if (parameter.node->values.empty()) {
-            element = LiteralToRefract<T>(MAKE_NODE_INFO(parameter, exampleValue));
+            if (parameter.node->exampleValue.empty()) {
+                typedef typename refract::ElementTypeSelector<T>::ElementType ElementType;
+                element = new ElementType;
+            }
+            else {
+                element = LiteralToRefract<T>(MAKE_NODE_INFO(parameter, exampleValue));
+            }
 
             if (!parameter.node->defaultValue.empty()) {
                 element->attributes[SerializeKey::Default] = PrimitiveToRefract(MAKE_NODE_INFO(parameter, defaultValue));

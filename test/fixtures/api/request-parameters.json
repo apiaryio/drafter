@@ -56,8 +56,7 @@
                               "element": "number",
                               "attributes": {
                                 "default": "20"
-                              },
-                              "content": 0
+                              }
                             }
                           }
                         }

@@ -63,7 +63,7 @@
                         "content": [
                           [
                             27,
-                            23
+                            46
                           ]
                         ]
                       }
@@ -82,13 +82,13 @@
                         "content": [
                           [
                             27,
-                            23
+                            46
                           ]
                         ]
                       }
                     ]
                   },
-                  "content": "/users/{id}"
+                  "content": "/users/{id}{?country,active,votes}"
                 }
               },
               "content": [
@@ -103,7 +103,7 @@
                             "element": "sourceMap",
                             "content": [
                               [
-                                50,
+                                73,
                                 25
                               ]
                             ]
@@ -128,7 +128,7 @@
                                     "element": "sourceMap",
                                     "content": [
                                       [
-                                        94,
+                                        117,
                                         40
                                       ]
                                     ]
@@ -152,7 +152,7 @@
                                     "element": "sourceMap",
                                     "content": [
                                       [
-                                        94,
+                                        117,
                                         40
                                       ]
                                     ]
@@ -169,7 +169,7 @@
                                     "element": "sourceMap",
                                     "content": [
                                       [
-                                        94,
+                                        117,
                                         40
                                       ]
                                     ]
@@ -177,6 +177,81 @@
                                 ]
                               },
                               "content": "pavan"
+                            }
+                          }
+                        },
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        163,
+                                        8
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "country"
+                            },
+                            "value": {
+                              "element": "string"
+                            }
+                          }
+                        },
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        177,
+                                        17
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "active"
+                            },
+                            "value": {
+                              "element": "boolean"
+                            }
+                          }
+                        },
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        200,
+                                        15
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "votes"
+                            },
+                            "value": {
+                              "element": "number"
                             }
                           }
                         }
@@ -198,7 +273,7 @@
                                     "element": "sourceMap",
                                     "content": [
                                       [
-                                        50,
+                                        73,
                                         25
                                       ]
                                     ]
@@ -221,7 +296,7 @@
                                     "element": "sourceMap",
                                     "content": [
                                       [
-                                        137,
+                                        218,
                                         33
                                       ]
                                     ]
@@ -235,7 +310,7 @@
                                 "element": "sourceMap",
                                 "content": [
                                   [
-                                    137,
+                                    218,
                                     33
                                   ]
                                 ]
@@ -252,7 +327,7 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            137,
+                                            218,
                                             33
                                           ]
                                         ]
@@ -287,7 +362,7 @@
                                     "element": "sourceMap",
                                     "content": [
                                       [
-                                        174,
+                                        255,
                                         7
                                       ]
                                     ]

@@ -25,7 +25,7 @@
                 "title": "User"
               },
               "attributes": {
-                "href": "/users/{id}"
+                "href": "/users/{id}{?country,active,votes}"
               },
               "content": [
                 {
@@ -55,6 +55,42 @@
                             "value": {
                               "element": "string",
                               "content": "pavan"
+                            }
+                          }
+                        },
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "country"
+                            },
+                            "value": {
+                              "element": "string"
+                            }
+                          }
+                        },
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "active"
+                            },
+                            "value": {
+                              "element": "boolean"
+                            }
+                          }
+                        },
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "votes"
+                            },
+                            "value": {
+                              "element": "number"
                             }
                           }
                         }
