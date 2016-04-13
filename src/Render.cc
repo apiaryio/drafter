@@ -50,9 +50,8 @@ namespace drafter {
 
     NodeInfoByValue<Asset> renderPayloadBody(const NodeInfo<Payload>& payload,
                                              const NodeInfo<Action>& action,
+                                             ConversionContext& context,
                                              const refract::Registry& registry) {
-
-        ConversionContext context; // FIXME: CTX
 
         NodeInfoByValue<Asset> body = std::make_pair(payload.node->body, &payload.sourceMap->body);
 
@@ -80,7 +79,7 @@ namespace drafter {
             return body;
         }
 
-        refract::IElement* expanded = ExpandRefract(element, registry);
+        refract::IElement* expanded = ExpandRefract(element, context, registry);
 
         if (!expanded) {
             return body;
@@ -118,9 +117,8 @@ namespace drafter {
 
     NodeInfoByValue<Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload,
                                                const NodeInfo<snowcrash::Action>& action,
+                                               ConversionContext& context,
                                                const refract::Registry& registry) {
-
-        ConversionContext context; // FIXME: CTX
 
         NodeInfoByValue<Asset> schema = std::make_pair(payload.node->schema, &payload.sourceMap->schema);
 
@@ -148,7 +146,7 @@ namespace drafter {
             return schema;
         }
 
-        refract::IElement* expanded = ExpandRefract(element, registry);
+        refract::IElement* expanded = ExpandRefract(element, context, registry);
 
         if (!expanded) {
             return schema;

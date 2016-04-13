@@ -501,6 +501,7 @@ sos::Object WrapAsset(const Asset& asset, const AssetRole& role)
 sos::Object WrapPayload(const Payload& payload, const Action* action)
 {
     sos::Object payloadObject;
+    ConversionContext context;
 
     // Reference
     if (!payload.reference.id.empty()) {
@@ -517,8 +518,15 @@ sos::Object WrapPayload(const Payload& payload, const Action* action)
     payloadObject.set(SerializeKey::Headers,
                       WrapCollection<Header>()(payload.headers, WrapHeader));
 
-    snowcrash::Asset payloadBody = renderPayloadBody(MakeNodeInfoWithoutSourceMap(payload), action ? MakeNodeInfoWithoutSourceMap(*action) : NodeInfo<Action>(), GetNamedTypesRegistry()).first;
-    snowcrash::Asset payloadSchema = renderPayloadSchema(MakeNodeInfoWithoutSourceMap(payload), action ? MakeNodeInfoWithoutSourceMap(*action) : NodeInfo<Action>(), GetNamedTypesRegistry()).first;
+    snowcrash::Asset payloadBody = renderPayloadBody(MakeNodeInfoWithoutSourceMap(payload), 
+                                                     action ? MakeNodeInfoWithoutSourceMap(*action) : NodeInfo<Action>(),
+                                                     context,
+                                                     GetNamedTypesRegistry()).first;
+
+    snowcrash::Asset payloadSchema = renderPayloadSchema(MakeNodeInfoWithoutSourceMap(payload),
+                                                         action ? MakeNodeInfoWithoutSourceMap(*action) : NodeInfo<Action>(),
+                                                         context,
+                                                         GetNamedTypesRegistry()).first;
 
     // Body
     payloadObject.set(SerializeKey::Body, sos::String(payloadBody));
