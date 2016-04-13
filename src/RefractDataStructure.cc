@@ -15,6 +15,7 @@
 
 #include "NamedTypesRegistry.h"
 #include "RefractElementFactory.h"
+#include "ConversionContext.h"
 
 namespace drafter {
 
@@ -62,7 +63,7 @@ namespace drafter {
 
     using refract::RefractElements;
 
-    static void SetElementType(refract::IElement* element, const mson::TypeDefinition& td, ConversionContext& context)
+    static void SetElementType(refract::IElement* element, const mson::TypeDefinition& td)
     {
         if (!td.typeSpecification.name.symbol.literal.empty()) {
             element->element(td.typeSpecification.name.symbol.literal);
@@ -634,7 +635,7 @@ namespace drafter {
         };
 
         template<typename T>
-        void TransformElementData(T* element, ConversionContext& context, ElementData<T>& data) {
+        void TransformElementData(T* element, ElementData<T>& data) {
 
             if (data.values.size() != data.valuesSourceMap.size()) {
                 throw snowcrash::Error("count of source maps is not equal to count of elements", snowcrash::ApplicationError);
@@ -652,7 +653,7 @@ namespace drafter {
     }
 
     template<typename T>
-    refract::IElement* DescriptionToRefract(const ElementData<T>& data, ConversionContext& context)
+    refract::IElement* DescriptionToRefract(const ElementData<T>& data)
     {
         if (data.descriptions.empty()) {
             return NULL;
@@ -687,10 +688,10 @@ namespace drafter {
         size_t valuesCount = data.values.size();
 
         if (!data.descriptions.empty()) {
-            element->meta[SerializeKey::Description] = DescriptionToRefract(data, context);
+            element->meta[SerializeKey::Description] = DescriptionToRefract(data);
         }
 
-        SetElementType(element, value.node->valueDefinition.typeDefinition, context);
+        SetElementType(element, value.node->valueDefinition.typeDefinition);
 
         NodeInfoCollection<mson::TypeSections> typeSections(MAKE_NODE_INFO(value, sections));
 
@@ -707,7 +708,7 @@ namespace drafter {
             data.valuesSourceMap.erase(data.valuesSourceMap.begin());
         }
 
-        TransformElementData(element, context, data);
+        TransformElementData(element, data);
 
         return element;
     }
@@ -746,7 +747,7 @@ namespace drafter {
                     throw snowcrash::Error("'variable named property' must be string or its sub-type", snowcrash::MSONError, sourceMap.sourceMap);
                 }
 
-                SetElementType(key, property.node->name.variable.typeDefinition, context);
+                SetElementType(key, property.node->name.variable.typeDefinition);
 
             }
 
@@ -937,7 +938,7 @@ namespace drafter {
         return select;
     }
 
-    static refract::IElement* MsonMixinToRefract(const NodeInfo<mson::Mixin>& mixin, ConversionContext& context)
+    static refract::IElement* MsonMixinToRefract(const NodeInfo<mson::Mixin>& mixin)
     {
         refract::ObjectElement* ref = new refract::ObjectElement;
         ref->element(SerializeKey::Ref);
@@ -970,7 +971,7 @@ namespace drafter {
                                                        defaultNestedType);
 
             case mson::Element::MixinClass:
-                return MsonMixinToRefract(MakeNodeInfo(mse.node->content.mixin, mse.sourceMap->mixin), context);
+                return MsonMixinToRefract(MakeNodeInfo(mse.node->content.mixin, mse.sourceMap->mixin));
 
             case mson::Element::OneOfClass:
                 return MsonOneofToRefract(MakeNodeInfo(mse.node->content.oneOf(), mse.sourceMap->oneOf()), context);
@@ -990,7 +991,7 @@ namespace drafter {
         typedef T ElementType;
 
         ElementType* element = new ElementType;
-        SetElementType(element, ds.node->typeDefinition, context);
+        SetElementType(element, ds.node->typeDefinition);
 
         if (!ds.node->name.symbol.literal.empty()) {
             snowcrash::SourceMap<mson::Literal> sourceMap = *NodeInfo<mson::Literal>::NullSourceMap();
@@ -1007,9 +1008,9 @@ namespace drafter {
 
         std::for_each(typeSections.begin(), typeSections.end(), ExtractTypeSection<T>(data, context, ds));
 
-        TransformElementData<T>(element, context, data);
+        TransformElementData<T>(element, data);
 
-        if (refract::IElement* description = DescriptionToRefract(data, context)) {
+        if (refract::IElement* description = DescriptionToRefract(data)) {
             element->meta[SerializeKey::Description] = description;
         }
 

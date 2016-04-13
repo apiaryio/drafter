@@ -10,7 +10,6 @@
 #define DRAFTER_REFRACTSOURCEMAP_H
 
 #include "Serialize.h"
-#include "ConversionContext.h"
 
 namespace drafter {
 
@@ -35,6 +34,8 @@ namespace drafter {
 
         return element;
     }
+
+    class ConversionContext;
 
     template<typename T>
     refract::IElement* LiteralToRefract(const NodeInfo<std::string>& literal, ConversionContext& context)

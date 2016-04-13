@@ -120,7 +120,7 @@ namespace drafter {
         return element;
     }
 
-    refract::IElement* CopyToRefract(const NodeInfo<std::string>& copy, ConversionContext& context)
+    refract::IElement* CopyToRefract(const NodeInfo<std::string>& copy)
     {
         if (copy.node->empty()) {
             return NULL;
@@ -295,7 +295,7 @@ namespace drafter {
                                                                                                     refract::IElement::rFull);
         }
 
-        content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description), context));
+        content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
         content.push_back(DataStructureToRefract(MAKE_NODE_INFO(payload, attributes), context));
 
         try {
@@ -348,7 +348,7 @@ namespace drafter {
         RefractElements content;
 
         element->element(SerializeKey::HTTPTransaction);
-        content.push_back(CopyToRefract(MAKE_NODE_INFO(transaction, description), context));
+        content.push_back(CopyToRefract(MAKE_NODE_INFO(transaction, description)));
 
         content.push_back(PayloadToRefract(request, action, context));
         content.push_back(PayloadToRefract(response, NodeInfo<snowcrash::Action>(), context));
@@ -389,7 +389,7 @@ namespace drafter {
             element->attributes[SerializeKey::Data] = dataStructure;
         }
 
-        content.push_back(CopyToRefract(MAKE_NODE_INFO(action, description), context));
+        content.push_back(CopyToRefract(MAKE_NODE_INFO(action, description)));
 
         typedef NodeInfoCollection<snowcrash::TransactionExamples> ExamplesType;
         ExamplesType examples(MAKE_NODE_INFO(action, examples));
@@ -457,7 +457,7 @@ namespace drafter {
             element->attributes[SerializeKey::HrefVariables] = ParametersToRefract(MAKE_NODE_INFO(resource, parameters), context);
         }
 
-        content.push_back(CopyToRefract(MAKE_NODE_INFO(resource, description), context));
+        content.push_back(CopyToRefract(MAKE_NODE_INFO(resource, description)));
         content.push_back(DataStructureToRefract(MAKE_NODE_INFO(resource, attributes), context));
         NodeInfoToElements(MAKE_NODE_INFO(resource, actions), ActionToRefract, content, context);
 
@@ -510,7 +510,7 @@ namespace drafter {
             case snowcrash::Element::DataStructureElement:
                 return DataStructureToRefract(MAKE_NODE_INFO(element, content.dataStructure), context);
             case snowcrash::Element::CopyElement:
-                return CopyToRefract(MAKE_NODE_INFO(element, content.copy), context);
+                return CopyToRefract(MAKE_NODE_INFO(element, content.copy));
             case snowcrash::Element::CategoryElement:
                 return CategoryToRefract(element, context);
             default:
@@ -532,7 +532,7 @@ namespace drafter {
         ast->meta[SerializeKey::Classes] = CreateArrayElement(SerializeKey::API);
         ast->meta[SerializeKey::Title] = PrimitiveToRefract(MAKE_NODE_INFO(blueprint, name));
 
-        content.push_back(CopyToRefract(MAKE_NODE_INFO(blueprint, description), context));
+        content.push_back(CopyToRefract(MAKE_NODE_INFO(blueprint, description)));
 
         if (!blueprint.node->metadata.empty()) {
             ast->attributes[SerializeKey::Meta] = CollectionToRefract<refract::ArrayElement>(MAKE_NODE_INFO(blueprint, metadata), context, MetadataToRefract);
