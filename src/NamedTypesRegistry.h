@@ -22,7 +22,6 @@ namespace drafter {
 
     class ConversionContext;
 
-    refract::Registry& GetNamedTypesRegistry();
     void RegisterNamedTypes(const NodeInfo<snowcrash::Elements>& elements, ConversionContext& context);
 
 }

@@ -8,9 +8,15 @@
 #ifndef DRAFTER_CONVERSIONCONTEXT_H
 #define DRAFTER_CONVERSIONCONTEXT_H
 
+#include "refract/Registry.h"
+
 namespace drafter {
 
     class ConversionContext {
+        refract::Registry registry;
+
+    public:
+        inline refract::Registry& GetNamedTypesRegistry() { return registry; }
     };
 
 }

@@ -46,7 +46,8 @@ sos::Object drafter::WrapAnnotation(const snowcrash::SourceAnnotation& annotatio
 }
 
 sos::Object WrapParseResultAST(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-                               const WrapperOptions& options)
+                               const WrapperOptions& options,
+                               ConversionContext& context)
 {
     sos::Object object;
     snowcrash::Error error;
@@ -55,10 +56,10 @@ sos::Object WrapParseResultAST(snowcrash::ParseResult<snowcrash::Blueprint>& blu
 
     if (blueprint.report.error.code == snowcrash::Error::OK) {
         try {
-            object.set(SerializeKey::Ast, WrapBlueprint(blueprint, options.expandMSON));
+            object.set(SerializeKey::Ast, WrapBlueprint(blueprint, context, options.expandMSON));
 
             if (options.generateSourceMap) {
-                object.set(SerializeKey::Sourcemap, WrapBlueprintSourcemap(blueprint.sourceMap));
+                object.set(SerializeKey::Sourcemap, WrapBlueprintSourcemap(blueprint.sourceMap, context));
             }
         }
         catch (std::exception& e) {
@@ -116,7 +117,7 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
             error = e;
         }
 
-        GetNamedTypesRegistry().clearAll(true);
+        context.GetNamedTypesRegistry().clearAll(true);
 
         if (error.code != snowcrash::Error::OK) {
             blueprint.report.error = error;
@@ -157,5 +158,5 @@ sos::Object drafter::WrapResult(snowcrash::ParseResult<snowcrash::Blueprint>& bl
 {
     return options.astType == RefractASTType
         ? WrapParseResultRefract(blueprint, options, context)
-        : WrapParseResultAST(blueprint, options);
+        : WrapParseResultAST(blueprint, options, context);
 }

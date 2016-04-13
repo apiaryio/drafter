@@ -100,12 +100,12 @@ namespace drafter {
     }
 
     template<typename T>
-    static mson::BaseTypeName GetType(const T& type) {
+    static mson::BaseTypeName GetType(const T& type, ConversionContext& context) {
         mson::BaseTypeName nameType = type.typeDefinition.typeSpecification.name.base;
         const std::string& parent = type.typeDefinition.typeSpecification.name.symbol.literal;
 
         if (nameType == mson::UndefinedTypeName && !parent.empty()) {
-            refract::IElement* base = FindRootAncestor(parent, GetNamedTypesRegistry());
+            refract::IElement* base = FindRootAncestor(parent, context.GetNamedTypesRegistry());
             if (base) {
                 nameType = NamedTypeFromElement(base);
             }
@@ -348,7 +348,7 @@ namespace drafter {
     }
 
     static mson::BaseTypeName GetMsonTypeFromName(const std::string& name, ConversionContext& context) {
-        refract::IElement* e = FindRootAncestor(name, GetNamedTypesRegistry());
+        refract::IElement* e = FindRootAncestor(name, context.GetNamedTypesRegistry());
         if (!e) {
             return mson::UndefinedTypeName;
         }
@@ -543,7 +543,7 @@ namespace drafter {
 
             if ((valueMember.node->valueDefinition.values.empty() ||
                 (valueMember.node->valueDefinition.typeDefinition.typeSpecification.nestedTypes.size() > 1))  &&
-                (GetType(valueMember.node->valueDefinition) != mson::EnumTypeName)) {
+                (GetType(valueMember.node->valueDefinition, context) != mson::EnumTypeName)) {
 
                 ExtractTypeDefinition<T> extd(data, context);
                 extd(MakeNodeInfoWithoutSourceMap(valueMember.node->valueDefinition.typeDefinition));
@@ -712,13 +712,13 @@ namespace drafter {
         return element;
     }
 
-    static bool VariablePropertyIsString(const mson::ValueDefinition& variable)
+    static bool VariablePropertyIsString(const mson::ValueDefinition& variable, ConversionContext& context)
     {
         if (variable.typeDefinition.typeSpecification.name.base == mson::StringTypeName) {
             return true;
         }
 
-        if (refract::TypeQueryVisitor::as<refract::StringElement>(FindRootAncestor(variable.typeDefinition.typeSpecification.name.symbol.literal, GetNamedTypesRegistry()))) {
+        if (refract::TypeQueryVisitor::as<refract::StringElement>(FindRootAncestor(variable.typeDefinition.typeSpecification.name.symbol.literal, context.GetNamedTypesRegistry()))) {
             return true;
         }
 
@@ -741,7 +741,7 @@ namespace drafter {
 
             // variable containt type definition
             if (!property.node->name.variable.typeDefinition.empty()) {
-                if (!VariablePropertyIsString(property.node->name.variable)) {
+                if (!VariablePropertyIsString(property.node->name.variable, context)) {
                     delete key;
                     throw snowcrash::Error("'variable named property' must be string or its sub-type", snowcrash::MSONError, sourceMap.sourceMap);
                 }
@@ -960,13 +960,13 @@ namespace drafter {
             case mson::Element::PropertyClass:
                 return MsonMemberToRefract<PropertyTrait>(MakeNodeInfo(mse.node->content.property, mse.sourceMap->property),
                                                           context,
-                                                          GetType(mse.node->content.property.valueDefinition),
+                                                          GetType(mse.node->content.property.valueDefinition, context),
                                                           defaultNestedType);
 
             case mson::Element::ValueClass:
                 return MsonMemberToRefract<ValueTrait>(MakeNodeInfo(mse.node->content.value, mse.sourceMap->value),
                                                        context,
-                                                       GetType(mse.node->content.value.valueDefinition),
+                                                       GetType(mse.node->content.value.valueDefinition, context),
                                                        defaultNestedType);
 
             case mson::Element::MixinClass:
@@ -1025,7 +1025,7 @@ namespace drafter {
         using namespace refract;
         IElement* element = NULL;
 
-        mson::BaseTypeName nameType = GetType(*dataStructure.node);
+        mson::BaseTypeName nameType = GetType(*dataStructure.node, context);
 
         switch (nameType) {
             case mson::BooleanTypeName:

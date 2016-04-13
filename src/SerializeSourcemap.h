@@ -13,7 +13,9 @@
 
 namespace drafter {
 
-    sos::Object WrapBlueprintSourcemap(const snowcrash::SourceMap<snowcrash::Blueprint>& blueprint);
+    class ConversionContext;
+
+    sos::Object WrapBlueprintSourcemap(const snowcrash::SourceMap<snowcrash::Blueprint>& blueprint, ConversionContext& context);
 }
 
 #endif

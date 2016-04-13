@@ -230,27 +230,56 @@ namespace drafter {
             return array;
         }
 
-        template<typename Collection, typename Functor, typename Argument>
-        R operator()(const Collection& collection, Functor &wrapper, Argument argument) const {
+        template<typename Collection, typename Functor, typename Arg1>
+        R operator()(const Collection& collection, Functor &wrapper, Arg1 arg1) const {
             typedef typename Collection::const_iterator iterator_type;
             R array;
 
             for (iterator_type it = collection.begin(); it != collection.end(); ++it) {
-                array.push(wrapper(*it, argument));
+                array.push(wrapper(*it, arg1));
             }
 
             return array;
         }
 
+        template<typename Collection, typename Functor, typename Arg1, typename Arg2>
+        R operator()(const Collection& collection, Functor &wrapper, Arg1 arg1, Arg2 arg2) const {
+            typedef typename Collection::const_iterator iterator_type;
+            R array;
+
+            for (iterator_type it = collection.begin(); it != collection.end(); ++it) {
+                array.push(wrapper(*it, arg1, arg2));
+            }
+
+            return array;
+        }
+    };
+
+    template<typename T, typename R = sos::Array>
+    struct WrapCollectionIf {
         // When we want to use predicate, let's use a dummy argument to distinguish it
         template<typename Collection, typename Functor, typename Predicate>
-        R operator()(const Collection& collection, Functor &wrapper, Predicate &predicate, bool dummy) const {
+        R operator()(const Collection& collection, Functor &wrapper, Predicate &predicate) const {
             typedef typename Collection::const_iterator iterator_type;
             R array;
 
             for (iterator_type it = collection.begin(); it != collection.end(); ++it) {
                 if (predicate(*it)) {
                     array.push(wrapper(*it));
+                }
+            }
+
+            return array;
+        }
+
+        template<typename Collection, typename Functor, typename Predicate, typename Argument>
+        R operator()(const Collection& collection, Functor &wrapper, Predicate &predicate, Argument& argument) const {
+            typedef typename Collection::const_iterator iterator_type;
+            R array;
+
+            for (iterator_type it = collection.begin(); it != collection.end(); ++it) {
+                if (predicate(*it)) {
+                    array.push(wrapper(*it, argument));
                 }
             }
 

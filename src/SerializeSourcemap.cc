@@ -7,6 +7,7 @@
 //
 
 #include "SerializeSourcemap.h"
+#include "ConversionContext.h"
 
 using namespace drafter;
 
@@ -420,7 +421,7 @@ bool IsElementResourceGroup(const SourceMap<Element>& element)
     return element.element == Element::CategoryElement && element.category == Element::ResourceGroupCategory;
 }
 
-sos::Object drafter::WrapBlueprintSourcemap(const SourceMap<Blueprint>& blueprint)
+sos::Object drafter::WrapBlueprintSourcemap(const SourceMap<Blueprint>& blueprint, ConversionContext& context)
 {
     sos::Object blueprintObject;
 
@@ -436,7 +437,7 @@ sos::Object drafter::WrapBlueprintSourcemap(const SourceMap<Blueprint>& blueprin
 
     // Resource Groups
     blueprintObject.set(SerializeKey::ResourceGroups,
-                        WrapCollection<Element>()(blueprint.content.elements().collection, WrapResourceGroupSourcemap, IsElementResourceGroup, false));
+                        WrapCollectionIf<Element>()(blueprint.content.elements().collection, WrapResourceGroupSourcemap, IsElementResourceGroup));
 
     // Content
     blueprintObject.set(SerializeKey::Content,
