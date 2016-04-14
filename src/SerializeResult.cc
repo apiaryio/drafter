@@ -46,7 +46,6 @@ sos::Object drafter::WrapAnnotation(const snowcrash::SourceAnnotation& annotatio
 }
 
 sos::Object WrapParseResultAST(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-                               const WrapperOptions& options,
                                ConversionContext& context)
 {
     sos::Object object;
@@ -56,9 +55,9 @@ sos::Object WrapParseResultAST(snowcrash::ParseResult<snowcrash::Blueprint>& blu
 
     if (blueprint.report.error.code == snowcrash::Error::OK) {
         try {
-            object.set(SerializeKey::Ast, WrapBlueprint(blueprint, context, options.expandMSON));
+            object.set(SerializeKey::Ast, WrapBlueprint(blueprint, context));
 
-            if (options.generateSourceMap) {
+            if (context.generateSourceMap) {
                 object.set(SerializeKey::Sourcemap, WrapBlueprintSourcemap(blueprint.sourceMap, context));
             }
         }
@@ -96,7 +95,6 @@ namespace helper {
 }
 
 sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-                                   const WrapperOptions& options,
                                    ConversionContext& context)
 {
     snowcrash::Error error;
@@ -143,7 +141,7 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
     sos::Object result;
 
     // NOTE: can throw(), but it will be handled in main
-    result = SerializeRefract(parseResult, options.generateSourceMap);
+    result = SerializeRefract(parseResult, context.generateSourceMap);
 
     if (parseResult) {
         delete parseResult;
@@ -155,9 +153,9 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
 sos::Object drafter::WrapResult(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
                                 const WrapperOptions& options)
 {
-    ConversionContext context;
+    ConversionContext context(options);
 
     return options.astType == RefractASTType
-        ? WrapParseResultRefract(blueprint, options, context)
-        : WrapParseResultAST(blueprint, options, context);
+        ? WrapParseResultRefract(blueprint, context)
+        : WrapParseResultAST(blueprint, context);
 }

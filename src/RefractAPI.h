@@ -21,7 +21,7 @@ namespace drafter {
 
     refract::IElement* AnnotationToRefract(const snowcrash::SourceAnnotation& annotation, const std::string& key);
 
-    refract::IElement* DataStructureToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context, bool expand = false);
+    refract::IElement* DataStructureToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context);
     refract::IElement* BlueprintToRefract(const NodeInfo<snowcrash::Blueprint>& blueprint, ConversionContext& context);
 }
 
