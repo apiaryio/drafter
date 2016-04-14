@@ -388,7 +388,7 @@ namespace drafter {
                         typeName = GetMsonTypeFromName(it->symbol.literal, context);
                     }
 
-                    RefractElementFactory& f = FactoryFromType(typeName);
+                    const RefractElementFactory& f = FactoryFromType(typeName);
                     types.push_back(f.Create(it->symbol.literal, it->symbol.variable));
                 }
 
@@ -472,7 +472,7 @@ namespace drafter {
             void operator()(S& storage, const NodeInfo<mson::ValueMember>& valueMember) {
                 const mson::BaseTypeName type = SelectNestedTypeSpecification(valueMember.node->valueDefinition.typeDefinition.typeSpecification.nestedTypes);
 
-                RefractElementFactory& elementFactory = FactoryFromType(type);
+                const RefractElementFactory& elementFactory = FactoryFromType(type);
                 const mson::Values& values = valueMember.node->valueDefinition.values;
 
                 RefractElements elements;

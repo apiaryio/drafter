@@ -9,7 +9,10 @@ namespace drafter {
     template <typename E, typename V = typename E::ValueType>
     struct RefractElementFactoryImpl : RefractElementFactory
     {
-        virtual refract::IElement* Create(const std::string& literal, bool sample = false)
+
+        RefractElementFactoryImpl() {}
+
+        virtual refract::IElement* Create(const std::string& literal, bool sample = false) const
         {
             E* element = new E;
 
@@ -33,7 +36,10 @@ namespace drafter {
     template <typename E>
     struct RefractElementFactoryImpl<E, refract::RefractElements> : RefractElementFactory
     {
-        virtual refract::IElement* Create(const std::string& literal, bool sample = false)
+
+        RefractElementFactoryImpl() {}
+
+        virtual refract::IElement* Create(const std::string& literal, bool sample = false) const
         {
             if (sample) {
                 refract::StringElement* element = new refract::StringElement;
@@ -55,15 +61,15 @@ namespace drafter {
     };
 
 
-    RefractElementFactory& FactoryFromType(const mson::BaseTypeName typeName)
+    const RefractElementFactory& FactoryFromType(const mson::BaseTypeName typeName)
     {
 
-        static RefractElementFactoryImpl<refract::BooleanElement> boolFactory;
-        static RefractElementFactoryImpl<refract::NumberElement> numberFactory;
-        static RefractElementFactoryImpl<refract::StringElement> stringFactory;
-        static RefractElementFactoryImpl<refract::EnumElement> enumFactory;
-        static RefractElementFactoryImpl<refract::ArrayElement> arrayFactory;
-        static RefractElementFactoryImpl<refract::ObjectElement> objectFactory;
+        static const RefractElementFactoryImpl<refract::BooleanElement> boolFactory;
+        static const RefractElementFactoryImpl<refract::NumberElement> numberFactory;
+        static const RefractElementFactoryImpl<refract::StringElement> stringFactory;
+        static const RefractElementFactoryImpl<refract::EnumElement> enumFactory;
+        static const RefractElementFactoryImpl<refract::ArrayElement> arrayFactory;
+        static const RefractElementFactoryImpl<refract::ObjectElement> objectFactory;
 
          switch (typeName) {
              case mson::BooleanTypeName:

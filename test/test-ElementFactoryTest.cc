@@ -10,7 +10,7 @@ using namespace refract;
 using namespace drafter;
 
 TEST_CASE("Create empty primitive element","[ElementFactory]") {
-    RefractElementFactory& factory = FactoryFromType(mson::StringTypeName);
+    const RefractElementFactory& factory = FactoryFromType(mson::StringTypeName);
     IElement* e = factory.Create(std::string(), false);
 
     StringElement* str = TypeQueryVisitor::as<StringElement>(e);
@@ -24,7 +24,7 @@ TEST_CASE("Create empty primitive element","[ElementFactory]") {
 }
 
 TEST_CASE("Create primitive element w/ value","[ElementFactory]") {
-    RefractElementFactory& factory = FactoryFromType(mson::NumberTypeName);
+    const RefractElementFactory& factory = FactoryFromType(mson::NumberTypeName);
     IElement* e = factory.Create("42", false);
 
     NumberElement* number = TypeQueryVisitor::as<NumberElement>(e);
@@ -38,7 +38,7 @@ TEST_CASE("Create primitive element w/ value","[ElementFactory]") {
 }
 
 TEST_CASE("Create primitive element w/ sample","[ElementFactory]") {
-    RefractElementFactory& factory = FactoryFromType(mson::NumberTypeName);
+    const RefractElementFactory& factory = FactoryFromType(mson::NumberTypeName);
     IElement* e = factory.Create("42", true);
 
     NumberElement* number = TypeQueryVisitor::as<NumberElement>(e);
@@ -54,7 +54,7 @@ TEST_CASE("Create primitive element w/ sample","[ElementFactory]") {
 }
 
 TEST_CASE("Create empty complex element","[ElementFactory]") {
-    RefractElementFactory& factory = FactoryFromType(mson::EnumTypeName);
+    const RefractElementFactory& factory = FactoryFromType(mson::EnumTypeName);
     IElement* e = factory.Create(std::string(), false);
 
     EnumElement* enm = TypeQueryVisitor::as<EnumElement>(e);
@@ -68,7 +68,7 @@ TEST_CASE("Create empty complex element","[ElementFactory]") {
 }
 
 TEST_CASE("Create element as generic","[ElementFactory]") {
-    RefractElementFactory& factory = FactoryFromType(mson::EnumTypeName);
+    const RefractElementFactory& factory = FactoryFromType(mson::EnumTypeName);
     IElement* e = factory.Create("Enumerator", true);
 
     StringElement* generic = TypeQueryVisitor::as<StringElement>(e);

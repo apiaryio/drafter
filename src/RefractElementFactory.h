@@ -45,10 +45,14 @@ namespace drafter {
     struct RefractElementFactory
     {
         virtual ~RefractElementFactory() {}
-        virtual refract::IElement* Create(const std::string& literal, bool sample) = 0;
+        virtual refract::IElement* Create(const std::string& literal, bool sample) const = 0;
     };
 
-    RefractElementFactory& FactoryFromType(const mson::BaseTypeName typeName);
+    /**
+     * Do not change const return type!!!
+     * it is due to thread safety
+     */
+    const RefractElementFactory& FactoryFromType(const mson::BaseTypeName typeName);
 
 }
 
