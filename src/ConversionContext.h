@@ -16,16 +16,12 @@ namespace drafter {
         refract::Registry registry;
 
     public:
-        bool generateSourceMap;
-        bool expandMSON;
+        const WrapperOptions& options;
 
         inline refract::Registry& GetNamedTypesRegistry() { return registry; }
 
         ConversionContext(const WrapperOptions& options)
-        {
-            generateSourceMap = options.generateSourceMap;
-            expandMSON = options.expandMSON;
-        }
+        : options(options) {}
     };
 
 }
