@@ -44,8 +44,6 @@ using snowcrash::Action;
 using snowcrash::Resource;
 using snowcrash::Blueprint;
 
-static bool ExpandMSON = false;
-
 sos::Object WrapValue(const mson::Value& value)
 {
     sos::Object valueObject;
@@ -449,7 +447,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure, ConversionCont
     sos::Object dataStructureObject;
 
 #if _WITH_REFRACT_
-    refract::IElement *element = DataStructureToRefract(MakeNodeInfoWithoutSourceMap(dataStructure), context, ExpandMSON);
+    refract::IElement *element = DataStructureToRefract(MakeNodeInfoWithoutSourceMap(dataStructure), context);
     dataStructureObject = SerializeRefract(element, false);
 
     if (element) {
@@ -810,7 +808,7 @@ sos::Object WrapBlueprintAST(const Blueprint& blueprint, ConversionContext& cont
     return blueprintObject;
 }
 
-sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, ConversionContext& context, const bool expandMSON)
+sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, ConversionContext& context)
 {
     sos::Object blueprintObject;
     snowcrash::Error error;
@@ -820,8 +818,6 @@ sos::Object drafter::WrapBlueprint(const snowcrash::ParseResult<snowcrash::Bluep
     }
 
     try {
-        ExpandMSON = expandMSON;
-
         RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()), context);
         blueprintObject = WrapBlueprintAST(blueprint.node, context);
     }

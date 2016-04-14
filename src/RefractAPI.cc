@@ -84,11 +84,11 @@ namespace drafter {
         }
     }
 
-    refract::IElement* DataStructureToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context, bool expand)
+    refract::IElement* DataStructureToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context)
     {
         refract::IElement* msonElement = MSONToRefract(dataStructure, context);
 
-        if (expand) {
+        if (context.expandMSON) {
             refract::IElement* msonExpanded = ExpandRefract(msonElement, context);
             msonElement = msonExpanded;
         }

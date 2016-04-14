@@ -148,7 +148,6 @@ namespace draftertest {
 
             std::stringstream outStream;
             sos::SerializeJSON serializer;
-            drafter::ConversionContext context;
 
             serializer.process((*wrapper)(blueprint, options), outStream);
             outStream << "\n";
