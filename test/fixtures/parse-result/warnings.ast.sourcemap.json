@@ -1,0 +1,299 @@
+{
+  "_version": "2.2",
+  "ast": {
+    "_version": "4.0",
+    "metadata": [],
+    "name": "",
+    "description": "",
+    "element": "category",
+    "resourceGroups": [
+      {
+        "name": "",
+        "description": "",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "",
+            "description": "",
+            "uriTemplate": "/",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "",
+                "description": "",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "204",
+                        "description": "",
+                        "headers": [],
+                        "body": "{}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      }
+    ],
+    "content": [
+      {
+        "element": "category",
+        "content": [
+          {
+            "element": "resource",
+            "name": "",
+            "description": "",
+            "uriTemplate": "/",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "",
+                "description": "",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "204",
+                        "description": "",
+                        "headers": [],
+                        "body": "{}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      }
+    ]
+  },
+  "sourcemap": {
+    "metadata": [],
+    "name": [],
+    "description": [],
+    "resourceGroups": [
+      {
+        "name": [],
+        "description": [],
+        "resources": [
+          {
+            "name": [],
+            "description": [],
+            "uriTemplate": [
+              [
+                0,
+                8
+              ]
+            ],
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": [],
+                "description": [],
+                "method": [
+                  [
+                    0,
+                    8
+                  ]
+                ],
+                "parameters": [],
+                "examples": [
+                  {
+                    "name": [],
+                    "description": [],
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": [
+                          [
+                            23,
+                            14
+                          ]
+                        ],
+                        "description": [],
+                        "headers": [],
+                        "body": [
+                          [
+                            41,
+                            7
+                          ]
+                        ],
+                        "schema": [],
+                        "content": [
+                          {
+                            "content": [
+                              [
+                                41,
+                                7
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "attributes": {
+                  "relation": [],
+                  "uriTemplate": []
+                },
+                "content": []
+              }
+            ],
+            "content": []
+          }
+        ]
+      }
+    ],
+    "content": [
+      {
+        "content": [
+          {
+            "name": [],
+            "description": [],
+            "uriTemplate": [
+              [
+                0,
+                8
+              ]
+            ],
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": [],
+                "description": [],
+                "method": [
+                  [
+                    0,
+                    8
+                  ]
+                ],
+                "parameters": [],
+                "examples": [
+                  {
+                    "name": [],
+                    "description": [],
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": [
+                          [
+                            23,
+                            14
+                          ]
+                        ],
+                        "description": [],
+                        "headers": [],
+                        "body": [
+                          [
+                            41,
+                            7
+                          ]
+                        ],
+                        "schema": [],
+                        "content": [
+                          {
+                            "content": [
+                              [
+                                41,
+                                7
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "attributes": {
+                  "relation": [],
+                  "uriTemplate": []
+                },
+                "content": []
+              }
+            ],
+            "content": []
+          }
+        ]
+      }
+    ]
+  },
+  "error": {
+    "code": 0,
+    "message": "",
+    "location": []
+  },
+  "warnings": [
+    {
+      "code": 3,
+      "message": "no parameters specified, expected a nested list of parameters, one parameter per list item",
+      "location": [
+        {
+          "index": 8,
+          "length": 13
+        }
+      ]
+    },
+    {
+      "code": 6,
+      "message": "the 204 response MUST NOT include a message-body",
+      "location": [
+        {
+          "index": 21,
+          "length": 27
+        }
+      ]
+    }
+  ]
+}

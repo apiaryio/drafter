@@ -25,6 +25,7 @@ TEST_REFRACT("api", "schema-body");
 TEST_REFRACT("api", "schema-custom");
 TEST_REFRACT("api", "attributes-references");
 TEST_REFRACT("api", "action-request-attributes");
+TEST_REFRACT("api", "mson");
 
 // regressions
 TEST_REFRACT("api", "attributes-array-nested-named-type");

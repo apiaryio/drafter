@@ -5,7 +5,7 @@ using namespace draftertest;
 
 TEST_CASE("C-interface parse blueprint", "[c-interface]")
 {
-    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/result/blueprint");
+    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/parse-result/blueprint");
 
     std::string source = fixture.get(".apib");
 
@@ -23,7 +23,7 @@ TEST_CASE("C-interface parse blueprint", "[c-interface]")
 
 TEST_CASE("C-interface parse blueprint with sourceMap", "[c-interface]")
 {
-    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/result/blueprint");
+    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/parse-result/blueprint");
 
     std::string source = fixture.get(".apib");
 
@@ -41,7 +41,7 @@ TEST_CASE("C-interface parse blueprint with sourceMap", "[c-interface]")
 
 TEST_CASE("C-interface check result, without memory alloc", "[c-interface]")
 {
-    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/result/blueprint");
+    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/parse-result/blueprint");
 
     std::string source = fixture.get(".apib");
 
@@ -54,7 +54,7 @@ TEST_CASE("C-interface check result, without memory alloc", "[c-interface]")
 
 TEST_CASE("C-interface parse blueprint for refract", "[c-interface]")
 {
-    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/result/blueprint");
+    ITFixtureFiles fixture = ITFixtureFiles("test/fixtures/parse-result/blueprint");
 
     std::string source = fixture.get(".apib");
 

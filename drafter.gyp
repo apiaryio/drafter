@@ -124,7 +124,8 @@
       'sources': [
         "test/test-drafter.cc",
         "test/test-cdrafter.cc",
-        "test/test-SerializeResult.cc",
+        "test/test-SerializeResultTest.cc",
+        "test/test-SerializeSourceMapTest.cc",
         "test/test-RefractDataStructureTest.cc",
         "test/test-RefractAPITest.cc",
         "test/test-RefractParseResultTest.cc",
