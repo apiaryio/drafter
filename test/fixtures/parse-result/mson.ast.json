@@ -1,0 +1,173 @@
+{
+  "_version": "2.2",
+  "ast": {
+    "_version": "4.0",
+    "metadata": [],
+    "name": "",
+    "description": "",
+    "element": "category",
+    "resourceGroups": [
+      {
+        "name": "",
+        "description": "",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "",
+            "description": "",
+            "uriTemplate": "/",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "",
+                "description": "",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"username\": \"pksunkara\"\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"username\": {\n      \"type\": \"string\",\n      \"description\": \"This is a user name\"\n    }\n  }\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "meta": {
+                                      "description": "This is a user name"
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "username"
+                                      },
+                                      "value": {
+                                        "element": "string",
+                                        "content": "pksunkara"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      }
+    ],
+    "content": [
+      {
+        "element": "category",
+        "content": [
+          {
+            "element": "resource",
+            "name": "",
+            "description": "",
+            "uriTemplate": "/",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "",
+                "description": "",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"username\": \"pksunkara\"\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"username\": {\n      \"type\": \"string\",\n      \"description\": \"This is a user name\"\n    }\n  }\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "meta": {
+                                      "description": "This is a user name"
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "username"
+                                      },
+                                      "value": {
+                                        "element": "string",
+                                        "content": "pksunkara"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      }
+    ]
+  },
+  "error": {
+    "code": 0,
+    "message": "",
+    "location": []
+  },
+  "warnings": []
+}
