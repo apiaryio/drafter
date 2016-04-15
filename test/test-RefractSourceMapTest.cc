@@ -18,8 +18,17 @@ TEST_REFRACT_SOURCE_MAP("api", "headers");
 TEST_REFRACT_SOURCE_MAP("api", "resource-parameters");
 TEST_REFRACT_SOURCE_MAP("api", "action-parameters");
 TEST_REFRACT_SOURCE_MAP("api", "request-parameters");
+TEST_REFRACT_SOURCE_MAP("api", "request-only");
 TEST_REFRACT_SOURCE_MAP("api", "asset");
 TEST_REFRACT_SOURCE_MAP("api", "xml-body");
 TEST_REFRACT_SOURCE_MAP("api", "schema-body");
 TEST_REFRACT_SOURCE_MAP("api", "schema-custom");
 TEST_REFRACT_SOURCE_MAP("api", "mson");
+TEST_REFRACT_SOURCE_MAP("api", "attributes-references");
+TEST_REFRACT_SOURCE_MAP("api", "action-request-attributes");
+
+TEST_REFRACT_SOURCE_MAP("parse-result", "simple");
+TEST_REFRACT_SOURCE_MAP("parse-result", "warning");
+TEST_REFRACT_SOURCE_MAP("parse-result", "warnings");
+TEST_REFRACT_SOURCE_MAP("parse-result", "error-warning");
+TEST_REFRACT_SOURCE_MAP("parse-result", "blueprint");

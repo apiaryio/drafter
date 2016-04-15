@@ -448,7 +448,7 @@ sos::Object WrapDataStructure(const DataStructure& dataStructure, ConversionCont
 
 #if _WITH_REFRACT_
     refract::IElement *element = DataStructureToRefract(MakeNodeInfoWithoutSourceMap(dataStructure), context);
-    dataStructureObject = SerializeRefract(element, false);
+    dataStructureObject = SerializeRefract(element, context);
 
     if (element) {
         delete element;

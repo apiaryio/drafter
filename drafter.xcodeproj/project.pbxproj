@@ -51,7 +51,6 @@
 		19A129DF1B70AE2F00366AA7 /* test-cdrafter.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A129C91B70ADC300366AA7 /* test-cdrafter.cc */; };
 		19A129E01B70AE3200366AA7 /* test-drafter.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A129CA1B70ADC300366AA7 /* test-drafter.cc */; };
 		19A129E21B70AE3200366AA7 /* test-RenderTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A129CC1B70ADC300366AA7 /* test-RenderTest.cc */; };
-		19A129E31B70AE3200366AA7 /* test-SerializeResult.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A129CD1B70ADC300366AA7 /* test-SerializeResult.cc */; };
 		19A129E61B70AFA100366AA7 /* liblibdrafter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19BD7B971B70AAAF00A11E83 /* liblibdrafter.a */; };
 		19A129E81B70AFA600366AA7 /* libsnowcrash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129E71B70AFA600366AA7 /* libsnowcrash.a */; };
 		19A129EA1B70AFA900366AA7 /* libmarkdownparser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129E91B70AFA900366AA7 /* libmarkdownparser.a */; };
@@ -82,6 +81,8 @@
 		400FFA0C1C1B0E12006A4CE0 /* test-SchemaTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 400FFA0B1C1B0E12006A4CE0 /* test-SchemaTest.cc */; };
 		401074A31B833A1000B66442 /* Render.cc in Sources */ = {isa = PBXBuildFile; fileRef = 401074A21B833A1000B66442 /* Render.cc */; };
 		4038935E1CBFC1D400D01E17 /* ConversionContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 4038935D1CBFC1D400D01E17 /* ConversionContext.h */; };
+		403893641CC0007F00D01E17 /* test-SerializeSourceMapTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 403893631CC0007F00D01E17 /* test-SerializeSourceMapTest.cc */; };
+		403893661CC0021700D01E17 /* test-SerializeResultTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 403893651CC0021700D01E17 /* test-SerializeResultTest.cc */; };
 		408560761CBB983100932414 /* test-ExtendElementTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40AEF8201CB80C4F000A0DEE /* test-ExtendElementTest.cc */; };
 		4093675E1CBB90DE0065A78A /* test-ApplyVisitorTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4093675C1CBB90DE0065A78A /* test-ApplyVisitorTest.cc */; };
 		4093675F1CBB90DE0065A78A /* test-ElementFactoryTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4093675D1CBB90DE0065A78A /* test-ElementFactoryTest.cc */; };
@@ -183,7 +184,6 @@
 		19A129C91B70ADC300366AA7 /* test-cdrafter.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-cdrafter.cc"; path = "test/test-cdrafter.cc"; sourceTree = "<group>"; };
 		19A129CA1B70ADC300366AA7 /* test-drafter.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-drafter.cc"; path = "test/test-drafter.cc"; sourceTree = "<group>"; };
 		19A129CC1B70ADC300366AA7 /* test-RenderTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-RenderTest.cc"; path = "test/test-RenderTest.cc"; sourceTree = "<group>"; };
-		19A129CD1B70ADC300366AA7 /* test-SerializeResult.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-SerializeResult.cc"; path = "test/test-SerializeResult.cc"; sourceTree = "<group>"; };
 		19A129D81B70AE1900366AA7 /* test-libdrafter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "test-libdrafter"; sourceTree = BUILT_PRODUCTS_DIR; };
 		19A129E71B70AFA600366AA7 /* libsnowcrash.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsnowcrash.a; path = "../../../Library/Developer/Xcode/DerivedData/drafter-gsbusumgxawcfndzeqzwyaefkhkh/Build/Products/Debug/libsnowcrash.a"; sourceTree = "<group>"; };
 		19A129E91B70AFA900366AA7 /* libmarkdownparser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmarkdownparser.a; path = "../../../Library/Developer/Xcode/DerivedData/drafter-gsbusumgxawcfndzeqzwyaefkhkh/Build/Products/Debug/libmarkdownparser.a"; sourceTree = "<group>"; };
@@ -210,6 +210,8 @@
 		400FFA0B1C1B0E12006A4CE0 /* test-SchemaTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-SchemaTest.cc"; path = "test/test-SchemaTest.cc"; sourceTree = "<group>"; };
 		401074A21B833A1000B66442 /* Render.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Render.cc; path = src/Render.cc; sourceTree = SOURCE_ROOT; };
 		4038935D1CBFC1D400D01E17 /* ConversionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConversionContext.h; path = src/ConversionContext.h; sourceTree = SOURCE_ROOT; };
+		403893631CC0007F00D01E17 /* test-SerializeSourceMapTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-SerializeSourceMapTest.cc"; path = "test/test-SerializeSourceMapTest.cc"; sourceTree = "<group>"; };
+		403893651CC0021700D01E17 /* test-SerializeResultTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-SerializeResultTest.cc"; path = "test/test-SerializeResultTest.cc"; sourceTree = "<group>"; };
 		4093675C1CBB90DE0065A78A /* test-ApplyVisitorTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-ApplyVisitorTest.cc"; path = "test/test-ApplyVisitorTest.cc"; sourceTree = "<group>"; };
 		4093675D1CBB90DE0065A78A /* test-ElementFactoryTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-ElementFactoryTest.cc"; path = "test/test-ElementFactoryTest.cc"; sourceTree = "<group>"; };
 		40AEEC3C1BB60CB6005866DD /* test-RefractParseResultTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-RefractParseResultTest.cc"; path = "test/test-RefractParseResultTest.cc"; sourceTree = "<group>"; };
@@ -299,7 +301,8 @@
 				40DDBDD91BE14EE700B10819 /* test-RefractSourceMapTest.cc */,
 				19A129CC1B70ADC300366AA7 /* test-RenderTest.cc */,
 				400FFA0B1C1B0E12006A4CE0 /* test-SchemaTest.cc */,
-				19A129CD1B70ADC300366AA7 /* test-SerializeResult.cc */,
+				403893651CC0021700D01E17 /* test-SerializeResultTest.cc */,
+				403893631CC0007F00D01E17 /* test-SerializeSourceMapTest.cc */,
 			);
 			name = "test-libdrafter";
 			sourceTree = "<group>";
@@ -605,16 +608,17 @@
 				408560761CBB983100932414 /* test-ExtendElementTest.cc in Sources */,
 				40EF03DE1B72135E00865990 /* test-RefractDataStructureTest.cc in Sources */,
 				4093675F1CBB90DE0065A78A /* test-ElementFactoryTest.cc in Sources */,
-				19A129E31B70AE3200366AA7 /* test-SerializeResult.cc in Sources */,
 				19A129E01B70AE3200366AA7 /* test-drafter.cc in Sources */,
 				400F54051C598A35004EA235 /* test-CircularReferenceTest.cc in Sources */,
 				40DDBDDA1BE14EE700B10819 /* test-RefractSourceMapTest.cc in Sources */,
 				19A129DF1B70AE2F00366AA7 /* test-cdrafter.cc in Sources */,
+				403893641CC0007F00D01E17 /* test-SerializeSourceMapTest.cc in Sources */,
 				400FFA0C1C1B0E12006A4CE0 /* test-SchemaTest.cc in Sources */,
 				19A129E21B70AE3200366AA7 /* test-RenderTest.cc in Sources */,
 				40EF03DD1B72135E00865990 /* test-RefractAPITest.cc in Sources */,
 				40AEEC3D1BB60CB6005866DD /* test-RefractParseResultTest.cc in Sources */,
 				4093675E1CBB90DE0065A78A /* test-ApplyVisitorTest.cc in Sources */,
+				403893661CC0021700D01E17 /* test-SerializeResultTest.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

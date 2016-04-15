@@ -1,0 +1,211 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": {
+          "element": "string",
+          "attributes": {
+            "sourceMap": [
+              {
+                "element": "sourceMap",
+                "content": [
+                  [
+                    12,
+                    11
+                  ]
+                ]
+              }
+            ]
+          },
+          "content": "test api"
+        }
+      },
+      "attributes": {
+        "meta": [
+          {
+            "element": "member",
+            "meta": {
+              "classes": [
+                "user"
+              ]
+            },
+            "attributes": {
+              "sourceMap": [
+                {
+                  "element": "sourceMap",
+                  "content": [
+                    [
+                      0,
+                      12
+                    ]
+                  ]
+                }
+              ]
+            },
+            "content": {
+              "key": {
+                "element": "string",
+                "content": "FORMAT"
+              },
+              "value": {
+                "element": "string",
+                "content": "1A"
+              }
+            }
+          }
+        ]
+      },
+      "content": [
+        {
+          "element": "copy",
+          "attributes": {
+            "sourceMap": [
+              {
+                "element": "sourceMap",
+                "content": [
+                  [
+                    23,
+                    38
+                  ]
+                ]
+              }
+            ]
+          },
+          "content": "this is a description of the test api\n"
+        },
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": {
+              "element": "string",
+              "attributes": {
+                "sourceMap": [
+                  {
+                    "element": "sourceMap",
+                    "content": [
+                      [
+                        61,
+                        13
+                      ]
+                    ]
+                  }
+                ]
+              },
+              "content": "test"
+            }
+          },
+          "content": [
+            {
+              "element": "copy",
+              "attributes": {
+                "sourceMap": [
+                  {
+                    "element": "sourceMap",
+                    "content": [
+                      [
+                        74,
+                        13
+                      ]
+                    ]
+                  }
+                ]
+              },
+              "content": "A test group\n"
+            },
+            {
+              "element": "resource",
+              "meta": {
+                "title": {
+                  "element": "string",
+                  "attributes": {
+                    "sourceMap": [
+                      {
+                        "element": "sourceMap",
+                        "content": [
+                          [
+                            87,
+                            24
+                          ]
+                        ]
+                      }
+                    ]
+                  },
+                  "content": "test"
+                }
+              },
+              "attributes": {
+                "href": {
+                  "element": "string",
+                  "attributes": {
+                    "sourceMap": [
+                      {
+                        "element": "sourceMap",
+                        "content": [
+                          [
+                            87,
+                            24
+                          ]
+                        ]
+                      }
+                    ]
+                  },
+                  "content": "/test/{id}[2]"
+                }
+              },
+              "content": [
+                {
+                  "element": "copy",
+                  "attributes": {
+                    "sourceMap": [
+                      {
+                        "element": "sourceMap",
+                        "content": [
+                          [
+                            111,
+                            20
+                          ]
+                        ]
+                      }
+                    ]
+                  },
+                  "content": "A test uri template\n"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 12,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                87,
+                24
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "The URI template contains square brackets, please percent encode square brackets as %5B and %5D"
+    }
+  ]
+}
