@@ -2,16 +2,19 @@
 
 ## Master
 
+
+## 2.3.0
+
 ### Bug Fixes
 
 * Parameters in Refract output will no longer contain a `content` value
-  when there is no sample value.  
+  when there is no sample value.
   [#286](https://github.com/apiaryio/drafter/issues/286)
 
 * Errors raised from Snowcrash, the underlying parser are now treated
   as errors. This resolves an issue where Drafter would get into an
   infinite loop when certain circular references are found in MSON
-  Data Structures.  
+  Data Structures.
   [#255](https://github.com/apiaryio/drafter/issues/255)
 
 * Errors raised from drafter are now correctly treated as errors,
@@ -20,7 +23,7 @@
 * Improved error reporting with source maps when using cdrafter.
 
 * Resolved an issue when using a mixins from implicit objects would raise a
-  warning that the implicit object was not an object.  
+  warning that the implicit object was not an object.
   [#138](https://github.com/apiaryio/drafter/issues/138)
   [#243](https://github.com/apiaryio/drafter/issues/243)
 
@@ -35,7 +38,7 @@ previous pre-release 2.3.0-pre.1.
 ### Bug Fixes
 
 * It was causing lot of different problems like segmentation faults, stack
-  overflows or even infinite loops depending on what error was ignored.  
+  overflows or even infinite loops depending on what error was ignored.
   [#269](https://github.com/apiaryio/drafter/issues/269)
 
 * Variable property name issues are fixed including correct generation
@@ -46,7 +49,7 @@ previous pre-release 2.3.0-pre.1.
   the case anymore.
 
 * `httpRequest` and `httpResponse` payloads now have source maps attached while
-  using the Refract output.  
+  using the Refract output.
   [#259](https://github.com/apiaryio/drafter/issues/259)
 
 
@@ -67,7 +70,7 @@ previous pre-release 2.3.0-pre.1.
   `application/schema+json`.
 
 * Fixes a problem while rendering JSON Schema may have resulted in an
-  `ExtendElement` warning.  
+  `ExtendElement` warning.
   [#217](https://github.com/apiaryio/drafter/issues/217)
 
 
