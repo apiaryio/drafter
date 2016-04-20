@@ -9,6 +9,7 @@
 #define DRAFTER_CONVERSIONCONTEXT_H
 
 #include "refract/Registry.h"
+#include "snowcrash.h"
 
 namespace drafter {
 
@@ -17,6 +18,7 @@ namespace drafter {
 
     public:
         const WrapperOptions& options;
+        std::vector<snowcrash::Warning> warnings;
 
         inline refract::Registry& GetNamedTypesRegistry() { return registry; }
 

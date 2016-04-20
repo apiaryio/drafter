@@ -131,6 +131,9 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
     }
 
     snowcrash::Warnings& warnings = blueprint.report.warnings;
+    if (!context.warnings.empty()) {
+        warnings.insert(warnings.end(), context.warnings.begin(), context.warnings.end());
+    }
 
     if (!warnings.empty()) {
         std::transform(warnings.begin(), warnings.end(),
