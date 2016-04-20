@@ -737,7 +737,11 @@ namespace drafter {
 
             if (property.node->name.variable.values.size() > 1) {
                 // FIXME: is there example for multiple variables?
-                throw snowcrash::Error("multiple variables in property definition is not implemented", snowcrash::MSONError, sourceMap.sourceMap);
+                context.warnings.push_back(
+                    snowcrash::Warning(
+                        "multiple variables in property definition is not implemented",
+                        snowcrash::MSONError,
+                        sourceMap.sourceMap));
             }
 
             // variable containt type definition

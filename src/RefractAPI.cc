@@ -323,13 +323,19 @@ namespace drafter {
         // ideal solution is add warning into collection
         // but there is no way how to do it
         // in current time we solve it by rethrow
-
         catch (snowcrash::Error& e) {
-            e.location = payload.sourceMap->sourceMap;
-            throw e;
+            context.warnings.push_back(
+                snowcrash::Warning("unable to render JSON/JSONSchema. " + e.message,
+                                   snowcrash::ApplicationError,
+                                   payload.sourceMap->sourceMap));
         }
         catch (refract::LogicError& e) {
-            throw snowcrash::Error(e.what(), snowcrash::ApplicationError, payload.sourceMap->sourceMap);
+            context.warnings.push_back(
+                snowcrash::Warning(std::string(
+                                       "unable to render JSON/JSONSchema. ").append(
+                                           e.what()),
+                                   snowcrash::ApplicationError,
+                                   payload.sourceMap->sourceMap));
         }
 
         RemoveEmptyElements(content);
