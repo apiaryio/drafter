@@ -28,6 +28,9 @@ namespace refract
     struct ObjectElement;
 
     struct ExtendElement;
+
+    struct OptionElement;
+    struct SelectElement;
 }
 
 

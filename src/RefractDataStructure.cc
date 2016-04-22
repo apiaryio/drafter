@@ -343,6 +343,8 @@ namespace drafter {
             case refract::TypeQueryVisitor::Null:
             case refract::TypeQueryVisitor::Member:
             case refract::TypeQueryVisitor::Extend:
+            case refract::TypeQueryVisitor::Option:
+            case refract::TypeQueryVisitor::Select:
                 ;
         };
         return mson::UndefinedTypeName;
@@ -918,14 +920,13 @@ namespace drafter {
 
     static refract::IElement* MsonOneofToRefract(const NodeInfo<mson::OneOf>& oneOf, ConversionContext& context)
     {
-        refract::ArrayElement* select = new refract::ArrayElement;
-        select->element(SerializeKey::Select);
+        refract::SelectElement* select = new refract::SelectElement;
 
         NodeInfoCollection<mson::OneOf> oneOfNodeInfo(oneOf);
 
         for (NodeInfoCollection<mson::OneOf>::const_iterator it = oneOfNodeInfo.begin(); it != oneOfNodeInfo.end(); ++it) {
-            refract::ArrayElement* option = new refract::ArrayElement;
-            option->element(SerializeKey::Option);
+
+            refract::OptionElement* option = new refract::OptionElement;
 
             // we can not use MsonElementToRefract() for groups,
             // "option" element handles directly all elements in group

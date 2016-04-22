@@ -100,7 +100,6 @@ const std::string SerializeKey::True = "true";
 const std::string SerializeKey::Generic = "generic";
 const std::string SerializeKey::Enum = "enum";
 const std::string SerializeKey::Select = "select";
-const std::string SerializeKey::Option = "option";
 const std::string SerializeKey::Ref = "ref";
 const std::string SerializeKey::Href = "href";
 const std::string SerializeKey::Path = "path";

@@ -516,6 +516,16 @@ namespace refract
         delete merged;
     }
 
+    void JSONSchemaVisitor::visit(const OptionElement& e)
+    {
+        throw NotImplemented(__PRETTY_FUNCTION__);
+    }
+
+    void JSONSchemaVisitor::visit(const SelectElement& e)
+    {
+        throw NotImplemented(__PRETTY_FUNCTION__);
+    }
+
     IElement* JSONSchemaVisitor::get()
     {
         return pObj;

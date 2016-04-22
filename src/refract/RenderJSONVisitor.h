@@ -37,7 +37,11 @@ namespace refract
         void visit(const StringElement& e);
         void visit(const NumberElement& e);
         void visit(const BooleanElement& e);
+
         void visit(const ExtendElement& e);
+
+        void visit(const OptionElement& e);
+        void visit(const SelectElement& e);
 
         std::string getString() const;
         IElement* getOwnership(); 

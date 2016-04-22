@@ -59,6 +59,9 @@ namespace refract
         void visit(const BooleanElement& e);
         void visit(const ExtendElement& e);
 
+        void visit(const OptionElement& e);
+        void visit(const SelectElement& e);
+
         IElement* get();
         IElement* getOwnership();
         std::string getSchema(const IElement& e);

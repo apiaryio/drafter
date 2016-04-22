@@ -27,5 +27,7 @@ namespace refract {
     template void ApplyVisitor::visit<MemberElement>(const MemberElement&);
     template void ApplyVisitor::visit<ObjectElement>(const ObjectElement&);
     template void ApplyVisitor::visit<ExtendElement>(const ExtendElement&);
+    template void ApplyVisitor::visit<OptionElement>(const OptionElement&);
+    template void ApplyVisitor::visit<SelectElement>(const SelectElement&);
 
 }

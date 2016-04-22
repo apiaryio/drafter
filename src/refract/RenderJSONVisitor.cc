@@ -219,6 +219,14 @@ namespace refract
         delete merged;
     }
 
+    void RenderJSONVisitor::visit(const OptionElement& e) {
+        throw refract::NotImplemented(__PRETY_FUNCTION__);
+    }
+
+    void RenderJSONVisitor::visit(const SelectElement& e) {
+        throw refract::NotImplemented(__PRETY_FUNCTION__);
+    }
+
    IElement* RenderJSONVisitor::getOwnership() {
        IElement* ret = result;
        result = NULL;
