@@ -60,19 +60,7 @@ namespace refract
                 }
 
                 if ((*it)->element() == "ref") {
-                    IElement::MemberElementCollection::const_iterator found = (*it)->attributes.find("resolved");
-
-                    if (found == (*it)->attributes.end()) {
-                        continue;
-                    }
-
-                    const T* resolved = TypeQueryVisitor::as<T>((*found)->value.second);
-
-                    if (!resolved) {
-                        throw refract::LogicError("Mixin must refer to same type as parent");
-                    }
-
-                    FetchMembers(*resolved, members);
+                    HandleRefWhenFetchingMembers<T>(*it, members, FetchMembers<T>);
                     continue;
                 }
 
@@ -94,7 +82,7 @@ namespace refract
 
     RenderJSONVisitor::RenderJSONVisitor() : result(NULL), enumValue(NULL) {}
 
-    RenderJSONVisitor::~RenderJSONVisitor() { 
+    RenderJSONVisitor::~RenderJSONVisitor() {
         if (result) {
             delete result;
         }
@@ -121,10 +109,10 @@ namespace refract
         if (e.value.second) {
             if (IsTypeAttribute(e, "nullable") && e.value.second->empty()) {
                 renderer.result = new NullElement;
-            } 
+            }
             else if (IsTypeAttribute(e, "optional") && e.value.second->empty()) {
                 return;
-            } 
+            }
             else {
                 renderer.visit(*e.value.second);
                 if (!renderer.result) {
@@ -154,7 +142,7 @@ namespace refract
             const EnumElement::ValueType* val = GetValue<EnumElement>(e);
             if (val && !val->empty()) {
                 enumValue = val->front()->clone();
-            } 
+            }
             else {
                 enumValue = new StringElement;
             }

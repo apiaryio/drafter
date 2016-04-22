@@ -75,10 +75,10 @@ TEST_CASE("It should invoke Functor for member of container elements","[ApplyVis
     Functor f;
     refract::ApplyVisitor v(f);
 
-    refract::IElement* e = Build(new refract::ArrayElement)
-                                (refract::IElement::Create(3))
-                                (refract::IElement::Create(false))
-                                (refract::IElement::Create("Ehlo"));
+    refract::IElement* e = Build(new ArrayElement)
+                                (IElement::Create(3))
+                                (IElement::Create(false))
+                                (IElement::Create("Ehlo"));
     v.visit(*e);
 
     REQUIRE(f.GCounter == 1); // just array
@@ -129,9 +129,8 @@ struct Fixture {
                      ("m3.4", Build(new ObjectElement)
                                    ("m3.4.1", IElement::Create("Str3/4/1"))
                                    ("m3.4.2", IElement::Create(3.42))
-                                   ("m3.4.2", new NullElement)
-                     )
-        );
+                                   ("m3.4.2", new NullElement))
+                     );
     }
 
     static IElement* SimpleObject()
