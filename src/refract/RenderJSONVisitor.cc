@@ -63,6 +63,14 @@ namespace refract
                     HandleRefWhenFetchingMembers<T>(*it, members, FetchMembers<T>);
                     continue;
                 }
+                else if (SelectElement* select = TypeQueryVisitor::as<SelectElement>(*it)) {
+                    if (select->value.empty() || !(*select->value.begin())) {
+                        continue;
+                    }
+
+                    FetchMembers(*(*select->value.begin()), members);
+                    continue;
+                }
 
                 RenderJSONVisitor renderer;
                 renderer.visit(*(*it));
@@ -217,14 +225,6 @@ namespace refract
         result = renderer.getOwnership();
 
         delete merged;
-    }
-
-    void RenderJSONVisitor::visit(const OptionElement& e) {
-        throw refract::NotImplemented(__PRETY_FUNCTION__);
-    }
-
-    void RenderJSONVisitor::visit(const SelectElement& e) {
-        throw refract::NotImplemented(__PRETY_FUNCTION__);
     }
 
    IElement* RenderJSONVisitor::getOwnership() {
