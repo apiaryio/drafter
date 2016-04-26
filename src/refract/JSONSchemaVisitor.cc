@@ -12,25 +12,28 @@
 #include <iostream>
 #include <map>
 
+#include "Build.h"
+
 namespace refract
 {
 
     template <typename T>
     void CloneMembers(T* a, const RefractElements* val)
     {
-            for (RefractElements::const_iterator it = val->begin();
-                 it != val->end();
-                 ++it) {
+        for (RefractElements::const_iterator it = val->begin();
+             it != val->end();
+             ++it) {
 
-                if ((*it)->empty()) {
-                    continue;
-                }
-                RenderJSONVisitor v;
-                v.visit(*(*it));
-                IElement *e = v.getOwnership();
-                e->renderType(IElement::rCompact);
-                a->push_back(e);
+            if ((*it)->empty()) {
+                continue;
             }
+
+            RenderJSONVisitor v;
+            v.visit(*(*it));
+            IElement *e = v.getOwnership();
+            e->renderType(IElement::rCompact);
+            a->push_back(e);
+        }
     }
 
 
@@ -278,6 +281,7 @@ namespace refract
         ObjectElement *o = new ObjectElement;
         ArrayElement::ValueType reqVals;
         std::vector<MemberElement*> varProps;
+        RefractElements oneOfMembers;
 
         o->renderType(IElement::rCompact);
 
@@ -285,38 +289,63 @@ namespace refract
              it != val.end();
              ++it) {
 
-            if (*it) {
-                MemberElement *mr = TypeQueryVisitor::as<MemberElement>(*it);
-                if (!mr) {
-                    continue;
-                }
-
-                if (IsTypeAttribute(*(*it), "required") ||
-                    IsTypeAttribute(*(*it), "fixed") ||
-                    (fixed && !IsTypeAttribute(*(*it), "optional"))) {
-                    StringElement *str = TypeQueryVisitor::as<StringElement>(mr->value.first);
-                    if (str) {
-                        reqVals.push_back(IElement::Create(str->value));
-                    }
-                }
-
-                if (IsVariableProperty(*mr->value.first)) {
-                    varProps.push_back(mr);
-                }
-                else {
-                    JSONSchemaVisitor renderer(pDefs, fixed);
-                    renderer.visit(*(*it));
-                    ObjectElement *o1 = TypeQueryVisitor::as<ObjectElement>(renderer.get());
-                    if (!o1->value.empty()) {
-                        MemberElement *m1 = TypeQueryVisitor::as<MemberElement>(o1->value[0]->clone());
-                        if (m1) {
-                            m1->renderType(IElement::rCompact);
-                            o->push_back(m1);
-                        }
-
-                    }
-                }
+            if (!*it) {
+                continue;
             }
+
+            TypeQueryVisitor type;
+            type.visit(*(*it));
+
+            switch (type.get()) {
+                case TypeQueryVisitor::Member: {
+                    MemberElement *mr = static_cast<MemberElement*>(*it);
+                    if (IsTypeAttribute(*(*it), "required") ||
+                            IsTypeAttribute(*(*it), "fixed") ||
+                            (fixed && !IsTypeAttribute(*(*it), "optional"))) {
+                        StringElement *str = TypeQueryVisitor::as<StringElement>(mr->value.first);
+                        if (str) {
+                            reqVals.push_back(IElement::Create(str->value));
+                        }
+                    }
+
+                    if (IsVariableProperty(*mr->value.first)) {
+                        varProps.push_back(mr);
+                    }
+                    else {
+                        JSONSchemaVisitor renderer(pDefs, fixed);
+                        renderer.visit(*(*it));
+                        ObjectElement *o1 = TypeQueryVisitor::as<ObjectElement>(renderer.get());
+                        if (!o1->value.empty()) {
+                            MemberElement *m1 = TypeQueryVisitor::as<MemberElement>(o1->value[0]->clone());
+                            if (m1) {
+                                m1->renderType(IElement::rCompact);
+                                o->push_back(m1);
+                            }
+
+                        }
+                    }
+                }
+                break;
+
+                case TypeQueryVisitor::Select:
+                {
+                    SelectElement* sel = static_cast<SelectElement*>(*it);
+
+                    // FIXME: there is no valid solution for moltiple "SelectElement" in one object.
+
+                    for (SelectElement::ValueType::const_iterator it = sel->value.begin() ; it != sel->value.end() ; ++it) {
+                        JSONSchemaVisitor v(pDefs);
+                        (*it)->content(v);
+                        oneOfMembers.push_back(v.getOwnership());
+                    }
+                }
+                break;
+
+                default:
+                    throw "unknown";
+                    
+            }
+
         }
 
         if (!varProps.empty()) {
@@ -331,10 +360,11 @@ namespace refract
         }
 
         if (!reqVals.empty()) {
-            ArrayElement *a = new ArrayElement;
-            a->renderType(IElement::rCompact);
-            a->set(reqVals);
-            addMember("required", a);
+            addMember("required", new ArrayElement(reqVals, IElement::rCompact));
+        }
+
+        if (!oneOfMembers.empty()) {
+            addMember("oneOf", new ArrayElement(oneOfMembers, IElement::rCompact));
         }
 
         if (fixed) {
@@ -518,12 +548,18 @@ namespace refract
 
     void JSONSchemaVisitor::visit(const OptionElement& e)
     {
-        throw NotImplemented(__PRETTY_FUNCTION__);
-    }
+        ObjectElement* props = pObj;
+        RefractElements members;
+        IncludeMembers(e, members);
 
-    void JSONSchemaVisitor::visit(const SelectElement& e)
-    {
-        throw NotImplemented(__PRETTY_FUNCTION__);
+        for (OptionElement::ValueType::const_iterator it = members.begin() ; it != members.end() ; ++it) {
+            visit(*(*it));
+        }
+
+        pObj  = new ObjectElement;
+        pObj->renderType(IElement::rCompact);
+
+        addMember("properties", props);
     }
 
     IElement* JSONSchemaVisitor::get()
