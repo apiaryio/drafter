@@ -2,6 +2,11 @@
 
 ## Master
 
+* Fix "One Of" JSON rendering this fix does not include fix for JSON schema
+  for multiple `One of` definition in MSON object. Because of problematic 
+  implementation.
+  [#288] (https://github.com/apiaryio/drafter/issues/288)
+
 
 ## 2.3.0
 

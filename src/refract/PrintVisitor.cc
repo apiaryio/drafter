@@ -10,7 +10,7 @@
 #include <sstream>
 #include <iostream>
 
-#define COMPLEX_VISIT_IMPL( ELEMENT ) void PrintVisitor::visit(const ELEMENT ## Element& e) \
+#define VISIT_IMPL( ELEMENT ) void PrintVisitor::visit(const ELEMENT ## Element& e) \
     {                                                                    \
         typedef ELEMENT ## Element::ValueType::const_iterator iterator;  \
         PrintVisitor ps(indent + 1, os);                                 \
@@ -141,12 +141,12 @@ namespace refract
     }
 
 
-    COMPLEX_VISIT_IMPL(Array)
-    COMPLEX_VISIT_IMPL(Enum)
-    COMPLEX_VISIT_IMPL(Object)
-    COMPLEX_VISIT_IMPL(Extend)
-    COMPLEX_VISIT_IMPL(Option)
-    COMPLEX_VISIT_IMPL(Select)
+    VISIT_IMPL(Array)
+    VISIT_IMPL(Enum)
+    VISIT_IMPL(Object)
+    VISIT_IMPL(Extend)
+    VISIT_IMPL(Option)
+    VISIT_IMPL(Select)
 
 
     void PrintVisitor::Visit(const IElement& e)
@@ -157,4 +157,4 @@ namespace refract
 
 }; // namespace refract
 
-#undef COMPLEX_VISIT_IMPL
+#undef VISIT_IMPL

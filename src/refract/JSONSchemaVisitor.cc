@@ -12,8 +12,6 @@
 #include <iostream>
 #include <map>
 
-#include "Build.h"
-
 namespace refract
 {
 
@@ -204,7 +202,7 @@ namespace refract
             addMember(str->value, renderer.getOwnership());
         }
         else {
-            throw std::logic_error("A property's key in the object is not of type string");
+            throw LogicError("A property's key in the object is not of type string");
         }
 
         if (ext && str) {
@@ -300,8 +298,9 @@ namespace refract
                 case TypeQueryVisitor::Member: {
                     MemberElement *mr = static_cast<MemberElement*>(*it);
                     if (IsTypeAttribute(*(*it), "required") ||
-                            IsTypeAttribute(*(*it), "fixed") ||
-                            (fixed && !IsTypeAttribute(*(*it), "optional"))) {
+                        IsTypeAttribute(*(*it), "fixed") ||
+                        (fixed && !IsTypeAttribute(*(*it), "optional"))) {
+
                         StringElement *str = TypeQueryVisitor::as<StringElement>(mr->value.first);
                         if (str) {
                             reqVals.push_back(IElement::Create(str->value));
@@ -342,7 +341,7 @@ namespace refract
                 break;
 
                 default:
-                    throw "unknown";
+                    throw LogicError("Invalid member type of object in MSON definition");
                     
             }
 
@@ -556,7 +555,7 @@ namespace refract
             visit(*(*it));
         }
 
-        pObj  = new ObjectElement;
+        pObj = new ObjectElement;
         pObj->renderType(IElement::rCompact);
 
         addMember("properties", props);
