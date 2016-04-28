@@ -136,6 +136,7 @@
         "test/test-ApplyVisitorTest.cc",
         "test/test-ExtendElementTest.cc",
         "test/test-ElementFactoryTest.cc",
+        "test/test-OneOfTest.cc",
       ],
       'dependencies': [
         "libdrafter",
