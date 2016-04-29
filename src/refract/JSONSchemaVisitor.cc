@@ -549,16 +549,29 @@ namespace refract
     {
         ObjectElement* props = pObj;
         RefractElements members;
+        RefractElements oneOfMembers;
         IncludeMembers(e, members);
 
         for (OptionElement::ValueType::const_iterator it = members.begin() ; it != members.end() ; ++it) {
-            visit(*(*it));
+            if (SelectElement* sel = TypeQueryVisitor::as<SelectElement>(*it)) {
+                for (SelectElement::ValueType::const_iterator it = sel->value.begin() ; it != sel->value.end() ; ++it) {
+                    JSONSchemaVisitor v(pDefs);
+                    (*it)->content(v);
+                    oneOfMembers.push_back(v.getOwnership());
+                }
+            }
+            else {
+                visit(*(*it));
+            }
         }
 
         pObj = new ObjectElement;
         pObj->renderType(IElement::rCompact);
 
         addMember("properties", props);
+        if (!oneOfMembers.empty()) {
+            addMember("oneOf", new ArrayElement(oneOfMembers, IElement::rCompact));
+        }
     }
 
     IElement* JSONSchemaVisitor::get()
