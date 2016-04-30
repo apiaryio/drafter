@@ -33,6 +33,9 @@ namespace refract
 
             Extend,
 
+            Option,
+            Select,
+
             Unknown = 0,
         } ElementType;
 
@@ -53,6 +56,8 @@ namespace refract
         void visit(const ObjectElement& e);
         void visit(const EnumElement& e);
         void visit(const ExtendElement& e);
+        void visit(const OptionElement& e);
+        void visit(const SelectElement& e);
 
         ElementType get() const;
 

@@ -37,6 +37,7 @@ namespace refract
         void visit(const StringElement& e);
         void visit(const NumberElement& e);
         void visit(const BooleanElement& e);
+
         void visit(const ExtendElement& e);
 
         std::string getString() const;

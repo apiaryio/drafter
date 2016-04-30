@@ -17,6 +17,8 @@
 
 #include"SourceAnnotation.h"
 
+#define VISIT_IMPL( ELEMENT ) void ExpandVisitor::visit(const ELEMENT ## Element& e) { result = Expand(e, context); }
+
 namespace refract
 {
 
@@ -308,40 +310,21 @@ namespace refract
     // do nothing, NullElements are not expandable
     void ExpandVisitor::visit(const NullElement& e) {}
 
-    void ExpandVisitor::visit(const MemberElement& e) {
-        result = Expand(e, context);
-    }
-
-    void ExpandVisitor::visit(const StringElement& e) {
-        result = Expand(e, context);
-    }
-
-    void ExpandVisitor::visit(const NumberElement& e) {
-        result = Expand(e, context);
-    }
-
-    void ExpandVisitor::visit(const BooleanElement& e) {
-        result = Expand(e, context);
-    }
-
-    void ExpandVisitor::visit(const ArrayElement& e) {
-        result = Expand(e, context);
-    }
-
-    void ExpandVisitor::visit(const EnumElement& e) {
-        result = Expand(e, context);
-    }
-
-    void ExpandVisitor::visit(const ObjectElement& e) {
-        result = Expand(e, context);
-    }
-
-    void ExpandVisitor::visit(const ExtendElement& e) {
-        result = Expand(e, context);
-    }
+    VISIT_IMPL(String)
+    VISIT_IMPL(Number)
+    VISIT_IMPL(Boolean)
+    VISIT_IMPL(Member)
+    VISIT_IMPL(Array)
+    VISIT_IMPL(Enum)
+    VISIT_IMPL(Object)
+    VISIT_IMPL(Extend)
+    VISIT_IMPL(Option)
+    VISIT_IMPL(Select)
 
     IElement* ExpandVisitor::get() const {
         return result;
     }
 
 }; // namespace refract
+
+#undef VISIT_IMPL

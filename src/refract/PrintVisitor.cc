@@ -10,6 +10,19 @@
 #include <sstream>
 #include <iostream>
 
+#define VISIT_IMPL( ELEMENT ) void PrintVisitor::visit(const ELEMENT ## Element& e) \
+    {                                                                    \
+        typedef ELEMENT ## Element::ValueType::const_iterator iterator;  \
+        PrintVisitor ps(indent + 1, os);                                 \
+                                                                         \
+        os << "" #ELEMENT "Element  {\n";                                \
+        for (iterator it = e.value.begin(); it != e.value.end(); ++it) { \
+            ps.visit(*(*it));                                            \
+        }                                                                \
+        indentOS(indent);                                                \
+        os << "}\n";                                                     \
+    }                                                                    \
+
 namespace refract
 {
     PrintVisitor::PrintVisitor()
@@ -107,32 +120,6 @@ namespace refract
         os << ")" << "\n";
     }
 
-    void PrintVisitor::visit(const ArrayElement& e)
-    {
-        typedef ArrayElement::ValueType::const_iterator iterator;
-        PrintVisitor ps(indent + 1, os);
-
-        os << "ArrayElement {\n";
-        for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-            ps.visit(*(*it));
-        }
-        indentOS(indent);
-        os << "}\n";
-    }
-
-    void PrintVisitor::visit(const EnumElement& e)
-    {
-        typedef ArrayElement::ValueType::const_iterator iterator;
-        PrintVisitor ps(indent + 1, os);
-
-        os << "EnumElement {\n";
-        for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-            ps.visit(*(*it));
-        }
-        indentOS(indent);
-        os << "}\n";
-    }
-
     void PrintVisitor::visit(const MemberElement& e)
     {
         os << "MemberElement {\n";
@@ -154,31 +141,13 @@ namespace refract
     }
 
 
-    void PrintVisitor::visit(const ObjectElement& e)
-    {
-        typedef ObjectElement::ValueType::const_iterator iterator;
-        PrintVisitor ps(indent + 1, os);
+    VISIT_IMPL(Array)
+    VISIT_IMPL(Enum)
+    VISIT_IMPL(Object)
+    VISIT_IMPL(Extend)
+    VISIT_IMPL(Option)
+    VISIT_IMPL(Select)
 
-        os << "ObjectElement {\n";
-        for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-            ps.visit(*(*it));
-        }
-        indentOS(indent);
-        os << "}\n";
-    }
-
-    void PrintVisitor::visit(const ExtendElement& e)
-    {
-        typedef ExtendElement::ValueType::const_iterator iterator;
-        PrintVisitor ps(indent + 1, os);
-
-        os << "ExtendElement {\n";
-        for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-            ps.visit(*(*it));
-        }
-        indentOS(indent);
-        os << "}\n";
-    }
 
     void PrintVisitor::Visit(const IElement& e)
     {
@@ -187,3 +156,5 @@ namespace refract
     }
 
 }; // namespace refract
+
+#undef VISIT_IMPL

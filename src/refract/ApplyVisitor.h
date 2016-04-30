@@ -26,6 +26,8 @@ namespace refract
         virtual void visit(const MemberElement& e) = 0;
         virtual void visit(const ObjectElement& e) = 0;
         virtual void visit(const ExtendElement& e) = 0;
+        virtual void visit(const OptionElement& e) = 0;
+        virtual void visit(const SelectElement& e) = 0;
 
         virtual ~Apply() {}
     };
@@ -73,6 +75,14 @@ namespace refract
         }
 
         virtual void visit(const ExtendElement& e) {
+            impl(e);
+        }
+
+        virtual void visit(const OptionElement& e) {
+            impl(e);
+        }
+
+        virtual void visit(const SelectElement& e) {
             impl(e);
         }
 

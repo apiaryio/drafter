@@ -41,6 +41,9 @@ namespace refract
 
         void visit(const ExtendElement& e);
 
+        void visit(const OptionElement& e);
+        void visit(const SelectElement& e);
+
         // return expanded elemnt or NULL if expansion is not needed
         // caller responsibility is to delete returned Element
         IElement* get() const;

@@ -57,10 +57,11 @@ namespace refract
 
     namespace {
 
-        void SerializeValues(sos::Array& array, const RefractElements& values, bool generateSourceMap)
+        template <typename Values>
+        void SerializeValues(sos::Array& array, const Values& values, bool generateSourceMap)
         {
 
-            for (RefractElements::const_iterator it = values.begin(); it != values.end(); ++it) {
+            for (typename Values::const_iterator it = values.begin(); it != values.end(); ++it) {
                 if (IsFullRender()((*it), generateSourceMap)) {
                     SerializeVisitor s(generateSourceMap);
                     s.visit(*(*it));
@@ -145,5 +146,20 @@ namespace refract
     {
         throw NotImplemented("ExtendElement serialization Not Implemented");
     }
+
+    void SerializeCompactVisitor::visit(const OptionElement& e)
+    {
+        sos::Array array;
+        SerializeValues(array, e.value, generateSourceMap);
+        value_ = array;
+    }
+
+    void SerializeCompactVisitor::visit(const SelectElement& e)
+    {
+        sos::Array array;
+        SerializeValues(array, e.value, generateSourceMap);
+        value_ = array;
+    }
+
 
 }; // namespace refract

@@ -77,9 +77,22 @@ TEST_REFRACT("schema", "mixin-simple");
 TEST_REFRACT("schema", "variable-property");
 TEST_REFRACT("schema", "variable-property2");
 
-// FIXME: One Of
-// TEST_REFRACT("schema", "one-of");
-// TEST_REFRACT("schema", "one-of-complex");
-// TEST_REFRACT("schema", "one-of-properties");
-
+// FIXME: One Of - has non valid implementation for
+// multiple "One Of" in one object
+// e.g
+// ```
+// # Test
+// + One of
+//     + m1
+//     + m2
+// + One of
+//     + m3
+//     + m4
+//```
+// we are looking for solution how to correctly define Schema,
+// But currently is this solution "good enough"
+//
+ TEST_REFRACT("schema", "one-of");
+ TEST_REFRACT("schema", "one-of-complex");
+ TEST_REFRACT("schema", "one-of-properties");
 

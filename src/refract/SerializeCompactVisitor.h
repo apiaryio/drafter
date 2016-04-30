@@ -36,6 +36,8 @@ namespace refract
         void visit(const MemberElement& e);
         void visit(const ObjectElement& e);
         void visit(const ExtendElement& e);
+        void visit(const OptionElement& e);
+        void visit(const SelectElement& e);
 
         std::string key()
         {

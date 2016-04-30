@@ -278,6 +278,8 @@ namespace refract
             return !hasContent;
         }
 
+        // FIXME: remove all thing related to "render" from base class
+        // it should be implemented in "serialize" class
         virtual renderFlags renderType() const
         {
             return renderStrategy;
@@ -371,30 +373,44 @@ namespace refract
 
     typedef std::vector<IElement*> RefractElements;
 
+    template <typename Type = IElement, typename Collection = std::vector<Type*> >
     struct ElementCollectionTrait
     {
-        typedef RefractElements  ValueType;
+        typedef Collection ValueType;
+        typedef ElementCollectionTrait<Type, Collection> SelfType;
 
         static ValueType init() { return ValueType(); }
 
         static void release(ValueType& values)
         {
-            for (ValueType::iterator it = values.begin(); it != values.end(); ++it) {
+            for (typename ValueType::iterator it = values.begin(); it != values.end(); ++it) {
                 delete (*it);
             }
 
             values.clear();
         }
 
+        /**
+         * WARN: possible dangerous method. We trust underlaying type in collection
+         * if anyone push casted type, bad things can happen.
+         */
+        static typename ValueType::value_type typedMemberClone(IElement* element, const IElement::cloneFlags flags) {
+            if (!element) {
+                return NULL;
+            }
+
+            return static_cast<typename ValueType::value_type>(element->clone(flags));
+        }
+
         static void cloneValue(const ValueType& self, ValueType& other) {
             std::transform(self.begin(), self.end(),
                            std::back_inserter(other),
-                           std::bind2nd(std::mem_fun(&IElement::clone), IElement::cAll));
+                           std::bind2nd(std::ptr_fun(&SelfType::typedMemberClone), IElement::cAll));
         }
     };
 
 
-    struct ArrayElementTrait : public ElementCollectionTrait
+    struct ArrayElementTrait : public ElementCollectionTrait<>
     {
         static const std::string element() { return "array"; }
     };
@@ -420,7 +436,7 @@ namespace refract
         }
     };
 
-    struct EnumElementTrait : public ElementCollectionTrait
+    struct EnumElementTrait : public ElementCollectionTrait<>
     {
         static const std::string element() { return "enum"; }
     };
@@ -466,7 +482,7 @@ namespace refract
 
         static void cloneValue(const ValueType& self, ValueType& other) {
             other.first = self.first
-                ? static_cast<ValueType::first_type>(self.first->clone())
+                ? self.first->clone()
                 : NULL;
 
             other.second = self.second
@@ -530,7 +546,7 @@ namespace refract
         }
     };
 
-    struct ObjectElementTrait : public ElementCollectionTrait
+    struct ObjectElementTrait : public ElementCollectionTrait<>
     {
         // Use inherited ValueType definition instead of specialized std::vector<MemberElement*>
         // because ObjectElement can contain:
@@ -574,7 +590,7 @@ namespace refract
         }
     };
 
-    struct ExtendElementTrait : public ElementCollectionTrait
+    struct ExtendElementTrait : public ElementCollectionTrait<>
     {
         static const std::string element() { return "extend"; }
     };
@@ -596,6 +612,73 @@ namespace refract
 
         IElement* merge() const;
     };
+
+    struct OptionElementTrait : public ElementCollectionTrait<>
+    {
+        static const std::string element() { return "option"; }
+    };
+
+    struct OptionElement : Element<OptionElement, OptionElementTrait>
+    {
+
+        OptionElement() : Type()
+        {
+        }
+
+        OptionElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type()
+        {
+            set(value);
+            renderType(render);
+        }
+
+        OptionElement(IElement* e, IElement::renderFlags render = IElement::rDefault) : Type()
+        {
+            renderType(render);
+            value.push_back(e);
+        }
+
+        void push_back(IElement* e)
+        {
+            // FIXME:
+            // probably add check for allowed type
+            hasContent = true;
+            value.push_back(e);
+        }
+    };
+
+    struct SelectElementTrait : public ElementCollectionTrait<OptionElement>
+    {
+        static const std::string element() { return "select"; }
+    };
+
+    struct SelectElement : Element<SelectElement, SelectElementTrait>
+    {
+
+        SelectElement() : Type()
+        {
+        }
+
+        SelectElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type()
+        {
+            set(value);
+            renderType(render);
+        }
+
+        SelectElement(OptionElement* e, IElement::renderFlags render = IElement::rDefault) : Type()
+        {
+            renderType(render);
+            value.push_back(e);
+        }
+
+        void push_back(OptionElement* e)
+        {
+            // FIXME:
+            // probably add check for allowed type
+            hasContent = true;
+            value.push_back(e);
+        }
+    };
+
 };
 
 #endif // #ifndef REFRACT_ELEMENT_H

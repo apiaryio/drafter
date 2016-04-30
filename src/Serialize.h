@@ -151,8 +151,6 @@ namespace drafter {
 
         // Refract (nontyped) element names
         static const std::string Enum;
-        static const std::string Select;
-        static const std::string Option;
         static const std::string Ref;
 
         // Refract Ref Element - keys/values

@@ -8,6 +8,9 @@
 #include "Element.h"
 #include "Visitors.h"
 
+
+#define VISIT_IMPL( ELEMENT ) void TypeQueryVisitor::visit(const ELEMENT ## Element& e) { typeInfo = ELEMENT; }
+
 namespace refract
 {
     TypeQueryVisitor::TypeQueryVisitor() : typeInfo(Unknown)
@@ -21,53 +24,22 @@ namespace refract
         typeInfo = query.get();
     }
 
-    void TypeQueryVisitor::visit(const NullElement& e)
-    {
-        typeInfo = Null;
-    }
-
-    void TypeQueryVisitor::visit(const StringElement& e)
-    {
-        typeInfo = String;
-    }
-
-    void TypeQueryVisitor::visit(const NumberElement& e)
-    {
-        typeInfo = Number;
-    }
-
-    void TypeQueryVisitor::visit(const BooleanElement& e)
-    {
-        typeInfo = Boolean;
-    }
-
-    void TypeQueryVisitor::visit(const ArrayElement& e)
-    {
-        typeInfo = Array;
-    }
-
-    void TypeQueryVisitor::visit(const MemberElement& e)
-    {
-        typeInfo = Member;
-    }
-
-    void TypeQueryVisitor::visit(const ObjectElement& e)
-    {
-        typeInfo = Object;
-    }
-
-    void TypeQueryVisitor::visit(const EnumElement& e)
-    {
-        typeInfo = Enum;
-    }
-
-    void TypeQueryVisitor::visit(const ExtendElement& e)
-    {
-        typeInfo = Extend;
-    }
+    VISIT_IMPL(Null)
+    VISIT_IMPL(String)
+    VISIT_IMPL(Number)
+    VISIT_IMPL(Boolean)
+    VISIT_IMPL(Array)
+    VISIT_IMPL(Enum)
+    VISIT_IMPL(Member)
+    VISIT_IMPL(Object)
+    VISIT_IMPL(Extend)
+    VISIT_IMPL(Option)
+    VISIT_IMPL(Select)
 
     TypeQueryVisitor::ElementType TypeQueryVisitor::get() const {
         return typeInfo;
     }
 
 }; // namespace refract
+
+#undef VISIT_IMPL

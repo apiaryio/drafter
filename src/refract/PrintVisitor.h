@@ -41,6 +41,8 @@ namespace refract
         void visit(const NumberElement& e);
         void visit(const BooleanElement& e);
         void visit(const ExtendElement& e);
+        void visit(const OptionElement& e);
+        void visit(const SelectElement& e);
 
         static void Visit(const IElement& e);
     };

@@ -63,6 +63,14 @@ namespace refract
                     HandleRefWhenFetchingMembers<T>(*it, members, FetchMembers<T>);
                     continue;
                 }
+                else if (SelectElement* select = TypeQueryVisitor::as<SelectElement>(*it)) {
+                    if (select->value.empty() || !(*select->value.begin())) {
+                        continue;
+                    }
+
+                    FetchMembers(*(*select->value.begin()), members);
+                    continue;
+                }
 
                 RenderJSONVisitor renderer;
                 renderer.visit(*(*it));
