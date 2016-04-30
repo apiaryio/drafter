@@ -2,11 +2,14 @@
 
 ## Master
 
-* Fix "One Of" JSON rendering this fix does not include fix for JSON schema
-  for multiple `One of` definition in MSON object. Because of problematic 
-  implementation.
-  [#288] (https://github.com/apiaryio/drafter/issues/288)
+* Fixes a bug when a referenced mixin inherits another named type
+  [#254](https://github.com/apiaryio/drafter/issues/254)
 
+* Some of the errors have been changed to warnings
+
+* Fixes "One Of" JSON rendering. This fix does not include JSON schema
+  for multiple `One of` definition in MSON object.
+  [#288](https://github.com/apiaryio/drafter/issues/288)
 
 ## 2.3.0
 
