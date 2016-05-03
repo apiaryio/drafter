@@ -40,8 +40,10 @@ namespace refract
             throw LogicError("Element has no ID");
         }
 
-        SerializeCompactVisitor v;
-        (*it)->value.second->content(v);
+        // FIXME: remove dependecy on SosSerializeCompactVisitor
+        SosSerializeCompactVisitor v;
+        ApplyVisitor apply(v);
+        (*it)->value.second->content(apply);
 
         if (StringElement* s = TypeQueryVisitor::as<StringElement>((*it)->value.second)) {
             return s->value;

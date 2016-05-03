@@ -24,9 +24,7 @@ namespace refract
 
             Is() : is(false) {}
 
-            void operator()(const IElement& e) {
-                is = false;
-            }
+            void operator()(const IElement& e) {} 
 
             void operator()(const T& e) {
                 is = true;

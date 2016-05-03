@@ -71,7 +71,8 @@ namespace refract
             Apply* apply;
 
             void operator()(const IElement& e) {
-                throw LogicError("'CatchAll' implementation should be never invoked");
+                // redirect to concrete specialization
+                e.content(*visitor);
             }
 
             template <typename T>

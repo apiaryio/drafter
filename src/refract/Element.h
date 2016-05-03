@@ -27,8 +27,6 @@ namespace refract
 {
 
     class ComparableVisitor;
-    class SerializeVisitor;
-    class SerializeCompactVisitor;
     class ExpandVisitor;
     class IsExpandableVisitor;
     class TypeQueryVisitor;
@@ -86,8 +84,6 @@ namespace refract
          */
         typedef typelist::cons<
             ComparableVisitor,
-            SerializeVisitor,
-            SerializeCompactVisitor,
             ExpandVisitor,
             IsExpandableVisitor,
             TypeQueryVisitor,

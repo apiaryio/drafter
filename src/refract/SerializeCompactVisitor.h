@@ -8,7 +8,6 @@
 #ifndef REFRACT_SERIALIZECOMPACTVISITOR_H
 #define REFRACT_SERIALIZECOMPACTVISITOR_H
 
-#include "Visitor.h"
 #include "sos.h"
 #include <string>
 
@@ -17,27 +16,28 @@
 namespace refract
 {
 
-    class SerializeCompactVisitor : public IVisitor
+    class SosSerializeCompactVisitor 
     {
         std::string key_;
         sos::Base value_;
         bool generateSourceMap;
 
     public:
-        SerializeCompactVisitor() : generateSourceMap(true) {}
-        SerializeCompactVisitor(bool generateSourceMap) : generateSourceMap(generateSourceMap) {}
-        void visit(const IElement& e);
-        void visit(const NullElement& e);
-        void visit(const StringElement& e);
-        void visit(const NumberElement& e);
-        void visit(const BooleanElement& e);
-        void visit(const ArrayElement& e);
-        void visit(const EnumElement& e);
-        void visit(const MemberElement& e);
-        void visit(const ObjectElement& e);
-        void visit(const ExtendElement& e);
-        void visit(const OptionElement& e);
-        void visit(const SelectElement& e);
+        SosSerializeCompactVisitor() : generateSourceMap(true) {}
+        SosSerializeCompactVisitor(bool generateSourceMap) : generateSourceMap(generateSourceMap) {}
+
+        void operator()(const IElement& e);
+        void operator()(const NullElement& e);
+        void operator()(const StringElement& e);
+        void operator()(const NumberElement& e);
+        void operator()(const BooleanElement& e);
+        void operator()(const ArrayElement& e);
+        void operator()(const EnumElement& e);
+        void operator()(const MemberElement& e);
+        void operator()(const ObjectElement& e);
+        void operator()(const ExtendElement& e);
+        void operator()(const SelectElement& e);
+        void operator()(const OptionElement& e);
 
         std::string key()
         {

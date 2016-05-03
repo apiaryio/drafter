@@ -28,8 +28,9 @@ namespace refract
                     }
                 }
 
-                SerializeCompactVisitor s(generateSourceMap);
-                s.visit(*(*it));
+                SosSerializeCompactVisitor s(generateSourceMap);
+                ApplyVisitor serializer(s);
+                serializer.visit(*(*it));
                 result.set(s.key(), s.value());
             }
 
@@ -38,8 +39,9 @@ namespace refract
 
         sos::Object ElementToObject(const IElement* e, bool generateSourceMap)
         {
-            SerializeVisitor s(generateSourceMap);
-            s.visit(*e);
+            SosSerializeVisitor s(generateSourceMap);
+            ApplyVisitor serializer(s);
+            serializer.visit(*e);
             return s.get();
         }
 
@@ -74,7 +76,7 @@ namespace refract
 
     } // end of anonymous namespace
 
-    void SerializeVisitor::visit(const IElement& e)
+    void SosSerializeVisitor::operator()(const IElement& e)
     {
         result.set("element", sos::String(e.element()));
         bool sourceMap = generateSourceMap;
@@ -98,16 +100,18 @@ namespace refract
         const IElement::renderFlags render = SelectSerializationType(e, generateSourceMap);
 
         if (render == IElement::rCompact) {
-            SerializeCompactVisitor s(generateSourceMap);
-            e.content(s);
+            SosSerializeCompactVisitor s(generateSourceMap);
+            ApplyVisitor serializer(s);
+            e.content(serializer);
             result.set("content", s.value());
         } else {
-            e.content(*this);
+            ApplyVisitor visitor(*this);
+            e.content(visitor);
             result.set("content", partial);
         }
     }
 
-    void SerializeVisitor::SetSerializerValue(SerializeVisitor& s, sos::Base& value)
+    void SosSerializeVisitor::SetSerializerValue(SosSerializeVisitor& s, sos::Base& value)
     {
         if (!s.key.empty()) {
             s.result.set(s.key, value);
@@ -117,13 +121,13 @@ namespace refract
         }
     }
 
-    void SerializeVisitor::visit(const NullElement& e)
+    void SosSerializeVisitor::operator()(const NullElement& e)
     {
         sos::Base value = sos::Null();
         SetSerializerValue(*this, value);
     }
 
-    void SerializeVisitor::visit(const StringElement& e)
+    void SosSerializeVisitor::operator()(const StringElement& e)
     {
         sos::Base value = sos::Null();
 
@@ -134,7 +138,7 @@ namespace refract
         SetSerializerValue(*this, value);
     }
 
-    void SerializeVisitor::visit(const NumberElement& e)
+    void SosSerializeVisitor::operator()(const NumberElement& e)
     {
         sos::Base value = sos::Null();
 
@@ -145,7 +149,7 @@ namespace refract
         SetSerializerValue(*this, value);
     }
 
-    void SerializeVisitor::visit(const BooleanElement& e)
+    void SosSerializeVisitor::operator()(const BooleanElement& e)
     {
         sos::Base value = sos::Null();
 
@@ -157,7 +161,7 @@ namespace refract
     }
 
 
-    void SerializeVisitor::visit(const MemberElement& e)
+    void SosSerializeVisitor::operator()(const MemberElement& e)
     {
         sos::Object object;
 
@@ -172,37 +176,37 @@ namespace refract
         SetSerializerValue(*this, object);
     }
 
-    void SerializeVisitor::visit(const ArrayElement& e)
+    void SosSerializeVisitor::operator()(const ArrayElement& e)
     {
         sos::Array array = SerializeValueList(e, generateSourceMap);
         SetSerializerValue(*this, array);
     }
 
-    void SerializeVisitor::visit(const EnumElement& e)
+    void SosSerializeVisitor::operator()(const EnumElement& e)
     {
         sos::Array array = SerializeValueList(e, generateSourceMap);
         SetSerializerValue(*this, array);
     }
 
-    void SerializeVisitor::visit(const ObjectElement& e)
+    void SosSerializeVisitor::operator()(const ObjectElement& e)
     {
         sos::Array array = SerializeValueList(e, generateSourceMap);
         SetSerializerValue(*this, array);
     }
 
-    void SerializeVisitor::visit(const ExtendElement& e)
+    void SosSerializeVisitor::operator()(const ExtendElement& e)
     {
         sos::Array array = SerializeValueList(e, generateSourceMap);
         SetSerializerValue(*this, array);
     }
 
-    void SerializeVisitor::visit(const OptionElement& e)
+    void SosSerializeVisitor::operator()(const OptionElement& e)
     {
         sos::Array array = SerializeValueList(e, generateSourceMap);
         SetSerializerValue(*this, array);
     }
 
-    void SerializeVisitor::visit(const SelectElement& e)
+    void SosSerializeVisitor::operator()(const SelectElement& e)
     {
         sos::Array array = SerializeValueList(e, generateSourceMap);
         SetSerializerValue(*this, array);

@@ -240,8 +240,10 @@ namespace refract
             sos::SerializeJSON serializer;
             std::stringstream ss;
 
-            SerializeCompactVisitor s;
-            result->content(s);
+            // FIXME: remove SosSerializeCompactVisitor dependency
+            SosSerializeCompactVisitor s;
+            ApplyVisitor apply(s);
+            result->content(apply);
             serializer.process(s.value(), ss);
 
             return ss.str();

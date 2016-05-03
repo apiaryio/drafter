@@ -1089,10 +1089,12 @@ namespace drafter {
             return sos::Object();
         }
 
-        refract::SerializeVisitor serializer(context.options.generateSourceMap);
+        refract::SosSerializeVisitor serializerImpl(context.options.generateSourceMap);
+        refract::ApplyVisitor serializer(serializerImpl);
+
         serializer.visit(*element);
 
-        return serializer.get();
+        return serializerImpl.get();
     }
 
 } // namespace drafter

@@ -30,27 +30,27 @@ namespace refract
         }
     };
 
-    void SerializeCompactVisitor::visit(const IElement& e)
+    void SosSerializeCompactVisitor::operator()(const IElement& e)
     {
         throw NotImplemented("NI: IElement Compact Serialization");
     }
 
-    void SerializeCompactVisitor::visit(const NullElement& e)
+    void SosSerializeCompactVisitor::operator()(const NullElement& e)
     {
         value_ = sos::Null();
     }
 
-    void SerializeCompactVisitor::visit(const StringElement& e)
+    void SosSerializeCompactVisitor::operator()(const StringElement& e)
     {
         value_ = sos::String(e.value);
     }
 
-    void SerializeCompactVisitor::visit(const NumberElement& e)
+    void SosSerializeCompactVisitor::operator()(const NumberElement& e)
     {
         value_ = sos::Number(e.value);
     }
 
-    void SerializeCompactVisitor::visit(const BooleanElement& e)
+    void SosSerializeCompactVisitor::operator()(const BooleanElement& e)
     {
         value_ = sos::Boolean(e.value);
     }
@@ -63,54 +63,59 @@ namespace refract
 
             for (typename Values::const_iterator it = values.begin(); it != values.end(); ++it) {
                 if (IsFullRender()((*it), generateSourceMap)) {
-                    SerializeVisitor s(generateSourceMap);
-                    s.visit(*(*it));
+                    SosSerializeVisitor s(generateSourceMap);
+                    ApplyVisitor serializer(s);
+                    serializer.visit(*(*it));
                     array.push(s.get());
                 }
                 else {
-                    SerializeCompactVisitor s(generateSourceMap);
-                    (*it)->content(s);
+                    SosSerializeCompactVisitor s(generateSourceMap);
+                    ApplyVisitor serializer(s);
+                    (*it)->content(serializer);
                     array.push(s.value());
                 }
             }
         }
     }
 
-    void SerializeCompactVisitor::visit(const EnumElement& e)
+    void SosSerializeCompactVisitor::operator()(const EnumElement& e)
     {
         sos::Array array;
         SerializeValues(array, e.value, generateSourceMap);
         value_ = array;
     }
 
-    void SerializeCompactVisitor::visit(const ArrayElement& e)
+    void SosSerializeCompactVisitor::operator()(const ArrayElement& e)
     {
         sos::Array array;
         SerializeValues(array, e.value, generateSourceMap);
         value_ = array;
     }
 
-    void SerializeCompactVisitor::visit(const MemberElement& e)
+    void SosSerializeCompactVisitor::operator()(const MemberElement& e)
     {
         if (e.value.first) {
-            SerializeCompactVisitor s(generateSourceMap);
-            e.value.first->content(s);
+            SosSerializeCompactVisitor s(generateSourceMap);
+            ApplyVisitor serializer(s);
+            e.value.first->content(serializer);
             key_ = s.value().str;
         }
 
         if (e.value.second) {
             if (!IsFullRender()(e.value.second, generateSourceMap)) {
-                e.value.second->content(*this);
+                ApplyVisitor serializer(*this);
+                e.value.second->content(serializer);
             }
             else { // value has request to be serialized in Expanded form
-                SerializeVisitor s(generateSourceMap);
-                s.visit(*e.value.second);
+                SosSerializeVisitor s(generateSourceMap);
+                ApplyVisitor serializer(s);
+                serializer.visit(*e.value.second);
                 value_ = s.get();
             }
         }
     }
 
-    void SerializeCompactVisitor::visit(const ObjectElement& e)
+    void SosSerializeCompactVisitor::operator()(const ObjectElement& e)
     {
 
         typedef ObjectElement::ValueType::const_iterator iterator;
@@ -122,8 +127,9 @@ namespace refract
             sos::Array arr;
 
             for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-                SerializeVisitor s(generateSourceMap);
-                s.visit(*(*it));
+                SosSerializeVisitor s(generateSourceMap);
+                ApplyVisitor serializer(s);
+                serializer.visit(*(*it));
                 arr.push(s.get());
             }
 
@@ -133,8 +139,9 @@ namespace refract
             sos::Object obj;
 
             for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-                SerializeCompactVisitor sv(generateSourceMap);
-                (*it)->content(sv);
+                SosSerializeCompactVisitor sv(generateSourceMap);
+                ApplyVisitor serializer(sv);
+                (*it)->content(serializer);
                 obj.set(sv.key(), sv.value());
             }
 
@@ -142,19 +149,19 @@ namespace refract
         }
     }
 
-    void SerializeCompactVisitor::visit(const ExtendElement& e)
+    void SosSerializeCompactVisitor::operator()(const ExtendElement& e)
     {
         throw NotImplemented("ExtendElement serialization Not Implemented");
     }
 
-    void SerializeCompactVisitor::visit(const OptionElement& e)
+    void SosSerializeCompactVisitor::operator()(const OptionElement& e)
     {
         sos::Array array;
         SerializeValues(array, e.value, generateSourceMap);
         value_ = array;
     }
 
-    void SerializeCompactVisitor::visit(const SelectElement& e)
+    void SosSerializeCompactVisitor::operator()(const SelectElement& e)
     {
         sos::Array array;
         SerializeValues(array, e.value, generateSourceMap);

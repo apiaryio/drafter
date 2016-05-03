@@ -89,8 +89,7 @@ namespace refract
         virtual ~ApplyImpl() {}
     };
 
-    class ApplyVisitor : public IVisitor
-    {
+    class ApplyVisitor : public IVisitor {
 
     private:
 

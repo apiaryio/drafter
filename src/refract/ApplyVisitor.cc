@@ -12,12 +12,15 @@ namespace refract {
         apply->visit(e);
     }
 
+    /*
     template<>
     void ApplyVisitor::visit<IElement>(const IElement& e) {
         e.content(*this);
     }
+    */
   
     // Explicit instantioning of templates to avoid Linker Error
+    template void ApplyVisitor::visit<IElement>(const IElement&);
     template void ApplyVisitor::visit<NullElement>(const NullElement&);
     template void ApplyVisitor::visit<StringElement>(const StringElement&);
     template void ApplyVisitor::visit<NumberElement>(const NumberElement&);
