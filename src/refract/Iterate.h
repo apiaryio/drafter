@@ -68,7 +68,7 @@ namespace refract
 
             Strategy* strategy;
             ApplyVisitor* visitor;
-            Apply* apply;
+            IApply* apply;
 
             void operator()(const IElement& e) {
                 // redirect to concrete specialization
@@ -87,7 +87,7 @@ namespace refract
         Impl impl;
         ApplyVisitor visitor;
         Strategy strategy;
-        Apply* apply;
+        IApply* apply;
 
     public:
 

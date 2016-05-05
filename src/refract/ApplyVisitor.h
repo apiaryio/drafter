@@ -14,7 +14,7 @@
 namespace refract
 {
 
-    struct Apply {
+    struct IApply {
         virtual void visit(const IElement& e) = 0;
 
         virtual void visit(const NullElement& e) = 0;
@@ -29,11 +29,11 @@ namespace refract
         virtual void visit(const OptionElement& e) = 0;
         virtual void visit(const SelectElement& e) = 0;
 
-        virtual ~Apply() {}
+        virtual ~IApply() {}
     };
 
     template <typename Impl>
-    struct ApplyImpl : public Apply {
+    struct ApplyImpl : public IApply {
 
         Impl& impl;
         ApplyImpl(Impl& impl) : impl(impl) {}
@@ -93,16 +93,20 @@ namespace refract
 
     private:
 
-        Apply* apply;
+        IApply* apply;
 
     public:
 
         template <typename Functor>
         ApplyVisitor(Functor& functor) : apply(new ApplyImpl<Functor>(functor)) {}
-        virtual ~ApplyVisitor();
+        virtual ~ApplyVisitor() {
+            delete apply;
+        }
 
         template<typename T>
-        void visit(const T& e);
+        void visit(const T& e) {
+            apply->visit(e);
+        }
 
     };
 

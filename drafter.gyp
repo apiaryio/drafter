@@ -83,7 +83,6 @@
         "src/refract/JSONSchemaVisitor.h",
         "src/refract/JSONSchemaVisitor.cc",
         "src/refract/ApplyVisitor.h",
-        "src/refract/ApplyVisitor.cc",
 
         "src/refract/Registry.h",
         "src/refract/Registry.cc",
