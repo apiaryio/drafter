@@ -9,7 +9,6 @@
 #ifndef REFRACT_PRINTVISITOR_H
 #define REFRACT_PRINTVISITOR_H
 
-#include "Visitor.h"
 #include <string>
 #include <ostream>
 
@@ -18,7 +17,7 @@
 namespace refract
 {
 
-    class PrintVisitor : public IVisitor
+    class PrintVisitor 
     {
         int indent;
         std::ostream& os;
@@ -31,18 +30,18 @@ namespace refract
         PrintVisitor();
         PrintVisitor(int indentation, std::ostream& os);
 
-        void visit(const IElement& e);
-        void visit(const MemberElement& e);
-        void visit(const ObjectElement& e);
-        void visit(const ArrayElement& e);
-        void visit(const EnumElement& e);
-        void visit(const NullElement& e);
-        void visit(const StringElement& e);
-        void visit(const NumberElement& e);
-        void visit(const BooleanElement& e);
-        void visit(const ExtendElement& e);
-        void visit(const OptionElement& e);
-        void visit(const SelectElement& e);
+        void operator()(const IElement& e);
+        void operator()(const MemberElement& e);
+        void operator()(const ObjectElement& e);
+        void operator()(const ArrayElement& e);
+        void operator()(const EnumElement& e);
+        void operator()(const NullElement& e);
+        void operator()(const StringElement& e);
+        void operator()(const NumberElement& e);
+        void operator()(const BooleanElement& e);
+        void operator()(const ExtendElement& e);
+        void operator()(const OptionElement& e);
+        void operator()(const SelectElement& e);
 
         static void Visit(const IElement& e);
     };

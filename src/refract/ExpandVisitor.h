@@ -17,7 +17,7 @@ namespace refract
 
     class Registry;
 
-    class ExpandVisitor : public IVisitor {
+    class ExpandVisitor {
 
     public:
         struct Context;
@@ -25,24 +25,24 @@ namespace refract
         ExpandVisitor(const Registry& registry);
         ~ExpandVisitor();
 
-        void visit(const IElement& e);
+        void operator()(const IElement& e);
 
-        void visit(const NullElement& e);
+        void operator()(const NullElement& e);
 
-        void visit(const StringElement& e);
-        void visit(const NumberElement& e);
-        void visit(const BooleanElement& e);
+        void operator()(const StringElement& e);
+        void operator()(const NumberElement& e);
+        void operator()(const BooleanElement& e);
 
-        void visit(const MemberElement& e);
+        void operator()(const MemberElement& e);
 
-        void visit(const ArrayElement& e);
-        void visit(const EnumElement& e);
-        void visit(const ObjectElement& e);
+        void operator()(const ArrayElement& e);
+        void operator()(const EnumElement& e);
+        void operator()(const ObjectElement& e);
 
-        void visit(const ExtendElement& e);
+        void operator()(const ExtendElement& e);
 
-        void visit(const OptionElement& e);
-        void visit(const SelectElement& e);
+        void operator()(const OptionElement& e);
+        void operator()(const SelectElement& e);
 
         // return expanded elemnt or NULL if expansion is not needed
         // caller responsibility is to delete returned Element

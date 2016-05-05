@@ -15,21 +15,22 @@ namespace refract
     {
     }
 
-    void ComparableVisitor::visit(const MemberElement& e)
+    void ComparableVisitor::operator()(const MemberElement& e)
     {
         ComparableVisitor v(compare_to);
+        ApplyVisitor apply(v);
 
         if (compare == key && e.value.first) {
-            e.value.first->content(v);
+            e.value.first->content(apply);
         }
         else if (e.value.second) {
-            e.value.second->content(v);
+            e.value.second->content(apply);
         }
 
         result = v.get();
     }
 
-    void ComparableVisitor::visit(const IElement& e)
+    void ComparableVisitor::operator()(const IElement& e)
     {
         throw LogicError("Fallback impl - behavioration for Base class IElement is not defined");
     }

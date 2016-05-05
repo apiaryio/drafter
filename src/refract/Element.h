@@ -26,13 +26,6 @@
 namespace refract
 {
 
-    class ComparableVisitor;
-    class ExpandVisitor;
-    class IsExpandableVisitor;
-    class TypeQueryVisitor;
-    class RenderJSONVisitor;
-    class PrintVisitor;
-    class JSONSchemaVisitor;
     class ApplyVisitor;
 
     template <typename T> struct ElementTypeSelector;
@@ -83,13 +76,6 @@ namespace refract
          * via. `content()` method
          */
         typedef typelist::cons<
-            ComparableVisitor,
-            ExpandVisitor,
-            IsExpandableVisitor,
-            TypeQueryVisitor,
-            RenderJSONVisitor,
-            PrintVisitor,
-            JSONSchemaVisitor,
             ApplyVisitor
         >::type Visitors;
 

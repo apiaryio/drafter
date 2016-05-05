@@ -9,7 +9,7 @@
 #include "Visitors.h"
 
 
-#define VISIT_IMPL( ELEMENT ) void TypeQueryVisitor::visit(const ELEMENT ## Element& e) { typeInfo = ELEMENT; }
+#define VISIT_IMPL( ELEMENT ) void TypeQueryVisitor::operator()(const ELEMENT ## Element& e) { typeInfo = ELEMENT; }
 
 namespace refract
 {
@@ -17,12 +17,14 @@ namespace refract
     {
     }
 
-    void TypeQueryVisitor::visit(const IElement& e)
+    void TypeQueryVisitor::operator()(const IElement& e)
     {
         TypeQueryVisitor query;
-        e.content(query);
+        ApplyVisitor apply(query);
+        e.content(apply);
         typeInfo = query.get();
     }
+
 
     VISIT_IMPL(Null)
     VISIT_IMPL(String)

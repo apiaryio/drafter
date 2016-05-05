@@ -17,7 +17,7 @@
 
 #include"SourceAnnotation.h"
 
-#define VISIT_IMPL( ELEMENT ) void ExpandVisitor::visit(const ELEMENT ## Element& e) { result = Expand(e, context); }
+#define VISIT_IMPL( ELEMENT ) void ExpandVisitor::operator()(const ELEMENT ## Element& e) { result = Expand(e, context); }
 
 namespace refract
 {
@@ -28,7 +28,8 @@ namespace refract
         bool Expandable(const IElement& e)
         {
             IsExpandableVisitor v;
-            e.content(v);
+            ApplyVisitor apply(v);
+            e.content(apply);
             return v.get();
         }
 
@@ -121,7 +122,8 @@ namespace refract
                 return result;
             }
 
-            e->content(*visitor);
+            ApplyVisitor apply(*visitor);
+            e->content(apply);
             result = visitor->get();
 
             if (!result) {
@@ -303,12 +305,13 @@ namespace refract
         delete context;
     }
 
-    void ExpandVisitor::visit(const IElement& e) {
-        e.content(*this);
+    void ExpandVisitor::operator()(const IElement& e) {
+        ApplyVisitor apply(*this);
+        e.content(apply);
     }
     
     // do nothing, NullElements are not expandable
-    void ExpandVisitor::visit(const NullElement& e) {}
+    void ExpandVisitor::operator()(const NullElement& e) {}
 
     VISIT_IMPL(String)
     VISIT_IMPL(Number)

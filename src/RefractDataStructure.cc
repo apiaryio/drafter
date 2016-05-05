@@ -72,7 +72,8 @@ namespace drafter {
 
     static mson::BaseTypeName NamedTypeFromElement(const refract::IElement* element) {
         refract::TypeQueryVisitor type;
-        type.visit(*element);
+        refract::ApplyVisitor apply(type);
+        apply.visit(*element);
 
         switch (type.get()) {
             case refract::TypeQueryVisitor::Boolean:
@@ -357,7 +358,8 @@ namespace drafter {
         }
 
         refract::TypeQueryVisitor query;
-        e->content(query);
+        refract::ApplyVisitor apply(query);
+        e->content(apply);
         return RefractElementTypeToMsonType(query.get());
     }
 
@@ -580,7 +582,8 @@ namespace drafter {
 
         refract::IElement* SetSerializeFlag(refract::IElement* element) {
             refract::TypeQueryVisitor query;
-            element->content(query);
+            refract::ApplyVisitor apply(query);
+            element->content(apply);
 
             RefractElements* children = NULL;
 
@@ -1073,7 +1076,8 @@ namespace drafter {
         }
 
         refract::ExpandVisitor expander(context.GetNamedTypesRegistry());
-        expander.visit(*element);
+        refract::ApplyVisitor apply(expander);
+        apply.visit(*element);
 
         if (refract::IElement* expanded = expander.get()) {
             delete element;

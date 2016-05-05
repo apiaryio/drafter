@@ -9,12 +9,10 @@
 #ifndef REFRACT_ISEXPANDABLEVISITOR_H
 #define REFRACT_ISEXPANDABLEVISITOR_H
 
-#include "Visitor.h"
-
 namespace refract
 {
 
-    class IsExpandableVisitor : public IVisitor {
+    class IsExpandableVisitor {
 
         bool result;
 
@@ -23,7 +21,7 @@ namespace refract
         IsExpandableVisitor();
 
         template<typename T>
-        void visit(const T& e);
+        void operator()(const T& e);
 
         bool get() const;
     };

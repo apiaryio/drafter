@@ -8,13 +8,13 @@
 #ifndef REFRACT_TYPEQUERYVISITOR_H
 #define REFRACT_TYPEQUERYVISITOR_H
 
-#include "Visitor.h"
 #include "ElementFwd.h"
+#include "ApplyVisitor.h"
 
 namespace refract
 {
 
-    class TypeQueryVisitor : public IVisitor
+    class TypeQueryVisitor 
     {
 
     public:
@@ -46,18 +46,18 @@ namespace refract
 
         TypeQueryVisitor();
 
-        void visit(const IElement& e);
-        void visit(const NullElement& e);
-        void visit(const StringElement& e);
-        void visit(const NumberElement& e);
-        void visit(const BooleanElement& e);
-        void visit(const ArrayElement& e);
-        void visit(const MemberElement& e);
-        void visit(const ObjectElement& e);
-        void visit(const EnumElement& e);
-        void visit(const ExtendElement& e);
-        void visit(const OptionElement& e);
-        void visit(const SelectElement& e);
+        void operator()(const IElement& e);
+        void operator()(const NullElement& e);
+        void operator()(const StringElement& e);
+        void operator()(const NumberElement& e);
+        void operator()(const BooleanElement& e);
+        void operator()(const ArrayElement& e);
+        void operator()(const MemberElement& e);
+        void operator()(const ObjectElement& e);
+        void operator()(const EnumElement& e);
+        void operator()(const ExtendElement& e);
+        void operator()(const OptionElement& e);
+        void operator()(const SelectElement& e);
 
         ElementType get() const;
 
@@ -69,11 +69,13 @@ namespace refract
             }
 
             TypeQueryVisitor tq;
-            tq.visit(*e);
+            ApplyVisitor atq(tq);
+            atq.visit(*e);
 
             E type;
             TypeQueryVisitor eq;
-            type.content(eq);
+            ApplyVisitor aeq(eq);
+            type.content(aeq);
 
             if (eq.typeInfo != tq.typeInfo) {
                 return 0;
@@ -90,11 +92,13 @@ namespace refract
             }
 
             TypeQueryVisitor tq;
-            tq.visit(*e);
+            ApplyVisitor atq(tq);
+            atq.visit(*e);
 
             E type;
             TypeQueryVisitor eq;
-            type.content(eq);
+            ApplyVisitor aeq(eq);
+            type.content(aeq);
 
             if (eq.typeInfo != tq.typeInfo) {
                 return 0;
