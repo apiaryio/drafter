@@ -15,11 +15,8 @@
 #include <stdexcept>
 #include <iterator>
 
-#include "Typelist.h"
-#include "VisitableBy.h"
-
 #include "Exception.h"
-#include "Visitor.h"
+#include "ApplyVisitor.h"
 
 #include "ElementFwd.h"
 
@@ -71,14 +68,6 @@ namespace refract
     struct IElement
     {
 
-        /**
-         * define __visitors__ which can visit element
-         * via. `content()` method
-         */
-        typedef typelist::cons<
-            ApplyVisitor
-        >::type Visitors;
-
         struct MemberElementCollection : public std::vector<MemberElement*>
         {
             virtual const_iterator find(const std::string& name) const;
@@ -109,7 +98,7 @@ namespace refract
         // Add overrided virtual function `content` for every one type of `Visitor`
 
         // NOTE: probably rename to Accept
-        virtual void content(IVisitor& v) const = 0;
+        virtual void content(ApplyVisitor& v) const = 0;
 
         /**
          * Flags for clone() element - select parts of refract element to be clonned
@@ -176,7 +165,7 @@ namespace refract
      * CRTP implementation of RefractElement
      */
     template <typename T, typename Trait>
-    class Element : public IElement, public VisitableBy<IElement::Visitors>
+    class Element : public IElement
     {
 
     public:
@@ -216,9 +205,9 @@ namespace refract
             return value;
         }
 
-        virtual void content(IVisitor& v) const
+        virtual void content(ApplyVisitor& v) const
         {
-            InvokeVisit(v, static_cast<const T&>(*this));
+            v.visit(static_cast<const T&>(*this));
         }
 
         virtual IElement* clone(const int flags = cAll) const {

@@ -9,7 +9,6 @@
 #ifndef REFRACT_RENDERJSONVISITOR_H
 #define REFRACT_RENDERJSONVISITOR_H
 
-#include "Visitor.h"
 #include "sos.h"
 #include <string>
 

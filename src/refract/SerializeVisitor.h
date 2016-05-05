@@ -8,7 +8,6 @@
 #ifndef REFRACT_SERIALIZEVISITOR_H
 #define REFRACT_SERIALIZEVISITOR_H
 
-#include "Visitor.h"
 #include "sos.h"
 #include <string>
 

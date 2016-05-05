@@ -9,7 +9,6 @@
 #ifndef REFRACT_JSONSCHEMAVISITOR_H
 #define REFRACT_JSONSCHEMAVISITOR_H
 
-#include "Visitor.h"
 #include "VisitorUtils.h"
 #include <string>
 

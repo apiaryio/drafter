@@ -9,7 +9,6 @@
 #ifndef REFRACT_EXPANDVISITOR_H
 #define REFRACT_EXPANDVISITOR_H
 
-#include "Visitor.h"
 #include "ElementFwd.h"
 
 namespace refract

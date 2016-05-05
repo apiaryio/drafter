@@ -8,7 +8,6 @@
 #ifndef REFRACT_APPLYVISITOR_H
 #define REFRACT_APPLYVISITOR_H
 
-#include "Visitor.h"
 #include "ElementFwd.h"
 
 namespace refract
@@ -89,7 +88,7 @@ namespace refract
         virtual ~ApplyImpl() {}
     };
 
-    class ApplyVisitor : public IVisitor {
+    class ApplyVisitor {
 
     private:
 
