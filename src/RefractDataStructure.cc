@@ -72,8 +72,8 @@ namespace drafter {
 
     static mson::BaseTypeName NamedTypeFromElement(const refract::IElement* element) {
         refract::TypeQueryVisitor type;
-        refract::ApplyVisitor apply(type);
-        apply.visit(*element);
+        refract::Visitor visitor(type);
+        visitor.visit(*element);
 
         switch (type.get()) {
             case refract::TypeQueryVisitor::Boolean:
@@ -358,8 +358,8 @@ namespace drafter {
         }
 
         refract::TypeQueryVisitor query;
-        refract::ApplyVisitor apply(query);
-        e->content(apply);
+        refract::Visitor visitor(query);
+        e->content(visitor);
         return RefractElementTypeToMsonType(query.get());
     }
 
@@ -582,8 +582,8 @@ namespace drafter {
 
         refract::IElement* SetSerializeFlag(refract::IElement* element) {
             refract::TypeQueryVisitor query;
-            refract::ApplyVisitor apply(query);
-            element->content(apply);
+            refract::Visitor visitor(query);
+            element->content(visitor);
 
             RefractElements* children = NULL;
 
@@ -1076,8 +1076,8 @@ namespace drafter {
         }
 
         refract::ExpandVisitor expander(context.GetNamedTypesRegistry());
-        refract::ApplyVisitor apply(expander);
-        apply.visit(*element);
+        refract::Visitor visitor(expander);
+        visitor.visit(*element);
 
         if (refract::IElement* expanded = expander.get()) {
             delete element;
@@ -1093,12 +1093,12 @@ namespace drafter {
             return sos::Object();
         }
 
-        refract::SosSerializeVisitor serializerImpl(context.options.generateSourceMap);
-        refract::ApplyVisitor serializer(serializerImpl);
+        refract::SosSerializeVisitor serializer(context.options.generateSourceMap);
+        refract::Visitor visitor(serializer);
 
-        serializer.visit(*element);
+        visitor.visit(*element);
 
-        return serializerImpl.get();
+        return serializer.get();
     }
 
 } // namespace drafter

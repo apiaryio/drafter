@@ -17,6 +17,6 @@
 #include "RenderJSONVisitor.h"
 #include "PrintVisitor.h"
 #include "JSONSchemaVisitor.h"
-#include "ApplyVisitor.h"
+#include "Visitor.h"
 
 #endif // #ifndef REFRACT_VISITORS_H

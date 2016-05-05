@@ -28,8 +28,8 @@ namespace refract
         bool Expandable(const IElement& e)
         {
             IsExpandableVisitor v;
-            ApplyVisitor apply(v);
-            e.content(apply);
+            Visitor visitor(v);
+            e.content(visitor);
             return v.get();
         }
 
@@ -111,9 +111,9 @@ namespace refract
     struct ExpandVisitor::Context {
 
         const Registry& registry;
-        ExpandVisitor* visitor;
+        ExpandVisitor* expand;
 
-        Context(const Registry& registry, ExpandVisitor* visitor) : registry(registry), visitor(visitor) {}
+        Context(const Registry& registry, ExpandVisitor* expand) : registry(registry), expand(expand) {}
 
         IElement* ExpandOrClone(const IElement* e)
         {
@@ -122,9 +122,9 @@ namespace refract
                 return result;
             }
 
-            ApplyVisitor apply(*visitor);
-            e->content(apply);
-            result = visitor->get();
+            Visitor visitor(*expand);
+            e->content(visitor);
+            result = expand->get();
 
             if (!result) {
                 result = e->clone();
@@ -306,8 +306,8 @@ namespace refract
     }
 
     void ExpandVisitor::operator()(const IElement& e) {
-        ApplyVisitor apply(*this);
-        e.content(apply);
+        Visitor visit(*this);
+        e.content(visit);
     }
     
     // do nothing, NullElements are not expandable

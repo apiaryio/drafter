@@ -89,8 +89,8 @@ namespace drafter {
             case JSONRenderFormat:
             {
                 refract::RenderJSONVisitor renderer;
-                refract::ApplyVisitor apply(renderer);
-                apply.visit(*expanded);
+                refract::Visitor visitor(renderer);
+                visitor.visit(*expanded);
 
                 delete expanded;
 

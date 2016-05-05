@@ -9,7 +9,7 @@
 #define REFRACT_TYPEQUERYVISITOR_H
 
 #include "ElementFwd.h"
-#include "ApplyVisitor.h"
+#include "Visitor.h"
 
 namespace refract
 {
@@ -69,13 +69,13 @@ namespace refract
             }
 
             TypeQueryVisitor tq;
-            ApplyVisitor atq(tq);
-            atq.visit(*e);
+            Visitor vtq(tq);
+            vtq.visit(*e);
 
             E type;
             TypeQueryVisitor eq;
-            ApplyVisitor aeq(eq);
-            type.content(aeq);
+            Visitor veq(eq);
+            type.content(veq);
 
             if (eq.typeInfo != tq.typeInfo) {
                 return 0;
@@ -92,13 +92,13 @@ namespace refract
             }
 
             TypeQueryVisitor tq;
-            ApplyVisitor atq(tq);
-            atq.visit(*e);
+            Visitor vtq(tq);
+            vtq.visit(*e);
 
             E type;
             TypeQueryVisitor eq;
-            ApplyVisitor aeq(eq);
-            type.content(aeq);
+            Visitor veq(eq);
+            type.content(veq);
 
             if (eq.typeInfo != tq.typeInfo) {
                 return 0;

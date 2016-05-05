@@ -14,11 +14,11 @@
     {                                                                    \
         typedef ELEMENT ## Element::ValueType::const_iterator iterator;  \
         PrintVisitor ps(indent + 1, os);                                 \
-        ApplyVisitor apply(ps);                                          \
+        Visitor visitor(ps);                                             \
                                                                          \
         os << "" #ELEMENT "Element  {\n";                                \
         for (iterator it = e.value.begin(); it != e.value.end(); ++it) { \
-            apply.visit(*(*it));                                         \
+            visitor.visit(*(*it));                                       \
         }                                                                \
         indentOS(indent);                                                \
         os << "}\n";                                                     \
@@ -49,8 +49,8 @@ namespace refract
                 i != e.meta.end();
                 ++i) {
 
-                ApplyVisitor apply(*this);
-                apply.visit(*(*i));
+                Visitor visitor(*this);
+                visitor.visit(*(*i));
             }
 
             indentOS(indent);
@@ -68,8 +68,8 @@ namespace refract
                 i != e.attributes.end();
                 ++i) {
 
-                ApplyVisitor apply(*this);
-                apply.visit(*(*i));
+                Visitor visitor(*this);
+                visitor.visit(*(*i));
             }
 
             indentOS(indent);
@@ -84,8 +84,8 @@ namespace refract
         printMeta(e);
         printAttr(e);
 
-        ApplyVisitor apply(*this);
-        e.content(apply);
+        Visitor visitor(*this);
+        e.content(visitor);
     }
 
     void PrintVisitor::operator()(const NullElement& e)
@@ -139,8 +139,8 @@ namespace refract
 
         if (e.value.second) {
             PrintVisitor ps(indent + 1, os);
-            ApplyVisitor apply(ps);
-            apply.visit(*e.value.second);
+            Visitor visitor(ps);
+            visitor.visit(*e.value.second);
         }
         indentOS(indent);
         os << "}\n";
@@ -157,9 +157,9 @@ namespace refract
     void PrintVisitor::Visit(const IElement& e)
     {
         PrintVisitor ps;
-        ApplyVisitor apply(ps);
+        Visitor visitor(ps);
 
-        apply.visit(e);
+        visitor.visit(e);
     }
 
 }; // namespace refract

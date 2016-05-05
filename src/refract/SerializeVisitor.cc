@@ -29,8 +29,8 @@ namespace refract
                 }
 
                 SosSerializeCompactVisitor s(generateSourceMap);
-                ApplyVisitor serializer(s);
-                serializer.visit(*(*it));
+                Visitor visitor(s);
+                visitor.visit(*(*it));
                 result.set(s.key(), s.value());
             }
 
@@ -40,8 +40,8 @@ namespace refract
         sos::Object ElementToObject(const IElement* e, bool generateSourceMap)
         {
             SosSerializeVisitor s(generateSourceMap);
-            ApplyVisitor serializer(s);
-            serializer.visit(*e);
+            Visitor visitor(s);
+            visitor.visit(*e);
             return s.get();
         }
 
@@ -101,11 +101,11 @@ namespace refract
 
         if (render == IElement::rCompact) {
             SosSerializeCompactVisitor s(generateSourceMap);
-            ApplyVisitor serializer(s);
-            e.content(serializer);
+            Visitor visitor(s);
+            e.content(visitor);
             result.set("content", s.value());
         } else {
-            ApplyVisitor visitor(*this);
+            Visitor visitor(*this);
             e.content(visitor);
             result.set("content", partial);
         }

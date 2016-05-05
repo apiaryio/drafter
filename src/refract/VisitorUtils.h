@@ -10,7 +10,7 @@
 
 #include "Element.h"
 #include "Visitors.h"
-#include "ApplyVisitor.h"
+#include "Visitor.h"
 #include "SourceAnnotation.h"
 
 namespace refract
@@ -168,8 +168,8 @@ namespace refract
                  ; ++it ) {
 
             ComparableVisitor cmp(name, ComparableVisitor::key);
-            ApplyVisitor apply(cmp);
-            (*it)->content(apply);
+            Visitor visit(cmp);
+            (*it)->content(visit);
 
             if (cmp.get()) { // key was recognized - it is save to cast to MemberElement
                 return static_cast<MemberElement*>(*it);

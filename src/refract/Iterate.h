@@ -20,13 +20,13 @@ namespace refract
 
             template <typename U, bool dummy = true>
             struct Impl {
-                void operator()(ApplyVisitor&, const U&) {
+                void operator()(Visitor&, const U&) {
                 }
             };
 
             template <bool dummy>
             struct Impl <RefractElements, dummy> {
-                void operator()(ApplyVisitor& v, const RefractElements& e) {
+                void operator()(Visitor& v, const RefractElements& e) {
                     for (RefractElements::const_iterator i = e.begin() ; i != e.end() ; ++i) {
                         if (!(*i)) continue;
                         (*i)->content(v);
@@ -36,7 +36,7 @@ namespace refract
 
             template <bool dummy>
             struct Impl <MemberElement::ValueType, dummy> {
-                void operator()(ApplyVisitor& v, const MemberElement::ValueType& e) {
+                void operator()(Visitor& v, const MemberElement::ValueType& e) {
                     if (e.first) {
                         e.first->content(v);
                     }
@@ -47,14 +47,14 @@ namespace refract
                 }
             };
 
-            void operator()(ApplyVisitor& iterable, const T& e) {
+            void operator()(Visitor& iterable, const T& e) {
                 Impl<V> impl;
                 impl(iterable ,e.value);
             }
         };
 
         template <typename T>
-        void operator()(ApplyVisitor& iterable, const T& e) {
+        void operator()(Visitor& iterable, const T& e) {
             Iterate<T> iterate;
             iterate(iterable, e);
         }
@@ -67,7 +67,7 @@ namespace refract
         struct Impl {
 
             Strategy* strategy;
-            ApplyVisitor* visitor;
+            Visitor* visitor;
             IApply* apply;
 
             void operator()(const IElement& e) {
@@ -85,7 +85,7 @@ namespace refract
         };
 
         Impl impl;
-        ApplyVisitor visitor;
+        Visitor visitor;
         Strategy strategy;
         IApply* apply;
 

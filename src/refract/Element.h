@@ -16,14 +16,14 @@
 #include <iterator>
 
 #include "Exception.h"
-#include "ApplyVisitor.h"
+#include "Visitor.h"
 
 #include "ElementFwd.h"
 
 namespace refract
 {
 
-    class ApplyVisitor;
+    class Visitor;
 
     template <typename T> struct ElementTypeSelector;
 
@@ -90,15 +90,8 @@ namespace refract
         virtual std::string element() const = 0;
         virtual void element(const std::string&) = 0;
 
-        // NOTE: Visiting is now handled by inheritance from `VisitableBy`
-        // it uses internally C++ RTTI via `dynamic_cast<>`.
-        // And accepts all visitors declared in typelist IElement::Visitors
-        //
-        // Alternative solution to avoid RTTI:
-        // Add overrided virtual function `content` for every one type of `Visitor`
-
         // NOTE: probably rename to Accept
-        virtual void content(ApplyVisitor& v) const = 0;
+        virtual void content(Visitor& v) const = 0;
 
         /**
          * Flags for clone() element - select parts of refract element to be clonned
@@ -205,7 +198,7 @@ namespace refract
             return value;
         }
 
-        virtual void content(ApplyVisitor& v) const
+        virtual void content(Visitor& v) const
         {
             v.visit(static_cast<const T&>(*this));
         }

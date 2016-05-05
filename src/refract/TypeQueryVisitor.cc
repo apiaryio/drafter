@@ -20,8 +20,8 @@ namespace refract
     void TypeQueryVisitor::operator()(const IElement& e)
     {
         TypeQueryVisitor query;
-        ApplyVisitor apply(query);
-        e.content(apply);
+        Visitor visitor(query);
+        e.content(visitor);
         typeInfo = query.get();
     }
 

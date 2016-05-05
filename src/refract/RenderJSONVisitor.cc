@@ -73,8 +73,8 @@ namespace refract
                 }
 
                 RenderJSONVisitor renderer;
-                ApplyVisitor apply(renderer);
-                apply.visit(*(*it));
+                Visitor visitor(renderer);
+                visitor.visit(*(*it));
                 IElement* e = renderer.getOwnership();
 
                 if (!e) {
@@ -102,8 +102,8 @@ namespace refract
     }
 
     void RenderJSONVisitor::operator()(const IElement& e) {
-        ApplyVisitor apply(*this);
-        e.content(apply);
+        Visitor visitor(*this);
+        e.content(visitor);
     }
 
     void RenderJSONVisitor::operator()(const MemberElement& e) {
@@ -115,7 +115,7 @@ namespace refract
         }
 
         RenderJSONVisitor renderer;
-        ApplyVisitor apply(renderer);
+        Visitor visitor(renderer);
 
         if (e.value.second) {
             if (IsTypeAttribute(e, "nullable") && e.value.second->empty()) {
@@ -125,7 +125,7 @@ namespace refract
                 return;
             }
             else {
-                apply.visit(*e.value.second);
+                visitor.visit(*e.value.second);
                 if (!renderer.result) {
                     return;
                 }
@@ -160,8 +160,8 @@ namespace refract
         }
 
         RenderJSONVisitor renderer;
-        ApplyVisitor apply(renderer);
-        enumValue->content(apply);
+        Visitor visitor(renderer);
+        enumValue->content(visitor);
         result = renderer.getOwnership();
 
         delete enumValue;
@@ -212,7 +212,7 @@ namespace refract
     void RenderJSONVisitor::operator()(const ExtendElement& e) {
 
         RenderJSONVisitor renderer;
-        ApplyVisitor apply(renderer);
+        Visitor visitor(renderer);
         IElement* merged = e.merge();
 
         if (!merged) {
@@ -226,7 +226,7 @@ namespace refract
             }
         }
 
-        apply.visit(*merged);
+        visitor.visit(*merged);
         result = renderer.getOwnership();
 
         delete merged;
@@ -247,8 +247,8 @@ namespace refract
 
             // FIXME: remove SosSerializeCompactVisitor dependency
             SosSerializeCompactVisitor s;
-            ApplyVisitor apply(s);
-            result->content(apply);
+            Visitor visitor(s);
+            result->content(visitor);
             serializer.process(s.value(), ss);
 
             return ss.str();

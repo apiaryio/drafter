@@ -64,14 +64,14 @@ namespace refract
             for (typename Values::const_iterator it = values.begin(); it != values.end(); ++it) {
                 if (IsFullRender()((*it), generateSourceMap)) {
                     SosSerializeVisitor s(generateSourceMap);
-                    ApplyVisitor serializer(s);
-                    serializer.visit(*(*it));
+                    Visitor visitor(s);
+                    visitor.visit(*(*it));
                     array.push(s.get());
                 }
                 else {
                     SosSerializeCompactVisitor s(generateSourceMap);
-                    ApplyVisitor serializer(s);
-                    (*it)->content(serializer);
+                    Visitor visitor(s);
+                    (*it)->content(visitor);
                     array.push(s.value());
                 }
             }
@@ -96,20 +96,20 @@ namespace refract
     {
         if (e.value.first) {
             SosSerializeCompactVisitor s(generateSourceMap);
-            ApplyVisitor serializer(s);
-            e.value.first->content(serializer);
+            Visitor visitor(s);
+            e.value.first->content(visitor);
             key_ = s.value().str;
         }
 
         if (e.value.second) {
             if (!IsFullRender()(e.value.second, generateSourceMap)) {
-                ApplyVisitor serializer(*this);
-                e.value.second->content(serializer);
+                Visitor visitor(*this);
+                e.value.second->content(visitor);
             }
             else { // value has request to be serialized in Expanded form
                 SosSerializeVisitor s(generateSourceMap);
-                ApplyVisitor serializer(s);
-                serializer.visit(*e.value.second);
+                Visitor visitor(s);
+                visitor.visit(*e.value.second);
                 value_ = s.get();
             }
         }
@@ -128,8 +128,8 @@ namespace refract
 
             for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
                 SosSerializeVisitor s(generateSourceMap);
-                ApplyVisitor serializer(s);
-                serializer.visit(*(*it));
+                Visitor visitor(s);
+                visitor.visit(*(*it));
                 arr.push(s.get());
             }
 
@@ -140,8 +140,8 @@ namespace refract
 
             for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
                 SosSerializeCompactVisitor sv(generateSourceMap);
-                ApplyVisitor serializer(sv);
-                (*it)->content(serializer);
+                Visitor visitor(sv);
+                (*it)->content(visitor);
                 obj.set(sv.key(), sv.value());
             }
 

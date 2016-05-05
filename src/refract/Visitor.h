@@ -1,12 +1,12 @@
 //
-//  refract/ApplyVisitor.h
+//  refract/Visitor.h
 //  librefract
 //
 //  Created by Jiri Kratochvil on 17/06/15.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-#ifndef REFRACT_APPLYVISITOR_H
-#define REFRACT_APPLYVISITOR_H
+#ifndef REFRACT_VISITOR_H
+#define REFRACT_VISITOR_H
 
 #include "ElementFwd.h"
 
@@ -88,7 +88,7 @@ namespace refract
         virtual ~ApplyImpl() {}
     };
 
-    class ApplyVisitor {
+    class Visitor {
 
     private:
 
@@ -97,8 +97,8 @@ namespace refract
     public:
 
         template <typename Functor>
-        ApplyVisitor(Functor& functor) : apply(new ApplyImpl<Functor>(functor)) {}
-        virtual ~ApplyVisitor() {
+        Visitor(Functor& functor) : apply(new ApplyImpl<Functor>(functor)) {}
+        virtual ~Visitor() {
             delete apply;
         }
 
@@ -111,4 +111,4 @@ namespace refract
 
 }; // namespace refract
 
-#endif // #ifndef REFRACT_APPLYVISITOR_H
+#endif // #ifndef REFRACT_VISITOR_H
