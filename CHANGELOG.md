@@ -2,6 +2,8 @@
 
 ## Master
 
+## 2.3.1
+
 * Fixes a bug when a referenced mixin inherits another named type
   [#254](https://github.com/apiaryio/drafter/issues/254)
 

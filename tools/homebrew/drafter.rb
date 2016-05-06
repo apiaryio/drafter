@@ -2,7 +2,7 @@ require 'formula'
 
 class Drafter < Formula
   homepage 'http://apiblueprint.org'
-  head 'https://github.com/apiaryio/drafter.git', :tag => 'v2.3.0'
+  head 'https://github.com/apiaryio/drafter.git', :tag => 'v2.3.1'
 
   def install
     system "./configure"
