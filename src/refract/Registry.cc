@@ -8,7 +8,8 @@
 
 #include "Registry.h"
 #include "Element.h"
-#include "Visitors.h"
+#include "SerializeCompactVisitor.h"
+#include "TypeQueryVisitor.h"
 
 #include <algorithm>
 
@@ -40,8 +41,9 @@ namespace refract
             throw LogicError("Element has no ID");
         }
 
-        SerializeCompactVisitor v;
-        (*it)->value.second->content(v);
+        // FIXME: remove dependecy on SosSerializeCompactVisitor
+        SosSerializeCompactVisitor v;
+        VisitBy(*(*it)->value.second, v);
 
         if (StringElement* s = TypeQueryVisitor::as<StringElement>((*it)->value.second)) {
             return s->value;

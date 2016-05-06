@@ -9,7 +9,6 @@
 #ifndef REFRACT_RENDERJSONVISITOR_H
 #define REFRACT_RENDERJSONVISITOR_H
 
-#include "Visitor.h"
 #include "sos.h"
 #include <string>
 
@@ -18,7 +17,7 @@
 namespace refract
 {
 
-    class RenderJSONVisitor : public IVisitor
+    class RenderJSONVisitor
     {
         IElement* result;
         IElement* enumValue;
@@ -27,18 +26,22 @@ namespace refract
         RenderJSONVisitor();
         virtual ~RenderJSONVisitor();
 
-        void visit(const IElement& e);
-        void visit(const MemberElement& e);
-        void visit(const ObjectElement& e);
-        void visit(const ArrayElement& e);
-        void visit(const EnumElement& e);
+        void operator()(const IElement& e);
+        void operator()(const MemberElement& e);
+        void operator()(const ObjectElement& e);
+        void operator()(const ArrayElement& e);
+        void operator()(const EnumElement& e);
 
-        void visit(const NullElement& e);
-        void visit(const StringElement& e);
-        void visit(const NumberElement& e);
-        void visit(const BooleanElement& e);
+        void operator()(const NullElement& e);
+        void operator()(const StringElement& e);
+        void operator()(const NumberElement& e);
+        void operator()(const BooleanElement& e);
+        void operator()(const ExtendElement& e);
 
-        void visit(const ExtendElement& e);
+        // FIXME: throwning - not implemented 
+        // need to resolve in ApplyVisitor
+        //void operator()(const OptionElement& e);
+        //void operator()(const SelectElement& e);
 
         std::string getString() const;
         IElement* getOwnership(); 

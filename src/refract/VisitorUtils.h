@@ -9,8 +9,13 @@
 #define REFRACT_VISITORUTILS_H
 
 #include "Element.h"
-#include "Visitors.h"
+#include "Visitor.h"
+
+#include "TypeQueryVisitor.h"
+#include "ComparableVisitor.h"
+
 #include "SourceAnnotation.h"
+
 
 namespace refract
 {
@@ -167,7 +172,7 @@ namespace refract
                  ; ++it ) {
 
             ComparableVisitor cmp(name, ComparableVisitor::key);
-            (*it)->content(cmp);
+            VisitBy(*(*it), cmp);
 
             if (cmp.get()) { // key was recognized - it is save to cast to MemberElement
                 return static_cast<MemberElement*>(*it);

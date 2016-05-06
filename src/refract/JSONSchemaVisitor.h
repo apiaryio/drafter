@@ -9,7 +9,6 @@
 #ifndef REFRACT_JSONSCHEMAVISITOR_H
 #define REFRACT_JSONSCHEMAVISITOR_H
 
-#include "Visitor.h"
 #include "VisitorUtils.h"
 #include <string>
 
@@ -17,7 +16,7 @@
 
 namespace refract
 {
-    class JSONSchemaVisitor : public IVisitor
+    class JSONSchemaVisitor 
     {
         ObjectElement *pObj;
         ObjectElement *pDefs;
@@ -47,19 +46,19 @@ namespace refract
                           bool fixit = false);
         ~JSONSchemaVisitor();
         void setFixed(bool fixit);
-        void visit(const IElement& e);
-        void visit(const MemberElement& e);
-        void visit(const ObjectElement& e);
-        void visit(const ArrayElement& e);
-        void visit(const EnumElement& e);
+        void operator()(const IElement& e);
+        void operator()(const MemberElement& e);
+        void operator()(const ObjectElement& e);
+        void operator()(const ArrayElement& e);
+        void operator()(const EnumElement& e);
 
-        void visit(const NullElement& e);
-        void visit(const StringElement& e);
-        void visit(const NumberElement& e);
-        void visit(const BooleanElement& e);
-        void visit(const ExtendElement& e);
+        void operator()(const NullElement& e);
+        void operator()(const StringElement& e);
+        void operator()(const NumberElement& e);
+        void operator()(const BooleanElement& e);
+        void operator()(const ExtendElement& e);
 
-        void visit(const OptionElement& e);
+        void operator()(const OptionElement& e);
 
         IElement* get();
         IElement* getOwnership();

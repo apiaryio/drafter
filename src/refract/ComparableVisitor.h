@@ -8,8 +8,6 @@
 #ifndef REFRACT_COMPARABLEVISITOR_H
 #define REFRACT_COMPARABLEVISITOR_H
 
-#include "Visitor.h"
-
 namespace refract
 {
 
@@ -17,7 +15,7 @@ namespace refract
     struct IElement;
     struct MemberElement;
 
-    class ComparableVisitor : public IVisitor
+    class ComparableVisitor 
     {
         std::string compare_to;
         bool result;
@@ -45,15 +43,15 @@ namespace refract
         ComparableVisitor(const std::string& str, const int compare = value);
 
         template <typename E>
-        void visit(const E& e)
+        void operator()(const E& e)
         {
            if (compare == value) {
                result = IsEqual(compare_to, e.value);
            }
         }
 
-        virtual void visit(const MemberElement& e);
-        virtual void visit(const IElement& e);
+        void operator()(const MemberElement& e);
+        void operator()(const IElement& e);
 
         bool get() const;
     };

@@ -1,7 +1,7 @@
 #include "catch.hpp"
 
-#include "Visitors.h"
 #include "Element.h"
+#include "TypeQueryVisitor.h"
 
 #include "RefractElementFactory.h"
 

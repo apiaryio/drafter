@@ -9,9 +9,11 @@
 #include <cassert>
 
 #include <set>
+#include <map>
 #include <string>
 
-#include "Visitors.h"
+#include "ComparableVisitor.h"
+#include "TypeQueryVisitor.h"
 
 namespace refract
 {
@@ -44,10 +46,11 @@ namespace refract
     IElement::MemberElementCollection::const_iterator IElement::MemberElementCollection::find(const std::string& name) const
     {
         ComparableVisitor v(name);
+        Visitor visitor(v);
         const_iterator it;
 
         for (it = begin(); it != end(); ++it) {
-            (*it)->value.first->content(v);
+            (*it)->value.first->content(visitor);
 
             if (v.get()) {
                 return it;
@@ -60,10 +63,11 @@ namespace refract
     IElement::MemberElementCollection::iterator IElement::MemberElementCollection::find(const std::string& name)
     {
         ComparableVisitor v(name);
+        Visitor visitor(v);
         iterator it;
 
         for (it = begin(); it != end(); ++it) {
-            (*it)->value.first->content(v);
+            (*it)->value.first->content(visitor);
 
             if (v.get()) {
                 return it;
@@ -137,11 +141,11 @@ namespace refract
             }
 
             TypeQueryVisitor v;
-            v.visit(*values.front());
+            Visit(v, *values.front());
 
             const TypeQueryVisitor::ElementType base = v.get();
             for (ExtendElement::ValueType::const_iterator i = values.begin() ; i != values.end() ; ++i) {
-                v.visit(*(*i));
+                Visit(v, *(*i));
                 if (base != v.get()) {
                     return false;
                 }
@@ -173,10 +177,10 @@ namespace refract
 
         if (!value.empty()) {
             TypeQueryVisitor baseType;
-            baseType.visit(*value.front());
+            Visit(baseType, *value.front());
 
             TypeQueryVisitor type;
-            type.visit(*e);
+            Visit(type, *e);
 
             if (baseType.get() != type.get()) {
                 throw LogicError("ExtendElement must be composed from Elements of same type");
@@ -340,13 +344,13 @@ namespace refract
                     result = e->clone();
 
                     TypeQueryVisitor type;
-                    type.visit(*result);
+                    Visit(type, *result);
                     base = type.get();
                     return;
                 }
 
                 TypeQueryVisitor type;
-                e->content(type);
+                VisitBy(*e, type);
 
                 if(type.get() != base) {
                     throw refract::LogicError("Can not merge different types of elements");

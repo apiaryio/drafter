@@ -11,6 +11,8 @@
 #include <sstream>
 #include "SerializeCompactVisitor.h"
 
+#include "RenderJSONVisitor.h"
+
 namespace refract
 {
 
@@ -73,7 +75,7 @@ namespace refract
                 }
 
                 RenderJSONVisitor renderer;
-                renderer.visit(*(*it));
+                Visit(renderer, *(*it));
                 IElement* e = renderer.getOwnership();
 
                 if (!e) {
@@ -100,11 +102,11 @@ namespace refract
         }
     }
 
-    void RenderJSONVisitor::visit(const IElement& e) {
-        e.content(*this);
+    void RenderJSONVisitor::operator()(const IElement& e) {
+        VisitBy(e, *this);
     }
 
-    void RenderJSONVisitor::visit(const MemberElement& e) {
+    void RenderJSONVisitor::operator()(const MemberElement& e) {
 
         std::string key = GetKeyAsString(e);
 
@@ -122,7 +124,7 @@ namespace refract
                 return;
             }
             else {
-                renderer.visit(*e.value.second);
+                Visit(renderer, *e.value.second);
                 if (!renderer.result) {
                     return;
                 }
@@ -134,7 +136,7 @@ namespace refract
                                    IElement::rCompact);
     }
 
-    void RenderJSONVisitor::visit(const ObjectElement& e) {
+    void RenderJSONVisitor::operator()(const ObjectElement& e) {
         ObjectElement::ValueType members;
         FetchMembers(e, members);
         ObjectElement* o = new ObjectElement;
@@ -143,7 +145,7 @@ namespace refract
         result = o;
     }
 
-    void RenderJSONVisitor::visit(const EnumElement& e) {
+    void RenderJSONVisitor::operator()(const EnumElement& e) {
 
         if (!enumValue) { // there is no enumValue injected from ExtendElement,try to pick value directly
 
@@ -157,7 +159,7 @@ namespace refract
         }
 
         RenderJSONVisitor renderer;
-        enumValue->content(renderer);
+        VisitBy(*enumValue, renderer);
         result = renderer.getOwnership();
 
         delete enumValue;
@@ -165,7 +167,7 @@ namespace refract
 
     }
 
-    void RenderJSONVisitor::visit(const ArrayElement& e) {
+    void RenderJSONVisitor::operator()(const ArrayElement& e) {
         ArrayElement::ValueType members;
         FetchMembers(e, members);
         ArrayElement* a = new ArrayElement;
@@ -174,7 +176,7 @@ namespace refract
         result = a;
     }
 
-    void RenderJSONVisitor::visit(const NullElement& e) {
+    void RenderJSONVisitor::operator()(const NullElement& e) {
         result = new NullElement;
     }
 
@@ -193,19 +195,19 @@ namespace refract
         return result;
     }
 
-    void RenderJSONVisitor::visit(const StringElement& e) {
+    void RenderJSONVisitor::operator()(const StringElement& e) {
         result = getResult(e);
     }
 
-    void RenderJSONVisitor::visit(const NumberElement& e) {
+    void RenderJSONVisitor::operator()(const NumberElement& e) {
         result = getResult(e);
     }
 
-    void RenderJSONVisitor::visit(const BooleanElement& e) {
+    void RenderJSONVisitor::operator()(const BooleanElement& e) {
         result = getResult(e);
     }
 
-    void RenderJSONVisitor::visit(const ExtendElement& e) {
+    void RenderJSONVisitor::operator()(const ExtendElement& e) {
 
         RenderJSONVisitor renderer;
         IElement* merged = e.merge();
@@ -221,7 +223,7 @@ namespace refract
             }
         }
 
-        renderer.visit(*merged);
+        Visit(renderer, *merged);
         result = renderer.getOwnership();
 
         delete merged;
@@ -240,8 +242,9 @@ namespace refract
             sos::SerializeJSON serializer;
             std::stringstream ss;
 
-            SerializeCompactVisitor s;
-            result->content(s);
+            // FIXME: remove SosSerializeCompactVisitor dependency
+            SosSerializeCompactVisitor s;
+            VisitBy(*result, s);
             serializer.process(s.value(), ss);
 
             return ss.str();

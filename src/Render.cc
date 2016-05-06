@@ -15,6 +15,9 @@
 
 #include "ConversionContext.h"
 
+#include "refract/RenderJSONVisitor.h"
+#include "refract/JSONSchemaVisitor.h"
+
 using namespace snowcrash;
 
 namespace drafter {
@@ -89,7 +92,7 @@ namespace drafter {
             case JSONRenderFormat:
             {
                 refract::RenderJSONVisitor renderer;
-                renderer.visit(*expanded);
+                refract::Visit(renderer, *expanded);
 
                 delete expanded;
 

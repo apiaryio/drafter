@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 #include "Element.h"
-#include "Visitors.h"
+#include "TypeQueryVisitor.h"
 
 
-#define VISIT_IMPL( ELEMENT ) void TypeQueryVisitor::visit(const ELEMENT ## Element& e) { typeInfo = ELEMENT; }
+#define VISIT_IMPL( ELEMENT ) void TypeQueryVisitor::operator()(const ELEMENT ## Element& e) { typeInfo = ELEMENT; }
 
 namespace refract
 {
@@ -17,12 +17,13 @@ namespace refract
     {
     }
 
-    void TypeQueryVisitor::visit(const IElement& e)
+    void TypeQueryVisitor::operator()(const IElement& e)
     {
         TypeQueryVisitor query;
-        e.content(query);
+        VisitBy(e, query);
         typeInfo = query.get();
     }
+
 
     VISIT_IMPL(Null)
     VISIT_IMPL(String)

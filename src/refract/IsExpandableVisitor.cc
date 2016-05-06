@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 #include "Element.h"
-#include "Visitors.h"
+#include "IsExpandableVisitor.h"
 
 namespace refract
 {
@@ -47,7 +47,7 @@ namespace refract
 
                 if (e->value.first) {
                     IsExpandableVisitor v;
-                    e->value.first->content(v);
+                    VisitBy(*e->value.first, v);
                     if (v.get()) {
                         return true;
                     }
@@ -55,7 +55,7 @@ namespace refract
 
                 if (e->value.second) {
                     IsExpandableVisitor v;
-                    e->value.second->content(v);
+                    VisitBy(*e->value.second, v);
                     if (v.get()) {
                         return true;
                     }
@@ -75,7 +75,7 @@ namespace refract
 
                 for (std::vector<IElement*>::const_iterator i = e->value.begin() ; i != e->value.end() ; ++i ) {
                     IsExpandableVisitor v;
-                    (*i)->content(v);
+                    VisitBy(*(*i), v);
 
                     if (v.get()) {
                         return true;
@@ -90,22 +90,27 @@ namespace refract
     IsExpandableVisitor::IsExpandableVisitor() : result(false) {}
 
     template<typename T>
-    void IsExpandableVisitor::visit(const T& e) {
+    void IsExpandableVisitor::operator()(const T& e) {
         result = IsExpandable<T>()(&e);
     }
 
+    template<>
+    void IsExpandableVisitor::operator()(const IElement& e) {
+        VisitBy(e, *this);
+    }
+
     // Explicit instantioning of templates to avoid Linker Error
-    template void IsExpandableVisitor::visit<NullElement>(const NullElement&);
-    template void IsExpandableVisitor::visit<StringElement>(const StringElement&);
-    template void IsExpandableVisitor::visit<NumberElement>(const NumberElement&);
-    template void IsExpandableVisitor::visit<BooleanElement>(const BooleanElement&);
-    template void IsExpandableVisitor::visit<ArrayElement>(const ArrayElement&);
-    template void IsExpandableVisitor::visit<EnumElement>(const EnumElement&);
-    template void IsExpandableVisitor::visit<MemberElement>(const MemberElement&);
-    template void IsExpandableVisitor::visit<ObjectElement>(const ObjectElement&);
-    template void IsExpandableVisitor::visit<ExtendElement>(const ExtendElement&);
-    template void IsExpandableVisitor::visit<SelectElement>(const SelectElement&);
-    template void IsExpandableVisitor::visit<OptionElement>(const OptionElement&);
+    template void IsExpandableVisitor::operator()<NullElement>(const NullElement&);
+    template void IsExpandableVisitor::operator()<StringElement>(const StringElement&);
+    template void IsExpandableVisitor::operator()<NumberElement>(const NumberElement&);
+    template void IsExpandableVisitor::operator()<BooleanElement>(const BooleanElement&);
+    template void IsExpandableVisitor::operator()<ArrayElement>(const ArrayElement&);
+    template void IsExpandableVisitor::operator()<EnumElement>(const EnumElement&);
+    template void IsExpandableVisitor::operator()<MemberElement>(const MemberElement&);
+    template void IsExpandableVisitor::operator()<ObjectElement>(const ObjectElement&);
+    template void IsExpandableVisitor::operator()<ExtendElement>(const ExtendElement&);
+    template void IsExpandableVisitor::operator()<OptionElement>(const OptionElement&);
+    template void IsExpandableVisitor::operator()<SelectElement>(const SelectElement&);
 
     bool IsExpandableVisitor::get() const {
         return result;

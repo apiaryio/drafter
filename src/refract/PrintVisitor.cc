@@ -10,14 +10,18 @@
 #include <sstream>
 #include <iostream>
 
-#define VISIT_IMPL( ELEMENT ) void PrintVisitor::visit(const ELEMENT ## Element& e) \
+#include "PrintVisitor.h"
+#include "Visitor.h"
+
+#define VISIT_IMPL( ELEMENT ) void PrintVisitor::operator()(const ELEMENT ## Element& e) \
     {                                                                    \
         typedef ELEMENT ## Element::ValueType::const_iterator iterator;  \
         PrintVisitor ps(indent + 1, os);                                 \
+        Visitor visitor(ps);                                             \
                                                                          \
         os << "" #ELEMENT "Element  {\n";                                \
         for (iterator it = e.value.begin(); it != e.value.end(); ++it) { \
-            ps.visit(*(*it));                                            \
+            visitor.visit(*(*it));                                       \
         }                                                                \
         indentOS(indent);                                                \
         os << "}\n";                                                     \
@@ -48,7 +52,7 @@ namespace refract
                 i != e.meta.end();
                 ++i) {
 
-                visit(*(*i));
+                refract::Visit(*this, *(*i));
             }
 
             indentOS(indent);
@@ -66,7 +70,7 @@ namespace refract
                 i != e.attributes.end();
                 ++i) {
 
-                visit(*(*i));
+                refract::Visit(*this, *(*i));
             }
 
             indentOS(indent);
@@ -75,26 +79,27 @@ namespace refract
     }
 
 
-    void PrintVisitor::visit(const IElement& e)
+    void PrintVisitor::operator()(const IElement& e)
     {
         indentOS(indent);
         printMeta(e);
         printAttr(e);
-        e.content(*this);
+
+        VisitBy(e, *this);
     }
 
-    void PrintVisitor::visit(const NullElement& e)
+    void PrintVisitor::operator()(const NullElement& e)
     {
         os << "NullElement(null)" << "\n";
     }
 
-    void PrintVisitor::visit(const StringElement& e)
+    void PrintVisitor::operator()(const StringElement& e)
     {
         const StringElement::ValueType* v = GetValue<StringElement>(e);
         os << "StringElement(" << *v << ")" << "\n";
     }
 
-    void PrintVisitor::visit(const NumberElement& e)
+    void PrintVisitor::operator()(const NumberElement& e)
     {
         const NumberElement::ValueType* v = GetValue<NumberElement>(e);
 
@@ -107,7 +112,7 @@ namespace refract
         os << ")" << "\n";
     }
 
-    void PrintVisitor::visit(const BooleanElement& e)
+    void PrintVisitor::operator()(const BooleanElement& e)
     {
         const BooleanElement::ValueType* v = GetValue<BooleanElement>(e);
 
@@ -120,7 +125,7 @@ namespace refract
         os << ")" << "\n";
     }
 
-    void PrintVisitor::visit(const MemberElement& e)
+    void PrintVisitor::operator()(const MemberElement& e)
     {
         os << "MemberElement {\n";
         indentOS(indent + 1);
@@ -134,7 +139,7 @@ namespace refract
 
         if (e.value.second) {
             PrintVisitor ps(indent + 1, os);
-            ps.visit(*e.value.second);
+            refract::Visit(ps, *e.value.second);
         }
         indentOS(indent);
         os << "}\n";
@@ -148,11 +153,10 @@ namespace refract
     VISIT_IMPL(Option)
     VISIT_IMPL(Select)
 
-
     void PrintVisitor::Visit(const IElement& e)
     {
         PrintVisitor ps;
-        ps.visit(e);
+        refract::Visit(ps, e);
     }
 
 }; // namespace refract

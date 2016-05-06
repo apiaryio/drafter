@@ -7,7 +7,6 @@
 //
 
 #include "Element.h"
-#include "Visitors.h"
 #include "Registry.h"
 #include <stack>
 
@@ -17,7 +16,12 @@
 
 #include"SourceAnnotation.h"
 
-#define VISIT_IMPL( ELEMENT ) void ExpandVisitor::visit(const ELEMENT ## Element& e) { result = Expand(e, context); }
+#include "IsExpandableVisitor.h"
+#include "ExpandVisitor.h"
+#include "TypeQueryVisitor.h"
+#include "VisitorUtils.h"
+
+#define VISIT_IMPL( ELEMENT ) void ExpandVisitor::operator()(const ELEMENT ## Element& e) { result = Expand(e, context); }
 
 namespace refract
 {
@@ -28,7 +32,7 @@ namespace refract
         bool Expandable(const IElement& e)
         {
             IsExpandableVisitor v;
-            e.content(v);
+            VisitBy(e, v);
             return v.get();
         }
 
@@ -110,9 +114,9 @@ namespace refract
     struct ExpandVisitor::Context {
 
         const Registry& registry;
-        ExpandVisitor* visitor;
+        ExpandVisitor* expand;
 
-        Context(const Registry& registry, ExpandVisitor* visitor) : registry(registry), visitor(visitor) {}
+        Context(const Registry& registry, ExpandVisitor* expand) : registry(registry), expand(expand) {}
 
         IElement* ExpandOrClone(const IElement* e)
         {
@@ -121,8 +125,8 @@ namespace refract
                 return result;
             }
 
-            e->content(*visitor);
-            result = visitor->get();
+            VisitBy(*e, *expand);
+            result = expand->get();
 
             if (!result) {
                 result = e->clone();
@@ -303,12 +307,12 @@ namespace refract
         delete context;
     }
 
-    void ExpandVisitor::visit(const IElement& e) {
-        e.content(*this);
+    void ExpandVisitor::operator()(const IElement& e) {
+        VisitBy(e, *this);
     }
     
     // do nothing, NullElements are not expandable
-    void ExpandVisitor::visit(const NullElement& e) {}
+    void ExpandVisitor::operator()(const NullElement& e) {}
 
     VISIT_IMPL(String)
     VISIT_IMPL(Number)

@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 #include "Element.h"
-#include "Visitors.h"
+#include "ComparableVisitor.h"
 
 namespace refract
 {
@@ -15,21 +15,22 @@ namespace refract
     {
     }
 
-    void ComparableVisitor::visit(const MemberElement& e)
+    void ComparableVisitor::operator()(const MemberElement& e)
     {
         ComparableVisitor v(compare_to);
+        Visitor visitor(v);
 
         if (compare == key && e.value.first) {
-            e.value.first->content(v);
+            e.value.first->content(visitor);
         }
         else if (e.value.second) {
-            e.value.second->content(v);
+            e.value.second->content(visitor);
         }
 
         result = v.get();
     }
 
-    void ComparableVisitor::visit(const IElement& e)
+    void ComparableVisitor::operator()(const IElement& e)
     {
         throw LogicError("Fallback impl - behavioration for Base class IElement is not defined");
     }

@@ -12,6 +12,8 @@
 
 #include "RefractSourceMap.h"
 #include "refract/VisitorUtils.h"
+#include "refract/ExpandVisitor.h"
+#include "refract/SerializeVisitor.h"
 
 #include "NamedTypesRegistry.h"
 #include "RefractElementFactory.h"
@@ -72,7 +74,7 @@ namespace drafter {
 
     static mson::BaseTypeName NamedTypeFromElement(const refract::IElement* element) {
         refract::TypeQueryVisitor type;
-        type.visit(*element);
+        refract::Visit(type, *element);
 
         switch (type.get()) {
             case refract::TypeQueryVisitor::Boolean:
@@ -357,7 +359,7 @@ namespace drafter {
         }
 
         refract::TypeQueryVisitor query;
-        e->content(query);
+        refract::VisitBy(*e, query);
         return RefractElementTypeToMsonType(query.get());
     }
 
@@ -580,7 +582,7 @@ namespace drafter {
 
         refract::IElement* SetSerializeFlag(refract::IElement* element) {
             refract::TypeQueryVisitor query;
-            element->content(query);
+            refract::VisitBy(*element, query);
 
             RefractElements* children = NULL;
 
@@ -1073,7 +1075,7 @@ namespace drafter {
         }
 
         refract::ExpandVisitor expander(context.GetNamedTypesRegistry());
-        expander.visit(*element);
+        refract::Visit(expander, *element);
 
         if (refract::IElement* expanded = expander.get()) {
             delete element;
@@ -1089,8 +1091,8 @@ namespace drafter {
             return sos::Object();
         }
 
-        refract::SerializeVisitor serializer(context.options.generateSourceMap);
-        serializer.visit(*element);
+        refract::SosSerializeVisitor serializer(context.options.generateSourceMap);
+        refract::Visit(serializer, *element);
 
         return serializer.get();
     }
