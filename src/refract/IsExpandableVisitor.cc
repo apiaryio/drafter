@@ -47,8 +47,7 @@ namespace refract
 
                 if (e->value.first) {
                     IsExpandableVisitor v;
-                    Visitor visitor(v);
-                    e->value.first->content(visitor);
+                    VisitBy(*e->value.first, v);
                     if (v.get()) {
                         return true;
                     }
@@ -56,8 +55,7 @@ namespace refract
 
                 if (e->value.second) {
                     IsExpandableVisitor v;
-                    Visitor visitor(v);
-                    e->value.second->content(visitor);
+                    VisitBy(*e->value.second, v);
                     if (v.get()) {
                         return true;
                     }
@@ -77,8 +75,7 @@ namespace refract
 
                 for (std::vector<IElement*>::const_iterator i = e->value.begin() ; i != e->value.end() ; ++i ) {
                     IsExpandableVisitor v;
-                    Visitor visitor(v);
-                    (*i)->content(visitor);
+                    VisitBy(*(*i), v);
 
                     if (v.get()) {
                         return true;
@@ -99,8 +96,7 @@ namespace refract
 
     template<>
     void IsExpandableVisitor::operator()(const IElement& e) {
-        Visitor visitor(*this);
-        e.content(visitor);
+        VisitBy(e, *this);
     }
 
     // Explicit instantioning of templates to avoid Linker Error

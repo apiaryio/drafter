@@ -32,8 +32,7 @@ namespace refract
         bool Expandable(const IElement& e)
         {
             IsExpandableVisitor v;
-            Visitor visitor(v);
-            e.content(visitor);
+            VisitBy(e, v);
             return v.get();
         }
 
@@ -126,8 +125,7 @@ namespace refract
                 return result;
             }
 
-            Visitor visitor(*expand);
-            e->content(visitor);
+            VisitBy(*e, *expand);
             result = expand->get();
 
             if (!result) {
@@ -310,8 +308,7 @@ namespace refract
     }
 
     void ExpandVisitor::operator()(const IElement& e) {
-        Visitor visit(*this);
-        e.content(visit);
+        VisitBy(e, *this);
     }
     
     // do nothing, NullElements are not expandable

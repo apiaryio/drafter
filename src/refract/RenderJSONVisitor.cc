@@ -75,8 +75,7 @@ namespace refract
                 }
 
                 RenderJSONVisitor renderer;
-                Visitor visitor(renderer);
-                visitor.visit(*(*it));
+                Visit(renderer, *(*it));
                 IElement* e = renderer.getOwnership();
 
                 if (!e) {
@@ -104,8 +103,7 @@ namespace refract
     }
 
     void RenderJSONVisitor::operator()(const IElement& e) {
-        Visitor visitor(*this);
-        e.content(visitor);
+        VisitBy(e, *this);
     }
 
     void RenderJSONVisitor::operator()(const MemberElement& e) {
@@ -117,7 +115,6 @@ namespace refract
         }
 
         RenderJSONVisitor renderer;
-        Visitor visitor(renderer);
 
         if (e.value.second) {
             if (IsTypeAttribute(e, "nullable") && e.value.second->empty()) {
@@ -127,7 +124,7 @@ namespace refract
                 return;
             }
             else {
-                visitor.visit(*e.value.second);
+                Visit(renderer, *e.value.second);
                 if (!renderer.result) {
                     return;
                 }
@@ -162,8 +159,7 @@ namespace refract
         }
 
         RenderJSONVisitor renderer;
-        Visitor visitor(renderer);
-        enumValue->content(visitor);
+        VisitBy(*enumValue, renderer);
         result = renderer.getOwnership();
 
         delete enumValue;
@@ -214,7 +210,6 @@ namespace refract
     void RenderJSONVisitor::operator()(const ExtendElement& e) {
 
         RenderJSONVisitor renderer;
-        Visitor visitor(renderer);
         IElement* merged = e.merge();
 
         if (!merged) {
@@ -228,7 +223,7 @@ namespace refract
             }
         }
 
-        visitor.visit(*merged);
+        Visit(renderer, *merged);
         result = renderer.getOwnership();
 
         delete merged;
@@ -249,8 +244,7 @@ namespace refract
 
             // FIXME: remove SosSerializeCompactVisitor dependency
             SosSerializeCompactVisitor s;
-            Visitor visitor(s);
-            result->content(visitor);
+            VisitBy(*result, s);
             serializer.process(s.value(), ss);
 
             return ss.str();

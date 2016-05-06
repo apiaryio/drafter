@@ -172,8 +172,7 @@ namespace refract
                  ; ++it ) {
 
             ComparableVisitor cmp(name, ComparableVisitor::key);
-            Visitor visit(cmp);
-            (*it)->content(visit);
+            VisitBy(*(*it), cmp);
 
             if (cmp.get()) { // key was recognized - it is save to cast to MemberElement
                 return static_cast<MemberElement*>(*it);

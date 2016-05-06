@@ -141,12 +141,11 @@ namespace refract
             }
 
             TypeQueryVisitor v;
-            Visitor visitor(v);
-            visitor.visit(*values.front());
+            Visit(v, *values.front());
 
             const TypeQueryVisitor::ElementType base = v.get();
             for (ExtendElement::ValueType::const_iterator i = values.begin() ; i != values.end() ; ++i) {
-                visitor.visit(*(*i));
+                Visit(v, *(*i));
                 if (base != v.get()) {
                     return false;
                 }
@@ -178,12 +177,10 @@ namespace refract
 
         if (!value.empty()) {
             TypeQueryVisitor baseType;
-            Visitor visitBase(baseType);
-            visitBase.visit(*value.front());
+            Visit(baseType, *value.front());
 
             TypeQueryVisitor type;
-            Visitor visitType(type);
-            visitType.visit(*e);
+            Visit(type, *e);
 
             if (baseType.get() != type.get()) {
                 throw LogicError("ExtendElement must be composed from Elements of same type");
@@ -347,15 +344,13 @@ namespace refract
                     result = e->clone();
 
                     TypeQueryVisitor type;
-                    Visitor visitType(type);
-                    visitType.visit(*result);
+                    Visit(type, *result);
                     base = type.get();
                     return;
                 }
 
                 TypeQueryVisitor type;
-                Visitor visitType(type);
-                e->content(visitType);
+                VisitBy(*e, type);
 
                 if(type.get() != base) {
                     throw refract::LogicError("Can not merge different types of elements");

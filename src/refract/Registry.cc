@@ -43,8 +43,7 @@ namespace refract
 
         // FIXME: remove dependecy on SosSerializeCompactVisitor
         SosSerializeCompactVisitor v;
-        Visitor visitor(v);
-        (*it)->value.second->content(visitor);
+        VisitBy(*(*it)->value.second, v);
 
         if (StringElement* s = TypeQueryVisitor::as<StringElement>((*it)->value.second)) {
             return s->value;

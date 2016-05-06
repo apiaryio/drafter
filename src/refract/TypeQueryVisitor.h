@@ -69,13 +69,11 @@ namespace refract
             }
 
             TypeQueryVisitor tq;
-            Visitor vtq(tq);
-            vtq.visit(*e);
+            Visit(tq, *e);
 
             E type;
             TypeQueryVisitor eq;
-            Visitor veq(eq);
-            type.content(veq);
+            VisitBy(type, eq);
 
             if (eq.typeInfo != tq.typeInfo) {
                 return 0;
@@ -92,13 +90,11 @@ namespace refract
             }
 
             TypeQueryVisitor tq;
-            Visitor vtq(tq);
-            vtq.visit(*e);
+            Visit(tq, *e);
 
             E type;
             TypeQueryVisitor eq;
-            Visitor veq(eq);
-            type.content(veq);
+            VisitBy(type, eq);
 
             if (eq.typeInfo != tq.typeInfo) {
                 return 0;

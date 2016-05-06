@@ -66,14 +66,12 @@ namespace refract
             for (typename Values::const_iterator it = values.begin(); it != values.end(); ++it) {
                 if (IsFullRender()((*it), generateSourceMap)) {
                     SosSerializeVisitor s(generateSourceMap);
-                    Visitor visitor(s);
-                    visitor.visit(*(*it));
+                    Visit(s, *(*it));
                     array.push(s.get());
                 }
                 else {
                     SosSerializeCompactVisitor s(generateSourceMap);
-                    Visitor visitor(s);
-                    (*it)->content(visitor);
+                    VisitBy(*(*it), s);
                     array.push(s.value());
                 }
             }
@@ -98,20 +96,17 @@ namespace refract
     {
         if (e.value.first) {
             SosSerializeCompactVisitor s(generateSourceMap);
-            Visitor visitor(s);
-            e.value.first->content(visitor);
+            VisitBy(*e.value.first, s);
             key_ = s.value().str;
         }
 
         if (e.value.second) {
             if (!IsFullRender()(e.value.second, generateSourceMap)) {
-                Visitor visitor(*this);
-                e.value.second->content(visitor);
+                VisitBy(*e.value.second, *this);
             }
             else { // value has request to be serialized in Expanded form
                 SosSerializeVisitor s(generateSourceMap);
-                Visitor visitor(s);
-                visitor.visit(*e.value.second);
+                Visit(s, *e.value.second);
                 value_ = s.get();
             }
         }
@@ -130,8 +125,7 @@ namespace refract
 
             for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
                 SosSerializeVisitor s(generateSourceMap);
-                Visitor visitor(s);
-                visitor.visit(*(*it));
+                Visit(s, *(*it));
                 arr.push(s.get());
             }
 
@@ -142,8 +136,7 @@ namespace refract
 
             for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
                 SosSerializeCompactVisitor sv(generateSourceMap);
-                Visitor visitor(sv);
-                (*it)->content(visitor);
+                VisitBy(*(*it), sv);
                 obj.set(sv.key(), sv.value());
             }
 

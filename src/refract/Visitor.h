@@ -109,6 +109,18 @@ namespace refract
 
     };
 
+    template <typename Element, typename Functor>
+    void Visit(Functor& functor, const Element& element) {
+        Visitor visitor(functor);
+        visitor.visit(element);
+    }
+
+    template <typename Element, typename Functor>
+    void VisitBy(const Element& element, Functor& functor) {
+        Visitor visitor(functor);
+        element.content(visitor);
+    }
+
 }; // namespace refract
 
 #endif // #ifndef REFRACT_VISITOR_H

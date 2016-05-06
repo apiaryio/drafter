@@ -31,8 +31,7 @@ namespace refract
             }
 
             RenderJSONVisitor v;
-            Visitor visitor(v);
-            visitor.visit(*(*it));
+            Visit(v, *(*it));
             IElement *e = v.getOwnership();
             e->renderType(IElement::rCompact);
             a->push_back(e);
@@ -167,20 +166,18 @@ namespace refract
 
     void JSONSchemaVisitor::operator()(const IElement& e)
     {
-        Visitor visitor(*this);
-        e.content(visitor);
+        VisitBy(e, *this);
     }
 
     void JSONSchemaVisitor::operator()(const MemberElement& e)
     {
         JSONSchemaVisitor renderer(pDefs);
-        Visitor visitor(renderer);
 
         if (e.value.second) {
             if (IsTypeAttribute(e, "fixed") || fixed) {
                 renderer.setFixed(true);
             }
-            visitor.visit(*e.value.second);
+            Visit(renderer, *e.value.second);
         }
 
         StringElement* str = TypeQueryVisitor::as<StringElement>(e.value.first);
@@ -228,8 +225,7 @@ namespace refract
             StringElement *str = TypeQueryVisitor::as<StringElement>((*i)->value.first);
             if (str) {
                 JSONSchemaVisitor renderer(pDefs, fixed);
-                Visitor visitor(renderer);
-                visitor.visit(*(*i)->value.second);
+                Visit(renderer, *(*i)->value.second);
                 pDefs->push_back(new MemberElement(
                                      str->value,
                                      renderer.getOwnership(),
@@ -255,8 +251,7 @@ namespace refract
             StringElement *str = TypeQueryVisitor::as<StringElement>(props[0]->value.first);
             if (str) {
                 JSONSchemaVisitor renderer(pDefs, fixed);
-                Visitor visitor(renderer);
-                visitor.visit(*props.front()->value.second);
+                Visit(renderer, *props.front()->value.second);
                 pDefs->push_back(new MemberElement(
                                      str->value,
                                      renderer.getOwnership(),
@@ -301,8 +296,7 @@ namespace refract
             }
 
             TypeQueryVisitor type;
-            Visitor visitor(type);
-            visitor.visit(*(*it));
+            Visit(type, *(*it));
 
             switch (type.get()) {
                 case TypeQueryVisitor::Member: {
@@ -322,8 +316,7 @@ namespace refract
                     }
                     else {
                         JSONSchemaVisitor renderer(pDefs, fixed);
-                        Visitor visitor(renderer);
-                        visitor.visit(*(*it));
+                        Visit(renderer, *(*it));
                         ObjectElement *o1 = TypeQueryVisitor::as<ObjectElement>(renderer.get());
                         if (!o1->value.empty()) {
                             MemberElement *m1 = TypeQueryVisitor::as<MemberElement>(o1->value[0]->clone());
@@ -345,8 +338,7 @@ namespace refract
 
                     for (SelectElement::ValueType::const_iterator it = sel->value.begin() ; it != sel->value.end() ; ++it) {
                         JSONSchemaVisitor v(pDefs);
-                        Visitor visitor(v);
-                        (*it)->content(visitor);
+                        VisitBy(*(*it), v);
                         oneOfMembers.push_back(v.getOwnership());
                     }
                 }
@@ -393,11 +385,10 @@ namespace refract
              ++i) {
 
             const std::vector<IElement*>& items = types[*i];
-            JSONSchemaVisitor v(pDefs);
-            Visitor visitor(v);
-            IElement *elm = items.front();
 
-            visitor.visit(*elm);
+            IElement *elm = items.front();
+            JSONSchemaVisitor v(pDefs);
+            Visit(v, *elm);
 
             if (TypeQueryVisitor::as<EnumElement>(elm)){
                 v.addMember("enum", elm->clone());
@@ -426,7 +417,6 @@ namespace refract
         }
 
         JSONSchemaVisitor renderer(pDefs);
-        Visitor visitor(renderer);
         setSchemaType("array");
 
         if (fixed) {
@@ -443,9 +433,7 @@ namespace refract
                     // empty ones
                     if (allEmpty || !(*it)->empty()) {
                         JSONSchemaVisitor v(pDefs, true);
-                        Visitor visitor(v);
-
-                        visitor.visit(*(*it));
+                        Visit(v, *(*it));
                         av.push_back(v.getOwnership());
                     }
                 }
@@ -464,7 +452,7 @@ namespace refract
                  ++it) {
 
                 if (*it && !(*it)->empty()) {
-                    visitor.visit(*(*it));
+                    Visit(renderer, *(*it));
                 }
             }
 
@@ -556,8 +544,7 @@ namespace refract
             return;
         }
 
-        Visitor visitor(*this);
-        visitor.visit(*merged);
+        Visit(*this, *merged);
         delete merged;
     }
 
@@ -572,14 +559,12 @@ namespace refract
             if (SelectElement* sel = TypeQueryVisitor::as<SelectElement>(*it)) {
                 for (SelectElement::ValueType::const_iterator it = sel->value.begin() ; it != sel->value.end() ; ++it) {
                     JSONSchemaVisitor v(pDefs);
-                    Visitor visitor(v);
-                    (*it)->content(visitor);
+                    VisitBy(*(*it), v);
                     oneOfMembers.push_back(v.getOwnership());
                 }
             }
             else {
-                Visitor visitor(*this);
-                visitor.visit(*(*it));
+                Visit(*this, *(*it));
             }
         }
 
@@ -612,8 +597,7 @@ namespace refract
                       IElement::rCompact));
         setSchemaType("object");
 
-        Visitor visitor(*this);
-        visitor.visit(e);
+        Visit(*this, e);
 
         if (!pDefs->empty()) {
             addMember("definitions", pDefs);
@@ -625,9 +609,8 @@ namespace refract
         std::stringstream ss;
         // FIXME: remove SosSerializeCompactVisitor dependency
         SosSerializeCompactVisitor sv(false);
-        Visitor visitorSerialize(sv);
+        VisitBy(*pObj, sv);
 
-        pObj->content(visitorSerialize);
         s.process(sv.value(), ss);
 
         return ss.str();

@@ -11,6 +11,7 @@
 #include <iostream>
 
 #include "PrintVisitor.h"
+#include "Visitor.h"
 
 #define VISIT_IMPL( ELEMENT ) void PrintVisitor::operator()(const ELEMENT ## Element& e) \
     {                                                                    \
@@ -51,8 +52,7 @@ namespace refract
                 i != e.meta.end();
                 ++i) {
 
-                Visitor visitor(*this);
-                visitor.visit(*(*i));
+                refract::Visit(*this, *(*i));
             }
 
             indentOS(indent);
@@ -70,8 +70,7 @@ namespace refract
                 i != e.attributes.end();
                 ++i) {
 
-                Visitor visitor(*this);
-                visitor.visit(*(*i));
+                refract::Visit(*this, *(*i));
             }
 
             indentOS(indent);
@@ -86,8 +85,7 @@ namespace refract
         printMeta(e);
         printAttr(e);
 
-        Visitor visitor(*this);
-        e.content(visitor);
+        VisitBy(e, *this);
     }
 
     void PrintVisitor::operator()(const NullElement& e)
@@ -141,8 +139,7 @@ namespace refract
 
         if (e.value.second) {
             PrintVisitor ps(indent + 1, os);
-            Visitor visitor(ps);
-            visitor.visit(*e.value.second);
+            refract::Visit(ps, *e.value.second);
         }
         indentOS(indent);
         os << "}\n";
@@ -159,9 +156,7 @@ namespace refract
     void PrintVisitor::Visit(const IElement& e)
     {
         PrintVisitor ps;
-        Visitor visitor(ps);
-
-        visitor.visit(e);
+        refract::Visit(ps, e);
     }
 
 }; // namespace refract
