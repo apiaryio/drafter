@@ -9,9 +9,13 @@
 #define REFRACT_VISITORUTILS_H
 
 #include "Element.h"
-#include "Visitors.h"
 #include "Visitor.h"
+
+#include "TypeQueryVisitor.h"
+#include "ComparableVisitor.h"
+
 #include "SourceAnnotation.h"
+
 
 namespace refract
 {

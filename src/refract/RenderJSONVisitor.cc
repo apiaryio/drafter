@@ -11,6 +11,8 @@
 #include <sstream>
 #include "SerializeCompactVisitor.h"
 
+#include "RenderJSONVisitor.h"
+
 namespace refract
 {
 

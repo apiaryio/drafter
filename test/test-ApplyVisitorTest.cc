@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "Visitors.h"
+#include "Visitor.h"
 #include "Element.h"
 #include "Query.h"
 #include "Build.h"

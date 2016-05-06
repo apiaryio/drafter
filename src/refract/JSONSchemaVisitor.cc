@@ -12,6 +12,10 @@
 #include <iostream>
 #include <map>
 
+#include "RenderJSONVisitor.h"
+#include "JSONSchemaVisitor.h"
+#include "SerializeCompactVisitor.h"
+
 namespace refract
 {
 

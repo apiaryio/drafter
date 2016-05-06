@@ -15,6 +15,9 @@
 
 #include "ConversionContext.h"
 
+#include "refract/RenderJSONVisitor.h"
+#include "refract/JSONSchemaVisitor.h"
+
 using namespace snowcrash;
 
 namespace drafter {

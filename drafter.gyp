@@ -57,7 +57,8 @@
         "src/refract/Element.cc",
         "src/refract/ElementFwd.h",
 
-        "src/refract/Visitors.h",
+        "src/refract/Visitor.h",
+
         "src/refract/VisitorUtils.h",
         "src/refract/VisitorUtils.cc",
 
@@ -79,7 +80,6 @@
         "src/refract/PrintVisitor.cc",
         "src/refract/JSONSchemaVisitor.h",
         "src/refract/JSONSchemaVisitor.cc",
-        "src/refract/Visitor.h",
 
         "src/refract/Registry.h",
         "src/refract/Registry.cc",

@@ -19,7 +19,6 @@
 
 #include "refract/Element.h"
 #include "refract/Registry.h"
-#include "refract/Visitors.h"
 
 /** Version of API Blueprint serialization */
 #define AST_SERIALIZATION_VERSION "4.0"

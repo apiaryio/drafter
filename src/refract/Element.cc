@@ -9,9 +9,11 @@
 #include <cassert>
 
 #include <set>
+#include <map>
 #include <string>
 
-#include "Visitors.h"
+#include "ComparableVisitor.h"
+#include "TypeQueryVisitor.h"
 
 namespace refract
 {

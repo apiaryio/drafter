@@ -12,6 +12,8 @@
 
 #include "RefractSourceMap.h"
 #include "refract/VisitorUtils.h"
+#include "refract/ExpandVisitor.h"
+#include "refract/SerializeVisitor.h"
 
 #include "NamedTypesRegistry.h"
 #include "RefractElementFactory.h"

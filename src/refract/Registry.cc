@@ -8,7 +8,8 @@
 
 #include "Registry.h"
 #include "Element.h"
-#include "Visitors.h"
+#include "SerializeCompactVisitor.h"
+#include "TypeQueryVisitor.h"
 
 #include <algorithm>
 

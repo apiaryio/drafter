@@ -10,6 +10,8 @@
 #include <sstream>
 #include <iostream>
 
+#include "PrintVisitor.h"
+
 #define VISIT_IMPL( ELEMENT ) void PrintVisitor::operator()(const ELEMENT ## Element& e) \
     {                                                                    \
         typedef ELEMENT ## Element::ValueType::const_iterator iterator;  \

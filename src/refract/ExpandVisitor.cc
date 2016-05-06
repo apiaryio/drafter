@@ -7,7 +7,6 @@
 //
 
 #include "Element.h"
-#include "Visitors.h"
 #include "Registry.h"
 #include <stack>
 
@@ -16,6 +15,11 @@
 #include <sstream>
 
 #include"SourceAnnotation.h"
+
+#include "IsExpandableVisitor.h"
+#include "ExpandVisitor.h"
+#include "TypeQueryVisitor.h"
+#include "VisitorUtils.h"
 
 #define VISIT_IMPL( ELEMENT ) void ExpandVisitor::operator()(const ELEMENT ## Element& e) { result = Expand(e, context); }
 
