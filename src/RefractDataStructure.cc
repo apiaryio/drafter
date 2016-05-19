@@ -474,6 +474,7 @@ namespace drafter {
 
             template <typename S>
             void operator()(S& storage, const NodeInfo<mson::ValueMember>& valueMember) {
+
                 const mson::BaseTypeName type = SelectNestedTypeSpecification(valueMember.node->valueDefinition.typeDefinition.typeSpecification.nestedTypes);
 
                 const RefractElementFactory& elementFactory = FactoryFromType(type);
@@ -522,8 +523,18 @@ namespace drafter {
 
         void operator ()(const NodeInfo<mson::ValueMember>& valueMember)
         {
+            // silently ignore "value" for ObjectElement e.g.
+            // # A (array)
+            // - key (object)
+            // warning is attached while creating ValueMember in snowcrash
+            if (valueMember.node->valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType ||
+                valueMember.node->valueDefinition.typeDefinition.baseType == mson::ObjectBaseType) {
+                return;
+            }
+
             Fetch<typename T::ValueType> fetch;
             FetchSourceMap<typename T::ValueType> fetchSourceMap;
+
 
             if (!valueMember.node->valueDefinition.values.empty()) {
                 mson::TypeAttributes attrs = valueMember.node->valueDefinition.typeDefinition.attributes;
@@ -679,6 +690,30 @@ namespace drafter {
     }
 
     template <typename T>
+    struct MoveFirstValueToSample {
+       void operator() (const NodeInfo<mson::ValueMember>& value, ElementData<T>& data)
+       {
+       }
+    };
+
+    template <>
+    struct MoveFirstValueToSample<refract::EnumElement> {
+        typedef refract::EnumElement T;
+        void operator()(const NodeInfo<mson::ValueMember>& value, ElementData<T>& data) {
+            if (value.node->valueDefinition.values.empty() || data.values.empty()) {
+                return;
+            }
+
+            T* element = new T(data.values.front());
+            data.samples.insert(data.samples.begin(), element);
+            data.values.erase(data.values.begin());
+
+            // FIXME append source map into "sample"
+            data.valuesSourceMap.erase(data.valuesSourceMap.begin());
+        }
+    };
+
+    template <typename T>
     refract::IElement* RefractElementFromValue(const NodeInfo<mson::ValueMember>& value, ConversionContext& context, const mson::BaseTypeName defaultNestedType)
     {
         using namespace refract;
@@ -703,13 +738,7 @@ namespace drafter {
 
         if (!value.node->valueDefinition.values.empty() && (valuesCount != data.values.size())) {
             // there are some values coming from TypeSections -> move first value into examples
-            ElementType* element = new ElementType;
-            element->set(data.values.front());
-            data.samples.insert(data.samples.begin(), element);
-            data.values.erase(data.values.begin());
-
-            // FIXME append source map into "sample"
-            data.valuesSourceMap.erase(data.valuesSourceMap.begin());
+            MoveFirstValueToSample<T>()(value, data);
         }
 
         TransformElementData(element, data);
