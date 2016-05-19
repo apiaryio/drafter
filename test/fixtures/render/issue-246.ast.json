@@ -1,0 +1,268 @@
+{
+  "_version": "2.2",
+  "ast": {
+    "_version": "4.0",
+    "metadata": [],
+    "name": "",
+    "description": "",
+    "element": "category",
+    "resourceGroups": [
+      {
+        "name": "",
+        "description": "",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "",
+            "description": "",
+            "uriTemplate": "/",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "",
+                "description": "",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "[\n  {\n    \"key1\": \"value1\"\n  },\n  {\n    \"a\": []\n  },\n  []\n]",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "A"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      }
+    ],
+    "content": [
+      {
+        "element": "category",
+        "content": [
+          {
+            "element": "resource",
+            "name": "",
+            "description": "",
+            "uriTemplate": "/",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "",
+                "description": "",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "[\n  {\n    \"key1\": \"value1\"\n  },\n  {\n    \"a\": []\n  },\n  []\n]",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
+                        "content": [
+                          {
+                            "element": "dataStructure",
+                            "content": [
+                              {
+                                "element": "A"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      },
+      {
+        "element": "category",
+        "content": [
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "object",
+                "meta": {
+                  "id": "O"
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "a"
+                      },
+                      "value": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "object"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "array",
+                "meta": {
+                  "id": "A"
+                },
+                "content": [
+                  {
+                    "element": "object",
+                    "content": [
+                      {
+                        "element": "member",
+                        "content": {
+                          "key": {
+                            "element": "string",
+                            "content": "key1"
+                          },
+                          "value": {
+                            "element": "string",
+                            "content": "value1"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "element": "object"
+                  },
+                  {
+                    "element": "O"
+                  },
+                  {
+                    "element": "array",
+                    "content": [
+                      {
+                        "element": "object"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "error": {
+    "code": 0,
+    "message": "",
+    "location": []
+  },
+  "warnings": [
+    {
+      "code": 8,
+      "message": "array member definition of type 'object' contains value. You should use type definition without value eg. '- (object)'",
+      "location": [
+        {
+          "index": 113,
+          "length": 19
+        }
+      ]
+    },
+    {
+      "code": 8,
+      "message": "array member definition of type 'object' contains value. You should use type definition without value eg. '- (object)'",
+      "location": [
+        {
+          "index": 146,
+          "length": 31
+        }
+      ]
+    },
+    {
+      "code": 8,
+      "message": "array member definition of type 'object' contains value. You should use type definition without value eg. '- (object)'",
+      "location": [
+        {
+          "index": 177,
+          "length": 21
+        }
+      ]
+    },
+    {
+      "code": 8,
+      "message": "array member definition of type 'object' contains value. You should use type definition without value eg. '- (object)'",
+      "location": [
+        {
+          "index": 198,
+          "length": 13
+        }
+      ]
+    },
+    {
+      "code": 8,
+      "message": "array member definition of type 'object' contains value. You should use type definition without value eg. '- (object)'",
+      "location": [
+        {
+          "index": 225,
+          "length": 19
+        }
+      ]
+    }
+  ]
+}
