@@ -736,7 +736,7 @@ namespace drafter {
 
         std::for_each(typeSections.begin(), typeSections.end(), ExtractTypeSection<T>(data, context, value));
 
-        if (!value.node->valueDefinition.values.empty() && (valuesCount != data.values.size())) {
+        if (valuesCount != data.values.size()) {
             // there are some values coming from TypeSections -> move first value into examples
             MoveFirstValueToSample<T>()(value, data);
         }
