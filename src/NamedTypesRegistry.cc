@@ -357,7 +357,7 @@ namespace drafter {
             const std::string& name = i->node->name.symbol.literal;
 
             const RefractElementFactory& factory = FactoryFromType(typeInfo.ResolveType(i->node));
-            refract::IElement* element = factory.Create(std::string(), false);
+            refract::IElement* element = factory.Create(std::string(), eValue);
             element->meta["id"] = refract::IElement::Create(name);
 
             context.GetNamedTypesRegistry().add(element);
