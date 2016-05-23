@@ -1,7 +1,7 @@
 #include "RefractElementFactory.h"
 #include "refract/Element.h"
 
-#include "Serialize.h" // LiteraralTo<>
+#include "Serialize.h" // LiteralTo<>
 #include "SourceAnnotation.h" // mson::Error
 
 namespace drafter {
@@ -12,7 +12,7 @@ namespace drafter {
 
         RefractElementFactoryImpl() {}
 
-        virtual refract::IElement* Create(const std::string& literal, bool sample = false) const
+        virtual refract::IElement* Create(const std::string& literal, FactoryCreateMethod method) const
         {
             E* element = new E;
 
@@ -20,13 +20,22 @@ namespace drafter {
                 return element;
             }
 
-            if (sample) {
-                refract::ArrayElement* samples = new refract::ArrayElement;
-                samples->push_back(refract::IElement::Create(LiteralTo<typename E::ValueType>(literal)));
-                element->attributes[SerializeKey::Samples] = samples;
-            }
-            else {
-                element->set(LiteralTo<V>(literal));
+            switch (method) {
+                case eSample: {
+                        refract::ArrayElement* samples = new refract::ArrayElement;
+                        samples->push_back(refract::IElement::Create(LiteralTo<typename E::ValueType>(literal)));
+                        element->attributes[SerializeKey::Samples] = samples;
+                    }
+                    break;
+
+                case eValue:
+                    element->set(LiteralTo<V>(literal));
+                    break;
+
+                case eElement:
+                    element->element(literal);
+                    break;
+                    
             }
 
             return element;
@@ -39,9 +48,9 @@ namespace drafter {
 
         RefractElementFactoryImpl() {}
 
-        virtual refract::IElement* Create(const std::string& literal, bool sample = false) const
+        virtual refract::IElement* Create(const std::string& literal, FactoryCreateMethod method) const
         {
-            if (sample) {
+            if (method == eSample) {
                 refract::StringElement* element = new refract::StringElement;
                 element->element(SerializeKey::Generic);
                 element->set(literal);
@@ -50,16 +59,13 @@ namespace drafter {
 
             E* element = new E;
 
-            if (literal.empty()) {
-                return element;
+            if (!literal.empty()) {
+                element->element(literal);
             }
-
-            element->element(literal);
 
             return element;
         }
     };
-
 
     const RefractElementFactory& FactoryFromType(const mson::BaseTypeName typeName)
     {

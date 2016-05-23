@@ -387,13 +387,15 @@ namespace drafter {
                 RefractElements types;
                 for (mson::TypeNames::const_iterator it = typeNames.begin(); it != typeNames.end(); ++it) {
                     mson::BaseTypeName typeName = it->base;
+                    FactoryCreateMethod method = eValue;
 
                     if (typeName == mson::UndefinedTypeName && !it->symbol.literal.empty()) {
                         typeName = GetMsonTypeFromName(it->symbol.literal, context);
-                    }
+                        method = it->symbol.variable ? eSample : eElement;
+                    } 
 
                     const RefractElementFactory& f = FactoryFromType(typeName);
-                    types.push_back(f.Create(it->symbol.literal, it->symbol.variable));
+                    types.push_back(f.Create(it->symbol.literal, method));
                 }
 
                 values.push_back(types);
@@ -477,14 +479,13 @@ namespace drafter {
 
                 const mson::BaseTypeName type = SelectNestedTypeSpecification(valueMember.node->valueDefinition.typeDefinition.typeSpecification.nestedTypes);
 
-                const RefractElementFactory& elementFactory = FactoryFromType(type);
+                const RefractElementFactory& f = FactoryFromType(type);
                 const mson::Values& values = valueMember.node->valueDefinition.values;
 
                 RefractElements elements;
 
                 for (mson::Values::const_iterator it = values.begin(); it != values.end(); ++it) {
-                    refract::IElement* element = elementFactory.Create(it->literal, it->variable);
-                    elements.push_back(element);
+                    elements.push_back(f.Create(it->literal, it->variable ? eSample : eValue));
                 }
 
                 Store<S>()(storage, elements);
