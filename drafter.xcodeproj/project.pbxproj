@@ -42,12 +42,9 @@
 		19A129BE1B70AC9A00366AA7 /* SerializeCompactVisitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129A61B70AC9A00366AA7 /* SerializeCompactVisitor.h */; };
 		19A129BF1B70AC9A00366AA7 /* SerializeVisitor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A129A71B70AC9A00366AA7 /* SerializeVisitor.cc */; };
 		19A129C01B70AC9A00366AA7 /* SerializeVisitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129A81B70AC9A00366AA7 /* SerializeVisitor.h */; };
-		19A129C11B70AC9A00366AA7 /* Typelist.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129A91B70AC9A00366AA7 /* Typelist.h */; };
 		19A129C21B70AC9A00366AA7 /* TypeQueryVisitor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A129AA1B70AC9A00366AA7 /* TypeQueryVisitor.cc */; };
 		19A129C31B70AC9A00366AA7 /* TypeQueryVisitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129AB1B70AC9A00366AA7 /* TypeQueryVisitor.h */; };
-		19A129C41B70AC9A00366AA7 /* VisitableBy.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129AC1B70AC9A00366AA7 /* VisitableBy.h */; };
 		19A129C51B70AC9A00366AA7 /* Visitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129AD1B70AC9A00366AA7 /* Visitor.h */; };
-		19A129C61B70AC9A00366AA7 /* Visitors.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129AE1B70AC9A00366AA7 /* Visitors.h */; };
 		19A129DF1B70AE2F00366AA7 /* test-cdrafter.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A129C91B70ADC300366AA7 /* test-cdrafter.cc */; };
 		19A129E01B70AE3200366AA7 /* test-drafter.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A129CA1B70ADC300366AA7 /* test-drafter.cc */; };
 		19A129E21B70AE3200366AA7 /* test-RenderTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A129CC1B70ADC300366AA7 /* test-RenderTest.cc */; };
@@ -67,8 +64,6 @@
 		19FD76A91B97216700B160CF /* libsnowcrash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129E71B70AFA600366AA7 /* libsnowcrash.a */; };
 		400F53C61C5989C7004EA235 /* NamedTypesRegistry.cc in Sources */ = {isa = PBXBuildFile; fileRef = 400F53971C5989C7004EA235 /* NamedTypesRegistry.cc */; };
 		400F53C71C5989C7004EA235 /* NamedTypesRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = 400F53981C5989C7004EA235 /* NamedTypesRegistry.h */; };
-		400F53FB1C5989F1004EA235 /* ApplyVisitor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 400F53F41C5989F1004EA235 /* ApplyVisitor.cc */; };
-		400F53FC1C5989F1004EA235 /* ApplyVisitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 400F53F51C5989F1004EA235 /* ApplyVisitor.h */; };
 		400F53FD1C5989F1004EA235 /* Build.h in Headers */ = {isa = PBXBuildFile; fileRef = 400F53F61C5989F1004EA235 /* Build.h */; };
 		400F53FE1C5989F1004EA235 /* ElementFwd.h in Headers */ = {isa = PBXBuildFile; fileRef = 400F53F71C5989F1004EA235 /* ElementFwd.h */; };
 		400F53FF1C5989F1004EA235 /* ElementInserter.h in Headers */ = {isa = PBXBuildFile; fileRef = 400F53F81C5989F1004EA235 /* ElementInserter.h */; };
@@ -96,6 +91,7 @@
 		40DDBDD71BE14EA700B10819 /* RefractSourceMap.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40DDBDD41BE14EA700B10819 /* RefractSourceMap.cc */; };
 		40DDBDD81BE14EA700B10819 /* RefractSourceMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 40DDBDD51BE14EA700B10819 /* RefractSourceMap.h */; };
 		40DDBDDA1BE14EE700B10819 /* test-RefractSourceMapTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40DDBDD91BE14EE700B10819 /* test-RefractSourceMapTest.cc */; };
+		40E6DFA11CF494FE009B3FF3 /* test-OneOfTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40E6DFA01CF494FE009B3FF3 /* test-OneOfTest.cc */; };
 		40EF03D51B7210F300865990 /* RefractDataStructure.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40EF03D31B7210F300865990 /* RefractDataStructure.cc */; };
 		40EF03D61B7210F300865990 /* RefractDataStructure.h in Headers */ = {isa = PBXBuildFile; fileRef = 40EF03D41B7210F300865990 /* RefractDataStructure.h */; };
 		40EF03D91B72134000865990 /* RefractAPI.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40EF03D71B72134000865990 /* RefractAPI.cc */; };
@@ -174,12 +170,9 @@
 		19A129A61B70AC9A00366AA7 /* SerializeCompactVisitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SerializeCompactVisitor.h; path = src/refract/SerializeCompactVisitor.h; sourceTree = SOURCE_ROOT; };
 		19A129A71B70AC9A00366AA7 /* SerializeVisitor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SerializeVisitor.cc; path = src/refract/SerializeVisitor.cc; sourceTree = SOURCE_ROOT; };
 		19A129A81B70AC9A00366AA7 /* SerializeVisitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SerializeVisitor.h; path = src/refract/SerializeVisitor.h; sourceTree = SOURCE_ROOT; };
-		19A129A91B70AC9A00366AA7 /* Typelist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Typelist.h; path = src/refract/Typelist.h; sourceTree = SOURCE_ROOT; };
 		19A129AA1B70AC9A00366AA7 /* TypeQueryVisitor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TypeQueryVisitor.cc; path = src/refract/TypeQueryVisitor.cc; sourceTree = SOURCE_ROOT; };
 		19A129AB1B70AC9A00366AA7 /* TypeQueryVisitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TypeQueryVisitor.h; path = src/refract/TypeQueryVisitor.h; sourceTree = SOURCE_ROOT; };
-		19A129AC1B70AC9A00366AA7 /* VisitableBy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisitableBy.h; path = src/refract/VisitableBy.h; sourceTree = SOURCE_ROOT; };
 		19A129AD1B70AC9A00366AA7 /* Visitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Visitor.h; path = src/refract/Visitor.h; sourceTree = SOURCE_ROOT; };
-		19A129AE1B70AC9A00366AA7 /* Visitors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Visitors.h; path = src/refract/Visitors.h; sourceTree = SOURCE_ROOT; };
 		19A129C81B70ADC300366AA7 /* draftertest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = draftertest.h; path = test/draftertest.h; sourceTree = "<group>"; };
 		19A129C91B70ADC300366AA7 /* test-cdrafter.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-cdrafter.cc"; path = "test/test-cdrafter.cc"; sourceTree = "<group>"; };
 		19A129CA1B70ADC300366AA7 /* test-drafter.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-drafter.cc"; path = "test/test-drafter.cc"; sourceTree = "<group>"; };
@@ -196,8 +189,6 @@
 		19FD769D1B9720CB00B160CF /* drafter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = drafter; sourceTree = BUILT_PRODUCTS_DIR; };
 		400F53971C5989C7004EA235 /* NamedTypesRegistry.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NamedTypesRegistry.cc; path = src/NamedTypesRegistry.cc; sourceTree = SOURCE_ROOT; };
 		400F53981C5989C7004EA235 /* NamedTypesRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NamedTypesRegistry.h; path = src/NamedTypesRegistry.h; sourceTree = SOURCE_ROOT; };
-		400F53F41C5989F1004EA235 /* ApplyVisitor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ApplyVisitor.cc; path = src/refract/ApplyVisitor.cc; sourceTree = SOURCE_ROOT; };
-		400F53F51C5989F1004EA235 /* ApplyVisitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApplyVisitor.h; path = src/refract/ApplyVisitor.h; sourceTree = SOURCE_ROOT; };
 		400F53F61C5989F1004EA235 /* Build.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Build.h; path = src/refract/Build.h; sourceTree = SOURCE_ROOT; };
 		400F53F71C5989F1004EA235 /* ElementFwd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ElementFwd.h; path = src/refract/ElementFwd.h; sourceTree = SOURCE_ROOT; };
 		400F53F81C5989F1004EA235 /* ElementInserter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ElementInserter.h; path = src/refract/ElementInserter.h; sourceTree = SOURCE_ROOT; };
@@ -225,6 +216,7 @@
 		40DDBDD41BE14EA700B10819 /* RefractSourceMap.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractSourceMap.cc; path = src/RefractSourceMap.cc; sourceTree = SOURCE_ROOT; };
 		40DDBDD51BE14EA700B10819 /* RefractSourceMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefractSourceMap.h; path = src/RefractSourceMap.h; sourceTree = SOURCE_ROOT; };
 		40DDBDD91BE14EE700B10819 /* test-RefractSourceMapTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-RefractSourceMapTest.cc"; path = "test/test-RefractSourceMapTest.cc"; sourceTree = "<group>"; };
+		40E6DFA01CF494FE009B3FF3 /* test-OneOfTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-OneOfTest.cc"; path = "test/test-OneOfTest.cc"; sourceTree = "<group>"; };
 		40EF03D31B7210F300865990 /* RefractDataStructure.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractDataStructure.cc; path = src/RefractDataStructure.cc; sourceTree = SOURCE_ROOT; };
 		40EF03D41B7210F300865990 /* RefractDataStructure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefractDataStructure.h; path = src/RefractDataStructure.h; sourceTree = SOURCE_ROOT; };
 		40EF03D71B72134000865990 /* RefractAPI.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefractAPI.cc; path = src/RefractAPI.cc; sourceTree = SOURCE_ROOT; };
@@ -295,6 +287,7 @@
 				400F54031C598A35004EA235 /* test-CircularReferenceTest.cc */,
 				4093675D1CBB90DE0065A78A /* test-ElementFactoryTest.cc */,
 				40AEF8201CB80C4F000A0DEE /* test-ExtendElementTest.cc */,
+				40E6DFA01CF494FE009B3FF3 /* test-OneOfTest.cc */,
 				40EF03DB1B72135E00865990 /* test-RefractAPITest.cc */,
 				40EF03DC1B72135E00865990 /* test-RefractDataStructureTest.cc */,
 				40AEEC3C1BB60CB6005866DD /* test-RefractParseResultTest.cc */,
@@ -311,8 +304,6 @@
 			isa = PBXGroup;
 			children = (
 				19A129971B70AC9A00366AA7 /* AppendDecorator.h */,
-				400F53F41C5989F1004EA235 /* ApplyVisitor.cc */,
-				400F53F51C5989F1004EA235 /* ApplyVisitor.h */,
 				400F53F61C5989F1004EA235 /* Build.h */,
 				19A129981B70AC9A00366AA7 /* ComparableVisitor.cc */,
 				19A129991B70AC9A00366AA7 /* ComparableVisitor.h */,
@@ -339,12 +330,9 @@
 				19A129A61B70AC9A00366AA7 /* SerializeCompactVisitor.h */,
 				19A129A71B70AC9A00366AA7 /* SerializeVisitor.cc */,
 				19A129A81B70AC9A00366AA7 /* SerializeVisitor.h */,
-				19A129A91B70AC9A00366AA7 /* Typelist.h */,
 				19A129AA1B70AC9A00366AA7 /* TypeQueryVisitor.cc */,
 				19A129AB1B70AC9A00366AA7 /* TypeQueryVisitor.h */,
-				19A129AC1B70AC9A00366AA7 /* VisitableBy.h */,
 				19A129AD1B70AC9A00366AA7 /* Visitor.h */,
-				19A129AE1B70AC9A00366AA7 /* Visitors.h */,
 				400FFA071C1B0DBB006A4CE0 /* VisitorUtils.cc */,
 				40D03D4C1C182FBD008AD2EF /* VisitorUtils.h */,
 			);
@@ -448,14 +436,12 @@
 				19A129B61B70AC9A00366AA7 /* ExpandVisitor.h in Headers */,
 				400F53FE1C5989F1004EA235 /* ElementFwd.h in Headers */,
 				19A129891B70ABE100366AA7 /* reporting.h in Headers */,
-				400F53FC1C5989F1004EA235 /* ApplyVisitor.h in Headers */,
 				400F53FD1C5989F1004EA235 /* Build.h in Headers */,
 				40D03D4F1C182FBD008AD2EF /* VisitorUtils.h in Headers */,
 				19A129B81B70AC9A00366AA7 /* IsExpandableVisitor.h in Headers */,
 				19A129911B70ABE100366AA7 /* SerializeSourcemap.h in Headers */,
 				19A129AF1B70AC9A00366AA7 /* AppendDecorator.h in Headers */,
 				40DDBDD81BE14EA700B10819 /* RefractSourceMap.h in Headers */,
-				19A129C61B70AC9A00366AA7 /* Visitors.h in Headers */,
 				19A129931B70ABE100366AA7 /* Version.h in Headers */,
 				19A1298D1B70ABE100366AA7 /* SerializeAST.h in Headers */,
 				19A129921B70ABE100366AA7 /* stream.h in Headers */,
@@ -468,7 +454,6 @@
 				400F54011C5989F1004EA235 /* Query.h in Headers */,
 				40D03D4E1C182FBD008AD2EF /* PrintVisitor.h in Headers */,
 				40EF03D61B7210F300865990 /* RefractDataStructure.h in Headers */,
-				19A129C11B70AC9A00366AA7 /* Typelist.h in Headers */,
 				19A129C31B70AC9A00366AA7 /* TypeQueryVisitor.h in Headers */,
 				19A129C51B70AC9A00366AA7 /* Visitor.h in Headers */,
 				19A1297F1B70ABE100366AA7 /* cdrafter.h in Headers */,
@@ -477,7 +462,6 @@
 				19A129BE1B70AC9A00366AA7 /* SerializeCompactVisitor.h in Headers */,
 				400FFA091C1B0DBB006A4CE0 /* JSONSchemaVisitor.h in Headers */,
 				4038935E1CBFC1D400D01E17 /* ConversionContext.h in Headers */,
-				19A129C41B70AC9A00366AA7 /* VisitableBy.h in Headers */,
 				19A1298F1B70ABE100366AA7 /* SerializeResult.h in Headers */,
 				19A129B11B70AC9A00366AA7 /* ComparableVisitor.h in Headers */,
 				40AEF81E1CB80C32000A0DEE /* RefractElementFactory.h in Headers */,
@@ -613,6 +597,7 @@
 				40DDBDDA1BE14EE700B10819 /* test-RefractSourceMapTest.cc in Sources */,
 				19A129DF1B70AE2F00366AA7 /* test-cdrafter.cc in Sources */,
 				403893641CC0007F00D01E17 /* test-SerializeSourceMapTest.cc in Sources */,
+				40E6DFA11CF494FE009B3FF3 /* test-OneOfTest.cc in Sources */,
 				400FFA0C1C1B0E12006A4CE0 /* test-SchemaTest.cc in Sources */,
 				19A129E21B70AE3200366AA7 /* test-RenderTest.cc in Sources */,
 				40EF03DD1B72135E00865990 /* test-RefractAPITest.cc in Sources */,
@@ -657,7 +642,6 @@
 				19A1298E1B70ABE100366AA7 /* SerializeResult.cc in Sources */,
 				400F53C61C5989C7004EA235 /* NamedTypesRegistry.cc in Sources */,
 				400FFA0A1C1B0DBB006A4CE0 /* VisitorUtils.cc in Sources */,
-				400F53FB1C5989F1004EA235 /* ApplyVisitor.cc in Sources */,
 				19A129B01B70AC9A00366AA7 /* ComparableVisitor.cc in Sources */,
 				19A1298A1B70ABE100366AA7 /* Serialize.cc in Sources */,
 			);
