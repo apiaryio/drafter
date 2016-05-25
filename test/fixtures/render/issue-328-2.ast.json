@@ -1,0 +1,90 @@
+{
+  "_version": "2.2",
+  "ast": {
+    "_version": "4.0",
+    "metadata": [],
+    "name": "API",
+    "description": "",
+    "element": "category",
+    "resourceGroups": [
+      {
+        "name": "",
+        "description": "",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "C",
+            "description": "### Add C(`[POST\n",
+            "uriTemplate": "/c",
+            "model": {},
+            "parameters": [],
+            "actions": [],
+            "content": [
+              {
+                "element": "dataStructure",
+                "content": [
+                  {
+                    "element": "C",
+                    "meta": {
+                      "id": "C"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "content": [
+      {
+        "element": "category",
+        "content": [
+          {
+            "element": "resource",
+            "name": "C",
+            "description": "### Add C(`[POST\n",
+            "uriTemplate": "/c",
+            "model": {},
+            "parameters": [],
+            "actions": [],
+            "content": [
+              {
+                "element": "dataStructure",
+                "content": [
+                  {
+                    "element": "C",
+                    "meta": {
+                      "id": "C"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "element": "category",
+        "content": []
+      }
+    ]
+  },
+  "error": {
+    "code": 0,
+    "message": "",
+    "location": []
+  },
+  "warnings": [
+    {
+      "code": 2,
+      "message": "named type with name 'C' already exists",
+      "location": [
+        {
+          "index": 73,
+          "length": 15
+        }
+      ]
+    }
+  ]
+}

@@ -289,7 +289,7 @@ namespace drafter {
                     }
 
                     InheritanceMap::const_iterator i = childToParent.find(s);
-                    if (i == childToParent.end()) {
+                    if (i == childToParent.end() || (s == i->second)) {
                         return mson::UndefinedTypeName;
                     }
 

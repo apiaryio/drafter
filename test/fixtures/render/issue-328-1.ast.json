@@ -1,0 +1,86 @@
+{
+  "_version": "2.2",
+  "ast": {
+    "_version": "4.0",
+    "metadata": [],
+    "name": "",
+    "description": "",
+    "element": "category",
+    "resourceGroups": [
+      {
+        "name": "",
+        "description": "",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "C",
+            "description": "### Add C([POST])\n\n",
+            "uriTemplate": "/c",
+            "model": {},
+            "parameters": [],
+            "actions": [],
+            "content": [
+              {
+                "element": "dataStructure",
+                "content": [
+                  {
+                    "element": "C",
+                    "meta": {
+                      "id": "C"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "content": [
+      {
+        "element": "category",
+        "content": [
+          {
+            "element": "resource",
+            "name": "C",
+            "description": "### Add C([POST])\n\n",
+            "uriTemplate": "/c",
+            "model": {},
+            "parameters": [],
+            "actions": [],
+            "content": [
+              {
+                "element": "dataStructure",
+                "content": [
+                  {
+                    "element": "C",
+                    "meta": {
+                      "id": "C"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "error": {
+    "code": 0,
+    "message": "",
+    "location": []
+  },
+  "warnings": [
+    {
+      "code": 8,
+      "message": "unable to find the symbol `C` in the list of named types",
+      "location": [
+        {
+          "index": 32,
+          "length": 15
+        }
+      ]
+    }
+  ]
+}

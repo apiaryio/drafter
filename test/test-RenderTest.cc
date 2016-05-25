@@ -38,3 +38,6 @@ TEST_AST("render", "object-array-string");
 TEST_AST("render", "issue-246");
 TEST_AST("render", "issue-318");
 TEST_AST("render", "issue-312");
+
+TEST_AST("render", "issue-328-1");
+TEST_AST("render", "issue-328-2");
