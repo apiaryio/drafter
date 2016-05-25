@@ -2,13 +2,15 @@
   "includes": [
     "ext/snowcrash/common.gypi"
   ],
+
+# LIBSOS  
   "targets" : [
     {
       'target_name': 'libsos',
       'type': 'static_library',
-      'include_dirs': [
-        'ext/sos/src'
-      ],
+      'direct_dependent_settings' : {
+          'include_dirs': [ 'ext/sos/src' ],
+      },
       'sources': [
         'ext/sos/src/sos.cc',
         'ext/sos/src/sos.h',
@@ -16,9 +18,20 @@
         'ext/sos/src/sosYAML.h'
       ]
     },
+
+# LIBDRAFTER  
     {
       "target_name": "libdrafter",
       'type': '<(libdrafter_type)',
+      'direct_dependent_settings' : {
+          'include_dirs': [
+            'src',
+          ],
+      },
+      'export_dependent_settings': [
+        'libsos',
+        'ext/snowcrash/snowcrash.gyp:libsnowcrash',
+      ],
       "sources": [
         "src/drafter.h",
         "src/drafter.cc",
@@ -91,31 +104,20 @@
         "src/refract/Query.h",
         "src/refract/Iterate.h",
       ],
-      # FIXME: replace by direct dependecies
-      "include_dirs": [
-        "ext/snowcrash/ext/markdown-parser/src",
-        "ext/snowcrash/ext/markdown-parser/ext/sundown/src",
-        "ext/sos/src",
-        "ext/snowcrash/src",
-      ],
       "dependencies": [
         "libsos",
         "ext/snowcrash/snowcrash.gyp:libsnowcrash",
       ],
     },
+
+# TESTLIBDRAFTER
     {
       'target_name': 'test-libdrafter',
       'type': 'executable',
       'include_dirs': [
-        'src',
-        'src/refract',
-        'test',
         'test/vendor/Catch/include',
         'test/vendor/dtl/dtl',
-        "ext/snowcrash/src",
-        "ext/snowcrash/ext/markdown-parser/src",
-        "ext/snowcrash/ext/markdown-parser/ext/sundown/src",
-        "ext/sos/src",
+        'src/refract',
       ],
       'sources': [
         "test/test-drafter.cc",
@@ -141,6 +143,8 @@
          [ 'OS=="win"', { 'defines' : [ 'WIN' ] } ]
       ],
     },
+
+# DRAFTER    
     {
       "target_name": "drafter",
       "type": "executable",
@@ -154,10 +158,6 @@
       # FIXME: replace by direct dependecies
       "include_dirs": [
         "ext/cmdline",
-        "ext/snowcrash/ext/markdown-parser/src",
-        "ext/snowcrash/ext/markdown-parser/ext/sundown/src",
-        "ext/sos/src",
-        "ext/snowcrash/src",
       ],
       "dependencies": [
         "libdrafter",
