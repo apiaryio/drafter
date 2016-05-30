@@ -68,7 +68,7 @@ namespace draftertest {
     public:
         ITFixtureFiles(const std::string& base) : base_(base) {}
 
-        typedef std::auto_ptr<std::istream> input_stream_type;
+        typedef std::unique_ptr<std::istream> input_stream_type;
 
         const std::string fetchContent(const std::string& filename) const {
 
