@@ -55,7 +55,7 @@ int main(int argc, const char *argv[])
     ParseCommadLineOptions(argc, argv, config);
 
     std::stringstream inputStream;
-    std::auto_ptr<std::istream> in(CreateStreamFromName<std::istream>(config.input));
+    std::unique_ptr<std::istream> in(CreateStreamFromName<std::istream>(config.input));
     inputStream << in->rdbuf();
 
     sc::ParseResult<sc::Blueprint> blueprint;

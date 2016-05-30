@@ -110,7 +110,7 @@ template<typename T> struct fstream_io_selector{
  *  \brief return pointer to readable/writable stream or report error and exit()
  *
  *  free allocated memory must be released by calling `delete`
- *  optionaly you can use std::auto_ptr<>
+ *  optionaly you can use std::unique_ptr<>
  *
  *  return is based on \template param T (must be std::ostream or std::istream)
  *
