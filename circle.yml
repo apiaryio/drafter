@@ -18,7 +18,7 @@ dependencies:
   cache_directories:
     - "~/docker"
   pre:
-    - sudo apt-get install valgrind
+    - sudo apt-get update && sudo apt-get install valgrind
     - if [[ ! -f ~/docker/emscripten.tar ]]; then mkdir -p ~/docker &&
       docker pull "apiaryio/base-emscripten-dev" &&
       docker save "apiaryio/base-emscripten-dev" > ~/docker/emscripten.tar;
