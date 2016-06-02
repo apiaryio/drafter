@@ -1,8 +1,34 @@
 # Drafter Changelog
 
-## Master
+## 2.4.0
+
+Drafter now uses C++11. The following compiler versions are supported:
+
+- Microsoft Visual C++ 2013 or higher
+- GCC 4.8 or higher
+- Clang 3.5 or higher
+
+### Bug Fixes
+
+* Correctly render named primitive types when used as a nested or member
+  type such as `items (array[Other Type])` in JSON.
+  [#312](https://github.com/apiaryio/drafter/issues/312)
+
+* Fixes an issue where defining an implicit object data structure would raise
+  an invalid syntax warning and not be parsed.
+  [#318](https://github.com/apiaryio/drafter/issues/318)
+
+* Prevent causing an infinite loop when parsing a resource which inherits from
+  itself.
+  [#328](https://github.com/apiaryio/drafter/issues/328)
+
+* Correctly parse object samples within arrays.
+  [#246](https://github.com/apiaryio/drafter/issues/246)
+
 
 ## 2.3.1
+
+### Bug Fixes
 
 * Fixes a bug when a referenced mixin inherits another named type
   [#254](https://github.com/apiaryio/drafter/issues/254)
@@ -12,6 +38,7 @@
 * Fixes "One Of" JSON rendering. This fix does not include JSON schema
   for multiple `One of` definition in MSON object.
   [#288](https://github.com/apiaryio/drafter/issues/288)
+
 
 ## 2.3.0
 
