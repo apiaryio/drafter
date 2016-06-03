@@ -15,3 +15,4 @@ TEST_REFRACT("parse-result", "warning");
 TEST_REFRACT("parse-result", "warnings");
 TEST_REFRACT("parse-result", "error-warning");
 TEST_REFRACT("parse-result", "blueprint");
+TEST_REFRACT("parse-result", "mson");

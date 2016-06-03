@@ -752,14 +752,7 @@ sourcemap:
                             - 32
                       body: []
                       schema: []
-                      content:
-                        -
-                          name: []
-                          typeDefinition:
-                            -
-                              - 1518
-                              - 35
-                          sections: []
+                      content: []
               attributes:
                 relation:
                   -
@@ -767,32 +760,7 @@ sourcemap:
                     - 24
                 uriTemplate: []
               content: []
-          content:
-            -
-              name:
-                -
-                  - 104
-                  - 43
-              typeDefinition:
-                -
-                  - 173
-                  - 20
-              sections:
-                -
-                  -
-                    name:
-                      -
-                        - 200
-                        - 102
-                    description:
-                      -
-                        - 200
-                        - 102
-                    valueDefinition:
-                      -
-                        - 200
-                        - 102
-                    sections: []
+          content: []
   content:
     -
       attributes:
@@ -1102,14 +1070,7 @@ sourcemap:
                             - 32
                       body: []
                       schema: []
-                      content:
-                        -
-                          name: []
-                          typeDefinition:
-                            -
-                              - 1518
-                              - 35
-                          sections: []
+                      content: []
               attributes:
                 relation:
                   -
@@ -1117,60 +1078,7 @@ sourcemap:
                     - 24
                 uriTemplate: []
               content: []
-          content:
-            -
-              name:
-                -
-                  - 104
-                  - 43
-              typeDefinition:
-                -
-                  - 173
-                  - 20
-              sections:
-                -
-                  -
-                    name:
-                      -
-                        - 200
-                        - 102
-                    description:
-                      -
-                        - 200
-                        - 102
-                    valueDefinition:
-                      -
-                        - 200
-                        - 102
-                    sections: []
-    -
-      content:
-        -
-          name:
-            -
-              - 1573
-              - 25
-          typeDefinition: []
-          sections:
-            -
-              -
-                - 1598
-                - 30
-            -
-              -
-                name:
-                  -
-                    - 1645
-                    - 117
-                description:
-                  -
-                    - 1645
-                    - 117
-                valueDefinition:
-                  -
-                    - 1645
-                    - 117
-                sections: []
+          content: []
 error:
   code: 0
   message: ""
