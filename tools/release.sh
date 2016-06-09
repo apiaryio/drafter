@@ -15,6 +15,3 @@ $GITHUB_RELEASE release -u apiaryio -r drafter --tag $TAG
 TARBALL=drafter-$TAG.tar.gz
 ./tools/make-tarball.sh $TAG
 $GITHUB_RELEASE upload -u apiaryio -r drafter --tag $TAG --name $TARBALL --file $TARBALL
-
-# Create emcc release
-./emcc/release.sh $GITHUB_RELEASE
