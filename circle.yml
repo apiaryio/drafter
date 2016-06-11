@@ -1,7 +1,5 @@
 general:
   artifacts:
-  - emcc/drafter.js
-  - emcc/drafter.js.mem
   - memcheck.log
 
 machine:
@@ -15,15 +13,8 @@ checkout:
     - git submodule update --init --recursive
 
 dependencies:
-  cache_directories:
-    - "~/docker"
   pre:
     - sudo apt-get update && sudo apt-get install valgrind
-    - if [[ ! -f ~/docker/emscripten.tar ]]; then mkdir -p ~/docker &&
-      docker pull "apiaryio/base-emscripten-dev" &&
-      docker save "apiaryio/base-emscripten-dev" > ~/docker/emscripten.tar;
-      else docker load -i ~/docker/emscripten.tar; fi
-    - npm install
 
 test:
   pre:
@@ -31,9 +22,6 @@ test:
   override:
     - env CXXFLAGS="-Werror" make test
     - valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --error-exitcode=1 ./bin/test-libdrafter 2> memcheck.log
-    - docker run -v $(pwd):/src -t apiaryio/base-emscripten-dev emcc/emcbuild.sh
-    - npm test
-
 
 deployment:
   release:
