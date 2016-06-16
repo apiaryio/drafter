@@ -145,6 +145,16 @@ struct Fixture {
         ;
     }
 
+    static IElement* ObjectWithChild()
+    {
+        return Build(new ObjectElement)
+                    ("m1", IElement::Create("Str1"))
+                    ("m2", Build(new ObjectElement)
+                                ("m2.1", IElement::Create("Str2/1"))
+                                ("m2.2", new NullElement))
+        ;
+    }
+
     static IElement* SimpleArray()
     {
         return Build(new ArrayElement)
@@ -153,9 +163,21 @@ struct Fixture {
                     (IElement::Create("3"))
         ;
     }
+
+    static IElement* ArrayWithChild()
+    {
+        return Build(new ArrayElement)
+                    (IElement::Create("1"))
+                    (Build(new ArrayElement())
+                        (IElement::Create(1))
+                        (IElement::Create(2))
+                    )
+                    (IElement::Create("3"))
+        ;
+    }
 };
 
-TEST_CASE("Matcher with Is<>","[Visitor]")
+TEST_CASE("Iterate<Recursive>","[Visitor]")
 {
     IElement* e = Fixture::SimpleArray();
 
@@ -163,9 +185,51 @@ TEST_CASE("Matcher with Is<>","[Visitor]")
     Iterate<> i(f);
     i(*e);
 
-    REQUIRE(f.GCounter == 2); // array + number
+    REQUIRE(f.GCounter == 2); // root array + number
     REQUIRE(f.SCounter == 2); // there are two strings
 
     delete e;
 }
 
+TEST_CASE("Iterate<Children> on array","[Visitor]")
+{
+    IElement* e = Fixture::ArrayWithChild();
+
+    Functor f;
+    Iterate<Children> i(f);
+    i(*e);
+
+    REQUIRE(f.GCounter == 1); // embeded array
+    REQUIRE(f.SCounter == 2); // there are two strings
+
+    delete e;
+}
+
+TEST_CASE("Iterate<Children> on object","[Visitor]")
+{
+    IElement* e = Fixture::ObjectWithChild();
+
+    Functor f;
+    Iterate<Children> i(f);
+    i(*e);
+
+    REQUIRE(f.GCounter == 2); // 2 members
+    REQUIRE(f.SCounter == 0); // there are two strings
+
+    delete e;
+}
+
+TEST_CASE("Iterate<Children> on string","[Visitor]")
+{
+    IElement* e = IElement::Create("string");
+
+    Functor f;
+    Iterate<Children> i(f);
+    i(*e);
+
+    // Functor is not invoked because string has no children
+    REQUIRE(f.GCounter == 0);
+    REQUIRE(f.SCounter == 0);
+
+    delete e;
+}
