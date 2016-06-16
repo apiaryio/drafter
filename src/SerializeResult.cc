@@ -94,7 +94,7 @@ namespace helper {
     };
 }
 
-refract::IElement* WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
+refract::IElement* drafter::WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
                                    ConversionContext& context)
 {
     snowcrash::Error error;

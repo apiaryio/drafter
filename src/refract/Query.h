@@ -18,20 +18,27 @@ namespace refract
         template <typename T>
         class Is {
 
-            bool is;
+        public:
+
+            bool operator()(const IElement& e) {
+                return false;
+            }
+
+            bool operator()(const T& e) {
+                return true;
+            }
+        };
+
+        class ByName {
+            const std::string& name;
 
         public:
 
-            Is() : is(false) {}
+            ByName(const std::string& name) : name(name) {}
 
-            void operator()(const IElement& e) {} 
-
-            void operator()(const T& e) {
-                is = true;
-            }
-
-            operator bool() const {
-                return is;
+            bool operator()(const IElement& e) {
+                return false;
+                //return e.element() == name;
             }
         };
 

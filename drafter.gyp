@@ -64,6 +64,9 @@
         "src/RefractElementFactory.cc",
         "src/ConversionContext.h",
 
+        "src/API.h",
+        "src/API.cc",
+
         # librefract parts - will be separated into other project
 
         "src/refract/Element.h",
