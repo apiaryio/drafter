@@ -1036,6 +1036,11 @@ namespace drafter {
             element->meta[SerializeKey::Id] = PrimitiveToRefract(MakeNodeInfo(ds.node->name.symbol.literal, sourceMap));
         }
 
+        // there is no source map for attributes
+        if (refract::IElement* attributes = MsonTypeAttributesToRefract(ds.node->typeDefinition.attributes)) {
+            element->attributes[SerializeKey::TypeAttributes] = attributes;
+        }
+
         ElementData<T> data;
 
         ExtractTypeDefinition<ElementType> extd(data, context);
