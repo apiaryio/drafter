@@ -287,6 +287,10 @@ namespace refract
 
         o->renderType(IElement::rCompact);
 
+        if (IsTypeAttribute(e, "fixed")) {
+            fixed = true;
+        }
+
         for (std::vector<refract::IElement*>::const_iterator it = val.begin();
              it != val.end();
              ++it) {
@@ -418,6 +422,10 @@ namespace refract
 
         JSONSchemaVisitor renderer(pDefs);
         setSchemaType("array");
+
+        if (IsTypeAttribute(e, "fixed")) {
+            fixed = true;
+        }
 
         if (fixed) {
             ArrayElement::ValueType av;

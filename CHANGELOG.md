@@ -12,6 +12,10 @@
   * GCC 4.8 or higher
   * Clang 3.5 or higher
 
+### Enhancements
+
+* Improve error messages for a few blueprint errors
+
 ### Bug Fixes
 
 * Correctly render named primitive types when used as a nested or member
@@ -29,6 +33,7 @@
 * Correctly parse object samples within arrays.
   [#246](https://github.com/apiaryio/drafter/issues/246)
 
+* Correctly render JSON Schema when `fixed` is used on attributes section or named type [mson#60](https://github.com/apiaryio/mson/issues/60)
 
 ## 2.3.1
 
