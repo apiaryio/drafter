@@ -5,6 +5,7 @@
 #include "refract/Element.h"
 #include "refract/FilterVisitor.h"
 #include "refract/Query.h"
+#include "refract/Iterate.h"
 
 
 #include "SerializeResult.h" // FIXME: remove - actualy required by WrapParseResultRefract()
@@ -17,19 +18,31 @@
 
 #include "ConversionContext.h"
 
+#include "Version.h"
+
 #include <string.h>
 
+#include <assert.h>
+
 DRAFTER_API int drafter_parse_blueprint_to(const char* source,
-                               const char ** out,
-                               drafter_options options) {
+                                           const char ** out,
+                                           drafter_options options) {
+
+    assert(source);
+    assert(out);
+
+    if (!source || !out) {
+        return -1;
+    }
 
     drafter_result* result = nullptr;
     *out = nullptr;
 
     int ret = drafter_parse_blueprint(source, &result);
 
+    assert(result);
+
     if (!result) {
-        // FIXME: there is no parse result
         return -1;
     }
 
@@ -46,8 +59,11 @@ namespace sc = snowcrash;
  * later use*/
 DRAFTER_API int drafter_parse_blueprint(const char* source, drafter_result** out) {
 
+    assert(source);
+    assert(out);
+
     if (!source) {
-        // FIXME: no source code
+        return -1;
     }
 
     sc::ParseResult<sc::Blueprint> blueprint;
@@ -92,8 +108,10 @@ namespace { // FIXME: cut'n'paste from main.cc - duplicity
 /* Serialize result to given format*/
 DRAFTER_API const char* drafter_serialize(drafter_result *res, drafter_options options) {
 
+    assert(res);
+
     if (!res) {
-        // FIXME: nothing to seralize
+        return nullptr;
     }
 
     drafter::WrapperOptions woptions(drafter::RefractASTType, options.sourcemap);
@@ -114,23 +132,39 @@ DRAFTER_API const char* drafter_serialize(drafter_result *res, drafter_options o
  * document is error and warning free.*/
 DRAFTER_API drafter_result* drafter_check_blueprint(const char* source) {
 
+    assert(source);
+    if (!source) {
+        return nullptr;
+    }
+
     drafter_result* result = nullptr;
 
-    int ret = drafter_parse_blueprint(source, &result);
+    drafter_parse_blueprint(source, &result);
 
     if (!result) {
-        // FIXME: there is no parse result
         return result;
     }
 
-    refract::FilterVisitor filter(refract::query::ByName("annotation"));
-    //refract::FilterVisitor filter;
-    refract::Visit(filter, *result);
-    //drafter_result* annotations = drafter_result->content(filter);
+    drafter_result* out = nullptr;
+
+    refract::FilterVisitor filter(refract::query::Element("annotation"));
+    refract::Iterate<refract::Children> iterate(filter);
+    iterate(*result);
+
+    if (!filter.empty()) {
+        typename refract::ArrayElement::ValueType elements;
+
+        std::transform(filter.elements().begin(), filter.elements().end(),
+                       std::back_inserter(elements),
+                       std::bind(&refract::IElement::clone, std::placeholders::_1, refract::IElement::cAll));
+
+        out = new refract::ArrayElement(elements);
+        out->element(drafter::SerializeKey::ParseResult);
+    }
 
     free_drafter_result(result);
 
-    return nullptr;
+    return out;
 }
 
 DRAFTER_API void free_drafter_result(drafter_result* result) {
@@ -138,9 +172,15 @@ DRAFTER_API void free_drafter_result(drafter_result* result) {
 }
 
 DRAFTER_API unsigned int drafter_c_version(void) {
-    return -1;
+    unsigned int version = 0;
+    version &= DRAFTER_MAJOR_VERSION;
+    version <<= 8;
+    version &= DRAFTER_MINOR_VERSION;
+    version <<= 8;
+    version &= DRAFTER_PATCH_VERSION;
+    return version;
 }
 
 DRAFTER_API const char* drafter_c_version_string(void) {
-    return 0;
+    return DRAFTER_VERSION_STRING;
 }
