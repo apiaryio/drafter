@@ -48,7 +48,7 @@ DRAFTER_API int drafter_parse_blueprint_to(const char* source,
 
     *out = drafter_serialize(result, options);
 
-    free_drafter_result(result);
+    drafter_free_result(result);
 
     return ret;
 }
@@ -162,12 +162,12 @@ DRAFTER_API drafter_result* drafter_check_blueprint(const char* source) {
         out->element(drafter::SerializeKey::ParseResult);
     }
 
-    free_drafter_result(result);
+    drafter_free_result(result);
 
     return out;
 }
 
-DRAFTER_API void free_drafter_result(drafter_result* result) {
+DRAFTER_API void drafter_free_result(drafter_result* result) {
     delete result;
 }
 
