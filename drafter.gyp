@@ -33,10 +33,8 @@
         'ext/snowcrash/snowcrash.gyp:libsnowcrash',
       ],
       "sources": [
-        "src/drafter.h",
-        "src/drafter.cc",
-        "src/cdrafter.h",
-        "src/cdrafter.cc",
+#"src/drafter.h",
+#"src/drafter.cc",
 
         "src/stream.h",
         "src/Version.h",
@@ -126,7 +124,6 @@
       ],
       'sources': [
         "test/test-drafter.cc",
-        "test/test-cdrafter.cc",
         "test/test-SerializeResultTest.cc",
         "test/test-SerializeSourceMapTest.cc",
         "test/test-RefractDataStructureTest.cc",

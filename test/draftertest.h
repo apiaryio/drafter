@@ -4,15 +4,17 @@
 #include "catch.hpp"
 #include "dtl.hpp"
 
-#include <string>
-#include <cstring>
-#include "stream.h"
-#include "drafter.h"
-#include "SerializeAST.h"
-#include "SerializeResult.h"
-#include "sosJSON.h"
 
 #include "ConversionContext.h"
+
+#include "stream.h"
+
+#include "sos.h"
+#include "sosJSON.h"
+#include "sosYAML.h"
+
+#include "Serialize.h"
+#include "SerializeResult.h"
 
 #define TEST_DRAFTER(description, category, name, tag,  wrapper, options, mustBeOk) TEST_CASE(description " " category " " name, "[" tag "][" category "]") { \
     REQUIRE(FixtureHelper::handleResultJSON(wrapper, "test/fixtures/" category "/" name, options, mustBeOk)); \
@@ -144,7 +146,7 @@ namespace draftertest {
 
             snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
 
-            int result = drafter::ParseBlueprint(fixture.get(ext::apib), snowcrash::ExportSourcemapOption, blueprint);
+            int result = snowcrash::parse(fixture.get(ext::apib), snowcrash::ExportSourcemapOption, blueprint);
 
             std::stringstream outStream;
             sos::SerializeJSON serializer;

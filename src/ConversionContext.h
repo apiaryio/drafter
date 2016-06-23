@@ -13,6 +13,8 @@
 
 namespace drafter {
 
+    struct WrapperOptions;
+
     class ConversionContext {
         refract::Registry registry;
 
