@@ -173,15 +173,19 @@ DRAFTER_API void drafter_free_result(drafter_result* result) {
     delete result;
 }
 
+#define VERSION_SHIFT_STEP 8
+
 DRAFTER_API unsigned int drafter_version(void) {
     unsigned int version = 0;
     version |= DRAFTER_MAJOR_VERSION;
-    version <<= 8;
+    version <<= VERSION_SHIFT_STEP;
     version |= DRAFTER_MINOR_VERSION;
-    version <<= 8;
+    version <<= VERSION_SHIFT_STEP;
     version |= DRAFTER_PATCH_VERSION;
     return version;
 }
+
+#undef VERSION_SHIFT_STEP
 
 DRAFTER_API const char* drafter_version_string(void) {
     return DRAFTER_VERSION_STRING;

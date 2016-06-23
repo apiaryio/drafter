@@ -161,5 +161,17 @@
         "libdrafter",
       ],
     },
+
+# DRAFTER C-API TEST
+    {
+      "target_name": "test-capi",
+      "type": "executable",
+      "sources": [
+          "test/test-CAPI.c"
+      ],
+      "dependencies": [
+        "libdrafter",
+      ],
+    },
   ],
 }
