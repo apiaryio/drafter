@@ -77,6 +77,8 @@ DRAFTER_API int drafter_parse_blueprint(const char* source, drafter_result** out
         delete result;
     }
 
+    *out = result;
+
     return blueprint.report.error.code;
 }
 
@@ -106,7 +108,7 @@ namespace { // FIXME: cut'n'paste from main.cc - duplicity
 }
 
 /* Serialize result to given format*/
-DRAFTER_API const char* drafter_serialize(drafter_result *res, drafter_options options) {
+DRAFTER_API char* drafter_serialize(drafter_result *res, drafter_options options) {
 
     assert(res);
 
@@ -171,16 +173,16 @@ DRAFTER_API void drafter_free_result(drafter_result* result) {
     delete result;
 }
 
-DRAFTER_API unsigned int drafter_c_version(void) {
+DRAFTER_API unsigned int drafter_version(void) {
     unsigned int version = 0;
-    version &= DRAFTER_MAJOR_VERSION;
+    version |= DRAFTER_MAJOR_VERSION;
     version <<= 8;
-    version &= DRAFTER_MINOR_VERSION;
+    version |= DRAFTER_MINOR_VERSION;
     version <<= 8;
-    version &= DRAFTER_PATCH_VERSION;
+    version |= DRAFTER_PATCH_VERSION;
     return version;
 }
 
-DRAFTER_API const char* drafter_c_version_string(void) {
+DRAFTER_API const char* drafter_version_string(void) {
     return DRAFTER_VERSION_STRING;
 }

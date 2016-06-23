@@ -52,6 +52,7 @@ extern "C" {
 
 
 #ifndef __cplusplus
+#include <stdbool.h>
 typedef struct drafter_result drafter_result;
 #else
 namespace refract {
@@ -81,7 +82,7 @@ DRAFTER_API int drafter_parse_blueprint_to(const char* source,
 DRAFTER_API int drafter_parse_blueprint(const char* source, drafter_result** out);
 
 /* Serialize result to given format*/
-DRAFTER_API const char* drafter_serialize(drafter_result *res, drafter_options options);
+DRAFTER_API char* drafter_serialize(drafter_result *res, drafter_options options);
 
 /* Free memory alocated for result handler */
 DRAFTER_API void drafter_free_result(drafter_result* result);
@@ -90,9 +91,9 @@ DRAFTER_API void drafter_free_result(drafter_result* result);
  * document is error and warning free.*/
 DRAFTER_API drafter_result* drafter_check_blueprint(const char* source);
 
-DRAFTER_API unsigned int drafter_c_version(void);
+DRAFTER_API unsigned int drafter_version(void);
 
-DRAFTER_API const char* drafter_c_version_string(void);
+DRAFTER_API const char* drafter_version_string(void);
 
 #ifdef __cplusplus
 }
