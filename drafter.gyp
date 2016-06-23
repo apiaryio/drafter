@@ -33,8 +33,8 @@
         'ext/snowcrash/snowcrash.gyp:libsnowcrash',
       ],
       "sources": [
-#"src/drafter.h",
-#"src/drafter.cc",
+        "src/drafter.h",
+        "src/drafter.cc",
 
         "src/stream.h",
         "src/Version.h",
@@ -62,11 +62,7 @@
         "src/RefractElementFactory.cc",
         "src/ConversionContext.h",
 
-        "src/API.h",
-        "src/API.cc",
-
-        # librefract parts - will be separated into other project
-
+# librefract parts - will be separated into other project
         "src/refract/Element.h",
         "src/refract/Element.cc",
         "src/refract/ElementFwd.h",
