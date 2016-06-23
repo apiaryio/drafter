@@ -137,6 +137,7 @@ T* CreateStreamFromName(const std::string& file)
 
     if (!stream->is_open()) {
       std::cerr << "fatal: unable to open file '" << file << "'\n";
+      delete stream;
       exit(EXIT_FAILURE);
     }
 
