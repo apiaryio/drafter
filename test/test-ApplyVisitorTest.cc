@@ -5,6 +5,7 @@
 #include "Query.h"
 #include "Build.h"
 #include "Iterate.h"
+#include "FilterVisitor.h"
 
 using namespace refract;
 
@@ -232,4 +233,31 @@ TEST_CASE("Iterate<Children> on string","[Visitor]")
     REQUIRE(f.SCounter == 0);
 
     delete e;
+}
+
+TEST_CASE("Query Element name","[Visitor]")
+{
+    ArrayElement* a = new ArrayElement;
+
+    a->push_back(IElement::Create("str"));
+
+    ArrayElement* namedArray = new ArrayElement;
+    namedArray->element("named");
+    a->push_back(namedArray);
+
+    NumberElement* namedNumber = new NumberElement;
+    namedNumber->element("named");
+    a->push_back(namedNumber);
+
+    a->push_back(IElement::Create("final"));
+
+    FilterVisitor filter(refract::query::Element("named"));
+    Iterate<> i(filter);
+    i(*a);
+
+    REQUIRE(filter.elements().size() == 2);
+    REQUIRE(filter.elements()[0] == namedArray);
+    REQUIRE(filter.elements()[1] == namedNumber);
+
+    delete a;
 }

@@ -96,6 +96,7 @@
         "src/refract/PrintVisitor.cc",
         "src/refract/JSONSchemaVisitor.h",
         "src/refract/JSONSchemaVisitor.cc",
+        "src/refract/FilterVisitor.h",
 
         "src/refract/Registry.h",
         "src/refract/Registry.cc",
@@ -105,6 +106,7 @@
         "src/refract/AppendDecorator.h",
         "src/refract/ElementInserter.h",
         "src/refract/Query.h",
+        "src/refract/Query.cc",
         "src/refract/Iterate.h",
       ],
       "dependencies": [

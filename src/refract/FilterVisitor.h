@@ -11,29 +11,41 @@
 #include "ElementFwd.h"
 #include "Visitor.h"
 
+#include "Query.h"
+#include <vector>
+
+#include <iostream>
+
 namespace refract
 {
 
     class FilterVisitor
     {
+        typedef std::vector<const IElement*> Elements;
+
+        Elements selected;
+        query::Query query;
 
         public:
 
-        template<typename Query>
-        FilterVisitor(Query query) {};
+        template <typename Predicate>
+        FilterVisitor(Predicate predicate) : query(predicate) {};
 
-        void operator()(const IElement& e){};
-        void operator()(const NullElement& e){};
-        void operator()(const StringElement& e){};
-        void operator()(const NumberElement& e){};
-        void operator()(const BooleanElement& e){};
-        void operator()(const ArrayElement& e){};
-        void operator()(const MemberElement& e){};
-        void operator()(const ObjectElement& e){};
-        void operator()(const EnumElement& e){};
-        void operator()(const ExtendElement& e){};
-        void operator()(const OptionElement& e){};
-        void operator()(const SelectElement& e){};
+        template <typename T>
+        void operator()(const T& e){
+
+            if(query(e)) {
+                selected.push_back(&e);
+            }
+        };
+
+        bool empty() const {
+            return selected.empty();
+        }
+
+        const Elements& elements() const {
+            return selected;
+        }
 
     };
 
