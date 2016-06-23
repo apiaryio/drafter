@@ -11,6 +11,7 @@
 #include "ElementFwd.h"
 
 #include <functional>
+#include <string>
 
 namespace refract
 {
