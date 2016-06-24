@@ -13,8 +13,8 @@ Additionally Drafter provide set of Wrappers for serialization, of parsing resul
 
 Drafter also provides the user ability to select the type of the output. There are two possible values:
 
-* **Refract Parse Result:** Parse Result is defined in Refract elements according to [Parse Result Namespace](https://github.com/refractproject/refract-spec/blob/master/namespaces/parse-result-namespace.md)
-* **Normal AST Parse Result:** Parse Result defined by the [API Blueprint AST](https://github.com/apiaryio/api-blueprint-ast) Parse Result.
+* **API Elements Parse Result:** Parse Result is defined in API Elements according to [Parse Result Namespace](http://api-elements.readthedocs.io/en/latest/element-definitions/#parse-result-elements).
+* **Normal AST Parse Result:** Parse Result defined by the [API Blueprint AST](https://github.com/apiaryio/api-blueprint-ast) Parse Result. The AST is deprecated and only available in the Drafter command line tool.
 
 By default, Drafter assumes the Refract Parse Result.
 
@@ -35,55 +35,16 @@ $ brew install --HEAD \
 
 Other systems refer to [build notes](#build).
 
-## Use
+## Usage
 
-### C++ library
-```c++
-#include "drafter.h"         // Blueprint Parser
-#include "SerializeResult.h" // Result Wrapper for serialization
-#include "sosJSON.h"         // Serializer
-
-mdp::ByteBuffer blueprint = R"(
-# My API
-## GET /message
-+ Response 200 (text/plain)
-
-        Hello World!
-)";
-
-// Blueprint parsing
-snowcrash::ParseResult<snowcrash::Blueprint> ast;
-drafter::ParseBlueprint(blueprint, 0, ast);
-
-std::cout << "API Name: " << ast.node.name << std::endl;
-
-// Serialization to JSON format
-sos::SerializeJSON serializer;
-serializer.process(drafter::WrapResult(ast.node, drafter::WrapperOptions(drafter::RefractASTType)), std::cout);
-
-```
-
-### C-interface
-
-For purpose of [bindings](#bindings) to other languages Drafter provides very simple C-interface.
-```c
-#include "cdrafter.h"
-
-const char* source = "# My API\n## GET /message\n + Response 200 (text/plain)\n\n        Hello World\n";
-char *result = NULL;
-int ret = drafter_c_parse(source, 0, DRAFTER_REFRACT_AST_TYPE, &result);
-
-printf("Result: %s\n", ret == 0 ? "OK" : "ERROR");
-printf("Serialized JSON result:\n%s\n", result);
-
-free(result); /* we MUST release allocted memory for result */
-```
-
-Refer to [`Blueprint.h`](https://github.com/apiaryio/snowcrash/blob/master/src/Blueprint.h) for the details about the Snow Crash AST and [`BlueprintSourcemap.h`](https://github.com/apiaryio/snowcrash/blob/master/src/BlueprintSourcemap.h) for details about Source Maps tree. See [Drafter bindings](#bindings) for using the library in **other languages**.
-
+Drafter is both a library and a command line tool.
 
 ### Command line tool
-```bash
+
+The command line tool allows you to parse a blueprint and/or check the validity
+of a blueprint.
+
+```shell
 $ cat << 'EOF' > blueprint.apib
 # My API
 ## GET /message
@@ -105,6 +66,85 @@ content:
 ```
 
 See [parse feature](features/parse.feature) for the details on using the `drafter` command line tool.
+
+### C/C++ API
+
+Please refer to
+[`drafter.h`](https://github.com/apiaryio/snowcrash/blob/master/src/drafter.h)
+for the full API documentation. See [Drafter bindings](#bindings) for using the
+library in **other languages**.
+
+#### Parsing a blueprint to a JSON or YAML string
+
+The `drafter_parse_blueprint_to` takes a source blueprint and returns the given
+blueprint parsed and serialized as [API
+Elements](http://api-elements.readthedocs.io) in YAML or JSON.
+
+```c
+int drafter_parse_blueprint_to(const char* source, char ** out, const drafter_options options);
+```
+
+```c
+#include <drafter/drafter.h>
+
+const char* blueprint =
+  "# My API\n"
+  "## GET /message\n"
+  "+ Response 200 (text/plain)\n"
+  "\n"
+  "      Hello World!\n";
+
+drafter_options options;
+options.format = DRAFTER_SERIALIZE_JSON;
+options.sourcemap = true;
+
+char* result = NULL;
+if (drafter_parse_blueprint_to(blueprint, &result, options) == 0) {
+    printf("%s\n", result);
+    free(result);
+}
+```
+
+#### Checking the validity of a blueprint
+
+The `drafter_check_blueprint` function allows checking the validity of a
+blueprint. This function will return a `drafter_result` when the blueprint
+produces warnings and/or errors.  With a `drafter_result`, the
+`drafter_serialize` function can be used to serialized the result as [API
+Elements](http://api-elements.readthedocs.io) in YAML or JSON.
+
+
+```c
+drafter_result* drafter_check_blueprint(const char* source);
+```
+
+```c
+#include <drafter/drafter.h>
+
+const char* blueprint =
+  "# My API\n"
+  "## GET /message\n"
+  "+ Response 200 (text/plain)\n"
+  "\n"
+  "      Hello World!\n";
+
+drafter_result* result = drafter_check_blueprint(blueprint);
+if (result) {
+    // Serialize the result to print the warnings/errors
+
+    drafter_options options;
+    options.format = DRAFTER_SERIALIZE_JSON;
+    options.sourcemap = true;
+
+    char* out = drafter_serialize(result, options);
+    printf("The blueprint produces warnings or errors:\n\n%s\n", out);
+    free(out);
+
+    drafter_free_result(result);
+} else {
+    printf("The given blueprint was valid.\n");
+}
+```
 
 ## Build
 1. Clone the repo + fetch the submodules:
