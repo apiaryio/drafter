@@ -35,8 +35,6 @@
       "sources": [
         "src/drafter.h",
         "src/drafter.cc",
-        "src/cdrafter.h",
-        "src/cdrafter.cc",
 
         "src/stream.h",
         "src/Version.h",
@@ -64,8 +62,7 @@
         "src/RefractElementFactory.cc",
         "src/ConversionContext.h",
 
-        # librefract parts - will be separated into other project
-
+# librefract parts - will be separated into other project
         "src/refract/Element.h",
         "src/refract/Element.cc",
         "src/refract/ElementFwd.h",
@@ -93,6 +90,7 @@
         "src/refract/PrintVisitor.cc",
         "src/refract/JSONSchemaVisitor.h",
         "src/refract/JSONSchemaVisitor.cc",
+        "src/refract/FilterVisitor.h",
 
         "src/refract/Registry.h",
         "src/refract/Registry.cc",
@@ -102,6 +100,7 @@
         "src/refract/AppendDecorator.h",
         "src/refract/ElementInserter.h",
         "src/refract/Query.h",
+        "src/refract/Query.cc",
         "src/refract/Iterate.h",
       ],
       "dependencies": [
@@ -121,7 +120,6 @@
       ],
       'sources': [
         "test/test-drafter.cc",
-        "test/test-cdrafter.cc",
         "test/test-SerializeResultTest.cc",
         "test/test-SerializeSourceMapTest.cc",
         "test/test-RefractDataStructureTest.cc",
@@ -158,6 +156,18 @@
       # FIXME: replace by direct dependecies
       "include_dirs": [
         "ext/cmdline",
+      ],
+      "dependencies": [
+        "libdrafter",
+      ],
+    },
+
+# DRAFTER C-API TEST
+    {
+      "target_name": "test-capi",
+      "type": "executable",
+      "sources": [
+          "test/test-CAPI.c"
       ],
       "dependencies": [
         "libdrafter",

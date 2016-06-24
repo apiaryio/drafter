@@ -26,6 +26,11 @@ drafter: config.gypi $(BUILD_DIR)/Makefile
 	mkdir -p ./bin
 	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/$@ ./bin/$@
 
+test-capi: config.gypi $(BUILD_DIR)/Makefile
+	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
+	mkdir -p ./bin
+	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/$@ ./bin/$@
+
 install: drafter
 	mkdir -p $(BINDIR)
 	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/drafter $(BINDIR)/drafter
@@ -46,7 +51,7 @@ distclean:
 	rm -f ./config.gypi
 	rm -rf ./bin
 
-test: libdrafter test-libdrafter drafter
+test: libdrafter test-libdrafter test-capi drafter
 	./bin/test-libdrafter
 
 ifdef INTEGRATION_TESTS
