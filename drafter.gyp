@@ -3,8 +3,9 @@
     "ext/snowcrash/common.gypi"
   ],
 
-# LIBSOS  
   "targets" : [
+
+# LIBSOS
     {
       'target_name': 'libsos',
       'type': 'static_library',
@@ -23,6 +24,9 @@
     {
       "target_name": "libdrafter",
       'type': '<(libdrafter_type)',
+      "conditions" : [
+        [ 'libdrafter_type=="shared_library"', { 'defines' : [ 'DRAFTER_BUILD_SHARED' ] }, { 'defines' : [ 'DRAFTER_BUILD_STATIC' ] }],
+      ],
       'direct_dependent_settings' : {
           'include_dirs': [
             'src',
@@ -146,6 +150,9 @@
     {
       "target_name": "drafter",
       "type": "executable",
+      "conditions" : [
+        [ 'libdrafter_type=="static_library"', { 'defines' : [ 'DRAFTER_BUILD_STATIC' ] }],
+      ],
       "sources": [
         "src/main.cc",
         "src/config.cc",
@@ -153,7 +160,6 @@
         "src/reporting.cc",
         "src/reporting.h",
       ],
-      # FIXME: replace by direct dependecies
       "include_dirs": [
         "ext/cmdline",
       ],
@@ -166,6 +172,9 @@
     {
       "target_name": "test-capi",
       "type": "executable",
+      "conditions" : [
+        [ 'libdrafter_type=="static_library"', { 'defines' : [ 'DRAFTER_BUILD_STATIC' ] }],
+      ],
       "sources": [
           "test/test-CAPI.c"
       ],
