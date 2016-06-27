@@ -1,13 +1,13 @@
 //
-//  API.h
+//  drafter.h
 //  drafter
 //
-//  Created by Jiri Kratochvil on 2016-06-06
+//  Created by Jiri Kratochvil on 2016-06-27
 //  Copyright (c) 2016 Apiary Inc. All rights reserved.
 //
 
-#ifndef DRAFTER_API_H
-#define DRAFTER_API_H
+#ifndef DRAFTER_H
+#define DRAFTER_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -58,7 +58,7 @@ typedef struct drafter_result drafter_result;
 namespace refract {
     struct IElement;
 }
-typedef refract::IElement drafter_result ;
+typedef refract::IElement drafter_result;
 #endif
 
 
@@ -72,12 +72,12 @@ typedef struct {
     drafter_format format;
 } drafter_options;
 
-/* Parse API Bleuprint and serialize it to given format.*/
+/* Parse API Blueprint and serialize it to given format.*/
 DRAFTER_API int drafter_parse_blueprint_to(const char* source,
-                               char ** out,
-                               const drafter_options options);
+                                           char** out,
+                                           const drafter_options options);
 
-/* Parse API Bleuprint and return result, which is a opaque handle for
+/* Parse API Blueprint and return result, which is a opaque handle for
  * later use*/
 DRAFTER_API int drafter_parse_blueprint(const char* source, drafter_result** out);
 
@@ -99,4 +99,4 @@ DRAFTER_API const char* drafter_version_string(void);
 }
 #endif
 
-#endif // #ifndef DRAFTER_API_H
+#endif // #ifndef DRAFTER_H

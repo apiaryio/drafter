@@ -10,8 +10,6 @@
 
 #include "ElementFwd.h"
 
-#include <iostream>
-
 namespace refract
 {
 

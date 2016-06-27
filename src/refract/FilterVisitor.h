@@ -14,8 +14,6 @@
 #include "Query.h"
 #include <vector>
 
-#include <iostream>
-
 namespace refract
 {
 

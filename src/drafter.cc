@@ -1,3 +1,10 @@
+//
+//  drafter.cc
+//  drafter
+//
+//  Created by Jiri Kratochvil on 2016-06-27
+//  Copyright (c) 2016 Apiary Inc. All rights reserved.
+//
 #include "drafter.h"
 
 #include "snowcrash.h"
@@ -62,7 +69,7 @@ DRAFTER_API int drafter_parse_blueprint(const char* source, drafter_result** out
     assert(source);
     assert(out);
 
-    if (!source) {
+    if (!source || !out) {
         return -1;
     }
 
@@ -72,10 +79,6 @@ DRAFTER_API int drafter_parse_blueprint(const char* source, drafter_result** out
     drafter::WrapperOptions options(drafter::RefractASTType);
     drafter::ConversionContext context(options);
     refract::IElement* result = WrapParseResultRefract(blueprint, context);
-
-    if (!out) {
-        delete result;
-    }
 
     *out = result;
 
@@ -144,7 +147,7 @@ DRAFTER_API drafter_result* drafter_check_blueprint(const char* source) {
     drafter_parse_blueprint(source, &result);
 
     if (!result) {
-        return result;
+        return nullptr;
     }
 
     drafter_result* out = nullptr;
@@ -177,11 +180,13 @@ DRAFTER_API void drafter_free_result(drafter_result* result) {
 
 DRAFTER_API unsigned int drafter_version(void) {
     unsigned int version = 0;
+
     version |= DRAFTER_MAJOR_VERSION;
     version <<= VERSION_SHIFT_STEP;
     version |= DRAFTER_MINOR_VERSION;
     version <<= VERSION_SHIFT_STEP;
     version |= DRAFTER_PATCH_VERSION;
+
     return version;
 }
 
