@@ -70,7 +70,7 @@ See [parse feature](features/parse.feature) for the details on using the `drafte
 ### C/C++ API
 
 Please refer to
-[`drafter.h`](https://github.com/apiaryio/snowcrash/blob/master/src/drafter.h)
+[`drafter.h`](https://github.com/apiaryio/drafter/blob/master/src/drafter.h)
 for the full API documentation. See [Drafter bindings](#bindings) for using the
 library in **other languages**.
 
