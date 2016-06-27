@@ -29,14 +29,9 @@
 
 #include <string.h>
 
-#include <assert.h>
-
 DRAFTER_API int drafter_parse_blueprint_to(const char* source,
                                            char ** out,
                                            const drafter_options options) {
-
-    assert(source);
-    assert(out);
 
     if (!source || !out) {
         return -1;
@@ -46,8 +41,6 @@ DRAFTER_API int drafter_parse_blueprint_to(const char* source,
     *out = nullptr;
 
     int ret = drafter_parse_blueprint(source, &result);
-
-    assert(result);
 
     if (!result) {
         return -1;
@@ -65,9 +58,6 @@ namespace sc = snowcrash;
 /* Parse API Bleuprint and return result, which is a opaque handle for
  * later use*/
 DRAFTER_API int drafter_parse_blueprint(const char* source, drafter_result** out) {
-
-    assert(source);
-    assert(out);
 
     if (!source || !out) {
         return -1;
@@ -115,8 +105,6 @@ namespace { // FIXME: cut'n'paste from main.cc - duplicity
 /* Serialize result to given format*/
 DRAFTER_API char* drafter_serialize(drafter_result *res, const drafter_options options) {
 
-    assert(res);
-
     if (!res) {
         return nullptr;
     }
@@ -139,7 +127,6 @@ DRAFTER_API char* drafter_serialize(drafter_result *res, const drafter_options o
  * document is error and warning free.*/
 DRAFTER_API drafter_result* drafter_check_blueprint(const char* source) {
 
-    assert(source);
     if (!source) {
         return nullptr;
     }
