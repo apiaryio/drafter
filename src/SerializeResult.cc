@@ -94,7 +94,7 @@ namespace helper {
     };
 }
 
-sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
+refract::IElement* drafter::WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
                                    ConversionContext& context)
 {
     snowcrash::Error error;
@@ -141,16 +141,7 @@ sos::Object WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>&
                        helper::AnnotationToRefract(SerializeKey::Warning));
     }
 
-    sos::Object result;
-
-    // NOTE: can throw(), but it will be handled in main
-    result = SerializeRefract(parseResult, context);
-
-    if (parseResult) {
-        delete parseResult;
-    }
-
-    return result;
+    return parseResult;
 }
 
 sos::Object drafter::WrapResult(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
@@ -158,7 +149,18 @@ sos::Object drafter::WrapResult(snowcrash::ParseResult<snowcrash::Blueprint>& bl
 {
     ConversionContext context(options);
 
-    return options.astType == RefractASTType
-        ? WrapParseResultRefract(blueprint, context)
-        : WrapParseResultAST(blueprint, context);
+    if (options.astType == RefractASTType) {
+        refract::IElement* parseResult = WrapParseResultRefract(blueprint, context);
+
+        sos::Object result = SerializeRefract(parseResult, context);
+
+        if (parseResult) {
+            delete parseResult;
+        }
+
+        return result;
+    }
+    else {
+        return WrapParseResultAST(blueprint, context);
+    }
 }

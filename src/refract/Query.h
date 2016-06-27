@@ -10,29 +10,25 @@
 
 #include "ElementFwd.h"
 
+#include <functional>
+#include <string>
+
 namespace refract
 {
 
     namespace query {
 
-        template <typename T>
-        class Is {
+        typedef std::function<bool(const IElement&)> Query;
 
-            bool is;
+        class Element {
+            const std::string name;
 
         public:
 
-            Is() : is(false) {}
+            Element(const std::string& name) : name(name) {}
 
-            void operator()(const IElement& e) {} 
+            bool operator()(const IElement& e);
 
-            void operator()(const T& e) {
-                is = true;
-            }
-
-            operator bool() const {
-                return is;
-            }
         };
 
     };

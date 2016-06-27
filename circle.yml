@@ -22,6 +22,7 @@ test:
   override:
     - env CXXFLAGS="-Werror" make test
     - valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --error-exitcode=1 ./bin/test-libdrafter 2> memcheck.log
+    - valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --error-exitcode=1 ./bin/test-capi 2> memcheck-capi.log
 
 deployment:
   release:

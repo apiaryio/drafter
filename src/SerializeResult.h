@@ -16,10 +16,19 @@ namespace snowcrash {
     struct SourceAnnotation;
 }
 
+namespace refract {
+    struct IElement;
+}
+
 namespace drafter {
+
+    struct ConversionContext;
 
     sos::Object WrapAnnotation(const snowcrash::SourceAnnotation& annotation);
     sos::Object WrapResult(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const WrapperOptions& options);
+
+    refract::IElement* WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
+                                              ConversionContext& context);
 }
 
 #endif // #ifndef DRAFTER_SERIALIZERESULT_H

@@ -14,6 +14,9 @@
 
 ### Enhancements
 
+* Drafter now provides a full C and C++ API interface, you may now validate,
+  parse and serialize an API Blueprint. Please see `drafter.h` header for full
+  API documentation.
 * Improve error messages for a few blueprint errors
 
 ### Bug Fixes
