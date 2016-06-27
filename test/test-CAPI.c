@@ -57,8 +57,6 @@ int test_parse_to_string() {
     return 0;
 };
 
-
-
 int test_version() {
     assert(drafter_version() != 0);
     assert(strcmp(drafter_version_string(), DRAFTER_VERSION_STRING) == 0);
