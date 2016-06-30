@@ -243,7 +243,7 @@ catch (e) {
 
 protagonist.parse(data, options, function(err, result) {
   if (err) {
-    console.log(JOSN.stringify(err));
+    console.log(JSON.stringify(err));
   }
   console.log(JSON.stringify(data));
 });
