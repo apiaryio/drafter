@@ -72,8 +72,6 @@ DRAFTER_API int drafter_parse_blueprint(const char* source, drafter_result** out
 
     *out = result;
 
-    *out = result;
-
     return blueprint.report.error.code;
 }
 
