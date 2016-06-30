@@ -1,6 +1,6 @@
 # Drafter Changelog
 
-## Master
+## 3.0.0
 
 ### Breaking
 
