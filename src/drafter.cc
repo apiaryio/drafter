@@ -72,8 +72,6 @@ DRAFTER_API int drafter_parse_blueprint(const char* source, drafter_result** out
 
     *out = result;
 
-    *out = result;
-
     return blueprint.report.error.code;
 }
 
@@ -146,7 +144,7 @@ DRAFTER_API drafter_result* drafter_check_blueprint(const char* source) {
     iterate(*result);
 
     if (!filter.empty()) {
-        typename refract::ArrayElement::ValueType elements;
+        refract::ArrayElement::ValueType elements;
 
         std::transform(filter.elements().begin(), filter.elements().end(),
                        std::back_inserter(elements),

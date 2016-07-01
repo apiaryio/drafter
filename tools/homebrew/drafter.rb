@@ -2,11 +2,17 @@ require 'formula'
 
 class Drafter < Formula
   homepage 'http://apiblueprint.org'
-  head 'https://github.com/apiaryio/drafter.git', :tag => 'v2.3.1'
+  head 'https://github.com/apiaryio/drafter.git', :tag => 'v3.0.0'
 
   def install
-    system "./configure"
+    system "./configure", "--shared"
     system "make", "drafter"
     bin.install Dir["bin/drafter"]
+    (include + "drafter").install Dir["src/drafter.h"]
+    lib.install Dir["build/out/Release/libdrafter.dylib"]
+  end
+
+  test do
+    system bin/"drafter", "--help"
   end
 end
