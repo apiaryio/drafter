@@ -151,14 +151,14 @@ namespace refract
     template<typename T>
     void JSONSchemaVisitor::primitiveType(const T& e)
     {
-        const typename T::ValueType *v = GetValue<T>(e);
+        const typename T::ValueType *value = GetValue<T>(e);
 
-        if (v) {
+        if (value) {
             setPrimitiveType(e);
 
-            if (fixed && !e.empty()) {
+            if (fixed) {
                 ArrayElement *a = new ArrayElement;
-                a->push_back(IElement::Create(*v));
+                a->push_back(IElement::Create(*value));
                 addMember("enum", a);
             }
         }

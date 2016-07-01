@@ -40,6 +40,7 @@ TEST_REFRACT("schema", "enum-containing-sample");
 TEST_REFRACT("schema", "sample");
 TEST_REFRACT("schema", "sample-complex");
 TEST_REFRACT("schema", "sample-inline-attribute");
+TEST_REFRACT("schema", "sample-fixed");
 
 // FIXME: Discuss it with hj, as current drafter seems legit
 // boutique version of schema
