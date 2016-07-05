@@ -1,5 +1,14 @@
 # Drafter Changelog
 
+## Master
+
+### Bug Fixes
+
+* Ensure that sample values are rendered in JSON Schema when using the `fixed`
+  attribute.
+  [#343](https://github.com/apiaryio/drafter/issues/343)
+
+
 ## 3.0.0
 
 ### Breaking
@@ -37,6 +46,7 @@
   [#246](https://github.com/apiaryio/drafter/issues/246)
 
 * Correctly render JSON Schema when `fixed` is used on attributes section or named type [mson#60](https://github.com/apiaryio/mson/issues/60)
+
 
 ## 2.3.1
 
