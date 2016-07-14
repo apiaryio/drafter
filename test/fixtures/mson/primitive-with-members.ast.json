@@ -50,9 +50,33 @@
               {
                 "element": "number",
                 "meta": {
-                  "id": "NumericType",
-                  "description": "FIXME: After following `### Properties` section showcrash finnish parsing\ndue to this `NonpasedObject` is not parsed :)\n\n"
+                  "id": "NumericType"
                 }
+              }
+            ]
+          },
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "object",
+                "meta": {
+                  "id": "ObjectType"
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "m1"
+                      },
+                      "value": {
+                        "element": "string"
+                      }
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -71,7 +95,7 @@
       "message": "sub-types of primitive types should not have nested members",
       "location": [
         {
-          "index": 75,
+          "index": 74,
           "length": 6
         }
       ]
@@ -81,7 +105,7 @@
       "message": "ignoring unrecognized block",
       "location": [
         {
-          "index": 75,
+          "index": 74,
           "length": 6
         }
       ]
@@ -91,7 +115,7 @@
       "message": "sub-types of primitive types should not have nested members",
       "location": [
         {
-          "index": 106,
+          "index": 105,
           "length": 6
         }
       ]
@@ -101,7 +125,7 @@
       "message": "ignoring unrecognized block",
       "location": [
         {
-          "index": 106,
+          "index": 105,
           "length": 6
         }
       ]
@@ -111,7 +135,7 @@
       "message": "sub-types of primitive types should not have nested members",
       "location": [
         {
-          "index": 135,
+          "index": 134,
           "length": 6
         }
       ]
@@ -121,7 +145,7 @@
       "message": "ignoring unrecognized block",
       "location": [
         {
-          "index": 135,
+          "index": 134,
           "length": 6
         }
       ]
@@ -131,7 +155,7 @@
       "message": "type section `Properties` is only allowed for a type sub-typed from an object type",
       "location": [
         {
-          "index": 286,
+          "index": 165,
           "length": 14
         }
       ]
@@ -141,7 +165,7 @@
       "message": "unexpected header block, expected a group, resource or an action definition, e.g. '# Group <name>', '# <resource name> [<URI>]' or '# <HTTP method> <URI>'",
       "location": [
         {
-          "index": 286,
+          "index": 165,
           "length": 14
         }
       ]
@@ -151,28 +175,8 @@
       "message": "ignoring unrecognized block",
       "location": [
         {
-          "index": 300,
+          "index": 179,
           "length": 6
-        }
-      ]
-    },
-    {
-      "code": 5,
-      "message": "unexpected header block, expected a group, resource or an action definition, e.g. '# Group <name>', '# <resource name> [<URI>]' or '# <HTTP method> <URI>'",
-      "location": [
-        {
-          "index": 306,
-          "length": 28
-        }
-      ]
-    },
-    {
-      "code": 5,
-      "message": "ignoring unrecognized block",
-      "location": [
-        {
-          "index": 334,
-          "length": 7
         }
       ]
     }

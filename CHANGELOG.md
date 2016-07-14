@@ -8,6 +8,10 @@
   attribute.
   [#343](https://github.com/apiaryio/drafter/issues/343)
 
+* Prevents an empty properties section being treated as an unrecognized block.
+  [#127](https://github.com/apiaryio/drafter/issues/127)
+  [snowcrash#200](https://github.com/apiaryio/snowcrash/issues/200)
+
 
 ## 3.0.0
 
