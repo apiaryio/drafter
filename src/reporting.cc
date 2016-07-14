@@ -11,6 +11,12 @@
 #include <algorithm>
 #include <iostream>
 
+#include "refract/Element.h"
+#include "refract/FilterVisitor.h"
+#include "refract/Query.h"
+#include "refract/Iterate.h"
+#include "refract/TypeQueryVisitor.h"
+
 namespace sc = snowcrash;
 
 /** structure contains starting and ending position of a error/warning. */
@@ -81,17 +87,10 @@ void GetLinesEndIndex(const std::string& source,
     }
 }
 
-/**
- *  \brief Print Markdown source annotation.
- *  \param prefix A string prefix for the annotation
- *  \param annotation An annotation to print
- *  \param source Source data
- *  \param isUseLineNumbers True if the annotations needs to be printed by line and column number
- */
 void PrintAnnotation(const std::string& prefix,
                      const snowcrash::SourceAnnotation& annotation,
                      const std::string& source,
-                     const bool isUseLineNumbers)
+                     const bool useLineNumbers)
 {
 
     std::cerr << prefix;
@@ -106,7 +105,7 @@ void PrintAnnotation(const std::string& prefix,
 
     std::vector<size_t> linesEndIndex;
 
-    if (isUseLineNumbers) {
+    if (useLineNumbers) {
         GetLinesEndIndex(source, linesEndIndex);
     }
 
@@ -116,7 +115,7 @@ void PrintAnnotation(const std::string& prefix,
              it != annotation.location.end();
              ++it) {
 
-            if (isUseLineNumbers) {
+            if (useLineNumbers) {
 
                 AnnotationPosition annotationPosition;
                 GetLineFromMap(linesEndIndex, *it, annotationPosition);
@@ -158,4 +157,107 @@ void PrintReport(const snowcrash::Report& report,
     for (snowcrash::Warnings::const_iterator it = report.warnings.begin(); it != report.warnings.end(); ++it) {
         PrintAnnotation("warning:", *it, source, isUseLineNumbers);
     }
+}
+
+template <typename T>
+T* GetMemberValue(const refract::IElement::MemberElementCollection& collection, const std::string& key) {
+    refract::IElement::MemberElementCollection::const_iterator i = collection.find(key);
+    if (i == collection.end()) {
+        return NULL;
+    }
+
+    return refract::TypeQueryVisitor::as<T>((*i)->value.second);
+}
+
+
+struct AnnotationToString {
+
+    std::vector<size_t> linesEndIndex;
+    const bool useLineNumbers;
+
+    AnnotationToString(const std::string& source, const bool useLineNumbers) : useLineNumbers(useLineNumbers) {
+        if (useLineNumbers) {
+            GetLinesEndIndex(source, linesEndIndex);
+        }
+    }
+
+    const std::string operator()(const refract::IElement* annotation) {
+        std::stringstream output;
+
+        if (annotation->element() != "annotation") {
+            return output.str();
+        }
+
+        if (const refract::ArrayElement* classes = GetMemberValue<refract::ArrayElement>(annotation->meta, "classes")) {
+            if (classes->value.size() == 1) {
+                refract::StringElement* type = refract::TypeQueryVisitor::as<refract::StringElement>(classes->value.front());
+                if (type) {
+                    output << type->value << ": (";
+                }
+            }
+        };
+
+        if (const refract::NumberElement* code = GetMemberValue<refract::NumberElement>(annotation->attributes, "code")) {
+            output << code->value << ")  ";
+        }
+
+        if (const refract::StringElement* message = refract::TypeQueryVisitor::as<refract::StringElement>(annotation)) {
+            output << message->value;
+        }
+
+        if (refract::ArrayElement* sourceMap = GetMemberValue<refract::ArrayElement>(annotation->attributes, "sourceMap")) {
+            if (sourceMap->value.size() == 1) {
+                sourceMap = refract::TypeQueryVisitor::as<refract::ArrayElement>(sourceMap->value.front());
+                if (sourceMap) {
+                    for (refract::IElement* array : sourceMap->value) {
+                        refract::ArrayElement* map = refract::TypeQueryVisitor::as<refract::ArrayElement>(array);
+                        if (map && map->value.size() == 2) {
+                            refract::NumberElement* loc = refract::TypeQueryVisitor::as<refract::NumberElement>(map->value[0]);
+                            refract::NumberElement* len = refract::TypeQueryVisitor::as<refract::NumberElement>(map->value[1]);
+                            if (loc && len) {
+                                if (useLineNumbers) {
+
+                                    AnnotationPosition annotationPosition;
+                                    mdp::Range pos(loc->value, len->value);
+                                    GetLineFromMap(linesEndIndex, pos, annotationPosition);
+
+                                    output << "; line " << annotationPosition.fromLine << ", column " << annotationPosition.fromColumn;
+                                    output << " - line " << annotationPosition.toLine << ", column " << annotationPosition.toColumn;
+                                }
+                                else {
+                                    const char* prefix = array == (*sourceMap->value.begin()) ? " :" :";";
+                                    output << prefix << loc->value << ":" << len->value;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        return output.str();
+    }
+};
+
+void PrintReport(const drafter_result* result,
+                 const std::string& source,
+                 const bool useLineNumbers,
+                 const int error)
+{
+    std::cerr << std::endl;
+
+    refract::FilterVisitor filter(refract::query::Element("annotation"));
+    refract::Iterate<refract::Children> iterate(filter);
+    iterate(*result);
+
+    refract::RefractElements elements;
+
+    if (error == sc::Error::OK) {
+        std::cerr << "OK.\n";
+    }
+
+    std::transform(filter.elements().begin(), filter.elements().end(),
+              std::ostream_iterator<std::string>(std::cerr, "\n"),
+              AnnotationToString(source, useLineNumbers));
+
 }

@@ -9,6 +9,7 @@
 #ifndef DRAFTER_REPORTING_H
 #define DRAFTER_REPORTING_H
 
+#include "drafter.h"
 #include "SourceAnnotation.h"
 
 /**
@@ -16,11 +17,23 @@
  *
  *  \param report A parser report to print
  *  \param source Source data
- *  \param isUseLineNumbers True if the annotations needs to be printed by line and column number
+ *  \param useLineNumbers True if the annotations needs to be printed by line and column number
  */
 void PrintReport(const snowcrash::Report& report,
                  const std::string& source,
-                 const bool isUseLineNumbers);
+                 const bool useLineNumbers);
 
+/**
+ *  \brief Print parser report to stderr.
+ *
+ *  \param report A parser report to print
+ *  \param source Source data
+ *  \param useLineNumbers True if the annotations needs to be printed by line and column number
+ *  \param error - code form parsing
+ */
+void PrintReport(const drafter_result*,
+                 const std::string& source,
+                 const bool useLineNumbers,
+                 const int error);
 
 #endif // #ifndef DRAFTER_REPORTING_H

@@ -5,6 +5,8 @@
 //  Created by Jiri Kratochvil on 2015-02-11
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
+//
+#include "drafter.h"
 
 #include "snowcrash.h"
 #include "SectionParserData.h"  // snowcrash::BlueprintParserOptions
@@ -49,26 +51,20 @@ void Serialization(std::ostream *stream,
     *stream << std::flush;
 }
 
-int main(int argc, const char *argv[])
-{
-    Config config;
-    ParseCommadLineOptions(argc, argv, config);
-
+int ProcessAST(const Config& config, std::unique_ptr<std::istream>& in, std::unique_ptr<std::ostream>& out) {
     std::stringstream inputStream;
-    std::unique_ptr<std::istream> in(CreateStreamFromName<std::istream>(config.input));
     inputStream << in->rdbuf();
 
     sc::ParseResult<sc::Blueprint> blueprint;
     sc::parse(inputStream.str(), snowcrash::ExportSourcemapOption, blueprint);
 
-    sos::Serialize* serializer = CreateSerializer(config.format);
-    std::ostream *out = CreateStreamFromName<std::ostream>(config.output);
+    std::unique_ptr<sos::Serialize> serializer(CreateSerializer(config.format));
 
     try {
         sos::Object resultObject = drafter::WrapResult(blueprint, drafter::WrapperOptions(config.astType, config.sourceMap));
 
         if (!config.validate) { // If not validate, we serialize
-            Serialization(out, resultObject, serializer);
+            Serialization(out.get(), resultObject, serializer.get());
         }
     }
     catch (snowcrash::Error& e) {
@@ -78,10 +74,63 @@ int main(int argc, const char *argv[])
         blueprint.report.error = snowcrash::Error(e.what(), snowcrash::ApplicationError);
     }
 
-    delete out;
-    delete serializer;
-
     PrintReport(blueprint.report, inputStream.str(), config.lineNumbers);
 
     return blueprint.report.error.code;
+}
+
+int ProcessRefract(const Config& config, std::unique_ptr<std::istream>& in, std::unique_ptr<std::ostream>& out) {
+
+    std::stringstream inputStream;
+    inputStream << in->rdbuf();
+
+    drafter_options options;
+    options.sourcemap = config.sourceMap;
+    options.format = config.format == drafter::YAMLFormat
+       ? DRAFTER_SERIALIZE_YAML
+       : DRAFTER_SERIALIZE_JSON;
+
+    refract::IElement* result = nullptr;
+
+    int ret = drafter_parse_blueprint(inputStream.str().c_str(), &result);
+
+    if (!result) {
+        return -1;
+    }
+
+    if (!config.validate) { // If not validate, we serialize
+        char* output = drafter_serialize(result, options);
+
+        if (output) {
+            *out << output
+                 << "\n"
+                 << std::flush;
+
+            free(output);
+        }
+    }
+
+    PrintReport(result, inputStream.str(), config.lineNumbers, ret);
+
+    delete result;
+
+    return ret;
+}
+
+int main(int argc, const char *argv[])
+{
+    Config config;
+    ParseCommadLineOptions(argc, argv, config);
+
+    std::unique_ptr<std::istream> in(CreateStreamFromName<std::istream>(config.input));
+    std::unique_ptr<std::ostream> out(CreateStreamFromName<std::ostream>(config.output));
+
+    if (config.astType == drafter::RefractASTType) {
+        return ProcessRefract(config, in, out);
+    }
+    else if (config.astType == drafter::NormalASTType) {
+        return ProcessAST(config, in, out);
+    }
+
+
 }
