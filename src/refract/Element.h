@@ -613,6 +613,14 @@ namespace refract
     struct SelectElementTrait : public ElementCollectionTrait<OptionElement>
     {
         static const std::string element() { return "select"; }
+
+        static void cloneValue(const ValueType& self, ValueType& other)
+        {
+            for (std::vector<OptionElement*>::const_iterator it = self.begin(); it != self.end(); ++it) {
+                IElement* clonned = (*it)->clone();
+                other.push_back(static_cast<OptionElement*>(clonned));
+            }
+        }
     };
 
     struct SelectElement : Element<SelectElement, SelectElementTrait>
