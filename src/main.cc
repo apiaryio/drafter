@@ -112,7 +112,7 @@ int ProcessRefract(const Config& config, std::unique_ptr<std::istream>& in, std:
 
     PrintReport(result, inputStream.str(), config.lineNumbers, ret);
 
-    delete result;
+    drafter_free_result(result);
 
     return ret;
 }
