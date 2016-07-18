@@ -38,6 +38,27 @@ namespace refract
         };
 
         template <typename T>
+        struct IsExpandable<T, SelectElement::ValueType> : public CheckElement {
+            bool operator()(const T* e) const {
+
+                if (checkElement(e)) {
+                    return true;
+                }
+
+                for (std::vector<OptionElement*>::const_iterator i = e->value.begin() ; i != e->value.end() ; ++i ) {
+                    IsExpandableVisitor v;
+                    VisitBy(*(*i), v);
+
+                    if (v.get()) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        };
+
+        template <typename T>
         struct IsExpandable<T, MemberElement::ValueType> : public CheckElement {
             bool operator()(const T* e) const {
 

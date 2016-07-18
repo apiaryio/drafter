@@ -12,6 +12,8 @@
   [#127](https://github.com/apiaryio/drafter/issues/127)
   [snowcrash#200](https://github.com/apiaryio/snowcrash/issues/200)
 
+* Fixes rendering when One Of contains member sections with named types.
+  [#360](https://github.com/apiaryio/drafter/issues/360)
 
 ## 3.0.0
 

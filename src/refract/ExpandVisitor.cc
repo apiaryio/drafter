@@ -248,6 +248,31 @@ namespace refract
     };
 
     template <typename T>
+    struct ExpandElement<T, SelectElement::ValueType> {
+        IElement* result;
+
+        ExpandElement(const T& e, ExpandVisitor::Context* context) : result(NULL) {
+
+            if (!Expandable(e)) {  // do we have some expandable members?
+                return;
+            }
+
+            T* o = new T;
+            o->meta.clone(e.meta);
+
+            for (std::vector<OptionElement*>::const_iterator it = e.value.begin(); it != e.value.end(); ++it) {
+                o->push_back(static_cast<OptionElement*>(context->ExpandOrClone(*it)));
+            }
+
+            result = o;
+        }
+
+        operator IElement* () {
+            return result;
+        }
+    };
+
+    template <typename T>
     struct ExpandElement<T, RefractElements> {
         IElement* result;
 
