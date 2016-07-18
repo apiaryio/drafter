@@ -14,8 +14,8 @@
 #include "TypeQueryVisitor.h"
 #include "ComparableVisitor.h"
 
+// this will be removed, refract should not contain reference to other libraries
 #include "SourceAnnotation.h"
-
 
 namespace refract
 {
@@ -125,6 +125,7 @@ namespace refract
         }
     };
 
+    // will be moved into different header (as part of drafter instead of refract)
     template <typename T>
     void CheckMixinParent(refract::IElement* element)
     {
@@ -135,6 +136,7 @@ namespace refract
         }
     }
 
+    // will be moved into different header (as part of drafter instead of refract)
     template<typename T, typename Functor>
     void HandleRefWhenFetchingMembers(const refract::IElement* e, typename T::ValueType& members, const Functor& functor)
     {
@@ -180,6 +182,16 @@ namespace refract
         }
 
         return NULL;
+    }
+
+    template <typename T>
+    T* FindCollectionMemberValue(const IElement::MemberElementCollection& collection, const std::string& key) {
+        IElement::MemberElementCollection::const_iterator i = collection.find(key);
+        if (i == collection.end()) {
+            return NULL;
+        }
+
+        return TypeQueryVisitor::as<T>((*i)->value.second);
     }
 
     std::string GetKeyAsString(const MemberElement& e);
