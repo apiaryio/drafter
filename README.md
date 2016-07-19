@@ -187,7 +187,7 @@ We love **Windows** too! Please refer to [Building on Windows](https://github.co
 ## Bindings
 Drafter bindings in other languages:
 
-- [Protagonist](https://github.com/apiaryio/protagonist) (Node.js)
+- [drafter-npm](https://github.com/apiaryio/drafter-npm) (Node.js)
 - [drafter.js](https://github.com/apiaryio/drafter.js) (Pure JavaScript)
 - [RedSnow](https://github.com/apiaryio/redsnow) (Ruby)
 
