@@ -121,20 +121,20 @@ const std::string SerializeKey::SourceMap = "sourceMap";
 namespace drafter {
 
     template <>
-    bool LiteralTo<bool>(const mson::Literal& literal)
+    std::pair<bool, bool> LiteralTo<bool>(const mson::Literal& literal)
     {
-        return literal == SerializeKey::True;
+        return std::make_pair(true, literal == SerializeKey::True);
     }
 
     template <>
-    double LiteralTo<double>(const mson::Literal& literal)
+    std::pair<bool, double> LiteralTo<double>(const mson::Literal& literal)
     {
-        return atof(literal.c_str());
+        return std::make_pair(true, atof(literal.c_str()));
     }
 
     template <>
-    std::string LiteralTo<std::string>(const mson::Literal& literal)
+    std::pair<bool, std::string> LiteralTo<std::string>(const mson::Literal& literal)
     {
-        return literal;
+        return std::make_pair(true, literal);
     }
 };

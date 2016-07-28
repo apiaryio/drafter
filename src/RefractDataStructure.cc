@@ -189,7 +189,7 @@ namespace drafter {
         typedef snowcrash::SourceMap<ValueType> ValueSourceMapType;
 
         // NOTE: use deque instead of vector, becouse avoid trouble with std::vector<bool> in NodeInfo<bool>
-        typedef std::deque<ValueType> ValueCollectionType;
+        typedef std::vector<std::pair<bool, ValueType>> ValueCollectionType;
         typedef std::vector<ValueSourceMapType> ValueSourceMapCollectionType;
 
         ValueCollectionType values;
@@ -221,18 +221,20 @@ namespace drafter {
 
         template <typename U, bool dummy = true>
         struct Fetch {
-            U operator()(const NodeInfo<mson::TypeSection>& typeSection, ConversionContext& context, const mson::BaseTypeName& defaultNestedType) {
+            std::pair<bool, U> operator()(const NodeInfo<mson::TypeSection>& typeSection, ConversionContext& context, const mson::BaseTypeName& defaultNestedType) {
                 return LiteralTo<U>(typeSection.node->content.value);
             }
         };
 
         template<bool dummy>
         struct Fetch<RefractElements, dummy> {
-            RefractElements operator()(const NodeInfo<mson::TypeSection>& typeSection, ConversionContext& context, const mson::BaseTypeName& defaultNestedType) {
-                return MsonElementsToRefract(MakeNodeInfo(typeSection.node->content.elements(),
-                                                          typeSection.sourceMap->elements()),
-                                             context,
-                                             defaultNestedType);
+            std::pair<bool, RefractElements> operator()(const NodeInfo<mson::TypeSection>& typeSection, ConversionContext& context, const mson::BaseTypeName& defaultNestedType) {
+                return std::make_pair(true,
+                                      MsonElementsToRefract(MakeNodeInfo(typeSection.node->content.elements(),
+                                                            typeSection.sourceMap->elements()),
+                                                            context,
+                                                            defaultNestedType)
+                        );
             }
         };
 
@@ -247,17 +249,17 @@ namespace drafter {
         };
 
         template <typename U, bool dummy = true>
-        struct FetchTypeDefinition;
+        struct TypeDefinition;
 
         template<bool dummy>
-        struct FetchTypeDefinition<snowcrash::DataStructure, dummy> {
+        struct TypeDefinition<snowcrash::DataStructure, dummy> {
             const mson::TypeDefinition& operator()(const snowcrash::DataStructure& dataStructure) {
                 return dataStructure.typeDefinition;
             }
         };
 
         template<bool dummy>
-        struct FetchTypeDefinition<mson::ValueMember, dummy> {
+        struct TypeDefinition<mson::ValueMember, dummy> {
             const mson::TypeDefinition& operator()(const mson::ValueMember& valueMember) {
                 return valueMember.valueDefinition.typeDefinition;
             }
@@ -265,9 +267,11 @@ namespace drafter {
 
         template<typename V>
         struct Store {
-            void operator()(RefractElements& elements, const V& value) {
+            void operator()(RefractElements& elements, const std::pair<bool, const V&> value) {
                 T* element = new T;
-                element->set(value);
+                if (value.first) {
+                   element->set(value.second);
+                }
                 elements.push_back(element);
             }
         };
@@ -278,8 +282,8 @@ namespace drafter {
         ExtractTypeSection(ElementData<T>& data, ConversionContext& context, const NodeInfo<U>& sectionHolder)
           : data(data),
             context(context),
-            elementTypeName(FetchTypeDefinition<U>()(*sectionHolder.node).typeSpecification.name.base),
-            defaultNestedType(SelectNestedTypeSpecification(FetchTypeDefinition<U>()(*sectionHolder.node).typeSpecification.nestedTypes))
+            elementTypeName(TypeDefinition<U>()(*sectionHolder.node).typeSpecification.name.base),
+            defaultNestedType(SelectNestedTypeSpecification(TypeDefinition<U>()(*sectionHolder.node).typeSpecification.nestedTypes))
         {}
 
         void operator()(const NodeInfo<mson::TypeSection>& typeSection) {
@@ -401,7 +405,7 @@ namespace drafter {
                     types.push_back(f.Create(it->symbol.literal, method));
                 }
 
-                values.push_back(types);
+                values.push_back(std::make_pair(true, types));
             }
         };
 
@@ -445,17 +449,15 @@ namespace drafter {
 
         template<bool dummy>
         struct Store<ValueCollectionType, dummy> { // values, primitives
-            void operator()(ValueCollectionType& storage, const typename T::ValueType& value) {
+            void operator()(ValueCollectionType& storage, std::pair<bool, const typename T::ValueType> value) {
                 storage.push_back(value);
             }
         };
 
         template<bool dummy>
         struct Store<RefractElements, dummy> {
-            void operator()(RefractElements& storage, const typename T::ValueType& value) {
-                ElementType* element = new ElementType;
-                element->set(value);
-                storage.push_back(element);
+            void operator()(RefractElements& storage, std::pair<bool, const typename T::ValueType> value) {
+                    storage.push_back(new ElementType(value.second));
             }
         };
 
@@ -491,7 +493,7 @@ namespace drafter {
                     elements.push_back(f.Create(it->literal, it->variable ? eSample : eValue));
                 }
 
-                Store<S>()(storage, elements);
+                Store<S>()(storage, std::make_pair(true, elements));
             }
         };
 
@@ -648,8 +650,8 @@ namespace drafter {
 
         template <typename T>
         struct MakeNodeInfoFunctor {
-            NodeInfo<T> operator()(const T& v, const snowcrash::SourceMap<T>& sm) {
-                return MakeNodeInfo<T>(v, sm);
+            NodeInfo<T> operator()(std::pair<bool, const T&> v, const snowcrash::SourceMap<T>& sm) {
+                return MakeNodeInfo<T>(v.second, sm);
             }
         };
 
@@ -708,7 +710,7 @@ namespace drafter {
                 return;
             }
 
-            T* element = new T(data.values.front());
+            T* element = new T(data.values.front().second);
             data.samples.insert(data.samples.begin(), element);
             data.values.erase(data.values.begin());
 

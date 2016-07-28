@@ -40,7 +40,12 @@ namespace drafter {
     template<typename T>
     refract::IElement* LiteralToRefract(const NodeInfo<std::string>& literal, ConversionContext& context)
     {
-        refract::IElement* element = refract::IElement::Create(LiteralTo<T>(*literal.node));
+        std::pair<bool, const T&> parsed = LiteralTo<T>(*literal.node);
+
+        typename refract::ElementTypeSelector<T>::ElementType* element = new typename refract::ElementTypeSelector<T>::ElementType;
+        if (parsed.first) {
+            element->set(parsed.second);
+        }
 
         AttachSourceMap(element, literal);
 
