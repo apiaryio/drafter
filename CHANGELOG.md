@@ -15,6 +15,10 @@
 * Fixes rendering when One Of contains member sections with named types.
   [#360](https://github.com/apiaryio/drafter/issues/360)
 
+* Default and sample enum values will take precedence as the example value in
+  the rendered JSON structure over the enum members.
+
+
 ## 3.0.0
 
 ### Breaking

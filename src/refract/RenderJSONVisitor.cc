@@ -149,7 +149,7 @@ namespace refract
 
         if (!enumValue) { // there is no enumValue injected from ExtendElement,try to pick value directly
 
-            const EnumElement::ValueType* val = GetValue<EnumElement>(e);
+            const EnumElement::ValueType* val = GetEnumValue(e);
             if (val && !val->empty()) {
                 enumValue = val->front()->clone();
             }
