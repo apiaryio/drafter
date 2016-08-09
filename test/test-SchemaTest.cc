@@ -55,6 +55,7 @@ TEST_REFRACT("schema", "array-fixed-inline");
 TEST_REFRACT("schema", "array-fixed-inline-samples");
 TEST_REFRACT("schema", "array-fixed-samples");
 TEST_REFRACT("schema", "array-fixed-types-only");
+TEST_REFRACT("schema", "array-fixed-type");
 
 //FIXME: Discuss it with hj, as current drafter seems legit
 //boutique version of schema
@@ -70,6 +71,9 @@ TEST_REFRACT("schema", "array-fixed-samples-complex");
 TEST_REFRACT("schema", "object-fixed");
 TEST_REFRACT("schema", "object-fixed-values");
 TEST_REFRACT("schema", "object-fixed-optional");
+TEST_REFRACT("schema", "object-fixed-type");
+TEST_REFRACT("schema", "object-fixed-type-named-type");
+TEST_REFRACT("schema", "object-fixed-type-values");
 TEST_REFRACT("schema", "object-complex");
 TEST_REFRACT("schema", "object-very-complex");
 

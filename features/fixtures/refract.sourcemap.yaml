@@ -1179,7 +1179,7 @@ content:
                           content:
                             -
                               - 1573
-                              - 25
+                              - 27
                     content: "<data structure name>"
                   description:
                     element: "string"
@@ -1189,7 +1189,7 @@ content:
                           element: "sourceMap"
                           content:
                             -
-                              - 1598
+                              - 1600
                               - 30
                     content: "<data structure description>\n\n"
                 content:
@@ -1206,7 +1206,7 @@ content:
                               element: "sourceMap"
                               content:
                                 -
-                                  - 1645
+                                  - 1647
                                   - 117
                         content: "<data structure property name>"
                       value:
@@ -1217,7 +1217,7 @@ content:
                               element: "sourceMap"
                               content:
                                 -
-                                  - 1645
+                                  - 1647
                                   - 117
                         content: "<data structure property value>"
   -

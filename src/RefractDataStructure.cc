@@ -134,6 +134,9 @@ namespace drafter {
         if (ta & mson::FixedTypeAttribute) {
             attr->push_back(refract::IElement::Create(SerializeKey::Fixed));
         }
+        if (ta & mson::FixedTypeTypeAttribute) {
+            attr->push_back(refract::IElement::Create(SerializeKey::FixedType));
+        }
         if (ta & mson::NullableTypeAttribute) {
             attr->push_back(refract::IElement::Create(SerializeKey::Nullable));
         }

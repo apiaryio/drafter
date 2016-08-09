@@ -139,6 +139,7 @@ namespace drafter {
         // Refract MSON attribute "typeAttibute" values
         static const std::string Optional;
         static const std::string Fixed;
+        static const std::string FixedType;
 
         // Literal to Bool
         static const std::string True;

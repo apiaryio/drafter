@@ -21,6 +21,7 @@ namespace refract
         ObjectElement *pObj;
         ObjectElement *pDefs;
         bool fixed;
+        bool fixedType;
 
         void setSchemaType(const std::string& type);
         void addSchemaType(const std::string& type);
@@ -43,9 +44,11 @@ namespace refract
 
     public:
         JSONSchemaVisitor(ObjectElement *pDefinitions = NULL,
-                          bool fixit = false);
+                          bool _fixed = false,
+                          bool _fixedType = false);
         ~JSONSchemaVisitor();
-        void setFixed(bool fixit);
+        void setFixed(bool _fixed);
+        void setFixedType(bool _fixedType);
         void operator()(const IElement& e);
         void operator()(const MemberElement& e);
         void operator()(const ObjectElement& e);

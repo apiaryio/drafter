@@ -88,6 +88,7 @@ const std::string SerializeKey::Samples = "samples";
 const std::string SerializeKey::TypeAttributes = "typeAttributes";
 const std::string SerializeKey::Optional = "optional";
 const std::string SerializeKey::Fixed = "fixed";
+const std::string SerializeKey::FixedType = "fixedType";
 const std::string SerializeKey::True = "true";
 const std::string SerializeKey::Generic = "generic";
 const std::string SerializeKey::Enum = "enum";
