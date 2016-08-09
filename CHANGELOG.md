@@ -2,6 +2,13 @@
 
 ## Master
 
+### Enhancements
+
+* Warn about reserved characters in Named type declaration.
+  [snowcrash#335](https://github.com/apiaryio/snowcrash/issues/335)
+* Add `fixed-type` keyword support.
+  [mson#66](https://github.com/apiaryio/mson/issues/66)
+
 ### Bug Fixes
 
 * Ensure that sample values are rendered in JSON Schema when using the `fixed`

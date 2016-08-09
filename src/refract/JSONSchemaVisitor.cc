@@ -66,8 +66,9 @@ namespace refract
     }
 
     JSONSchemaVisitor::JSONSchemaVisitor(ObjectElement *pDefinitions /*= NULL*/,
-                                         bool fixit /*= false*/)
-        : pDefs(pDefinitions), fixed(fixit)
+                                         bool _fixed /*= false*/,
+                                         bool _fixedType /*= false*/)
+        : pDefs(pDefinitions), fixed(_fixed), fixedType(_fixedType)
     {
         pObj = new ObjectElement;
         pObj->renderType(IElement::rCompact);
@@ -86,9 +87,14 @@ namespace refract
     }
 
 
-    void JSONSchemaVisitor::setFixed(bool fixit)
+    void JSONSchemaVisitor::setFixed(bool _fixed)
     {
-        fixed = fixit;
+        fixed = _fixed;
+    }
+
+    void JSONSchemaVisitor::setFixedType(bool _fixedType)
+    {
+        fixedType = _fixedType;
     }
 
     template<>
@@ -177,6 +183,8 @@ namespace refract
             if (IsTypeAttribute(e, "fixed") || fixed) {
                 renderer.setFixed(true);
             }
+
+            renderer.setFixedType(IsTypeAttribute(e, "fixedType"));
             Visit(renderer, *e.value.second);
         }
 
@@ -291,6 +299,10 @@ namespace refract
             fixed = true;
         }
 
+        if (IsTypeAttribute(e, "fixedType")) {
+            fixedType = true;
+        }
+
         for (std::vector<refract::IElement*>::const_iterator it = val.begin();
              it != val.end();
              ++it) {
@@ -307,7 +319,7 @@ namespace refract
                     MemberElement *mr = static_cast<MemberElement*>(*it);
                     if (IsTypeAttribute(*(*it), "required") ||
                         IsTypeAttribute(*(*it), "fixed") ||
-                        (fixed && !IsTypeAttribute(*(*it), "optional"))) {
+                        ((fixed || fixedType) && !IsTypeAttribute(*(*it), "optional"))) {
 
                         StringElement *str = TypeQueryVisitor::as<StringElement>(mr->value.first);
                         if (str) {
@@ -374,7 +386,7 @@ namespace refract
             addMember("oneOf", new ArrayElement(oneOfMembers, IElement::rCompact));
         }
 
-        if (fixed) {
+        if (fixed || fixedType) {
             addMember("additionalProperties", IElement::Create(false));
         }
     }
@@ -427,7 +439,7 @@ namespace refract
             fixed = true;
         }
 
-        if (fixed) {
+        if (fixed || fixedType) {
             ArrayElement::ValueType av;
             bool allEmpty = allItemsEmpty(val);
 
@@ -440,7 +452,7 @@ namespace refract
                     // want them in the schema, otherwise skip
                     // empty ones
                     if (allEmpty || !(*it)->empty()) {
-                        JSONSchemaVisitor v(pDefs, true);
+                        JSONSchemaVisitor v(pDefs, fixed);
                         Visit(v, *(*it));
                         av.push_back(v.getOwnership());
                     }
