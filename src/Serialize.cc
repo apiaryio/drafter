@@ -9,6 +9,8 @@
 #include "Serialize.h"
 #include "StringUtility.h"
 
+#include <cstdlib>
+
 using namespace drafter;
 
 namespace drafter {
@@ -123,18 +125,31 @@ namespace drafter {
     template <>
     std::pair<bool, bool> LiteralTo<bool>(const mson::Literal& literal)
     {
-        return std::make_pair(true, literal == SerializeKey::True);
+        bool valid = false;
+        if (literal == "true" || literal == "false") {
+            valid = true;
+        }
+        return std::make_pair(valid, literal == SerializeKey::True);
     }
 
     template <>
     std::pair<bool, double> LiteralTo<double>(const mson::Literal& literal)
     {
-        return std::make_pair(true, atof(literal.c_str()));
+        char* pos = 0;
+        bool valid = false;
+        double value = 0;
+
+        value = std::strtod(literal.c_str(), &pos);
+        if (pos == (literal.c_str() + literal.length())) {
+            valid = true;
+        }
+
+        return std::make_pair(valid, value);
     }
 
     template <>
     std::pair<bool, std::string> LiteralTo<std::string>(const mson::Literal& literal)
     {
-        return std::make_pair(true, literal);
+        return std::make_pair(!literal.empty(), literal);
     }
 };
