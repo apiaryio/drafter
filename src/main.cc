@@ -51,7 +51,8 @@ void Serialization(std::ostream *stream,
     *stream << std::flush;
 }
 
-int ProcessAST(const Config& config, std::unique_ptr<std::istream>& in, std::unique_ptr<std::ostream>& out) {
+int ProcessAST(const Config& config, std::unique_ptr<std::istream>& in, std::unique_ptr<std::ostream>& out)
+{
     std::stringstream inputStream;
     inputStream << in->rdbuf();
 
@@ -79,8 +80,8 @@ int ProcessAST(const Config& config, std::unique_ptr<std::istream>& in, std::uni
     return blueprint.report.error.code;
 }
 
-int ProcessRefract(const Config& config, std::unique_ptr<std::istream>& in, std::unique_ptr<std::ostream>& out) {
-
+int ProcessRefract(const Config& config, std::unique_ptr<std::istream>& in, std::unique_ptr<std::ostream>& out)
+{
     std::stringstream inputStream;
     inputStream << in->rdbuf();
 
