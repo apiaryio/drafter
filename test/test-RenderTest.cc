@@ -36,6 +36,7 @@ TEST_AST("render", "action-request-attributes");
 TEST_AST("render", "object-array-string");
 TEST_AST("render", "enum-default");
 TEST_AST("render", "enum-sample");
+TEST_AST("render", "array-fixed-values");
 
 TEST_AST("render", "issue-246");
 TEST_AST("render", "issue-318");
