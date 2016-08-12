@@ -73,6 +73,10 @@ sos::Object WrapParseResultAST(snowcrash::ParseResult<snowcrash::Blueprint>& blu
         }
     }
 
+    for (auto& warning : context.warnings) {
+        blueprint.report.warnings.push_back(warning);
+    }
+
     object.set(SerializeKey::Error, WrapAnnotation(blueprint.report.error));
     object.set(SerializeKey::Warnings, WrapCollection<snowcrash::SourceAnnotation>()(blueprint.report.warnings, WrapAnnotation));
 
@@ -95,7 +99,7 @@ namespace helper {
 }
 
 refract::IElement* drafter::WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-                                   ConversionContext& context)
+                                                   ConversionContext& context)
 {
     snowcrash::Error error;
     refract::IElement* blueprintRefract = NULL;

@@ -16,23 +16,23 @@
 #include "Serialize.h"
 #include "SerializeResult.h"
 
-#define TEST_DRAFTER(description, category, name, tag,  wrapper, options, mustBeOk) TEST_CASE(description " " category " " name, "[" tag "][" category "]") { \
+#define TEST_DRAFTER(description, category, name, tag,  wrapper, options, mustBeOk) TEST_CASE(description " " category " " name, "[" tag "][" category "][" name "]") { \
     REQUIRE(FixtureHelper::handleResultJSON(wrapper, "test/fixtures/" category "/" name, options, mustBeOk)); \
 }
 
-#define TEST_REFRACT(category, name) TEST_CASE("Testing refract serialization for " category " " name, "[refract][" category "]") { \
+#define TEST_REFRACT(category, name) TEST_CASE("Testing refract serialization for " category " " name, "[refract][" category "][" name "]") { \
     FixtureHelper::handleResultJSON(&drafter::WrapResult, "test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::RefractASTType)); \
 }
 
-#define TEST_REFRACT_SOURCE_MAP(category, name) TEST_CASE("Testing refract + source map serialization for " category " " name, "[refract_sourcemap][" category "]") { \
+#define TEST_REFRACT_SOURCE_MAP(category, name) TEST_CASE("Testing refract + source map serialization for " category " " name, "[refract_sourcemap][" category "][" name "]") { \
     FixtureHelper::handleResultJSON(&drafter::WrapResult, "test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::RefractASTType, true)); \
 }
 
-#define TEST_AST(category, name) TEST_CASE("Testing AST serialization for " category " " name, "[ast][" category "]") { \
+#define TEST_AST(category, name) TEST_CASE("Testing AST serialization for " category " " name, "[ast][" category "][" name "]") { \
     FixtureHelper::handleResultJSON(&drafter::WrapResult, "test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::NormalASTType)); \
 }
 
-#define TEST_AST_SOURCE_MAP(category, name) TEST_CASE("Testing AST + source map serialization for " category " " name, "[ast_sourcemap][" category "]") { \
+#define TEST_AST_SOURCE_MAP(category, name) TEST_CASE("Testing AST + source map serialization for " category " " name, "[ast_sourcemap][" category "][" name "]") { \
     FixtureHelper::handleResultJSON(&drafter::WrapResult, "test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::NormalASTType, true)); \
 }
 
