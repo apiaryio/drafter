@@ -466,19 +466,6 @@ namespace refract
             }
         }
 
-        if (IsTypeAttribute(e, "required")) {
-            for (ArrayElement::ValueType::const_iterator it = val->begin();
-                 it != val->end();
-                 ++it) {
-
-                if (*it && !(*it)->empty()) {
-                    Visit(renderer, *(*it));
-                }
-            }
-
-            addMember("items", renderer.getOwnership());
-        }
-
         const ArrayElement *def = GetDefault(e);
 
         if (def && !def->empty()) {

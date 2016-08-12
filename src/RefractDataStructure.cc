@@ -718,13 +718,22 @@ namespace drafter {
     };
 
     template <typename T>
-    refract::IElement* RefractElementFromValue(const NodeInfo<mson::ValueMember>& value, ConversionContext& context, const mson::BaseTypeName defaultNestedType)
+    refract::IElement* RefractElementFromValue(const NodeInfo<mson::ValueMember>& value, ConversionContext& context, const mson::BaseTypeName defaultNestedType, bool generateAttributes = true)
     {
         using namespace refract;
         typedef T ElementType;
 
         ElementData<ElementType> data;
         ElementType* element = new ElementType;
+
+        if (generateAttributes) {
+            mson::TypeAttributes attrs = value.node->valueDefinition.typeDefinition.attributes;
+
+            // there is no source map for attributes
+            if (refract::IElement* attributes = MsonTypeAttributesToRefract(attrs)) {
+                element->attributes[SerializeKey::TypeAttributes] = attributes;
+            }
+        }
 
         ExtractValueMember<ElementType>(data, context, defaultNestedType)(value);
 
@@ -812,7 +821,7 @@ namespace drafter {
     refract::MemberElement* RefractElementFromProperty(const NodeInfo<mson::PropertyMember>& property, ConversionContext& context, const mson::BaseTypeName defaultNestedType)
     {
         refract::IElement* key = GetPropertyKey(property, context);
-        refract::IElement* value = RefractElementFromValue<T>(NodeInfo<mson::ValueMember>(property.node, property.sourceMap), context, defaultNestedType);
+        refract::IElement* value = RefractElementFromValue<T>(NodeInfo<mson::ValueMember>(property.node, property.sourceMap), context, defaultNestedType, false);
         refract::MemberElement* element = new refract::MemberElement(key, value);
 
         mson::TypeAttributes attrs = property.node->valueDefinition.typeDefinition.attributes;
