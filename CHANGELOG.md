@@ -25,6 +25,11 @@
 * Default and sample enum values will take precedence as the example value in
   the rendered JSON structure over the enum members.
 
+* Add type attributes for array values.
+  [#193](https://github.com/apiaryio/drafter/issues/193)
+
+* Value members with required will not have items in JSON Schema anymore
+  [#371](https://github.com/apiaryio/drafter/issues/371)
 
 ## 3.0.0
 
