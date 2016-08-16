@@ -26,6 +26,8 @@ namespace drafter {
 
         ConversionContext(const WrapperOptions& options)
         : options(options) {}
+
+        void warn(const snowcrash::Warning& warning);
     };
 
 }

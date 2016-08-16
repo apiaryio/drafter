@@ -783,7 +783,7 @@ namespace drafter {
 
             if (property.node->name.variable.values.size() > 1) {
                 // FIXME: is there example for multiple variables?
-                context.warnings.push_back(
+                context.warn(
                     snowcrash::Warning(
                         "multiple variables in property definition is not implemented",
                         snowcrash::MSONError,
@@ -917,11 +917,49 @@ namespace drafter {
         }
     };
 
+    static void CheckTypeAttributesClash(const mson::TypeAttributes& attributes,
+                                         const snowcrash::SourceMap<mson::ValueDefinition>& sourceMap,
+                                         ConversionContext& context) {
+
+        if ((attributes & mson::FixedTypeAttribute) != 0 &&
+            (attributes & mson::OptionalTypeAttribute) != 0) {
+
+            context.warn(snowcrash::Warning("cannot use 'fixed' and 'optional' together",
+                                            snowcrash::MSONError, sourceMap.sourceMap));
+        }
+
+        if ((attributes & mson::RequiredTypeAttribute) != 0 &&
+            (attributes & mson::OptionalTypeAttribute) != 0) {
+
+            context.warn(snowcrash::Warning("cannot use 'required' and 'optional' together",
+                                            snowcrash::MSONError, sourceMap.sourceMap));
+        }
+
+        if ((attributes & mson::DefaultTypeAttribute) != 0 &&
+            (attributes & mson::SampleTypeAttribute) != 0) {
+
+            context.warn(snowcrash::Warning("cannot use 'default' and 'sample' together",
+                                            snowcrash::MSONError, sourceMap.sourceMap));
+        }
+
+        if ((attributes & mson::FixedTypeAttribute) != 0 &&
+            (attributes & mson::FixedTypeTypeAttribute) != 0) {
+
+            context.warn(snowcrash::Warning("cannot use 'fixed' and 'fixed-type' together",
+                                            snowcrash::MSONError, sourceMap.sourceMap));
+        }
+    }
+
     template <typename Trait>
     static refract::IElement* MsonMemberToRefract(const typename Trait::InputType& input,
                                                   ConversionContext& context,
                                                   const mson::BaseTypeName nameType,
-                                                  const mson::BaseTypeName defaultNestedType) {
+                                                  const mson::BaseTypeName defaultNestedType,
+                                                  bool checkTypeAttributes = true) {
+
+        if (checkTypeAttributes) {
+            CheckTypeAttributesClash(input.node->valueDefinition.typeDefinition.attributes, input.sourceMap->valueDefinition, context);
+        }
 
         switch (nameType) {
             case mson::BooleanTypeName:
@@ -952,10 +990,10 @@ namespace drafter {
                     return Trait::template Invoke<refract::ObjectElement>(input, context, defaultNestedType);
                 }
                 else if (nameType != defaultNestedType) {
-                    return MsonMemberToRefract<Trait>(input, context, defaultNestedType, defaultNestedType);
+                    return MsonMemberToRefract<Trait>(input, context, defaultNestedType, defaultNestedType, false);
                 }
 
-                return MsonMemberToRefract<Trait>(input, context, mson::StringTypeName, defaultNestedType);
+                return MsonMemberToRefract<Trait>(input, context, mson::StringTypeName, defaultNestedType, false);
             }
         }
 

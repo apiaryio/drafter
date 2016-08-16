@@ -64,6 +64,7 @@
         "src/NamedTypesRegistry.h",
         "src/RefractElementFactory.h",
         "src/RefractElementFactory.cc",
+        "src/ConversionContext.cc",
         "src/ConversionContext.h",
 
 # librefract parts - will be separated into other project

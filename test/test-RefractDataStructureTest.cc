@@ -49,6 +49,8 @@ TEST_MSON_SUCCESS("regression-207");
 TEST_MSON_SUCCESS("regression-267");
 TEST_MSON("regression-269", false);
 
+TEST_AST("mson", "type-attributes");
+TEST_AST("mson", "type-attributes-payload");
 TEST_REFRACT("mson", "variable-property-name");
 
 #undef TEST_MSON_SUCCESS
