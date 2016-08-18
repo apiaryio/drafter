@@ -269,11 +269,11 @@ sos::Object WrapTransactionExample(const TransactionExample& example, const Acti
 
     // Requests
     exampleObject.set(SerializeKey::Requests,
-                      WrapCollection<Request>()(example.requests, WrapPayload, &action, context));
+                      WrapCollection<Request>()(example.requests, WrapPayload, &action, std::ref(context)));
 
     // Responses
     exampleObject.set(SerializeKey::Responses,
-                      WrapCollection<Response>()(example.responses, WrapPayload, (Action *) NULL, context));
+                      WrapCollection<Response>()(example.responses, WrapPayload, (Action *) NULL, std::ref(context)));
 
     return exampleObject;
 }
@@ -317,7 +317,7 @@ sos::Object WrapAction(const Action& action, ConversionContext& context)
 
     // Transaction Examples
     actionObject.set(SerializeKey::Examples,
-                     WrapCollection<TransactionExample>()(action.examples, WrapTransactionExample, action, context));
+                     WrapCollection<TransactionExample>()(action.examples, WrapTransactionExample, action, std::ref(context)));
 
     return actionObject;
 }
@@ -348,7 +348,7 @@ sos::Object WrapResource(const Resource& resource, ConversionContext& context)
 
     // Actions
     resourceObject.set(SerializeKey::Actions,
-                       WrapCollection<Action>()(resource.actions, WrapAction, context));
+                       WrapCollection<Action>()(resource.actions, WrapAction, std::ref(context)));
 
     // Content
     sos::Array content;
@@ -420,7 +420,7 @@ sos::Object WrapElement(const Element& element, ConversionContext& context)
         case Element::CategoryElement:
         {
             elementObject.set(SerializeKey::Content,
-                              WrapCollection<Element>()(element.content.elements(), WrapElement, context));
+                              WrapCollection<Element>()(element.content.elements(), WrapElement, std::ref(context)));
             break;
         }
 
@@ -472,7 +472,7 @@ sos::Object WrapBlueprintAST(const Blueprint& blueprint, ConversionContext& cont
 
     // Content
     blueprintObject.set(SerializeKey::Content,
-                        WrapCollection<Element>()(blueprint.content.elements(), WrapElement, context));
+                        WrapCollection<Element>()(blueprint.content.elements(), WrapElement, std::ref(context)));
 
     return blueprintObject;
 }

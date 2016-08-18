@@ -75,6 +75,7 @@
 		400FFA0A1C1B0DBB006A4CE0 /* VisitorUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = 400FFA071C1B0DBB006A4CE0 /* VisitorUtils.cc */; };
 		400FFA0C1C1B0E12006A4CE0 /* test-SchemaTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 400FFA0B1C1B0E12006A4CE0 /* test-SchemaTest.cc */; };
 		401074A31B833A1000B66442 /* Render.cc in Sources */ = {isa = PBXBuildFile; fileRef = 401074A21B833A1000B66442 /* Render.cc */; };
+		401A61C11D65D28900B0CC17 /* ConversionContext.cc in Sources */ = {isa = PBXBuildFile; fileRef = 401A61C01D65D28900B0CC17 /* ConversionContext.cc */; };
 		4038935E1CBFC1D400D01E17 /* ConversionContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 4038935D1CBFC1D400D01E17 /* ConversionContext.h */; };
 		403893641CC0007F00D01E17 /* test-SerializeSourceMapTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 403893631CC0007F00D01E17 /* test-SerializeSourceMapTest.cc */; };
 		403893661CC0021700D01E17 /* test-SerializeResultTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 403893651CC0021700D01E17 /* test-SerializeResultTest.cc */; };
@@ -200,6 +201,7 @@
 		400FFA071C1B0DBB006A4CE0 /* VisitorUtils.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VisitorUtils.cc; path = src/refract/VisitorUtils.cc; sourceTree = SOURCE_ROOT; };
 		400FFA0B1C1B0E12006A4CE0 /* test-SchemaTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-SchemaTest.cc"; path = "test/test-SchemaTest.cc"; sourceTree = "<group>"; };
 		401074A21B833A1000B66442 /* Render.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Render.cc; path = src/Render.cc; sourceTree = SOURCE_ROOT; };
+		401A61C01D65D28900B0CC17 /* ConversionContext.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConversionContext.cc; path = src/ConversionContext.cc; sourceTree = SOURCE_ROOT; };
 		4038935D1CBFC1D400D01E17 /* ConversionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConversionContext.h; path = src/ConversionContext.h; sourceTree = SOURCE_ROOT; };
 		403893631CC0007F00D01E17 /* test-SerializeSourceMapTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-SerializeSourceMapTest.cc"; path = "test/test-SerializeSourceMapTest.cc"; sourceTree = "<group>"; };
 		403893651CC0021700D01E17 /* test-SerializeResultTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-SerializeResultTest.cc"; path = "test/test-SerializeResultTest.cc"; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 				19A129961B70AC7B00366AA7 /* refract */,
 				19A1296C1B70ABE100366AA7 /* drafter.cc */,
 				19A1296D1B70ABE100366AA7 /* drafter.h */,
+				401A61C01D65D28900B0CC17 /* ConversionContext.cc */,
 				4038935D1CBFC1D400D01E17 /* ConversionContext.h */,
 				400F53971C5989C7004EA235 /* NamedTypesRegistry.cc */,
 				400F53981C5989C7004EA235 /* NamedTypesRegistry.h */,
@@ -632,6 +635,7 @@
 				19A1298C1B70ABE100366AA7 /* SerializeAST.cc in Sources */,
 				19A129B21B70AC9A00366AA7 /* Element.cc in Sources */,
 				40EF03D91B72134000865990 /* RefractAPI.cc in Sources */,
+				401A61C11D65D28900B0CC17 /* ConversionContext.cc in Sources */,
 				40AEF81D1CB80C32000A0DEE /* RefractElementFactory.cc in Sources */,
 				19A129901B70ABE100366AA7 /* SerializeSourcemap.cc in Sources */,
 				19A129B51B70AC9A00366AA7 /* ExpandVisitor.cc in Sources */,

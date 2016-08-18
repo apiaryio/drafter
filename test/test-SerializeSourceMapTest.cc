@@ -16,3 +16,6 @@ TEST_AST_SOURCE_MAP("parse-result", "warnings");
 TEST_AST_SOURCE_MAP("parse-result", "error-warning");
 TEST_AST_SOURCE_MAP("parse-result", "blueprint");
 TEST_AST_SOURCE_MAP("parse-result", "mson");
+
+TEST_AST_SOURCE_MAP("mson", "type-attributes");
+TEST_AST_SOURCE_MAP("mson", "type-attributes-payload");

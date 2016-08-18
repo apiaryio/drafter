@@ -16,3 +16,6 @@ TEST_REFRACT("parse-result", "warnings");
 TEST_REFRACT("parse-result", "error-warning");
 TEST_REFRACT("parse-result", "blueprint");
 TEST_REFRACT("parse-result", "mson");
+
+TEST_REFRACT("mson", "type-attributes");
+TEST_REFRACT("mson", "type-attributes-payload");

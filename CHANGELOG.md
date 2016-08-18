@@ -6,8 +6,11 @@
 
 * Warn about reserved characters in Named type declaration.
   [snowcrash#335](https://github.com/apiaryio/snowcrash/issues/335)
+
 * Add `fixed-type` keyword support.
   [mson#66](https://github.com/apiaryio/mson/issues/66)
+
+* Add warnings when the given MSON type attributes contradict each other
 
 ### Bug Fixes
 
@@ -31,6 +34,8 @@
 * Value members with required will not have items in JSON Schema anymore
   [#371](https://github.com/apiaryio/drafter/issues/371)
 
+* Ensures that MSON validation warnings are present when generating APIB AST
+
 ## 3.0.0
 
 ### Breaking
@@ -48,6 +53,7 @@
 * Drafter now provides a full C and C++ API interface, you may now validate,
   parse and serialize an API Blueprint. Please see `drafter.h` header for full
   API documentation.
+
 * Improve error messages for a few blueprint errors
 
 ### Bug Fixes

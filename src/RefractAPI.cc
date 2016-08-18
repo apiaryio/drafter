@@ -86,6 +86,9 @@ namespace drafter {
 
     refract::IElement* DataStructureToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context)
     {
+        // TODO: Check for already expanded MSON in context.registry and use it if possible.
+        // We aren't doing it yet because APIB AST with MSON Refract will start getting sourcemaps
+        // which is a breaking change. Once we remove APIB AST code, we can move forward with this.
         refract::IElement* msonElement = MSONToRefract(dataStructure, context);
 
         if (context.options.expandMSON) {
@@ -298,6 +301,9 @@ namespace drafter {
         content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
         content.push_back(DataStructureToRefract(MAKE_NODE_INFO(payload, attributes), context));
 
+        // FIXME: This whole rendering should be done after converting to refract. Currently, both
+        // the renders will do MSONToRefract individually on the same thing. So, basically, the attributes
+        // in a payload gets converted to refract 3 times which is something we should fix.
         try {
             // Render using boutique
             NodeInfoByValue<snowcrash::Asset> payloadBody = renderPayloadBody(payload, action, context);
@@ -324,13 +330,13 @@ namespace drafter {
         // but there is no way how to do it
         // in current time we solve it by rethrow
         catch (snowcrash::Error& e) {
-            context.warnings.push_back(
+            context.warn(
                 snowcrash::Warning("unable to render JSON/JSONSchema. " + e.message,
                                    snowcrash::ApplicationError,
                                    payload.sourceMap->sourceMap));
         }
         catch (refract::LogicError& e) {
-            context.warnings.push_back(
+            context.warn(
                 snowcrash::Warning(std::string(
                                        "unable to render JSON/JSONSchema. ").append(
                                            e.what()),

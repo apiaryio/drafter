@@ -1,0 +1,128 @@
+{
+  "_version": "2.2",
+  "ast": {
+    "_version": "4.0",
+    "metadata": [],
+    "name": "",
+    "description": "",
+    "element": "category",
+    "resourceGroups": [],
+    "content": [
+      {
+        "element": "category",
+        "content": [
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "object",
+                "meta": {
+                  "id": "A"
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "attributes": {
+                      "typeAttributes": [
+                        "required",
+                        "optional",
+                        "fixed",
+                        "fixedType"
+                      ]
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "a"
+                      },
+                      "value": {
+                        "element": "string",
+                        "attributes": {
+                          "default": "a"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "sourcemap": {
+    "metadata": [],
+    "name": [],
+    "description": [],
+    "resourceGroups": [],
+    "content": []
+  },
+  "error": {
+    "code": 0,
+    "message": "",
+    "location": []
+  },
+  "warnings": [
+    {
+      "code": 4,
+      "message": "cannot use 'fixed' and 'optional' together",
+      "location": [
+        {
+          "index": 24,
+          "length": 62
+        }
+      ]
+    },
+    {
+      "code": 4,
+      "message": "cannot use 'required' and 'optional' together",
+      "location": [
+        {
+          "index": 24,
+          "length": 62
+        }
+      ]
+    },
+    {
+      "code": 4,
+      "message": "cannot use 'default' and 'sample' together",
+      "location": [
+        {
+          "index": 24,
+          "length": 62
+        }
+      ]
+    },
+    {
+      "code": 4,
+      "message": "cannot use 'fixed' and 'fixed-type' together",
+      "location": [
+        {
+          "index": 24,
+          "length": 62
+        }
+      ]
+    },
+    {
+      "code": 4,
+      "message": "cannot use 'fixed' and 'optional' together",
+      "location": []
+    },
+    {
+      "code": 4,
+      "message": "cannot use 'required' and 'optional' together",
+      "location": []
+    },
+    {
+      "code": 4,
+      "message": "cannot use 'default' and 'sample' together",
+      "location": []
+    },
+    {
+      "code": 4,
+      "message": "cannot use 'fixed' and 'fixed-type' together",
+      "location": []
+    }
+  ]
+}
