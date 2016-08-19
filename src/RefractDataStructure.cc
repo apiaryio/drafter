@@ -37,6 +37,23 @@ namespace drafter {
         std::vector<snowcrash::SourceMap<std::string> > descriptionsSourceMap;
     };
 
+    template <typename U>
+    struct FetchSourceMap {
+
+        snowcrash::SourceMap<U> operator()(const NodeInfo<mson::ValueMember>& valueMember) {
+            snowcrash::SourceMap<U> sourceMap = *NodeInfo<U>::NullSourceMap();
+            sourceMap.sourceMap = valueMember.sourceMap->valueDefinition.sourceMap;
+            return sourceMap;
+        }
+
+        snowcrash::SourceMap<U> operator()(const NodeInfo<mson::TypeSection>& typeSection) {
+            snowcrash::SourceMap<U> sourceMap = *NodeInfo<U>::NullSourceMap();
+            sourceMap.sourceMap = typeSection.sourceMap->value.sourceMap;
+            return sourceMap;
+        }
+    };
+
+
     template <typename T, typename V = typename T::ValueType>
     struct Append {
         typedef T ElementType;
@@ -216,6 +233,7 @@ namespace drafter {
     class ExtractTypeSection
     {
         typedef typename T::ValueType ValueType;
+        typedef typename ElementData<T>::ValueInfo ValueInfo;
 
         ElementData<T>& data;
         ConversionContext& context;
@@ -232,30 +250,22 @@ namespace drafter {
 
         template <typename U, bool dummy = true>
         struct Fetch {
-            std::pair<bool, U> operator()(const NodeInfo<mson::TypeSection>& typeSection, ConversionContext& context, const mson::BaseTypeName& defaultNestedType) {
-                return LiteralTo<U>(typeSection.node->content.value);
+            ValueInfo operator()(const NodeInfo<mson::TypeSection>& typeSection, ConversionContext& context, const mson::BaseTypeName& defaultNestedType) {
+                std::pair<bool, U> val = LiteralTo<U>(typeSection.node->content.value);
+                return std::make_tuple(val.second, FetchSourceMap<U>()(typeSection), val.first);
             }
         };
 
         template<bool dummy>
         struct Fetch<RefractElements, dummy> {
-            std::pair<bool, RefractElements> operator()(const NodeInfo<mson::TypeSection>& typeSection, ConversionContext& context, const mson::BaseTypeName& defaultNestedType) {
-                return std::make_pair(true,
-                                      MsonElementsToRefract(MakeNodeInfo(typeSection.node->content.elements(),
+            ValueInfo operator()(const NodeInfo<mson::TypeSection>& typeSection, ConversionContext& context, const mson::BaseTypeName& defaultNestedType) {
+                return std::make_tuple(MsonElementsToRefract(MakeNodeInfo(typeSection.node->content.elements(),
                                                             typeSection.sourceMap->elements()),
                                                             context,
-                                                            defaultNestedType)
+                                                            defaultNestedType),
+                                       FetchSourceMap<RefractElements>()(typeSection),
+                                       true
                         );
-            }
-        };
-
-        template <typename U, bool dummy = true>
-        struct FetchSourceMap {
-            snowcrash::SourceMap<U> operator()(const NodeInfo<mson::TypeSection>& typeSection, const mson::BaseTypeName& defaultNestedType) {
-                // conversion of source map from "string" into "typed" sourcemap
-                snowcrash::SourceMap<U> sourceMap;
-                sourceMap.sourceMap = typeSection.sourceMap->value.sourceMap;
-                return sourceMap;
             }
         };
 
@@ -288,7 +298,6 @@ namespace drafter {
 
         void operator()(const NodeInfo<mson::TypeSection>& typeSection) {
             Fetch<ValueType> fetch;
-            FetchSourceMap<ValueType> fetchSourceMap;
 
             switch (typeSection.node->klass) {
 
@@ -296,27 +305,18 @@ namespace drafter {
                     // Primitives should not contain members
                     // this is to avoid push "empty" elements to primitives
                     // it is related to test/fixtures/mson/primitive-with-members.apib
-                    //
-                    // FIXME: handle this by specialization for **Primitives**
-                    // rewrite it to similar way to ExtractValueMember
+
                     if (!typeSection.node->content.elements().empty()) {
-                        std::pair<bool, ValueType> parsed = fetch(typeSection, context, defaultNestedType);
-                        snowcrash::SourceMap<ValueType> sourceMap = fetchSourceMap(typeSection, defaultNestedType);
-                        data.values.push_back(std::make_tuple(parsed.second, sourceMap, parsed.first));
+                        data.values.push_back(fetch(typeSection, context, defaultNestedType));
                     }
                     break;
 
-                case mson::TypeSection::SampleClass: {
-                        std::pair<bool, ValueType> parsed = fetch(typeSection, context, defaultNestedType);
-                        snowcrash::SourceMap<ValueType> sourceMap;
-                        data.samples.push_back(std::make_tuple(parsed.second, sourceMap, parsed.first));
-                    }
+                case mson::TypeSection::SampleClass:
+                    data.samples.push_back(fetch(typeSection, context, defaultNestedType));
                     break;
 
                 case mson::TypeSection::DefaultClass: {
-                        std::pair<bool, ValueType> parsed = fetch(typeSection, context, defaultNestedType);
-                        snowcrash::SourceMap<ValueType> sourceMap;
-                        data.defaults.push_back(std::make_tuple(parsed.second, sourceMap, parsed.first));
+                        data.defaults.push_back(fetch(typeSection, context, defaultNestedType));
                     }
                     break;
 
@@ -380,21 +380,22 @@ namespace drafter {
     struct ExtractTypeDefinition {
 
         typedef T ElementType;
+        typedef typename ElementData<T>::ValueInfo ValueInfo;
 
         ElementData<ElementType>& data;
         ConversionContext& context;
 
         template<typename X, bool dummy = true>
         struct Fetch {
-            std::pair<bool, typename T::ValueType> operator()(const mson::TypeNames&, ConversionContext&) {
+            ValueInfo operator()(const mson::TypeNames&, ConversionContext&) {
                 typename T::ValueType val;
-                return std::make_pair(false, val);
+                return std::make_tuple(val, *NodeInfo<typename T::ValueType>::NullSourceMap(), false);
             }
         };
 
         template<bool dummy>
         struct Fetch<RefractElements, dummy> {
-            std::pair<bool, RefractElements> operator()(const mson::TypeNames& typeNames, ConversionContext& context) {
+            ValueInfo operator()(const mson::TypeNames& typeNames, ConversionContext& context) {
                 RefractElements types;
                 for (mson::TypeNames::const_iterator it = typeNames.begin(); it != typeNames.end(); ++it) {
                     mson::BaseTypeName typeName = it->base;
@@ -409,16 +410,16 @@ namespace drafter {
                     types.push_back(f.Create(it->symbol.literal, method));
                 }
 
-                return std::make_pair(true, types);
+                return std::make_tuple(types, *NodeInfo<typename T::ValueType>::NullSourceMap(), true);
             }
         };
 
         ExtractTypeDefinition(ElementData<ElementType>& data, ConversionContext& context) : data(data), context(context) {}
 
         void operator()(const NodeInfo<mson::TypeDefinition>& typeDefinition) {
-            std::pair<bool, typename T::ValueType> value = Fetch<typename T::ValueType>()(typeDefinition.node->typeSpecification.nestedTypes, context);
-            if (value.first) {
-                data.values.push_back(std::make_tuple(value.second, snowcrash::SourceMap<typename T::ValueType>(), value.first));
+            ValueInfo value = Fetch<typename T::ValueType>()(typeDefinition.node->typeSpecification.nestedTypes, context);
+            if (std::get<2>(value)) {
+                data.values.push_back(value);
             }
         }
     };
@@ -427,6 +428,7 @@ namespace drafter {
     struct ExtractValueMember
     {
         typedef T ElementType;
+        typedef typename ElementData<T>::ValueInfo ValueInfo;
 
         ElementData<T>& data;
         ConversionContext& context;
@@ -434,21 +436,23 @@ namespace drafter {
         template <typename U, bool dummy = true>
         struct Fetch {  // primitive values
 
-            std::pair<bool, typename T::ValueType> operator()(const NodeInfo<mson::ValueMember>& valueMember) {
+            ValueInfo operator()(const NodeInfo<mson::ValueMember>& valueMember) {
                 if (valueMember.node->valueDefinition.values.size() > 1) {
                     throw snowcrash::Error("only one value is supported for primitive types", snowcrash::MSONError, valueMember.sourceMap->sourceMap);
                 }
 
                 const mson::Value& value = *valueMember.node->valueDefinition.values.begin();
 
-                return LiteralTo<U>(value.literal);
+                std::pair<bool, U> val = LiteralTo<U>(value.literal);
+
+                return std::make_tuple(val.second, FetchSourceMap<U>()(valueMember), val.first);
             }
         };
 
         template<bool dummy>
         struct Fetch<RefractElements, dummy> { // Array|Object
 
-            std::pair<bool, typename T::ValueType> operator()(const NodeInfo<mson::ValueMember>& valueMember) {
+            ValueInfo operator()(const NodeInfo<mson::ValueMember>& valueMember) {
 
                 const mson::BaseTypeName type = SelectNestedTypeSpecification(valueMember.node->valueDefinition.typeDefinition.typeSpecification.nestedTypes);
 
@@ -461,17 +465,7 @@ namespace drafter {
                     elements.push_back(f.Create(it->literal, it->variable ? eSample : eValue));
                 }
 
-                return std::make_pair(true, elements);
-            }
-        };
-
-        template <typename U>
-        struct FetchSourceMap {
-
-            snowcrash::SourceMap<U> operator()(const NodeInfo<mson::ValueMember>& valueMember) {
-                snowcrash::SourceMap<typename T::ValueType> sourceMap = *NodeInfo<typename T::ValueType>::NullSourceMap();
-                sourceMap.sourceMap = valueMember.sourceMap->valueDefinition.sourceMap;
-                return sourceMap;
+                return std::make_tuple(elements, FetchSourceMap<RefractElements>()(valueMember), true);
             }
         };
 
@@ -505,24 +499,21 @@ namespace drafter {
             }
 
             Fetch<typename T::ValueType> fetch;
-            FetchSourceMap<typename T::ValueType> fetchSourceMap;
 
             if (!valueMember.node->valueDefinition.values.empty()) {
                 mson::TypeAttributes attrs = valueMember.node->valueDefinition.typeDefinition.attributes;
                 const mson::Value& value = *valueMember.node->valueDefinition.values.begin();
 
-                std::pair<bool, typename T::ValueType> parsed = fetch(valueMember);
-                snowcrash::SourceMap<typename T::ValueType> sourceMap;
+                ValueInfo parsed = fetch(valueMember);
 
                 if (attrs & mson::DefaultTypeAttribute) {
-                    data.defaults.push_back(std::make_tuple(parsed.second, sourceMap, parsed.first));
+                    data.defaults.push_back(parsed);
                 }
                 else if ((attrs & mson::SampleTypeAttribute) || IsValueVariable<typename T::ValueType>()(value)) {
-                    data.samples.push_back(std::make_tuple(parsed.second, sourceMap, parsed.first));
+                    data.samples.push_back(parsed);
                 }
                 else {
-                    sourceMap = fetchSourceMap(valueMember);
-                    data.values.push_back(std::make_tuple(parsed.second, sourceMap, parsed.first));
+                    data.values.push_back(parsed);
                 }
             }
 
