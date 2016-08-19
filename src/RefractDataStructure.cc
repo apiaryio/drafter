@@ -1,3 +1,4 @@
+//
 //  RefractDataStructure.cc
 //  drafter
 //
@@ -107,6 +108,41 @@ namespace drafter {
         {
             const NodeInfo<ValueType> nodeInfo = MakeNodeInfo(std::get<0>(value), std::get<1>(value));
             (*this)(nodeInfo);
+        }
+    };
+
+    template <typename V, bool dummy = true>
+    struct CheckValueValidity {
+
+        typedef typename ElementData<V>::ValueInfo ValueInfo;
+
+        void operator()(const ValueInfo&, ConversionContext&) {
+            // do nothing
+        }
+    };
+
+    template <bool dummy>
+    struct CheckValueValidity<refract::NumberElement, dummy> {
+
+        typedef typename ElementData<refract::NumberElement>::ValueInfo ValueInfo;
+
+        void operator()(const ValueInfo& value, ConversionContext& context) {
+
+            if (!std::get<2>(value)) {
+                context.warn(snowcrash::Warning("invalid value format for 'number' type. please check mson specification for valid format", snowcrash::MSONError, std::get<1>(value).sourceMap));
+            }
+        }
+    };
+
+    template <bool dummy>
+    struct CheckValueValidity<refract::BooleanElement, dummy> {
+
+        typedef typename ElementData<refract::BooleanElement>::ValueInfo ValueInfo;
+
+        void operator()(const ValueInfo& value, ConversionContext& context) {
+            if (!std::get<2>(value)) {
+                context.warn(snowcrash::Warning("invalid value for 'boolean' type. allowed values are 'true' or 'false'", snowcrash::MSONError, std::get<1>(value).sourceMap));
+            }
         }
     };
 
@@ -247,12 +283,18 @@ namespace drafter {
          * Specialized is for (Array|Object)Element because of underlying type.
          * `dummy` param is used because of specialization inside another struct
          */
-
         template <typename U, bool dummy = true>
         struct Fetch {
             ValueInfo operator()(const NodeInfo<mson::TypeSection>& typeSection, ConversionContext& context, const mson::BaseTypeName& defaultNestedType) {
+
                 std::pair<bool, U> val = LiteralTo<U>(typeSection.node->content.value);
-                return std::make_tuple(val.second, FetchSourceMap<U>()(typeSection), val.first);
+                snowcrash::SourceMap<U> sourceMap = FetchSourceMap<U>()(typeSection);
+
+                ValueInfo result = std::make_tuple(val.second, sourceMap, val.first);
+
+                CheckValueValidity<T>()(result, context);
+
+                return result;
             }
         };
 
@@ -315,9 +357,8 @@ namespace drafter {
                     data.samples.push_back(fetch(typeSection, context, defaultNestedType));
                     break;
 
-                case mson::TypeSection::DefaultClass: {
-                        data.defaults.push_back(fetch(typeSection, context, defaultNestedType));
-                    }
+                case mson::TypeSection::DefaultClass:
+                    data.defaults.push_back(fetch(typeSection, context, defaultNestedType));
                     break;
 
                 case mson::TypeSection::BlockDescriptionClass:
@@ -397,6 +438,7 @@ namespace drafter {
         struct Fetch<RefractElements, dummy> {
             ValueInfo operator()(const mson::TypeNames& typeNames, ConversionContext& context) {
                 RefractElements types;
+
                 for (mson::TypeNames::const_iterator it = typeNames.begin(); it != typeNames.end(); ++it) {
                     mson::BaseTypeName typeName = it->base;
                     FactoryCreateMethod method = eValue;
@@ -418,6 +460,7 @@ namespace drafter {
 
         void operator()(const NodeInfo<mson::TypeDefinition>& typeDefinition) {
             ValueInfo value = Fetch<typename T::ValueType>()(typeDefinition.node->typeSpecification.nestedTypes, context);
+
             if (std::get<2>(value)) {
                 data.values.push_back(value);
             }
@@ -436,7 +479,7 @@ namespace drafter {
         template <typename U, bool dummy = true>
         struct Fetch {  // primitive values
 
-            ValueInfo operator()(const NodeInfo<mson::ValueMember>& valueMember) {
+            ValueInfo operator()(const NodeInfo<mson::ValueMember>& valueMember, ConversionContext& context) {
                 if (valueMember.node->valueDefinition.values.size() > 1) {
                     throw snowcrash::Error("only one value is supported for primitive types", snowcrash::MSONError, valueMember.sourceMap->sourceMap);
                 }
@@ -444,15 +487,20 @@ namespace drafter {
                 const mson::Value& value = *valueMember.node->valueDefinition.values.begin();
 
                 std::pair<bool, U> val = LiteralTo<U>(value.literal);
+                snowcrash::SourceMap<U> sourceMap = FetchSourceMap<U>()(valueMember);
 
-                return std::make_tuple(val.second, FetchSourceMap<U>()(valueMember), val.first);
+                ValueInfo result = std::make_tuple(val.second, sourceMap, val.first);
+
+                CheckValueValidity<T>()(result, context);
+
+                return result;
             }
         };
 
         template<bool dummy>
         struct Fetch<RefractElements, dummy> { // Array|Object
 
-            ValueInfo operator()(const NodeInfo<mson::ValueMember>& valueMember) {
+            ValueInfo operator()(const NodeInfo<mson::ValueMember>& valueMember, ConversionContext& context) {
 
                 const mson::BaseTypeName type = SelectNestedTypeSpecification(valueMember.node->valueDefinition.typeDefinition.typeSpecification.nestedTypes);
 
@@ -504,7 +552,7 @@ namespace drafter {
                 mson::TypeAttributes attrs = valueMember.node->valueDefinition.typeDefinition.attributes;
                 const mson::Value& value = *valueMember.node->valueDefinition.values.begin();
 
-                ValueInfo parsed = fetch(valueMember);
+                ValueInfo parsed = fetch(valueMember, context);
 
                 if (attrs & mson::DefaultTypeAttribute) {
                     data.defaults.push_back(parsed);
@@ -586,7 +634,6 @@ namespace drafter {
 
             template <typename U>
             void operator()(const U& samples, refract::IElement* element) {
-
                 if (samples.empty()) {
                     return;
                 }

@@ -47,5 +47,21 @@
     "message": "",
     "location": []
   },
-  "warnings": []
+  "warnings": [
+    {
+      "code": 4,
+      "message": "invalid value format for 'number' type. please check mson specification for valid format",
+      "location": [
+        {
+          "index": 334,
+          "length": 30
+        }
+      ]
+    },
+    {
+      "code": 4,
+      "message": "invalid value format for 'number' type. please check mson specification for valid format",
+      "location": []
+    }
+  ]
 }

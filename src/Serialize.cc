@@ -140,8 +140,13 @@ namespace drafter {
         double value = 0;
 
         value = std::strtod(literal.c_str(), &pos);
-        if (pos == (literal.c_str() + literal.length())) {
+        const char* end = literal.c_str() + literal.length();
+        if (pos == end) {
             valid = true;
+        }
+        else {
+            // check for trailing whitespaces
+            valid = (literal.end() != std::find_if(literal.begin() + (end-pos), literal.end(), ::isspace));
         }
 
         return std::make_pair(valid, value);
