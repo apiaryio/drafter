@@ -247,6 +247,10 @@ namespace refract
                                 if (iKey != keysBase.end()) { // key is already presented, replace value
                                     delete iKey->second->value.second;
                                     iKey->second->value.second = member->value.second->clone();
+
+                                    std::set<std::string> emptySet;
+                                    InfoMerge<T>(iKey->second->meta, emptySet)(member->meta);
+                                    InfoMerge<T>(iKey->second->attributes, emptySet)(member->attributes);
                                 }
                                 else { // unknown key, append value
                                     MemberElement* clone = static_cast<MemberElement*>(member->clone());
