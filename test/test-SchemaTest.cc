@@ -76,6 +76,7 @@ TEST_REFRACT("schema", "object-fixed-type-named-type");
 TEST_REFRACT("schema", "object-fixed-type-values");
 TEST_REFRACT("schema", "object-complex");
 TEST_REFRACT("schema", "object-very-complex");
+TEST_REFRACT("schema", "object-override");
 
 TEST_REFRACT("schema", "mixin-simple");
 

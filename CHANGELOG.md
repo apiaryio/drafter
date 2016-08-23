@@ -1,5 +1,13 @@
 # Drafter Changelog
 
+## Master
+
+### Bug Fixes
+
+* While overriding a property on an inherited object, the description and type
+  annotation was not being overridden.
+  [#366](https://github.com/apiaryio/drafter/issues/366)
+
 ## 3.1.0-pre.0
 
 ### Enhancements
