@@ -1,6 +1,6 @@
 # Drafter Changelog
 
-## Master
+## 3.1.0-pre.0
 
 ### Enhancements
 
@@ -10,7 +10,7 @@
 * Add `fixed-type` keyword support.
   [mson#66](https://github.com/apiaryio/mson/issues/66)
 
-* Add warnings when the given MSON type attributes contradict each other
+* Add warnings when the given MSON type attributes contradict each other.
 
 ### Bug Fixes
 
@@ -31,10 +31,12 @@
 * Add type attributes for array values.
   [#193](https://github.com/apiaryio/drafter/issues/193)
 
-* Value members with required will not have items in JSON Schema anymore
+* Value members with required will not have items in JSON Schema anymore.
   [#371](https://github.com/apiaryio/drafter/issues/371)
 
-* Ensures that MSON validation warnings are present when generating APIB AST
+* Ensures that MSON validation warnings are present when generating APIB AST.
+
+* Improved validation of `Request` keyword matching.
 
 ## 3.0.0
 
