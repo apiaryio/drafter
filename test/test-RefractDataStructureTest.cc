@@ -33,7 +33,7 @@ TEST_MSON_SUCCESS("nontyped-array-sample");
 TEST_MSON_SUCCESS("resource-anonymous");
 TEST_MSON_SUCCESS("resource-nested-inheritance");
 TEST_MSON_SUCCESS("resource-nested-mixin");
-TEST_MSON_SUCCESS("resource-unresolved-reference");
+TEST_MSON("resource-unresolved-reference", false);
 TEST_MSON_SUCCESS("resource-resolve-basetype");
 TEST_MSON_SUCCESS("resource-primitive-mixin");
 TEST_MSON_SUCCESS("array-typed-content");

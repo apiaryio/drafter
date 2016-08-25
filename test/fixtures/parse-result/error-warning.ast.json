@@ -20,16 +20,6 @@
           "length": 13
         }
       ]
-    },
-    {
-      "code": 8,
-      "message": "unable to find the symbol `B` in the list of named types",
-      "location": [
-        {
-          "index": 55,
-          "length": 9
-        }
-      ]
     }
   ]
 }

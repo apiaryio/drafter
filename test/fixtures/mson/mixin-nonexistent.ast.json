@@ -12,16 +12,6 @@
   },
   "warnings": [
     {
-      "code": 8,
-      "message": "unable to find the symbol `XXX` in the list of named types",
-      "location": [
-        {
-          "index": 282,
-          "length": 12
-        }
-      ]
-    },
-    {
       "code": 3,
       "message": "mixin type may not include a type of a primitive sub-type",
       "location": [
