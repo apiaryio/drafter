@@ -10,16 +10,5 @@
       }
     ]
   },
-  "warnings": [
-    {
-      "code": 8,
-      "message": "unable to find the symbol `X` in the list of named types",
-      "location": [
-        {
-          "index": 19,
-          "length": 10
-        }
-      ]
-    }
-  ]
+  "warnings": []
 }

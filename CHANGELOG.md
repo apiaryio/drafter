@@ -8,6 +8,17 @@
   annotation was not being overridden.
   [#366](https://github.com/apiaryio/drafter/issues/366)
 
+* Always give an error when unable to find named type.
+  [snowcrash#354](https://github.com/apiaryio/snowcrash/issues/354)
+
+* Ensure that escaped values in MSON are not treated as markdown
+  [#365](https://github.com/apiaryio/drafter/issues/365)
+
+### Enhancements
+
+* Warn when primitive values in MSON doesn't follow the given type format
+  [#334](https://github.com/apiaryio/drafter/issues/334)
+
 ## 3.1.0-pre.0
 
 ### Enhancements

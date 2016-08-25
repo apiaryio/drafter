@@ -46,29 +46,6 @@
         ]
       },
       "content": "no parameters specified, expected a nested list of parameters, one parameter per list item"
-    },
-    {
-      "element": "annotation",
-      "meta": {
-        "classes": [
-          "warning"
-        ]
-      },
-      "attributes": {
-        "code": 8,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                55,
-                9
-              ]
-            ]
-          }
-        ]
-      },
-      "content": "unable to find the symbol `B` in the list of named types"
     }
   ]
 }
