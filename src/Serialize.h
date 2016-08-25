@@ -179,11 +179,11 @@ namespace drafter {
         static const std::string SourceMap;
     };
 
-    template<typename T> T LiteralTo(const mson::Literal&);
+    template<typename T> std::pair<bool, T> LiteralTo(const mson::Literal&);
 
-    template <> bool LiteralTo<bool>(const mson::Literal& literal);
-    template <> double LiteralTo<double>(const mson::Literal& literal);
-    template <> std::string LiteralTo<std::string>(const mson::Literal& literal);
+    template <> std::pair<bool, bool> LiteralTo<bool>(const mson::Literal& literal);
+    template <> std::pair<bool, double> LiteralTo<double>(const mson::Literal& literal);
+    template <> std::pair<bool, std::string> LiteralTo<std::string>(const mson::Literal& literal);
 
 
     refract::ArrayElement* CreateArrayElement(refract::IElement* value, bool rFull = false);

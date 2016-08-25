@@ -9,6 +9,8 @@
 #include "Serialize.h"
 #include "StringUtility.h"
 
+#include <cstdlib>
+
 using namespace drafter;
 
 namespace drafter {
@@ -121,20 +123,38 @@ const std::string SerializeKey::SourceMap = "sourceMap";
 namespace drafter {
 
     template <>
-    bool LiteralTo<bool>(const mson::Literal& literal)
+    std::pair<bool, bool> LiteralTo<bool>(const mson::Literal& literal)
     {
-        return literal == SerializeKey::True;
+        bool valid = false;
+        if (literal == "true" || literal == "false") {
+            valid = true;
+        }
+        return std::make_pair(valid, literal == SerializeKey::True);
     }
 
     template <>
-    double LiteralTo<double>(const mson::Literal& literal)
+    std::pair<bool, double> LiteralTo<double>(const mson::Literal& literal)
     {
-        return atof(literal.c_str());
+        char* pos = 0;
+        bool valid = false;
+        double value = 0;
+
+        value = std::strtod(literal.c_str(), &pos);
+        const char* end = literal.c_str() + literal.length();
+        if (pos == end) {
+            valid = true;
+        }
+        else {
+            // check for trailing whitespaces
+            valid = (literal.end() != std::find_if(literal.begin() + (end-pos), literal.end(), ::isspace));
+        }
+
+        return std::make_pair(valid, value);
     }
 
     template <>
-    std::string LiteralTo<std::string>(const mson::Literal& literal)
+    std::pair<bool, std::string> LiteralTo<std::string>(const mson::Literal& literal)
     {
-        return literal;
+        return std::make_pair(!literal.empty(), literal);
     }
 };

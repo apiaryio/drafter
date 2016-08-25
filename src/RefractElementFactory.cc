@@ -23,13 +23,20 @@ namespace drafter {
             switch (method) {
                 case eSample: {
                         refract::ArrayElement* samples = new refract::ArrayElement;
-                        samples->push_back(refract::IElement::Create(LiteralTo<typename E::ValueType>(literal)));
+                        std::pair<bool, typename E::ValueType> value = LiteralTo<typename E::ValueType>(literal);
+                        if (value.first) {
+                            samples->push_back(refract::IElement::Create(value.second));
+                        }
                         element->attributes[SerializeKey::Samples] = samples;
                     }
                     break;
 
-                case eValue:
-                    element->set(LiteralTo<V>(literal));
+                case eValue: {
+                        std::pair<bool, V> value = LiteralTo<V>(literal);
+                        if (value.first) {
+                            element->set(value.second);
+                        }
+                    }
                     break;
 
                 case eElement:

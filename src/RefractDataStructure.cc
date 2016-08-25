@@ -21,11 +21,46 @@
 
 namespace drafter {
 
+    template <typename T>
+    struct ElementData {
+        typedef T ElementType;
+
+        typedef typename T::ValueType ValueType;
+        typedef snowcrash::SourceMap<ValueType> ValueSourceMapType;
+
+        typedef std::tuple<ValueType, ValueSourceMapType, bool> ValueInfo; // [value, sourceMap, validity(by LiteralTo<>)]
+
+        std::vector<ValueInfo> values;
+        std::vector<ValueInfo> defaults;
+        std::vector<ValueInfo> samples;
+
+        std::vector<std::string> descriptions;
+        std::vector<snowcrash::SourceMap<std::string> > descriptionsSourceMap;
+    };
+
+    template <typename U>
+    struct FetchSourceMap {
+
+        snowcrash::SourceMap<U> operator()(const NodeInfo<mson::ValueMember>& valueMember) {
+            snowcrash::SourceMap<U> sourceMap = *NodeInfo<U>::NullSourceMap();
+            sourceMap.sourceMap = valueMember.sourceMap->valueDefinition.sourceMap;
+            return sourceMap;
+        }
+
+        snowcrash::SourceMap<U> operator()(const NodeInfo<mson::TypeSection>& typeSection) {
+            snowcrash::SourceMap<U> sourceMap = *NodeInfo<U>::NullSourceMap();
+            sourceMap.sourceMap = typeSection.sourceMap->value.sourceMap;
+            return sourceMap;
+        }
+    };
+
+
     template <typename T, typename V = typename T::ValueType>
     struct Append {
         typedef T ElementType;
         typedef V ValueType;
         ElementType*& element;
+        typedef typename ElementData<T>::ValueInfo ValueInfo;
 
         Append(ElementType*& e) : element(e)
         {
@@ -45,6 +80,12 @@ namespace drafter {
                 AttachSourceMap(element, value);
             }
         }
+
+        void operator()(const ValueInfo& value)
+        {
+            const NodeInfo<ValueType> nodeInfo = MakeNodeInfo(std::get<0>(value), std::get<1>(value));
+            (*this)(nodeInfo);
+        }
     };
 
     template <typename T>
@@ -52,6 +93,7 @@ namespace drafter {
         typedef T ElementType;
         typedef typename T::ValueType ValueType;
         ElementType*& element;
+        typedef typename ElementData<T>::ValueInfo ValueInfo;
 
         Append(ElementType*& e) : element(e)
         {
@@ -60,6 +102,47 @@ namespace drafter {
         void operator()(const NodeInfo<ValueType>& value)
         {
             std::for_each(value.node->begin(), value.node->end(), std::bind1st(std::mem_fun(&ElementType::push_back), element));
+        }
+
+        void operator()(const ValueInfo& value)
+        {
+            const NodeInfo<ValueType> nodeInfo = MakeNodeInfo(std::get<0>(value), std::get<1>(value));
+            (*this)(nodeInfo);
+        }
+    };
+
+    template <typename V, bool dummy = true>
+    struct CheckValueValidity {
+
+        typedef typename ElementData<V>::ValueInfo ValueInfo;
+
+        void operator()(const ValueInfo&, ConversionContext&) {
+            // do nothing
+        }
+    };
+
+    template <bool dummy>
+    struct CheckValueValidity<refract::NumberElement, dummy> {
+
+        typedef typename ElementData<refract::NumberElement>::ValueInfo ValueInfo;
+
+        void operator()(const ValueInfo& value, ConversionContext& context) {
+
+            if (!std::get<2>(value)) {
+                context.warn(snowcrash::Warning("invalid value format for 'number' type. please check mson specification for valid format", snowcrash::MSONError, std::get<1>(value).sourceMap));
+            }
+        }
+    };
+
+    template <bool dummy>
+    struct CheckValueValidity<refract::BooleanElement, dummy> {
+
+        typedef typename ElementData<refract::BooleanElement>::ValueInfo ValueInfo;
+
+        void operator()(const ValueInfo& value, ConversionContext& context) {
+            if (!std::get<2>(value)) {
+                context.warn(snowcrash::Warning("invalid value for 'boolean' type. allowed values are 'true' or 'false'", snowcrash::MSONError, std::get<1>(value).sourceMap));
+            }
         }
     };
 
@@ -181,34 +264,16 @@ namespace drafter {
         return type;
     }
 
-    template <typename T>
-    struct ElementData {
-        typedef T ElementType;
-
-        typedef typename T::ValueType ValueType;
-        typedef snowcrash::SourceMap<ValueType> ValueSourceMapType;
-
-        // NOTE: use deque instead of vector, becouse avoid trouble with std::vector<bool> in NodeInfo<bool>
-        typedef std::deque<ValueType> ValueCollectionType;
-        typedef std::vector<ValueSourceMapType> ValueSourceMapCollectionType;
-
-        ValueCollectionType values;
-        ValueSourceMapCollectionType valuesSourceMap;
-
-        RefractElements defaults;
-        RefractElements samples;
-
-        std::vector<std::string> descriptions;
-        std::vector<snowcrash::SourceMap<std::string> > descriptionsSourceMap;
-    };
 
     template <typename T>
     class ExtractTypeSection
     {
         typedef typename T::ValueType ValueType;
+        typedef typename ElementData<T>::ValueInfo ValueInfo;
 
         ElementData<T>& data;
         ConversionContext& context;
+
         mson::BaseTypeName elementTypeName;
         mson::BaseTypeName defaultNestedType;
 
@@ -218,57 +283,48 @@ namespace drafter {
          * Specialized is for (Array|Object)Element because of underlying type.
          * `dummy` param is used because of specialization inside another struct
          */
-
         template <typename U, bool dummy = true>
         struct Fetch {
-            U operator()(const NodeInfo<mson::TypeSection>& typeSection, ConversionContext& context, const mson::BaseTypeName& defaultNestedType) {
-                return LiteralTo<U>(typeSection.node->content.value);
+            ValueInfo operator()(const NodeInfo<mson::TypeSection>& typeSection, ConversionContext& context, const mson::BaseTypeName& defaultNestedType) {
+
+                std::pair<bool, U> val = LiteralTo<U>(typeSection.node->content.value);
+                snowcrash::SourceMap<U> sourceMap = FetchSourceMap<U>()(typeSection);
+
+                ValueInfo result = std::make_tuple(val.second, sourceMap, val.first);
+
+                CheckValueValidity<T>()(result, context);
+
+                return result;
             }
         };
 
         template<bool dummy>
         struct Fetch<RefractElements, dummy> {
-            RefractElements operator()(const NodeInfo<mson::TypeSection>& typeSection, ConversionContext& context, const mson::BaseTypeName& defaultNestedType) {
-                return MsonElementsToRefract(MakeNodeInfo(typeSection.node->content.elements(),
-                                                          typeSection.sourceMap->elements()),
-                                             context,
-                                             defaultNestedType);
+            ValueInfo operator()(const NodeInfo<mson::TypeSection>& typeSection, ConversionContext& context, const mson::BaseTypeName& defaultNestedType) {
+                return std::make_tuple(MsonElementsToRefract(MakeNodeInfo(typeSection.node->content.elements(),
+                                                            typeSection.sourceMap->elements()),
+                                                            context,
+                                                            defaultNestedType),
+                                       FetchSourceMap<RefractElements>()(typeSection),
+                                       true
+                        );
             }
         };
 
         template <typename U, bool dummy = true>
-        struct FetchSourceMap {
-            snowcrash::SourceMap<U> operator()(const NodeInfo<mson::TypeSection>& typeSection, const mson::BaseTypeName& defaultNestedType) {
-                // conversion of source map from "string" into "typed" sourcemap
-                snowcrash::SourceMap<U> sourceMap;
-                sourceMap.sourceMap = typeSection.sourceMap->value.sourceMap;
-                return sourceMap;
-            }
-        };
-
-        template <typename U, bool dummy = true>
-        struct FetchTypeDefinition;
+        struct TypeDefinition;
 
         template<bool dummy>
-        struct FetchTypeDefinition<snowcrash::DataStructure, dummy> {
+        struct TypeDefinition<snowcrash::DataStructure, dummy> {
             const mson::TypeDefinition& operator()(const snowcrash::DataStructure& dataStructure) {
                 return dataStructure.typeDefinition;
             }
         };
 
         template<bool dummy>
-        struct FetchTypeDefinition<mson::ValueMember, dummy> {
+        struct TypeDefinition<mson::ValueMember, dummy> {
             const mson::TypeDefinition& operator()(const mson::ValueMember& valueMember) {
                 return valueMember.valueDefinition.typeDefinition;
-            }
-        };
-
-        template<typename V>
-        struct Store {
-            void operator()(RefractElements& elements, const V& value) {
-                T* element = new T;
-                element->set(value);
-                elements.push_back(element);
             }
         };
 
@@ -278,14 +334,12 @@ namespace drafter {
         ExtractTypeSection(ElementData<T>& data, ConversionContext& context, const NodeInfo<U>& sectionHolder)
           : data(data),
             context(context),
-            elementTypeName(FetchTypeDefinition<U>()(*sectionHolder.node).typeSpecification.name.base),
-            defaultNestedType(SelectNestedTypeSpecification(FetchTypeDefinition<U>()(*sectionHolder.node).typeSpecification.nestedTypes))
+            elementTypeName(TypeDefinition<U>()(*sectionHolder.node).typeSpecification.name.base),
+            defaultNestedType(SelectNestedTypeSpecification(TypeDefinition<U>()(*sectionHolder.node).typeSpecification.nestedTypes))
         {}
 
         void operator()(const NodeInfo<mson::TypeSection>& typeSection) {
             Fetch<ValueType> fetch;
-            FetchSourceMap<ValueType> fetchSourceMap;
-            Store<ValueType> store;
 
             switch (typeSection.node->klass) {
 
@@ -293,21 +347,18 @@ namespace drafter {
                     // Primitives should not contain members
                     // this is to avoid push "empty" elements to primitives
                     // it is related to test/fixtures/mson/primitive-with-members.apib
-                    //
-                    // FIXME: handle this by specialization for **Primitives**
-                    // rewrite it to similar way to ExtractValueMember
+
                     if (!typeSection.node->content.elements().empty()) {
                         data.values.push_back(fetch(typeSection, context, defaultNestedType));
-                        data.valuesSourceMap.push_back(fetchSourceMap(typeSection, defaultNestedType));
                     }
                     break;
 
                 case mson::TypeSection::SampleClass:
-                    store(data.samples, fetch(typeSection, context, defaultNestedType));
+                    data.samples.push_back(fetch(typeSection, context, defaultNestedType));
                     break;
 
                 case mson::TypeSection::DefaultClass:
-                    store(data.defaults, fetch(typeSection, context, defaultNestedType));
+                    data.defaults.push_back(fetch(typeSection, context, defaultNestedType));
                     break;
 
                 case mson::TypeSection::BlockDescriptionClass:
@@ -370,24 +421,24 @@ namespace drafter {
     struct ExtractTypeDefinition {
 
         typedef T ElementType;
-        typedef typename ElementData<T>::ValueCollectionType ValueCollectionType;
-        typedef typename ElementData<T>::ValueSourceMapCollectionType ValueSourceMapCollectionType;
+        typedef typename ElementData<T>::ValueInfo ValueInfo;
+
+        ElementData<ElementType>& data;
+        ConversionContext& context;
 
         template<typename X, bool dummy = true>
-        struct InjectNestedTypeInfo {
-            void operator()(const mson::TypeNames&, ConversionContext&, ValueCollectionType&) {
-                // do nothing
+        struct Fetch {
+            ValueInfo operator()(const mson::TypeNames&, ConversionContext&) {
+                typename T::ValueType val;
+                return std::make_tuple(val, *NodeInfo<typename T::ValueType>::NullSourceMap(), false);
             }
         };
 
         template<bool dummy>
-        struct InjectNestedTypeInfo<RefractElements, dummy> {
-            void operator()(const mson::TypeNames& typeNames, ConversionContext& context, ValueCollectionType& values) {
-                if (typeNames.empty()) {
-                    return;
-                }
-
+        struct Fetch<RefractElements, dummy> {
+            ValueInfo operator()(const mson::TypeNames& typeNames, ConversionContext& context) {
                 RefractElements types;
+
                 for (mson::TypeNames::const_iterator it = typeNames.begin(); it != typeNames.end(); ++it) {
                     mson::BaseTypeName typeName = it->base;
                     FactoryCreateMethod method = eValue;
@@ -401,34 +452,18 @@ namespace drafter {
                     types.push_back(f.Create(it->symbol.literal, method));
                 }
 
-                values.push_back(types);
+                return std::make_tuple(types, *NodeInfo<typename T::ValueType>::NullSourceMap(), true);
             }
         };
 
-        template<typename X, bool dummy = true>
-        struct InjectNestedTypeInfoSourceMaps {
-            void operator()(const mson::TypeNames&, ValueSourceMapCollectionType&) {
-            }
-        };
-
-        template<bool dummy>
-        struct InjectNestedTypeInfoSourceMaps<RefractElements, dummy> {
-            void operator()(const mson::TypeNames& typeNames, ValueSourceMapCollectionType& values) {
-                if (typeNames.empty()) {
-                    return;
-                }
-
-                values.push_back(*NodeInfo<typename T::ValueType>::NullSourceMap());
-            }
-        };
-
-        ElementData<ElementType>& data;
-        ConversionContext& context;
         ExtractTypeDefinition(ElementData<ElementType>& data, ConversionContext& context) : data(data), context(context) {}
 
         void operator()(const NodeInfo<mson::TypeDefinition>& typeDefinition) {
-            InjectNestedTypeInfo<typename T::ValueType>()(typeDefinition.node->typeSpecification.nestedTypes, context, data.values);
-            InjectNestedTypeInfoSourceMaps<typename T::ValueType>()(typeDefinition.node->typeSpecification.nestedTypes, data.valuesSourceMap);
+            ValueInfo value = Fetch<typename T::ValueType>()(typeDefinition.node->typeSpecification.nestedTypes, context);
+
+            if (std::get<2>(value)) {
+                data.values.push_back(value);
+            }
         }
     };
 
@@ -436,49 +471,36 @@ namespace drafter {
     struct ExtractValueMember
     {
         typedef T ElementType;
-        typedef typename ElementData<T>::ValueCollectionType ValueCollectionType;
-        typedef typename ElementData<T>::ValueSourceMapCollectionType ValueSourceMapCollectionType;
+        typedef typename ElementData<T>::ValueInfo ValueInfo;
 
         ElementData<T>& data;
-
-        template<typename Storage, bool dummy = true> struct Store;
-
-        template<bool dummy>
-        struct Store<ValueCollectionType, dummy> { // values, primitives
-            void operator()(ValueCollectionType& storage, const typename T::ValueType& value) {
-                storage.push_back(value);
-            }
-        };
-
-        template<bool dummy>
-        struct Store<RefractElements, dummy> {
-            void operator()(RefractElements& storage, const typename T::ValueType& value) {
-                ElementType* element = new ElementType;
-                element->set(value);
-                storage.push_back(element);
-            }
-        };
+        ConversionContext& context;
 
         template <typename U, bool dummy = true>
         struct Fetch {  // primitive values
 
-            template <typename S>
-            void operator()(S& storage, const NodeInfo<mson::ValueMember>& valueMember) {
+            ValueInfo operator()(const NodeInfo<mson::ValueMember>& valueMember, ConversionContext& context) {
                 if (valueMember.node->valueDefinition.values.size() > 1) {
                     throw snowcrash::Error("only one value is supported for primitive types", snowcrash::MSONError, valueMember.sourceMap->sourceMap);
                 }
 
                 const mson::Value& value = *valueMember.node->valueDefinition.values.begin();
 
-                Store<S>()(storage, LiteralTo<U>(value.literal));
+                std::pair<bool, U> val = LiteralTo<U>(value.literal);
+                snowcrash::SourceMap<U> sourceMap = FetchSourceMap<U>()(valueMember);
+
+                ValueInfo result = std::make_tuple(val.second, sourceMap, val.first);
+
+                CheckValueValidity<T>()(result, context);
+
+                return result;
             }
         };
 
         template<bool dummy>
         struct Fetch<RefractElements, dummy> { // Array|Object
 
-            template <typename S>
-            void operator()(S& storage, const NodeInfo<mson::ValueMember>& valueMember) {
+            ValueInfo operator()(const NodeInfo<mson::ValueMember>& valueMember, ConversionContext& context) {
 
                 const mson::BaseTypeName type = SelectNestedTypeSpecification(valueMember.node->valueDefinition.typeDefinition.typeSpecification.nestedTypes);
 
@@ -491,18 +513,7 @@ namespace drafter {
                     elements.push_back(f.Create(it->literal, it->variable ? eSample : eValue));
                 }
 
-                Store<S>()(storage, elements);
-            }
-        };
-
-        template <typename U, bool dummy = true>
-        struct FetchSourceMap {  // primitive values
-
-            template <typename S>
-            void operator()(S& storage, const NodeInfo<mson::ValueMember>& valueMember) {
-                snowcrash::SourceMap<typename T::ValueType> sourceMap = *NodeInfo<typename T::ValueType>::NullSourceMap();
-                sourceMap.sourceMap = valueMember.sourceMap->valueDefinition.sourceMap;
-                storage.push_back(sourceMap);
+                return std::make_tuple(elements, FetchSourceMap<RefractElements>()(valueMember), true);
             }
         };
 
@@ -523,7 +534,6 @@ namespace drafter {
         };
 
         ExtractValueMember(ElementData<T>& data, ConversionContext& context, const mson::BaseTypeName) : data(data), context(context) {}
-        ConversionContext& context; 
 
         void operator ()(const NodeInfo<mson::ValueMember>& valueMember)
         {
@@ -537,22 +547,21 @@ namespace drafter {
             }
 
             Fetch<typename T::ValueType> fetch;
-            FetchSourceMap<typename T::ValueType> fetchSourceMap;
-
 
             if (!valueMember.node->valueDefinition.values.empty()) {
                 mson::TypeAttributes attrs = valueMember.node->valueDefinition.typeDefinition.attributes;
                 const mson::Value& value = *valueMember.node->valueDefinition.values.begin();
 
+                ValueInfo parsed = fetch(valueMember, context);
+
                 if (attrs & mson::DefaultTypeAttribute) {
-                    fetch(data.defaults, valueMember);
+                    data.defaults.push_back(parsed);
                 }
                 else if ((attrs & mson::SampleTypeAttribute) || IsValueVariable<typename T::ValueType>()(value)) {
-                    fetch(data.samples, valueMember);
+                    data.samples.push_back(parsed);
                 }
                 else {
-                    fetch(data.values, valueMember);
-                    fetchSourceMap(data.valuesSourceMap, valueMember);
+                    data.values.push_back(parsed);
                 }
             }
 
@@ -620,54 +629,59 @@ namespace drafter {
             return element;
         }
 
-        void SaveSamples(RefractElements& samples, refract::IElement* element) {
+        template <typename T>
+        struct SaveSamples {
 
-            std::for_each(samples.begin(), samples.end(), SetSerializeFlag);
+            template <typename U>
+            void operator()(const U& samples, refract::IElement* element) {
+                if (samples.empty()) {
+                    return;
+                }
 
-            if (!samples.empty()) {
                 refract::ArrayElement* a = new refract::ArrayElement;
-                a->set(samples);
+
+                for (auto sample : samples) {
+                    T* sampleElement = new T;
+                    sampleElement->set(std::get<0>(sample));
+                    SetSerializeFlag(sampleElement);
+                    a->push_back(sampleElement);
+                }
+
                 element->attributes[SerializeKey::Samples] = a;
             }
-        }
 
-        void SaveDefault(RefractElements& defaults, refract::IElement* element) {
+        };
 
-            std::for_each(defaults.begin(), defaults.end(), SetSerializeFlag);
+        template <typename T>
+        struct SaveDefault {
 
-            if (!defaults.empty()) {
-                refract::IElement* e = *defaults.rbegin();
-                defaults.pop_back();
-                // if more default values
-                // use last one, all other we will drop
-                element->attributes[SerializeKey::Default] = e;
+            template <typename U>
+            void operator()(const U& defaults, refract::IElement* element) {
+                if (defaults.empty()) {
+                    return;
+                }
 
-                std::for_each(defaults.begin(), defaults.end(), Deleter<refract::IElement>);
+                T* defaultElement = new T;
+                defaultElement->set(std::get<0>(*defaults.rbegin()));
+                SetSerializeFlag(defaultElement);
+                element->attributes[SerializeKey::Default] = defaultElement;
             }
-        }
+
+        };
+
 
         template <typename T>
         struct MakeNodeInfoFunctor {
-            NodeInfo<T> operator()(const T& v, const snowcrash::SourceMap<T>& sm) {
-                return MakeNodeInfo<T>(v, sm);
+            NodeInfo<T> operator()(std::pair<bool, const T&> v, const snowcrash::SourceMap<T>& sm) {
+                return MakeNodeInfo<T>(v.second, sm);
             }
         };
 
         template<typename T>
         void TransformElementData(T* element, ElementData<T>& data) {
-
-            if (data.values.size() != data.valuesSourceMap.size()) {
-                throw snowcrash::Error("count of source maps is not equal to count of elements", snowcrash::ApplicationError);
-            }
-
-            typedef std::vector<NodeInfo< typename T::ValueType> > ValueNodeInfoCollection;
-            ValueNodeInfoCollection valuesNodeInfo = Zip<ValueNodeInfoCollection>(data.values, data.valuesSourceMap, MakeNodeInfoFunctor<typename T::ValueType>());
-
-            std::for_each(valuesNodeInfo.begin(), valuesNodeInfo.end(), Append<T>(element));
-
-            SaveSamples(data.samples, element);
-
-            SaveDefault(data.defaults, element);
+            std::for_each(data.values.begin(), data.values.end(), Append<T>(element));
+            SaveSamples<T>()(data.samples, element);
+            SaveDefault<T>()(data.defaults, element);
         }
     }
 
@@ -708,12 +722,8 @@ namespace drafter {
                 return;
             }
 
-            T* element = new T(data.values.front());
-            data.samples.insert(data.samples.begin(), element);
+            data.samples.insert(data.samples.begin(), data.values.front());
             data.values.erase(data.values.begin());
-
-            // FIXME append source map into "sample"
-            data.valuesSourceMap.erase(data.valuesSourceMap.begin());
         }
     };
 

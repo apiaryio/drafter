@@ -52,6 +52,7 @@ TEST_MSON("regression-269", false);
 TEST_AST("mson", "type-attributes");
 TEST_AST("mson", "type-attributes-payload");
 TEST_REFRACT("mson", "variable-property-name");
+TEST_REFRACT("mson", "check-bool-number-value-validity");
 
 #undef TEST_MSON_SUCCESS
 #undef TEST_MSON
