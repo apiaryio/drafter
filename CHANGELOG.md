@@ -14,6 +14,10 @@
 * Ensure that escaped values in MSON are not treated as markdown
   [#365](https://github.com/apiaryio/drafter/issues/365)
 
+* Fixes detection of parameters using the MSON syntax when the description of a
+  parameter includes `(` or `)`.
+  [snowcrash#345](https://github.com/apiaryio/snowcrash/issues/345)
+
 ### Enhancements
 
 * Warn when primitive values in MSON doesn't follow the given type format
