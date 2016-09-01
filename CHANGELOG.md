@@ -1,6 +1,11 @@
 # Drafter Changelog
 
-## Master
+## 3.1.0
+
+### Enhancements
+
+* Warn when primitive values in MSON doesn't follow the given type format
+  [#334](https://github.com/apiaryio/drafter/issues/334)
 
 ### Bug Fixes
 
@@ -18,10 +23,6 @@
   parameter includes `(` or `)`.
   [snowcrash#345](https://github.com/apiaryio/snowcrash/issues/345)
 
-### Enhancements
-
-* Warn when primitive values in MSON doesn't follow the given type format
-  [#334](https://github.com/apiaryio/drafter/issues/334)
 
 ## 3.1.0-pre.0
 
