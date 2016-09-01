@@ -8,6 +8,8 @@
   [#334](https://github.com/apiaryio/drafter/issues/334)
 
 ### Bug Fixes
+* Fixed a bug when parsing MSON parameter's description containing round brackets.
+  [snowcrash#345](https://github.com/apiaryio/snowcrash/issues/345)
 
 * While overriding a property on an inherited object, the description and type
   annotation was not being overridden.
