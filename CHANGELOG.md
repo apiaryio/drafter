@@ -1,5 +1,12 @@
 # Drafter Changelog
 
+## Master
+
+### Bug Fixes
+
+* Prevent crashing when no default value is specified for enum members
+
+
 ## 3.1.0
 
 ### Enhancements

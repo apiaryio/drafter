@@ -54,5 +54,7 @@ TEST_AST("mson", "type-attributes-payload");
 TEST_REFRACT("mson", "variable-property-name");
 TEST_REFRACT("mson", "check-bool-number-value-validity");
 
+TEST_MSON_SUCCESS("enum-empty-default");
+
 #undef TEST_MSON_SUCCESS
 #undef TEST_MSON

@@ -517,7 +517,7 @@ namespace refract
 
         const EnumElement *def = GetDefault(e);
 
-        if (def && !def->empty()) {
+        if (def && !def->empty() && !def->value.empty()) {
             IElement *d = def->value.front()->clone();
             d->renderType(IElement::rCompact);
             addMember("default", d);
