@@ -1,11 +1,16 @@
 # Drafter Changelog
 
+## Master
+
+### Bug Fixes
+
+* Prevent crashing and improve structure of result from parsing regarding markdown lists
+
 ## 3.1.1
 
 ### Bug Fixes
 
 * Prevent crashing when no default value is specified for enum members
-
 
 ## 3.1.0
 
