@@ -12,8 +12,11 @@
 
 ### Enhancements
 
-- Instead of returning int, functions that may error return `drafter_error`
+* Instead of returning int, functions that may error return `drafter_error`
   type. This adds additional type-safety when handling errors.
+
+* `application/x-www-form-urlencoded` is now supported as an MSON serialisation
+  type for requests and responses.
 
 ## 3.2.7
 
