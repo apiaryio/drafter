@@ -192,6 +192,7 @@ Drafter bindings in other languages:
 - [RedSnow](https://github.com/apiaryio/redsnow) (Ruby)
 
 ### CLI Wrapper
+- [fury-cli](https://github.com/apiaryio/fury-cli) (Node.js)
 - [Drafter-php](https://github.com/hendrikmaus/drafter-php) (PHP)
 
 ## Contribute
