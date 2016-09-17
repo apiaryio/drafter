@@ -4,7 +4,12 @@
 
 ### Bug Fixes
 
-* Prevent crashing and improve structure of result from parsing regarding markdown lists
+* Prevent crashing and improve structure of result from parsing regarding
+  markdown lists.
+
+* Correctly set the content type for custom JSON Schema.
+  [#392](https://github.com/apiaryio/drafter/issues/392)
+
 
 ## 3.1.1
 

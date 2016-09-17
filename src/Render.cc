@@ -22,10 +22,6 @@ using namespace snowcrash;
 
 namespace drafter {
 
-    // JSON content-type regex
-    const char* const JSONRegex = "^[[:blank:]]*application/(.*\\+)?json[[:blank:]]*(;.*|$)";
-    const char* const JSONSchemaRegex = "^[[:blank:]]*application/schema\\+json[[:blank:]]*(;.*|$)";
-
     RenderFormat findRenderFormat(const std::string& contentType) {
 
         if (RegexMatch(contentType, JSONSchemaRegex)) {

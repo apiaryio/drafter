@@ -14,6 +14,8 @@
 namespace drafter {
 
     const char* const JSONSchemaContentType = "application/schema+json";
+    const char* const JSONRegex = "^[[:blank:]]*application/(.*\\+)?json[[:blank:]]*(;.*|$)";
+    const char* const JSONSchemaRegex = "^[[:blank:]]*application/schema\\+json[[:blank:]]*(;.*|$)";
 
     enum RenderFormat {
         UndefinedRenderFormat = 0,   // Undefined format
