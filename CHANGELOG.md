@@ -2,6 +2,9 @@
 
 ## Master
 
+* Warn user on "action" with non-absolute path
+  [#350](https://github.com/apiaryio/drafter/issues/350)
+
 ### Bug Fixes
 
 * Prevent crashing and improve structure of result from parsing regarding

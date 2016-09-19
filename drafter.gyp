@@ -138,6 +138,7 @@
         "test/test-ExtendElementTest.cc",
         "test/test-ElementFactoryTest.cc",
         "test/test-OneOfTest.cc",
+        "test/test-SyntaxIssuesTest.cc",
       ],
       'dependencies': [
         "libdrafter",

@@ -1,0 +1,129 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": "Users"
+              },
+              "attributes": {
+                "href": "/users",
+                "hrefVariables": {
+                  "element": "hrefVariables",
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "username"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "kyle"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "content": [
+                {
+                  "element": "copy",
+                  "content": "### View a User [GET {username}]\n\n"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 12,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                18,
+                34
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "URI path in 'View a User [GET {username}]' is not absolute, it should have a leading forward slash"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 8,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                52,
+                44
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "parameter 'username' is not found within the URI template '/users' for 'Users' "
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 5,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                96,
+                16
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "ignoring unrecognized block"
+    }
+  ]
+}
