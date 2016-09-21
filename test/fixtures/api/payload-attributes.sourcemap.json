@@ -209,6 +209,19 @@
                               "content": [
                                 {
                                   "element": "object",
+                                  "attributes": {
+                                    "sourceMap": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          [
+                                            112,
+                                            11
+                                          ]
+                                        ]
+                                      }
+                                    ]
+                                  },
                                   "content": [
                                     {
                                       "element": "member",

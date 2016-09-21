@@ -179,6 +179,19 @@
                         },
                         "value": {
                           "element": "object",
+                          "attributes": {
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    133,
+                                    8
+                                  ]
+                                ]
+                              }
+                            ]
+                          },
                           "content": [
                             {
                               "element": "member",
@@ -201,7 +214,20 @@
                                   "content": "street"
                                 },
                                 "value": {
-                                  "element": "string"
+                                  "element": "string",
+                                  "attributes": {
+                                    "sourceMap": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          [
+                                            147,
+                                            7
+                                          ]
+                                        ]
+                                      }
+                                    ]
+                                  }
                                 }
                               }
                             },
@@ -226,7 +252,20 @@
                                   "content": "city"
                                 },
                                 "value": {
-                                  "element": "string"
+                                  "element": "string",
+                                  "attributes": {
+                                    "sourceMap": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          [
+                                            160,
+                                            5
+                                          ]
+                                        ]
+                                      }
+                                    ]
+                                  }
                                 }
                               }
                             },
@@ -341,6 +380,19 @@
                         },
                         "value": {
                           "element": "array",
+                          "attributes": {
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    236,
+                                    34
+                                  ]
+                                ]
+                              }
+                            ]
+                          },
                           "content": [
                             {
                               "element": "string",
@@ -422,6 +474,19 @@
                         },
                         "value": {
                           "element": "array",
+                          "attributes": {
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    296,
+                                    35
+                                  ]
+                                ]
+                              }
+                            ]
+                          },
                           "content": [
                             {
                               "element": "string",
@@ -483,7 +548,20 @@
                           "content": "multilined description"
                         },
                         "value": {
-                          "element": "string"
+                          "element": "string",
+                          "attributes": {
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    333,
+                                    42
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
                         }
                       }
                     }

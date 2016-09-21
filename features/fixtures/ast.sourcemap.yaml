@@ -1098,3 +1098,14 @@ warnings:
       -
         index: 992
         length: 45
+  -
+    code: 4
+    message: "invalid value format for 'number' type. please check mson specification for valid format"
+    location:
+      -
+        index: 200
+        length: 102
+  -
+    code: 4
+    message: "invalid value format for 'number' type. please check mson specification for valid format"
+    location: []

@@ -80,7 +80,20 @@
                           "content": "id"
                         },
                         "value": {
-                          "element": "number"
+                          "element": "number",
+                          "attributes": {
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    50,
+                                    12
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
                         }
                       }
                     },
@@ -108,7 +121,20 @@
                           "content": "username"
                         },
                         "value": {
-                          "element": "string"
+                          "element": "string",
+                          "attributes": {
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    64,
+                                    32
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
                         }
                       }
                     }

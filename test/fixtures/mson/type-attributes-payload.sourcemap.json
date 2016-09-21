@@ -145,6 +145,19 @@
                               "content": [
                                 {
                                   "element": "object",
+                                  "attributes": {
+                                    "sourceMap": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          [
+                                            48,
+                                            11
+                                          ]
+                                        ]
+                                      }
+                                    ]
+                                  },
                                   "content": [
                                     {
                                       "element": "member",
@@ -173,7 +186,20 @@
                                           "content": "a"
                                         },
                                         "value": {
-                                          "element": "string"
+                                          "element": "string",
+                                          "attributes": {
+                                            "sourceMap": [
+                                              {
+                                                "element": "sourceMap",
+                                                "content": [
+                                                  [
+                                                    69,
+                                                    23
+                                                  ]
+                                                ]
+                                              }
+                                            ]
+                                          }
                                         }
                                       }
                                     }
