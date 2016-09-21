@@ -2,6 +2,9 @@
 
 ## Master
 
+* Add missing sourcemaps for named type references
+  [#386](https://github.com/apiaryio/drafter/issues/386)
+
 * Warn user on "action" with non-absolute path
   [#350](https://github.com/apiaryio/drafter/issues/350)
 
