@@ -62,10 +62,7 @@ content:
                               -
                                 element: "string"
                                 content: "<example value>"
-                          default:
-                            -
-                              element: "string"
-                              content: "<default value>"
+                          default: "<default value>"
                         content:
                           -
                             element: "string"
@@ -124,10 +121,7 @@ content:
                                   -
                                     element: "string"
                                     content: "<example value>"
-                              default:
-                                -
-                                  element: "string"
-                                  content: "<default value>"
+                              default: "<default value>"
                             content:
                               -
                                 element: "string"

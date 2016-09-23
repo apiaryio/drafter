@@ -153,17 +153,16 @@ content:
                                           - 86
                                 content: "<example value>"
                           default:
-                            -
-                              element: "string"
-                              attributes:
-                                sourceMap:
-                                  -
-                                    element: "sourceMap"
-                                    content:
-                                      -
-                                        - 516
-                                        - 86
-                              content: "<default value>"
+                            element: "string"
+                            attributes:
+                              sourceMap:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      - 516
+                                      - 86
+                            content: "<default value>"
                         content:
                           -
                             element: "string"
@@ -319,17 +318,16 @@ content:
                                               - 86
                                     content: "<example value>"
                               default:
-                                -
-                                  element: "string"
-                                  attributes:
-                                    sourceMap:
-                                      -
-                                        element: "sourceMap"
-                                        content:
-                                          -
-                                            - 823
-                                            - 86
-                                  content: "<default value>"
+                                element: "string"
+                                attributes:
+                                  sourceMap:
+                                    -
+                                      element: "sourceMap"
+                                      content:
+                                        -
+                                          - 823
+                                          - 86
+                                content: "<default value>"
                             content:
                               -
                                 element: "string"

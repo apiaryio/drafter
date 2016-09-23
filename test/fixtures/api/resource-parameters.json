@@ -55,12 +55,7 @@
                                 }
                               ]
                             ],
-                            "default": [
-                              {
-                                "element": "number",
-                                "content": 1
-                              }
-                            ]
+                            "default": 1
                           },
                           "content": [
                             {

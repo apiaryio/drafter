@@ -153,7 +153,7 @@ namespace drafter {
 
         // Add default value
         if (!parameter.node->defaultValue.empty()) {
-            element->attributes[SerializeKey::Default] = CreateArrayElement(LiteralToRefract<T>(MAKE_NODE_INFO(parameter, defaultValue), context), true);
+            element->attributes[SerializeKey::Default] = LiteralToRefract<T>(MAKE_NODE_INFO(parameter, defaultValue), context);
         }
 
         return element;

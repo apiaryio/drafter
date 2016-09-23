@@ -230,25 +230,23 @@
                                 }
                               ]
                             ],
-                            "default": [
-                              {
-                                "element": "string",
-                                "attributes": {
-                                  "sourceMap": [
-                                    {
-                                      "element": "sourceMap",
-                                      "content": [
-                                        [
-                                          516,
-                                          86
-                                        ]
+                            "default": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        516,
+                                        86
                                       ]
-                                    }
-                                  ]
-                                },
-                                "content": "<default value>"
-                              }
-                            ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "<default value>"
+                            }
                           },
                           "content": [
                             {
@@ -491,25 +489,23 @@
                                     }
                                   ]
                                 ],
-                                "default": [
-                                  {
-                                    "element": "string",
-                                    "attributes": {
-                                      "sourceMap": [
-                                        {
-                                          "element": "sourceMap",
-                                          "content": [
-                                            [
-                                              823,
-                                              86
-                                            ]
+                                "default": {
+                                  "element": "string",
+                                  "attributes": {
+                                    "sourceMap": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          [
+                                            823,
+                                            86
                                           ]
-                                        }
-                                      ]
-                                    },
-                                    "content": "<default value>"
-                                  }
-                                ]
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "content": "<default value>"
+                                }
                               },
                               "content": [
                                 {
