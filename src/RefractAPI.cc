@@ -147,7 +147,7 @@ namespace drafter {
         // Add sample value
         if (!parameter.node->exampleValue.empty()) {
             refract::ArrayElement* samples = new refract::ArrayElement;
-            samples->push_back(CreateArrayElement(LiteralToRefract<T>(MAKE_NODE_INFO(parameter, exampleValue), context), true));
+            samples->push_back(LiteralToRefract<T>(MAKE_NODE_INFO(parameter, exampleValue), context));
             element->attributes[SerializeKey::Samples] = samples;
         }
 

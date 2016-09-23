@@ -78,12 +78,7 @@
                           "element": "enum",
                           "attributes": {
                             "samples": [
-                              [
-                                {
-                                  "element": "string",
-                                  "content": "<example value>"
-                                }
-                              ]
+                              "<example value>"
                             ],
                             "default": [
                               {
@@ -171,12 +166,7 @@
                               "element": "enum",
                               "attributes": {
                                 "samples": [
-                                  [
-                                    {
-                                      "element": "string",
-                                      "content": "<example value>"
-                                    }
-                                  ]
+                                  "<example value>"
                                 ],
                                 "default": [
                                   {

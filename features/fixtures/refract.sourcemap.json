@@ -210,25 +210,23 @@
                           "element": "enum",
                           "attributes": {
                             "samples": [
-                              [
-                                {
-                                  "element": "string",
-                                  "attributes": {
-                                    "sourceMap": [
-                                      {
-                                        "element": "sourceMap",
-                                        "content": [
-                                          [
-                                            516,
-                                            86
-                                          ]
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "sourceMap": [
+                                    {
+                                      "element": "sourceMap",
+                                      "content": [
+                                        [
+                                          516,
+                                          86
                                         ]
-                                      }
-                                    ]
-                                  },
-                                  "content": "<example value>"
-                                }
-                              ]
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "content": "<example value>"
+                              }
                             ],
                             "default": [
                               {
@@ -471,25 +469,23 @@
                               "element": "enum",
                               "attributes": {
                                 "samples": [
-                                  [
-                                    {
-                                      "element": "string",
-                                      "attributes": {
-                                        "sourceMap": [
-                                          {
-                                            "element": "sourceMap",
-                                            "content": [
-                                              [
-                                                823,
-                                                86
-                                              ]
+                                  {
+                                    "element": "string",
+                                    "attributes": {
+                                      "sourceMap": [
+                                        {
+                                          "element": "sourceMap",
+                                          "content": [
+                                            [
+                                              823,
+                                              86
                                             ]
-                                          }
-                                        ]
-                                      },
-                                      "content": "<example value>"
-                                    }
-                                  ]
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    "content": "<example value>"
+                                  }
                                 ],
                                 "default": [
                                   {
