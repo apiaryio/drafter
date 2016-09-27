@@ -129,6 +129,11 @@
                               "content": [
                                 {
                                   "element": "member",
+                                  "attributes": {
+                                    "typeAttributes": [
+                                      "required"
+                                    ]
+                                  },
                                   "content": {
                                     "key": {
                                       "element": "string",
