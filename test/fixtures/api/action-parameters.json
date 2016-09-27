@@ -60,6 +60,11 @@
                         },
                         {
                           "element": "member",
+                          "attributes": {
+                            "typeAttributes": [
+                              "required"
+                            ]
+                          },
                           "content": {
                             "key": {
                               "element": "string",
@@ -72,6 +77,11 @@
                         },
                         {
                           "element": "member",
+                          "attributes": {
+                            "typeAttributes": [
+                              "required"
+                            ]
+                          },
                           "content": {
                             "key": {
                               "element": "string",
@@ -84,6 +94,11 @@
                         },
                         {
                           "element": "member",
+                          "attributes": {
+                            "typeAttributes": [
+                              "required"
+                            ]
+                          },
                           "content": {
                             "key": {
                               "element": "string",

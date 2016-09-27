@@ -208,12 +208,16 @@ namespace drafter {
         }
 
         // Parameter use
-        if (parameter.node->use == snowcrash::RequiredParameterUse || parameter.node->use == snowcrash::OptionalParameterUse) {
-            refract::ArrayElement* typeAttributes = new refract::ArrayElement;
+        std::string use = SerializeKey::Required;
 
-            typeAttributes->push_back(refract::IElement::Create(parameter.node->use == snowcrash::RequiredParameterUse ? SerializeKey::Required : SerializeKey::Optional));
-            element->attributes[SerializeKey::TypeAttributes] = typeAttributes;
+        if (parameter.node->use == snowcrash::OptionalParameterUse) {
+            use = SerializeKey::Optional;
         }
+
+        refract::ArrayElement* typeAttributes = new refract::ArrayElement;
+
+        typeAttributes->push_back(refract::IElement::Create(use));
+        element->attributes[SerializeKey::TypeAttributes] = typeAttributes;
 
         return element;
     }
