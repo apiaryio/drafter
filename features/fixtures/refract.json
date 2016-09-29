@@ -85,12 +85,7 @@
                                 }
                               ]
                             ],
-                            "default": [
-                              {
-                                "element": "string",
-                                "content": "<default value>"
-                              }
-                            ]
+                            "default": "<default value>"
                           },
                           "content": [
                             {
@@ -178,12 +173,7 @@
                                     }
                                   ]
                                 ],
-                                "default": [
-                                  {
-                                    "element": "string",
-                                    "content": "<default value>"
-                                  }
-                                ]
+                                "default": "<default value>"
                               },
                               "content": [
                                 {

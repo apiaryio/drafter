@@ -165,25 +165,23 @@
                                 }
                               ]
                             ],
-                            "default": [
-                              {
-                                "element": "number",
-                                "attributes": {
-                                  "sourceMap": [
-                                    {
-                                      "element": "sourceMap",
-                                      "content": [
-                                        [
-                                          158,
-                                          11
-                                        ]
+                            "default": {
+                              "element": "number",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        158,
+                                        11
                                       ]
-                                    }
-                                  ]
-                                },
-                                "content": 1
-                              }
-                            ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": 1
+                            }
                           },
                           "content": [
                             {

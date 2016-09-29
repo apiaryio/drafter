@@ -13,6 +13,10 @@
 * Correctly set the content type for custom JSON Schema.
   [#392](https://github.com/apiaryio/drafter/issues/392)
 
+* Default values were incorrectly wrapped in an array inside dataStructures for
+  API Elements output in Drafter. As per the API Elements specification this
+  isn't the correct behaviour and as such this no longer is the case.
+
 
 ## 3.1.1
 
