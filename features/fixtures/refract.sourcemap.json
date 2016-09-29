@@ -334,6 +334,19 @@
                           "content": "<resource name>"
                         }
                       },
+                      "attributes": {
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
+                              [
+                                173,
+                                20
+                              ]
+                            ]
+                          }
+                        ]
+                      },
                       "content": [
                         {
                           "element": "member",
@@ -1768,7 +1781,20 @@
                               "element": "dataStructure",
                               "content": [
                                 {
-                                  "element": "<data structure name>"
+                                  "element": "<data structure name>",
+                                  "attributes": {
+                                    "sourceMap": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          [
+                                            1518,
+                                            35
+                                          ]
+                                        ]
+                                      }
+                                    ]
+                                  }
                                 }
                               ]
                             },

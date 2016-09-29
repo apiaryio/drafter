@@ -754,6 +754,7 @@ namespace drafter {
         }
 
         SetElementType(element, value.node->valueDefinition.typeDefinition);
+        AttachSourceMap(element, MakeNodeInfo(value.node, value.sourceMap));
 
         NodeInfoCollection<mson::TypeSections> typeSections(MAKE_NODE_INFO(value, sections));
 
@@ -1095,6 +1096,8 @@ namespace drafter {
             sourceMap.sourceMap.append(ds.sourceMap->name.sourceMap);
             element->meta[SerializeKey::Id] = PrimitiveToRefract(MakeNodeInfo(ds.node->name.symbol.literal, sourceMap));
         }
+
+        AttachSourceMap(element, MakeNodeInfo(ds.node, ds.sourceMap));
 
         // there is no source map for attributes
         if (refract::IElement* attributes = MsonTypeAttributesToRefract(ds.node->typeDefinition.attributes)) {

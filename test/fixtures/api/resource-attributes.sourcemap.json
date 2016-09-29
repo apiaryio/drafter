@@ -116,6 +116,19 @@
                           "content": "User"
                         }
                       },
+                      "attributes": {
+                        "sourceMap": [
+                          {
+                            "element": "sourceMap",
+                            "content": [
+                              [
+                                47,
+                                11
+                              ]
+                            ]
+                          }
+                        ]
+                      },
                       "content": [
                         {
                           "element": "member",

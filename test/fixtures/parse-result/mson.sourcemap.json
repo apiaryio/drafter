@@ -144,7 +144,20 @@
                               "element": "dataStructure",
                               "content": [
                                 {
-                                  "element": "A"
+                                  "element": "A",
+                                  "attributes": {
+                                    "sourceMap": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          [
+                                            48,
+                                            15
+                                          ]
+                                        ]
+                                      }
+                                    ]
+                                  }
                                 }
                               ]
                             },

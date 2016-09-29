@@ -74,6 +74,17 @@
                         "value": {
                           "element": "string",
                           "attributes": {
+                            "sourceMap": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  [
+                                    24,
+                                    62
+                                  ]
+                                ]
+                              }
+                            ],
                             "default": "a"
                           }
                         }

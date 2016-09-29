@@ -209,6 +209,19 @@
                               "content": [
                                 {
                                   "element": "object",
+                                  "attributes": {
+                                    "sourceMap": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          [
+                                            111,
+                                            11
+                                          ]
+                                        ]
+                                      }
+                                    ]
+                                  },
                                   "content": [
                                     {
                                       "element": "member",
@@ -231,7 +244,20 @@
                                           "content": "user"
                                         },
                                         "value": {
-                                          "element": "User"
+                                          "element": "User",
+                                          "attributes": {
+                                            "sourceMap": [
+                                              {
+                                                "element": "sourceMap",
+                                                "content": [
+                                                  [
+                                                    132,
+                                                    12
+                                                  ]
+                                                ]
+                                              }
+                                            ]
+                                          }
                                         }
                                       }
                                     }

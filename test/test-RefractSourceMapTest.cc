@@ -36,3 +36,5 @@ TEST_REFRACT_SOURCE_MAP("parse-result", "mson");
 
 TEST_REFRACT_SOURCE_MAP("mson", "type-attributes");
 TEST_REFRACT_SOURCE_MAP("mson", "type-attributes-payload");
+
+TEST_REFRACT_SOURCE_MAP("api", "issue-386");
