@@ -141,17 +141,16 @@ content:
                         attributes:
                           samples:
                             -
-                              -
-                                element: "string"
-                                attributes:
-                                  sourceMap:
-                                    -
-                                      element: "sourceMap"
-                                      content:
-                                        -
-                                          - 516
-                                          - 86
-                                content: "<example value>"
+                              element: "string"
+                              attributes:
+                                sourceMap:
+                                  -
+                                    element: "sourceMap"
+                                    content:
+                                      -
+                                        - 516
+                                        - 86
+                              content: "<example value>"
                           default:
                             -
                               element: "string"
@@ -307,17 +306,16 @@ content:
                             attributes:
                               samples:
                                 -
-                                  -
-                                    element: "string"
-                                    attributes:
-                                      sourceMap:
-                                        -
-                                          element: "sourceMap"
-                                          content:
-                                            -
-                                              - 823
-                                              - 86
-                                    content: "<example value>"
+                                  element: "string"
+                                  attributes:
+                                    sourceMap:
+                                      -
+                                        element: "sourceMap"
+                                        content:
+                                          -
+                                            - 823
+                                            - 86
+                                  content: "<example value>"
                               default:
                                 -
                                   element: "string"

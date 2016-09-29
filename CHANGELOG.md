@@ -13,6 +13,10 @@
 * Correctly set the content type for custom JSON Schema.
   [#392](https://github.com/apiaryio/drafter/issues/392)
 
+* Sample values were wrapped inside an array inside another array for data
+  structures in API Elements output. This fixes the double wrapping of sample
+  values in arrays.
+
 
 ## 3.1.1
 
