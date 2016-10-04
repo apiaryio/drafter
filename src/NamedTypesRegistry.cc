@@ -360,7 +360,13 @@ namespace drafter {
             refract::IElement* element = factory.Create(std::string(), eValue);
             element->meta["id"] = refract::IElement::Create(name);
 
-            context.GetNamedTypesRegistry().add(element);
+            try {
+                context.GetNamedTypesRegistry().add(element);
+            } catch (refract::LogicError& e) {
+                std::ostringstream out;
+                out << name  << " is a reserved keyword and cannot be used.";
+                throw snowcrash::Error(out.str(), snowcrash::MSONError, i->sourceMap->name.sourceMap);
+            }
         }
 
         for (DataStructures::const_iterator i = found.begin(); i != found.end(); ++i) {
@@ -381,7 +387,13 @@ namespace drafter {
                 context.GetNamedTypesRegistry().remove(name);
                 delete pre;
 
-                context.GetNamedTypesRegistry().add(element);
+                try {
+                    context.GetNamedTypesRegistry().add(element);
+                } catch (refract::LogicError& e) {
+                    std::ostringstream out;
+                    out << name  << " is a reserved keyword and cannot be used.";
+                    throw snowcrash::Error(out.str(), snowcrash::MSONError, i->sourceMap->name.sourceMap);
+                }
             }
         }
 
