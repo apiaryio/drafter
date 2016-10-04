@@ -362,7 +362,7 @@ namespace refract
 
                 default:
                     throw LogicError("Invalid member type of object in MSON definition");
-                    
+
             }
 
         }
@@ -460,9 +460,14 @@ namespace refract
             }
 
             if (!av.empty()) {
-                ArrayElement *a = new ArrayElement;
-                a->set(av);
-                addMember("items", a);
+                if (av.size() == 1) {
+                    addMember("items",av[0]);
+
+                } else {
+                    ArrayElement *a = new ArrayElement;
+                    a->set(av);
+                    addMember("items", a);
+                }
             }
         }
 
