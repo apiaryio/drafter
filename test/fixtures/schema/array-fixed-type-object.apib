@@ -1,0 +1,18 @@
+## Test [/Test]
+
++ Attributes (object)
+
+    + id: 12 (number)
+    + name: Films you must watch (string, required) - List description
+    + medias (array[Media], fixed-type) - References to the medias in the list
+
+# GET /
++ Response 200 (application/json)
+    + Attributes (Test)
+
+
+# Data Structures
+
+## Media(object)
+- mediaId: 25 (number, required)
+- name: Some name (string, required)

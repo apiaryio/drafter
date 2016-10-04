@@ -1,0 +1,258 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": "Test"
+              },
+              "attributes": {
+                "href": "/Test"
+              },
+              "content": [
+                {
+                  "element": "dataStructure",
+                  "content": [
+                    {
+                      "element": "object",
+                      "meta": {
+                        "id": "Test"
+                      },
+                      "content": [
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "id"
+                            },
+                            "value": {
+                              "element": "number",
+                              "content": 12
+                            }
+                          }
+                        },
+                        {
+                          "element": "member",
+                          "meta": {
+                            "description": "List description"
+                          },
+                          "attributes": {
+                            "typeAttributes": [
+                              "required"
+                            ]
+                          },
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "name"
+                            },
+                            "value": {
+                              "element": "string",
+                              "content": "Films you must watch"
+                            }
+                          }
+                        },
+                        {
+                          "element": "member",
+                          "meta": {
+                            "description": "References to the medias in the list"
+                          },
+                          "attributes": {
+                            "typeAttributes": [
+                              "fixedType"
+                            ]
+                          },
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "medias"
+                            },
+                            "value": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "Media"
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "element": "resource",
+              "meta": {
+                "title": ""
+              },
+              "attributes": {
+                "href": "/"
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": ""
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "dataStructure",
+                              "content": [
+                                {
+                                  "element": "Test"
+                                }
+                              ]
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBody"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n  \"id\": 12,\n  \"name\": \"Films you must watch\",\n  \"medias\": [\n    {\n      \"mediaId\": 25,\n      \"name\": \"Some name\"\n    }\n  ]\n}"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBodySchema"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/schema+json"
+                              },
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"number\"\n    },\n    \"name\": {\n      \"type\": \"string\",\n      \"description\": \"List description\"\n    },\n    \"medias\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"mediaId\": {\n            \"type\": \"number\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"mediaId\",\n          \"name\"\n        ]\n      },\n      \"description\": \"References to the medias in the list\"\n    }\n  },\n  \"required\": [\n    \"name\"\n  ]\n}"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "dataStructures"
+            ]
+          },
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": "Media"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "attributes": {
+                        "typeAttributes": [
+                          "required"
+                        ]
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "mediaId"
+                        },
+                        "value": {
+                          "element": "number",
+                          "content": 25
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "attributes": {
+                        "typeAttributes": [
+                          "required"
+                        ]
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "name"
+                        },
+                        "value": {
+                          "element": "string",
+                          "content": "Some name"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

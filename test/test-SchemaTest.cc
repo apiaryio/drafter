@@ -56,6 +56,7 @@ TEST_REFRACT("schema", "array-fixed-inline-samples");
 TEST_REFRACT("schema", "array-fixed-samples");
 TEST_REFRACT("schema", "array-fixed-types-only");
 TEST_REFRACT("schema", "array-fixed-type");
+TEST_REFRACT("schema", "array-fixed-type-object");
 
 //FIXME: Discuss it with hj, as current drafter seems legit
 //boutique version of schema
