@@ -439,6 +439,10 @@ namespace refract
             fixed = true;
         }
 
+        if (IsTypeAttribute(e, "fixedType")) {
+            fixedType = true;
+        }
+
         if (fixed || fixedType) {
             ArrayElement::ValueType av;
             bool allEmpty = allItemsEmpty(val);
