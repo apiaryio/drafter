@@ -17,7 +17,8 @@
   [#392](https://github.com/apiaryio/drafter/issues/392)
 
 * Fix the JSON Schema generated when using `fixed-type` attribute
-  [#389] Invalid JSON schema for fixed-type arrays
+  [#389](https://github.com/apiaryio/drafter/issues/389)
+
 
 
 ## 3.1.1
