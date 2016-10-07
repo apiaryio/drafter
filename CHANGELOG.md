@@ -2,6 +2,8 @@
 
 ## Master
 
+## 3.1.2
+
 * Add missing sourcemaps for named type references
   [#386](https://github.com/apiaryio/drafter/issues/386)
 
@@ -19,7 +21,8 @@
 * Fix the JSON Schema generated when using `fixed-type` attribute
   [#389](https://github.com/apiaryio/drafter/issues/389)
 
-
+* Fix and improve URI Template parameters validation
+  [#402](https://github.com/apiaryio/drafter/issues/402)
 
 ## 3.1.1
 
