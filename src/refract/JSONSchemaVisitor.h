@@ -28,6 +28,7 @@ namespace refract
         void addMember(const std::string& key, IElement *val);
         void anyOf(std::map<std::string, std::vector<IElement*> >& types, std::vector<std::string>& typesOrder);
         bool allItemsEmpty(const ArrayElement::ValueType* val);
+        ObjectElement* definitionFromVariableProperty(JSONSchemaVisitor& renderer);
         void addVariableProps(std::vector<MemberElement*>& props,ObjectElement *o);
         ArrayElement* arrayFromProps(std::vector<MemberElement*>& props);
 

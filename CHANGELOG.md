@@ -17,6 +17,8 @@
   parameter syntax.
   [#391](https://github.com/apiaryio/drafter/issues/391)
 
+* Rectify JSON Schema generation for variable property names
+  [#367](https://github.com/apiaryio/drafter/issues/367)
 
 ## 3.1.2
 
