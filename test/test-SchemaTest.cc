@@ -84,6 +84,7 @@ TEST_REFRACT("schema", "mixin-simple");
 
 TEST_REFRACT("schema", "variable-property");
 TEST_REFRACT("schema", "variable-property2");
+TEST_REFRACT("schema", "variable-property-fixed-type");
 
 // FIXME: One Of - has non valid implementation for
 // multiple "One Of" in one object

@@ -258,7 +258,8 @@ namespace refract
         if (o->empty() && props.size() == 1) {
             StringElement *str = TypeQueryVisitor::as<StringElement>(props[0]->value.first);
             if (str) {
-                JSONSchemaVisitor renderer(pDefs, fixed);
+                bool fixedType = IsTypeAttribute(*props.front(), "fixedType");
+                JSONSchemaVisitor renderer(pDefs, fixed, fixedType);
                 Visit(renderer, *props.front()->value.second);
                 pDefs->push_back(new MemberElement(
                                      str->value,

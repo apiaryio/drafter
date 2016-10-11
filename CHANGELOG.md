@@ -2,6 +2,13 @@
 
 ## Master
 
+### Bug Fixes
+
+* Handle `fixed-type` with variable property names when generating JSON
+  Schemas.
+  [#390](https://github.com/apiaryio/drafter/issues/390)
+
+
 ## 3.1.2
 
 * Add missing sourcemaps for named type references
