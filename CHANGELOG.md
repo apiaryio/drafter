@@ -8,6 +8,15 @@
   Schemas.
   [#390](https://github.com/apiaryio/drafter/issues/390)
 
+* Drafter will now check the validity of header names and provide a warning
+  for invalid characters found within a header name. Invalid headers will be
+  skipped in the parse outputs.
+  [#382](https://github.com/apiaryio/drafter/issues/382)
+
+* Fix handling of escaped parameter identifiers with the older non-MSON
+  parameter syntax.
+  [#391](https://github.com/apiaryio/drafter/issues/391)
+
 
 ## 3.1.2
 
