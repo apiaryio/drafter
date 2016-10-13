@@ -222,23 +222,45 @@ namespace refract
         }
     }
 
+    ObjectElement* JSONSchemaVisitor::definitionFromVariableProperty(JSONSchemaVisitor& renderer)
+    {
+        ObjectElement* definition = new ObjectElement();
+
+        definition->push_back(new MemberElement(
+                                "type",
+                                new StringElement("object", IElement::rCompact),
+                                IElement::rCompact));
+        definition->push_back(new MemberElement(
+                                "patternProperties",
+                                new ObjectElement(
+                                    new MemberElement("", renderer.getOwnership(), IElement::rCompact),
+                                    IElement::rCompact),
+                                IElement::rCompact));
+
+        return definition;
+    }
+
     ArrayElement* JSONSchemaVisitor::arrayFromProps(std::vector<MemberElement*>& props)
     {
         ArrayElement *a = new ArrayElement;
         a->renderType(IElement::rCompact);
-        for(std::vector<MemberElement *>::const_iterator i = props.begin();
-            i != props.end();
-            ++i) {
+
+        for (std::vector<MemberElement *>::const_iterator i = props.begin();
+             i != props.end();
+             ++i) {
 
             StringElement *str = TypeQueryVisitor::as<StringElement>((*i)->value.first);
+
             if (str) {
                 bool fixedType = IsTypeAttribute(*(*i), "fixedType");
                 JSONSchemaVisitor renderer(pDefs, fixed, fixedType);
                 Visit(renderer, *(*i)->value.second);
+
                 pDefs->push_back(new MemberElement(
-                                     str->value,
-                                     renderer.getOwnership(),
-                                     IElement::rCompact));
+                                    str->value,
+                                    definitionFromVariableProperty(renderer),
+                                    IElement::rCompact));
+
                 a->push_back(new ObjectElement(
                                  new MemberElement(
                                      "$ref",
@@ -258,20 +280,23 @@ namespace refract
     {
         if (o->empty() && props.size() == 1) {
             StringElement *str = TypeQueryVisitor::as<StringElement>(props[0]->value.first);
+
             if (str) {
                 bool fixedType = IsTypeAttribute(*props.front(), "fixedType");
                 JSONSchemaVisitor renderer(pDefs, fixed, fixedType);
                 Visit(renderer, *props.front()->value.second);
+
                 pDefs->push_back(new MemberElement(
-                                     str->value,
-                                     renderer.getOwnership(),
-                                     IElement::rCompact));
-                addMember("$ref", new StringElement("#/definitions/" + str->value,
-                                                    IElement::rCompact));
+                                    str->value,
+                                    definitionFromVariableProperty(renderer),
+                                    IElement::rCompact));
+
+                addMember("$ref", new StringElement("#/definitions/" + str->value, IElement::rCompact));
             }
         }
         else {
             ArrayElement *a = arrayFromProps(props);
+
             if (!o->empty()) {
                 a->push_back(new ObjectElement(
                                  new MemberElement(
@@ -280,6 +305,7 @@ namespace refract
                                      IElement::rCompact),
                                  IElement::rCompact));
             }
+
             addMember("allOf", a);
         }
     }
@@ -364,9 +390,7 @@ namespace refract
 
                 default:
                     throw LogicError("Invalid member type of object in MSON definition");
-
             }
-
         }
 
         if (!varProps.empty()) {
