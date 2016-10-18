@@ -53,6 +53,7 @@ distclean:
 
 test: libdrafter test-libdrafter test-capi drafter
 	./bin/test-libdrafter
+	./bin/test-capi
 
 ifdef INTEGRATION_TESTS
 	bundle exec cucumber
