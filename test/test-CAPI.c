@@ -26,7 +26,7 @@ int test_parse_and_serialize() {
     char* out = drafter_serialize(result, options);
     assert(out);
 
-    int len = strlen(expected);
+    size_t len = strlen(expected);
 
     assert(strncmp(out, expected, len) == 0);
 
@@ -49,7 +49,7 @@ int test_parse_to_string() {
     assert(status == 0);
     assert(result);
 
-    int len = strlen(expected);
+    size_t len = strlen(expected);
     assert(strncmp(result, expected, len) == 0);
 
     free(result);
@@ -63,13 +63,13 @@ int test_version() {
     return 0;
 }
 
-const char* source_warn = "# My API\n## GET /message\n + Response 200 (text/plain)\n\n    Hello World\n";
-const char* warn = "message-body asset is expected to be a pre-formatted code block, every of its line indented by exactly 8 spaces or 2 tabs";
+const char* source_warning = "# My API\n## GET /message\n + Response 200 (text/plain)\n\n    Hello World\n";
+const char* warning = "message-body asset is expected to be a pre-formatted code block, every of its line indented by exactly 8 spaces or 2 tabs";
 
 int test_validation() {
     assert(drafter_check_blueprint(source) == 0);
 
-    drafter_result* result = drafter_check_blueprint(source_warn);
+    drafter_result* result = drafter_check_blueprint(source_warning);
     assert(result != 0);
 
     drafter_options options;
@@ -80,7 +80,7 @@ int test_validation() {
     assert(out);
 
     /* check if output contains required warning message */
-    assert(strstr(out, warn) != 0);
+    assert(strstr(out, warning) != 0);
 
     drafter_free_result(result);
     free(out);
