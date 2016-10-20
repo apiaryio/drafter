@@ -5,25 +5,18 @@
 //  Created by Jiri Kratochvil on 2016-06-27
 //  Copyright (c) 2016 Apiary Inc. All rights reserved.
 //
-#include "drafter.h"
+#include "drafter_private.h"
 
 #include "snowcrash.h"
 
-#include "refract/Element.h"
-#include "refract/FilterVisitor.h"
-#include "refract/Query.h"
-#include "refract/Iterate.h"
-
-
 #include "SerializeResult.h" // FIXME: remove - actualy required by WrapParseResultRefract()
 #include "Serialize.h" // FIXME: remove - actualy required by WrapperOptions
+#include "ConversionContext.h" // FIXME: remove - required by ConversionContext
 #include "RefractDataStructure.h" // FIXME: remove - required by SerializeRefract()
 
 #include "sos.h" // FIXME: remove sos dependency
 #include "sosJSON.h"
 #include "sosYAML.h"
-
-#include "ConversionContext.h"
 
 #include "Version.h"
 
@@ -59,20 +52,9 @@ namespace sc = snowcrash;
  * later use*/
 DRAFTER_API int drafter_parse_blueprint(const char* source, drafter_result** out) {
 
-    if (!source || !out) {
-        return -1;
-    }
+    drafter_parse_options options = {false};
 
-    sc::ParseResult<sc::Blueprint> blueprint;
-    sc::parse(source, snowcrash::ExportSourcemapOption, blueprint);
-
-    drafter::WrapperOptions options(drafter::RefractASTType);
-    drafter::ConversionContext context(options);
-    refract::IElement* result = WrapParseResultRefract(blueprint, context);
-
-    *out = result;
-
-    return blueprint.report.error.code;
+    return drafter_parse_blueprint_with_options(source, out, options);
 }
 
 namespace { // FIXME: cut'n'paste from main.cc - duplicity
@@ -125,38 +107,9 @@ DRAFTER_API char* drafter_serialize(drafter_result *res, const drafter_options o
  * document is error and warning free.*/
 DRAFTER_API drafter_result* drafter_check_blueprint(const char* source) {
 
-    if (!source) {
-        return nullptr;
-    }
+    drafter_parse_options options = {false};
 
-    drafter_result* result = nullptr;
-
-    drafter_parse_blueprint(source, &result);
-
-    if (!result) {
-        return nullptr;
-    }
-
-    drafter_result* out = nullptr;
-
-    refract::FilterVisitor filter(refract::query::Element("annotation"));
-    refract::Iterate<refract::Children> iterate(filter);
-    iterate(*result);
-
-    if (!filter.empty()) {
-        refract::ArrayElement::ValueType elements;
-
-        std::transform(filter.elements().begin(), filter.elements().end(),
-                       std::back_inserter(elements),
-                       std::bind(&refract::IElement::clone, std::placeholders::_1, refract::IElement::cAll));
-
-        out = new refract::ArrayElement(elements);
-        out->element(drafter::SerializeKey::ParseResult);
-    }
-
-    drafter_free_result(result);
-
-    return out;
+    return drafter_check_blueprint_with_options(source, options);
 }
 
 DRAFTER_API void drafter_free_result(drafter_result* result) {

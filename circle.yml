@@ -1,6 +1,7 @@
 general:
   artifacts:
   - memcheck.log
+  - memcheck-capi.log
 
 machine:
   services:
