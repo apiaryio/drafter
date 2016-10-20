@@ -39,7 +39,8 @@
       "sources": [
         "src/drafter.h",
         "src/drafter.cc",
-
+        "src/drafter_private.h",
+        "src/drafter_private.cc",
         "src/stream.h",
         "src/Version.h",
 
