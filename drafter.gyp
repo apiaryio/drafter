@@ -20,7 +20,7 @@
       ]
     },
 
-# LIBDRAFTER  
+# LIBDRAFTER
     {
       "target_name": "libdrafter",
       'type': '<(libdrafter_type)',
@@ -149,13 +149,10 @@
       ],
     },
 
-# DRAFTER    
+# DRAFTER
     {
       "target_name": "drafter",
       "type": "executable",
-      "conditions" : [
-        [ 'libdrafter_type=="static_library"', { 'defines' : [ 'DRAFTER_BUILD_STATIC' ] }],
-      ],
       "sources": [
         "src/main.cc",
         "src/config.cc",
@@ -175,9 +172,6 @@
     {
       "target_name": "test-capi",
       "type": "executable",
-      "conditions" : [
-        [ 'libdrafter_type=="static_library"', { 'defines' : [ 'DRAFTER_BUILD_STATIC' ] }],
-      ],
       "sources": [
           "test/test-CAPI.c"
       ],
