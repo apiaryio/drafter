@@ -45,7 +45,7 @@
                           }
                         ],
                         "body": "{\n  \"i1\": \"sample\",\n  \"r1\": \"v1\",\n  \"r2\": \"v2\",\n  \"r3\": \"v3\",\n  \"i2\": \"\"\n}",
-                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"i1\": {\n      \"type\": \"string\"\n    },\n    \"r1\": {\n      \"type\": \"string\"\n    },\n    \"r2\": {\n      \"type\": \"string\"\n    },\n    \"r3\": {\n      \"type\": \"string\"\n    },\n    \"i2\": {\n      \"type\": \"string\"\n    }\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"i1\": {\n      \"type\": \"string\"\n    },\n    \"r1\": {\n      \"type\": \"string\"\n    },\n    \"r2\": {\n      \"type\": \"string\"\n    },\n    \"r3\": {\n      \"type\": \"string\",\n      \"default\": \"v3\"\n    },\n    \"i2\": {\n      \"type\": \"string\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -143,7 +143,7 @@
                           }
                         ],
                         "body": "{\n  \"i1\": \"sample\",\n  \"r1\": \"v1\",\n  \"r2\": \"v2\",\n  \"r3\": \"v3\",\n  \"i2\": \"\"\n}",
-                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"i1\": {\n      \"type\": \"string\"\n    },\n    \"r1\": {\n      \"type\": \"string\"\n    },\n    \"r2\": {\n      \"type\": \"string\"\n    },\n    \"r3\": {\n      \"type\": \"string\"\n    },\n    \"i2\": {\n      \"type\": \"string\"\n    }\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"i1\": {\n      \"type\": \"string\"\n    },\n    \"r1\": {\n      \"type\": \"string\"\n    },\n    \"r2\": {\n      \"type\": \"string\"\n    },\n    \"r3\": {\n      \"type\": \"string\",\n      \"default\": \"v3\"\n    },\n    \"i2\": {\n      \"type\": \"string\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
