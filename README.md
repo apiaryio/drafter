@@ -190,6 +190,7 @@ Drafter bindings in other languages:
 - [drafter-npm](https://github.com/apiaryio/drafter-npm) (Node.js)
 - [drafter.js](https://github.com/apiaryio/drafter.js) (Pure JavaScript)
 - [RedSnow](https://github.com/apiaryio/redsnow) (Ruby)
+- [DrafterPy](https://github.com/menecio/drafterpy) (Python)
 
 ### CLI Wrapper
 - [fury-cli](https://github.com/apiaryio/fury-cli) (Node.js)
