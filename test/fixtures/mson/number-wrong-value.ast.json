@@ -4,7 +4,7 @@
     "_version": "4.0",
     "metadata": [],
     "name": "<API name>",
-    "description": "<API description>\n\n",
+    "description": "<API description>",
     "element": "category",
     "resourceGroups": [],
     "content": [
@@ -18,7 +18,7 @@
                 "element": "object",
                 "meta": {
                   "id": "User",
-                  "description": "It is number type, but input is string, we will convert it into\nNumber Element, without content set.\n\nFIXME: In the future, we should try to parse it, but it might be a problem \nbecause of localized input (decimal point, thousand separators, etc.)\n\n"
+                  "description": "It is number type, but input is string, we will convert it into\nNumber Element, without content set.\n\nFIXME: In the future, we should try to parse it, but it might be a problem \nbecause of localized input (decimal point, thousand separators, etc.)"
                 },
                 "content": [
                   {

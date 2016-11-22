@@ -25,7 +25,7 @@
                   "element": "object",
                   "meta": {
                     "id": "User",
-                    "description": "User of the application\n\n"
+                    "description": "User of the application"
                   },
                   "content": [
                     {
@@ -188,7 +188,7 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "some dummy text\n\nand it continue there\nand will end there\n"
+                        "description": "some dummy text\n\nand it continue there\nand will end there"
                       },
                       "content": {
                         "key": {

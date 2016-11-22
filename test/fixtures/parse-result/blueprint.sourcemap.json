@@ -76,7 +76,7 @@
               }
             ]
           },
-          "content": "this is a description of the test api\n"
+          "content": "this is a description of the test api"
         },
         {
           "element": "category",
@@ -118,7 +118,7 @@
                   }
                 ]
               },
-              "content": "A test group\n"
+              "content": "A test group"
             },
             {
               "element": "resource",
@@ -176,7 +176,7 @@
                       }
                     ]
                   },
-                  "content": "A test uri template\n"
+                  "content": "A test uri template"
                 }
               ]
             }

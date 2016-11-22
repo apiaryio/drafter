@@ -4,7 +4,7 @@
     "_version": "4.0",
     "metadata": [],
     "name": "<API name>",
-    "description": "<API description>\n\n",
+    "description": "<API description>",
     "element": "category",
     "resourceGroups": [],
     "content": [
@@ -18,7 +18,7 @@
                 "element": "object",
                 "meta": {
                   "id": "User",
-                  "description": "Description of User going there\n\n"
+                  "description": "Description of User going there"
                 },
                 "content": [
                   {

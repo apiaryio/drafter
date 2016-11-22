@@ -4,7 +4,7 @@
     "_version": "4.0",
     "metadata": [],
     "name": "<API name>",
-    "description": "<API description>\n\n",
+    "description": "<API description>",
     "element": "category",
     "resourceGroups": [],
     "content": [
@@ -18,7 +18,7 @@
                 "element": "object",
                 "meta": {
                   "id": "Address",
-                  "description": "mixin w/ description\n\n"
+                  "description": "mixin w/ description"
                 },
                 "content": [
                   {
@@ -76,7 +76,7 @@
                       "resolved": {
                         "element": "object",
                         "meta": {
-                          "description": "mixin w/ description\n\n",
+                          "description": "mixin w/ description",
                           "ref": "Address"
                         },
                         "content": [

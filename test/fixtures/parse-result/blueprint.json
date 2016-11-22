@@ -34,7 +34,7 @@
       "content": [
         {
           "element": "copy",
-          "content": "this is a description of the test api\n"
+          "content": "this is a description of the test api"
         },
         {
           "element": "category",
@@ -47,7 +47,7 @@
           "content": [
             {
               "element": "copy",
-              "content": "A test group\n"
+              "content": "A test group"
             },
             {
               "element": "resource",
@@ -60,7 +60,7 @@
               "content": [
                 {
                   "element": "copy",
-                  "content": "A test uri template\n"
+                  "content": "A test uri template"
                 }
               ]
             }

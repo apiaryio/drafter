@@ -72,7 +72,7 @@
                           }
                         ]
                       },
-                      "content": "User of the application\n\n"
+                      "content": "User of the application"
                     }
                   },
                   "content": [
@@ -526,7 +526,7 @@
                               }
                             ]
                           },
-                          "content": "some dummy text\n\nand it continue there\nand will end there\n"
+                          "content": "some dummy text\n\nand it continue there\nand will end there"
                         }
                       },
                       "content": {

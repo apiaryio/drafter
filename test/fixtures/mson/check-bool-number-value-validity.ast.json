@@ -44,31 +44,14 @@
                             "value": "application/json"
                           }
                         ],
-                        "body": "[\n  \"x\",\n  \"a\",\n  \"b\",\n  \"y\"\n]",
+                        "body": "[\n  0,\n  3,\n  false,\n  0\n]",
                         "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
                         "content": [
                           {
                             "element": "dataStructure",
                             "content": [
                               {
-                                "element": "array",
-                                "content": [
-                                  {
-                                    "element": "string",
-                                    "content": "x"
-                                  },
-                                  {
-                                    "element": "ref",
-                                    "content": {
-                                      "href": "RefSample",
-                                      "path": "content"
-                                    }
-                                  },
-                                  {
-                                    "element": "string",
-                                    "content": "y"
-                                  }
-                                ]
+                                "element": "A"
                               }
                             ]
                           }
@@ -85,6 +68,83 @@
       }
     ],
     "content": [
+      {
+        "element": "category",
+        "content": [
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "number",
+                "meta": {
+                  "id": "num"
+                }
+              }
+            ]
+          },
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "num",
+                "meta": {
+                  "id": "int"
+                }
+              }
+            ]
+          },
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "array",
+                "meta": {
+                  "id": "A"
+                },
+                "content": [
+                  {
+                    "element": "number",
+                    "content": 0
+                  },
+                  {
+                    "element": "number",
+                    "attributes": {
+                      "samples": [
+                        0
+                      ]
+                    },
+                    "content": 3
+                  },
+                  {
+                    "element": "boolean",
+                    "content": false
+                  },
+                  {
+                    "element": "int",
+                    "content": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "element": "dataStructure",
+            "content": [
+              {
+                "element": "int",
+                "meta": {
+                  "id": "C"
+                },
+                "attributes": {
+                  "samples": [
+                    3
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
       {
         "element": "category",
         "content": [
@@ -121,31 +181,14 @@
                             "value": "application/json"
                           }
                         ],
-                        "body": "[\n  \"x\",\n  \"a\",\n  \"b\",\n  \"y\"\n]",
+                        "body": "[\n  0,\n  3,\n  false,\n  0\n]",
                         "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}",
                         "content": [
                           {
                             "element": "dataStructure",
                             "content": [
                               {
-                                "element": "array",
-                                "content": [
-                                  {
-                                    "element": "string",
-                                    "content": "x"
-                                  },
-                                  {
-                                    "element": "ref",
-                                    "content": {
-                                      "href": "RefSample",
-                                      "path": "content"
-                                    }
-                                  },
-                                  {
-                                    "element": "string",
-                                    "content": "y"
-                                  }
-                                ]
+                                "element": "A"
                               }
                             ]
                           }
@@ -159,47 +202,6 @@
             "content": []
           }
         ]
-      },
-      {
-        "element": "category",
-        "content": [
-          {
-            "element": "dataStructure",
-            "content": [
-              {
-                "element": "array",
-                "meta": {
-                  "id": "RefSample",
-                  "description": "description"
-                },
-                "attributes": {
-                  "samples": [
-                    [
-                      {
-                        "element": "string",
-                        "content": "a"
-                      },
-                      {
-                        "element": "string",
-                        "content": "b"
-                      }
-                    ],
-                    [
-                      {
-                        "element": "string",
-                        "content": "d"
-                      },
-                      {
-                        "element": "string",
-                        "content": "e"
-                      }
-                    ]
-                  ]
-                }
-              }
-            ]
-          }
-        ]
       }
     ]
   },
@@ -208,5 +210,56 @@
     "message": "",
     "location": []
   },
-  "warnings": []
+  "warnings": [
+    {
+      "code": 4,
+      "message": "invalid value format for 'number' type. Valid format is as specifified in 'C language' function 'strtod()' ",
+      "location": [
+        {
+          "index": 65,
+          "length": 14
+        }
+      ]
+    },
+    {
+      "code": 4,
+      "message": "invalid value format for 'number' type. Valid format is as specifified in 'C language' function 'strtod()' ",
+      "location": [
+        {
+          "index": 98,
+          "length": 26
+        }
+      ]
+    },
+    {
+      "code": 4,
+      "message": "invalid value for 'boolean' type. Allowed values are 'true' or 'false'",
+      "location": [
+        {
+          "index": 126,
+          "length": 12
+        }
+      ]
+    },
+    {
+      "code": 4,
+      "message": "invalid value format for 'number' type. Valid format is as specifified in 'C language' function 'strtod()' ",
+      "location": [
+        {
+          "index": 140,
+          "length": 11
+        }
+      ]
+    },
+    {
+      "code": 4,
+      "message": "invalid value format for 'number' type. Valid format is as specifified in 'C language' function 'strtod()' ",
+      "location": []
+    },
+    {
+      "code": 4,
+      "message": "invalid value for 'boolean' type. Allowed values are 'true' or 'false'",
+      "location": []
+    }
+  ]
 }

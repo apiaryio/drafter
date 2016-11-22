@@ -129,7 +129,7 @@
                           }
                         ]
                       },
-                      "content": "Get the list of all the users\n\n"
+                      "content": "Get the list of all the users"
                     },
                     {
                       "element": "httpTransaction",

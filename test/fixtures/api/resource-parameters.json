@@ -32,7 +32,7 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "Database ID\n\nAdditional description\n"
+                        "description": "Database ID\n\nAdditional description"
                       },
                       "attributes": {
                         "typeAttributes": [
