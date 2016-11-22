@@ -4,7 +4,7 @@
     "_version": "4.0",
     "metadata": [],
     "name": "<API name>",
-    "description": "<API description>\n\n",
+    "description": "<API description>",
     "element": "category",
     "resourceGroups": [],
     "content": [
@@ -18,7 +18,7 @@
                 "element": "object",
                 "meta": {
                   "id": "User",
-                  "description": "The User description\n\n"
+                  "description": "The User description"
                 },
                 "content": [
                   {
@@ -52,7 +52,7 @@
                   {
                     "element": "object",
                     "meta": {
-                      "description": "The User description\n\n",
+                      "description": "The User description",
                       "ref": "User"
                     },
                     "content": [
@@ -110,7 +110,7 @@
                   {
                     "element": "object",
                     "meta": {
-                      "description": "The User description\n\n",
+                      "description": "The User description",
                       "ref": "User"
                     },
                     "content": [
@@ -194,7 +194,7 @@
                   {
                     "element": "object",
                     "meta": {
-                      "description": "The User description\n\n",
+                      "description": "The User description",
                       "ref": "User"
                     },
                     "content": [
@@ -218,7 +218,7 @@
                   {
                     "element": "object",
                     "meta": {
-                      "description": "This object has no own members\n"
+                      "description": "This object has no own members"
                     }
                   }
                 ]

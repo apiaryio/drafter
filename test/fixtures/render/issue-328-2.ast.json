@@ -14,7 +14,7 @@
           {
             "element": "resource",
             "name": "C",
-            "description": "### Add C(`[POST\n",
+            "description": "### Add C(`[POST",
             "uriTemplate": "/c",
             "model": {},
             "parameters": [],
@@ -43,7 +43,7 @@
           {
             "element": "resource",
             "name": "C",
-            "description": "### Add C(`[POST\n",
+            "description": "### Add C(`[POST",
             "uriTemplate": "/c",
             "model": {},
             "parameters": [],

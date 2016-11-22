@@ -9,17 +9,17 @@
       }
     ],
     "name": "test api",
-    "description": "this is a description of the test api\n",
+    "description": "this is a description of the test api",
     "element": "category",
     "resourceGroups": [
       {
         "name": "test",
-        "description": "A test group\n",
+        "description": "A test group",
         "resources": [
           {
             "element": "resource",
             "name": "test",
-            "description": "A test uri template\n",
+            "description": "A test uri template",
             "uriTemplate": "/test/{id}[2]",
             "model": {},
             "parameters": [],
@@ -38,12 +38,12 @@
         "content": [
           {
             "element": "copy",
-            "content": "A test group\n"
+            "content": "A test group"
           },
           {
             "element": "resource",
             "name": "test",
-            "description": "A test uri template\n",
+            "description": "A test uri template",
             "uriTemplate": "/test/{id}[2]",
             "model": {},
             "parameters": [],

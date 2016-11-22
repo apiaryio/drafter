@@ -34,7 +34,7 @@
       "content": [
         {
           "element": "copy",
-          "content": "<API description>\n\n"
+          "content": "<API description>"
         },
         {
           "element": "category",
@@ -47,7 +47,7 @@
           "content": [
             {
               "element": "copy",
-              "content": "<resource group description>\n\n"
+              "content": "<resource group description>"
             },
             {
               "element": "resource",
@@ -111,7 +111,7 @@
               "content": [
                 {
                   "element": "copy",
-                  "content": "<resource description>\n\n"
+                  "content": "<resource description>"
                 },
                 {
                   "element": "dataStructure",
@@ -204,7 +204,7 @@
                   "content": [
                     {
                       "element": "copy",
-                      "content": "<action description>\n\n"
+                      "content": "<action description>"
                     },
                     {
                       "element": "httpTransaction",
@@ -277,7 +277,7 @@
                           "content": [
                             {
                               "element": "copy",
-                              "content": "<request description>\n"
+                              "content": "<request description>"
                             },
                             {
                               "element": "asset",
@@ -370,7 +370,7 @@
                           "content": [
                             {
                               "element": "copy",
-                              "content": "<response description>\n"
+                              "content": "<response description>"
                             },
                             {
                               "element": "asset",
@@ -471,7 +471,7 @@
                           "content": [
                             {
                               "element": "copy",
-                              "content": "<request description>\n"
+                              "content": "<request description>"
                             },
                             {
                               "element": "asset",
@@ -551,7 +551,7 @@
                           "content": [
                             {
                               "element": "copy",
-                              "content": "<resource model description>\n"
+                              "content": "<resource model description>"
                             },
                             {
                               "element": "asset",
@@ -646,7 +646,7 @@
                           "content": [
                             {
                               "element": "copy",
-                              "content": "<request description>\n"
+                              "content": "<request description>"
                             },
                             {
                               "element": "asset",
@@ -781,7 +781,7 @@
                   "element": "object",
                   "meta": {
                     "id": "<data structure name>",
-                    "description": "<data structure description>\n\n"
+                    "description": "<data structure description>"
                   },
                   "content": [
                     {

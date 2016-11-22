@@ -4,7 +4,7 @@
     "_version": "4.0",
     "metadata": [],
     "name": "<API name>",
-    "description": "<API description>\n\n",
+    "description": "<API description>",
     "element": "category",
     "resourceGroups": [],
     "content": [
@@ -156,7 +156,7 @@
       "location": [
         {
           "index": 165,
-          "length": 14
+          "length": 15
         }
       ]
     },
@@ -166,7 +166,7 @@
       "location": [
         {
           "index": 165,
-          "length": 14
+          "length": 15
         }
       ]
     },
@@ -175,7 +175,7 @@
       "message": "ignoring unrecognized block",
       "location": [
         {
-          "index": 179,
+          "index": 180,
           "length": 6
         }
       ]

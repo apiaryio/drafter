@@ -76,7 +76,7 @@
               }
             ]
           },
-          "content": "<API description>\n\n"
+          "content": "<API description>"
         },
         {
           "element": "category",
@@ -118,7 +118,7 @@
                   }
                 ]
               },
-              "content": "<resource group description>\n\n"
+              "content": "<resource group description>"
             },
             {
               "element": "resource",
@@ -308,7 +308,7 @@
                       }
                     ]
                   },
-                  "content": "<resource description>\n\n"
+                  "content": "<resource description>"
                 },
                 {
                   "element": "dataStructure",
@@ -582,7 +582,7 @@
                           }
                         ]
                       },
-                      "content": "<action description>\n\n"
+                      "content": "<action description>"
                     },
                     {
                       "element": "httpTransaction",
@@ -648,8 +648,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            700,
-                                            29
+                                            704,
+                                            24
                                           ]
                                         ]
                                       }
@@ -674,8 +674,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            1007,
-                                            29
+                                            1011,
+                                            24
                                           ]
                                         ]
                                       }
@@ -726,8 +726,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            1126,
-                                            29
+                                            1130,
+                                            24
                                           ]
                                         ]
                                       }
@@ -763,7 +763,7 @@
                                   }
                                 ]
                               },
-                              "content": "<request description>\n"
+                              "content": "<request description>"
                             },
                             {
                               "element": "asset",
@@ -855,8 +855,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            700,
-                                            29
+                                            704,
+                                            24
                                           ]
                                         ]
                                       }
@@ -881,8 +881,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            1007,
-                                            29
+                                            1011,
+                                            24
                                           ]
                                         ]
                                       }
@@ -933,8 +933,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            1320,
-                                            29
+                                            1324,
+                                            24
                                           ]
                                         ]
                                       }
@@ -970,7 +970,7 @@
                                   }
                                 ]
                               },
-                              "content": "<response description>\n"
+                              "content": "<response description>"
                             },
                             {
                               "element": "asset",
@@ -1086,8 +1086,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            700,
-                                            29
+                                            704,
+                                            24
                                           ]
                                         ]
                                       }
@@ -1112,8 +1112,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            1007,
-                                            29
+                                            1011,
+                                            24
                                           ]
                                         ]
                                       }
@@ -1164,8 +1164,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            1126,
-                                            29
+                                            1130,
+                                            24
                                           ]
                                         ]
                                       }
@@ -1201,7 +1201,7 @@
                                   }
                                 ]
                               },
-                              "content": "<request description>\n"
+                              "content": "<request description>"
                             },
                             {
                               "element": "asset",
@@ -1293,8 +1293,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            700,
-                                            29
+                                            704,
+                                            24
                                           ]
                                         ]
                                       }
@@ -1319,8 +1319,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            1007,
-                                            29
+                                            1011,
+                                            24
                                           ]
                                         ]
                                       }
@@ -1345,8 +1345,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            369,
-                                            29
+                                            373,
+                                            24
                                           ]
                                         ]
                                       }
@@ -1382,7 +1382,7 @@
                                   }
                                 ]
                               },
-                              "content": "<resource model description>\n"
+                              "content": "<resource model description>"
                             },
                             {
                               "element": "asset",
@@ -1496,8 +1496,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            700,
-                                            29
+                                            704,
+                                            24
                                           ]
                                         ]
                                       }
@@ -1522,8 +1522,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            1007,
-                                            29
+                                            1011,
+                                            24
                                           ]
                                         ]
                                       }
@@ -1574,8 +1574,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            1126,
-                                            29
+                                            1130,
+                                            24
                                           ]
                                         ]
                                       }
@@ -1611,7 +1611,7 @@
                                   }
                                 ]
                               },
-                              "content": "<request description>\n"
+                              "content": "<request description>"
                             },
                             {
                               "element": "asset",
@@ -1703,8 +1703,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            700,
-                                            29
+                                            704,
+                                            24
                                           ]
                                         ]
                                       }
@@ -1729,8 +1729,8 @@
                                         "element": "sourceMap",
                                         "content": [
                                           [
-                                            1007,
-                                            29
+                                            1011,
+                                            24
                                           ]
                                         ]
                                       }
@@ -1878,7 +1878,7 @@
                           }
                         ]
                       },
-                      "content": "<data structure description>\n\n"
+                      "content": "<data structure description>"
                     }
                   },
                   "content": [

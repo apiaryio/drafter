@@ -53,7 +53,7 @@
               "content": [
                 {
                   "element": "copy",
-                  "content": "### View a User [GET {username}]\n\n"
+                  "content": "### View a User [GET {username}]"
                 }
               ]
             }

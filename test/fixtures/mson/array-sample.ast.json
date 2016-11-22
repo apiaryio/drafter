@@ -18,7 +18,7 @@
                 "element": "array",
                 "meta": {
                   "id": "ArraySample",
-                  "description": "description\n\n"
+                  "description": "description"
                 },
                 "attributes": {
                   "samples": [

@@ -4,7 +4,7 @@
     "_version": "4.0",
     "metadata": [],
     "name": "<API name>",
-    "description": "<API description>\n\n",
+    "description": "<API description>",
     "element": "category",
     "resourceGroups": [],
     "content": [
@@ -23,7 +23,7 @@
                   {
                     "element": "member",
                     "meta": {
-                      "description": "An additional\nmulti-line description.\n\n- here\n\n- there\n"
+                      "description": "An additional\nmulti-line description.\n\n- here\n\n- there"
                     },
                     "content": {
                       "key": {
@@ -39,7 +39,7 @@
                   {
                     "element": "member",
                     "meta": {
-                      "description": "address description\n\nmultilined object\ndescription\n"
+                      "description": "address description\n\nmultilined object\ndescription"
                     },
                     "content": {
                       "key": {
@@ -71,7 +71,7 @@
                   {
                     "element": "member",
                     "meta": {
-                      "description": "this should ...\n\nbe member of user\n"
+                      "description": "this should ...\n\nbe member of user"
                     },
                     "content": {
                       "key": {

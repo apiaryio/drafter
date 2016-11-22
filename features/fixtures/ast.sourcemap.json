@@ -9,21 +9,21 @@
       }
     ],
     "name": "<API name>",
-    "description": "<API description>\n\n",
+    "description": "<API description>",
     "element": "category",
     "resourceGroups": [
       {
         "name": "<resource group name>",
-        "description": "<resource group description>\n\n",
+        "description": "<resource group description>",
         "resources": [
           {
             "element": "resource",
             "name": "<resource name>",
-            "description": "<resource description>\n\n",
+            "description": "<resource description>",
             "uriTemplate": "/resource/{parameter}",
             "model": {
               "name": "<resource name>",
-              "description": "<resource model description>\n",
+              "description": "<resource model description>",
               "headers": [
                 {
                   "name": "header1",
@@ -70,7 +70,7 @@
             "actions": [
               {
                 "name": "<action name>",
-                "description": "<action description>\n\n",
+                "description": "<action description>",
                 "method": "POST",
                 "parameters": [
                   {
@@ -102,7 +102,7 @@
                     "requests": [
                       {
                         "name": "<request name>",
-                        "description": "<request description>\n",
+                        "description": "<request description>",
                         "headers": [
                           {
                             "name": "header2",
@@ -144,7 +144,7 @@
                     "responses": [
                       {
                         "name": "200",
-                        "description": "<response description>\n",
+                        "description": "<response description>",
                         "headers": [
                           {
                             "name": "header2",
@@ -187,7 +187,7 @@
                           "id": "<resource name>"
                         },
                         "name": "201",
-                        "description": "<resource model description>\n",
+                        "description": "<resource model description>",
                         "headers": [
                           {
                             "name": "header2",
@@ -300,16 +300,16 @@
         "content": [
           {
             "element": "copy",
-            "content": "<resource group description>\n\n"
+            "content": "<resource group description>"
           },
           {
             "element": "resource",
             "name": "<resource name>",
-            "description": "<resource description>\n\n",
+            "description": "<resource description>",
             "uriTemplate": "/resource/{parameter}",
             "model": {
               "name": "<resource name>",
-              "description": "<resource model description>\n",
+              "description": "<resource model description>",
               "headers": [
                 {
                   "name": "header1",
@@ -356,7 +356,7 @@
             "actions": [
               {
                 "name": "<action name>",
-                "description": "<action description>\n\n",
+                "description": "<action description>",
                 "method": "POST",
                 "parameters": [
                   {
@@ -388,7 +388,7 @@
                     "requests": [
                       {
                         "name": "<request name>",
-                        "description": "<request description>\n",
+                        "description": "<request description>",
                         "headers": [
                           {
                             "name": "header2",
@@ -430,7 +430,7 @@
                     "responses": [
                       {
                         "name": "200",
-                        "description": "<response description>\n",
+                        "description": "<response description>",
                         "headers": [
                           {
                             "name": "header2",
@@ -473,7 +473,7 @@
                           "id": "<resource name>"
                         },
                         "name": "201",
-                        "description": "<resource model description>\n",
+                        "description": "<resource model description>",
                         "headers": [
                           {
                             "name": "header2",
@@ -586,7 +586,7 @@
                 "element": "object",
                 "meta": {
                   "id": "<data structure name>",
-                  "description": "<data structure description>\n\n"
+                  "description": "<data structure description>"
                 },
                 "content": [
                   {
@@ -684,8 +684,8 @@
               "headers": [
                 [
                   [
-                    369,
-                    29
+                    373,
+                    24
                   ]
                 ]
               ],
@@ -877,14 +877,14 @@
                         "headers": [
                           [
                             [
-                              700,
-                              29
+                              704,
+                              24
                             ]
                           ],
                           [
                             [
-                              1007,
-                              29
+                              1011,
+                              24
                             ]
                           ],
                           [
@@ -895,8 +895,8 @@
                           ],
                           [
                             [
-                              1126,
-                              29
+                              1130,
+                              24
                             ]
                           ]
                         ],
@@ -949,14 +949,14 @@
                         "headers": [
                           [
                             [
-                              700,
-                              29
+                              704,
+                              24
                             ]
                           ],
                           [
                             [
-                              1007,
-                              29
+                              1011,
+                              24
                             ]
                           ],
                           [
@@ -967,8 +967,8 @@
                           ],
                           [
                             [
-                              1320,
-                              29
+                              1324,
+                              24
                             ]
                           ]
                         ],
@@ -1025,20 +1025,20 @@
                         "headers": [
                           [
                             [
-                              700,
-                              29
+                              704,
+                              24
                             ]
                           ],
                           [
                             [
-                              1007,
-                              29
+                              1011,
+                              24
                             ]
                           ],
                           [
                             [
-                              369,
-                              29
+                              373,
+                              24
                             ]
                           ]
                         ],
@@ -1084,14 +1084,14 @@
                         "headers": [
                           [
                             [
-                              700,
-                              29
+                              704,
+                              24
                             ]
                           ],
                           [
                             [
-                              1007,
-                              29
+                              1011,
+                              24
                             ]
                           ],
                           [
@@ -1179,8 +1179,8 @@
               "headers": [
                 [
                   [
-                    369,
-                    29
+                    373,
+                    24
                   ]
                 ]
               ],
@@ -1372,14 +1372,14 @@
                         "headers": [
                           [
                             [
-                              700,
-                              29
+                              704,
+                              24
                             ]
                           ],
                           [
                             [
-                              1007,
-                              29
+                              1011,
+                              24
                             ]
                           ],
                           [
@@ -1390,8 +1390,8 @@
                           ],
                           [
                             [
-                              1126,
-                              29
+                              1130,
+                              24
                             ]
                           ]
                         ],
@@ -1444,14 +1444,14 @@
                         "headers": [
                           [
                             [
-                              700,
-                              29
+                              704,
+                              24
                             ]
                           ],
                           [
                             [
-                              1007,
-                              29
+                              1011,
+                              24
                             ]
                           ],
                           [
@@ -1462,8 +1462,8 @@
                           ],
                           [
                             [
-                              1320,
-                              29
+                              1324,
+                              24
                             ]
                           ]
                         ],
@@ -1520,20 +1520,20 @@
                         "headers": [
                           [
                             [
-                              700,
-                              29
+                              704,
+                              24
                             ]
                           ],
                           [
                             [
-                              1007,
-                              29
+                              1011,
+                              24
                             ]
                           ],
                           [
                             [
-                              369,
-                              29
+                              373,
+                              24
                             ]
                           ]
                         ],
@@ -1579,14 +1579,14 @@
                         "headers": [
                           [
                             [
-                              700,
-                              29
+                              704,
+                              24
                             ]
                           ],
                           [
                             [
-                              1007,
-                              29
+                              1011,
+                              24
                             ]
                           ],
                           [

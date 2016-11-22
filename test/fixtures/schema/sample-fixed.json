@@ -90,7 +90,7 @@
                                           "element": "string",
                                           "attributes": {
                                             "samples": [
-                                              "Fixed Value\n"
+                                              "Fixed Value"
                                             ]
                                           }
                                         }
@@ -110,7 +110,7 @@
                               "attributes": {
                                 "contentType": "application/json"
                               },
-                              "content": "{\n  \"fixedSample\": \"Fixed Value\\n\"\n}"
+                              "content": "{\n  \"fixedSample\": \"Fixed Value\"\n}"
                             },
                             {
                               "element": "asset",
@@ -122,7 +122,7 @@
                               "attributes": {
                                 "contentType": "application/schema+json"
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"fixedSample\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"Fixed Value\\n\"\n      ]\n    }\n  },\n  \"required\": [\n    \"fixedSample\"\n  ]\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"fixedSample\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"Fixed Value\"\n      ]\n    }\n  },\n  \"required\": [\n    \"fixedSample\"\n  ]\n}"
                             }
                           ]
                         }

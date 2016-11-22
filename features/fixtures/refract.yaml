@@ -23,7 +23,7 @@ content:
     content:
       -
         element: "copy"
-        content: "<API description>\n\n"
+        content: "<API description>"
       -
         element: "category"
         meta:
@@ -33,7 +33,7 @@ content:
         content:
           -
             element: "copy"
-            content: "<resource group description>\n\n"
+            content: "<resource group description>"
           -
             element: "resource"
             meta:
@@ -76,7 +76,7 @@ content:
             content:
               -
                 element: "copy"
-                content: "<resource description>\n\n"
+                content: "<resource description>"
               -
                 element: "dataStructure"
                 content:
@@ -138,7 +138,7 @@ content:
                 content:
                   -
                     element: "copy"
-                    content: "<action description>\n\n"
+                    content: "<action description>"
                   -
                     element: "httpTransaction"
                     content:
@@ -190,7 +190,7 @@ content:
                         content:
                           -
                             element: "copy"
-                            content: "<request description>\n"
+                            content: "<request description>"
                           -
                             element: "asset"
                             meta:
@@ -253,7 +253,7 @@ content:
                         content:
                           -
                             element: "copy"
-                            content: "<response description>\n"
+                            content: "<response description>"
                           -
                             element: "asset"
                             meta:
@@ -321,7 +321,7 @@ content:
                         content:
                           -
                             element: "copy"
-                            content: "<request description>\n"
+                            content: "<request description>"
                           -
                             element: "asset"
                             meta:
@@ -375,7 +375,7 @@ content:
                         content:
                           -
                             element: "copy"
-                            content: "<resource model description>\n"
+                            content: "<resource model description>"
                           -
                             element: "asset"
                             meta:
@@ -439,7 +439,7 @@ content:
                         content:
                           -
                             element: "copy"
-                            content: "<request description>\n"
+                            content: "<request description>"
                           -
                             element: "asset"
                             meta:
@@ -525,7 +525,7 @@ content:
                 element: "object"
                 meta:
                   id: "<data structure name>"
-                  description: "<data structure description>\n\n"
+                  description: "<data structure description>"
                 content:
                   -
                     element: "member"
