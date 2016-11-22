@@ -6,21 +6,21 @@ ast:
       name: "Format"
       value: "1A"
   name: "<API name>"
-  description: "<API description>\n\n"
+  description: "<API description>"
   element: "category"
   resourceGroups:
     -
       name: "<resource group name>"
-      description: "<resource group description>\n\n"
+      description: "<resource group description>"
       resources:
         -
           element: "resource"
           name: "<resource name>"
-          description: "<resource description>\n\n"
+          description: "<resource description>"
           uriTemplate: "/resource/{parameter}"
           model:
             name: "<resource name>"
-            description: "<resource model description>\n"
+            description: "<resource model description>"
             headers:
               -
                 name: "header1"
@@ -54,7 +54,7 @@ ast:
           actions:
             -
               name: "<action name>"
-              description: "<action description>\n\n"
+              description: "<action description>"
               method: "POST"
               parameters:
                 -
@@ -80,7 +80,7 @@ ast:
                   requests:
                     -
                       name: "<request name>"
-                      description: "<request description>\n"
+                      description: "<request description>"
                       headers:
                         -
                           name: "header2"
@@ -110,7 +110,7 @@ ast:
                   responses:
                     -
                       name: "200"
-                      description: "<response description>\n"
+                      description: "<response description>"
                       headers:
                         -
                           name: "header2"
@@ -141,7 +141,7 @@ ast:
                       reference:
                         id: "<resource name>"
                       name: "201"
-                      description: "<resource model description>\n"
+                      description: "<resource model description>"
                       headers:
                         -
                           name: "header2"
@@ -214,15 +214,15 @@ ast:
       content:
         -
           element: "copy"
-          content: "<resource group description>\n\n"
+          content: "<resource group description>"
         -
           element: "resource"
           name: "<resource name>"
-          description: "<resource description>\n\n"
+          description: "<resource description>"
           uriTemplate: "/resource/{parameter}"
           model:
             name: "<resource name>"
-            description: "<resource model description>\n"
+            description: "<resource model description>"
             headers:
               -
                 name: "header1"
@@ -256,7 +256,7 @@ ast:
           actions:
             -
               name: "<action name>"
-              description: "<action description>\n\n"
+              description: "<action description>"
               method: "POST"
               parameters:
                 -
@@ -282,7 +282,7 @@ ast:
                   requests:
                     -
                       name: "<request name>"
-                      description: "<request description>\n"
+                      description: "<request description>"
                       headers:
                         -
                           name: "header2"
@@ -312,7 +312,7 @@ ast:
                   responses:
                     -
                       name: "200"
-                      description: "<response description>\n"
+                      description: "<response description>"
                       headers:
                         -
                           name: "header2"
@@ -343,7 +343,7 @@ ast:
                       reference:
                         id: "<resource name>"
                       name: "201"
-                      description: "<resource model description>\n"
+                      description: "<resource model description>"
                       headers:
                         -
                           name: "header2"
@@ -418,7 +418,7 @@ ast:
               element: "object"
               meta:
                 id: "<data structure name>"
-                description: "<data structure description>\n\n"
+                description: "<data structure description>"
               content:
                 -
                   element: "member"
