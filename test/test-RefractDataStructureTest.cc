@@ -51,8 +51,11 @@ TEST_MSON("regression-269", false);
 
 TEST_AST("mson", "type-attributes");
 TEST_AST("mson", "type-attributes-payload");
+
 TEST_REFRACT("mson", "variable-property-name");
 TEST_REFRACT("mson", "check-bool-number-value-validity");
+TEST_REFRACT("mson", "check-default-without-value");
+TEST_REFRACT("mson", "check-sample-without-value");
 
 TEST_MSON_SUCCESS("enum-empty-default");
 

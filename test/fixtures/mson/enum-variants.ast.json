@@ -518,5 +518,16 @@
     "message": "",
     "location": []
   },
-  "warnings": []
+  "warnings": [
+    {
+      "code": 0,
+      "message": "no value present when 'sample' is specified",
+      "location": []
+    },
+    {
+      "code": 0,
+      "message": "no value present when 'default' is specified",
+      "location": []
+    }
+  ]
 }

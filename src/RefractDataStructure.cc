@@ -547,9 +547,9 @@ namespace drafter {
             }
 
             Fetch<typename T::ValueType> fetch;
+            mson::TypeAttributes attrs = valueMember.node->valueDefinition.typeDefinition.attributes;
 
             if (!valueMember.node->valueDefinition.values.empty()) {
-                mson::TypeAttributes attrs = valueMember.node->valueDefinition.typeDefinition.attributes;
                 const mson::Value& value = *valueMember.node->valueDefinition.values.begin();
 
                 ValueInfo parsed = fetch(valueMember, context);
@@ -562,6 +562,15 @@ namespace drafter {
                 }
                 else {
                     data.values.push_back(parsed);
+                }
+            }
+            else {
+                if (attrs & mson::DefaultTypeAttribute) {
+                    context.warn(snowcrash::Warning("no value present when 'default' is specified"));
+                }
+
+                if (attrs & mson::SampleTypeAttribute) {
+                    context.warn(snowcrash::Warning("no value present when 'sample' is specified"));
                 }
             }
 
