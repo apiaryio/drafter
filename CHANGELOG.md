@@ -1,5 +1,13 @@
 # Drafter Changelog
 
+## Master
+
+### Enhancements
+
+* Improved sourcemaps of warnings when encountering malformed headers
+
+* Added warning when default and sample is specified without value
+
 ## 3.1.3
 
 ### Bug Fixes
@@ -21,6 +29,8 @@
   [#367](https://github.com/apiaryio/drafter/issues/367)
 
 ## 3.1.2
+
+### Enhancements
 
 * Add missing sourcemaps for named type references
   [#386](https://github.com/apiaryio/drafter/issues/386)
