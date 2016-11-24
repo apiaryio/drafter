@@ -45,7 +45,7 @@
                           }
                         ],
                         "body": "{\n  \"s1\": \"default\",\n  \"s2\": \"sample\",\n  \"s3\": \"v1\",\n  \"n1\": 5,\n  \"n2\": 8,\n  \"b1\": true\n}",
-                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"s1\": {\n      \"type\": \"string\"\n    },\n    \"s2\": {\n      \"type\": \"string\"\n    },\n    \"s3\": {\n      \"type\": \"string\"\n    },\n    \"n1\": {\n      \"type\": \"number\"\n    },\n    \"n2\": {\n      \"type\": \"number\"\n    },\n    \"b1\": {\n      \"type\": \"boolean\"\n    }\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"s1\": {\n      \"type\": \"string\",\n      \"default\": \"default\"\n    },\n    \"s2\": {\n      \"type\": \"string\"\n    },\n    \"s3\": {\n      \"type\": \"string\",\n      \"default\": \"d1\"\n    },\n    \"n1\": {\n      \"type\": \"number\"\n    },\n    \"n2\": {\n      \"type\": \"number\",\n      \"default\": 7\n    },\n    \"b1\": {\n      \"type\": \"boolean\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",
@@ -210,7 +210,7 @@
                           }
                         ],
                         "body": "{\n  \"s1\": \"default\",\n  \"s2\": \"sample\",\n  \"s3\": \"v1\",\n  \"n1\": 5,\n  \"n2\": 8,\n  \"b1\": true\n}",
-                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"s1\": {\n      \"type\": \"string\"\n    },\n    \"s2\": {\n      \"type\": \"string\"\n    },\n    \"s3\": {\n      \"type\": \"string\"\n    },\n    \"n1\": {\n      \"type\": \"number\"\n    },\n    \"n2\": {\n      \"type\": \"number\"\n    },\n    \"b1\": {\n      \"type\": \"boolean\"\n    }\n  }\n}",
+                        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"s1\": {\n      \"type\": \"string\",\n      \"default\": \"default\"\n    },\n    \"s2\": {\n      \"type\": \"string\"\n    },\n    \"s3\": {\n      \"type\": \"string\",\n      \"default\": \"d1\"\n    },\n    \"n1\": {\n      \"type\": \"number\"\n    },\n    \"n2\": {\n      \"type\": \"number\",\n      \"default\": 7\n    },\n    \"b1\": {\n      \"type\": \"boolean\"\n    }\n  }\n}",
                         "content": [
                           {
                             "element": "dataStructure",

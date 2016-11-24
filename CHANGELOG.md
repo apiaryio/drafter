@@ -8,6 +8,9 @@
 
 * Added warning when default and sample is specified without value
 
+* Improved JSON Schema regarding defaults
+  [#424](https://github.com/apiaryio/drafter/issues/424)
+
 ## 3.1.3
 
 ### Bug Fixes

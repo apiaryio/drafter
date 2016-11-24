@@ -194,6 +194,7 @@ namespace refract
         if (ext) {
             IElement* merged = ext->merge();
             str = TypeQueryVisitor::as<StringElement>(merged);
+
             if (!str) {
                 delete merged;
             }
@@ -211,6 +212,20 @@ namespace refract
             if (IsTypeAttribute(e, "nullable")) {
                 renderer.addSchemaType("null");
             }
+
+            // Check for primitive types
+            StringElement* strSecond = TypeQueryVisitor::as<StringElement>(e.value.second);
+            NumberElement* numSecond = TypeQueryVisitor::as<NumberElement>(e.value.second);
+            BooleanElement* boolSecond = TypeQueryVisitor::as<BooleanElement>(e.value.second);
+
+            if (e.value.second && (strSecond || numSecond || boolSecond)) {
+                IElement::MemberElementCollection::const_iterator defaultIt = e.value.second->attributes.find("default");
+
+                if (defaultIt != e.value.second->attributes.end()) {
+                    renderer.addMember("default", (*defaultIt)->clone());
+                }
+            }
+
             addMember(str->value, renderer.getOwnership());
         }
         else {
