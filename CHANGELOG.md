@@ -1,6 +1,6 @@
 # Drafter Changelog
 
-## Master
+## 3.2.0
 
 ### Enhancements
 
