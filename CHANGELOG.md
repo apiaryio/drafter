@@ -1,5 +1,8 @@
 # Drafter Changelog
 
+## master
+* fix crash - changes in sundown leads to crash for undisclosed item list
+
 ## 3.2.0
 
 ### Enhancements
