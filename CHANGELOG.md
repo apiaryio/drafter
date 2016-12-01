@@ -1,6 +1,10 @@
 # Drafter Changelog
 
 ## master
+
+* Properly handle MD "code fences" while parsing headers (related to
+  changes in sundown paser)
+
 * fix crash - changes in sundown leads to crash for undisclosed item list
 
 ## 3.2.0
