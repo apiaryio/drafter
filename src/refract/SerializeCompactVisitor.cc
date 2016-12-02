@@ -116,7 +116,7 @@ namespace refract
     {
 
         typedef ObjectElement::ValueType::const_iterator iterator;
-        iterator it = find_if(e.value.begin(), e.value.end(), std::bind2nd(IsFullRender(), generateSourceMap));
+        iterator it = find_if(e.value.begin(), e.value.end(), std::bind(IsFullRender(), std::placeholders::_1, generateSourceMap));
 
         // if there is ANY element required to be serialized in Full
         // we must use array to serialize
