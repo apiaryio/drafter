@@ -137,7 +137,7 @@ namespace refract
 
         template <typename V>
         V ExpandValue(const V& v) {
-            std::binder1st<std::mem_fun1_t<IElement*, ExpandVisitor::Context, const IElement*> > expandOrClone = std::bind1st(std::mem_fun(&ExpandVisitor::Context::ExpandOrClone), this);
+            auto expandOrClone = std::bind(&ExpandVisitor::Context::ExpandOrClone, this, std::placeholders::_1);
             return ExpandValueImpl<V>()(v, expandOrClone);
         }
 

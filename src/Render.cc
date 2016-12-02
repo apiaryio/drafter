@@ -38,7 +38,7 @@ namespace drafter {
         Collection<Header>::const_iterator header;
 
         header = std::find_if(headers.begin(), headers.end(),
-                              std::bind2nd(MatchFirstWith<Header, std::string>(), HTTPHeaderName::ContentType));
+                              std::bind(MatchFirstWith<Header, std::string>(), std::placeholders::_1, HTTPHeaderName::ContentType));
 
         if (header != headers.end()) {
             return header->second;

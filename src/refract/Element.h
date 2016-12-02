@@ -369,7 +369,7 @@ namespace refract
         static void cloneValue(const ValueType& self, ValueType& other) {
             std::transform(self.begin(), self.end(),
                            std::back_inserter(other),
-                           std::bind2nd(std::ptr_fun(&SelfType::typedMemberClone), IElement::cAll));
+                           std::bind(&SelfType::typedMemberClone, std::placeholders::_1, IElement::cAll));
         }
     };
 

@@ -24,7 +24,7 @@ namespace refract
 
     void SetRenderFlag(RefractElements& elements, const IElement::renderFlags flag) {
         std::for_each(elements.begin(), elements.end(),
-                 std::bind2nd(std::mem_fun((void (refract::IElement::*)(const refract::IElement::renderFlags))&refract::IElement::renderType), flag));
+                 std::bind(static_cast<void (refract::IElement::*)(const refract::IElement::renderFlags)>(&refract::IElement::renderType), std::placeholders::_1, flag));
     }
 
     std::string GetKeyAsString(const MemberElement& e)

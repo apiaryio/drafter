@@ -49,7 +49,7 @@ namespace refract
 
         void operator()(const ValueType& value)
         {
-            for_each(value.begin(), value.end(), std::bind1st(std::mem_fun(&ElementType::push_back), element));
+            std::transform(value.begin(), value.end(), std::back_inserter(element));
         }
     };
 

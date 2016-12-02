@@ -101,7 +101,7 @@ namespace drafter {
 
         void operator()(const NodeInfo<ValueType>& value)
         {
-            std::for_each(value.node->begin(), value.node->end(), std::bind1st(std::mem_fun(&ElementType::push_back), element));
+            std::for_each(value.node->begin(), value.node->end(), std::bind(&ElementType::push_back, element, std::placeholders::_1));
         }
 
         void operator()(const ValueInfo& value)
@@ -237,19 +237,11 @@ namespace drafter {
     RefractElements MsonElementsToRefract(const NodeInfo<mson::Elements>& elements, ConversionContext& context, mson::BaseTypeName defaultNestedType = mson::StringTypeName)
     {
         RefractElements result;
-
-        // FIXME: should be used instead of "for loop" below, but there is some problem with
-        // std::bind2nd && enum, will be fixed
-        //
-        //std::transform(elements.begin(), elements.end(),
-        //               std::back_inserter(result),
-        //               std::bind2nd(std::ptr_fun(MsonElementToRefract), nestedTypeName));
-
         NodeInfoCollection<mson::Elements> elementsNodeInfo(elements);
 
-        for (NodeInfoCollection<mson::Elements>::const_iterator it = elementsNodeInfo.begin(); it != elementsNodeInfo.end(); ++it) {
-            result.push_back(MsonElementToRefract(*it, context, defaultNestedType));
-        }
+        std::transform(elementsNodeInfo.begin(), elementsNodeInfo.end(),
+                       std::back_inserter(result),
+                       std::bind(MsonElementToRefract, std::placeholders::_1, std::ref(context), defaultNestedType));
 
         return result;
     }
