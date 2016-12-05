@@ -1,6 +1,6 @@
 # Drafter Changelog
 
-## Master
+## 3.2.2
 
 ### Bug Fixes
 
