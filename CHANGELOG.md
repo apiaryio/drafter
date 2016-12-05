@@ -1,6 +1,8 @@
 # Drafter Changelog
 
-## master
+## 3.2.1
+
+### Bug Fixes
 
 * Properly handle MD "code fences" while parsing headers (related to
   changes in sundown paser)
