@@ -1,5 +1,13 @@
 # Drafter Changelog
 
+## Master
+
+### Bug Fixes
+
+* Ensure that escaped property names in MSON are not treated as markdown.
+  [snowcrash#422](https://github.com/apiaryio/snowcrash/pull/422)
+
+
 ## 3.2.1
 
 ### Bug Fixes
