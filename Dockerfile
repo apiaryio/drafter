@@ -1,10 +1,5 @@
-FROM apiaryio/base-dev-cpp:1.0.0
+FROM apiaryio/cpp
 MAINTAINER Apiary "sre@apiary.io"
-
-
-RUN locale-gen en_US.UTF-8
-RUN echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
-RUN dpkg-reconfigure locales
 
 ADD ./ /drafter
 
