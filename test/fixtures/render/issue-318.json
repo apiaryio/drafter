@@ -1,0 +1,270 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": ""
+              },
+              "attributes": {
+                "href": "/"
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": ""
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "dataStructure",
+                              "content": [
+                                {
+                                  "element": "A"
+                                }
+                              ]
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBody"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n  \"explicit\": {},\n  \"implicit\": {\n    \"key\": \"value\"\n  },\n  \"named\": {}\n}"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBodySchema"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/schema+json"
+                              },
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"explicit\": {\n      \"type\": \"object\",\n      \"properties\": {}\n    },\n    \"implicit\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"key\": {\n          \"type\": \"string\"\n        }\n      }\n    },\n    \"named\": {\n      \"type\": \"object\",\n      \"properties\": {}\n    }\n  }\n}"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "dataStructures"
+            ]
+          },
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": "O"
+                  }
+                }
+              ]
+            },
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": "A"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "explicit"
+                        },
+                        "value": {
+                          "element": "object"
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "implicit"
+                        },
+                        "value": {
+                          "element": "object",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "key"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "value"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "named"
+                        },
+                        "value": {
+                          "element": "O"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 8,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                102,
+                28
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "'object' with value definition. You should use type definition without value eg. '- key (object)'"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 8,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                130,
+                36
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "'object' with value definition. You should use type definition without value eg. '- key (object)'"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 8,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                166,
+                20
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "'object' with value definition. You should use type definition without value eg. '- key (object)'"
+    }
+  ]
+}

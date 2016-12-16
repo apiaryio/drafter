@@ -75,7 +75,7 @@ DRAFTER_API int drafter_parse_blueprint(const char* source,
     sc::ParseResult<sc::Blueprint> blueprint;
     sc::parse(source, scOptions, blueprint);
 
-    drafter::WrapperOptions wrapperOptions(drafter::RefractASTType);
+    drafter::WrapperOptions wrapperOptions;
     drafter::ConversionContext context(wrapperOptions);
     refract::IElement* result = WrapParseResultRefract(blueprint, context);
 
@@ -116,8 +116,8 @@ DRAFTER_API char* drafter_serialize(drafter_result *res, const drafter_options o
         return nullptr;
     }
 
-    drafter::WrapperOptions woptions(drafter::RefractASTType, options.sourcemap);
-    drafter::ConversionContext context(woptions);
+    drafter::WrapperOptions wrapperOptions(options.sourcemap);
+    drafter::ConversionContext context(wrapperOptions);
 
     sos::Object result = drafter::SerializeRefract(res, context);
 

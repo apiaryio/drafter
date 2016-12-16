@@ -1,0 +1,179 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": ""
+              },
+              "attributes": {
+                "href": "/"
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": ""
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "dataStructure",
+                              "content": [
+                                {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "x"
+                                    },
+                                    {
+                                      "element": "ref",
+                                      "content": {
+                                        "href": "RefSample",
+                                        "path": "content"
+                                      }
+                                    },
+                                    {
+                                      "element": "string",
+                                      "content": "y"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBody"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "[\n  \"x\",\n  \"a\",\n  \"b\",\n  \"y\"\n]"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBodySchema"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/schema+json"
+                              },
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "dataStructures"
+            ]
+          },
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "array",
+                  "meta": {
+                    "id": "RefSample",
+                    "description": "description"
+                  },
+                  "attributes": {
+                    "samples": [
+                      [
+                        {
+                          "element": "string",
+                          "content": "a"
+                        },
+                        {
+                          "element": "string",
+                          "content": "b"
+                        }
+                      ],
+                      [
+                        {
+                          "element": "string",
+                          "content": "d"
+                        },
+                        {
+                          "element": "string",
+                          "content": "e"
+                        }
+                      ]
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

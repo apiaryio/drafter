@@ -1,0 +1,28 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "error"
+        ]
+      },
+      "attributes": {
+        "code": 4,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                32,
+                15
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "base type 'C' is not defined in the document"
+    }
+  ]
+}

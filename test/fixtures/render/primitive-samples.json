@@ -1,0 +1,221 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": ""
+              },
+              "attributes": {
+                "href": "/"
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": ""
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "dataStructure",
+                              "content": [
+                                {
+                                  "element": "object",
+                                  "content": [
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "s1"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "attributes": {
+                                            "default": "default"
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "s2"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "attributes": {
+                                            "samples": [
+                                              "sample"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "s3"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "attributes": {
+                                            "samples": [
+                                              "v1",
+                                              "v2"
+                                            ],
+                                            "default": "d1"
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "n1"
+                                        },
+                                        "value": {
+                                          "element": "number",
+                                          "attributes": {
+                                            "samples": [
+                                              5
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "n2"
+                                        },
+                                        "value": {
+                                          "element": "number",
+                                          "attributes": {
+                                            "samples": [
+                                              8
+                                            ],
+                                            "default": 7
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "b1"
+                                        },
+                                        "value": {
+                                          "element": "boolean",
+                                          "attributes": {
+                                            "samples": [
+                                              true
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBody"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n  \"s1\": \"default\",\n  \"s2\": \"sample\",\n  \"s3\": \"v1\",\n  \"n1\": 5,\n  \"n2\": 8,\n  \"b1\": true\n}"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBodySchema"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/schema+json"
+                              },
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"s1\": {\n      \"type\": \"string\",\n      \"default\": \"default\"\n    },\n    \"s2\": {\n      \"type\": \"string\"\n    },\n    \"s3\": {\n      \"type\": \"string\",\n      \"default\": \"d1\"\n    },\n    \"n1\": {\n      \"type\": \"number\"\n    },\n    \"n2\": {\n      \"type\": \"number\",\n      \"default\": 7\n    },\n    \"b1\": {\n      \"type\": \"boolean\"\n    }\n  }\n}"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

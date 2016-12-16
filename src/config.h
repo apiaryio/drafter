@@ -18,7 +18,6 @@ struct Config {
     bool lineNumbers;
     bool validate;
     drafter::SerializeFormat format;
-    drafter::ASTType astType;
     bool sourceMap;
     std::string output;
 };

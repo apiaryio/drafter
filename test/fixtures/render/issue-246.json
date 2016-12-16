@@ -1,0 +1,316 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": ""
+              },
+              "attributes": {
+                "href": "/"
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": ""
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "dataStructure",
+                              "content": [
+                                {
+                                  "element": "A"
+                                }
+                              ]
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBody"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "[\n  {\n    \"key1\": \"value1\"\n  },\n  {\n    \"a\": []\n  },\n  []\n]"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBodySchema"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/schema+json"
+                              },
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\"\n}"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "dataStructures"
+            ]
+          },
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": "O"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "a"
+                        },
+                        "value": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "object"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "array",
+                  "meta": {
+                    "id": "A"
+                  },
+                  "content": [
+                    {
+                      "element": "object",
+                      "content": [
+                        {
+                          "element": "member",
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "content": "key1"
+                            },
+                            "value": {
+                              "element": "string",
+                              "content": "value1"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "element": "object"
+                    },
+                    {
+                      "element": "O"
+                    },
+                    {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "object"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 8,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                113,
+                19
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "array member definition of type 'object' contains value. You should use type definition without value eg. '- (object)'"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 8,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                146,
+                31
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "array member definition of type 'object' contains value. You should use type definition without value eg. '- (object)'"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 8,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                177,
+                21
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "array member definition of type 'object' contains value. You should use type definition without value eg. '- (object)'"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 8,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                198,
+                13
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "array member definition of type 'object' contains value. You should use type definition without value eg. '- (object)'"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 8,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                225,
+                19
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "array member definition of type 'object' contains value. You should use type definition without value eg. '- (object)'"
+    }
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": ""
+              },
+              "attributes": {
+                "href": "/"
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": ""
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "dataStructure",
+                              "content": [
+                                {
+                                  "element": "object",
+                                  "content": [
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "address"
+                                        },
+                                        "value": {
+                                          "element": "object",
+                                          "content": [
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "street"
+                                                },
+                                                "value": {
+                                                  "element": "object",
+                                                  "content": [
+                                                    {
+                                                      "element": "member",
+                                                      "content": {
+                                                        "key": {
+                                                          "element": "string",
+                                                          "content": "name"
+                                                        },
+                                                        "value": {
+                                                          "element": "string"
+                                                        }
+                                                      }
+                                                    },
+                                                    {
+                                                      "element": "member",
+                                                      "content": {
+                                                        "key": {
+                                                          "element": "string",
+                                                          "content": "house number"
+                                                        },
+                                                        "value": {
+                                                          "element": "number"
+                                                        }
+                                                      }
+                                                    }
+                                                  ]
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "city"
+                                                },
+                                                "value": {
+                                                  "element": "string"
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "element": "member",
+                                              "content": {
+                                                "key": {
+                                                  "element": "string",
+                                                  "content": "zip"
+                                                },
+                                                "value": {
+                                                  "element": "string",
+                                                  "content": "34567"
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "hobby"
+                                        },
+                                        "value": {
+                                          "element": "array",
+                                          "content": [
+                                            {
+                                              "element": "string",
+                                              "content": "inlining"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "swimming"
+                                            },
+                                            {
+                                              "element": "string",
+                                              "content": "run"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBody"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n  \"address\": {\n    \"street\": {\n      \"name\": \"\",\n      \"house number\": 0\n    },\n    \"city\": \"\",\n    \"zip\": \"34567\"\n  },\n  \"hobby\": [\n    \"inlining\",\n    \"swimming\",\n    \"run\"\n  ]\n}"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBodySchema"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/schema+json"
+                              },
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"address\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"street\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"name\": {\n              \"type\": \"string\"\n            },\n            \"house number\": {\n              \"type\": \"number\"\n            }\n          }\n        },\n        \"city\": {\n          \"type\": \"string\"\n        },\n        \"zip\": {\n          \"type\": \"string\"\n        }\n      }\n    },\n    \"hobby\": {\n      \"type\": \"array\"\n    }\n  }\n}"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

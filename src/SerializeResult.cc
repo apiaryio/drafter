@@ -153,18 +153,12 @@ sos::Object drafter::WrapResult(snowcrash::ParseResult<snowcrash::Blueprint>& bl
 {
     ConversionContext context(options);
 
-    if (options.astType == RefractASTType) {
-        refract::IElement* parseResult = WrapParseResultRefract(blueprint, context);
+    refract::IElement* parseResult = WrapParseResultRefract(blueprint, context);
+    sos::Object result = SerializeRefract(parseResult, context);
 
-        sos::Object result = SerializeRefract(parseResult, context);
-
-        if (parseResult) {
-            delete parseResult;
-        }
-
-        return result;
+    if (parseResult) {
+        delete parseResult;
     }
-    else {
-        return WrapParseResultAST(blueprint, context);
-    }
+
+    return result;
 }

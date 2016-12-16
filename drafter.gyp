@@ -39,8 +39,6 @@
       "sources": [
         "src/drafter.h",
         "src/drafter.cc",
-        "src/drafter_private.h",
-        "src/drafter_private.cc",
         "src/stream.h",
         "src/Version.h",
 
@@ -126,8 +124,6 @@
       ],
       'sources': [
         "test/test-drafter.cc",
-        "test/test-SerializeResultTest.cc",
-        "test/test-SerializeSourceMapTest.cc",
         "test/test-RefractDataStructureTest.cc",
         "test/test-RefractAPITest.cc",
         "test/test-RefractParseResultTest.cc",

@@ -77,8 +77,6 @@
 		401074A31B833A1000B66442 /* Render.cc in Sources */ = {isa = PBXBuildFile; fileRef = 401074A21B833A1000B66442 /* Render.cc */; };
 		401A61C11D65D28900B0CC17 /* ConversionContext.cc in Sources */ = {isa = PBXBuildFile; fileRef = 401A61C01D65D28900B0CC17 /* ConversionContext.cc */; };
 		4038935E1CBFC1D400D01E17 /* ConversionContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 4038935D1CBFC1D400D01E17 /* ConversionContext.h */; };
-		403893641CC0007F00D01E17 /* test-SerializeSourceMapTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 403893631CC0007F00D01E17 /* test-SerializeSourceMapTest.cc */; };
-		403893661CC0021700D01E17 /* test-SerializeResultTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 403893651CC0021700D01E17 /* test-SerializeResultTest.cc */; };
 		4041F8D61DB66CEE005A4A40 /* test-SyntaxIssuesTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4041F8D51DB66CEE005A4A40 /* test-SyntaxIssuesTest.cc */; };
 		408560761CBB983100932414 /* test-ExtendElementTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40AEF8201CB80C4F000A0DEE /* test-ExtendElementTest.cc */; };
 		4093675E1CBB90DE0065A78A /* test-ApplyVisitorTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4093675C1CBB90DE0065A78A /* test-ApplyVisitorTest.cc */; };
@@ -204,8 +202,6 @@
 		401074A21B833A1000B66442 /* Render.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Render.cc; path = src/Render.cc; sourceTree = SOURCE_ROOT; };
 		401A61C01D65D28900B0CC17 /* ConversionContext.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConversionContext.cc; path = src/ConversionContext.cc; sourceTree = SOURCE_ROOT; };
 		4038935D1CBFC1D400D01E17 /* ConversionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConversionContext.h; path = src/ConversionContext.h; sourceTree = SOURCE_ROOT; };
-		403893631CC0007F00D01E17 /* test-SerializeSourceMapTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-SerializeSourceMapTest.cc"; path = "test/test-SerializeSourceMapTest.cc"; sourceTree = "<group>"; };
-		403893651CC0021700D01E17 /* test-SerializeResultTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-SerializeResultTest.cc"; path = "test/test-SerializeResultTest.cc"; sourceTree = "<group>"; };
 		4041F8D51DB66CEE005A4A40 /* test-SyntaxIssuesTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-SyntaxIssuesTest.cc"; path = "test/test-SyntaxIssuesTest.cc"; sourceTree = "<group>"; };
 		4093675C1CBB90DE0065A78A /* test-ApplyVisitorTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-ApplyVisitorTest.cc"; path = "test/test-ApplyVisitorTest.cc"; sourceTree = "<group>"; };
 		4093675D1CBB90DE0065A78A /* test-ElementFactoryTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-ElementFactoryTest.cc"; path = "test/test-ElementFactoryTest.cc"; sourceTree = "<group>"; };
@@ -297,8 +293,6 @@
 				40DDBDD91BE14EE700B10819 /* test-RefractSourceMapTest.cc */,
 				19A129CC1B70ADC300366AA7 /* test-RenderTest.cc */,
 				400FFA0B1C1B0E12006A4CE0 /* test-SchemaTest.cc */,
-				403893651CC0021700D01E17 /* test-SerializeResultTest.cc */,
-				403893631CC0007F00D01E17 /* test-SerializeSourceMapTest.cc */,
 				4041F8D51DB66CEE005A4A40 /* test-SyntaxIssuesTest.cc */,
 			);
 			name = "test-libdrafter";
@@ -602,7 +596,6 @@
 				19A129E01B70AE3200366AA7 /* test-drafter.cc in Sources */,
 				400F54051C598A35004EA235 /* test-CircularReferenceTest.cc in Sources */,
 				40DDBDDA1BE14EE700B10819 /* test-RefractSourceMapTest.cc in Sources */,
-				403893641CC0007F00D01E17 /* test-SerializeSourceMapTest.cc in Sources */,
 				40E6DFA11CF494FE009B3FF3 /* test-OneOfTest.cc in Sources */,
 				400FFA0C1C1B0E12006A4CE0 /* test-SchemaTest.cc in Sources */,
 				19A129E21B70AE3200366AA7 /* test-RenderTest.cc in Sources */,
@@ -610,7 +603,6 @@
 				40EF03DD1B72135E00865990 /* test-RefractAPITest.cc in Sources */,
 				40AEEC3D1BB60CB6005866DD /* test-RefractParseResultTest.cc in Sources */,
 				4093675E1CBB90DE0065A78A /* test-ApplyVisitorTest.cc in Sources */,
-				403893661CC0021700D01E17 /* test-SerializeResultTest.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

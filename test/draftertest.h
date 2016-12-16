@@ -21,19 +21,11 @@
 }
 
 #define TEST_REFRACT(category, name) TEST_CASE("Testing refract serialization for " category " " name, "[refract][" category "][" name "]") { \
-    FixtureHelper::handleResultJSON(&drafter::WrapResult, "test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::RefractASTType)); \
+    FixtureHelper::handleResultJSON(&drafter::WrapResult, "test/fixtures/" category "/" name, drafter::WrapperOptions(false)); \
 }
 
 #define TEST_REFRACT_SOURCE_MAP(category, name) TEST_CASE("Testing refract + source map serialization for " category " " name, "[refract_sourcemap][" category "][" name "]") { \
-    FixtureHelper::handleResultJSON(&drafter::WrapResult, "test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::RefractASTType, true)); \
-}
-
-#define TEST_AST(category, name) TEST_CASE("Testing AST serialization for " category " " name, "[ast][" category "][" name "]") { \
-    FixtureHelper::handleResultJSON(&drafter::WrapResult, "test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::NormalASTType)); \
-}
-
-#define TEST_AST_SOURCE_MAP(category, name) TEST_CASE("Testing AST + source map serialization for " category " " name, "[ast_sourcemap][" category "][" name "]") { \
-    FixtureHelper::handleResultJSON(&drafter::WrapResult, "test/fixtures/" category "/" name, drafter::WrapperOptions(drafter::NormalASTType, true)); \
+    FixtureHelper::handleResultJSON(&drafter::WrapResult, "test/fixtures/" category "/" name, drafter::WrapperOptions(true)); \
 }
 
 namespace draftertest {
@@ -41,8 +33,6 @@ namespace draftertest {
       const std::string apib = ".apib";
       const std::string json = ".json";
       const std::string sourceMapJson = ".sourcemap.json";
-      const std::string astJson = ".ast.json";
-      const std::string astSourceMapJson = ".ast.sourcemap.json";
     }
 
     class ITFixtureFiles {
@@ -122,18 +112,10 @@ namespace draftertest {
 
         static std::string getFixtureExtension(const drafter::WrapperOptions& options) {
 
-            if (options.astType == drafter::RefractASTType) {
-              if (options.generateSourceMap) {
+            if (options.generateSourceMap) {
                 return ext::sourceMapJson;
-              } else {
-                return ext::json;
-              }
             } else {
-              if (options.generateSourceMap) {
-                return ext::astSourceMapJson;
-              } else {
-                return ext::astJson;
-              }
+                return ext::json;
             }
 
             return ext::json;

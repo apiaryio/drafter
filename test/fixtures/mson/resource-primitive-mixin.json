@@ -1,0 +1,95 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": "Polls"
+              },
+              "attributes": {
+                "href": "/"
+              },
+              "content": [
+                {
+                  "element": "dataStructure",
+                  "content": [
+                    {
+                      "element": "object",
+                      "meta": {
+                        "id": "Polls"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 3,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                31,
+                15
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "mixin type may not include a type of a primitive sub-type"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 8,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                29,
+                17
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "mixin base type should be the same as parent base type. objects should contain object mixins. arrays should contain array mixins"
+    }
+  ]
+}

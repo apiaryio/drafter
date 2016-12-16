@@ -1,0 +1,65 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "dataStructures"
+            ]
+          },
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": "Object"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "attributes": {
+                        "typeAttributes": [
+                          "optional"
+                        ]
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "thing"
+                        },
+                        "value": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "object"
+                            },
+                            {
+                              "element": "string",
+                              "content": "foo: bar"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
