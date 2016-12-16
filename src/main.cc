@@ -93,7 +93,10 @@ int ProcessRefract(const Config& config, std::unique_ptr<std::istream>& in, std:
 
     refract::IElement* result = nullptr;
 
-    int ret = drafter_parse_blueprint(inputStream.str().c_str(), &result);
+    // TODO: Read parse options from CLI
+    drafter_parse_options parseOptions = {false};
+
+    int ret = drafter_parse_blueprint(inputStream.str().c_str(), &result, parseOptions);
 
     if (!result) {
         return -1;
