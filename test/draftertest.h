@@ -4,7 +4,8 @@
 #include "catch.hpp"
 #include "dtl.hpp"
 
-
+#include "RefractAPI.h"
+#include "RefractDataStructure.h"
 #include "ConversionContext.h"
 
 #include "stream.h"
@@ -21,11 +22,11 @@
 }
 
 #define TEST_REFRACT(category, name) TEST_CASE("Testing refract serialization for " category " " name, "[refract][" category "][" name "]") { \
-    FixtureHelper::handleResultJSON(&drafter::WrapResult, "test/fixtures/" category "/" name, drafter::WrapperOptions(false)); \
+    FixtureHelper::handleResultJSON(&FixtureHelper::parseAndSerialize, "test/fixtures/" category "/" name, drafter::WrapperOptions(false)); \
 }
 
 #define TEST_REFRACT_SOURCE_MAP(category, name) TEST_CASE("Testing refract + source map serialization for " category " " name, "[refract_sourcemap][" category "][" name "]") { \
-    FixtureHelper::handleResultJSON(&drafter::WrapResult, "test/fixtures/" category "/" name, drafter::WrapperOptions(true)); \
+    FixtureHelper::handleResultJSON(&FixtureHelper::parseAndSerialize, "test/fixtures/" category "/" name, drafter::WrapperOptions(true)); \
 }
 
 namespace draftertest {
@@ -84,6 +85,22 @@ namespace draftertest {
     };
 
     struct FixtureHelper {
+
+        static sos::Object parseAndSerialize(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
+                                             const drafter::WrapperOptions& options)
+        {
+            drafter::ConversionContext context(options);
+
+            refract::IElement* parseResult = WrapRefract(blueprint, context);
+            sos::Object result = SerializeRefract(parseResult, context);
+
+            if (parseResult) {
+                delete parseResult;
+            }
+            
+            return result;
+        }
+
         static const std::string printDiff(const std::string& actual, const std::string& expected) {
           // First, convert strings into arrays of lines.
           std::vector <std::string> actualLines, expectedLines;

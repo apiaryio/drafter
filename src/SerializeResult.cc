@@ -36,7 +36,7 @@ namespace helper {
     };
 }
 
-refract::IElement* drafter::WrapParseResultRefract(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
+refract::IElement* drafter::WrapRefract(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
                                                    ConversionContext& context)
 {
     snowcrash::Error error;
@@ -73,6 +73,7 @@ refract::IElement* drafter::WrapParseResultRefract(snowcrash::ParseResult<snowcr
     }
 
     snowcrash::Warnings& warnings = blueprint.report.warnings;
+
     if (!context.warnings.empty()) {
         warnings.insert(warnings.end(), context.warnings.begin(), context.warnings.end());
     }
@@ -84,19 +85,4 @@ refract::IElement* drafter::WrapParseResultRefract(snowcrash::ParseResult<snowcr
     }
 
     return parseResult;
-}
-
-sos::Object drafter::WrapResult(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-                                const WrapperOptions& options)
-{
-    ConversionContext context(options);
-
-    refract::IElement* parseResult = WrapParseResultRefract(blueprint, context);
-    sos::Object result = SerializeRefract(parseResult, context);
-
-    if (parseResult) {
-        delete parseResult;
-    }
-
-    return result;
 }

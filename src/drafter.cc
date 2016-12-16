@@ -77,7 +77,7 @@ DRAFTER_API int drafter_parse_blueprint(const char* source,
 
     drafter::WrapperOptions wrapperOptions;
     drafter::ConversionContext context(wrapperOptions);
-    refract::IElement* result = WrapParseResultRefract(blueprint, context);
+    refract::IElement* result = WrapRefract(blueprint, context);
 
     *out = result;
         
