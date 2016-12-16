@@ -14,12 +14,8 @@
 		19A129891B70ABE100366AA7 /* reporting.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129731B70ABE100366AA7 /* reporting.h */; };
 		19A1298A1B70ABE100366AA7 /* Serialize.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A129741B70ABE100366AA7 /* Serialize.cc */; };
 		19A1298B1B70ABE100366AA7 /* Serialize.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129751B70ABE100366AA7 /* Serialize.h */; };
-		19A1298C1B70ABE100366AA7 /* SerializeAST.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A129761B70ABE100366AA7 /* SerializeAST.cc */; };
-		19A1298D1B70ABE100366AA7 /* SerializeAST.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129771B70ABE100366AA7 /* SerializeAST.h */; };
 		19A1298E1B70ABE100366AA7 /* SerializeResult.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A129781B70ABE100366AA7 /* SerializeResult.cc */; };
 		19A1298F1B70ABE100366AA7 /* SerializeResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129791B70ABE100366AA7 /* SerializeResult.h */; };
-		19A129901B70ABE100366AA7 /* SerializeSourcemap.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A1297A1B70ABE100366AA7 /* SerializeSourcemap.cc */; };
-		19A129911B70ABE100366AA7 /* SerializeSourcemap.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A1297B1B70ABE100366AA7 /* SerializeSourcemap.h */; };
 		19A129921B70ABE100366AA7 /* stream.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A1297C1B70ABE100366AA7 /* stream.h */; };
 		19A129931B70ABE100366AA7 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A1297D1B70ABE100366AA7 /* Version.h */; };
 		19A129AF1B70AC9A00366AA7 /* AppendDecorator.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129971B70AC9A00366AA7 /* AppendDecorator.h */; };
@@ -142,12 +138,8 @@
 		19A129731B70ABE100366AA7 /* reporting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = reporting.h; path = src/reporting.h; sourceTree = SOURCE_ROOT; };
 		19A129741B70ABE100366AA7 /* Serialize.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Serialize.cc; path = src/Serialize.cc; sourceTree = SOURCE_ROOT; };
 		19A129751B70ABE100366AA7 /* Serialize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Serialize.h; path = src/Serialize.h; sourceTree = SOURCE_ROOT; };
-		19A129761B70ABE100366AA7 /* SerializeAST.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SerializeAST.cc; path = src/SerializeAST.cc; sourceTree = SOURCE_ROOT; };
-		19A129771B70ABE100366AA7 /* SerializeAST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SerializeAST.h; path = src/SerializeAST.h; sourceTree = SOURCE_ROOT; };
 		19A129781B70ABE100366AA7 /* SerializeResult.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SerializeResult.cc; path = src/SerializeResult.cc; sourceTree = SOURCE_ROOT; };
 		19A129791B70ABE100366AA7 /* SerializeResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SerializeResult.h; path = src/SerializeResult.h; sourceTree = SOURCE_ROOT; };
-		19A1297A1B70ABE100366AA7 /* SerializeSourcemap.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SerializeSourcemap.cc; path = src/SerializeSourcemap.cc; sourceTree = SOURCE_ROOT; };
-		19A1297B1B70ABE100366AA7 /* SerializeSourcemap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SerializeSourcemap.h; path = src/SerializeSourcemap.h; sourceTree = SOURCE_ROOT; };
 		19A1297C1B70ABE100366AA7 /* stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stream.h; path = src/stream.h; sourceTree = SOURCE_ROOT; };
 		19A1297D1B70ABE100366AA7 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Version.h; path = src/Version.h; sourceTree = SOURCE_ROOT; };
 		19A129971B70AC9A00366AA7 /* AppendDecorator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppendDecorator.h; path = src/refract/AppendDecorator.h; sourceTree = SOURCE_ROOT; };
@@ -400,12 +392,8 @@
 				19A129711B70ABE100366AA7 /* Render.h */,
 				19A129741B70ABE100366AA7 /* Serialize.cc */,
 				19A129751B70ABE100366AA7 /* Serialize.h */,
-				19A129761B70ABE100366AA7 /* SerializeAST.cc */,
-				19A129771B70ABE100366AA7 /* SerializeAST.h */,
 				19A129781B70ABE100366AA7 /* SerializeResult.cc */,
 				19A129791B70ABE100366AA7 /* SerializeResult.h */,
-				19A1297A1B70ABE100366AA7 /* SerializeSourcemap.cc */,
-				19A1297B1B70ABE100366AA7 /* SerializeSourcemap.h */,
 				19A1297C1B70ABE100366AA7 /* stream.h */,
 				19A1297D1B70ABE100366AA7 /* Version.h */,
 			);
@@ -439,11 +427,9 @@
 				400F53FD1C5989F1004EA235 /* Build.h in Headers */,
 				40D03D4F1C182FBD008AD2EF /* VisitorUtils.h in Headers */,
 				19A129B81B70AC9A00366AA7 /* IsExpandableVisitor.h in Headers */,
-				19A129911B70ABE100366AA7 /* SerializeSourcemap.h in Headers */,
 				19A129AF1B70AC9A00366AA7 /* AppendDecorator.h in Headers */,
 				40DDBDD81BE14EA700B10819 /* RefractSourceMap.h in Headers */,
 				19A129931B70ABE100366AA7 /* Version.h in Headers */,
-				19A1298D1B70ABE100366AA7 /* SerializeAST.h in Headers */,
 				19A129921B70ABE100366AA7 /* stream.h in Headers */,
 				40EF03DA1B72134000865990 /* RefractAPI.h in Headers */,
 				19A129831B70ABE100366AA7 /* drafter.h in Headers */,
@@ -628,12 +614,10 @@
 				40EF03D51B7210F300865990 /* RefractDataStructure.cc in Sources */,
 				19A129B91B70AC9A00366AA7 /* Registry.cc in Sources */,
 				40DDBDD71BE14EA700B10819 /* RefractSourceMap.cc in Sources */,
-				19A1298C1B70ABE100366AA7 /* SerializeAST.cc in Sources */,
 				19A129B21B70AC9A00366AA7 /* Element.cc in Sources */,
 				40EF03D91B72134000865990 /* RefractAPI.cc in Sources */,
 				401A61C11D65D28900B0CC17 /* ConversionContext.cc in Sources */,
 				40AEF81D1CB80C32000A0DEE /* RefractElementFactory.cc in Sources */,
-				19A129901B70ABE100366AA7 /* SerializeSourcemap.cc in Sources */,
 				19A129B51B70AC9A00366AA7 /* ExpandVisitor.cc in Sources */,
 				19A129821B70ABE100366AA7 /* drafter.cc in Sources */,
 				400FFA081C1B0DBB006A4CE0 /* JSONSchemaVisitor.cc in Sources */,
