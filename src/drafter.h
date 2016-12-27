@@ -84,7 +84,7 @@ DRAFTER_API int drafter_parse_blueprint(const char* source, drafter_result** out
 /* Serialize result to given format*/
 DRAFTER_API char* drafter_serialize(drafter_result *res, const drafter_options options);
 
-/* Free memory alocated for result handler */
+/* Free memory allocated for result handler */
 DRAFTER_API void drafter_free_result(drafter_result* result);
 
 /* Parse API Blueprint and return only annotations, if NULL than
