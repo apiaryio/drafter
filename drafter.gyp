@@ -39,18 +39,12 @@
       "sources": [
         "src/drafter.h",
         "src/drafter.cc",
-        "src/drafter_private.h",
-        "src/drafter_private.cc",
         "src/stream.h",
         "src/Version.h",
 
         "src/NodeInfo.h",
         "src/Serialize.h",
         "src/Serialize.cc",
-        "src/SerializeAST.h",
-        "src/SerializeAST.cc",
-        "src/SerializeSourcemap.h",
-        "src/SerializeSourcemap.cc",
         "src/SerializeResult.h",
         "src/SerializeResult.cc",
         "src/RefractAPI.h",
@@ -126,8 +120,6 @@
       ],
       'sources': [
         "test/test-drafter.cc",
-        "test/test-SerializeResultTest.cc",
-        "test/test-SerializeSourceMapTest.cc",
         "test/test-RefractDataStructureTest.cc",
         "test/test-RefractAPITest.cc",
         "test/test-RefractParseResultTest.cc",

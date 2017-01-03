@@ -1,0 +1,51 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "error"
+        ]
+      },
+      "attributes": {
+        "code": 4,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                282,
+                12
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "base type 'XXX' is not defined in the document"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 3,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                282,
+                12
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "mixin type may not include a type of a primitive sub-type"
+    }
+  ]
+}

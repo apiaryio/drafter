@@ -1,0 +1,28 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "error"
+        ]
+      },
+      "attributes": {
+        "code": 4,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                19,
+                10
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "base type 'X' circularly referencing itself"
+    }
+  ]
+}

@@ -13,8 +13,9 @@ const char* expected = "element: \"parseResult\"\ncontent:\n  -\n    element: \"
 
 int test_parse_and_serialize() {
     drafter_result* result = 0;
+    drafter_parse_options parseOptions = {false};
 
-    int status = drafter_parse_blueprint(source, &result);
+    int status = drafter_parse_blueprint(source, &result, parseOptions);
 
     assert(status == 0);
     assert(result);
@@ -67,9 +68,11 @@ const char* source_warning = "# My API\n## GET /message\n + Response 200 (text/p
 const char* warning = "message-body asset is expected to be a pre-formatted code block, every of its line indented by exactly 8 spaces or 2 tabs";
 
 int test_validation() {
-    assert(drafter_check_blueprint(source) == 0);
+    drafter_parse_options parseOptions = {false};
 
-    drafter_result* result = drafter_check_blueprint(source_warning);
+    assert(drafter_check_blueprint(source, parseOptions) == 0);
+
+    drafter_result* result = drafter_check_blueprint(source_warning, parseOptions);
     assert(result != 0);
 
     drafter_options options;

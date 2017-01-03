@@ -1,0 +1,257 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": ""
+              },
+              "attributes": {
+                "href": "/"
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": ""
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "dataStructure",
+                              "content": [
+                                {
+                                  "element": "object",
+                                  "content": [
+                                    {
+                                      "element": "member",
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "s1"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "content": "abc"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "attributes": {
+                                        "typeAttributes": [
+                                          "required"
+                                        ]
+                                      },
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "s2"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "content": "def"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "attributes": {
+                                        "typeAttributes": [
+                                          "optional"
+                                        ]
+                                      },
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "s3"
+                                        },
+                                        "value": {
+                                          "element": "string"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "attributes": {
+                                        "typeAttributes": [
+                                          "nullable"
+                                        ]
+                                      },
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "s4"
+                                        },
+                                        "value": {
+                                          "element": "string"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "attributes": {
+                                        "typeAttributes": [
+                                          "required",
+                                          "nullable"
+                                        ]
+                                      },
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "s5"
+                                        },
+                                        "value": {
+                                          "element": "string"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "attributes": {
+                                        "typeAttributes": [
+                                          "optional",
+                                          "nullable"
+                                        ]
+                                      },
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "s6"
+                                        },
+                                        "value": {
+                                          "element": "string"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "attributes": {
+                                        "typeAttributes": [
+                                          "required",
+                                          "nullable"
+                                        ]
+                                      },
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "s7"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "content": "xyz"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element": "member",
+                                      "attributes": {
+                                        "typeAttributes": [
+                                          "optional",
+                                          "nullable"
+                                        ]
+                                      },
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "s8"
+                                        },
+                                        "value": {
+                                          "element": "string",
+                                          "content": "xyz"
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBody"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n  \"s1\": \"abc\",\n  \"s2\": \"def\",\n  \"s4\": null,\n  \"s5\": null,\n  \"s6\": null,\n  \"s7\": \"xyz\",\n  \"s8\": \"xyz\"\n}"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBodySchema"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/schema+json"
+                              },
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"s1\": {\n      \"type\": \"string\"\n    },\n    \"s2\": {\n      \"type\": \"string\"\n    },\n    \"s3\": {\n      \"type\": \"string\"\n    },\n    \"s4\": {\n      \"type\": [\n        \"string\",\n        \"null\"\n      ]\n    },\n    \"s5\": {\n      \"type\": [\n        \"string\",\n        \"null\"\n      ]\n    },\n    \"s6\": {\n      \"type\": [\n        \"string\",\n        \"null\"\n      ]\n    },\n    \"s7\": {\n      \"type\": [\n        \"string\",\n        \"null\"\n      ]\n    },\n    \"s8\": {\n      \"type\": [\n        \"string\",\n        \"null\"\n      ]\n    }\n  },\n  \"required\": [\n    \"s2\",\n    \"s5\",\n    \"s7\"\n  ]\n}"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

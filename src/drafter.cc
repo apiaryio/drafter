@@ -5,9 +5,14 @@
 //  Created by Jiri Kratochvil on 2016-06-27
 //  Copyright (c) 2016 Apiary Inc. All rights reserved.
 //
-#include "drafter_private.h"
+#include "drafter.h"
 
 #include "snowcrash.h"
+
+#include "refract/Element.h"
+#include "refract/FilterVisitor.h"
+#include "refract/Query.h"
+#include "refract/Iterate.h"
 
 #include "SerializeResult.h" // FIXME: remove - actualy required by WrapParseResultRefract()
 #include "Serialize.h" // FIXME: remove - actualy required by WrapperOptions
@@ -33,7 +38,10 @@ DRAFTER_API int drafter_parse_blueprint_to(const char* source,
     drafter_result* result = nullptr;
     *out = nullptr;
 
-    int ret = drafter_parse_blueprint(source, &result);
+    // TODO: Temporary until parse options are added here
+    drafter_parse_options parseOptions = {false};
+
+    int ret = drafter_parse_blueprint(source, &result, parseOptions);
 
     if (!result) {
         return -1;
@@ -50,11 +58,30 @@ namespace sc = snowcrash;
 
 /* Parse API Bleuprint and return result, which is a opaque handle for
  * later use*/
-DRAFTER_API int drafter_parse_blueprint(const char* source, drafter_result** out) {
+DRAFTER_API int drafter_parse_blueprint(const char* source,
+                                        drafter_result** out,
+                                        const drafter_parse_options options) {
 
-    drafter_parse_options options = {false};
+    if (!source || !out) {
+        return -1;
+    }
 
-    return drafter_parse_blueprint_with_options(source, out, options);
+    sc::BlueprintParserOptions scOptions = sc::ExportSourcemapOption;
+
+    if (options.requireBlueprintName) {
+        scOptions |= sc::RequireBlueprintNameOption;
+    }
+
+    sc::ParseResult<sc::Blueprint> blueprint;
+    sc::parse(source, scOptions, blueprint);
+
+    drafter::WrapperOptions wrapperOptions;
+    drafter::ConversionContext context(wrapperOptions);
+    refract::IElement* result = WrapRefract(blueprint, context);
+
+    *out = result;
+        
+    return blueprint.report.error.code;
 }
 
 namespace { // FIXME: cut'n'paste from main.cc - duplicity
@@ -89,8 +116,8 @@ DRAFTER_API char* drafter_serialize(drafter_result *res, const drafter_options o
         return nullptr;
     }
 
-    drafter::WrapperOptions woptions(drafter::RefractASTType, options.sourcemap);
-    drafter::ConversionContext context(woptions);
+    drafter::WrapperOptions wrapperOptions(options.sourcemap);
+    drafter::ConversionContext context(wrapperOptions);
 
     sos::Object result = drafter::SerializeRefract(res, context);
 
@@ -105,11 +132,41 @@ DRAFTER_API char* drafter_serialize(drafter_result *res, const drafter_options o
 
 /* Parse API Blueprint and return only annotations, if NULL than
  * document is error and warning free.*/
-DRAFTER_API drafter_result* drafter_check_blueprint(const char* source) {
+DRAFTER_API drafter_result* drafter_check_blueprint(const char* source,
+                                                    const drafter_parse_options options) {
 
-    drafter_parse_options options = {false};
+    if (!source) {
+        return nullptr;
+    }
 
-    return drafter_check_blueprint_with_options(source, options);
+    drafter_result* result = nullptr;
+
+    drafter_parse_blueprint(source, &result, options);
+
+    if (!result) {
+        return nullptr;
+    }
+
+    drafter_result* out = nullptr;
+
+    refract::FilterVisitor filter(refract::query::Element("annotation"));
+    refract::Iterate<refract::Children> iterate(filter);
+    iterate(*result);
+
+    if (!filter.empty()) {
+        refract::ArrayElement::ValueType elements;
+
+        std::transform(filter.elements().begin(), filter.elements().end(),
+                       std::back_inserter(elements),
+                       std::bind(&refract::IElement::clone, std::placeholders::_1, refract::IElement::cAll));
+
+        out = new refract::ArrayElement(elements);
+        out->element(drafter::SerializeKey::ParseResult);
+    }
+
+    drafter_free_result(result);
+    
+    return out;
 }
 
 DRAFTER_API void drafter_free_result(drafter_result* result) {

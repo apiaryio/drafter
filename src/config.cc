@@ -18,8 +18,6 @@ namespace config {
 
     static const std::string Output           = "output";
     static const std::string Format           = "format";
-    static const std::string Type             = "type";
-    static const std::string Render           = "render";
     static const std::string Sourcemap        = "sourcemap";
     static const std::string Help             = "help";
     static const std::string Validate         = "validate";
@@ -33,7 +31,6 @@ void PrepareCommanLineParser(cmdline::parser& parser)
 
     parser.add<std::string>(config::Output,    'o', "save output Parse Result into file", false);
     parser.add<std::string>(config::Format,    'f', "output format of the Parse Result (yaml|json)", false, "yaml", cmdline::oneof<std::string>("yaml", "json"));
-    parser.add<std::string>(config::Type,      't', "type of the Parse Result (refract|ast)", false, "refract", cmdline::oneof<std::string>("refract", "ast"));
     parser.add(config::Sourcemap,              's', "export sourcemap in the Parse Result");
     parser.add(config::Help,                   'h', "display this help message");
     parser.add(config::Version ,               'v', "print Drafter version");
@@ -83,7 +80,6 @@ void ParseCommadLineOptions(int argc, const char *argv[], /* out */Config& conf)
     conf.lineNumbers      = parser.exist(config::UseLineNumbers);
     conf.validate         = parser.exist(config::Validate);
     conf.format           = parser.get<std::string>(config::Format) == "json" ? drafter::JSONFormat : drafter::YAMLFormat;
-    conf.astType          = parser.get<std::string>(config::Type) == "ast" ? drafter::NormalASTType : drafter::RefractASTType;
     conf.output           = parser.get<std::string>(config::Output);
     conf.sourceMap        = parser.exist(config::Sourcemap);
 

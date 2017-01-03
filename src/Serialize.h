@@ -31,12 +31,6 @@ namespace snowcrash {
 
 namespace drafter {
 
-    enum ASTType {
-        NormalASTType = 0,   // Normal AST
-        RefractASTType,      // Refract AST
-        UnknownASTType = -1
-    };
-
     enum SerializeFormat {
         JSONFormat = 0,     // JSON Format
         YAMLFormat,         // YAML Format
@@ -45,18 +39,17 @@ namespace drafter {
 
     // Options struct for drafter
     struct WrapperOptions {
-        const ASTType astType;
         const bool generateSourceMap;
         const bool expandMSON;
 
-        WrapperOptions(const ASTType astType, const bool generateSourceMap, const bool expandMSON)
-        : astType(astType), generateSourceMap(generateSourceMap), expandMSON(expandMSON) {}
+        WrapperOptions(const bool generateSourceMap, const bool expandMSON)
+        : generateSourceMap(generateSourceMap), expandMSON(expandMSON) {}
 
-        WrapperOptions(const ASTType astType, const bool generateSourceMap)
-        : astType(astType), generateSourceMap(generateSourceMap), expandMSON(false) {}
+        WrapperOptions(const bool generateSourceMap)
+        : generateSourceMap(generateSourceMap), expandMSON(false) {}
 
-        WrapperOptions(const ASTType astType)
-        : astType(astType), generateSourceMap(false), expandMSON(false) {}
+        WrapperOptions()
+        : generateSourceMap(false), expandMSON(false) {}
     };
 
     /**

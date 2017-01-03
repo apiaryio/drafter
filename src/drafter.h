@@ -68,18 +68,26 @@ typedef enum {
 } drafter_format;
 
 typedef struct {
+    bool requireBlueprintName;
+} drafter_parse_options;
+
+// TODO: Maybe rename this to drafter_serialize_options or combine both
+typedef struct {
     bool sourcemap;
     drafter_format format;
 } drafter_options;
 
 /* Parse API Blueprint and serialize it to given format.*/
+// TODO: Add parse options to this
 DRAFTER_API int drafter_parse_blueprint_to(const char* source,
                                            char** out,
                                            const drafter_options options);
 
 /* Parse API Blueprint and return result, which is a opaque handle for
  * later use*/
-DRAFTER_API int drafter_parse_blueprint(const char* source, drafter_result** out);
+DRAFTER_API int drafter_parse_blueprint(const char* source,
+                                        drafter_result** out,
+                                        const drafter_parse_options options);
 
 /* Serialize result to given format*/
 DRAFTER_API char* drafter_serialize(drafter_result *res, const drafter_options options);
@@ -89,7 +97,8 @@ DRAFTER_API void drafter_free_result(drafter_result* result);
 
 /* Parse API Blueprint and return only annotations, if NULL than
  * document is error and warning free.*/
-DRAFTER_API drafter_result* drafter_check_blueprint(const char* source);
+DRAFTER_API drafter_result* drafter_check_blueprint(const char* source,
+                                                    const drafter_parse_options options);
 
 DRAFTER_API unsigned int drafter_version(void);
 

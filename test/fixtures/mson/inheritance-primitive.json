@@ -1,0 +1,443 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": ""
+              },
+              "attributes": {
+                "href": "/sample"
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": ""
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "dataStructure",
+                              "content": [
+                                {
+                                  "element": "extend",
+                                  "content": [
+                                    {
+                                      "element": "object",
+                                      "meta": {
+                                        "ref": "Message"
+                                      },
+                                      "content": [
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "created"
+                                            },
+                                            "value": {
+                                              "element": "extend",
+                                              "content": [
+                                                {
+                                                  "element": "string",
+                                                  "meta": {
+                                                    "ref": "Date"
+                                                  },
+                                                  "attributes": {
+                                                    "samples": [
+                                                      "2012-12-00\n\n"
+                                                    ]
+                                                  }
+                                                },
+                                                {
+                                                  "element": "string",
+                                                  "meta": {
+                                                    "ref": "Date1"
+                                                  },
+                                                  "attributes": {
+                                                    "samples": [
+                                                      "2012-12-01\n\n"
+                                                    ]
+                                                  }
+                                                },
+                                                {
+                                                  "element": "string",
+                                                  "meta": {
+                                                    "ref": "Date2"
+                                                  },
+                                                  "attributes": {
+                                                    "samples": [
+                                                      "2012-12-01\n\n"
+                                                    ]
+                                                  }
+                                                },
+                                                {
+                                                  "element": "string",
+                                                  "meta": {
+                                                    "ref": "Date3"
+                                                  },
+                                                  "attributes": {
+                                                    "samples": [
+                                                      "2012-12-03\n\n"
+                                                    ]
+                                                  }
+                                                },
+                                                {
+                                                  "element": "string"
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "element": "member",
+                                          "content": {
+                                            "key": {
+                                              "element": "string",
+                                              "content": "text"
+                                            },
+                                            "value": {
+                                              "element": "string"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "element": "object"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBody"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n  \"created\": \"2012-12-03\\n\\n\",\n  \"text\": \"\"\n}"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBodySchema"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/schema+json"
+                              },
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"created\": {\n      \"type\": \"string\"\n    },\n    \"text\": {\n      \"type\": \"string\"\n    }\n  }\n}"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "dataStructures"
+            ]
+          },
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": "Message"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "created"
+                        },
+                        "value": {
+                          "element": "extend",
+                          "content": [
+                            {
+                              "element": "string",
+                              "meta": {
+                                "ref": "Date"
+                              },
+                              "attributes": {
+                                "samples": [
+                                  "2012-12-00\n\n"
+                                ]
+                              }
+                            },
+                            {
+                              "element": "string",
+                              "meta": {
+                                "ref": "Date1"
+                              },
+                              "attributes": {
+                                "samples": [
+                                  "2012-12-01\n\n"
+                                ]
+                              }
+                            },
+                            {
+                              "element": "string",
+                              "meta": {
+                                "ref": "Date2"
+                              },
+                              "attributes": {
+                                "samples": [
+                                  "2012-12-01\n\n"
+                                ]
+                              }
+                            },
+                            {
+                              "element": "string",
+                              "meta": {
+                                "ref": "Date3"
+                              },
+                              "attributes": {
+                                "samples": [
+                                  "2012-12-03\n\n"
+                                ]
+                              }
+                            },
+                            {
+                              "element": "string"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "text"
+                        },
+                        "value": {
+                          "element": "string"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "string",
+                  "meta": {
+                    "id": "Date"
+                  },
+                  "attributes": {
+                    "samples": [
+                      "2012-12-00\n\n"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "extend",
+                  "meta": {
+                    "id": "Date2"
+                  },
+                  "content": [
+                    {
+                      "element": "string",
+                      "meta": {
+                        "ref": "Date"
+                      },
+                      "attributes": {
+                        "samples": [
+                          "2012-12-00\n\n"
+                        ]
+                      }
+                    },
+                    {
+                      "element": "string",
+                      "meta": {
+                        "ref": "Date1"
+                      },
+                      "attributes": {
+                        "samples": [
+                          "2012-12-01\n\n"
+                        ]
+                      }
+                    },
+                    {
+                      "element": "string",
+                      "attributes": {
+                        "samples": [
+                          "2012-12-01\n\n"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "extend",
+                  "meta": {
+                    "id": "Date1"
+                  },
+                  "content": [
+                    {
+                      "element": "string",
+                      "meta": {
+                        "ref": "Date"
+                      },
+                      "attributes": {
+                        "samples": [
+                          "2012-12-00\n\n"
+                        ]
+                      }
+                    },
+                    {
+                      "element": "string",
+                      "attributes": {
+                        "samples": [
+                          "2012-12-01\n\n"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "extend",
+                  "meta": {
+                    "id": "Date3"
+                  },
+                  "content": [
+                    {
+                      "element": "string",
+                      "meta": {
+                        "ref": "Date"
+                      },
+                      "attributes": {
+                        "samples": [
+                          "2012-12-00\n\n"
+                        ]
+                      }
+                    },
+                    {
+                      "element": "string",
+                      "meta": {
+                        "ref": "Date1"
+                      },
+                      "attributes": {
+                        "samples": [
+                          "2012-12-01\n\n"
+                        ]
+                      }
+                    },
+                    {
+                      "element": "string",
+                      "meta": {
+                        "ref": "Date2"
+                      },
+                      "attributes": {
+                        "samples": [
+                          "2012-12-01\n\n"
+                        ]
+                      }
+                    },
+                    {
+                      "element": "string",
+                      "attributes": {
+                        "samples": [
+                          "2012-12-03\n\n"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

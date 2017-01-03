@@ -1,0 +1,69 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": "<API name>"
+      },
+      "content": [
+        {
+          "element": "copy",
+          "content": "<API description>"
+        },
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "dataStructures"
+            ]
+          },
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": "User"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "tag"
+                        },
+                        "value": {
+                          "element": "enum",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "red"
+                            },
+                            {
+                              "element": "string",
+                              "content": "yellow"
+                            },
+                            {
+                              "element": "string",
+                              "content": "green"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

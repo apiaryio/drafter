@@ -1,0 +1,80 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "dataStructures"
+            ]
+          },
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "array",
+                  "meta": {
+                    "id": "ArraySample",
+                    "description": "description"
+                  },
+                  "attributes": {
+                    "samples": [
+                      [
+                        {
+                          "element": "string",
+                          "content": "d"
+                        },
+                        {
+                          "element": "string",
+                          "content": "e"
+                        }
+                      ],
+                      [
+                        {
+                          "element": "string",
+                          "content": "h"
+                        },
+                        {
+                          "element": "string",
+                          "content": "j"
+                        }
+                      ]
+                    ]
+                  },
+                  "content": [
+                    {
+                      "element": "string",
+                      "content": "a"
+                    },
+                    {
+                      "element": "string",
+                      "content": "b"
+                    },
+                    {
+                      "element": "string",
+                      "content": "f"
+                    },
+                    {
+                      "element": "string",
+                      "content": "g"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": "<API name>"
+      },
+      "content": [
+        {
+          "element": "copy",
+          "content": "<API description>"
+        },
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "dataStructures"
+            ]
+          },
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": "User",
+                    "description": "It is number type, but input is string, we will convert it into\nNumber Element, without content set.\n\nFIXME: In the future, we should try to parse it, but it might be a problem \nbecause of localized input (decimal point, thousand separators, etc.)"
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "some_number"
+                        },
+                        "value": {
+                          "element": "number",
+                          "content": 0
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 4,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                334,
+                30
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "invalid value format for 'number' type. please check mson specification for valid format"
+    }
+  ]
+}

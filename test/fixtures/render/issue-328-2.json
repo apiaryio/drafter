@@ -1,0 +1,85 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": "API"
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": "C"
+              },
+              "attributes": {
+                "href": "/c"
+              },
+              "content": [
+                {
+                  "element": "copy",
+                  "content": "### Add C(`[POST"
+                },
+                {
+                  "element": "dataStructure",
+                  "content": [
+                    {
+                      "element": "C",
+                      "meta": {
+                        "id": "C"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "dataStructures"
+            ]
+          },
+          "content": []
+        }
+      ]
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 2,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "content": [
+              [
+                73,
+                15
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "named type with name 'C' already exists"
+    }
+  ]
+}

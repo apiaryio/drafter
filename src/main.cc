@@ -51,35 +51,6 @@ void Serialization(std::ostream *stream,
     *stream << std::flush;
 }
 
-int ProcessAST(const Config& config, std::unique_ptr<std::istream>& in, std::unique_ptr<std::ostream>& out)
-{
-    std::stringstream inputStream;
-    inputStream << in->rdbuf();
-
-    sc::ParseResult<sc::Blueprint> blueprint;
-    sc::parse(inputStream.str(), snowcrash::ExportSourcemapOption, blueprint);
-
-    std::unique_ptr<sos::Serialize> serializer(CreateSerializer(config.format));
-
-    try {
-        sos::Object resultObject = drafter::WrapResult(blueprint, drafter::WrapperOptions(config.astType, config.sourceMap));
-
-        if (!config.validate) { // If not validate, we serialize
-            Serialization(out.get(), resultObject, serializer.get());
-        }
-    }
-    catch (snowcrash::Error& e) {
-        blueprint.report.error = e;
-    }
-    catch (std::exception& e) {
-        blueprint.report.error = snowcrash::Error(e.what(), snowcrash::ApplicationError);
-    }
-
-    PrintReport(blueprint.report, inputStream.str(), config.lineNumbers);
-
-    return blueprint.report.error.code;
-}
-
 int ProcessRefract(const Config& config, std::unique_ptr<std::istream>& in, std::unique_ptr<std::ostream>& out)
 {
     std::stringstream inputStream;
@@ -93,7 +64,10 @@ int ProcessRefract(const Config& config, std::unique_ptr<std::istream>& in, std:
 
     refract::IElement* result = nullptr;
 
-    int ret = drafter_parse_blueprint(inputStream.str().c_str(), &result);
+    // TODO: Read parse options from CLI
+    drafter_parse_options parseOptions = {false};
+
+    int ret = drafter_parse_blueprint(inputStream.str().c_str(), &result, parseOptions);
 
     if (!result) {
         return -1;
@@ -126,12 +100,5 @@ int main(int argc, const char *argv[])
     std::unique_ptr<std::istream> in(CreateStreamFromName<std::istream>(config.input));
     std::unique_ptr<std::ostream> out(CreateStreamFromName<std::ostream>(config.output));
 
-    if (config.astType == drafter::RefractASTType) {
-        return ProcessRefract(config, in, out);
-    }
-    else if (config.astType == drafter::NormalASTType) {
-        return ProcessAST(config, in, out);
-    }
-
-
+    return ProcessRefract(config, in, out);
 }
