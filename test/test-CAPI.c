@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "../src/Version.h"
 
@@ -12,7 +13,7 @@ const char* source = "# My API\n## GET /message\n + Response 200 (text/plain)\n\
 const char* expected = "element: \"parseResult\"\ncontent:\n  -\n    element: \"category\"\n    meta:\n      classes:\n        - \"api\"\n      title: \"My API\"\n";
 
 int test_parse_and_serialize() {
-    drafter_result* result = 0;
+    drafter_result* result = NULL;
     drafter_parse_options parseOptions = {false};
 
     int status = drafter_parse_blueprint(source, &result, parseOptions);
@@ -20,11 +21,11 @@ int test_parse_and_serialize() {
     assert(status == 0);
     assert(result);
 
-    drafter_options options;
-    options.sourcemap = false;
-    options.format = DRAFTER_SERIALIZE_YAML;
+    drafter_serialize_options serializeOptions;
+    serializeOptions.sourcemap = false;
+    serializeOptions.format = DRAFTER_SERIALIZE_YAML;
 
-    char* out = drafter_serialize(result, options);
+    char* out = drafter_serialize(result, serializeOptions);
     assert(out);
 
     size_t len = strlen(expected);
@@ -39,13 +40,14 @@ int test_parse_and_serialize() {
 
 int test_parse_to_string() {
 
-    drafter_options options;
+    drafter_parse_options parseOptions = {false};
+    drafter_serialize_options options;
     options.sourcemap = false;
     options.format = DRAFTER_SERIALIZE_YAML;
 
     char* result = 0;
 
-    int status = drafter_parse_blueprint_to(source, &result, options);
+    int status = drafter_parse_blueprint_to(source, &result, parseOptions, options);
 
     assert(status == 0);
     assert(result);
@@ -69,13 +71,15 @@ const char* warning = "message-body asset is expected to be a pre-formatted code
 
 int test_validation() {
     drafter_parse_options parseOptions = {false};
+    drafter_result* result = NULL;
 
-    assert(drafter_check_blueprint(source, parseOptions) == 0);
+    assert(drafter_check_blueprint(source, &result, parseOptions) == 0);
 
-    drafter_result* result = drafter_check_blueprint(source_warning, parseOptions);
+    int status = drafter_check_blueprint(source_warning, &result, parseOptions);
+    assert(status == 0);
     assert(result != 0);
 
-    drafter_options options;
+    drafter_serialize_options options;
     options.sourcemap = false;
     options.format = DRAFTER_SERIALIZE_YAML;
 

@@ -6,6 +6,7 @@
 //  Copyright (c) 2016 Apiary Inc. All rights reserved.
 //
 
+
 #ifndef DRAFTER_H
 #define DRAFTER_H
 
@@ -62,43 +63,73 @@ typedef refract::IElement drafter_result;
 #endif
 
 
+/* Serialization formats, currently only YAML or JSON */
 typedef enum {
     DRAFTER_SERIALIZE_YAML = 0,
     DRAFTER_SERIALIZE_JSON
 } drafter_format;
 
+/* Parsing options
+ * - requireBlueprintName : API has to have a name, if not it is a parsing error
+ */
 typedef struct {
     bool requireBlueprintName;
 } drafter_parse_options;
 
-// TODO: Maybe rename this to drafter_serialize_options or combine both
+
+/* Serialization options
+ * - sourcemap : Include sourcemap in the serialized result
+ * - format : Serialization format see above
+ */
 typedef struct {
     bool sourcemap;
     drafter_format format;
-} drafter_options;
+} drafter_serialize_options;
 
-/* Parse API Blueprint and serialize it to given format.*/
-// TODO: Add parse options to this
+
+/* Error codes */
+#define DRAFTER_EUNKNOWN -1
+#define DRAFTER_EINVALID_INPUT -2
+#define DRAFTER_EINVALID_OUTPUT -3
+
+/* Parse API Blueprint and serialize it to given format.
+ * Returns:
+ * - 0 if everything went smooth.
+ * - positive numbers if it encountered parsing errors.
+ * - negative numbers if it failed to parse due the programming errors like invalid input.
+ */
 DRAFTER_API int drafter_parse_blueprint_to(const char* source,
                                            char** out,
-                                           const drafter_options options);
+                                           const drafter_parse_options parse_opts,
+                                           const drafter_serialize_options serialize_opts);
 
 /* Parse API Blueprint and return result, which is a opaque handle for
- * later use*/
+ * later use
+ *
+ * Returns:
+ * - 0 if everything went smooth.
+ * - positive numbers if it encountered parsing errors.
+ * - negative numbers if it failed to parse due the programming errors like invalid input.
+ */
 DRAFTER_API int drafter_parse_blueprint(const char* source,
                                         drafter_result** out,
-                                        const drafter_parse_options options);
+                                        const drafter_parse_options parse_opts);
 
-/* Serialize result to given format*/
-DRAFTER_API char* drafter_serialize(drafter_result *res, const drafter_options options);
+/* Serialize result to given format, returns NULL if an error is encountered */
+DRAFTER_API char* drafter_serialize(drafter_result *res, const drafter_serialize_options serialize_opts);
 
 /* Free memory allocated for result handler */
-DRAFTER_API void drafter_free_result(drafter_result* result);
+DRAFTER_API void drafter_free_result(drafter_result* res);
 
-/* Parse API Blueprint and return only annotations, if NULL than
- * document is error and warning free.*/
-DRAFTER_API drafter_result* drafter_check_blueprint(const char* source,
-                                                    const drafter_parse_options options);
+/* Parse API Blueprint and return only annotations.
+ * Returns:
+ * - 0 if everything went smooth.
+ * - positive numbers if it encountered parsing errors, which are described in the result
+ * - negative numbers if it failed to parse due the programming errors like invalid input.
+ */
+DRAFTER_API int drafter_check_blueprint(const char* source,
+                                        drafter_result **res,
+                                        const drafter_parse_options parse_opts);
 
 DRAFTER_API unsigned int drafter_version(void);
 
