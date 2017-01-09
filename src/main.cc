@@ -56,7 +56,7 @@ int ProcessRefract(const Config& config, std::unique_ptr<std::istream>& in, std:
     std::stringstream inputStream;
     inputStream << in->rdbuf();
 
-    drafter_options options;
+    drafter_serialize_options options;
     options.sourcemap = config.sourceMap;
     options.format = config.format == drafter::YAMLFormat
        ? DRAFTER_SERIALIZE_YAML

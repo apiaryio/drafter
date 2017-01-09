@@ -27,27 +27,30 @@
 
 #include <string.h>
 
+
 DRAFTER_API int drafter_parse_blueprint_to(const char* source,
                                            char ** out,
-                                           const drafter_options options) {
+                                           const drafter_parse_options parse_opts,
+                                           const drafter_serialize_options serialize_opts) {
 
-    if (!source || !out) {
-        return -1;
+    if (!source) {
+        return DRAFTER_EINVALID_INPUT;
+    }
+
+    if (!out) {
+        return DRAFTER_EINVALID_OUTPUT;
     }
 
     drafter_result* result = nullptr;
     *out = nullptr;
 
-    // TODO: Temporary until parse options are added here
-    drafter_parse_options parseOptions = {false};
-
-    int ret = drafter_parse_blueprint(source, &result, parseOptions);
+    int ret = drafter_parse_blueprint(source, &result, parse_opts);
 
     if (!result) {
-        return -1;
+        return ret;
     }
 
-    *out = drafter_serialize(result, options);
+    *out = drafter_serialize(result, serialize_opts);
 
     drafter_free_result(result);
 
@@ -60,15 +63,19 @@ namespace sc = snowcrash;
  * later use*/
 DRAFTER_API int drafter_parse_blueprint(const char* source,
                                         drafter_result** out,
-                                        const drafter_parse_options options) {
+                                        const drafter_parse_options parse_opts) {
 
-    if (!source || !out) {
-        return -1;
+    if (!source) {
+        return DRAFTER_EINVALID_INPUT;
+    }
+
+    if (!out) {
+        return DRAFTER_EINVALID_OUTPUT;
     }
 
     sc::BlueprintParserOptions scOptions = sc::ExportSourcemapOption;
 
-    if (options.requireBlueprintName) {
+    if (parse_opts.requireBlueprintName) {
         scOptions |= sc::RequireBlueprintNameOption;
     }
 
@@ -80,7 +87,7 @@ DRAFTER_API int drafter_parse_blueprint(const char* source,
     refract::IElement* result = WrapRefract(blueprint, context);
 
     *out = result;
-        
+
     return blueprint.report.error.code;
 }
 
@@ -110,18 +117,34 @@ namespace { // FIXME: cut'n'paste from main.cc - duplicity
 }
 
 /* Serialize result to given format*/
-DRAFTER_API char* drafter_serialize(drafter_result *res, const drafter_options options) {
+DRAFTER_API char* drafter_serialize(drafter_result *res, const drafter_serialize_options serialize_opts) {
+
+    drafter::SerializeFormat format = drafter::UnknownFormat;
 
     if (!res) {
         return nullptr;
     }
 
-    drafter::WrapperOptions wrapperOptions(options.sourcemap);
+    switch (serialize_opts.format)
+    {
+        case DRAFTER_SERIALIZE_JSON:
+            format = drafter::JSONFormat;
+            break;
+
+        case DRAFTER_SERIALIZE_YAML:
+            format = drafter::YAMLFormat;
+            break;
+
+        default:
+            return nullptr;
+    }
+
+    drafter::WrapperOptions wrapperOptions(serialize_opts.sourcemap);
     drafter::ConversionContext context(wrapperOptions);
 
     sos::Object result = drafter::SerializeRefract(res, context);
 
-    std::unique_ptr<sos::Serialize> serializer(CreateSerializer(options.format == DRAFTER_SERIALIZE_JSON ? drafter::JSONFormat : drafter::YAMLFormat));
+    std::unique_ptr<sos::Serialize> serializer(CreateSerializer(format));
 
     std::ostringstream out;
 
@@ -132,19 +155,20 @@ DRAFTER_API char* drafter_serialize(drafter_result *res, const drafter_options o
 
 /* Parse API Blueprint and return only annotations, if NULL than
  * document is error and warning free.*/
-DRAFTER_API drafter_result* drafter_check_blueprint(const char* source,
-                                                    const drafter_parse_options options) {
+DRAFTER_API int drafter_check_blueprint(const char* source,
+                                        drafter_result **res,
+                                        const drafter_parse_options parse_opts) {
 
     if (!source) {
-        return nullptr;
+        return DRAFTER_EINVALID_INPUT;
     }
 
     drafter_result* result = nullptr;
 
-    drafter_parse_blueprint(source, &result, options);
+    int ret = drafter_parse_blueprint(source, &result, parse_opts);
 
     if (!result) {
-        return nullptr;
+        return ret;
     }
 
     drafter_result* out = nullptr;
@@ -165,8 +189,10 @@ DRAFTER_API drafter_result* drafter_check_blueprint(const char* source,
     }
 
     drafter_free_result(result);
-    
-    return out;
+
+    *res = out;
+
+    return ret;
 }
 
 DRAFTER_API void drafter_free_result(drafter_result* result) {
