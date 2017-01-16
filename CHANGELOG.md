@@ -10,6 +10,16 @@
 * Fix support for escaped MSON-style parameters.
   [#445](https://github.com/apiaryio/drafter/issues/445)
 
+* Parameters values in API Elements are always serialized as API Element
+  strings. This ensure consistency with API Blueprint AST and to prevent
+  values being serialized differently. For example boolean of value `1` in API
+  Blueprint AST would be treated as a string and therefore be serialized as
+  `1`. However in API Elements it wouldn't be treated as truthy since `1` is
+  not equal to `true` and would be serialized as `false`.
+
+* Parameters in API Elements now contain a `typeLabel` which is a label
+  representing the type of the parameter that the user specified.
+
 
 ## 3.2.2
 
