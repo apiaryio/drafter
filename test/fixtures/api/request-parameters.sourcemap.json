@@ -139,6 +139,23 @@
                             }
                           },
                           "attributes": {
+                            "typeLabel": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        95,
+                                        66
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "number"
+                            },
                             "typeAttributes": [
                               "optional"
                             ]

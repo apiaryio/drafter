@@ -35,6 +35,7 @@
                         "description": "Database ID\n\nAdditional description"
                       },
                       "attributes": {
+                        "typeLabel": "number",
                         "typeAttributes": [
                           "optional"
                         ]

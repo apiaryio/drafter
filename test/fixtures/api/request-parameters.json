@@ -43,6 +43,7 @@
                             "description": "The maximum number of users to return."
                           },
                           "attributes": {
+                            "typeLabel": "number",
                             "typeAttributes": [
                               "optional"
                             ]

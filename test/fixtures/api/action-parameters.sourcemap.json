@@ -139,6 +139,23 @@
                             }
                           },
                           "attributes": {
+                            "typeLabel": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        117,
+                                        40
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "string"
+                            },
                             "typeAttributes": [
                               "required"
                             ]
@@ -213,6 +230,23 @@
                         {
                           "element": "member",
                           "attributes": {
+                            "typeLabel": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        177,
+                                        17
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "boolean"
+                            },
                             "typeAttributes": [
                               "required"
                             ]
@@ -243,6 +277,23 @@
                         {
                           "element": "member",
                           "attributes": {
+                            "typeLabel": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        200,
+                                        15
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "number"
+                            },
                             "typeAttributes": [
                               "required"
                             ]

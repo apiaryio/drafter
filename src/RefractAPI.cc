@@ -195,6 +195,10 @@ namespace drafter {
             element->meta[SerializeKey::Description] = PrimitiveToRefract(MAKE_NODE_INFO(parameter, description));
         }
 
+        if (!parameter.node->type.empty()) {
+            element->attributes["typeLabel"] = PrimitiveToRefract(MAKE_NODE_INFO(parameter, type));
+        }
+
         // Parameter use
         std::string use = SerializeKey::Required;
 

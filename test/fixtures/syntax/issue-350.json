@@ -32,6 +32,7 @@
                     {
                       "element": "member",
                       "attributes": {
+                        "typeLabel": "string",
                         "typeAttributes": [
                           "required"
                         ]

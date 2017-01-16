@@ -43,6 +43,7 @@
                             "description": "Username"
                           },
                           "attributes": {
+                            "typeLabel": "string",
                             "typeAttributes": [
                               "required"
                             ]
@@ -78,6 +79,7 @@
                         {
                           "element": "member",
                           "attributes": {
+                            "typeLabel": "boolean",
                             "typeAttributes": [
                               "required"
                             ]
@@ -95,6 +97,7 @@
                         {
                           "element": "member",
                           "attributes": {
+                            "typeLabel": "number",
                             "typeAttributes": [
                               "required"
                             ]
