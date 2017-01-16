@@ -162,7 +162,7 @@
                               "content": "limit"
                             },
                             "value": {
-                              "element": "number",
+                              "element": "string",
                               "attributes": {
                                 "default": {
                                   "element": "string",

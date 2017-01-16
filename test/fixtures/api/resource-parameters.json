@@ -50,30 +50,30 @@
                             "samples": [
                               [
                                 {
-                                  "element": "number",
-                                  "content": 23
+                                  "element": "string",
+                                  "content": "23"
                                 }
                               ]
                             ],
                             "default": [
                               {
-                                "element": "number",
-                                "content": 1
+                                "element": "string",
+                                "content": "1"
                               }
                             ]
                           },
                           "content": [
                             {
-                              "element": "number",
-                              "content": 37
+                              "element": "string",
+                              "content": "37"
                             },
                             {
-                              "element": "number",
-                              "content": 1
+                              "element": "string",
+                              "content": "1"
                             },
                             {
-                              "element": "number",
-                              "content": 23
+                              "element": "string",
+                              "content": "23"
                             }
                           ]
                         }

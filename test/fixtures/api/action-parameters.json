@@ -88,7 +88,7 @@
                               "content": "active"
                             },
                             "value": {
-                              "element": "boolean"
+                              "element": "string"
                             }
                           }
                         },
@@ -105,7 +105,7 @@
                               "content": "votes"
                             },
                             "value": {
-                              "element": "number"
+                              "element": "string"
                             }
                           }
                         }

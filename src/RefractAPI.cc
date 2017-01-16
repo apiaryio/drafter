@@ -187,19 +187,7 @@ namespace drafter {
     refract::IElement* ParameterToRefract(const NodeInfo<snowcrash::Parameter>& parameter, ConversionContext& context)
     {
         refract::MemberElement* element = new refract::MemberElement;
-        refract::IElement *value = NULL;
-
-        // Parameter type, exampleValue, defaultValue, values
-        if (parameter.node->type == "boolean") {
-            value = ExtractParameter<bool>(parameter, context);
-        }
-        else if (parameter.node->type == "number") {
-            value = ExtractParameter<double>(parameter, context);
-        }
-        else {
-            value = ExtractParameter<std::string>(parameter, context);
-        }
-
+        refract::IElement *value = ExtractParameter<std::string>(parameter, context);
         element->set(PrimitiveToRefract(MAKE_NODE_INFO(parameter, name)), value);
 
         // Description
