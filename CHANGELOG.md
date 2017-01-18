@@ -1,6 +1,6 @@
 # Drafter Changelog
 
-## Stable v3
+## 3.2.3
 
 ### Bug Fixes
 
