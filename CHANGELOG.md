@@ -1,5 +1,16 @@
 # Drafter Changelog
 
+## 3.2.3
+
+### Bug Fixes
+
+* Prevent exposing duplicate parameters in API Elements output when a
+  parameter is overshadowed.
+
+* Fix support for escaped MSON-style parameters.
+  [#445](https://github.com/apiaryio/drafter/issues/445)
+
+
 ## 3.2.2
 
 ### Bug Fixes
