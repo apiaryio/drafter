@@ -7,6 +7,7 @@ TEST_REFRACT("oneof", "simple");
 TEST_REFRACT("oneof", "object");
 TEST_REFRACT("oneof", "multi-properties");
 TEST_REFRACT("oneof", "expanded");
+TEST_REFRACT("oneof", "required");
 
 
 // FIXME: invalid JSON Schema

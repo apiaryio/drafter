@@ -620,6 +620,7 @@ namespace refract
     {
         ObjectElement* props = pObj;
         RefractElements members;
+        ArrayElement::ValueType reqVals;
         RefractElements oneOfMembers;
         IncludeMembers(e, members);
 
@@ -633,6 +634,18 @@ namespace refract
             }
             else {
                 Visit(*this, *(*it));
+
+                if (MemberElement *mr = static_cast<MemberElement*>(*it)) {
+                    if (IsTypeAttribute(*(*it), "required") ||
+                        IsTypeAttribute(*(*it), "fixed") ||
+                        ((fixed || fixedType) && !IsTypeAttribute(*(*it), "optional"))) {
+
+                        StringElement *str = TypeQueryVisitor::as<StringElement>(mr->value.first);
+                        if (str) {
+                            reqVals.push_back(IElement::Create(str->value));
+                        }
+                    }
+                }
             }
         }
 
@@ -640,6 +653,9 @@ namespace refract
         pObj->renderType(IElement::rCompact);
 
         addMember("properties", props);
+        if (!reqVals.empty()) {
+            addMember("required", new ArrayElement(reqVals, IElement::rCompact));
+        }
         if (!oneOfMembers.empty()) {
             addMember("oneOf", new ArrayElement(oneOfMembers, IElement::rCompact));
         }
