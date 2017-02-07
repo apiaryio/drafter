@@ -40,10 +40,10 @@
                         {
                           "element": "member",
                           "meta": {
-                            "description": "The maximum number of users to return."
+                            "description": "The maximum number of users to return.",
+                            "title": "number"
                           },
                           "attributes": {
-                            "typeLabel": "number",
                             "typeAttributes": [
                               "optional"
                             ]

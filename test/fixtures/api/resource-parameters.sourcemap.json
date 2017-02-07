@@ -116,10 +116,8 @@
                             ]
                           },
                           "content": "Database ID\n\nAdditional description"
-                        }
-                      },
-                      "attributes": {
-                        "typeLabel": {
+                        },
+                        "title": {
                           "element": "string",
                           "attributes": {
                             "sourceMap": [
@@ -135,7 +133,9 @@
                             ]
                           },
                           "content": "number"
-                        },
+                        }
+                      },
+                      "attributes": {
                         "typeAttributes": [
                           "optional"
                         ]

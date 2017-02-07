@@ -47,8 +47,8 @@ content:
                     element: "member"
                     meta:
                       description: "<description>"
+                      title: "<type>"
                     attributes:
-                      typeLabel: "<type>"
                       typeAttributes:
                         - "optional"
                     content:
@@ -110,8 +110,8 @@ content:
                         element: "member"
                         meta:
                           description: "<description>"
+                          title: "<type>"
                         attributes:
-                          typeLabel: "<type>"
                           typeAttributes:
                             - "optional"
                         content:

@@ -31,8 +31,10 @@
                   "content": [
                     {
                       "element": "member",
+                      "meta": {
+                        "title": "string"
+                      },
                       "attributes": {
-                        "typeLabel": "string",
                         "typeAttributes": [
                           "required"
                         ]

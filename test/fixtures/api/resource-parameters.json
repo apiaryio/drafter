@@ -32,10 +32,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "Database ID\n\nAdditional description"
+                        "description": "Database ID\n\nAdditional description",
+                        "title": "number"
                       },
                       "attributes": {
-                        "typeLabel": "number",
                         "typeAttributes": [
                           "optional"
                         ]

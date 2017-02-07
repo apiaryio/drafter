@@ -158,6 +158,7 @@ namespace drafter {
         return element;
     }
 
+    // NOTE: We removed type specific templates from here in https://github.com/apiaryio/drafter/pull/447
     refract::IElement* ExtractParameter(const NodeInfo<snowcrash::Parameter>& parameter, ConversionContext& context)
     {
         refract::IElement* element = NULL;
@@ -193,12 +194,7 @@ namespace drafter {
         }
 
         if (!parameter.node->type.empty()) {
-            // FIXME: `typeLabel` attribute is not described in API Elements
-            // specification. `typeLabel` is an extension for now as we should
-            // rethink for
-            // https://github.com/apiaryio/api-blueprint-rfcs/pull/3
-
-            element->attributes["typeLabel"] = PrimitiveToRefract(MAKE_NODE_INFO(parameter, type));
+            element->meta[SerializeKey::Title] = PrimitiveToRefract(MAKE_NODE_INFO(parameter, type));
         }
 
         // Parameter use

@@ -136,10 +136,8 @@
                                 ]
                               },
                               "content": "The maximum number of users to return."
-                            }
-                          },
-                          "attributes": {
-                            "typeLabel": {
+                            },
+                            "title": {
                               "element": "string",
                               "attributes": {
                                 "sourceMap": [
@@ -155,7 +153,9 @@
                                 ]
                               },
                               "content": "number"
-                            },
+                            }
+                          },
+                          "attributes": {
                             "typeAttributes": [
                               "optional"
                             ]

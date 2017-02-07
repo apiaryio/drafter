@@ -181,10 +181,8 @@
                             ]
                           },
                           "content": "<description>"
-                        }
-                      },
-                      "attributes": {
-                        "typeLabel": {
+                        },
+                        "title": {
                           "element": "string",
                           "attributes": {
                             "sourceMap": [
@@ -200,7 +198,9 @@
                             ]
                           },
                           "content": "<type>"
-                        },
+                        }
+                      },
+                      "attributes": {
                         "typeAttributes": [
                           "optional"
                         ]
@@ -472,10 +472,8 @@
                                 ]
                               },
                               "content": "<description>"
-                            }
-                          },
-                          "attributes": {
-                            "typeLabel": {
+                            },
+                            "title": {
                               "element": "string",
                               "attributes": {
                                 "sourceMap": [
@@ -491,7 +489,9 @@
                                 ]
                               },
                               "content": "<type>"
-                            },
+                            }
+                          },
+                          "attributes": {
                             "typeAttributes": [
                               "optional"
                             ]

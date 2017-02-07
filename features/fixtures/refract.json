@@ -62,10 +62,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "<description>"
+                        "description": "<description>",
+                        "title": "<type>"
                       },
                       "attributes": {
-                        "typeLabel": "<type>",
                         "typeAttributes": [
                           "optional"
                         ]
@@ -156,10 +156,10 @@
                         {
                           "element": "member",
                           "meta": {
-                            "description": "<description>"
+                            "description": "<description>",
+                            "title": "<type>"
                           },
                           "attributes": {
-                            "typeLabel": "<type>",
                             "typeAttributes": [
                               "optional"
                             ]

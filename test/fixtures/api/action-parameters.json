@@ -40,10 +40,10 @@
                         {
                           "element": "member",
                           "meta": {
-                            "description": "Username"
+                            "description": "Username",
+                            "title": "string"
                           },
                           "attributes": {
-                            "typeLabel": "string",
                             "typeAttributes": [
                               "required"
                             ]
@@ -78,8 +78,10 @@
                         },
                         {
                           "element": "member",
+                          "meta": {
+                            "title": "boolean"
+                          },
                           "attributes": {
-                            "typeLabel": "boolean",
                             "typeAttributes": [
                               "required"
                             ]
@@ -96,8 +98,10 @@
                         },
                         {
                           "element": "member",
+                          "meta": {
+                            "title": "number"
+                          },
                           "attributes": {
-                            "typeLabel": "number",
                             "typeAttributes": [
                               "required"
                             ]

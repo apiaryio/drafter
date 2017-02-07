@@ -136,10 +136,8 @@
                                 ]
                               },
                               "content": "Username"
-                            }
-                          },
-                          "attributes": {
-                            "typeLabel": {
+                            },
+                            "title": {
                               "element": "string",
                               "attributes": {
                                 "sourceMap": [
@@ -155,7 +153,9 @@
                                 ]
                               },
                               "content": "string"
-                            },
+                            }
+                          },
+                          "attributes": {
                             "typeAttributes": [
                               "required"
                             ]
@@ -229,8 +229,8 @@
                         },
                         {
                           "element": "member",
-                          "attributes": {
-                            "typeLabel": {
+                          "meta": {
+                            "title": {
                               "element": "string",
                               "attributes": {
                                 "sourceMap": [
@@ -246,7 +246,9 @@
                                 ]
                               },
                               "content": "boolean"
-                            },
+                            }
+                          },
+                          "attributes": {
                             "typeAttributes": [
                               "required"
                             ]
@@ -276,8 +278,8 @@
                         },
                         {
                           "element": "member",
-                          "attributes": {
-                            "typeLabel": {
+                          "meta": {
+                            "title": {
                               "element": "string",
                               "attributes": {
                                 "sourceMap": [
@@ -293,7 +295,9 @@
                                 ]
                               },
                               "content": "number"
-                            },
+                            }
+                          },
+                          "attributes": {
                             "typeAttributes": [
                               "required"
                             ]

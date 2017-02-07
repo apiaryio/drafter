@@ -121,8 +121,7 @@ content:
                                   - 516
                                   - 86
                         content: "<description>"
-                    attributes:
-                      typeLabel:
+                      title:
                         element: "string"
                         attributes:
                           sourceMap:
@@ -133,6 +132,7 @@ content:
                                   - 516
                                   - 86
                         content: "<type>"
+                    attributes:
                       typeAttributes:
                         - "optional"
                     content:
@@ -306,8 +306,7 @@ content:
                                       - 823
                                       - 86
                             content: "<description>"
-                        attributes:
-                          typeLabel:
+                          title:
                             element: "string"
                             attributes:
                               sourceMap:
@@ -318,6 +317,7 @@ content:
                                       - 823
                                       - 86
                             content: "<type>"
+                        attributes:
                           typeAttributes:
                             - "optional"
                         content:
