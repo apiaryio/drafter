@@ -44,6 +44,13 @@ namespace refract
 
         template<typename T> void primitiveType(const T& e);
 
+        void processMembers(std::vector<refract::IElement*>::const_iterator begin,
+                            std::vector<refract::IElement*>::const_iterator end,
+                            ArrayElement::ValueType& reqVals,
+                            std::vector<MemberElement*>& varProps,
+                            RefractElements& oneOfMembers,
+                            ObjectElement *o);
+
     public:
         JSONSchemaVisitor(ObjectElement *pDefinitions = NULL,
                           bool _fixed = false,
