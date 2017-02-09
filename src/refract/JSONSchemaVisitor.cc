@@ -571,9 +571,11 @@ namespace refract
         pObj->renderType(IElement::rCompact);
 
         addMember("properties", props);
+
         if (!reqVals.empty()) {
             addMember("required", new ArrayElement(reqVals, IElement::rCompact));
         }
+
         if (!oneOfMembers.empty()) {
             addMember("oneOf", new ArrayElement(oneOfMembers, IElement::rCompact));
         }
@@ -636,11 +638,13 @@ namespace refract
             switch (type.get()) {
                 case TypeQueryVisitor::Member: {
                     MemberElement *mr = static_cast<MemberElement*>(*it);
+
                     if (IsTypeAttribute(*(*it), "required") ||
                         IsTypeAttribute(*(*it), "fixed") ||
                         ((fixed || fixedType) && !IsTypeAttribute(*(*it), "optional"))) {
 
                         StringElement *str = TypeQueryVisitor::as<StringElement>(mr->value.first);
+
                         if (str) {
                             reqVals.push_back(IElement::Create(str->value));
                         }
@@ -653,13 +657,14 @@ namespace refract
                         JSONSchemaVisitor renderer(pDefs, fixed);
                         Visit(renderer, *(*it));
                         ObjectElement *o1 = TypeQueryVisitor::as<ObjectElement>(renderer.get());
+
                         if (!o1->value.empty()) {
                             MemberElement *m1 = TypeQueryVisitor::as<MemberElement>(o1->value[0]->clone());
+
                             if (m1) {
                                 m1->renderType(IElement::rCompact);
                                 o->push_back(m1);
                             }
-
                         }
                     }
                 }
