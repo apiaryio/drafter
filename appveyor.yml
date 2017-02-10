@@ -15,3 +15,6 @@ build_script:
 test_script:
   - vcbuild.bat %VS_VERSION% test
   - vcbuild.bat %VS_VERSION% inttest
+
+on_success:
+  - appveyor PushArtifact build/Release/drafter.exe
