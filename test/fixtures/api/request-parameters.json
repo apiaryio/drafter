@@ -40,7 +40,8 @@
                         {
                           "element": "member",
                           "meta": {
-                            "description": "The maximum number of users to return."
+                            "description": "The maximum number of users to return.",
+                            "title": "number"
                           },
                           "attributes": {
                             "typeAttributes": [
@@ -53,7 +54,7 @@
                               "content": "limit"
                             },
                             "value": {
-                              "element": "number",
+                              "element": "string",
                               "attributes": {
                                 "default": "20"
                               }

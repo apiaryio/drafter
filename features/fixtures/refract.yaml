@@ -47,6 +47,7 @@ content:
                     element: "member"
                     meta:
                       description: "<description>"
+                      title: "<type>"
                     attributes:
                       typeAttributes:
                         - "optional"
@@ -109,6 +110,7 @@ content:
                         element: "member"
                         meta:
                           description: "<description>"
+                          title: "<type>"
                         attributes:
                           typeAttributes:
                             - "optional"
@@ -568,3 +570,24 @@ content:
               - 992
               - 45
     content: "the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead"
+  -
+    element: "annotation"
+    meta:
+      classes:
+        - "warning"
+    attributes:
+      code: 4
+      sourceMap:
+        -
+          element: "sourceMap"
+          content:
+            -
+              - 200
+              - 102
+    content: "invalid value format for 'number' type. please check mson specification for valid format"
+
+
+OK.
+warning: (9)  the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead :685:45
+warning: (9)  the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead :992:45
+warning: (4)  invalid value format for 'number' type. please check mson specification for valid format :200:102
