@@ -1,5 +1,15 @@
 # Drafter Changelog
 
+## 3.2.5
+
+### Bug Fixes
+
+* Action identifiers may now contain `(` and `)` characters.
+
+  ```apib
+  ## My Action (Deprecated) [GET]
+  ```
+
 ## 3.2.4
 
 ### Bug Fixes
