@@ -165,7 +165,7 @@ output = {
   'include_dirs': [],
   'libraries': [],
   'defines': [],
-  'cflags': [],
+  'cflags': [ '-std=c++11' ],
 }
 
 configure_drafter(output)
