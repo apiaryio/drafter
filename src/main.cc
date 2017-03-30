@@ -6,10 +6,6 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 //
-#include "drafter.h"
-
-#include "snowcrash.h"
-#include "SectionParserData.h"  // snowcrash::BlueprintParserOptions
 
 #include "sos.h"
 #include "sosJSON.h"
@@ -20,10 +16,6 @@
 #include "reporting.h"
 #include "config.h"
 #include "stream.h"
-
-#include "ConversionContext.h"
-
-namespace sc = snowcrash;
 
 /**
  *  \brief  return instance sos::Serializer based on \param `format`
