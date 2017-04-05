@@ -1,5 +1,12 @@
 # Drafter Changelog
 
+## 3.2.6
+
+### Bug Fixes
+
+* Fix JSON Schema support for nullable with enums.
+  [#455](https://github.com/apiaryio/drafter/issues/455)
+
 ## 3.2.5
 
 ### Bug Fixes

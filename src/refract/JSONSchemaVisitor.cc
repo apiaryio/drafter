@@ -126,8 +126,8 @@ namespace refract
     void JSONSchemaVisitor::addSchemaType(const std::string& type)
     {
         // FIXME: this will not work corretly if "type" attribute will already
-        // have more members
-        // need to check if type is it is Array and for already pushed types
+        // have more members. Need to check if type is it is Array and for
+        // already pushed types
         MemberElement *m = FindMemberByKey(*pObj, "type");
 
         if (m && m->value.second) {
@@ -138,6 +138,16 @@ namespace refract
             m->value.second = a;
         } else {
             setSchemaType(type);
+        }
+    }
+
+    void JSONSchemaVisitor::addNullToEnum()
+    {
+        MemberElement *m = FindMemberByKey(*pObj, "enum");
+
+        if (m && m->value.second) {
+            ArrayElement *a = TypeQueryVisitor::as<ArrayElement>(m->value.second);
+            a->push_back(new NullElement);
         }
     }
 
@@ -211,6 +221,7 @@ namespace refract
 
             if (IsTypeAttribute(e, "nullable")) {
                 renderer.addSchemaType("null");
+                renderer.addNullToEnum();
             }
 
             // Check for primitive types
