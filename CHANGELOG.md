@@ -1,5 +1,12 @@
 # Drafter Changelog
 
+## Stable
+
+## Bug Fixes
+
+* Fix JSON Schema for OneOf when required is present.
+  [#453](https://github.com/apiaryio/drafter/issues/453)
+
 ## 3.2.6
 
 ### Bug Fixes
