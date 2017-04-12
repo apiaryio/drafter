@@ -365,6 +365,9 @@
                   },
                   {
                     "element": "member",
+                    "meta": {
+                      "description": "content['M','N']"
+                    },
                     "content": {
                       "key": {
                         "element": "string",
