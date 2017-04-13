@@ -7,6 +7,9 @@
 * Fix JSON Schema for OneOf when required is present.
   [#453](https://github.com/apiaryio/drafter/issues/453)
 
+* Allow fixed-type when the nested type in array is six characters.
+  [#463](https://github.com/apiaryio/drafter/issues/463)
+
 ## 3.2.6
 
 ### Bug Fixes
