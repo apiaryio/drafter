@@ -94,6 +94,7 @@
 		40EF03DA1B72134000865990 /* RefractAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 40EF03D81B72134000865990 /* RefractAPI.h */; };
 		40EF03DD1B72135E00865990 /* test-RefractAPITest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40EF03DB1B72135E00865990 /* test-RefractAPITest.cc */; };
 		40EF03DE1B72135E00865990 /* test-RefractDataStructureTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40EF03DC1B72135E00865990 /* test-RefractDataStructureTest.cc */; };
+		9D3FD1EF1EB5FD5500DD4E11 /* test-CommonDataTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9D3FD1EE1EB5FD5500DD4E11 /* test-CommonDataTest.cc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -215,6 +216,7 @@
 		40EF03D81B72134000865990 /* RefractAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefractAPI.h; path = src/RefractAPI.h; sourceTree = SOURCE_ROOT; };
 		40EF03DB1B72135E00865990 /* test-RefractAPITest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-RefractAPITest.cc"; path = "test/test-RefractAPITest.cc"; sourceTree = "<group>"; };
 		40EF03DC1B72135E00865990 /* test-RefractDataStructureTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-RefractDataStructureTest.cc"; path = "test/test-RefractDataStructureTest.cc"; sourceTree = "<group>"; };
+		9D3FD1EE1EB5FD5500DD4E11 /* test-CommonDataTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-CommonDataTest.cc"; path = "test/test-CommonDataTest.cc"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -276,6 +278,7 @@
 				19A129CA1B70ADC300366AA7 /* test-drafter.cc */,
 				4093675C1CBB90DE0065A78A /* test-ApplyVisitorTest.cc */,
 				400F54031C598A35004EA235 /* test-CircularReferenceTest.cc */,
+				9D3FD1EE1EB5FD5500DD4E11 /* test-CommonDataTest.cc */,
 				4093675D1CBB90DE0065A78A /* test-ElementFactoryTest.cc */,
 				40AEF8201CB80C4F000A0DEE /* test-ExtendElementTest.cc */,
 				40E6DFA01CF494FE009B3FF3 /* test-OneOfTest.cc */,
@@ -612,6 +615,7 @@
 				19A129BB1B70AC9A00366AA7 /* RenderJSONVisitor.cc in Sources */,
 				40D03D4D1C182FBD008AD2EF /* PrintVisitor.cc in Sources */,
 				40EF03D51B7210F300865990 /* RefractDataStructure.cc in Sources */,
+				9D3FD1EF1EB5FD5500DD4E11 /* test-CommonDataTest.cc in Sources */,
 				19A129B91B70AC9A00366AA7 /* Registry.cc in Sources */,
 				40DDBDD71BE14EA700B10819 /* RefractSourceMap.cc in Sources */,
 				19A129B21B70AC9A00366AA7 /* Element.cc in Sources */,
