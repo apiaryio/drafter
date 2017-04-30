@@ -523,9 +523,12 @@ namespace drafter {
         refract::ArrayElement* commonData = new refract::ArrayElement;
         RefractElements content;
 
+        unsigned int i = 0;
+
         for (auto it = element.node->content.responses.begin(); it != element.node->content.responses.end(); ++it) {
-            NodeInfo<snowcrash::Response> info = NodeInfo<snowcrash::Response>(&*it, NodeInfo<snowcrash::Response>::NullSourceMap());
+            NodeInfo<snowcrash::Response> info = NodeInfo<snowcrash::Response>(&*it, &element.sourceMap->content.responses.collection.at(i));
             content.push_back(PayloadToRefract(info, NodeInfo<snowcrash::Action>(), context));
+            i++;
         }
 
         commonData->element(SerializeKey::CommonData);
