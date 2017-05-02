@@ -518,6 +518,25 @@ namespace drafter {
         return category;
     }
 
+    refract::IElement* CommonDataToRefract(const NodeInfo<snowcrash::Element>& element, ConversionContext& context)
+    {
+        refract::ArrayElement* commonData = new refract::ArrayElement;
+        RefractElements content;
+
+        auto respIt = element.node->content.responses.begin();
+        auto smIt = element.sourceMap->content.responses.collection.begin();
+
+        for (; respIt != element.node->content.responses.end(); ++respIt, ++smIt) {
+            NodeInfo<snowcrash::Response> info = NodeInfo<snowcrash::Response>(&*respIt, &*smIt);
+            content.push_back(PayloadToRefract(info, NodeInfo<snowcrash::Action>(), context));
+        }
+
+        commonData->element(SerializeKey::CommonData);
+        commonData->set(content);
+
+        return commonData;
+    }
+
     refract::IElement* ElementToRefract(const NodeInfo<snowcrash::Element>& element, ConversionContext& context)
     {
         switch (element.node->element) {
@@ -529,6 +548,8 @@ namespace drafter {
                 return CopyToRefract(MAKE_NODE_INFO(element, content.copy));
             case snowcrash::Element::CategoryElement:
                 return CategoryToRefract(element, context);
+            case snowcrash::Element::CommonDataElement:
+                return CommonDataToRefract(element, context);
             default:
                 // we are not able to get sourcemap info there
                 // It is strongly dependent on type of element.

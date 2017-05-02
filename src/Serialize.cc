@@ -35,6 +35,7 @@ const std::string SerializeKey::Name = "name";
 const std::string SerializeKey::Description = "description";
 const std::string SerializeKey::DataStructure = "dataStructure";
 const std::string SerializeKey::DataStructures = "dataStructures";
+const std::string SerializeKey::CommonData = "commonData";
 const std::string SerializeKey::ResourceGroup = "resourceGroup";
 const std::string SerializeKey::ResourceGroups = "resourceGroups";
 const std::string SerializeKey::Resource = "resource";

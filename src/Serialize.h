@@ -63,6 +63,7 @@ namespace drafter {
         static const std::string Description;
         static const std::string DataStructure;
         static const std::string DataStructures;
+        static const std::string CommonData;
         static const std::string ResourceGroup;
         static const std::string ResourceGroups;
         static const std::string Resource;

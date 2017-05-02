@@ -1,0 +1,25 @@
+# API name
+
+# Common Data
+
++ Response 404 (application/json)
+    + Attributes
+        + status: not_found
+
+# Group Users
+
+Actions of this section should have common response 404
+
+## User [/users]
+
+### List all users [GET]
+
++ Response 200 (application/json)
+    + Attributes
+        + users (array)
+
+### User info [GET /users/{id}]
+
++ Response 200 (application/json)
+    + Attributes
+        + user (object)
