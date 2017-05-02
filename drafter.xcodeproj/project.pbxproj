@@ -615,7 +615,6 @@
 				19A129BB1B70AC9A00366AA7 /* RenderJSONVisitor.cc in Sources */,
 				40D03D4D1C182FBD008AD2EF /* PrintVisitor.cc in Sources */,
 				40EF03D51B7210F300865990 /* RefractDataStructure.cc in Sources */,
-				9D3FD1EF1EB5FD5500DD4E11 /* test-CommonDataTest.cc in Sources */,
 				19A129B91B70AC9A00366AA7 /* Registry.cc in Sources */,
 				40DDBDD71BE14EA700B10819 /* RefractSourceMap.cc in Sources */,
 				19A129B21B70AC9A00366AA7 /* Element.cc in Sources */,
