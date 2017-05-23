@@ -11,6 +11,7 @@ machine:
 
 checkout:
   post:
+    - git submodule sync
     - git submodule update --init --recursive
 
 dependencies:

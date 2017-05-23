@@ -8,6 +8,7 @@ environment:
     - VS_VERSION: MSVC2015
 
 build_script:
+  - git submodule sync
   - git submodule update --init --recursive
   - bundle install
   - vcbuild.bat %VS_VERSION%
