@@ -1,6 +1,6 @@
 # Drafter Changelog
 
-## Stable
+## 3.2.7
 
 ## Bug Fixes
 
@@ -9,6 +9,8 @@
 
 * Allow fixed-type when the nested type in array is six characters.
   [#463](https://github.com/apiaryio/drafter/issues/463)
+
+* Fix a few issues with codeblocks format.
 
 ## 3.2.6
 
