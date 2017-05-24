@@ -121,6 +121,17 @@ content:
                                   - 516
                                   - 86
                         content: "<description>"
+                      title:
+                        element: "string"
+                        attributes:
+                          sourceMap:
+                            -
+                              element: "sourceMap"
+                              content:
+                                -
+                                  - 516
+                                  - 86
+                        content: "<type>"
                     attributes:
                       typeAttributes:
                         - "optional"
@@ -295,6 +306,17 @@ content:
                                       - 823
                                       - 86
                             content: "<description>"
+                          title:
+                            element: "string"
+                            attributes:
+                              sourceMap:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      - 823
+                                      - 86
+                            content: "<type>"
                         attributes:
                           typeAttributes:
                             - "optional"
@@ -1282,3 +1304,8 @@ content:
               - 102
     content: "invalid value format for 'number' type. please check mson specification for valid format"
 
+
+OK.
+warning: (9)  the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead :685:45
+warning: (9)  the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead :992:45
+warning: (4)  invalid value format for 'number' type. please check mson specification for valid format :200:102

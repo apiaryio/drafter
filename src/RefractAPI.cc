@@ -135,42 +135,40 @@ namespace drafter {
         return element;
     }
 
-    template<typename T>
     refract::IElement* ParameterValuesToRefract(const NodeInfo<snowcrash::Parameter>& parameter, ConversionContext& context)
     {
         refract::ArrayElement* element = CollectionToRefract<refract::ArrayElement>(MAKE_NODE_INFO(parameter, values),
                                                                                     context,
-                                                                                    LiteralToRefract<T>,
+                                                                                    LiteralToRefract<std::string>,
                                                                                     SerializeKey::Enum,
                                                                                     refract::IElement::rDefault);
 
         // Add sample value
         if (!parameter.node->exampleValue.empty()) {
             refract::ArrayElement* samples = new refract::ArrayElement;
-            samples->push_back(CreateArrayElement(LiteralToRefract<T>(MAKE_NODE_INFO(parameter, exampleValue), context), true));
+            samples->push_back(CreateArrayElement(LiteralToRefract<std::string>(MAKE_NODE_INFO(parameter, exampleValue), context), true));
             element->attributes[SerializeKey::Samples] = samples;
         }
 
         // Add default value
         if (!parameter.node->defaultValue.empty()) {
-            element->attributes[SerializeKey::Default] = CreateArrayElement(LiteralToRefract<T>(MAKE_NODE_INFO(parameter, defaultValue), context), true);
+            element->attributes[SerializeKey::Default] = CreateArrayElement(LiteralToRefract<std::string>(MAKE_NODE_INFO(parameter, defaultValue), context), true);
         }
 
         return element;
     }
 
-    template<typename T>
+    // NOTE: We removed type specific templates from here in https://github.com/apiaryio/drafter/pull/447
     refract::IElement* ExtractParameter(const NodeInfo<snowcrash::Parameter>& parameter, ConversionContext& context)
     {
         refract::IElement* element = NULL;
 
         if (parameter.node->values.empty()) {
             if (parameter.node->exampleValue.empty()) {
-                typedef typename refract::ElementTypeSelector<T>::ElementType ElementType;
-                element = new ElementType;
+                element = new refract::StringElement;
             }
             else {
-                element = LiteralToRefract<T>(MAKE_NODE_INFO(parameter, exampleValue), context);
+                element = LiteralToRefract<std::string>(MAKE_NODE_INFO(parameter, exampleValue), context);
             }
 
             if (!parameter.node->defaultValue.empty()) {
@@ -178,7 +176,7 @@ namespace drafter {
             }
         }
         else {
-            element = ParameterValuesToRefract<T>(parameter, context);
+            element = ParameterValuesToRefract(parameter, context);
         }
 
         return element;
@@ -187,24 +185,16 @@ namespace drafter {
     refract::IElement* ParameterToRefract(const NodeInfo<snowcrash::Parameter>& parameter, ConversionContext& context)
     {
         refract::MemberElement* element = new refract::MemberElement;
-        refract::IElement *value = NULL;
-
-        // Parameter type, exampleValue, defaultValue, values
-        if (parameter.node->type == "boolean") {
-            value = ExtractParameter<bool>(parameter, context);
-        }
-        else if (parameter.node->type == "number") {
-            value = ExtractParameter<double>(parameter, context);
-        }
-        else {
-            value = ExtractParameter<std::string>(parameter, context);
-        }
-
+        refract::IElement *value = ExtractParameter(parameter, context);
         element->set(PrimitiveToRefract(MAKE_NODE_INFO(parameter, name)), value);
 
         // Description
         if (!parameter.node->description.empty()) {
             element->meta[SerializeKey::Description] = PrimitiveToRefract(MAKE_NODE_INFO(parameter, description));
+        }
+
+        if (!parameter.node->type.empty()) {
+            element->meta[SerializeKey::Title] = PrimitiveToRefract(MAKE_NODE_INFO(parameter, type));
         }
 
         // Parameter use

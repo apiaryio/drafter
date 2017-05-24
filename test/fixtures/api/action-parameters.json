@@ -40,7 +40,8 @@
                         {
                           "element": "member",
                           "meta": {
-                            "description": "Username"
+                            "description": "Username",
+                            "title": "string"
                           },
                           "attributes": {
                             "typeAttributes": [
@@ -77,6 +78,9 @@
                         },
                         {
                           "element": "member",
+                          "meta": {
+                            "title": "boolean"
+                          },
                           "attributes": {
                             "typeAttributes": [
                               "required"
@@ -88,12 +92,15 @@
                               "content": "active"
                             },
                             "value": {
-                              "element": "boolean"
+                              "element": "string"
                             }
                           }
                         },
                         {
                           "element": "member",
+                          "meta": {
+                            "title": "number"
+                          },
                           "attributes": {
                             "typeAttributes": [
                               "required"
@@ -105,7 +112,7 @@
                               "content": "votes"
                             },
                             "value": {
-                              "element": "number"
+                              "element": "string"
                             }
                           }
                         }
