@@ -136,6 +136,23 @@
                                 ]
                               },
                               "content": "Username"
+                            },
+                            "title": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        117,
+                                        40
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "string"
                             }
                           },
                           "attributes": {
@@ -212,6 +229,25 @@
                         },
                         {
                           "element": "member",
+                          "meta": {
+                            "title": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        177,
+                                        17
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "boolean"
+                            }
+                          },
                           "attributes": {
                             "typeAttributes": [
                               "required"
@@ -236,12 +272,31 @@
                               "content": "active"
                             },
                             "value": {
-                              "element": "boolean"
+                              "element": "string"
                             }
                           }
                         },
                         {
                           "element": "member",
+                          "meta": {
+                            "title": {
+                              "element": "string",
+                              "attributes": {
+                                "sourceMap": [
+                                  {
+                                    "element": "sourceMap",
+                                    "content": [
+                                      [
+                                        200,
+                                        15
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              },
+                              "content": "number"
+                            }
+                          },
                           "attributes": {
                             "typeAttributes": [
                               "required"
@@ -266,7 +321,7 @@
                               "content": "votes"
                             },
                             "value": {
-                              "element": "number"
+                              "element": "string"
                             }
                           }
                         }

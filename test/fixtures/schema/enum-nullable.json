@@ -7,7 +7,7 @@
         "classes": [
           "api"
         ],
-        "title": "API name"
+        "title": ""
       },
       "content": [
         {
@@ -16,78 +16,22 @@
             "classes": [
               "resourceGroup"
             ],
-            "title": "Users"
+            "title": ""
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": "User"
+                "title": "Resource"
               },
               "attributes": {
-                "href": "/users/{id}",
-                "hrefVariables": {
-                  "element": "hrefVariables",
-                  "content": [
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": "Database ID\n\nAdditional description",
-                        "title": "number"
-                      },
-                      "attributes": {
-                        "typeAttributes": [
-                          "optional"
-                        ]
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "id"
-                        },
-                        "value": {
-                          "element": "enum",
-                          "attributes": {
-                            "samples": [
-                              [
-                                {
-                                  "element": "string",
-                                  "content": "23"
-                                }
-                              ]
-                            ],
-                            "default": [
-                              {
-                                "element": "string",
-                                "content": "1"
-                              }
-                            ]
-                          },
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "37"
-                            },
-                            {
-                              "element": "string",
-                              "content": "1"
-                            },
-                            {
-                              "element": "string",
-                              "content": "23"
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  ]
-                }
+                "href": "/example"
               },
               "content": [
                 {
                   "element": "transition",
                   "meta": {
-                    "title": "Retrieve User"
+                    "title": "Action"
                   },
                   "content": [
                     {
@@ -125,6 +69,39 @@
                           },
                           "content": [
                             {
+                              "element": "dataStructure",
+                              "content": [
+                                {
+                                  "element": "object",
+                                  "content": [
+                                    {
+                                      "element": "member",
+                                      "attributes": {
+                                        "typeAttributes": [
+                                          "nullable"
+                                        ]
+                                      },
+                                      "content": {
+                                        "key": {
+                                          "element": "string",
+                                          "content": "address"
+                                        },
+                                        "value": {
+                                          "element": "enum",
+                                          "content": [
+                                            {
+                                              "element": "number",
+                                              "content": 4
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
                               "element": "asset",
                               "meta": {
                                 "classes": [
@@ -134,7 +111,19 @@
                               "attributes": {
                                 "contentType": "application/json"
                               },
-                              "content": "{}\n"
+                              "content": "{\n  \"address\": 4\n}"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBodySchema"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/schema+json"
+                              },
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"address\": {\n      \"type\": [\n        \"number\",\n        \"null\"\n      ],\n      \"enum\": [\n        4,\n        null\n      ]\n    }\n  }\n}"
                             }
                           ]
                         }

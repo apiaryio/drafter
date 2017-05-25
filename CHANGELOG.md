@@ -1,5 +1,45 @@
 # Drafter Changelog
 
+## 3.2.7
+
+## Bug Fixes
+
+* Fix JSON Schema for OneOf when required is present.
+  [#453](https://github.com/apiaryio/drafter/issues/453)
+
+* Allow fixed-type when the nested type in array is six characters.
+  [#463](https://github.com/apiaryio/drafter/issues/463)
+
+* Fix a few issues with codeblocks format.
+
+## 3.2.6
+
+### Bug Fixes
+
+* Fix JSON Schema support for nullable with enums.
+  [#455](https://github.com/apiaryio/drafter/issues/455)
+
+## 3.2.5
+
+### Bug Fixes
+
+* Action identifiers may now contain `(` and `)` characters.
+
+  ```apib
+  ## My Action (Deprecated) [GET]
+  ```
+
+## 3.2.4
+
+### Bug Fixes
+
+* Parameters values in API Elements are always serialized as API Element
+  strings. This ensure consistency with API Blueprint AST and to prevent
+  values being serialized differently. For example boolean of value `1` in API
+  Blueprint AST would be treated as a string and therefore be serialized as
+  `1`. However in API Elements it wouldn't be treated as truthy since `1` is
+  not equal to `true` and would be serialized as `false`.
+
 ## 3.2.3
 
 ### Bug Fixes
@@ -10,14 +50,12 @@
 * Fix support for escaped MSON-style parameters.
   [#445](https://github.com/apiaryio/drafter/issues/445)
 
-
 ## 3.2.2
 
 ### Bug Fixes
 
 * Ensure that escaped property names in MSON are not treated as markdown.
   [snowcrash#422](https://github.com/apiaryio/snowcrash/pull/422)
-
 
 ## 3.2.1
 
