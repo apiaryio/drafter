@@ -6,6 +6,8 @@ PYTHON ?= python
 GYP ?= ./ext/snowcrash/tools/gyp/gyp
 DESTDIR ?= /usr/local
 BINDIR ?= $(DESTDIR)/bin
+LIBDIR ?= $(DESTDIR)/lib
+INCLUDEDIR ?= $(DESTDIR)/include
 
 # Default to verbose builds
 V ?= 1
@@ -33,7 +35,11 @@ test-capi: config.gypi $(BUILD_DIR)/Makefile
 
 install: drafter
 	mkdir -p $(BINDIR)
+	mkdir -p $(INCLUDEDIR)/drafter
+	mkdir -p $(LIBDIR)
 	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/drafter $(BINDIR)/drafter
+	cp -f src/drafter.h $(INCLUDEDIR)/drafter/drafter.h
+	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/*.a $(LIBDIR)/
 
 config.gypi: configure
 	$(PYTHON) ./configure
