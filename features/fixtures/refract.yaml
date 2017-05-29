@@ -7,7 +7,7 @@ content:
         - "api"
       title: "<API name>"
     attributes:
-      meta:
+      metadata:
         -
           element: "member"
           meta:
