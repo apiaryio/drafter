@@ -97,6 +97,7 @@
                                                     {
                                                       "element": "ref",
                                                       "attributes": {
+                                                        "path": "content",
                                                         "resolved": {
                                                           "element": "object",
                                                           "meta": {
@@ -119,10 +120,7 @@
                                                           ]
                                                         }
                                                       },
-                                                      "content": {
-                                                        "href": "X",
-                                                        "path": "content"
-                                                      }
+                                                      "content": "X"
                                                     }
                                                   ]
                                                 }

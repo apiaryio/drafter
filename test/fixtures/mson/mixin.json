@@ -84,6 +84,7 @@
                     {
                       "element": "ref",
                       "attributes": {
+                        "path": "content",
                         "resolved": {
                           "element": "object",
                           "meta": {
@@ -118,10 +119,7 @@
                           ]
                         }
                       },
-                      "content": {
-                        "href": "Address",
-                        "path": "content"
-                      }
+                      "content": "Address"
                     },
                     {
                       "element": "member",
