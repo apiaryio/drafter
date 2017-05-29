@@ -541,7 +541,7 @@ namespace drafter {
         content.push_back(CopyToRefract(MAKE_NODE_INFO(blueprint, description)));
 
         if (!blueprint.node->metadata.empty()) {
-            ast->attributes[SerializeKey::Meta] = CollectionToRefract<refract::ArrayElement>(MAKE_NODE_INFO(blueprint, metadata), context, MetadataToRefract);
+            ast->attributes[SerializeKey::Metadata] = CollectionToRefract<refract::ArrayElement>(MAKE_NODE_INFO(blueprint, metadata), context, MetadataToRefract);
         }
 
         NodeInfoToElements(MAKE_NODE_INFO(blueprint, content.elements()), ElementToRefract, content, context);
