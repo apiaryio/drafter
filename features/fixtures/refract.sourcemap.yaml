@@ -17,7 +17,7 @@ content:
                   - 13
         content: "<API name>"
     attributes:
-      meta:
+      metadata:
         -
           element: "member"
           meta:

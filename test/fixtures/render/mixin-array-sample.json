@@ -80,10 +80,10 @@
                                     },
                                     {
                                       "element": "ref",
-                                      "content": {
-                                        "href": "RefSample",
+                                      "attributes": {
                                         "path": "content"
-                                      }
+                                      },
+                                      "content": "RefSample"
                                     },
                                     {
                                       "element": "string",

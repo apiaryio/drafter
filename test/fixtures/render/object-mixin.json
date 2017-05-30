@@ -89,10 +89,10 @@
                                     },
                                     {
                                       "element": "ref",
-                                      "content": {
-                                        "href": "Address",
+                                      "attributes": {
                                         "path": "content"
-                                      }
+                                      },
+                                      "content": "Address"
                                     }
                                   ]
                                 }

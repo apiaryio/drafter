@@ -10,7 +10,7 @@
         "title": "Example"
       },
       "attributes": {
-        "meta": [
+        "metadata": [
           {
             "element": "member",
             "meta": {

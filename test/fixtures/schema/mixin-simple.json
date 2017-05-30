@@ -219,10 +219,10 @@
                     },
                     {
                       "element": "ref",
-                      "content": {
-                        "href": "Notification Token Create",
+                      "attributes": {
                         "path": "content"
-                      }
+                      },
+                      "content": "Notification Token Create"
                     }
                   ]
                 }

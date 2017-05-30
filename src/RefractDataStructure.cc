@@ -1039,17 +1039,11 @@ namespace drafter {
 
     static refract::IElement* MsonMixinToRefract(const NodeInfo<mson::Mixin>& mixin)
     {
-        refract::ObjectElement* ref = new refract::ObjectElement;
+        refract::StringElement* ref = new refract::StringElement;
+
         ref->element(SerializeKey::Ref);
-        ref->renderType(refract::IElement::rCompact);
-
-        refract::MemberElement* href = new refract::MemberElement;
-        href->set(SerializeKey::Href, refract::IElement::Create(mixin.node->typeSpecification.name.symbol.literal));
-        ref->push_back(href);
-
-        refract::MemberElement* path = new refract::MemberElement;
-        path->set(SerializeKey::Path,refract::IElement::Create(SerializeKey::Content));
-        ref->push_back(path);
+        ref->set(mixin.node->typeSpecification.name.symbol.literal);
+        ref->attributes[SerializeKey::Path] = refract::IElement::Create(SerializeKey::Content);
 
         return ref;
     }

@@ -192,15 +192,9 @@ namespace refract
         template <typename T>
         T* ExpandReference(const T& e)
         {
-
             T* ref = static_cast<T*>(e.clone());
 
-            MemberElement *m = FindMemberByKey(e, "href");
-            if (!m) {
-                return NULL;
-            }
-
-            StringElement* href = TypeQueryVisitor::as<StringElement>(m->value.second);
+            StringElement* href = TypeQueryVisitor::as<StringElement>(ref);
             if (!href || href->value.empty()) {
                 return ref;
             }
@@ -237,8 +231,13 @@ namespace refract
 
         ExpandElement(const T& e, ExpandVisitor::Context* context) : result(NULL) {
 
-            if (!isReserved(e.element())) { // expand named type
+            std::string en = e.element();
+
+            if (!isReserved(en)) { // expand named type
                 result = context->ExpandNamedType(e);
+            }
+            else if (en == "ref") { // expand reference
+                result = context->ExpandReference(e);
             }
         }
 
@@ -286,9 +285,6 @@ namespace refract
 
             if (!isReserved(en)) { // expand named type
                 result = context->ExpandNamedType(e);
-            }
-            else if (en == "ref") { // expand reference
-                result = context->ExpandReference(e);
             }
             else { // walk throught members and expand them
                 result = context->ExpandMembers(e);

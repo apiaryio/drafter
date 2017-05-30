@@ -10,7 +10,7 @@
         "title": "test api"
       },
       "attributes": {
-        "meta": [
+        "metadata": [
           {
             "element": "member",
             "meta": {

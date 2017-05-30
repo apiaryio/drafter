@@ -76,10 +76,10 @@
                                   "content": [
                                     {
                                       "element": "ref",
-                                      "content": {
-                                        "href": "Example",
+                                      "attributes": {
                                         "path": "content"
-                                      }
+                                      },
+                                      "content": "Example"
                                     }
                                   ]
                                 }

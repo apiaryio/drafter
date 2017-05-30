@@ -10,7 +10,7 @@
         "title": "Example"
       },
       "attributes": {
-        "meta": [
+        "metadata": [
           {
             "element": "member",
             "meta": {
@@ -51,10 +51,10 @@
                   "content": [
                     {
                       "element": "ref",
-                      "content": {
-                        "href": "B",
+                      "attributes": {
                         "path": "content"
-                      }
+                      },
+                      "content": "B"
                     }
                   ]
                 }
