@@ -4,100 +4,169 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
         "title": {
           "element": "string",
           "attributes": {
-            "sourceMap": [
-              {
-                "element": "sourceMap",
-                "content": [
-                  [
-                    12,
-                    11
+            "sourceMap": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "sourceMap",
+                  "content": [
+                    {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "number",
+                          "content": 12
+                        },
+                        {
+                          "element": "number",
+                          "content": 11
+                        }
+                      ]
+                    }
                   ]
-                ]
-              }
-            ]
+                }
+              ]
+            }
           },
           "content": "test api"
         }
       },
       "attributes": {
-        "metadata": [
-          {
-            "element": "member",
-            "meta": {
-              "classes": [
-                "user"
-              ]
-            },
-            "attributes": {
-              "sourceMap": [
-                {
-                  "element": "sourceMap",
+        "metadata": {
+          "element": "array",
+          "content": [
+            {
+              "element": "member",
+              "meta": {
+                "classes": {
+                  "element": "array",
                   "content": [
-                    [
-                      0,
-                      12
-                    ]
+                    {
+                      "element": "string",
+                      "content": "user"
+                    }
                   ]
                 }
-              ]
-            },
-            "content": {
-              "key": {
-                "element": "string",
-                "content": "FORMAT"
               },
-              "value": {
-                "element": "string",
-                "content": "1A"
+              "attributes": {
+                "sourceMap": {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "sourceMap",
+                      "content": [
+                        {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "number",
+                              "content": 0
+                            },
+                            {
+                              "element": "number",
+                              "content": 12
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "FORMAT"
+                },
+                "value": {
+                  "element": "string",
+                  "content": "1A"
+                }
               }
             }
-          }
-        ]
+          ]
+        }
       },
       "content": [
         {
           "element": "copy",
           "attributes": {
-            "sourceMap": [
-              {
-                "element": "sourceMap",
-                "content": [
-                  [
-                    23,
-                    38
+            "sourceMap": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "sourceMap",
+                  "content": [
+                    {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "number",
+                          "content": 23
+                        },
+                        {
+                          "element": "number",
+                          "content": 38
+                        }
+                      ]
+                    }
                   ]
-                ]
-              }
-            ]
+                }
+              ]
+            }
           },
           "content": "this is a description of the test api"
         },
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
             "title": {
               "element": "string",
               "attributes": {
-                "sourceMap": [
-                  {
-                    "element": "sourceMap",
-                    "content": [
-                      [
-                        61,
-                        13
+                "sourceMap": {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "sourceMap",
+                      "content": [
+                        {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "number",
+                              "content": 61
+                            },
+                            {
+                              "element": "number",
+                              "content": 13
+                            }
+                          ]
+                        }
                       ]
-                    ]
-                  }
-                ]
+                    }
+                  ]
+                }
               },
               "content": "test"
             }
@@ -106,17 +175,29 @@
             {
               "element": "copy",
               "attributes": {
-                "sourceMap": [
-                  {
-                    "element": "sourceMap",
-                    "content": [
-                      [
-                        74,
-                        13
+                "sourceMap": {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "sourceMap",
+                      "content": [
+                        {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "number",
+                              "content": 74
+                            },
+                            {
+                              "element": "number",
+                              "content": 13
+                            }
+                          ]
+                        }
                       ]
-                    ]
-                  }
-                ]
+                    }
+                  ]
+                }
               },
               "content": "A test group"
             },
@@ -126,17 +207,29 @@
                 "title": {
                   "element": "string",
                   "attributes": {
-                    "sourceMap": [
-                      {
-                        "element": "sourceMap",
-                        "content": [
-                          [
-                            87,
-                            24
+                    "sourceMap": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "sourceMap",
+                          "content": [
+                            {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "number",
+                                  "content": 87
+                                },
+                                {
+                                  "element": "number",
+                                  "content": 24
+                                }
+                              ]
+                            }
                           ]
-                        ]
-                      }
-                    ]
+                        }
+                      ]
+                    }
                   },
                   "content": "test"
                 }
@@ -145,17 +238,29 @@
                 "href": {
                   "element": "string",
                   "attributes": {
-                    "sourceMap": [
-                      {
-                        "element": "sourceMap",
-                        "content": [
-                          [
-                            87,
-                            24
+                    "sourceMap": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "sourceMap",
+                          "content": [
+                            {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "number",
+                                  "content": 87
+                                },
+                                {
+                                  "element": "number",
+                                  "content": 24
+                                }
+                              ]
+                            }
                           ]
-                        ]
-                      }
-                    ]
+                        }
+                      ]
+                    }
                   },
                   "content": "/test/{id}[2]"
                 }
@@ -164,17 +269,29 @@
                 {
                   "element": "copy",
                   "attributes": {
-                    "sourceMap": [
-                      {
-                        "element": "sourceMap",
-                        "content": [
-                          [
-                            111,
-                            20
+                    "sourceMap": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "sourceMap",
+                          "content": [
+                            {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "number",
+                                  "content": 111
+                                },
+                                {
+                                  "element": "number",
+                                  "content": 20
+                                }
+                              ]
+                            }
                           ]
-                        ]
-                      }
-                    ]
+                        }
+                      ]
+                    }
                   },
                   "content": "A test uri template"
                 }
@@ -187,23 +304,44 @@
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 12,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                87,
-                24
+        "code": {
+          "element": "number",
+          "content": 12
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 87
+                    },
+                    {
+                      "element": "number",
+                      "content": 24
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "The URI template contains square brackets, please percent encode square brackets as %5B and %5D"
     }

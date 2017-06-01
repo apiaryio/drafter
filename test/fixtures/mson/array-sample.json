@@ -4,18 +4,33 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -24,32 +39,47 @@
                 {
                   "element": "array",
                   "meta": {
-                    "id": "ArraySample",
-                    "description": "description"
+                    "id": {
+                      "element": "string",
+                      "content": "ArraySample"
+                    },
+                    "description": {
+                      "element": "string",
+                      "content": "description"
+                    }
                   },
                   "attributes": {
-                    "samples": [
-                      [
+                    "samples": {
+                      "element": "array",
+                      "content": [
                         {
-                          "element": "string",
-                          "content": "d"
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "d"
+                            },
+                            {
+                              "element": "string",
+                              "content": "e"
+                            }
+                          ]
                         },
                         {
-                          "element": "string",
-                          "content": "e"
-                        }
-                      ],
-                      [
-                        {
-                          "element": "string",
-                          "content": "h"
-                        },
-                        {
-                          "element": "string",
-                          "content": "j"
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "h"
+                            },
+                            {
+                              "element": "string",
+                              "content": "j"
+                            }
+                          ]
                         }
                       ]
-                    ]
+                    }
                   },
                   "content": [
                     {

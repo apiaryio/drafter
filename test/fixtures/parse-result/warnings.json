@@ -4,34 +4,61 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": ""
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": ""
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": ""
+                "title": {
+                  "element": "string",
+                  "content": ""
+                }
               },
               "attributes": {
-                "href": "/"
+                "href": {
+                  "element": "string",
+                  "content": "/"
+                }
               },
               "content": [
                 {
                   "element": "transition",
                   "meta": {
-                    "title": ""
+                    "title": {
+                      "element": "string",
+                      "content": ""
+                    }
                   },
                   "content": [
                     {
@@ -40,22 +67,34 @@
                         {
                           "element": "httpRequest",
                           "attributes": {
-                            "method": "GET"
+                            "method": {
+                              "element": "string",
+                              "content": "GET"
+                            }
                           },
                           "content": []
                         },
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "204"
+                            "statusCode": {
+                              "element": "string",
+                              "content": "204"
+                            }
                           },
                           "content": [
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "content": "{}\n"
                             }
@@ -74,46 +113,88 @@
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 3,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                8,
-                13
+        "code": {
+          "element": "number",
+          "content": 3
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 8
+                    },
+                    {
+                      "element": "number",
+                      "content": 13
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "no parameters specified, expected a nested list of parameters, one parameter per list item"
     },
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 6,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                21,
-                27
+        "code": {
+          "element": "number",
+          "content": 6
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 21
+                    },
+                    {
+                      "element": "number",
+                      "content": 27
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "the 204 response MUST NOT include a message-body"
     }

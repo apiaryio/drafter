@@ -4,34 +4,61 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": ""
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": ""
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": ""
+                "title": {
+                  "element": "string",
+                  "content": ""
+                }
               },
               "attributes": {
-                "href": "/"
+                "href": {
+                  "element": "string",
+                  "content": "/"
+                }
               },
               "content": [
                 {
                   "element": "transition",
                   "meta": {
-                    "title": ""
+                    "title": {
+                      "element": "string",
+                      "content": ""
+                    }
                   },
                   "content": [
                     {
@@ -40,14 +67,20 @@
                         {
                           "element": "httpRequest",
                           "attributes": {
-                            "method": "GET"
+                            "method": {
+                              "element": "string",
+                              "content": "GET"
+                            }
                           },
                           "content": []
                         },
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "200",
+                            "statusCode": {
+                              "element": "string",
+                              "content": "200"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -84,64 +117,73 @@
                                         "value": {
                                           "element": "object",
                                           "attributes": {
-                                            "samples": [
-                                              [
+                                            "samples": {
+                                              "element": "array",
+                                              "content": [
                                                 {
-                                                  "element": "member",
-                                                  "content": {
-                                                    "key": {
-                                                      "element": "string",
-                                                      "content": "p1"
+                                                  "element": "object",
+                                                  "content": [
+                                                    {
+                                                      "element": "member",
+                                                      "content": {
+                                                        "key": {
+                                                          "element": "string",
+                                                          "content": "p1"
+                                                        },
+                                                        "value": {
+                                                          "element": "string",
+                                                          "content": "x"
+                                                        }
+                                                      }
                                                     },
-                                                    "value": {
-                                                      "element": "string",
-                                                      "content": "x"
+                                                    {
+                                                      "element": "member",
+                                                      "content": {
+                                                        "key": {
+                                                          "element": "string",
+                                                          "content": "p2"
+                                                        },
+                                                        "value": {
+                                                          "element": "string",
+                                                          "content": "y"
+                                                        }
+                                                      }
                                                     }
-                                                  }
+                                                  ]
                                                 },
                                                 {
-                                                  "element": "member",
-                                                  "content": {
-                                                    "key": {
-                                                      "element": "string",
-                                                      "content": "p2"
+                                                  "element": "object",
+                                                  "content": [
+                                                    {
+                                                      "element": "member",
+                                                      "content": {
+                                                        "key": {
+                                                          "element": "string",
+                                                          "content": "p1"
+                                                        },
+                                                        "value": {
+                                                          "element": "string",
+                                                          "content": "1"
+                                                        }
+                                                      }
                                                     },
-                                                    "value": {
-                                                      "element": "string",
-                                                      "content": "y"
+                                                    {
+                                                      "element": "member",
+                                                      "content": {
+                                                        "key": {
+                                                          "element": "string",
+                                                          "content": "p2"
+                                                        },
+                                                        "value": {
+                                                          "element": "string",
+                                                          "content": "2"
+                                                        }
+                                                      }
                                                     }
-                                                  }
-                                                }
-                                              ],
-                                              [
-                                                {
-                                                  "element": "member",
-                                                  "content": {
-                                                    "key": {
-                                                      "element": "string",
-                                                      "content": "p1"
-                                                    },
-                                                    "value": {
-                                                      "element": "string",
-                                                      "content": "1"
-                                                    }
-                                                  }
-                                                },
-                                                {
-                                                  "element": "member",
-                                                  "content": {
-                                                    "key": {
-                                                      "element": "string",
-                                                      "content": "p2"
-                                                    },
-                                                    "value": {
-                                                      "element": "string",
-                                                      "content": "2"
-                                                    }
-                                                  }
+                                                  ]
                                                 }
                                               ]
-                                            ]
+                                            }
                                           },
                                           "content": [
                                             {
@@ -179,24 +221,42 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
                               },
                               "content": "{\n  \"o1\": {\n    \"p1\": \"\",\n    \"p2\": \"\"\n  }\n}"
                             },
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/schema+json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/schema+json"
+                                }
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"o1\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"p1\": {\n          \"type\": \"string\"\n        },\n        \"p2\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}"
                             }

@@ -4,34 +4,61 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": ""
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": ""
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": "Resource"
+                "title": {
+                  "element": "string",
+                  "content": "Resource"
+                }
               },
               "attributes": {
-                "href": "/example"
+                "href": {
+                  "element": "string",
+                  "content": "/example"
+                }
               },
               "content": [
                 {
                   "element": "transition",
                   "meta": {
-                    "title": "Action"
+                    "title": {
+                      "element": "string",
+                      "content": "Action"
+                    }
                   },
                   "content": [
                     {
@@ -40,14 +67,20 @@
                         {
                           "element": "httpRequest",
                           "attributes": {
-                            "method": "GET"
+                            "method": {
+                              "element": "string",
+                              "content": "GET"
+                            }
                           },
                           "content": []
                         },
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "200",
+                            "statusCode": {
+                              "element": "string",
+                              "content": "200"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -77,7 +110,10 @@
                                     {
                                       "element": "member",
                                       "meta": {
-                                        "description": "Final Description"
+                                        "description": {
+                                          "element": "string",
+                                          "content": "Final Description"
+                                        }
                                       },
                                       "content": {
                                         "key": {
@@ -110,24 +146,42 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
                               },
                               "content": "{\n  \"name\": \"Kyle\",\n  \"other\": 1\n}"
                             },
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/schema+json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/schema+json"
+                                }
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"name\": {\n      \"type\": \"string\",\n      \"description\": \"Final Description\"\n    },\n    \"other\": {\n      \"type\": \"number\"\n    }\n  }\n}"
                             }
@@ -144,9 +198,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -155,13 +215,19 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "Person"
+                    "id": {
+                      "element": "string",
+                      "content": "Person"
+                    }
                   },
                   "content": [
                     {
                       "element": "member",
                       "meta": {
-                        "description": "Original Description"
+                        "description": {
+                          "element": "string",
+                          "content": "Original Description"
+                        }
                       },
                       "content": {
                         "key": {

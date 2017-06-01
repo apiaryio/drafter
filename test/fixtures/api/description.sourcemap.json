@@ -4,23 +4,41 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
         "title": {
           "element": "string",
           "attributes": {
-            "sourceMap": [
-              {
-                "element": "sourceMap",
-                "content": [
-                  [
-                    0,
-                    12
+            "sourceMap": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "sourceMap",
+                  "content": [
+                    {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "number",
+                          "content": 0
+                        },
+                        {
+                          "element": "number",
+                          "content": 12
+                        }
+                      ]
+                    }
                   ]
-                ]
-              }
-            ]
+                }
+              ]
+            }
           },
           "content": "API name"
         }
@@ -29,17 +47,29 @@
         {
           "element": "copy",
           "attributes": {
-            "sourceMap": [
-              {
-                "element": "sourceMap",
-                "content": [
-                  [
-                    12,
-                    27
+            "sourceMap": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "sourceMap",
+                  "content": [
+                    {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "number",
+                          "content": 12
+                        },
+                        {
+                          "element": "number",
+                          "content": 27
+                        }
+                      ]
+                    }
                   ]
-                ]
-              }
-            ]
+                }
+              ]
+            }
           },
           "content": "This is an API description"
         }

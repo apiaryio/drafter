@@ -4,23 +4,41 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
         "title": {
           "element": "string",
           "attributes": {
-            "sourceMap": [
-              {
-                "element": "sourceMap",
-                "content": [
-                  [
-                    0,
-                    12
+            "sourceMap": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "sourceMap",
+                  "content": [
+                    {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "number",
+                          "content": 0
+                        },
+                        {
+                          "element": "number",
+                          "content": 12
+                        }
+                      ]
+                    }
                   ]
-                ]
-              }
-            ]
+                }
+              ]
+            }
           },
           "content": "API name"
         }
@@ -29,23 +47,41 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
             "title": {
               "element": "string",
               "attributes": {
-                "sourceMap": [
-                  {
-                    "element": "sourceMap",
-                    "content": [
-                      [
-                        12,
-                        15
+                "sourceMap": {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "sourceMap",
+                      "content": [
+                        {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "number",
+                              "content": 12
+                            },
+                            {
+                              "element": "number",
+                              "content": 15
+                            }
+                          ]
+                        }
                       ]
-                    ]
-                  }
-                ]
+                    }
+                  ]
+                }
               },
               "content": "Users"
             }
@@ -57,17 +93,29 @@
                 "title": {
                   "element": "string",
                   "attributes": {
-                    "sourceMap": [
-                      {
-                        "element": "sourceMap",
-                        "content": [
-                          [
-                            27,
-                            18
+                    "sourceMap": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "sourceMap",
+                          "content": [
+                            {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "number",
+                                  "content": 27
+                                },
+                                {
+                                  "element": "number",
+                                  "content": 18
+                                }
+                              ]
+                            }
                           ]
-                        ]
-                      }
-                    ]
+                        }
+                      ]
+                    }
                   },
                   "content": "User"
                 }
@@ -76,17 +124,29 @@
                 "href": {
                   "element": "string",
                   "attributes": {
-                    "sourceMap": [
-                      {
-                        "element": "sourceMap",
-                        "content": [
-                          [
-                            27,
-                            18
+                    "sourceMap": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "sourceMap",
+                          "content": [
+                            {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "number",
+                                  "content": 27
+                                },
+                                {
+                                  "element": "number",
+                                  "content": 18
+                                }
+                              ]
+                            }
                           ]
-                        ]
-                      }
-                    ]
+                        }
+                      ]
+                    }
                   },
                   "content": "/users"
                 }
@@ -95,17 +155,29 @@
                 {
                   "element": "copy",
                   "attributes": {
-                    "sourceMap": [
-                      {
-                        "element": "sourceMap",
-                        "content": [
-                          [
-                            45,
-                            15
+                    "sourceMap": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "sourceMap",
+                          "content": [
+                            {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "number",
+                                  "content": 45
+                                },
+                                {
+                                  "element": "number",
+                                  "content": 15
+                                }
+                              ]
+                            }
                           ]
-                        ]
-                      }
-                    ]
+                        }
+                      ]
+                    }
                   },
                   "content": "Users resource"
                 }

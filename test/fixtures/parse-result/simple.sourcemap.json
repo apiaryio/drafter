@@ -4,41 +4,74 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": ""
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": ""
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": ""
+                "title": {
+                  "element": "string",
+                  "content": ""
+                }
               },
               "attributes": {
                 "href": {
                   "element": "string",
                   "attributes": {
-                    "sourceMap": [
-                      {
-                        "element": "sourceMap",
-                        "content": [
-                          [
-                            0,
-                            8
+                    "sourceMap": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "sourceMap",
+                          "content": [
+                            {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "number",
+                                  "content": 0
+                                },
+                                {
+                                  "element": "number",
+                                  "content": 8
+                                }
+                              ]
+                            }
                           ]
-                        ]
-                      }
-                    ]
+                        }
+                      ]
+                    }
                   },
                   "content": "/"
                 }
@@ -47,7 +80,10 @@
                 {
                   "element": "transition",
                   "meta": {
-                    "title": ""
+                    "title": {
+                      "element": "string",
+                      "content": ""
+                    }
                   },
                   "content": [
                     {
@@ -59,17 +95,29 @@
                             "method": {
                               "element": "string",
                               "attributes": {
-                                "sourceMap": [
-                                  {
-                                    "element": "sourceMap",
-                                    "content": [
-                                      [
-                                        0,
-                                        8
+                                "sourceMap": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "sourceMap",
+                                      "content": [
+                                        {
+                                          "element": "array",
+                                          "content": [
+                                            {
+                                              "element": "number",
+                                              "content": 0
+                                            },
+                                            {
+                                              "element": "number",
+                                              "content": 8
+                                            }
+                                          ]
+                                        }
                                       ]
-                                    ]
-                                  }
-                                ]
+                                    }
+                                  ]
+                                }
                               },
                               "content": "GET"
                             }
@@ -82,31 +130,55 @@
                             "statusCode": {
                               "element": "string",
                               "attributes": {
-                                "sourceMap": [
-                                  {
-                                    "element": "sourceMap",
-                                    "content": [
-                                      [
-                                        10,
-                                        13
+                                "sourceMap": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "sourceMap",
+                                      "content": [
+                                        {
+                                          "element": "array",
+                                          "content": [
+                                            {
+                                              "element": "number",
+                                              "content": 10
+                                            },
+                                            {
+                                              "element": "number",
+                                              "content": 13
+                                            }
+                                          ]
+                                        }
                                       ]
-                                    ]
-                                  }
-                                ]
+                                    }
+                                  ]
+                                }
                               },
                               "content": "204"
                             },
-                            "sourceMap": [
-                              {
-                                "element": "sourceMap",
-                                "content": [
-                                  [
-                                    10,
-                                    13
+                            "sourceMap": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "sourceMap",
+                                  "content": [
+                                    {
+                                      "element": "array",
+                                      "content": [
+                                        {
+                                          "element": "number",
+                                          "content": 10
+                                        },
+                                        {
+                                          "element": "number",
+                                          "content": 13
+                                        }
+                                      ]
+                                    }
                                   ]
-                                ]
-                              }
-                            ]
+                                }
+                              ]
+                            }
                           },
                           "content": []
                         }

@@ -4,34 +4,61 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": ""
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": ""
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": ""
+                "title": {
+                  "element": "string",
+                  "content": ""
+                }
               },
               "attributes": {
-                "href": "/"
+                "href": {
+                  "element": "string",
+                  "content": "/"
+                }
               },
               "content": [
                 {
                   "element": "transition",
                   "meta": {
-                    "title": ""
+                    "title": {
+                      "element": "string",
+                      "content": ""
+                    }
                   },
                   "content": [
                     {
@@ -40,14 +67,20 @@
                         {
                           "element": "httpRequest",
                           "attributes": {
-                            "method": "GET"
+                            "method": {
+                              "element": "string",
+                              "content": "GET"
+                            }
                           },
                           "content": []
                         },
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "200",
+                            "statusCode": {
+                              "element": "string",
+                              "content": "200"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -77,15 +110,24 @@
                                     {
                                       "element": "member",
                                       "attributes": {
-                                        "typeAttributes": [
-                                          "fixedType"
-                                        ]
+                                        "typeAttributes": {
+                                          "element": "array",
+                                          "content": [
+                                            {
+                                              "element": "string",
+                                              "content": "fixedType"
+                                            }
+                                          ]
+                                        }
                                       },
                                       "content": {
                                         "key": {
                                           "element": "string",
                                           "attributes": {
-                                            "variable": true
+                                            "variable": {
+                                              "element": "boolean",
+                                              "content": true
+                                            }
                                           },
                                           "content": "y"
                                         },
@@ -98,9 +140,15 @@
                                                 {
                                                   "element": "member",
                                                   "attributes": {
-                                                    "typeAttributes": [
-                                                      "required"
-                                                    ]
+                                                    "typeAttributes": {
+                                                      "element": "array",
+                                                      "content": [
+                                                        {
+                                                          "element": "string",
+                                                          "content": "required"
+                                                        }
+                                                      ]
+                                                    }
                                                   },
                                                   "content": {
                                                     "key": {
@@ -125,24 +173,42 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
                               },
                               "content": "{\n  \"y\": [\n    {\n      \"name\": \"\"\n    }\n  ]\n}"
                             },
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/schema+json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/schema+json"
+                                }
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"$ref\": \"#/definitions/y\",\n  \"definitions\": {\n    \"y\": {\n      \"type\": \"object\",\n      \"patternProperties\": {\n        \"\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"name\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"name\"\n            ]\n          }\n        }\n      }\n    }\n  }\n}"
                             }

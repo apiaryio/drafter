@@ -4,34 +4,61 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": ""
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": ""
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": ""
+                "title": {
+                  "element": "string",
+                  "content": ""
+                }
               },
               "attributes": {
-                "href": "/"
+                "href": {
+                  "element": "string",
+                  "content": "/"
+                }
               },
               "content": [
                 {
                   "element": "transition",
                   "meta": {
-                    "title": ""
+                    "title": {
+                      "element": "string",
+                      "content": ""
+                    }
                   },
                   "content": [
                     {
@@ -40,14 +67,20 @@
                         {
                           "element": "httpRequest",
                           "attributes": {
-                            "method": "GET"
+                            "method": {
+                              "element": "string",
+                              "content": "GET"
+                            }
                           },
                           "content": []
                         },
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "200",
+                            "statusCode": {
+                              "element": "string",
+                              "content": "200"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -84,24 +117,27 @@
                                         "value": {
                                           "element": "array",
                                           "attributes": {
-                                            "default": [
-                                              {
-                                                "element": "string",
-                                                "content": "d"
-                                              },
-                                              {
-                                                "element": "string",
-                                                "content": "f"
-                                              },
-                                              {
-                                                "element": "string",
-                                                "content": "l"
-                                              },
-                                              {
-                                                "element": "string",
-                                                "content": "t"
-                                              }
-                                            ]
+                                            "default": {
+                                              "element": "array",
+                                              "content": [
+                                                {
+                                                  "element": "string",
+                                                  "content": "d"
+                                                },
+                                                {
+                                                  "element": "string",
+                                                  "content": "f"
+                                                },
+                                                {
+                                                  "element": "string",
+                                                  "content": "l"
+                                                },
+                                                {
+                                                  "element": "string",
+                                                  "content": "t"
+                                                }
+                                              ]
+                                            }
                                           }
                                         }
                                       }
@@ -116,26 +152,32 @@
                                         "value": {
                                           "element": "array",
                                           "attributes": {
-                                            "samples": [
-                                              [
+                                            "samples": {
+                                              "element": "array",
+                                              "content": [
                                                 {
-                                                  "element": "string",
-                                                  "content": "s"
-                                                },
-                                                {
-                                                  "element": "string",
-                                                  "content": "m"
-                                                },
-                                                {
-                                                  "element": "string",
-                                                  "content": "p"
-                                                },
-                                                {
-                                                  "element": "string",
-                                                  "content": "l"
+                                                  "element": "array",
+                                                  "content": [
+                                                    {
+                                                      "element": "string",
+                                                      "content": "s"
+                                                    },
+                                                    {
+                                                      "element": "string",
+                                                      "content": "m"
+                                                    },
+                                                    {
+                                                      "element": "string",
+                                                      "content": "p"
+                                                    },
+                                                    {
+                                                      "element": "string",
+                                                      "content": "l"
+                                                    }
+                                                  ]
                                                 }
                                               ]
-                                            ]
+                                            }
                                           }
                                         }
                                       }
@@ -150,40 +192,49 @@
                                         "value": {
                                           "element": "array",
                                           "attributes": {
-                                            "samples": [
-                                              [
+                                            "samples": {
+                                              "element": "array",
+                                              "content": [
                                                 {
-                                                  "element": "string",
-                                                  "content": "1"
+                                                  "element": "array",
+                                                  "content": [
+                                                    {
+                                                      "element": "string",
+                                                      "content": "1"
+                                                    },
+                                                    {
+                                                      "element": "string",
+                                                      "content": "2"
+                                                    },
+                                                    {
+                                                      "element": "string",
+                                                      "content": "3"
+                                                    }
+                                                  ]
                                                 },
                                                 {
-                                                  "element": "string",
-                                                  "content": "2"
-                                                },
-                                                {
-                                                  "element": "string",
-                                                  "content": "3"
-                                                }
-                                              ],
-                                              [
-                                                {
-                                                  "element": "string",
-                                                  "content": "4"
-                                                },
-                                                {
-                                                  "element": "string",
-                                                  "content": "5"
-                                                },
-                                                {
-                                                  "element": "string",
-                                                  "content": "6"
-                                                },
-                                                {
-                                                  "element": "string",
-                                                  "content": "7"
+                                                  "element": "array",
+                                                  "content": [
+                                                    {
+                                                      "element": "string",
+                                                      "content": "4"
+                                                    },
+                                                    {
+                                                      "element": "string",
+                                                      "content": "5"
+                                                    },
+                                                    {
+                                                      "element": "string",
+                                                      "content": "6"
+                                                    },
+                                                    {
+                                                      "element": "string",
+                                                      "content": "7"
+                                                    }
+                                                  ]
                                                 }
                                               ]
-                                            ]
+                                            }
                                           }
                                         }
                                       }
@@ -195,24 +246,42 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
                               },
                               "content": "{\n  \"a1\": [\n    \"d\",\n    \"f\",\n    \"l\",\n    \"t\"\n  ],\n  \"a2\": [\n    \"s\",\n    \"m\",\n    \"p\",\n    \"l\"\n  ],\n  \"a3\": [\n    \"1\",\n    \"2\",\n    \"3\"\n  ]\n}"
                             },
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/schema+json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/schema+json"
+                                }
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"a1\": {\n      \"type\": \"array\",\n      \"default\": [\n        \"d\",\n        \"f\",\n        \"l\",\n        \"t\"\n      ]\n    },\n    \"a2\": {\n      \"type\": \"array\"\n    },\n    \"a3\": {\n      \"type\": \"array\"\n    }\n  }\n}"
                             }

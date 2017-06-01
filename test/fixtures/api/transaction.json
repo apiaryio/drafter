@@ -4,34 +4,61 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "API name"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "API name"
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": "Users"
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": "Users"
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": "User"
+                "title": {
+                  "element": "string",
+                  "content": "User"
+                }
               },
               "attributes": {
-                "href": "/users"
+                "href": {
+                  "element": "string",
+                  "content": "/users"
+                }
               },
               "content": [
                 {
                   "element": "transition",
                   "meta": {
-                    "title": "List all users"
+                    "title": {
+                      "element": "string",
+                      "content": "List all users"
+                    }
                   },
                   "content": [
                     {
@@ -40,18 +67,30 @@
                         {
                           "element": "httpRequest",
                           "meta": {
-                            "title": "Normal"
+                            "title": {
+                              "element": "string",
+                              "content": "Normal"
+                            }
                           },
                           "attributes": {
-                            "method": "GET"
+                            "method": {
+                              "element": "string",
+                              "content": "GET"
+                            }
                           },
                           "content": [
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "content": "{}\n"
                             }
@@ -60,15 +99,24 @@
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "200"
+                            "statusCode": {
+                              "element": "string",
+                              "content": "200"
+                            }
                           },
                           "content": [
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "content": "[]\n"
                             }

@@ -4,40 +4,64 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "attributes": {
-        "metadata": [
-          {
-            "element": "member",
-            "meta": {
-              "classes": [
-                "user"
-              ]
-            },
-            "content": {
-              "key": {
-                "element": "string",
-                "content": "FORMAT"
+        "metadata": {
+          "element": "array",
+          "content": [
+            {
+              "element": "member",
+              "meta": {
+                "classes": {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "string",
+                      "content": "user"
+                    }
+                  ]
+                }
               },
-              "value": {
-                "element": "string",
-                "content": "1A"
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "FORMAT"
+                },
+                "value": {
+                  "element": "string",
+                  "content": "1A"
+                }
               }
             }
-          }
-        ]
+          ]
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -46,7 +70,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "A"
+                    "id": {
+                      "element": "string",
+                      "content": "A"
+                    }
                   }
                 }
               ]
@@ -57,7 +84,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "B"
+                    "id": {
+                      "element": "string",
+                      "content": "B"
+                    }
                   }
                 }
               ]
@@ -68,7 +98,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "C"
+                    "id": {
+                      "element": "string",
+                      "content": "C"
+                    }
                   }
                 }
               ]
@@ -79,7 +112,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "D"
+                    "id": {
+                      "element": "string",
+                      "content": "D"
+                    }
                   }
                 }
               ]
@@ -90,7 +126,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "E"
+                    "id": {
+                      "element": "string",
+                      "content": "E"
+                    }
                   }
                 }
               ]
@@ -101,7 +140,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "F"
+                    "id": {
+                      "element": "string",
+                      "content": "F"
+                    }
                   }
                 }
               ]
@@ -112,7 +154,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "G"
+                    "id": {
+                      "element": "string",
+                      "content": "G"
+                    }
                   }
                 }
               ]
@@ -123,7 +168,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "H"
+                    "id": {
+                      "element": "string",
+                      "content": "H"
+                    }
                   }
                 }
               ]
@@ -134,7 +182,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "I"
+                    "id": {
+                      "element": "string",
+                      "content": "I"
+                    }
                   }
                 }
               ]
@@ -145,7 +196,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "J"
+                    "id": {
+                      "element": "string",
+                      "content": "J"
+                    }
                   }
                 }
               ]
@@ -156,7 +210,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "K"
+                    "id": {
+                      "element": "string",
+                      "content": "K"
+                    }
                   }
                 }
               ]
@@ -167,7 +224,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "L"
+                    "id": {
+                      "element": "string",
+                      "content": "L"
+                    }
                   }
                 }
               ]
@@ -178,7 +238,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "M"
+                    "id": {
+                      "element": "string",
+                      "content": "M"
+                    }
                   }
                 }
               ]
@@ -189,7 +252,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "N"
+                    "id": {
+                      "element": "string",
+                      "content": "N"
+                    }
                   }
                 }
               ]
@@ -200,7 +266,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O"
+                    "id": {
+                      "element": "string",
+                      "content": "O"
+                    }
                   }
                 }
               ]
@@ -211,7 +280,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "P"
+                    "id": {
+                      "element": "string",
+                      "content": "P"
+                    }
                   }
                 }
               ]
@@ -222,7 +294,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "Q"
+                    "id": {
+                      "element": "string",
+                      "content": "Q"
+                    }
                   }
                 }
               ]

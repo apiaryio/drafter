@@ -4,34 +4,61 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": ""
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": ""
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": "Resource"
+                "title": {
+                  "element": "string",
+                  "content": "Resource"
+                }
               },
               "attributes": {
-                "href": "/example"
+                "href": {
+                  "element": "string",
+                  "content": "/example"
+                }
               },
               "content": [
                 {
                   "element": "transition",
                   "meta": {
-                    "title": "Action"
+                    "title": {
+                      "element": "string",
+                      "content": "Action"
+                    }
                   },
                   "content": [
                     {
@@ -40,14 +67,20 @@
                         {
                           "element": "httpRequest",
                           "attributes": {
-                            "method": "GET"
+                            "method": {
+                              "element": "string",
+                              "content": "GET"
+                            }
                           },
                           "content": []
                         },
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "200",
+                            "statusCode": {
+                              "element": "string",
+                              "content": "200"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -77,9 +110,15 @@
                                     {
                                       "element": "member",
                                       "attributes": {
-                                        "typeAttributes": [
-                                          "required"
-                                        ]
+                                        "typeAttributes": {
+                                          "element": "array",
+                                          "content": [
+                                            {
+                                              "element": "string",
+                                              "content": "required"
+                                            }
+                                          ]
+                                        }
                                       },
                                       "content": {
                                         "key": {
@@ -108,9 +147,15 @@
                                     {
                                       "element": "member",
                                       "attributes": {
-                                        "typeAttributes": [
-                                          "optional"
-                                        ]
+                                        "typeAttributes": {
+                                          "element": "array",
+                                          "content": [
+                                            {
+                                              "element": "string",
+                                              "content": "optional"
+                                            }
+                                          ]
+                                        }
                                       },
                                       "content": {
                                         "key": {
@@ -184,9 +229,15 @@
                                             {
                                               "element": "member",
                                               "attributes": {
-                                                "typeAttributes": [
-                                                  "required"
-                                                ]
+                                                "typeAttributes": {
+                                                  "element": "array",
+                                                  "content": [
+                                                    {
+                                                      "element": "string",
+                                                      "content": "required"
+                                                    }
+                                                  ]
+                                                }
                                               },
                                               "content": {
                                                 "key": {
@@ -201,9 +252,15 @@
                                             {
                                               "element": "member",
                                               "attributes": {
-                                                "typeAttributes": [
-                                                  "required"
-                                                ]
+                                                "typeAttributes": {
+                                                  "element": "array",
+                                                  "content": [
+                                                    {
+                                                      "element": "string",
+                                                      "content": "required"
+                                                    }
+                                                  ]
+                                                }
                                               },
                                               "content": {
                                                 "key": {
@@ -218,9 +275,15 @@
                                             {
                                               "element": "member",
                                               "attributes": {
-                                                "typeAttributes": [
-                                                  "required"
-                                                ]
+                                                "typeAttributes": {
+                                                  "element": "array",
+                                                  "content": [
+                                                    {
+                                                      "element": "string",
+                                                      "content": "required"
+                                                    }
+                                                  ]
+                                                }
                                               },
                                               "content": {
                                                 "key": {
@@ -273,9 +336,15 @@
                                             {
                                               "element": "member",
                                               "attributes": {
-                                                "typeAttributes": [
-                                                  "required"
-                                                ]
+                                                "typeAttributes": {
+                                                  "element": "array",
+                                                  "content": [
+                                                    {
+                                                      "element": "string",
+                                                      "content": "required"
+                                                    }
+                                                  ]
+                                                }
                                               },
                                               "content": {
                                                 "key": {
@@ -308,24 +377,42 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
                               },
                               "content": "{\n  \"id\": \"1\",\n  \"name\": \"A green door\",\n  \"price\": 12.5,\n  \"tags\": [\n    \"home\",\n    \"green\"\n  ],\n  \"vector\": [\n    \"1\",\n    \"2\",\n    \"3\"\n  ],\n  \"address\": {\n    \"street\": \"\",\n    \"number\": 0,\n    \"zip_code\": \"\",\n    \"state\": {\n      \"name\": \"\",\n      \"code\": \"\"\n    },\n    \"country\": \"Czech Republic\"\n  }\n}"
                             },
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/schema+json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/schema+json"
+                                }
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"string\"\n    },\n    \"name\": {\n      \"type\": \"string\"\n    },\n    \"price\": {\n      \"type\": \"number\"\n    },\n    \"tags\": {\n      \"type\": \"array\"\n    },\n    \"vector\": {\n      \"type\": \"array\"\n    },\n    \"address\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"street\": {\n          \"type\": \"string\"\n        },\n        \"number\": {\n          \"type\": \"number\"\n        },\n        \"zip_code\": {\n          \"type\": \"string\"\n        },\n        \"state\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"name\": {\n              \"type\": \"string\"\n            },\n            \"code\": {\n              \"type\": \"string\"\n            }\n          }\n        },\n        \"country\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"Czech Republic\",\n            \"United States of America\"\n          ]\n        }\n      },\n      \"required\": [\n        \"street\",\n        \"number\",\n        \"zip_code\",\n        \"country\"\n      ]\n    }\n  },\n  \"required\": [\n    \"id\"\n  ]\n}"
                             }

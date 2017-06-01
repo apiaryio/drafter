@@ -4,40 +4,73 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": ""
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": ""
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": "Users"
+                "title": {
+                  "element": "string",
+                  "content": "Users"
+                }
               },
               "attributes": {
-                "href": "/users",
+                "href": {
+                  "element": "string",
+                  "content": "/users"
+                },
                 "hrefVariables": {
                   "element": "hrefVariables",
                   "content": [
                     {
                       "element": "member",
                       "meta": {
-                        "title": "string"
+                        "title": {
+                          "element": "string",
+                          "content": "string"
+                        }
                       },
                       "attributes": {
-                        "typeAttributes": [
-                          "required"
-                        ]
+                        "typeAttributes": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "required"
+                            }
+                          ]
+                        }
                       },
                       "content": {
                         "key": {
@@ -67,69 +100,132 @@
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 12,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                18,
-                34
+        "code": {
+          "element": "number",
+          "content": 12
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 18
+                    },
+                    {
+                      "element": "number",
+                      "content": 34
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "URI path in 'View a User [GET {username}]' is not absolute, it should have a leading forward slash"
     },
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 8,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                52,
-                44
+        "code": {
+          "element": "number",
+          "content": 8
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 52
+                    },
+                    {
+                      "element": "number",
+                      "content": 44
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "parameter 'username' is not found within the URI template '/users' for 'Users' "
     },
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 5,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                96,
-                16
+        "code": {
+          "element": "number",
+          "content": 5
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 96
+                    },
+                    {
+                      "element": "number",
+                      "content": 16
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "ignoring unrecognized block"
     }

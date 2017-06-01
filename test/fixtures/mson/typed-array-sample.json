@@ -4,10 +4,19 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "<API name>"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "<API name>"
+        }
       },
       "content": [
         {
@@ -17,9 +26,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -28,7 +43,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "User"
+                    "id": {
+                      "element": "string",
+                      "content": "User"
+                    }
                   },
                   "content": [
                     {
@@ -41,22 +59,28 @@
                         "value": {
                           "element": "array",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "string",
-                                  "content": "1"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "2"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "3"
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "1"
+                                    },
+                                    {
+                                      "element": "string",
+                                      "content": "2"
+                                    },
+                                    {
+                                      "element": "string",
+                                      "content": "3"
+                                    }
+                                  ]
                                 }
                               ]
-                            ]
+                            }
                           }
                         }
                       }
@@ -64,7 +88,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "not parsed correctly"
+                        "description": {
+                          "element": "string",
+                          "content": "not parsed correctly"
+                        }
                       },
                       "content": {
                         "key": {
@@ -93,7 +120,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "array of \"string samples\""
+                        "description": {
+                          "element": "string",
+                          "content": "array of \"string samples\""
+                        }
                       },
                       "content": {
                         "key": {
@@ -106,25 +136,43 @@
                             {
                               "element": "string",
                               "attributes": {
-                                "samples": [
-                                  "1"
-                                ]
+                                "samples": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "1"
+                                    }
+                                  ]
+                                }
                               }
                             },
                             {
                               "element": "string",
                               "attributes": {
-                                "samples": [
-                                  "2"
-                                ]
+                                "samples": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "2"
+                                    }
+                                  ]
+                                }
                               }
                             },
                             {
                               "element": "string",
                               "attributes": {
-                                "samples": [
-                                  "3"
-                                ]
+                                "samples": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "3"
+                                    }
+                                  ]
+                                }
                               }
                             }
                           ]
@@ -141,22 +189,28 @@
                         "value": {
                           "element": "array",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "string",
-                                  "content": "1"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "2"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "3"
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "1"
+                                    },
+                                    {
+                                      "element": "string",
+                                      "content": "2"
+                                    },
+                                    {
+                                      "element": "string",
+                                      "content": "3"
+                                    }
+                                  ]
                                 }
                               ]
-                            ]
+                            }
                           }
                         }
                       }
@@ -171,22 +225,28 @@
                         "value": {
                           "element": "array",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "string",
-                                  "content": "1"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "2"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "3"
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "1"
+                                    },
+                                    {
+                                      "element": "string",
+                                      "content": "2"
+                                    },
+                                    {
+                                      "element": "string",
+                                      "content": "3"
+                                    }
+                                  ]
                                 }
                               ]
-                            ]
+                            }
                           }
                         }
                       }

@@ -4,10 +4,19 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "<API name>"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "<API name>"
+        }
       },
       "content": [
         {
@@ -17,9 +26,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -28,8 +43,14 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "User",
-                    "description": "Description of User going there"
+                    "id": {
+                      "element": "string",
+                      "content": "User"
+                    },
+                    "description": {
+                      "element": "string",
+                      "content": "Description of User going there"
+                    }
                   },
                   "content": [
                     {
@@ -42,9 +63,15 @@
                         "value": {
                           "element": "string",
                           "attributes": {
-                            "samples": [
-                              "quido"
-                            ]
+                            "samples": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "quido"
+                                }
+                              ]
+                            }
                           },
                           "content": "nobody"
                         }
@@ -53,7 +80,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "Fibbonaci sequence"
+                        "description": {
+                          "element": "string",
+                          "content": "Fibbonaci sequence"
+                        }
                       },
                       "content": {
                         "key": {
@@ -63,22 +93,64 @@
                         "value": {
                           "element": "array",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "number",
+                                      "content": 5
+                                    },
+                                    {
+                                      "element": "number",
+                                      "content": 8
+                                    },
+                                    {
+                                      "element": "number",
+                                      "content": 13
+                                    }
+                                  ]
+                                },
+                                {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "number",
+                                      "content": 8
+                                    },
+                                    {
+                                      "element": "number",
+                                      "content": 13
+                                    },
+                                    {
+                                      "element": "number",
+                                      "content": 21
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            "default": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "number",
+                                  "content": 1
+                                },
+                                {
+                                  "element": "number",
+                                  "content": 2
+                                },
+                                {
+                                  "element": "number",
+                                  "content": 3
+                                },
                                 {
                                   "element": "number",
                                   "content": 5
                                 },
-                                {
-                                  "element": "number",
-                                  "content": 8
-                                },
-                                {
-                                  "element": "number",
-                                  "content": 13
-                                }
-                              ],
-                              [
                                 {
                                   "element": "number",
                                   "content": 8
@@ -92,37 +164,7 @@
                                   "content": 21
                                 }
                               ]
-                            ],
-                            "default": [
-                              {
-                                "element": "number",
-                                "content": 1
-                              },
-                              {
-                                "element": "number",
-                                "content": 2
-                              },
-                              {
-                                "element": "number",
-                                "content": 3
-                              },
-                              {
-                                "element": "number",
-                                "content": 5
-                              },
-                              {
-                                "element": "number",
-                                "content": 8
-                              },
-                              {
-                                "element": "number",
-                                "content": 13
-                              },
-                              {
-                                "element": "number",
-                                "content": 21
-                              }
-                            ]
+                            }
                           },
                           "content": [
                             {

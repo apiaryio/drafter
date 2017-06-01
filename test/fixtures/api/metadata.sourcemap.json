@@ -4,92 +4,149 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
         "title": {
           "element": "string",
           "attributes": {
-            "sourceMap": [
-              {
-                "element": "sourceMap",
-                "content": [
-                  [
-                    38,
-                    11
+            "sourceMap": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "sourceMap",
+                  "content": [
+                    {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "number",
+                          "content": 38
+                        },
+                        {
+                          "element": "number",
+                          "content": 11
+                        }
+                      ]
+                    }
                   ]
-                ]
-              }
-            ]
+                }
+              ]
+            }
           },
           "content": "API name"
         }
       },
       "attributes": {
-        "metadata": [
-          {
-            "element": "member",
-            "meta": {
-              "classes": [
-                "user"
-              ]
-            },
-            "attributes": {
-              "sourceMap": [
-                {
-                  "element": "sourceMap",
+        "metadata": {
+          "element": "array",
+          "content": [
+            {
+              "element": "member",
+              "meta": {
+                "classes": {
+                  "element": "array",
                   "content": [
-                    [
-                      0,
-                      38
-                    ]
+                    {
+                      "element": "string",
+                      "content": "user"
+                    }
                   ]
                 }
-              ]
-            },
-            "content": {
-              "key": {
-                "element": "string",
-                "content": "FORMAT"
               },
-              "value": {
-                "element": "string",
-                "content": "1A"
-              }
-            }
-          },
-          {
-            "element": "member",
-            "meta": {
-              "classes": [
-                "user"
-              ]
-            },
-            "attributes": {
-              "sourceMap": [
-                {
-                  "element": "sourceMap",
+              "attributes": {
+                "sourceMap": {
+                  "element": "array",
                   "content": [
-                    [
-                      0,
-                      38
-                    ]
+                    {
+                      "element": "sourceMap",
+                      "content": [
+                        {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "number",
+                              "content": 0
+                            },
+                            {
+                              "element": "number",
+                              "content": 38
+                            }
+                          ]
+                        }
+                      ]
+                    }
                   ]
                 }
-              ]
-            },
-            "content": {
-              "key": {
-                "element": "string",
-                "content": "HOST"
               },
-              "value": {
-                "element": "string",
-                "content": "https://example.com"
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "FORMAT"
+                },
+                "value": {
+                  "element": "string",
+                  "content": "1A"
+                }
+              }
+            },
+            {
+              "element": "member",
+              "meta": {
+                "classes": {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "string",
+                      "content": "user"
+                    }
+                  ]
+                }
+              },
+              "attributes": {
+                "sourceMap": {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "sourceMap",
+                      "content": [
+                        {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "number",
+                              "content": 0
+                            },
+                            {
+                              "element": "number",
+                              "content": 38
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "HOST"
+                },
+                "value": {
+                  "element": "string",
+                  "content": "https://example.com"
+                }
               }
             }
-          }
-        ]
+          ]
+        }
       },
       "content": []
     }

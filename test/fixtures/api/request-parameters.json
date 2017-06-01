@@ -4,34 +4,61 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "API name"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "API name"
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": "Users"
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": "Users"
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": "Users"
+                "title": {
+                  "element": "string",
+                  "content": "Users"
+                }
               },
               "attributes": {
-                "href": "/users{?limit}"
+                "href": {
+                  "element": "string",
+                  "content": "/users{?limit}"
+                }
               },
               "content": [
                 {
                   "element": "transition",
                   "meta": {
-                    "title": "List Users"
+                    "title": {
+                      "element": "string",
+                      "content": "List Users"
+                    }
                   },
                   "attributes": {
                     "hrefVariables": {
@@ -40,13 +67,25 @@
                         {
                           "element": "member",
                           "meta": {
-                            "description": "The maximum number of users to return.",
-                            "title": "number"
+                            "description": {
+                              "element": "string",
+                              "content": "The maximum number of users to return."
+                            },
+                            "title": {
+                              "element": "string",
+                              "content": "number"
+                            }
                           },
                           "attributes": {
-                            "typeAttributes": [
-                              "optional"
-                            ]
+                            "typeAttributes": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "optional"
+                                }
+                              ]
+                            }
                           },
                           "content": {
                             "key": {
@@ -56,7 +95,10 @@
                             "value": {
                               "element": "string",
                               "attributes": {
-                                "default": "20"
+                                "default": {
+                                  "element": "string",
+                                  "content": "20"
+                                }
                               }
                             }
                           }
@@ -71,14 +113,20 @@
                         {
                           "element": "httpRequest",
                           "attributes": {
-                            "method": "GET"
+                            "method": {
+                              "element": "string",
+                              "content": "GET"
+                            }
                           },
                           "content": []
                         },
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "200",
+                            "statusCode": {
+                              "element": "string",
+                              "content": "200"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -102,12 +150,21 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
                               },
                               "content": "[\n  {\n    \"username\": \"pksunkara\"\n  },\n  {\n    \"username\": \"kylef\"\n  }\n]\n"
                             }
@@ -121,19 +178,31 @@
                         {
                           "element": "httpRequest",
                           "meta": {
-                            "title": "Only one user"
+                            "title": {
+                              "element": "string",
+                              "content": "Only one user"
+                            }
                           },
                           "attributes": {
-                            "method": "GET",
+                            "method": {
+                              "element": "string",
+                              "content": "GET"
+                            },
                             "hrefVariables": {
                               "element": "hrefVariables",
                               "content": [
                                 {
                                   "element": "member",
                                   "attributes": {
-                                    "typeAttributes": [
-                                      "required"
-                                    ]
+                                    "typeAttributes": {
+                                      "element": "array",
+                                      "content": [
+                                        {
+                                          "element": "string",
+                                          "content": "required"
+                                        }
+                                      ]
+                                    }
                                   },
                                   "content": {
                                     "key": {
@@ -154,7 +223,10 @@
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "200",
+                            "statusCode": {
+                              "element": "string",
+                              "content": "200"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -178,12 +250,21 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
                               },
                               "content": "[\n  {\n    \"username\": \"pksunkara\"\n  }\n]\n"
                             }

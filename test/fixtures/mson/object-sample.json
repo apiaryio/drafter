@@ -4,18 +4,33 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -24,40 +39,52 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "ObjectSample",
-                    "description": "description"
+                    "id": {
+                      "element": "string",
+                      "content": "ObjectSample"
+                    },
+                    "description": {
+                      "element": "string",
+                      "content": "description"
+                    }
                   },
                   "attributes": {
-                    "samples": [
-                      [
+                    "samples": {
+                      "element": "array",
+                      "content": [
                         {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "a"
+                          "element": "object",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "a"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "1"
+                                }
+                              }
                             },
-                            "value": {
-                              "element": "string",
-                              "content": "1"
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "b"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "2"
+                                }
+                              }
                             }
-                          }
-                        },
-                        {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "b"
-                            },
-                            "value": {
-                              "element": "string",
-                              "content": "2"
-                            }
-                          }
+                          ]
                         }
                       ]
-                    ]
+                    }
                   },
                   "content": [
                     {
@@ -94,9 +121,15 @@
                         "value": {
                           "element": "string",
                           "attributes": {
-                            "samples": [
-                              "3"
-                            ]
+                            "samples": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "3"
+                                }
+                              ]
+                            }
                           }
                         }
                       }

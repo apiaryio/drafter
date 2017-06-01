@@ -4,34 +4,61 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": ""
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": ""
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": "Root"
+                "title": {
+                  "element": "string",
+                  "content": "Root"
+                }
               },
               "attributes": {
-                "href": "/"
+                "href": {
+                  "element": "string",
+                  "content": "/"
+                }
               },
               "content": [
                 {
                   "element": "transition",
                   "meta": {
-                    "title": "Retrieve the Entry Point"
+                    "title": {
+                      "element": "string",
+                      "content": "Retrieve the Entry Point"
+                    }
                   },
                   "content": [
                     {
@@ -40,14 +67,20 @@
                         {
                           "element": "httpRequest",
                           "attributes": {
-                            "method": "GET"
+                            "method": {
+                              "element": "string",
+                              "content": "GET"
+                            }
                           },
                           "content": []
                         },
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "200",
+                            "statusCode": {
+                              "element": "string",
+                              "content": "200"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -100,7 +133,10 @@
                                             {
                                               "element": "object",
                                               "meta": {
-                                                "ref": "Question"
+                                                "ref": {
+                                                  "element": "string",
+                                                  "content": "Question"
+                                                }
                                               },
                                               "content": [
                                                 {
@@ -143,24 +179,42 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
                               },
                               "content": "{\n  \"hello\": \"42\",\n  \"nested\": {\n    \"question\": \"\",\n    \"url\": \"\"\n  }\n}"
                             },
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/schema+json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/schema+json"
+                                }
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"hello\": {\n      \"type\": \"string\"\n    },\n    \"nested\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"question\": {\n          \"type\": \"string\"\n        },\n        \"url\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}"
                             }
@@ -177,19 +231,34 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": "Question"
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": "Question"
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": "Question"
+                "title": {
+                  "element": "string",
+                  "content": "Question"
+                }
               },
               "attributes": {
-                "href": "/questions/{question_id}"
+                "href": {
+                  "element": "string",
+                  "content": "/questions/{question_id}"
+                }
               },
               "content": [
                 {
@@ -198,7 +267,10 @@
                     {
                       "element": "object",
                       "meta": {
-                        "id": "Question"
+                        "id": {
+                          "element": "string",
+                          "content": "Question"
+                        }
                       },
                       "content": [
                         {

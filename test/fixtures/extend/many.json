@@ -4,34 +4,61 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": ""
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": ""
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": ""
+                "title": {
+                  "element": "string",
+                  "content": ""
+                }
               },
               "attributes": {
-                "href": "/"
+                "href": {
+                  "element": "string",
+                  "content": "/"
+                }
               },
               "content": [
                 {
                   "element": "transition",
                   "meta": {
-                    "title": ""
+                    "title": {
+                      "element": "string",
+                      "content": ""
+                    }
                   },
                   "content": [
                     {
@@ -40,14 +67,20 @@
                         {
                           "element": "httpRequest",
                           "attributes": {
-                            "method": "GET"
+                            "method": {
+                              "element": "string",
+                              "content": "GET"
+                            }
                           },
                           "content": []
                         },
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "200",
+                            "statusCode": {
+                              "element": "string",
+                              "content": "200"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -79,24 +112,42 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/json; charset=utf-8"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/json; charset=utf-8"
+                                }
                               },
                               "content": "{\n  \"loc\": []\n}"
                             },
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/schema+json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/schema+json"
+                                }
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"loc\": {}\n  }\n}"
                             }
@@ -113,9 +164,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -124,7 +181,10 @@
                 {
                   "element": "array",
                   "meta": {
-                    "id": "X"
+                    "id": {
+                      "element": "string",
+                      "content": "X"
+                    }
                   }
                 }
               ]
@@ -135,7 +195,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "A"
+                    "id": {
+                      "element": "string",
+                      "content": "A"
+                    }
                   },
                   "content": [
                     {
@@ -160,7 +223,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O1"
+                    "id": {
+                      "element": "string",
+                      "content": "O1"
+                    }
                   }
                 }
               ]
@@ -171,7 +237,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O2"
+                    "id": {
+                      "element": "string",
+                      "content": "O2"
+                    }
                   }
                 }
               ]
@@ -182,7 +251,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O3"
+                    "id": {
+                      "element": "string",
+                      "content": "O3"
+                    }
                   }
                 }
               ]
@@ -193,7 +265,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O4"
+                    "id": {
+                      "element": "string",
+                      "content": "O4"
+                    }
                   }
                 }
               ]
@@ -204,7 +279,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O5"
+                    "id": {
+                      "element": "string",
+                      "content": "O5"
+                    }
                   }
                 }
               ]
@@ -215,7 +293,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O6"
+                    "id": {
+                      "element": "string",
+                      "content": "O6"
+                    }
                   }
                 }
               ]
@@ -226,7 +307,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O7"
+                    "id": {
+                      "element": "string",
+                      "content": "O7"
+                    }
                   }
                 }
               ]
@@ -237,7 +321,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O8"
+                    "id": {
+                      "element": "string",
+                      "content": "O8"
+                    }
                   }
                 }
               ]
@@ -248,7 +335,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O9"
+                    "id": {
+                      "element": "string",
+                      "content": "O9"
+                    }
                   }
                 }
               ]
@@ -259,7 +349,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O10"
+                    "id": {
+                      "element": "string",
+                      "content": "O10"
+                    }
                   }
                 }
               ]
@@ -270,7 +363,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O11"
+                    "id": {
+                      "element": "string",
+                      "content": "O11"
+                    }
                   }
                 }
               ]
@@ -281,7 +377,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O12"
+                    "id": {
+                      "element": "string",
+                      "content": "O12"
+                    }
                   }
                 }
               ]
@@ -292,7 +391,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O13"
+                    "id": {
+                      "element": "string",
+                      "content": "O13"
+                    }
                   }
                 }
               ]
@@ -303,7 +405,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O14"
+                    "id": {
+                      "element": "string",
+                      "content": "O14"
+                    }
                   }
                 }
               ]
@@ -314,7 +419,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O15"
+                    "id": {
+                      "element": "string",
+                      "content": "O15"
+                    }
                   }
                 }
               ]
@@ -325,7 +433,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O16"
+                    "id": {
+                      "element": "string",
+                      "content": "O16"
+                    }
                   }
                 }
               ]
@@ -336,7 +447,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O17"
+                    "id": {
+                      "element": "string",
+                      "content": "O17"
+                    }
                   }
                 }
               ]
@@ -347,7 +461,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O18"
+                    "id": {
+                      "element": "string",
+                      "content": "O18"
+                    }
                   }
                 }
               ]
@@ -358,7 +475,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O19"
+                    "id": {
+                      "element": "string",
+                      "content": "O19"
+                    }
                   }
                 }
               ]
@@ -369,7 +489,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O20"
+                    "id": {
+                      "element": "string",
+                      "content": "O20"
+                    }
                   }
                 }
               ]
@@ -380,7 +503,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O21"
+                    "id": {
+                      "element": "string",
+                      "content": "O21"
+                    }
                   }
                 }
               ]
@@ -391,7 +517,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O22"
+                    "id": {
+                      "element": "string",
+                      "content": "O22"
+                    }
                   }
                 }
               ]
@@ -402,7 +531,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "O23"
+                    "id": {
+                      "element": "string",
+                      "content": "O23"
+                    }
                   }
                 }
               ]

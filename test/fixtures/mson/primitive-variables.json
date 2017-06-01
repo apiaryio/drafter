@@ -4,10 +4,19 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "<API name>"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "<API name>"
+        }
       },
       "content": [
         {
@@ -17,9 +26,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -28,12 +43,21 @@
                 {
                   "element": "string",
                   "meta": {
-                    "id": "Color"
+                    "id": {
+                      "element": "string",
+                      "content": "Color"
+                    }
                   },
                   "attributes": {
-                    "samples": [
-                      "red\n\n\n"
-                    ]
+                    "samples": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "string",
+                          "content": "red\n\n\n"
+                        }
+                      ]
+                    }
                   }
                 }
               ]
@@ -44,13 +68,19 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "User"
+                    "id": {
+                      "element": "string",
+                      "content": "User"
+                    }
                   },
                   "content": [
                     {
                       "element": "member",
                       "meta": {
-                        "description": "not variable"
+                        "description": {
+                          "element": "string",
+                          "content": "not variable"
+                        }
                       },
                       "content": {
                         "key": {
@@ -65,13 +95,19 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "this one is"
+                        "description": {
+                          "element": "string",
+                          "content": "this one is"
+                        }
                       },
                       "content": {
                         "key": {
                           "element": "string",
                           "attributes": {
-                            "variable": true
+                            "variable": {
+                              "element": "boolean",
+                              "content": true
+                            }
                           },
                           "content": "c2"
                         },
@@ -83,13 +119,19 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "var w/ value"
+                        "description": {
+                          "element": "string",
+                          "content": "var w/ value"
+                        }
                       },
                       "content": {
                         "key": {
                           "element": "string",
                           "attributes": {
-                            "variable": true
+                            "variable": {
+                              "element": "boolean",
+                              "content": true
+                            }
                           },
                           "content": "c3"
                         },
@@ -102,13 +144,19 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "var w/ type"
+                        "description": {
+                          "element": "string",
+                          "content": "var w/ type"
+                        }
                       },
                       "content": {
                         "key": {
                           "element": "string",
                           "attributes": {
-                            "variable": true
+                            "variable": {
+                              "element": "boolean",
+                              "content": true
+                            }
                           },
                           "content": "c4"
                         },
@@ -120,13 +168,19 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "var w/ type and value"
+                        "description": {
+                          "element": "string",
+                          "content": "var w/ type and value"
+                        }
                       },
                       "content": {
                         "key": {
                           "element": "string",
                           "attributes": {
-                            "variable": true
+                            "variable": {
+                              "element": "boolean",
+                              "content": true
+                            }
                           },
                           "content": "c5"
                         },
@@ -139,22 +193,34 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "var w/ sample"
+                        "description": {
+                          "element": "string",
+                          "content": "var w/ sample"
+                        }
                       },
                       "content": {
                         "key": {
                           "element": "string",
                           "attributes": {
-                            "variable": true
+                            "variable": {
+                              "element": "boolean",
+                              "content": true
+                            }
                           },
                           "content": "c6"
                         },
                         "value": {
                           "element": "string",
                           "attributes": {
-                            "samples": [
-                              "example"
-                            ]
+                            "samples": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "example"
+                                }
+                              ]
+                            }
                           }
                         }
                       }
@@ -162,22 +228,34 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "var w/ type and value and sample"
+                        "description": {
+                          "element": "string",
+                          "content": "var w/ type and value and sample"
+                        }
                       },
                       "content": {
                         "key": {
                           "element": "string",
                           "attributes": {
-                            "variable": true
+                            "variable": {
+                              "element": "boolean",
+                              "content": true
+                            }
                           },
                           "content": "c7"
                         },
                         "value": {
                           "element": "number",
                           "attributes": {
-                            "samples": [
-                              3.14
-                            ]
+                            "samples": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "number",
+                                  "content": 3.14
+                                }
+                              ]
+                            }
                           }
                         }
                       }
@@ -185,7 +263,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "var w/ variable type"
+                        "description": {
+                          "element": "string",
+                          "content": "var w/ variable type"
+                        }
                       },
                       "content": {
                         "key": {
@@ -194,18 +275,30 @@
                             {
                               "element": "string",
                               "meta": {
-                                "ref": "Color"
+                                "ref": {
+                                  "element": "string",
+                                  "content": "Color"
+                                }
                               },
                               "attributes": {
-                                "samples": [
-                                  "red\n\n\n"
-                                ]
+                                "samples": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "red\n\n\n"
+                                    }
+                                  ]
+                                }
                               }
                             },
                             {
                               "element": "string",
                               "attributes": {
-                                "variable": true
+                                "variable": {
+                                  "element": "boolean",
+                                  "content": true
+                                }
                               },
                               "content": "c8"
                             }
@@ -219,7 +312,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "generic variable"
+                        "description": {
+                          "element": "string",
+                          "content": "generic variable"
+                        }
                       },
                       "content": {
                         "key": {

@@ -1,38 +1,88 @@
 {
-  "_version": "4.0",
-  "metadata": [],
-  "name": "<API name>",
-  "description": "<API description>\n\n",
-  "element": "category",
-  "resourceGroups": [],
+  "element": "parseResult",
   "content": [
     {
       "element": "category",
+      "meta": {
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "<API name>"
+        }
+      },
       "content": [
         {
-          "element": "object",
+          "element": "copy",
+          "content": "<API description>"
+        },
+        {
+          "element": "category",
           "meta": {
-            "id": "User"
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
-              "element": "member",
-              "content": {
-                "key": {
-                  "element": "string",
-                  "content": "str"
-                },
-                "value": {
-                  "element": "string",
-                  "attributes": {
-                    "samples": [
-                      "abc",
-                      "cde"
-                    ],
-                    "default": "ijk"
-                  }
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "object",
+                  "meta": {
+                    "id": {
+                      "element": "string",
+                      "content": "User"
+                    }
+                  },
+                  "content": [
+                    {
+                      "element": "member",
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "content": "str"
+                        },
+                        "value": {
+                          "element": "string",
+                          "attributes": {
+                            "samples": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "abc"
+                                },
+                                {
+                                  "element": "string",
+                                  "content": "cde"
+                                }
+                              ]
+                            },
+                            "default": {
+                              "element": "string",
+                              "content": "ijk"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
-              }
+              ]
             }
           ]
         }

@@ -4,18 +4,33 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -24,13 +39,19 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "Color Set"
+                    "id": {
+                      "element": "string",
+                      "content": "Color Set"
+                    }
                   },
                   "content": [
                     {
                       "element": "member",
                       "meta": {
-                        "description": "basic color set"
+                        "description": {
+                          "element": "string",
+                          "content": "basic color set"
+                        }
                       },
                       "content": {
                         "key": {
@@ -43,21 +64,30 @@
                             {
                               "element": "string",
                               "meta": {
-                                "description": "red"
+                                "description": {
+                                  "element": "string",
+                                  "content": "red"
+                                }
                               },
                               "content": "#ff0000"
                             },
                             {
                               "element": "string",
                               "meta": {
-                                "description": "green"
+                                "description": {
+                                  "element": "string",
+                                  "content": "green"
+                                }
                               },
                               "content": "#00ff00"
                             },
                             {
                               "element": "string",
                               "meta": {
-                                "description": "blue"
+                                "description": {
+                                  "element": "string",
+                                  "content": "blue"
+                                }
                               },
                               "content": "#0000ff"
                             }

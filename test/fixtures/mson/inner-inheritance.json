@@ -4,10 +4,19 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "<API name>"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "<API name>"
+        }
       },
       "content": [
         {
@@ -17,9 +26,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -28,7 +43,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "User"
+                    "id": {
+                      "element": "string",
+                      "content": "User"
+                    }
                   },
                   "content": [
                     {
@@ -53,7 +71,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "Person"
+                    "id": {
+                      "element": "string",
+                      "content": "Person"
+                    }
                   },
                   "content": [
                     {
@@ -69,7 +90,10 @@
                             {
                               "element": "object",
                               "meta": {
-                                "ref": "User"
+                                "ref": {
+                                  "element": "string",
+                                  "content": "User"
+                                }
                               },
                               "content": [
                                 {
@@ -115,7 +139,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "Another Person"
+                    "id": {
+                      "element": "string",
+                      "content": "Another Person"
+                    }
                   },
                   "content": [
                     {
@@ -141,7 +168,10 @@
                                     {
                                       "element": "object",
                                       "meta": {
-                                        "ref": "User"
+                                        "ref": {
+                                          "element": "string",
+                                          "content": "User"
+                                        }
                                       },
                                       "content": [
                                         {
@@ -186,7 +216,10 @@
                                                 {
                                                   "element": "object",
                                                   "meta": {
-                                                    "ref": "User"
+                                                    "ref": {
+                                                      "element": "string",
+                                                      "content": "User"
+                                                    }
                                                   },
                                                   "content": [
                                                     {

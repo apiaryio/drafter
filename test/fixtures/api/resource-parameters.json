@@ -4,41 +4,77 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "API name"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "API name"
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": "Users"
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": "Users"
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": "User"
+                "title": {
+                  "element": "string",
+                  "content": "User"
+                }
               },
               "attributes": {
-                "href": "/users/{id}",
+                "href": {
+                  "element": "string",
+                  "content": "/users/{id}"
+                },
                 "hrefVariables": {
                   "element": "hrefVariables",
                   "content": [
                     {
                       "element": "member",
                       "meta": {
-                        "description": "Database ID\n\nAdditional description",
-                        "title": "number"
+                        "description": {
+                          "element": "string",
+                          "content": "Database ID\n\nAdditional description"
+                        },
+                        "title": {
+                          "element": "string",
+                          "content": "number"
+                        }
                       },
                       "attributes": {
-                        "typeAttributes": [
-                          "optional"
-                        ]
+                        "typeAttributes": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "optional"
+                            }
+                          ]
+                        }
                       },
                       "content": {
                         "key": {
@@ -48,20 +84,29 @@
                         "value": {
                           "element": "enum",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "string",
-                                  "content": "23"
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "23"
+                                    }
+                                  ]
                                 }
                               ]
-                            ],
-                            "default": [
-                              {
-                                "element": "string",
-                                "content": "1"
-                              }
-                            ]
+                            },
+                            "default": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "1"
+                                }
+                              ]
+                            }
                           },
                           "content": [
                             {
@@ -87,7 +132,10 @@
                 {
                   "element": "transition",
                   "meta": {
-                    "title": "Retrieve User"
+                    "title": {
+                      "element": "string",
+                      "content": "Retrieve User"
+                    }
                   },
                   "content": [
                     {
@@ -96,14 +144,20 @@
                         {
                           "element": "httpRequest",
                           "attributes": {
-                            "method": "GET"
+                            "method": {
+                              "element": "string",
+                              "content": "GET"
+                            }
                           },
                           "content": []
                         },
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "200",
+                            "statusCode": {
+                              "element": "string",
+                              "content": "200"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -127,12 +181,21 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
                               },
                               "content": "{}\n"
                             }

@@ -4,18 +4,33 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -24,15 +39,24 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "Object"
+                    "id": {
+                      "element": "string",
+                      "content": "Object"
+                    }
                   },
                   "content": [
                     {
                       "element": "member",
                       "attributes": {
-                        "typeAttributes": [
-                          "optional"
-                        ]
+                        "typeAttributes": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "optional"
+                            }
+                          ]
+                        }
                       },
                       "content": {
                         "key": {

@@ -4,10 +4,19 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "<API name>"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "<API name>"
+        }
       },
       "content": [
         {
@@ -17,9 +26,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -28,7 +43,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "User"
+                    "id": {
+                      "element": "string",
+                      "content": "User"
+                    }
                   },
                   "content": [
                     {
@@ -41,22 +59,28 @@
                         "value": {
                           "element": "array",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "string",
-                                  "content": "1"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "2"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "3"
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "1"
+                                    },
+                                    {
+                                      "element": "string",
+                                      "content": "2"
+                                    },
+                                    {
+                                      "element": "string",
+                                      "content": "3"
+                                    }
+                                  ]
                                 }
                               ]
-                            ]
+                            }
                           }
                         }
                       }
@@ -64,7 +88,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "FIXME: we need clarify, if it is string sample, or array sample?\nsnowcrash this parses as array with sample"
+                        "description": {
+                          "element": "string",
+                          "content": "FIXME: we need clarify, if it is string sample, or array sample?\nsnowcrash this parses as array with sample"
+                        }
                       },
                       "content": {
                         "key": {
@@ -93,7 +120,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "array of string samples"
+                        "description": {
+                          "element": "string",
+                          "content": "array of string samples"
+                        }
                       },
                       "content": {
                         "key": {
@@ -106,25 +136,43 @@
                             {
                               "element": "string",
                               "attributes": {
-                                "samples": [
-                                  "1"
-                                ]
+                                "samples": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "1"
+                                    }
+                                  ]
+                                }
                               }
                             },
                             {
                               "element": "string",
                               "attributes": {
-                                "samples": [
-                                  "2"
-                                ]
+                                "samples": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "2"
+                                    }
+                                  ]
+                                }
                               }
                             },
                             {
                               "element": "string",
                               "attributes": {
-                                "samples": [
-                                  "3"
-                                ]
+                                "samples": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "3"
+                                    }
+                                  ]
+                                }
                               }
                             }
                           ]
@@ -134,7 +182,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "should be string w/ sample"
+                        "description": {
+                          "element": "string",
+                          "content": "should be string w/ sample"
+                        }
                       },
                       "content": {
                         "key": {
@@ -144,9 +195,15 @@
                         "value": {
                           "element": "string",
                           "attributes": {
-                            "samples": [
-                              "1,2,3"
-                            ]
+                            "samples": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "1,2,3"
+                                }
+                              ]
+                            }
                           }
                         }
                       }
@@ -154,7 +211,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "string w/ multiline sample"
+                        "description": {
+                          "element": "string",
+                          "content": "string w/ multiline sample"
+                        }
                       },
                       "content": {
                         "key": {
@@ -164,9 +224,15 @@
                         "value": {
                           "element": "string",
                           "attributes": {
-                            "samples": [
-                              "- 1\n\n- 2\n\n- 3\n"
-                            ]
+                            "samples": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "- 1\n\n- 2\n\n- 3\n"
+                                }
+                              ]
+                            }
                           }
                         }
                       }
