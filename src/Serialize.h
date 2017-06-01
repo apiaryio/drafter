@@ -179,10 +179,10 @@ namespace drafter {
     template <> std::pair<bool, std::string> LiteralTo<std::string>(const mson::Literal& literal);
 
 
-    refract::ArrayElement* CreateArrayElement(refract::IElement* value, bool rFull = false);
+    refract::ArrayElement* CreateArrayElement(refract::IElement* value);
 
     template <typename T>
-    refract::ArrayElement* CreateArrayElement(const T& content, bool rFull = false)
+    refract::ArrayElement* CreateArrayElement(const T& content)
     {
         refract::IElement* value = refract::IElement::Create(content);
         return CreateArrayElement(value);

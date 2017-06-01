@@ -33,7 +33,6 @@ namespace refract
             RenderJSONVisitor v;
             Visit(v, *(*it));
             IElement *e = v.getOwnership();
-            //e->renderType(IElement::rCompact);
             a->push_back(e);
         }
     }
@@ -71,11 +70,9 @@ namespace refract
         : pDefs(pDefinitions), fixed(_fixed), fixedType(_fixedType)
     {
         pObj = new ObjectElement;
-        //pObj->renderType(IElement::rCompact);
 
         if (!pDefs) {
             pDefs = new ObjectElement;
-            //pDefs->renderType(IElement::rCompact);
         }
     }
 
@@ -209,7 +206,6 @@ namespace refract
 
             if (desc) {
                 IElement *d = desc->clone();
-                //d->renderType(IElement::rCompact);
                 renderer.addMember("description", d);
             }
 
@@ -262,7 +258,6 @@ namespace refract
     ArrayElement* JSONSchemaVisitor::arrayFromProps(std::vector<MemberElement*>& props)
     {
         ArrayElement *a = new ArrayElement;
-        //a->renderType(IElement::rCompact);
 
         for (std::vector<MemberElement *>::const_iterator i = props.begin();
              i != props.end();

@@ -168,7 +168,6 @@ namespace refract
         FetchMembers(e, members);
         ArrayElement* a = new ArrayElement;
         a->set(members);
-        //a->renderType(IElement::rCompact);
         result = a;
     }
 
@@ -186,7 +185,6 @@ namespace refract
         }
 
         T* result = IElement::Create(*v);
-        //result->renderType(IElement::rCompact);
 
         return result;
     }

@@ -214,7 +214,6 @@ namespace refract
             if (IElement* referenced = registry.find(href->value)) {
                 referenced = ExpandOrClone(referenced);
                 MetaIdToRef(*referenced);
-                //referenced->renderType(IElement::rFull);
                 ref->attributes["resolved"] = referenced;
             }
 

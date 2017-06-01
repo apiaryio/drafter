@@ -141,13 +141,13 @@ namespace drafter {
         // Add sample value
         if (!parameter.node->exampleValue.empty()) {
             refract::ArrayElement* samples = new refract::ArrayElement;
-            samples->push_back(CreateArrayElement(LiteralToRefract<std::string>(MAKE_NODE_INFO(parameter, exampleValue), context), true));
+            samples->push_back(CreateArrayElement(LiteralToRefract<std::string>(MAKE_NODE_INFO(parameter, exampleValue), context)));
             element->attributes[SerializeKey::Samples] = samples;
         }
 
         // Add default value
         if (!parameter.node->defaultValue.empty()) {
-            element->attributes[SerializeKey::Default] = CreateArrayElement(LiteralToRefract<std::string>(MAKE_NODE_INFO(parameter, defaultValue), context), true);
+            element->attributes[SerializeKey::Default] = CreateArrayElement(LiteralToRefract<std::string>(MAKE_NODE_INFO(parameter, defaultValue), context));
         }
 
         return element;
