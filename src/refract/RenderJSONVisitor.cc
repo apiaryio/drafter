@@ -82,7 +82,6 @@ namespace refract
                     continue;
                 }
 
-                e->renderType(IElement::rCompact);
                 members.push_back(e);
 
             }
@@ -131,9 +130,7 @@ namespace refract
             }
         }
 
-        result = new MemberElement(key,
-                                   renderer.result ? renderer.getOwnership() : new StringElement,
-                                   IElement::rCompact);
+        result = new MemberElement(key, renderer.result ? renderer.getOwnership() : new StringElement);
     }
 
     void RenderJSONVisitor::operator()(const ObjectElement& e) {
@@ -141,7 +138,6 @@ namespace refract
         FetchMembers(e, members);
         ObjectElement* o = new ObjectElement;
         o->set(members);
-        o->renderType(IElement::rCompact);
         result = o;
     }
 
@@ -172,7 +168,7 @@ namespace refract
         FetchMembers(e, members);
         ArrayElement* a = new ArrayElement;
         a->set(members);
-        a->renderType(IElement::rCompact);
+        //a->renderType(IElement::rCompact);
         result = a;
     }
 
@@ -190,7 +186,7 @@ namespace refract
         }
 
         T* result = IElement::Create(*v);
-        result->renderType(IElement::rCompact);
+        //result->renderType(IElement::rCompact);
 
         return result;
     }

@@ -77,9 +77,9 @@ namespace refract
         return it;
     }
 
-    StringElement* IElement::Create(const char* value, IElement::renderFlags render /* = IElement::rDefault */)
+    StringElement* IElement::Create(const char* value)
     {
-        return Create(std::string(value), render);
+        return Create(std::string(value));
     };
 
     MemberElement& IElement::MemberElementCollection::operator[](const std::string& name)

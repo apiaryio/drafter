@@ -605,31 +605,6 @@ namespace drafter {
             }
         };
 
-        refract::IElement* SetSerializeFlag(refract::IElement* element) {
-            refract::TypeQueryVisitor query;
-            refract::VisitBy(*element, query);
-
-            RefractElements* children = NULL;
-
-            if (query.get() == refract::TypeQueryVisitor::Array) {
-                children = &static_cast<refract::ArrayElement*>(element)->value;
-            }
-            else if (query.get() == refract::TypeQueryVisitor::Enum) {
-                children = &static_cast<refract::EnumElement*>(element)->value;
-
-            }
-            else if (query.get() == refract::TypeQueryVisitor::Object) {
-                children = &static_cast<refract::ObjectElement*>(element)->value;
-
-            }
-
-            if (children) {
-                refract::SetRenderFlag(*children, refract::IElement::rFull);
-            }
-
-            return element;
-        }
-
         template <typename T>
         struct SaveSamples {
 
@@ -644,7 +619,6 @@ namespace drafter {
                 for (auto sample : samples) {
                     T* sampleElement = new T;
                     sampleElement->set(std::get<0>(sample));
-                    SetSerializeFlag(sampleElement);
                     a->push_back(sampleElement);
                 }
 
@@ -664,7 +638,6 @@ namespace drafter {
 
                 T* defaultElement = new T;
                 defaultElement->set(std::get<0>(*defaults.rbegin()));
-                SetSerializeFlag(defaultElement);
                 element->attributes[SerializeKey::Default] = defaultElement;
             }
 

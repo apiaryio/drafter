@@ -113,41 +113,22 @@ namespace refract
         virtual bool empty() const = 0;
 
         /**
-         * select seriaization/rendering type of element
-         * by default are elements serialized in expanded form,
-         * with compact form of meta and attributes
-         *
-         * `renderType()` allows to change default behavior of selected element
-         * (behavioration must be implemented in serialization visitors - it is partially done)
-         */
-
-        typedef enum {
-            rDefault = 0,
-            rFull,
-            rCompact,
-            rCompactContent
-        } renderFlags;
-
-        virtual renderFlags renderType() const = 0;
-        virtual void renderType(const renderFlags render) = 0;
-
-        /**
          * Returns new element with content set as `value`
          * Type of returned element depends on type of `value`
          *
          * In current implementation iis able create just primitive element types: (Bool|Number|String)
          */
         template <typename T>
-        static typename ElementTypeSelector<T>::ElementType* Create(const T& value, IElement::renderFlags render = IElement::rDefault)
+        static typename ElementTypeSelector<T>::ElementType* Create(const T& value)
         {
             typedef typename ElementTypeSelector<T>::ElementType ElementType;
-            return new ElementType(value, render);
+            return new ElementType(value);
         };
 
         /**
          * overrided for static function `Create()` with classic c-string
          */
-        static StringElement* Create(const char* value, IElement::renderFlags render = IElement::rDefault);
+        static StringElement* Create(const char* value);
 
         virtual ~IElement() {}
     };
@@ -170,7 +151,6 @@ namespace refract
     protected:
         std::string element_;
         bool hasContent; ///< was content of element already set? \see empty()
-        renderFlags renderStrategy;
 
     public:
 
@@ -208,7 +188,6 @@ namespace refract
             Type* element =  new Type;
 
             element->hasContent = self->hasContent;
-            element->renderStrategy = self->renderStrategy;
 
             if (flags & cElement) {
                 element->element_ = self->element_;
@@ -233,25 +212,13 @@ namespace refract
             return element;
         }
 
-        Element() : hasContent(false), renderStrategy(IElement::rDefault), value(TraitType::init())
+        Element() : hasContent(false), value(TraitType::init())
         {
         }
 
         virtual bool empty() const
         {
             return !hasContent;
-        }
-
-        // FIXME: remove all thing related to "render" from base class
-        // it should be implemented in "serialize" class
-        virtual renderFlags renderType() const
-        {
-            return renderStrategy;
-        }
-
-        virtual void renderType(const renderFlags render)
-        {
-            renderStrategy = render;
         }
 
         virtual ~Element()
@@ -287,10 +254,9 @@ namespace refract
 
         StringElement() : Type() {}
 
-        StringElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type()
+        StringElement(const TraitType::ValueType& value) : Type()
         {
             set(value);
-            renderType(render);
         }
     };
 
@@ -308,10 +274,9 @@ namespace refract
 
         NumberElement() : Type() {}
 
-        NumberElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type()
+        NumberElement(const TraitType::ValueType& value) : Type()
         {
             set(value);
-            renderType(render);
         }
     };
 
@@ -329,9 +294,8 @@ namespace refract
 
         BooleanElement() : Type() {}
 
-        BooleanElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type() {
+        BooleanElement(const TraitType::ValueType& value) : Type() {
             set(value);
-            renderType(render);
         }
     };
 
@@ -385,10 +349,9 @@ namespace refract
         {
         }
 
-        ArrayElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type()
+        ArrayElement(const TraitType::ValueType& value) : Type()
         {
             set(value);
-            renderType(render);
         }
 
         void push_back(IElement* e)
@@ -411,10 +374,9 @@ namespace refract
         {
         }
 
-        EnumElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type()
+        EnumElement(const TraitType::ValueType& value) : Type()
         {
             set(value);
-            renderType(render);
         }
 
         void push_back(IElement* e)
@@ -462,16 +424,14 @@ namespace refract
         {
         }
 
-        MemberElement(IElement* key, IElement* value, IElement::renderFlags render = IElement::rDefault) : Type()
+        MemberElement(IElement* key, IElement* value) : Type()
         {
             set(key, value);
-            renderType(render);
         }
 
-        MemberElement(const std::string& key, IElement* value, IElement::renderFlags render = IElement::rDefault) : Type()
+        MemberElement(const std::string& key, IElement* value) : Type()
         {
             set(key, value);
-            renderType(render);
         }
 
         void set(const std::string& key, IElement* element)
@@ -533,15 +493,13 @@ namespace refract
         {
         }
 
-        ObjectElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type()
+        ObjectElement(const TraitType::ValueType& value) : Type()
         {
             set(value);
-            renderType(render);
         }
 
-        ObjectElement(IElement* e, IElement::renderFlags render = IElement::rDefault) : Type()
+        ObjectElement(IElement* e) : Type()
         {
-            renderType(render);
             value.push_back(e);
         }
 
@@ -565,10 +523,9 @@ namespace refract
         {
         }
 
-        ExtendElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type()
+        ExtendElement(const TraitType::ValueType& value) : Type()
         {
             set(value);
-            renderType(render);
         }
 
         void push_back(IElement* e);
@@ -589,15 +546,13 @@ namespace refract
         {
         }
 
-        OptionElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type()
+        OptionElement(const TraitType::ValueType& value) : Type()
         {
             set(value);
-            renderType(render);
         }
 
-        OptionElement(IElement* e, IElement::renderFlags render = IElement::rDefault) : Type()
+        OptionElement(IElement* e) : Type()
         {
-            renderType(render);
             value.push_back(e);
         }
 
@@ -630,15 +585,13 @@ namespace refract
         {
         }
 
-        SelectElement(const TraitType::ValueType& value, IElement::renderFlags render = IElement::rDefault) : Type()
+        SelectElement(const TraitType::ValueType& value) : Type()
         {
             set(value);
-            renderType(render);
         }
 
-        SelectElement(OptionElement* e, IElement::renderFlags render = IElement::rDefault) : Type()
+        SelectElement(OptionElement* e) : Type()
         {
-            renderType(render);
             value.push_back(e);
         }
 

@@ -19,9 +19,9 @@ namespace drafter {
     {
         refract::ArrayElement* array = new refract::ArrayElement;
 
-        if (rFull) {
-            value->renderType(refract::IElement::rFull);
-        }
+        //if (rFull) {
+        //    value->renderType(refract::IElement::rFull);
+        //}
 
         array->push_back(value);
         return array;

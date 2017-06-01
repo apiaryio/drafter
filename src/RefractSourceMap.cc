@@ -18,7 +18,6 @@ refract::IElement* drafter::SourceMapToRefract(const mdp::CharactersRangeSet& so
     refract::ArrayElement::ValueType ranges;
     std::transform(sourceMap.begin(), sourceMap.end(), std::back_inserter(ranges), CharacterRangeToRefract);
 
-    sourceMapElement->renderType(refract::IElement::rCompactContent);
     sourceMapElement->set(ranges);
 
     refract::ArrayElement* element = new refract::ArrayElement;

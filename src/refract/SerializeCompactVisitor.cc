@@ -7,30 +7,10 @@
 //
 #include "Element.h"
 
-#include "SerializeVisitor.h"
 #include "SerializeCompactVisitor.h"
 
 namespace refract
 {
-
-    struct IsFullRender {
-        typedef const IElement* first_argument_type;
-        typedef const bool second_argument_type;
-        typedef const bool result_type;
-
-        bool operator()(const IElement* element, const bool generateSourceMap) const {
-
-            if (generateSourceMap) {
-                IElement::MemberElementCollection::const_iterator it = element->attributes.find("sourceMap");
-                // there is sourceMap in attributes
-                if (it != element->attributes.end()) {
-                    return true;
-                }
-            }
-
-            return element && (element->renderType() == IElement::rFull || element->renderType() == IElement::rCompactContent);
-        }
-    };
 
     void SosSerializeCompactVisitor::operator()(const IElement& e)
     {
@@ -64,16 +44,9 @@ namespace refract
         {
 
             for (typename Values::const_iterator it = values.begin(); it != values.end(); ++it) {
-                if (IsFullRender()((*it), generateSourceMap)) {
-                    SosSerializeVisitor s(generateSourceMap);
-                    Visit(s, *(*it));
-                    array.push(s.get());
-                }
-                else {
-                    SosSerializeCompactVisitor s(generateSourceMap);
-                    VisitBy(*(*it), s);
-                    array.push(s.value());
-                }
+                SosSerializeCompactVisitor s(generateSourceMap);
+                VisitBy(*(*it), s);
+                array.push(s.value());
             }
         }
     }
@@ -101,47 +74,23 @@ namespace refract
         }
 
         if (e.value.second) {
-            if (!IsFullRender()(e.value.second, generateSourceMap)) {
-                VisitBy(*e.value.second, *this);
-            }
-            else { // value has request to be serialized in Expanded form
-                SosSerializeVisitor s(generateSourceMap);
-                Visit(s, *e.value.second);
-                value_ = s.get();
-            }
+            VisitBy(*e.value.second, *this);
         }
     }
 
     void SosSerializeCompactVisitor::operator()(const ObjectElement& e)
     {
-
         typedef ObjectElement::ValueType::const_iterator iterator;
-        iterator it = find_if(e.value.begin(), e.value.end(), std::bind(IsFullRender(), std::placeholders::_1, generateSourceMap));
 
-        // if there is ANY element required to be serialized in Full
-        // we must use array to serialize
-        if (it != e.value.end()) {
-            sos::Array arr;
+        sos::Object obj;
 
-            for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-                SosSerializeVisitor s(generateSourceMap);
-                Visit(s, *(*it));
-                arr.push(s.get());
-            }
-
-            value_ = arr;
+        for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
+            SosSerializeCompactVisitor sv(generateSourceMap);
+            VisitBy(*(*it), sv);
+            obj.set(sv.key(), sv.value());
         }
-        else {
-            sos::Object obj;
 
-            for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-                SosSerializeCompactVisitor sv(generateSourceMap);
-                VisitBy(*(*it), sv);
-                obj.set(sv.key(), sv.value());
-            }
-
-            value_ = obj;
-        }
+        value_ = obj;
     }
 
     void SosSerializeCompactVisitor::operator()(const ExtendElement& e)
