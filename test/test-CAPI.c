@@ -10,7 +10,7 @@
 const char* source = "# My API\n## GET /message\n + Response 200 (text/plain)\n\n        Hello World\n";
 
 /* Just partial we need no check full string */
-const char* expected = "element: \"parseResult\"\ncontent:\n  -\n    element: \"category\"\n    meta:\n      classes:\n        - \"api\"\n      title: \"My API\"\n";
+const char* expected = "element: \"parseResult\"\ncontent:\n  -\n    element: \"category\"\n    meta:\n      classes:\n        element: \"array\"\n        content:\n          -\n            element: \"string\"\n            content: \"api\"\n      title:\n        element: \"string\"\n        content: \"My API\"\n";
 
 int test_parse_and_serialize() {
     drafter_result* result = NULL;
