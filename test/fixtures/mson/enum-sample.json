@@ -4,18 +4,33 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -24,7 +39,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "User"
+                    "id": {
+                      "element": "string",
+                      "content": "User"
+                    }
                   },
                   "content": [
                     {
@@ -59,18 +77,24 @@
                         "value": {
                           "element": "enum",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "string",
-                                  "content": "3"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "4"
+                                  "element": "enum",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "3"
+                                    },
+                                    {
+                                      "element": "string",
+                                      "content": "4"
+                                    }
+                                  ]
                                 }
                               ]
-                            ]
+                            }
                           }
                         }
                       }
@@ -78,7 +102,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "FIXME: must be handled by different way in snowcrash"
+                        "description": {
+                          "element": "string",
+                          "content": "FIXME: must be handled by different way in snowcrash"
+                        }
                       },
                       "content": {
                         "key": {
@@ -103,7 +130,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "nontyped enum, samples should be by default string"
+                        "description": {
+                          "element": "string",
+                          "content": "nontyped enum, samples should be by default string"
+                        }
                       },
                       "content": {
                         "key": {
@@ -113,18 +143,24 @@
                         "value": {
                           "element": "enum",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "string",
-                                  "content": "3"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "4"
+                                  "element": "enum",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "3"
+                                    },
+                                    {
+                                      "element": "string",
+                                      "content": "4"
+                                    }
+                                  ]
                                 }
                               ]
-                            ]
+                            }
                           }
                         }
                       }
@@ -132,7 +168,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "typed enum -> samples && default should be numbers"
+                        "description": {
+                          "element": "string",
+                          "content": "typed enum -> samples && default should be numbers"
+                        }
                       },
                       "content": {
                         "key": {
@@ -142,34 +181,46 @@
                         "value": {
                           "element": "enum",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "number",
-                                  "content": 3
+                                  "element": "enum",
+                                  "content": [
+                                    {
+                                      "element": "number",
+                                      "content": 3
+                                    },
+                                    {
+                                      "element": "number",
+                                      "content": 4
+                                    }
+                                  ]
                                 },
                                 {
-                                  "element": "number",
-                                  "content": 4
-                                }
-                              ],
-                              [
-                                {
-                                  "element": "number",
-                                  "content": 5
-                                },
-                                {
-                                  "element": "number",
-                                  "content": 6
+                                  "element": "enum",
+                                  "content": [
+                                    {
+                                      "element": "number",
+                                      "content": 5
+                                    },
+                                    {
+                                      "element": "number",
+                                      "content": 6
+                                    }
+                                  ]
                                 }
                               ]
-                            ],
-                            "default": [
-                              {
-                                "element": "number",
-                                "content": 1
-                              }
-                            ]
+                            },
+                            "default": {
+                              "element": "enum",
+                              "content": [
+                                {
+                                  "element": "number",
+                                  "content": 1
+                                }
+                              ]
+                            }
                           }
                         }
                       }
@@ -177,7 +228,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "nontyped enum, by default string, but overided by type specification on content members"
+                        "description": {
+                          "element": "string",
+                          "content": "nontyped enum, by default string, but overided by type specification on content members"
+                        }
                       },
                       "content": {
                         "key": {
@@ -202,7 +256,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "nontyped enum, by default string, but overided by type specification on content members"
+                        "description": {
+                          "element": "string",
+                          "content": "nontyped enum, by default string, but overided by type specification on content members"
+                        }
                       },
                       "content": {
                         "key": {
@@ -219,9 +276,15 @@
                             {
                               "element": "number",
                               "attributes": {
-                                "samples": [
-                                  4
-                                ]
+                                "samples": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "number",
+                                      "content": 4
+                                    }
+                                  ]
+                                }
                               }
                             }
                           ]

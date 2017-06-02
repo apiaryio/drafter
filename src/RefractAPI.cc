@@ -63,7 +63,7 @@ namespace drafter {
         }
 
         template<typename T, typename C, typename F>
-        T* CollectionToRefract(const NodeInfo<C>& collection, ConversionContext& context, const F& transformFunctor, const std::string& key = std::string(), const refract::IElement::renderFlags renderType = refract::IElement::rCompact)
+        T* CollectionToRefract(const NodeInfo<C>& collection, ConversionContext& context, const F& transformFunctor, const std::string& key = std::string())
         {
             T* element = new T;
             RefractElements content;
@@ -77,8 +77,6 @@ namespace drafter {
             RemoveEmptyElements(content);
 
             element->set(content);
-
-            element->renderType(renderType);
 
             return element;
         }
@@ -112,11 +110,9 @@ namespace drafter {
         refract::MemberElement* element = new refract::MemberElement;
 
         refract::ArrayElement* classes = CreateArrayElement(SerializeKey::User);
-        classes->renderType(refract::IElement::rCompact);
 
         element->meta[SerializeKey::Classes] = classes;
         element->set(refract::IElement::Create(metadata.node->first), refract::IElement::Create(metadata.node->second));
-        element->renderType(refract::IElement::rFull);
 
         AttachSourceMap(element, metadata);
 
@@ -140,19 +136,18 @@ namespace drafter {
         refract::ArrayElement* element = CollectionToRefract<refract::ArrayElement>(MAKE_NODE_INFO(parameter, values),
                                                                                     context,
                                                                                     LiteralToRefract<std::string>,
-                                                                                    SerializeKey::Enum,
-                                                                                    refract::IElement::rDefault);
+                                                                                    SerializeKey::Enum);
 
         // Add sample value
         if (!parameter.node->exampleValue.empty()) {
             refract::ArrayElement* samples = new refract::ArrayElement;
-            samples->push_back(CreateArrayElement(LiteralToRefract<std::string>(MAKE_NODE_INFO(parameter, exampleValue), context), true));
+            samples->push_back(CreateArrayElement(LiteralToRefract<std::string>(MAKE_NODE_INFO(parameter, exampleValue), context)));
             element->attributes[SerializeKey::Samples] = samples;
         }
 
         // Add default value
         if (!parameter.node->defaultValue.empty()) {
-            element->attributes[SerializeKey::Default] = CreateArrayElement(LiteralToRefract<std::string>(MAKE_NODE_INFO(parameter, defaultValue), context), true);
+            element->attributes[SerializeKey::Default] = CreateArrayElement(LiteralToRefract<std::string>(MAKE_NODE_INFO(parameter, defaultValue), context));
         }
 
         return element;
@@ -214,7 +209,7 @@ namespace drafter {
 
     refract::IElement* ParametersToRefract(const NodeInfo<snowcrash::Parameters>& parameters, ConversionContext& context)
     {
-        return CollectionToRefract<refract::ObjectElement>(parameters, context, ParameterToRefract, SerializeKey::HrefVariables, refract::IElement::rFull);
+        return CollectionToRefract<refract::ObjectElement>(parameters, context, ParameterToRefract, SerializeKey::HrefVariables);
     }
 
     refract::IElement* HeaderToRefract(const NodeInfo<snowcrash::Header>& header, ConversionContext& context)
@@ -288,8 +283,7 @@ namespace drafter {
             element->attributes[SerializeKey::Headers] = CollectionToRefract<refract::ArrayElement>(MAKE_NODE_INFO(payload, headers),
                                                                                                     context,
                                                                                                     HeaderToRefract,
-                                                                                                    SerializeKey::HTTPHeaders,
-                                                                                                    refract::IElement::rFull);
+                                                                                                    SerializeKey::HTTPHeaders);
         }
 
         content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
@@ -391,7 +385,6 @@ namespace drafter {
 
         if (!action.node->attributes.empty()) {
             refract::IElement* dataStructure = DataStructureToRefract(MAKE_NODE_INFO(action, attributes), context);
-            dataStructure->renderType(refract::IElement::rFull);
             element->attributes[SerializeKey::Data] = dataStructure;
         }
 

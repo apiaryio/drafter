@@ -4,10 +4,19 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "<API name>"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "<API name>"
+        }
       },
       "content": [
         {
@@ -17,9 +26,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -28,13 +43,19 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "User"
+                    "id": {
+                      "element": "string",
+                      "content": "User"
+                    }
                   },
                   "content": [
                     {
                       "element": "member",
                       "meta": {
-                        "description": "An additional\nmulti-line description.\n\n- here\n\n- there"
+                        "description": {
+                          "element": "string",
+                          "content": "An additional\nmulti-line description.\n\n- here\n\n- there"
+                        }
                       },
                       "content": {
                         "key": {
@@ -50,7 +71,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "address description\n\nmultilined object\ndescription"
+                        "description": {
+                          "element": "string",
+                          "content": "address description\n\nmultilined object\ndescription"
+                        }
                       },
                       "content": {
                         "key": {
@@ -63,7 +87,10 @@
                             {
                               "element": "member",
                               "meta": {
-                                "description": "this should be member of address"
+                                "description": {
+                                  "element": "string",
+                                  "content": "this should be member of address"
+                                }
                               },
                               "content": {
                                 "key": {
@@ -82,7 +109,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "this should ...\n\nbe member of user"
+                        "description": {
+                          "element": "string",
+                          "content": "this should ...\n\nbe member of user"
+                        }
                       },
                       "content": {
                         "key": {

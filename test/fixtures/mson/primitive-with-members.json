@@ -4,10 +4,19 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "<API name>"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "<API name>"
+        }
       },
       "content": [
         {
@@ -17,9 +26,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -28,7 +43,10 @@
                 {
                   "element": "string",
                   "meta": {
-                    "id": "StringType"
+                    "id": {
+                      "element": "string",
+                      "content": "StringType"
+                    }
                   }
                 }
               ]
@@ -39,7 +57,10 @@
                 {
                   "element": "boolean",
                   "meta": {
-                    "id": "BooleanType"
+                    "id": {
+                      "element": "string",
+                      "content": "BooleanType"
+                    }
                   }
                 }
               ]
@@ -50,7 +71,10 @@
                 {
                   "element": "number",
                   "meta": {
-                    "id": "NumberType"
+                    "id": {
+                      "element": "string",
+                      "content": "NumberType"
+                    }
                   }
                 }
               ]
@@ -61,7 +85,10 @@
                 {
                   "element": "number",
                   "meta": {
-                    "id": "NumericType"
+                    "id": {
+                      "element": "string",
+                      "content": "NumericType"
+                    }
                   }
                 }
               ]
@@ -72,7 +99,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "ObjectType"
+                    "id": {
+                      "element": "string",
+                      "content": "ObjectType"
+                    }
                   },
                   "content": [
                     {
@@ -98,207 +128,396 @@
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 8,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                74,
-                6
+        "code": {
+          "element": "number",
+          "content": 8
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 74
+                    },
+                    {
+                      "element": "number",
+                      "content": 6
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "sub-types of primitive types should not have nested members"
     },
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 5,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                74,
-                6
+        "code": {
+          "element": "number",
+          "content": 5
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 74
+                    },
+                    {
+                      "element": "number",
+                      "content": 6
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "ignoring unrecognized block"
     },
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 8,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                105,
-                6
+        "code": {
+          "element": "number",
+          "content": 8
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 105
+                    },
+                    {
+                      "element": "number",
+                      "content": 6
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "sub-types of primitive types should not have nested members"
     },
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 5,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                105,
-                6
+        "code": {
+          "element": "number",
+          "content": 5
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 105
+                    },
+                    {
+                      "element": "number",
+                      "content": 6
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "ignoring unrecognized block"
     },
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 8,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                134,
-                6
+        "code": {
+          "element": "number",
+          "content": 8
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 134
+                    },
+                    {
+                      "element": "number",
+                      "content": 6
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "sub-types of primitive types should not have nested members"
     },
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 5,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                134,
-                6
+        "code": {
+          "element": "number",
+          "content": 5
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 134
+                    },
+                    {
+                      "element": "number",
+                      "content": 6
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "ignoring unrecognized block"
     },
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 8,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                165,
-                15
+        "code": {
+          "element": "number",
+          "content": 8
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 165
+                    },
+                    {
+                      "element": "number",
+                      "content": 15
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "type section `Properties` is only allowed for a type sub-typed from an object type"
     },
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 5,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                165,
-                15
+        "code": {
+          "element": "number",
+          "content": 5
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 165
+                    },
+                    {
+                      "element": "number",
+                      "content": 15
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "unexpected header block, expected a group, resource or an action definition, e.g. '# Group <name>', '# <resource name> [<URI>]' or '# <HTTP method> <URI>'"
     },
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 5,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                180,
-                6
+        "code": {
+          "element": "number",
+          "content": 5
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 180
+                    },
+                    {
+                      "element": "number",
+                      "content": 6
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "ignoring unrecognized block"
     }

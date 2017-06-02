@@ -4,32 +4,50 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "<API name>"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "<API name>"
+        }
       },
       "attributes": {
-        "metadata": [
-          {
-            "element": "member",
-            "meta": {
-              "classes": [
-                "user"
-              ]
-            },
-            "content": {
-              "key": {
-                "element": "string",
-                "content": "Format"
+        "metadata": {
+          "element": "array",
+          "content": [
+            {
+              "element": "member",
+              "meta": {
+                "classes": {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "string",
+                      "content": "user"
+                    }
+                  ]
+                }
               },
-              "value": {
-                "element": "string",
-                "content": "1A"
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "Format"
+                },
+                "value": {
+                  "element": "string",
+                  "content": "1A"
+                }
               }
             }
-          }
-        ]
+          ]
+        }
       },
       "content": [
         {
@@ -39,10 +57,19 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": "<resource group name>"
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": "<resource group name>"
+            }
           },
           "content": [
             {
@@ -52,23 +79,41 @@
             {
               "element": "resource",
               "meta": {
-                "title": "<resource name>"
+                "title": {
+                  "element": "string",
+                  "content": "<resource name>"
+                }
               },
               "attributes": {
-                "href": "/resource/{parameter}",
+                "href": {
+                  "element": "string",
+                  "content": "/resource/{parameter}"
+                },
                 "hrefVariables": {
                   "element": "hrefVariables",
                   "content": [
                     {
                       "element": "member",
                       "meta": {
-                        "description": "<description>",
-                        "title": "<type>"
+                        "description": {
+                          "element": "string",
+                          "content": "<description>"
+                        },
+                        "title": {
+                          "element": "string",
+                          "content": "<type>"
+                        }
                       },
                       "attributes": {
-                        "typeAttributes": [
-                          "optional"
-                        ]
+                        "typeAttributes": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "optional"
+                            }
+                          ]
+                        }
                       },
                       "content": {
                         "key": {
@@ -78,20 +123,29 @@
                         "value": {
                           "element": "enum",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "string",
-                                  "content": "<example value>"
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "<example value>"
+                                    }
+                                  ]
                                 }
                               ]
-                            ],
-                            "default": [
-                              {
-                                "element": "string",
-                                "content": "<default value>"
-                              }
-                            ]
+                            },
+                            "default": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "<default value>"
+                                }
+                              ]
+                            }
                           },
                           "content": [
                             {
@@ -120,13 +174,19 @@
                     {
                       "element": "object",
                       "meta": {
-                        "id": "<resource name>"
+                        "id": {
+                          "element": "string",
+                          "content": "<resource name>"
+                        }
                       },
                       "content": [
                         {
                           "element": "member",
                           "meta": {
-                            "description": "<attribute property description>"
+                            "description": {
+                              "element": "string",
+                              "content": "<attribute property description>"
+                            }
                           },
                           "content": {
                             "key": {
@@ -146,23 +206,41 @@
                 {
                   "element": "transition",
                   "meta": {
-                    "title": "<action name>"
+                    "title": {
+                      "element": "string",
+                      "content": "<action name>"
+                    }
                   },
                   "attributes": {
-                    "relation": "relation-name",
+                    "relation": {
+                      "element": "string",
+                      "content": "relation-name"
+                    },
                     "hrefVariables": {
                       "element": "hrefVariables",
                       "content": [
                         {
                           "element": "member",
                           "meta": {
-                            "description": "<description>",
-                            "title": "<type>"
+                            "description": {
+                              "element": "string",
+                              "content": "<description>"
+                            },
+                            "title": {
+                              "element": "string",
+                              "content": "<type>"
+                            }
                           },
                           "attributes": {
-                            "typeAttributes": [
-                              "optional"
-                            ]
+                            "typeAttributes": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "optional"
+                                }
+                              ]
+                            }
                           },
                           "content": {
                             "key": {
@@ -172,20 +250,29 @@
                             "value": {
                               "element": "enum",
                               "attributes": {
-                                "samples": [
-                                  [
+                                "samples": {
+                                  "element": "array",
+                                  "content": [
                                     {
-                                      "element": "string",
-                                      "content": "<example value>"
+                                      "element": "array",
+                                      "content": [
+                                        {
+                                          "element": "string",
+                                          "content": "<example value>"
+                                        }
+                                      ]
                                     }
                                   ]
-                                ],
-                                "default": [
-                                  {
-                                    "element": "string",
-                                    "content": "<default value>"
-                                  }
-                                ]
+                                },
+                                "default": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "<default value>"
+                                    }
+                                  ]
+                                }
                               },
                               "content": [
                                 {
@@ -214,10 +301,16 @@
                         {
                           "element": "httpRequest",
                           "meta": {
-                            "title": "<request name>"
+                            "title": {
+                              "element": "string",
+                              "content": "<request name>"
+                            }
                           },
                           "attributes": {
-                            "method": "POST",
+                            "method": {
+                              "element": "string",
+                              "content": "POST"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -284,24 +377,42 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "text/plain"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "text/plain"
+                                }
                               },
                               "content": "<request body>\n"
                             },
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "text/plain"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "text/plain"
+                                }
                               },
                               "content": "<request schema>\n"
                             }
@@ -310,7 +421,10 @@
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "200",
+                            "statusCode": {
+                              "element": "string",
+                              "content": "200"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -377,24 +491,42 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "text/plain"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "text/plain"
+                                }
                               },
                               "content": "<response body>\n"
                             },
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "text/plain"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "text/plain"
+                                }
                               },
                               "content": "<response schema>\n"
                             }
@@ -408,10 +540,16 @@
                         {
                           "element": "httpRequest",
                           "meta": {
-                            "title": "<request name>"
+                            "title": {
+                              "element": "string",
+                              "content": "<request name>"
+                            }
                           },
                           "attributes": {
-                            "method": "POST",
+                            "method": {
+                              "element": "string",
+                              "content": "POST"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -478,24 +616,42 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "text/plain"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "text/plain"
+                                }
                               },
                               "content": "<request body>\n"
                             },
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "text/plain"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "text/plain"
+                                }
                               },
                               "content": "<request schema>\n"
                             }
@@ -504,7 +660,10 @@
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "201",
+                            "statusCode": {
+                              "element": "string",
+                              "content": "201"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -558,18 +717,30 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "content": "<resource model body>\n"
                             },
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
                               },
                               "content": "<resource model schema>\n"
                             }
@@ -583,10 +754,16 @@
                         {
                           "element": "httpRequest",
                           "meta": {
-                            "title": "<request name>"
+                            "title": {
+                              "element": "string",
+                              "content": "<request name>"
+                            }
                           },
                           "attributes": {
-                            "method": "POST",
+                            "method": {
+                              "element": "string",
+                              "content": "POST"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -653,24 +830,42 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "text/plain"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "text/plain"
+                                }
                               },
                               "content": "<request body>\n"
                             },
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "text/plain"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "text/plain"
+                                }
                               },
                               "content": "<request schema>\n"
                             }
@@ -679,7 +874,10 @@
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "201",
+                            "statusCode": {
+                              "element": "string",
+                              "content": "201"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -737,24 +935,42 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
                               },
                               "content": "{\n  \"<data structure property name>\": \"<data structure property value>\"\n}"
                             },
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/schema+json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/schema+json"
+                                }
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"<data structure property name>\": {\n      \"type\": \"string\",\n      \"description\": \"<data structure property description>\"\n    }\n  }\n}"
                             }
@@ -771,9 +987,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -782,14 +1004,23 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "<data structure name>",
-                    "description": "<data structure description>"
+                    "id": {
+                      "element": "string",
+                      "content": "<data structure name>"
+                    },
+                    "description": {
+                      "element": "string",
+                      "content": "<data structure description>"
+                    }
                   },
                   "content": [
                     {
                       "element": "member",
                       "meta": {
-                        "description": "<data structure property description>"
+                        "description": {
+                          "element": "string",
+                          "content": "<data structure property description>"
+                        }
                       },
                       "content": {
                         "key": {
@@ -813,77 +1044,135 @@
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 9,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                685,
-                45
+        "code": {
+          "element": "number",
+          "content": 9
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 685
+                    },
+                    {
+                      "element": "number",
+                      "content": 45
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead"
     },
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 9,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                992,
-                45
+        "code": {
+          "element": "number",
+          "content": 9
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 992
+                    },
+                    {
+                      "element": "number",
+                      "content": 45
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead"
     },
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 4,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                200,
-                102
+        "code": {
+          "element": "number",
+          "content": 4
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 200
+                    },
+                    {
+                      "element": "number",
+                      "content": 102
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "invalid value format for 'number' type. please check mson specification for valid format"
     }
   ]
 }
 
-
-OK.
-warning: (9)  the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead :685:45
-warning: (9)  the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead :992:45
-warning: (4)  invalid value format for 'number' type. please check mson specification for valid format :200:102

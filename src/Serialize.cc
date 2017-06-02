@@ -15,13 +15,9 @@ using namespace drafter;
 
 namespace drafter {
 
-    refract::ArrayElement* CreateArrayElement(refract::IElement* value, bool rFull)
+    refract::ArrayElement* CreateArrayElement(refract::IElement* value)
     {
         refract::ArrayElement* array = new refract::ArrayElement;
-
-        if (rFull) {
-            value->renderType(refract::IElement::rFull);
-        }
 
         array->push_back(value);
         return array;

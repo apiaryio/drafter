@@ -4,10 +4,19 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "<API name>"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "<API name>"
+        }
       },
       "content": [
         {
@@ -17,9 +26,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -28,7 +43,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "User"
+                    "id": {
+                      "element": "string",
+                      "content": "User"
+                    }
                   },
                   "content": [
                     {
@@ -41,9 +59,15 @@
                         "value": {
                           "element": "string",
                           "attributes": {
-                            "samples": [
-                              "abc"
-                            ]
+                            "samples": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "abc"
+                                }
+                              ]
+                            }
                           }
                         }
                       }
@@ -58,9 +82,15 @@
                         "value": {
                           "element": "string",
                           "attributes": {
-                            "samples": [
-                              "abc"
-                            ]
+                            "samples": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "abc"
+                                }
+                              ]
+                            }
                           }
                         }
                       }
@@ -75,9 +105,15 @@
                         "value": {
                           "element": "string",
                           "attributes": {
-                            "samples": [
-                              "abc"
-                            ]
+                            "samples": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "abc"
+                                }
+                              ]
+                            }
                           }
                         }
                       }

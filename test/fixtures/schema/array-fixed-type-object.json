@@ -4,28 +4,52 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": ""
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": ""
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": "Test"
+                "title": {
+                  "element": "string",
+                  "content": "Test"
+                }
               },
               "attributes": {
-                "href": "/Test"
+                "href": {
+                  "element": "string",
+                  "content": "/Test"
+                }
               },
               "content": [
                 {
@@ -34,7 +58,10 @@
                     {
                       "element": "object",
                       "meta": {
-                        "id": "Test"
+                        "id": {
+                          "element": "string",
+                          "content": "Test"
+                        }
                       },
                       "content": [
                         {
@@ -53,12 +80,21 @@
                         {
                           "element": "member",
                           "meta": {
-                            "description": "List description"
+                            "description": {
+                              "element": "string",
+                              "content": "List description"
+                            }
                           },
                           "attributes": {
-                            "typeAttributes": [
-                              "required"
-                            ]
+                            "typeAttributes": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "required"
+                                }
+                              ]
+                            }
                           },
                           "content": {
                             "key": {
@@ -74,12 +110,21 @@
                         {
                           "element": "member",
                           "meta": {
-                            "description": "References to the medias in the list"
+                            "description": {
+                              "element": "string",
+                              "content": "References to the medias in the list"
+                            }
                           },
                           "attributes": {
-                            "typeAttributes": [
-                              "fixedType"
-                            ]
+                            "typeAttributes": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "fixedType"
+                                }
+                              ]
+                            }
                           },
                           "content": {
                             "key": {
@@ -105,16 +150,25 @@
             {
               "element": "resource",
               "meta": {
-                "title": ""
+                "title": {
+                  "element": "string",
+                  "content": ""
+                }
               },
               "attributes": {
-                "href": "/"
+                "href": {
+                  "element": "string",
+                  "content": "/"
+                }
               },
               "content": [
                 {
                   "element": "transition",
                   "meta": {
-                    "title": ""
+                    "title": {
+                      "element": "string",
+                      "content": ""
+                    }
                   },
                   "content": [
                     {
@@ -123,14 +177,20 @@
                         {
                           "element": "httpRequest",
                           "attributes": {
-                            "method": "GET"
+                            "method": {
+                              "element": "string",
+                              "content": "GET"
+                            }
                           },
                           "content": []
                         },
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "200",
+                            "statusCode": {
+                              "element": "string",
+                              "content": "200"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -162,24 +222,42 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
                               },
                               "content": "{\n  \"id\": 12,\n  \"name\": \"Films you must watch\",\n  \"medias\": [\n    {\n      \"mediaId\": 25,\n      \"name\": \"Some name\"\n    }\n  ]\n}"
                             },
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/schema+json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/schema+json"
+                                }
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"number\"\n    },\n    \"name\": {\n      \"type\": \"string\",\n      \"description\": \"List description\"\n    },\n    \"medias\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"mediaId\": {\n            \"type\": \"number\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"mediaId\",\n          \"name\"\n        ]\n      },\n      \"description\": \"References to the medias in the list\"\n    }\n  },\n  \"required\": [\n    \"name\"\n  ]\n}"
                             }
@@ -196,9 +274,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -207,15 +291,24 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "Media"
+                    "id": {
+                      "element": "string",
+                      "content": "Media"
+                    }
                   },
                   "content": [
                     {
                       "element": "member",
                       "attributes": {
-                        "typeAttributes": [
-                          "required"
-                        ]
+                        "typeAttributes": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "required"
+                            }
+                          ]
+                        }
                       },
                       "content": {
                         "key": {
@@ -231,9 +324,15 @@
                     {
                       "element": "member",
                       "attributes": {
-                        "typeAttributes": [
-                          "required"
-                        ]
+                        "typeAttributes": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "required"
+                            }
+                          ]
+                        }
                       },
                       "content": {
                         "key": {

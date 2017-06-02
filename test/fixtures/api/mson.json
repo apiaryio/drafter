@@ -4,18 +4,33 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "API name"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "API name"
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -24,8 +39,14 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "User",
-                    "description": "User of the application"
+                    "id": {
+                      "element": "string",
+                      "content": "User"
+                    },
+                    "description": {
+                      "element": "string",
+                      "content": "User of the application"
+                    }
                   },
                   "content": [
                     {
@@ -44,7 +65,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "Id of the user"
+                        "description": {
+                          "element": "string",
+                          "content": "Id of the user"
+                        }
                       },
                       "content": {
                         "key": {
@@ -94,7 +118,10 @@
                             {
                               "element": "member",
                               "meta": {
-                                "description": "zip description"
+                                "description": {
+                                  "element": "string",
+                                  "content": "zip description"
+                                }
                               },
                               "content": {
                                 "key": {
@@ -113,7 +140,10 @@
                                 "key": {
                                   "element": "string",
                                   "attributes": {
-                                    "variable": true
+                                    "variable": {
+                                      "element": "boolean",
+                                      "content": true
+                                    }
                                   },
                                   "content": "variable"
                                 },
@@ -130,7 +160,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "array description"
+                        "description": {
+                          "element": "string",
+                          "content": "array description"
+                        }
                       },
                       "content": {
                         "key": {
@@ -159,7 +192,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "desc"
+                        "description": {
+                          "element": "string",
+                          "content": "desc"
+                        }
                       },
                       "content": {
                         "key": {
@@ -188,7 +224,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "some dummy text\n\nand it continue there\nand will end there"
+                        "description": {
+                          "element": "string",
+                          "content": "some dummy text\n\nand it continue there\nand will end there"
+                        }
                       },
                       "content": {
                         "key": {

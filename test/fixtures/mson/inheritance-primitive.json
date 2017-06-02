@@ -4,34 +4,61 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": ""
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": ""
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": ""
+                "title": {
+                  "element": "string",
+                  "content": ""
+                }
               },
               "attributes": {
-                "href": "/sample"
+                "href": {
+                  "element": "string",
+                  "content": "/sample"
+                }
               },
               "content": [
                 {
                   "element": "transition",
                   "meta": {
-                    "title": ""
+                    "title": {
+                      "element": "string",
+                      "content": ""
+                    }
                   },
                   "content": [
                     {
@@ -40,14 +67,20 @@
                         {
                           "element": "httpRequest",
                           "attributes": {
-                            "method": "GET"
+                            "method": {
+                              "element": "string",
+                              "content": "GET"
+                            }
                           },
                           "content": []
                         },
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "200",
+                            "statusCode": {
+                              "element": "string",
+                              "content": "200"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -77,7 +110,10 @@
                                     {
                                       "element": "object",
                                       "meta": {
-                                        "ref": "Message"
+                                        "ref": {
+                                          "element": "string",
+                                          "content": "Message"
+                                        }
                                       },
                                       "content": [
                                         {
@@ -93,45 +129,81 @@
                                                 {
                                                   "element": "string",
                                                   "meta": {
-                                                    "ref": "Date"
+                                                    "ref": {
+                                                      "element": "string",
+                                                      "content": "Date"
+                                                    }
                                                   },
                                                   "attributes": {
-                                                    "samples": [
-                                                      "2012-12-00\n\n"
-                                                    ]
+                                                    "samples": {
+                                                      "element": "array",
+                                                      "content": [
+                                                        {
+                                                          "element": "string",
+                                                          "content": "2012-12-00\n\n"
+                                                        }
+                                                      ]
+                                                    }
                                                   }
                                                 },
                                                 {
                                                   "element": "string",
                                                   "meta": {
-                                                    "ref": "Date1"
+                                                    "ref": {
+                                                      "element": "string",
+                                                      "content": "Date1"
+                                                    }
                                                   },
                                                   "attributes": {
-                                                    "samples": [
-                                                      "2012-12-01\n\n"
-                                                    ]
+                                                    "samples": {
+                                                      "element": "array",
+                                                      "content": [
+                                                        {
+                                                          "element": "string",
+                                                          "content": "2012-12-01\n\n"
+                                                        }
+                                                      ]
+                                                    }
                                                   }
                                                 },
                                                 {
                                                   "element": "string",
                                                   "meta": {
-                                                    "ref": "Date2"
+                                                    "ref": {
+                                                      "element": "string",
+                                                      "content": "Date2"
+                                                    }
                                                   },
                                                   "attributes": {
-                                                    "samples": [
-                                                      "2012-12-01\n\n"
-                                                    ]
+                                                    "samples": {
+                                                      "element": "array",
+                                                      "content": [
+                                                        {
+                                                          "element": "string",
+                                                          "content": "2012-12-01\n\n"
+                                                        }
+                                                      ]
+                                                    }
                                                   }
                                                 },
                                                 {
                                                   "element": "string",
                                                   "meta": {
-                                                    "ref": "Date3"
+                                                    "ref": {
+                                                      "element": "string",
+                                                      "content": "Date3"
+                                                    }
                                                   },
                                                   "attributes": {
-                                                    "samples": [
-                                                      "2012-12-03\n\n"
-                                                    ]
+                                                    "samples": {
+                                                      "element": "array",
+                                                      "content": [
+                                                        {
+                                                          "element": "string",
+                                                          "content": "2012-12-03\n\n"
+                                                        }
+                                                      ]
+                                                    }
                                                   }
                                                 },
                                                 {
@@ -165,24 +237,42 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
                               },
                               "content": "{\n  \"created\": \"2012-12-03\\n\\n\",\n  \"text\": \"\"\n}"
                             },
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/schema+json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/schema+json"
+                                }
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"created\": {\n      \"type\": \"string\"\n    },\n    \"text\": {\n      \"type\": \"string\"\n    }\n  }\n}"
                             }
@@ -199,9 +289,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -210,7 +306,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "Message"
+                    "id": {
+                      "element": "string",
+                      "content": "Message"
+                    }
                   },
                   "content": [
                     {
@@ -226,45 +325,81 @@
                             {
                               "element": "string",
                               "meta": {
-                                "ref": "Date"
+                                "ref": {
+                                  "element": "string",
+                                  "content": "Date"
+                                }
                               },
                               "attributes": {
-                                "samples": [
-                                  "2012-12-00\n\n"
-                                ]
+                                "samples": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "2012-12-00\n\n"
+                                    }
+                                  ]
+                                }
                               }
                             },
                             {
                               "element": "string",
                               "meta": {
-                                "ref": "Date1"
+                                "ref": {
+                                  "element": "string",
+                                  "content": "Date1"
+                                }
                               },
                               "attributes": {
-                                "samples": [
-                                  "2012-12-01\n\n"
-                                ]
+                                "samples": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "2012-12-01\n\n"
+                                    }
+                                  ]
+                                }
                               }
                             },
                             {
                               "element": "string",
                               "meta": {
-                                "ref": "Date2"
+                                "ref": {
+                                  "element": "string",
+                                  "content": "Date2"
+                                }
                               },
                               "attributes": {
-                                "samples": [
-                                  "2012-12-01\n\n"
-                                ]
+                                "samples": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "2012-12-01\n\n"
+                                    }
+                                  ]
+                                }
                               }
                             },
                             {
                               "element": "string",
                               "meta": {
-                                "ref": "Date3"
+                                "ref": {
+                                  "element": "string",
+                                  "content": "Date3"
+                                }
                               },
                               "attributes": {
-                                "samples": [
-                                  "2012-12-03\n\n"
-                                ]
+                                "samples": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "2012-12-03\n\n"
+                                    }
+                                  ]
+                                }
                               }
                             },
                             {
@@ -296,12 +431,21 @@
                 {
                   "element": "string",
                   "meta": {
-                    "id": "Date"
+                    "id": {
+                      "element": "string",
+                      "content": "Date"
+                    }
                   },
                   "attributes": {
-                    "samples": [
-                      "2012-12-00\n\n"
-                    ]
+                    "samples": {
+                      "element": "array",
+                      "content": [
+                        {
+                          "element": "string",
+                          "content": "2012-12-00\n\n"
+                        }
+                      ]
+                    }
                   }
                 }
               ]
@@ -312,37 +456,64 @@
                 {
                   "element": "extend",
                   "meta": {
-                    "id": "Date2"
+                    "id": {
+                      "element": "string",
+                      "content": "Date2"
+                    }
                   },
                   "content": [
                     {
                       "element": "string",
                       "meta": {
-                        "ref": "Date"
+                        "ref": {
+                          "element": "string",
+                          "content": "Date"
+                        }
                       },
                       "attributes": {
-                        "samples": [
-                          "2012-12-00\n\n"
-                        ]
+                        "samples": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "2012-12-00\n\n"
+                            }
+                          ]
+                        }
                       }
                     },
                     {
                       "element": "string",
                       "meta": {
-                        "ref": "Date1"
+                        "ref": {
+                          "element": "string",
+                          "content": "Date1"
+                        }
                       },
                       "attributes": {
-                        "samples": [
-                          "2012-12-01\n\n"
-                        ]
+                        "samples": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "2012-12-01\n\n"
+                            }
+                          ]
+                        }
                       }
                     },
                     {
                       "element": "string",
                       "attributes": {
-                        "samples": [
-                          "2012-12-01\n\n"
-                        ]
+                        "samples": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "2012-12-01\n\n"
+                            }
+                          ]
+                        }
                       }
                     }
                   ]
@@ -355,26 +526,44 @@
                 {
                   "element": "extend",
                   "meta": {
-                    "id": "Date1"
+                    "id": {
+                      "element": "string",
+                      "content": "Date1"
+                    }
                   },
                   "content": [
                     {
                       "element": "string",
                       "meta": {
-                        "ref": "Date"
+                        "ref": {
+                          "element": "string",
+                          "content": "Date"
+                        }
                       },
                       "attributes": {
-                        "samples": [
-                          "2012-12-00\n\n"
-                        ]
+                        "samples": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "2012-12-00\n\n"
+                            }
+                          ]
+                        }
                       }
                     },
                     {
                       "element": "string",
                       "attributes": {
-                        "samples": [
-                          "2012-12-01\n\n"
-                        ]
+                        "samples": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "2012-12-01\n\n"
+                            }
+                          ]
+                        }
                       }
                     }
                   ]
@@ -387,48 +576,84 @@
                 {
                   "element": "extend",
                   "meta": {
-                    "id": "Date3"
+                    "id": {
+                      "element": "string",
+                      "content": "Date3"
+                    }
                   },
                   "content": [
                     {
                       "element": "string",
                       "meta": {
-                        "ref": "Date"
+                        "ref": {
+                          "element": "string",
+                          "content": "Date"
+                        }
                       },
                       "attributes": {
-                        "samples": [
-                          "2012-12-00\n\n"
-                        ]
+                        "samples": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "2012-12-00\n\n"
+                            }
+                          ]
+                        }
                       }
                     },
                     {
                       "element": "string",
                       "meta": {
-                        "ref": "Date1"
+                        "ref": {
+                          "element": "string",
+                          "content": "Date1"
+                        }
                       },
                       "attributes": {
-                        "samples": [
-                          "2012-12-01\n\n"
-                        ]
+                        "samples": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "2012-12-01\n\n"
+                            }
+                          ]
+                        }
                       }
                     },
                     {
                       "element": "string",
                       "meta": {
-                        "ref": "Date2"
+                        "ref": {
+                          "element": "string",
+                          "content": "Date2"
+                        }
                       },
                       "attributes": {
-                        "samples": [
-                          "2012-12-01\n\n"
-                        ]
+                        "samples": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "2012-12-01\n\n"
+                            }
+                          ]
+                        }
                       }
                     },
                     {
                       "element": "string",
                       "attributes": {
-                        "samples": [
-                          "2012-12-03\n\n"
-                        ]
+                        "samples": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "2012-12-03\n\n"
+                            }
+                          ]
+                        }
                       }
                     }
                   ]

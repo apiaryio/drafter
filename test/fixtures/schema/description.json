@@ -4,34 +4,61 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": ""
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": ""
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": "Resource"
+                "title": {
+                  "element": "string",
+                  "content": "Resource"
+                }
               },
               "attributes": {
-                "href": "/example"
+                "href": {
+                  "element": "string",
+                  "content": "/example"
+                }
               },
               "content": [
                 {
                   "element": "transition",
                   "meta": {
-                    "title": "Action"
+                    "title": {
+                      "element": "string",
+                      "content": "Action"
+                    }
                   },
                   "content": [
                     {
@@ -40,14 +67,20 @@
                         {
                           "element": "httpRequest",
                           "attributes": {
-                            "method": "GET"
+                            "method": {
+                              "element": "string",
+                              "content": "GET"
+                            }
                           },
                           "content": []
                         },
                         {
                           "element": "httpResponse",
                           "attributes": {
-                            "statusCode": "200",
+                            "statusCode": {
+                              "element": "string",
+                              "content": "200"
+                            },
                             "headers": {
                               "element": "httpHeaders",
                               "content": [
@@ -77,12 +110,21 @@
                                     {
                                       "element": "member",
                                       "meta": {
-                                        "description": "The unique identifier for a product"
+                                        "description": {
+                                          "element": "string",
+                                          "content": "The unique identifier for a product"
+                                        }
                                       },
                                       "attributes": {
-                                        "typeAttributes": [
-                                          "required"
-                                        ]
+                                        "typeAttributes": {
+                                          "element": "array",
+                                          "content": [
+                                            {
+                                              "element": "string",
+                                              "content": "required"
+                                            }
+                                          ]
+                                        }
                                       },
                                       "content": {
                                         "key": {
@@ -98,12 +140,21 @@
                                     {
                                       "element": "member",
                                       "meta": {
-                                        "description": "Name of the product"
+                                        "description": {
+                                          "element": "string",
+                                          "content": "Name of the product"
+                                        }
                                       },
                                       "attributes": {
-                                        "typeAttributes": [
-                                          "required"
-                                        ]
+                                        "typeAttributes": {
+                                          "element": "array",
+                                          "content": [
+                                            {
+                                              "element": "string",
+                                              "content": "required"
+                                            }
+                                          ]
+                                        }
                                       },
                                       "content": {
                                         "key": {
@@ -119,9 +170,15 @@
                                     {
                                       "element": "member",
                                       "attributes": {
-                                        "typeAttributes": [
-                                          "required"
-                                        ]
+                                        "typeAttributes": {
+                                          "element": "array",
+                                          "content": [
+                                            {
+                                              "element": "string",
+                                              "content": "required"
+                                            }
+                                          ]
+                                        }
                                       },
                                       "content": {
                                         "key": {
@@ -137,7 +194,10 @@
                                     {
                                       "element": "member",
                                       "meta": {
-                                        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n\nSed sed lacus a arcu vehicula ultricies sed vel nibh. Mauris id cursus felis.\n\nInterdum et malesuada fames ac ante ipsum primis in faucibus.\n\n- unus\n\n- duo\n\n- tres\n\n- quattuor"
+                                        "description": {
+                                          "element": "string",
+                                          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n\nSed sed lacus a arcu vehicula ultricies sed vel nibh. Mauris id cursus felis.\n\nInterdum et malesuada fames ac ante ipsum primis in faucibus.\n\n- unus\n\n- duo\n\n- tres\n\n- quattuor"
+                                        }
                                       },
                                       "content": {
                                         "key": {
@@ -166,24 +226,42 @@
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBody"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBody"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
                               },
                               "content": "{\n  \"id\": 1,\n  \"name\": \"A green door\",\n  \"price\": 12.5,\n  \"tags\": [\n    \"home\",\n    \"green\"\n  ]\n}"
                             },
                             {
                               "element": "asset",
                               "meta": {
-                                "classes": [
-                                  "messageBodySchema"
-                                ]
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
                               },
                               "attributes": {
-                                "contentType": "application/schema+json"
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/schema+json"
+                                }
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"number\",\n      \"description\": \"The unique identifier for a product\"\n    },\n    \"name\": {\n      \"type\": \"string\",\n      \"description\": \"Name of the product\"\n    },\n    \"price\": {\n      \"type\": \"number\"\n    },\n    \"tags\": {\n      \"type\": \"array\",\n      \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\\n\\nSed sed lacus a arcu vehicula ultricies sed vel nibh. Mauris id cursus felis.\\n\\nInterdum et malesuada fames ac ante ipsum primis in faucibus.\\n\\n- unus\\n\\n- duo\\n\\n- tres\\n\\n- quattuor\"\n    }\n  },\n  \"required\": [\n    \"id\",\n    \"name\",\n    \"price\"\n  ]\n}"
                             }

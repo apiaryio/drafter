@@ -4,10 +4,19 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "<API name>"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "<API name>"
+        }
       },
       "content": [
         {
@@ -17,9 +26,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -28,8 +43,14 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "Address",
-                    "description": "mixin w/ description"
+                    "id": {
+                      "element": "string",
+                      "content": "Address"
+                    },
+                    "description": {
+                      "element": "string",
+                      "content": "mixin w/ description"
+                    }
                   },
                   "content": [
                     {
@@ -66,7 +87,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "User"
+                    "id": {
+                      "element": "string",
+                      "content": "User"
+                    }
                   },
                   "content": [
                     {
@@ -84,12 +108,21 @@
                     {
                       "element": "ref",
                       "attributes": {
-                        "path": "content",
+                        "path": {
+                          "element": "string",
+                          "content": "content"
+                        },
                         "resolved": {
                           "element": "object",
                           "meta": {
-                            "description": "mixin w/ description",
-                            "ref": "Address"
+                            "description": {
+                              "element": "string",
+                              "content": "mixin w/ description"
+                            },
+                            "ref": {
+                              "element": "string",
+                              "content": "Address"
+                            }
                           },
                           "content": [
                             {

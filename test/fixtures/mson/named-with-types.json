@@ -4,10 +4,19 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "<API name>"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "<API name>"
+        }
       },
       "content": [
         {
@@ -17,9 +26,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -28,7 +43,10 @@
                 {
                   "element": "enum",
                   "meta": {
-                    "id": "EnumType"
+                    "id": {
+                      "element": "string",
+                      "content": "EnumType"
+                    }
                   },
                   "content": [
                     {
@@ -45,7 +63,10 @@
                 {
                   "element": "array",
                   "meta": {
-                    "id": "ArrayType"
+                    "id": {
+                      "element": "string",
+                      "content": "ArrayType"
+                    }
                   },
                   "content": [
                     {
@@ -62,7 +83,10 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "ObjectType"
+                    "id": {
+                      "element": "string",
+                      "content": "ObjectType"
+                    }
                   },
                   "content": [
                     {
@@ -87,7 +111,10 @@
                 {
                   "element": "string",
                   "meta": {
-                    "id": "StringType"
+                    "id": {
+                      "element": "string",
+                      "content": "StringType"
+                    }
                   }
                 }
               ]
@@ -98,7 +125,10 @@
                 {
                   "element": "boolean",
                   "meta": {
-                    "id": "BooleanType"
+                    "id": {
+                      "element": "string",
+                      "content": "BooleanType"
+                    }
                   }
                 }
               ]
@@ -109,7 +139,10 @@
                 {
                   "element": "number",
                   "meta": {
-                    "id": "NumberType"
+                    "id": {
+                      "element": "string",
+                      "content": "NumberType"
+                    }
                   }
                 }
               ]

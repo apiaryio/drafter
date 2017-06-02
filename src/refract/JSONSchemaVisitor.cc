@@ -33,7 +33,6 @@ namespace refract
             RenderJSONVisitor v;
             Visit(v, *(*it));
             IElement *e = v.getOwnership();
-            e->renderType(IElement::rCompact);
             a->push_back(e);
         }
     }
@@ -71,11 +70,9 @@ namespace refract
         : pDefs(pDefinitions), fixed(_fixed), fixedType(_fixedType)
     {
         pObj = new ObjectElement;
-        pObj->renderType(IElement::rCompact);
 
         if (!pDefs) {
             pDefs = new ObjectElement;
-            pDefs->renderType(IElement::rCompact);
         }
     }
 
@@ -117,10 +114,7 @@ namespace refract
 
     void JSONSchemaVisitor::setSchemaType(const std::string& type)
     {
-        addMember("type",
-                  new StringElement(
-                      type,
-                      IElement::rCompact));
+        addMember("type", new StringElement(type));
     }
 
     void JSONSchemaVisitor::addSchemaType(const std::string& type)
@@ -153,10 +147,7 @@ namespace refract
 
     void JSONSchemaVisitor::addMember(const std::string& key, IElement *val)
     {
-        pObj->push_back(new MemberElement(
-                            key,
-                            val,
-                            IElement::rCompact));
+        pObj->push_back(new MemberElement(key, val));
     }
 
     bool JSONSchemaVisitor::allItemsEmpty(const ArrayElement::ValueType* val)
@@ -215,7 +206,6 @@ namespace refract
 
             if (desc) {
                 IElement *d = desc->clone();
-                d->renderType(IElement::rCompact);
                 renderer.addMember("description", d);
             }
 
@@ -252,16 +242,15 @@ namespace refract
     {
         ObjectElement* definition = new ObjectElement();
 
-        definition->push_back(new MemberElement(
-                                "type",
-                                new StringElement("object", IElement::rCompact),
-                                IElement::rCompact));
-        definition->push_back(new MemberElement(
-                                "patternProperties",
-                                new ObjectElement(
-                                    new MemberElement("", renderer.getOwnership(), IElement::rCompact),
-                                    IElement::rCompact),
-                                IElement::rCompact));
+        definition->push_back(new MemberElement("type",
+                                                new StringElement("object")
+                                               )
+                             );
+
+        definition->push_back(new MemberElement("patternProperties",
+                                                new ObjectElement(new MemberElement("", renderer.getOwnership()))
+                                               )
+                             );
 
         return definition;
     }
@@ -269,7 +258,6 @@ namespace refract
     ArrayElement* JSONSchemaVisitor::arrayFromProps(std::vector<MemberElement*>& props)
     {
         ArrayElement *a = new ArrayElement;
-        a->renderType(IElement::rCompact);
 
         for (std::vector<MemberElement *>::const_iterator i = props.begin();
              i != props.end();
@@ -284,17 +272,13 @@ namespace refract
 
                 pDefs->push_back(new MemberElement(
                                     str->value,
-                                    definitionFromVariableProperty(renderer),
-                                    IElement::rCompact));
+                                    definitionFromVariableProperty(renderer)));
 
                 a->push_back(new ObjectElement(
                                  new MemberElement(
                                      "$ref",
                                      new StringElement(
-                                         "#/definitions/" + str->value,
-                                         IElement::rCompact),
-                                     IElement::rCompact),
-                                 IElement::rCompact));
+                                         "#/definitions/" + str->value))));
             }
         }
 
@@ -314,10 +298,9 @@ namespace refract
 
                 pDefs->push_back(new MemberElement(
                                     str->value,
-                                    definitionFromVariableProperty(renderer),
-                                    IElement::rCompact));
+                                    definitionFromVariableProperty(renderer)));
 
-                addMember("$ref", new StringElement("#/definitions/" + str->value, IElement::rCompact));
+                addMember("$ref", new StringElement("#/definitions/" + str->value));
             }
         }
         else {
@@ -327,9 +310,7 @@ namespace refract
                 a->push_back(new ObjectElement(
                                  new MemberElement(
                                      "properties",
-                                     o,
-                                     IElement::rCompact),
-                                 IElement::rCompact));
+                                     o)));
             }
 
             addMember("allOf", a);
@@ -346,8 +327,6 @@ namespace refract
         ArrayElement::ValueType reqVals;
         std::vector<MemberElement*> varProps;
         RefractElements oneOfMembers;
-
-        o->renderType(IElement::rCompact);
 
         if (IsTypeAttribute(e, "fixed")) {
             fixed = true;
@@ -371,11 +350,11 @@ namespace refract
         }
 
         if (!reqVals.empty()) {
-            addMember("required", new ArrayElement(reqVals, IElement::rCompact));
+            addMember("required", new ArrayElement(reqVals));
         }
 
         if (!oneOfMembers.empty()) {
-            addMember("oneOf", new ArrayElement(oneOfMembers, IElement::rCompact));
+            addMember("oneOf", new ArrayElement(oneOfMembers));
         }
 
         if (fixed || fixedType) {
@@ -386,7 +365,6 @@ namespace refract
     void JSONSchemaVisitor::anyOf(std::map<std::string, std::vector<IElement*> >& types, std::vector<std::string>& typesOrder)
     {
         ArrayElement *a = new ArrayElement;
-        a->renderType(IElement::rCompact);
 
         for (std::vector<std::string>::const_iterator i = typesOrder.begin();
              i != typesOrder.end();
@@ -471,8 +449,6 @@ namespace refract
 
         if (def && !def->empty()) {
             ArrayElement *d = static_cast<ArrayElement*>(def->clone());
-            d->renderType(IElement::rCompact);
-            SetRenderFlag(d->value, IElement::rCompact);
             addMember("default", d);
         }
     }
@@ -509,7 +485,6 @@ namespace refract
             const EnumElement* def = GetDefault(e);
             if (!e.empty() || (def && !def->empty())) {
                 ArrayElement *a = new ArrayElement;
-                a->renderType(IElement::rCompact);
                 CloneMembers(a, val);
                 setSchemaType(types.begin()->first);
                 addMember("enum", a);
@@ -520,7 +495,6 @@ namespace refract
 
         if (def && !def->empty() && !def->value.empty()) {
             IElement *d = def->value.front()->clone();
-            d->renderType(IElement::rCompact);
             addMember("default", d);
         }
     }
@@ -568,16 +542,15 @@ namespace refract
         processMembers(members.begin(), members.end(), reqVals, varProps, oneOfMembers, props);
 
         pObj = new ObjectElement;
-        pObj->renderType(IElement::rCompact);
 
         addMember("properties", props);
 
         if (!reqVals.empty()) {
-            addMember("required", new ArrayElement(reqVals, IElement::rCompact));
+            addMember("required", new ArrayElement(reqVals));
         }
 
         if (!oneOfMembers.empty()) {
-            addMember("oneOf", new ArrayElement(oneOfMembers, IElement::rCompact));
+            addMember("oneOf", new ArrayElement(oneOfMembers));
         }
     }
 
@@ -597,8 +570,7 @@ namespace refract
     {
         addMember("$schema",
                   new StringElement(
-                      "http://json-schema.org/draft-04/schema#",
-                      IElement::rCompact));
+                      "http://json-schema.org/draft-04/schema#"));
         setSchemaType("object");
 
         Visit(*this, e);
@@ -662,7 +634,6 @@ namespace refract
                             MemberElement *m1 = TypeQueryVisitor::as<MemberElement>(o1->value[0]->clone());
 
                             if (m1) {
-                                m1->renderType(IElement::rCompact);
                                 o->push_back(m1);
                             }
                         }

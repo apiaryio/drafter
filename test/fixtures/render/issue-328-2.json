@@ -4,28 +4,52 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "API"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "API"
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "resourceGroup"
-            ],
-            "title": ""
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "resourceGroup"
+                }
+              ]
+            },
+            "title": {
+              "element": "string",
+              "content": ""
+            }
           },
           "content": [
             {
               "element": "resource",
               "meta": {
-                "title": "C"
+                "title": {
+                  "element": "string",
+                  "content": "C"
+                }
               },
               "attributes": {
-                "href": "/c"
+                "href": {
+                  "element": "string",
+                  "content": "/c"
+                }
               },
               "content": [
                 {
@@ -38,7 +62,10 @@
                     {
                       "element": "C",
                       "meta": {
-                        "id": "C"
+                        "id": {
+                          "element": "string",
+                          "content": "C"
+                        }
                       }
                     }
                   ]
@@ -50,9 +77,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": []
         }
@@ -61,23 +94,44 @@
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 2,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                73,
-                15
+        "code": {
+          "element": "number",
+          "content": 2
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 73
+                    },
+                    {
+                      "element": "number",
+                      "content": 15
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "named type with name 'C' already exists"
     }

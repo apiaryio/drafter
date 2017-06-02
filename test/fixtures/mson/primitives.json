@@ -4,10 +4,19 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "<API name>"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "<API name>"
+        }
       },
       "content": [
         {
@@ -17,9 +26,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -28,15 +43,24 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "User"
+                    "id": {
+                      "element": "string",
+                      "content": "User"
+                    }
                   },
                   "content": [
                     {
                       "element": "member",
                       "attributes": {
-                        "typeAttributes": [
-                          "required"
-                        ]
+                        "typeAttributes": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "required"
+                            }
+                          ]
+                        }
                       },
                       "content": {
                         "key": {
@@ -46,7 +70,10 @@
                         "value": {
                           "element": "number",
                           "attributes": {
-                            "default": 42
+                            "default": {
+                              "element": "number",
+                              "content": 42
+                            }
                           }
                         }
                       }
@@ -67,12 +94,21 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "description of property"
+                        "description": {
+                          "element": "string",
+                          "content": "description of property"
+                        }
                       },
                       "attributes": {
-                        "typeAttributes": [
-                          "optional"
-                        ]
+                        "typeAttributes": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "optional"
+                            }
+                          ]
+                        }
                       },
                       "content": {
                         "key": {
@@ -88,9 +124,15 @@
                     {
                       "element": "member",
                       "attributes": {
-                        "typeAttributes": [
-                          "optional"
-                        ]
+                        "typeAttributes": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "string",
+                              "content": "optional"
+                            }
+                          ]
+                        }
                       },
                       "content": {
                         "key": {
@@ -100,7 +142,10 @@
                         "value": {
                           "element": "number",
                           "attributes": {
-                            "default": -1
+                            "default": {
+                              "element": "number",
+                              "content": -1
+                            }
                           },
                           "content": 5
                         }
@@ -109,7 +154,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "blaaaa blaa"
+                        "description": {
+                          "element": "string",
+                          "content": "blaaaa blaa"
+                        }
                       },
                       "content": {
                         "key": {
@@ -119,11 +167,23 @@
                         "value": {
                           "element": "string",
                           "attributes": {
-                            "samples": [
-                              "diem perdidi",
-                              "humppa forever"
-                            ],
-                            "default": "carpe diem"
+                            "samples": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "diem perdidi"
+                                },
+                                {
+                                  "element": "string",
+                                  "content": "humppa forever"
+                                }
+                              ]
+                            },
+                            "default": {
+                              "element": "string",
+                              "content": "carpe diem"
+                            }
                           },
                           "content": "content"
                         }

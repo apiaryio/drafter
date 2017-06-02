@@ -4,10 +4,19 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "<API name>"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "<API name>"
+        }
       },
       "content": [
         {
@@ -17,9 +26,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -28,14 +43,23 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "User",
-                    "description": "The User description"
+                    "id": {
+                      "element": "string",
+                      "content": "User"
+                    },
+                    "description": {
+                      "element": "string",
+                      "content": "The User description"
+                    }
                   },
                   "content": [
                     {
                       "element": "member",
                       "meta": {
-                        "description": "user name"
+                        "description": {
+                          "element": "string",
+                          "content": "user name"
+                        }
                       },
                       "content": {
                         "key": {
@@ -57,20 +81,32 @@
                 {
                   "element": "extend",
                   "meta": {
-                    "id": "Customer"
+                    "id": {
+                      "element": "string",
+                      "content": "Customer"
+                    }
                   },
                   "content": [
                     {
                       "element": "object",
                       "meta": {
-                        "description": "The User description",
-                        "ref": "User"
+                        "description": {
+                          "element": "string",
+                          "content": "The User description"
+                        },
+                        "ref": {
+                          "element": "string",
+                          "content": "User"
+                        }
                       },
                       "content": [
                         {
                           "element": "member",
                           "meta": {
-                            "description": "user name"
+                            "description": {
+                              "element": "string",
+                              "content": "user name"
+                            }
                           },
                           "content": {
                             "key": {
@@ -90,7 +126,10 @@
                         {
                           "element": "member",
                           "meta": {
-                            "description": "unique number"
+                            "description": {
+                              "element": "string",
+                              "content": "unique number"
+                            }
                           },
                           "content": {
                             "key": {
@@ -115,20 +154,32 @@
                 {
                   "element": "extend",
                   "meta": {
-                    "id": "Vip Customer"
+                    "id": {
+                      "element": "string",
+                      "content": "Vip Customer"
+                    }
                   },
                   "content": [
                     {
                       "element": "object",
                       "meta": {
-                        "description": "The User description",
-                        "ref": "User"
+                        "description": {
+                          "element": "string",
+                          "content": "The User description"
+                        },
+                        "ref": {
+                          "element": "string",
+                          "content": "User"
+                        }
                       },
                       "content": [
                         {
                           "element": "member",
                           "meta": {
-                            "description": "user name"
+                            "description": {
+                              "element": "string",
+                              "content": "user name"
+                            }
                           },
                           "content": {
                             "key": {
@@ -145,13 +196,19 @@
                     {
                       "element": "object",
                       "meta": {
-                        "ref": "Customer"
+                        "ref": {
+                          "element": "string",
+                          "content": "Customer"
+                        }
                       },
                       "content": [
                         {
                           "element": "member",
                           "meta": {
-                            "description": "unique number"
+                            "description": {
+                              "element": "string",
+                              "content": "unique number"
+                            }
                           },
                           "content": {
                             "key": {
@@ -172,7 +229,10 @@
                         {
                           "element": "member",
                           "meta": {
-                            "description": "in percent 0 - 100"
+                            "description": {
+                              "element": "string",
+                              "content": "in percent 0 - 100"
+                            }
                           },
                           "content": {
                             "key": {
@@ -182,7 +242,10 @@
                             "value": {
                               "element": "number",
                               "attributes": {
-                                "default": 15
+                                "default": {
+                                  "element": "number",
+                                  "content": 15
+                                }
                               }
                             }
                           }
@@ -199,20 +262,32 @@
                 {
                   "element": "extend",
                   "meta": {
-                    "id": "Other Customer"
+                    "id": {
+                      "element": "string",
+                      "content": "Other Customer"
+                    }
                   },
                   "content": [
                     {
                       "element": "object",
                       "meta": {
-                        "description": "The User description",
-                        "ref": "User"
+                        "description": {
+                          "element": "string",
+                          "content": "The User description"
+                        },
+                        "ref": {
+                          "element": "string",
+                          "content": "User"
+                        }
                       },
                       "content": [
                         {
                           "element": "member",
                           "meta": {
-                            "description": "user name"
+                            "description": {
+                              "element": "string",
+                              "content": "user name"
+                            }
                           },
                           "content": {
                             "key": {
@@ -229,7 +304,10 @@
                     {
                       "element": "object",
                       "meta": {
-                        "description": "This object has no own members"
+                        "description": {
+                          "element": "string",
+                          "content": "This object has no own members"
+                        }
                       }
                     }
                   ]

@@ -4,10 +4,19 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "<API name>"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "<API name>"
+        }
       },
       "content": [
         {
@@ -17,9 +26,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -28,8 +43,14 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "User",
-                    "description": "It is number type, but input is string, we will convert it into\nNumber Element, without content set.\n\nFIXME: In the future, we should try to parse it, but it might be a problem \nbecause of localized input (decimal point, thousand separators, etc.)"
+                    "id": {
+                      "element": "string",
+                      "content": "User"
+                    },
+                    "description": {
+                      "element": "string",
+                      "content": "It is number type, but input is string, we will convert it into\nNumber Element, without content set.\n\nFIXME: In the future, we should try to parse it, but it might be a problem \nbecause of localized input (decimal point, thousand separators, etc.)"
+                    }
                   },
                   "content": [
                     {
@@ -56,23 +77,44 @@
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 4,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                334,
-                30
+        "code": {
+          "element": "number",
+          "content": 4
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 334
+                    },
+                    {
+                      "element": "number",
+                      "content": 30
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "invalid value format for 'number' type. please check mson specification for valid format"
     }

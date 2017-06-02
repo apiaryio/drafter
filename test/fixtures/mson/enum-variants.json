@@ -4,18 +4,33 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
       },
       "content": [
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -24,13 +39,19 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "Enum behavior"
+                    "id": {
+                      "element": "string",
+                      "content": "Enum behavior"
+                    }
                   },
                   "content": [
                     {
                       "element": "member",
                       "meta": {
-                        "description": "content ['L']"
+                        "description": {
+                          "element": "string",
+                          "content": "content ['L']"
+                        }
                       },
                       "content": {
                         "key": {
@@ -51,7 +72,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "content ['S','M','L','XL']"
+                        "description": {
+                          "element": "string",
+                          "content": "content ['S','M','L','XL']"
+                        }
                       },
                       "content": {
                         "key": {
@@ -84,7 +108,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "sample [['L']], content ['S','M','L','XL']"
+                        "description": {
+                          "element": "string",
+                          "content": "sample [['L']], content ['S','M','L','XL']"
+                        }
                       },
                       "content": {
                         "key": {
@@ -94,14 +121,20 @@
                         "value": {
                           "element": "enum",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "string",
-                                  "content": "L"
+                                  "element": "enum",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "L"
+                                    }
+                                  ]
                                 }
                               ]
-                            ]
+                            }
                           },
                           "content": [
                             {
@@ -127,7 +160,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "sample [['L']], content [ 'S, M, L, XL' ] - FIXME: from snowcrash we receive \"enum of strings\" should be string \"S, M, L, XL\""
+                        "description": {
+                          "element": "string",
+                          "content": "sample [['L']], content [ 'S, M, L, XL' ] - FIXME: from snowcrash we receive \"enum of strings\" should be string \"S, M, L, XL\""
+                        }
                       },
                       "content": {
                         "key": {
@@ -137,14 +173,20 @@
                         "value": {
                           "element": "enum",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "string",
-                                  "content": "L"
+                                  "element": "enum",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "L"
+                                    }
+                                  ]
                                 }
                               ]
-                            ]
+                            }
                           },
                           "content": [
                             {
@@ -175,7 +217,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "sample [['L']]"
+                        "description": {
+                          "element": "string",
+                          "content": "sample [['L']]"
+                        }
                       },
                       "content": {
                         "key": {
@@ -188,9 +233,15 @@
                             {
                               "element": "string",
                               "attributes": {
-                                "samples": [
-                                  "L"
-                                ]
+                                "samples": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "L"
+                                    }
+                                  ]
+                                }
                               }
                             }
                           ]
@@ -200,7 +251,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "sample [['L']]"
+                        "description": {
+                          "element": "string",
+                          "content": "sample [['L']]"
+                        }
                       },
                       "content": {
                         "key": {
@@ -210,14 +264,20 @@
                         "value": {
                           "element": "enum",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "string",
-                                  "content": "L"
+                                  "element": "enum",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "L"
+                                    }
+                                  ]
                                 }
                               ]
-                            ]
+                            }
                           }
                         }
                       }
@@ -225,7 +285,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "content ['S','M','L','XL','XXL','XXXL']"
+                        "description": {
+                          "element": "string",
+                          "content": "content ['S','M','L','XL','XXL','XXXL']"
+                        }
                       },
                       "content": {
                         "key": {
@@ -266,7 +329,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "content ['T'], samples [[ 'S' ],[ 'U']]"
+                        "description": {
+                          "element": "string",
+                          "content": "content ['T'], samples [[ 'S' ],[ 'U']]"
+                        }
                       },
                       "content": {
                         "key": {
@@ -276,20 +342,29 @@
                         "value": {
                           "element": "enum",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "string",
-                                  "content": "S"
-                                }
-                              ],
-                              [
+                                  "element": "enum",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "S"
+                                    }
+                                  ]
+                                },
                                 {
-                                  "element": "string",
-                                  "content": "U"
+                                  "element": "enum",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "U"
+                                    }
+                                  ]
                                 }
                               ]
-                            ]
+                            }
                           },
                           "content": [
                             {
@@ -303,7 +378,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "sample [['L'],['M','N']]"
+                        "description": {
+                          "element": "string",
+                          "content": "sample [['L'],['M','N']]"
+                        }
                       },
                       "content": {
                         "key": {
@@ -313,24 +391,33 @@
                         "value": {
                           "element": "enum",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "string",
-                                  "content": "M"
+                                  "element": "enum",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "M"
+                                    },
+                                    {
+                                      "element": "string",
+                                      "content": "N"
+                                    }
+                                  ]
                                 },
                                 {
-                                  "element": "string",
-                                  "content": "N"
-                                }
-                              ],
-                              [
-                                {
-                                  "element": "string",
-                                  "content": "L"
+                                  "element": "enum",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "L"
+                                    }
+                                  ]
                                 }
                               ]
-                            ]
+                            }
                           }
                         }
                       }
@@ -338,7 +425,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "sample [['L'],['M','N']]"
+                        "description": {
+                          "element": "string",
+                          "content": "sample [['L'],['M','N']]"
+                        }
                       },
                       "content": {
                         "key": {
@@ -348,24 +438,33 @@
                         "value": {
                           "element": "enum",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "string",
-                                  "content": "M"
+                                  "element": "enum",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "M"
+                                    },
+                                    {
+                                      "element": "string",
+                                      "content": "M"
+                                    }
+                                  ]
                                 },
                                 {
-                                  "element": "string",
-                                  "content": "M"
-                                }
-                              ],
-                              [
-                                {
-                                  "element": "string",
-                                  "content": "L"
+                                  "element": "enum",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "L"
+                                    }
+                                  ]
                                 }
                               ]
-                            ]
+                            }
                           }
                         }
                       }
@@ -373,7 +472,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "content['M','N']"
+                        "description": {
+                          "element": "string",
+                          "content": "content['M','N']"
+                        }
                       },
                       "content": {
                         "key": {
@@ -398,7 +500,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "default['M','N'] - FIXME: current default['L'], sample[['M','N']]"
+                        "description": {
+                          "element": "string",
+                          "content": "default['M','N'] - FIXME: current default['L'], sample[['M','N']]"
+                        }
                       },
                       "content": {
                         "key": {
@@ -408,24 +513,33 @@
                         "value": {
                           "element": "enum",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "string",
-                                  "content": "M"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "N"
+                                  "element": "enum",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "M"
+                                    },
+                                    {
+                                      "element": "string",
+                                      "content": "N"
+                                    }
+                                  ]
                                 }
                               ]
-                            ],
-                            "default": [
-                              {
-                                "element": "string",
-                                "content": "L"
-                              }
-                            ]
+                            },
+                            "default": {
+                              "element": "enum",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "L"
+                                }
+                              ]
+                            }
                           }
                         }
                       }
@@ -433,7 +547,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "default['M','N'] - FIXME: current default['L'], sample[['M','N']]"
+                        "description": {
+                          "element": "string",
+                          "content": "default['M','N'] - FIXME: current default['L'], sample[['M','N']]"
+                        }
                       },
                       "content": {
                         "key": {
@@ -443,24 +560,33 @@
                         "value": {
                           "element": "enum",
                           "attributes": {
-                            "samples": [
-                              [
+                            "samples": {
+                              "element": "array",
+                              "content": [
                                 {
-                                  "element": "string",
-                                  "content": "M"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "N"
+                                  "element": "enum",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "M"
+                                    },
+                                    {
+                                      "element": "string",
+                                      "content": "N"
+                                    }
+                                  ]
                                 }
                               ]
-                            ],
-                            "default": [
-                              {
-                                "element": "string",
-                                "content": "L"
-                              }
-                            ]
+                            },
+                            "default": {
+                              "element": "enum",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "L"
+                                }
+                              ]
+                            }
                           }
                         }
                       }
@@ -468,7 +594,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "sample[['M','N']] - FIXME: curent content[['M','N']]"
+                        "description": {
+                          "element": "string",
+                          "content": "sample[['M','N']] - FIXME: curent content[['M','N']]"
+                        }
                       },
                       "content": {
                         "key": {
@@ -493,7 +622,10 @@
                     {
                       "element": "member",
                       "meta": {
-                        "description": "default['M','N'] - FIXME: curent content[['M','N']]"
+                        "description": {
+                          "element": "string",
+                          "content": "default['M','N'] - FIXME: curent content[['M','N']]"
+                        }
                       },
                       "content": {
                         "key": {
@@ -526,36 +658,60 @@
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 0,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": []
-          }
-        ]
+        "code": {
+          "element": "number",
+          "content": 0
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": []
+            }
+          ]
+        }
       },
       "content": "no value present when 'sample' is specified"
     },
     {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "warning"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 0,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": []
-          }
-        ]
+        "code": {
+          "element": "number",
+          "content": 0
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": []
+            }
+          ]
+        }
       },
       "content": "no value present when 'default' is specified"
     }

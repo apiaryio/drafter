@@ -24,16 +24,17 @@ namespace refract
 
             for (iterator it = collection.begin(); it != collection.end(); ++it) {
 
+                StringElement* key = TypeQueryVisitor::as<StringElement>((*it)->value.first);
+
                 if (!generateSourceMap) {
-                    StringElement* str = TypeQueryVisitor::as<StringElement>((*it)->value.first);
-                    if (str && str->value == "sourceMap"){
+                    if (key && key->value == "sourceMap"){
                         continue;
                     }
                 }
 
-                SosSerializeCompactVisitor s(generateSourceMap);
-                Visit(s, *(*it));
-                result.set(s.key(), s.value());
+                SosSerializeVisitor s(generateSourceMap);
+                Visit(s, *((*it)->value.second));
+                result.set(key->value, s.get());
             }
 
             return result;
@@ -58,23 +59,6 @@ namespace refract
             return array;
         }
 
-        IElement::renderFlags SelectSerializationType(const IElement& e, bool generateSourceMap) {
-
-            if (generateSourceMap) {
-                IElement::MemberElementCollection::const_iterator it = e.attributes.find("sourceMap");
-                // there is sourceMap in attributes
-                if (it != e.attributes.end()) {
-                    return IElement::rFull;
-                }
-            }
-
-            if (e.renderType() == IElement::rCompact || e.renderType() == IElement::rCompactContent) {
-                return IElement::rCompact;
-            }
-
-            return IElement::rFull;
-        }
-
     } // end of anonymous namespace
 
     void SosSerializeVisitor::operator()(const IElement& e)
@@ -90,6 +74,7 @@ namespace refract
         if (e.element() == "annotation") {
             sourceMap = true;
         }
+
         sos::Object attr = SerializeElementCollection(e.attributes, sourceMap);
         if (!attr.empty()) {
             result.set("attributes", attr);
@@ -98,16 +83,8 @@ namespace refract
         if (e.empty())
             return;
 
-        const IElement::renderFlags render = SelectSerializationType(e, generateSourceMap);
-
-        if (render == IElement::rCompact) {
-            SosSerializeCompactVisitor s(generateSourceMap);
-            VisitBy(e, s);
-            result.set("content", s.value());
-        } else {
-            VisitBy(e, *this);
-            result.set("content", partial);
-        }
+        VisitBy(e, *this);
+        result.set("content", partial);
     }
 
     void SosSerializeVisitor::SetSerializerValue(SosSerializeVisitor& s, sos::Base& value)

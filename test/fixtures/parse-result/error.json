@@ -2,35 +2,46 @@
   "element": "parseResult",
   "content": [
     {
-      "element": "category",
-      "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": ""
-      },
-      "content": []
-    },
-    {
       "element": "annotation",
       "meta": {
-        "classes": [
-          "error"
-        ]
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "error"
+            }
+          ]
+        }
       },
       "attributes": {
-        "code": 2,
-        "sourceMap": [
-          {
-            "element": "sourceMap",
-            "content": [
-              [
-                24,
-                1
+        "code": {
+          "element": "number",
+          "content": 2
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 24
+                    },
+                    {
+                      "element": "number",
+                      "content": 1
+                    }
+                  ]
+                }
               ]
-            ]
-          }
-        ]
+            }
+          ]
+        }
       },
       "content": "the use of tab(s) '\\t' in source data isn't currently supported, please contact makers"
     }

@@ -4,10 +4,19 @@
     {
       "element": "category",
       "meta": {
-        "classes": [
-          "api"
-        ],
-        "title": "<API name>"
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": "<API name>"
+        }
       },
       "content": [
         {
@@ -17,9 +26,15 @@
         {
           "element": "category",
           "meta": {
-            "classes": [
-              "dataStructures"
-            ]
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
           },
           "content": [
             {
@@ -28,8 +43,14 @@
                 {
                   "element": "object",
                   "meta": {
-                    "id": "User",
-                    "description": "Description of User going there"
+                    "id": {
+                      "element": "string",
+                      "content": "User"
+                    },
+                    "description": {
+                      "element": "string",
+                      "content": "Description of User going there"
+                    }
                   },
                   "content": [
                     {
