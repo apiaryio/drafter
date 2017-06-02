@@ -147,7 +147,7 @@ namespace refract
 
     void JSONSchemaVisitor::addMember(const std::string& key, IElement *val)
     {
-        pObj->push_back(new MemberElement( key, val));
+        pObj->push_back(new MemberElement(key, val));
     }
 
     bool JSONSchemaVisitor::allItemsEmpty(const ArrayElement::ValueType* val)
