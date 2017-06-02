@@ -12,11 +12,10 @@ aliases:
       - run:
           name: Build
           command: |
-            ./configure
-            make -j4
+            cmake .
       - run:
           name: Test
-          command: make test -j4
+          command: make test
 
   - &test-clang-base
     <<: *test-base
@@ -118,7 +117,7 @@ jobs:
 
       - run:
           name: Build
-          command: ./configure && make -j4
+          command: cmake . && make
 
       - run:
           name: Integration Test
@@ -137,16 +136,15 @@ jobs:
       - run:
           name: Build
           command: |
-            ./configure
-            make -j4
-            make test -j4
+            cmake .
+            make
 
       - run:
           name: Memory Test
           command: |
             mkdir artifacts
-            valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --error-exitcode=1 ./bin/test-libdrafter 2> artifacts/memcheck.log
-            valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --error-exitcode=1 ./bin/test-capi 2> artifacts/memcheck-capi.log
+            valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --error-exitcode=1 ./test-libdrafter 2> artifacts/memcheck.log
+            valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --error-exitcode=1 ./test-capi 2> artifacts/memcheck-capi.log
 
       - store_artifacts:
           path: artifacts

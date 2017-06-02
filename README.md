@@ -166,15 +166,16 @@ if (result) {
 2. Build & test Drafter:
 
     ```sh
-    $ ./configure
-    $ make test
+    $ mkdir build
+    $ cd build
+    $ cmake ..
     ```
 
-    To include integration tests (using Cucumber) use the `--include-integration-tests` flag:
+    To build integration tests (using Cucumber). This depends on Ruby and
+    Bundler being installed:
 
     ```sh
-    $ ./configure --include-integration-tests
-    $ make test
+    $ cmake .. -DINTEGRATION=ON
     ```
 
 We love **Windows** too! Please refer to [Building on Windows](https://github.com/apiaryio/drafter/wiki/Building-on-Windows).

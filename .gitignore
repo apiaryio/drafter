@@ -28,8 +28,7 @@
 *.app
 
 # Generated files
-config.mk
-config.gypi
+Makefile
 bin/
 build/
 vendor/
@@ -68,3 +67,9 @@ tags
 
 # log
 *.log
+
+# CMake
+*.cmake
+CMakeFiles/
+/CMakeCache.txt
+/install_manifest.txt
