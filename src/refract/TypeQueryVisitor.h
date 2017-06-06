@@ -21,6 +21,7 @@ namespace refract
         typedef enum
         {
             Null,
+            Direct,
 
             String,
             Number,
@@ -48,6 +49,7 @@ namespace refract
         TypeQueryVisitor();
 
         void operator()(const IElement& e);
+        void operator()(const DirectElement& e);
         void operator()(const NullElement& e);
         void operator()(const StringElement& e);
         void operator()(const NumberElement& e);

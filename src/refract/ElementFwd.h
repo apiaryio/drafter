@@ -21,6 +21,7 @@ namespace refract
     struct NumberElement;
     struct BooleanElement;
 
+    struct DirectElement;
     struct MemberElement;
 
     struct ArrayElement;

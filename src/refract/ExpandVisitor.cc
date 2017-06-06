@@ -338,7 +338,10 @@ namespace refract
     void ExpandVisitor::operator()(const IElement& e) {
         VisitBy(e, *this);
     }
-    
+
+    // do nothing, DirectElements are not expandable
+    void ExpandVisitor::operator()(const DirectElement& e) {}
+
     // do nothing, NullElements are not expandable
     void ExpandVisitor::operator()(const NullElement& e) {}
 

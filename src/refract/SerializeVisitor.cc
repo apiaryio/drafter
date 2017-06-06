@@ -97,6 +97,11 @@ namespace refract
         }
     }
 
+    void SosSerializeVisitor::operator()(const DirectElement& e)
+    {
+        throw NotImplemented("NI: DirectElement serialization");
+    }
+
     void SosSerializeVisitor::operator()(const NullElement& e)
     {
         sos::Base value = sos::Null();

@@ -26,6 +26,7 @@ namespace refract
 
 
     VISIT_IMPL(Null)
+    VISIT_IMPL(Direct)
     VISIT_IMPL(String)
     VISIT_IMPL(Number)
     VISIT_IMPL(Boolean)

@@ -300,6 +300,26 @@ namespace refract
         }
     };
 
+    struct DirectElementTrait
+    {
+        typedef IElement* ValueType;
+
+        static ValueType init() { return NULL; }
+        static const std::string element() { return ""; }
+        static void release(ValueType&) {}
+        static void cloneValue(const ValueType&, ValueType&) {}
+    };
+
+    struct DirectElement : Element<DirectElement, DirectElementTrait> {
+
+        DirectElement() : Type() {}
+
+        DirectElement(const TraitType::ValueType& value) : Type()
+        {
+            set(value);
+        }
+    };
+
     typedef std::vector<IElement*> RefractElements;
 
     template <typename Type = IElement, typename Collection = std::vector<Type*> >
