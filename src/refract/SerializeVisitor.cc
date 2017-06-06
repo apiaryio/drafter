@@ -170,6 +170,17 @@ namespace refract
         SetSerializerValue(*this, array);
     }
 
+    void SosSerializeVisitor::operator()(const RefElement& e)
+    {
+        sos::Base value = sos::Null();
+
+        if (!e.empty()) {
+            value = sos::String(e.value);
+        }
+
+        SetSerializerValue(*this, value);
+    }
+
     void SosSerializeVisitor::operator()(const ExtendElement& e)
     {
         sos::Array array = SerializeValueList(e, generateSourceMap);

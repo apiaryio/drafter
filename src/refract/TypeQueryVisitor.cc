@@ -33,11 +33,13 @@ namespace refract
     VISIT_IMPL(Enum)
     VISIT_IMPL(Member)
     VISIT_IMPL(Object)
+    VISIT_IMPL(Ref)
     VISIT_IMPL(Extend)
     VISIT_IMPL(Option)
     VISIT_IMPL(Select)
 
-    TypeQueryVisitor::ElementType TypeQueryVisitor::get() const {
+    TypeQueryVisitor::ElementType TypeQueryVisitor::get() const
+    {
         return typeInfo;
     }
 

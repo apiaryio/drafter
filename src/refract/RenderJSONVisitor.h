@@ -40,6 +40,7 @@ namespace refract
 
         // FIXME: throwning - not implemented 
         // need to resolve in ApplyVisitor
+        //void operator()(const RefElement& e);
         //void operator()(const OptionElement& e);
         //void operator()(const SelectElement& e);
 

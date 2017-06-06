@@ -21,7 +21,7 @@ namespace refract
                     type = e->element();
                 }
 
-                return !isReserved(type) || type == "ref" ;
+                return !isReserved(type);
             }
         };
 
@@ -34,6 +34,14 @@ namespace refract
                 }
 
                 return false;
+            }
+        };
+
+        template <typename T>
+        struct IsExpandable<T, RefElement::ValueType> : public CheckElement {
+            bool operator()(const T* e) const {
+
+                return true;
             }
         };
 
@@ -129,6 +137,7 @@ namespace refract
     template void IsExpandableVisitor::operator()<EnumElement>(const EnumElement&);
     template void IsExpandableVisitor::operator()<MemberElement>(const MemberElement&);
     template void IsExpandableVisitor::operator()<ObjectElement>(const ObjectElement&);
+    template void IsExpandableVisitor::operator()<RefElement>(const RefElement&);
     template void IsExpandableVisitor::operator()<ExtendElement>(const ExtendElement&);
     template void IsExpandableVisitor::operator()<OptionElement>(const OptionElement&);
     template void IsExpandableVisitor::operator()<SelectElement>(const SelectElement&);

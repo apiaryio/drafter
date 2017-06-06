@@ -189,29 +189,27 @@ namespace refract
             return extend;
         }
 
-        template <typename T>
-        T* ExpandReference(const T& e)
+        RefElement* ExpandReference(const RefElement& e)
         {
-            T* ref = static_cast<T*>(e.clone());
+            RefElement* ref = static_cast<RefElement*>(e.clone());
 
-            StringElement* href = TypeQueryVisitor::as<StringElement>(ref);
-            if (!href || href->value.empty()) {
+            if (ref->value.empty()) {
                 return ref;
             }
 
-            if (std::find(members.begin(), members.end(), href->value) != members.end()) {
+            if (std::find(members.begin(), members.end(), ref->value) != members.end()) {
 
                 std::stringstream msg;
                 msg <<  "named type '";
-                msg << href->value;
+                msg << ref->value;
                 msg << "' is circularly referencing itself by mixin";
 
                 throw snowcrash::Error(msg.str(), snowcrash::MSONError);
             }
 
-            members.push_back(href->value);
+            members.push_back(ref->value);
 
-            if (IElement* referenced = registry.find(href->value)) {
+            if (IElement* referenced = registry.find(ref->value)) {
                 referenced = ExpandOrClone(referenced);
                 MetaIdToRef(*referenced);
                 ref->attributes["resolved"] = referenced;
@@ -230,14 +228,24 @@ namespace refract
 
         ExpandElement(const T& e, ExpandVisitor::Context* context) : result(NULL) {
 
-            std::string en = e.element();
-
-            if (!isReserved(en)) { // expand named type
+            if (!isReserved(e.element())) { // expand named type
                 result = context->ExpandNamedType(e);
             }
-            else if (en == "ref") { // expand reference
-                result = context->ExpandReference(e);
-            }
+        }
+
+        operator IElement* () {
+            return result;
+        }
+    };
+
+    template <>
+    struct ExpandElement<RefElement, RefElement::ValueType> {
+        IElement* result;
+
+        ExpandElement(const RefElement& e, ExpandVisitor::Context* context) : result(NULL) {
+
+            // expand reference
+            result = context->ExpandReference(e);
         }
 
         operator IElement* () {
@@ -341,6 +349,7 @@ namespace refract
     VISIT_IMPL(Array)
     VISIT_IMPL(Enum)
     VISIT_IMPL(Object)
+    VISIT_IMPL(Ref)
     VISIT_IMPL(Extend)
     VISIT_IMPL(Option)
     VISIT_IMPL(Select)

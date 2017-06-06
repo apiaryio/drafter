@@ -24,6 +24,7 @@ namespace refract
         virtual void visit(const EnumElement& e) = 0;
         virtual void visit(const MemberElement& e) = 0;
         virtual void visit(const ObjectElement& e) = 0;
+        virtual void visit(const RefElement& e) = 0;
         virtual void visit(const ExtendElement& e) = 0;
         virtual void visit(const OptionElement& e) = 0;
         virtual void visit(const SelectElement& e) = 0;
@@ -31,62 +32,34 @@ namespace refract
         virtual ~IApply() {}
     };
 
+#ifndef APPLY_VISIT_IMPL
+#define APPLY_VISIT_IMPL(ELEMENT) virtual void visit(const ELEMENT& e) { impl(e); }
+#endif
+
     template <typename Impl>
     struct ApplyImpl : public IApply {
 
         Impl& impl;
         ApplyImpl(Impl& impl) : impl(impl) {}
 
-        virtual void visit(const IElement& e) {
-            impl(e);
-        }
-
-        virtual void visit(const NullElement& e) {
-            impl(e);
-        }
-
-        virtual void visit(const StringElement& e) {
-            impl(e);
-        }
-
-        virtual void visit(const NumberElement& e) {
-            impl(e);
-        }
-
-        virtual void visit(const BooleanElement& e) {
-            impl(e);
-        }
-
-        virtual void visit(const ArrayElement& e) {
-            impl(e);
-        }
-
-        virtual void visit(const EnumElement& e) {
-            impl(e);
-        }
-
-        virtual void visit(const MemberElement& e) {
-            impl(e);
-        }
-
-        virtual void visit(const ObjectElement& e) {
-            impl(e);
-        }
-
-        virtual void visit(const ExtendElement& e) {
-            impl(e);
-        }
-
-        virtual void visit(const OptionElement& e) {
-            impl(e);
-        }
-
-        virtual void visit(const SelectElement& e) {
-            impl(e);
-        }
+        APPLY_VISIT_IMPL(IElement)
+        APPLY_VISIT_IMPL(NullElement)
+        APPLY_VISIT_IMPL(StringElement)
+        APPLY_VISIT_IMPL(NumberElement)
+        APPLY_VISIT_IMPL(BooleanElement)
+        APPLY_VISIT_IMPL(ArrayElement)
+        APPLY_VISIT_IMPL(EnumElement)
+        APPLY_VISIT_IMPL(MemberElement)
+        APPLY_VISIT_IMPL(ObjectElement)
+        APPLY_VISIT_IMPL(RefElement)
+        APPLY_VISIT_IMPL(ExtendElement)
+        APPLY_VISIT_IMPL(OptionElement)
+        APPLY_VISIT_IMPL(SelectElement)
 
         virtual ~ApplyImpl() {}
     };
+
+#undef APPLY_VISIT_IMPL
 
     class Visitor {
 

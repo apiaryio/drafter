@@ -93,6 +93,11 @@ namespace refract
         value_ = obj;
     }
 
+    void SosSerializeCompactVisitor::operator()(const RefElement& e)
+    {
+        throw NotImplemented("NI: RefElement Compact Serialization");
+    }
+
     void SosSerializeCompactVisitor::operator()(const ExtendElement& e)
     {
         throw NotImplemented("ExtendElement serialization Not Implemented");

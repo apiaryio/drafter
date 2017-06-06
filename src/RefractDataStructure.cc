@@ -390,6 +390,7 @@ namespace drafter {
 
             case refract::TypeQueryVisitor::Null:
             case refract::TypeQueryVisitor::Member:
+            case refract::TypeQueryVisitor::Ref:
             case refract::TypeQueryVisitor::Extend:
             case refract::TypeQueryVisitor::Option:
             case refract::TypeQueryVisitor::Select:
@@ -1012,9 +1013,8 @@ namespace drafter {
 
     static refract::IElement* MsonMixinToRefract(const NodeInfo<mson::Mixin>& mixin)
     {
-        refract::StringElement* ref = new refract::StringElement;
+        refract::RefElement* ref = new refract::RefElement;
 
-        ref->element(SerializeKey::Ref);
         ref->set(mixin.node->typeSpecification.name.symbol.literal);
         ref->attributes[SerializeKey::Path] = refract::IElement::Create(SerializeKey::Content);
 

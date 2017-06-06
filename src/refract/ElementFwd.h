@@ -27,6 +27,7 @@ namespace refract
     struct EnumElement;
     struct ObjectElement;
 
+    struct RefElement;
     struct ExtendElement;
 
     struct OptionElement;

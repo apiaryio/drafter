@@ -55,7 +55,6 @@
 		19FD76A71B97216100B160CF /* libsos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129EF1B70B88E00366AA7 /* libsos.a */; };
 		19FD76A81B97216700B160CF /* libmarkdownparser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129E91B70AFA900366AA7 /* libmarkdownparser.a */; };
 		19FD76A91B97216700B160CF /* libsnowcrash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A129E71B70AFA600366AA7 /* libsnowcrash.a */; };
-		2769EFF31D1C438D00907A4B /* ExpandVisitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2769EFF11D1C438D00907A4B /* ExpandVisitor.h */; };
 		2769EFF41D1C438D00907A4B /* FilterVisitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2769EFF21D1C438D00907A4B /* FilterVisitor.h */; };
 		2769EFF61D1C43B700907A4B /* Query.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2769EFF51D1C43B700907A4B /* Query.cc */; };
 		400F53C61C5989C7004EA235 /* NamedTypesRegistry.cc in Sources */ = {isa = PBXBuildFile; fileRef = 400F53971C5989C7004EA235 /* NamedTypesRegistry.cc */; };
@@ -176,7 +175,6 @@
 		19A129FD1B70B8D000366AA7 /* sosYAML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sosYAML.h; path = ext/sos/src/sosYAML.h; sourceTree = SOURCE_ROOT; };
 		19BD7B971B70AAAF00A11E83 /* liblibdrafter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibdrafter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		19FD769D1B9720CB00B160CF /* drafter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = drafter; sourceTree = BUILT_PRODUCTS_DIR; };
-		2769EFF11D1C438D00907A4B /* ExpandVisitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExpandVisitor.h; path = src/refract/ExpandVisitor.h; sourceTree = SOURCE_ROOT; };
 		2769EFF21D1C438D00907A4B /* FilterVisitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FilterVisitor.h; path = src/refract/FilterVisitor.h; sourceTree = SOURCE_ROOT; };
 		2769EFF51D1C43B700907A4B /* Query.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Query.cc; path = src/refract/Query.cc; sourceTree = SOURCE_ROOT; };
 		400F53971C5989C7004EA235 /* NamedTypesRegistry.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NamedTypesRegistry.cc; path = src/NamedTypesRegistry.cc; sourceTree = SOURCE_ROOT; };
@@ -303,9 +301,8 @@
 				400F53F81C5989F1004EA235 /* ElementInserter.h */,
 				19A1299C1B70AC9A00366AA7 /* Exception.h */,
 				19A1299D1B70AC9A00366AA7 /* ExpandVisitor.cc */,
-				2769EFF11D1C438D00907A4B /* ExpandVisitor.h */,
-				2769EFF21D1C438D00907A4B /* FilterVisitor.h */,
 				19A1299E1B70AC9A00366AA7 /* ExpandVisitor.h */,
+				2769EFF21D1C438D00907A4B /* FilterVisitor.h */,
 				19A1299F1B70AC9A00366AA7 /* IsExpandableVisitor.cc */,
 				19A129A01B70AC9A00366AA7 /* IsExpandableVisitor.h */,
 				400F53F91C5989F1004EA235 /* Iterate.h */,
@@ -441,7 +438,6 @@
 				40D03D4E1C182FBD008AD2EF /* PrintVisitor.h in Headers */,
 				40EF03D61B7210F300865990 /* RefractDataStructure.h in Headers */,
 				19A129C31B70AC9A00366AA7 /* TypeQueryVisitor.h in Headers */,
-				2769EFF31D1C438D00907A4B /* ExpandVisitor.h in Headers */,
 				19A129C51B70AC9A00366AA7 /* Visitor.h in Headers */,
 				19A129871B70ABE100366AA7 /* Render.h in Headers */,
 				19A129B31B70AC9A00366AA7 /* Element.h in Headers */,
