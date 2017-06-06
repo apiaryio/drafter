@@ -61,8 +61,8 @@ namespace refract
                     continue;
                 }
 
-                if ((*it)->element() == "ref") {
-                    HandleRefWhenFetchingMembers<T>(*it, members, FetchMembers<T>);
+                if (RefElement* ref = TypeQueryVisitor::as<RefElement>(*it)) {
+                    HandleRefWhenFetchingMembers<T>(ref, members, FetchMembers<T>);
                     continue;
                 }
                 else if (SelectElement* select = TypeQueryVisitor::as<SelectElement>(*it)) {

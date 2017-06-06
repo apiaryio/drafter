@@ -38,6 +38,7 @@ namespace refract
         void operator()(const EnumElement& e);
         void operator()(const ObjectElement& e);
 
+        void operator()(const RefElement& e);
         void operator()(const ExtendElement& e);
 
         void operator()(const OptionElement& e);

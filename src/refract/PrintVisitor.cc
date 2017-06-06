@@ -125,10 +125,17 @@ namespace refract
         os << ")" << "\n";
     }
 
+    void PrintVisitor::operator()(const RefElement& e)
+    {
+        const RefElement::ValueType* v = GetValue<RefElement>(e);
+        os << "RefElement(" << *v << ")" << "\n";
+    }
+
     void PrintVisitor::operator()(const MemberElement& e)
     {
         os << "MemberElement {\n";
         indentOS(indent + 1);
+
         if (e.value.first) {
             if (StringElement* str = TypeQueryVisitor::as<StringElement>(e.value.first)) {
                 os<< "\"" << str->value << "\": \n";
@@ -141,10 +148,10 @@ namespace refract
             PrintVisitor ps(indent + 1, os);
             refract::Visit(ps, *e.value.second);
         }
+
         indentOS(indent);
         os << "}\n";
     }
-
 
     VISIT_IMPL(Array)
     VISIT_IMPL(Enum)

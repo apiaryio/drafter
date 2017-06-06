@@ -250,8 +250,8 @@ namespace refract
         static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
     };
 
-    struct StringElement : Element<StringElement, StringElementTrait> {
-
+    struct StringElement : Element<StringElement, StringElementTrait>
+    {
         StringElement() : Type() {}
 
         StringElement(const TraitType::ValueType& value) : Type()
@@ -270,8 +270,8 @@ namespace refract
         static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
     };
 
-    struct NumberElement : Element<NumberElement, NumberElementTrait> {
-
+    struct NumberElement : Element<NumberElement, NumberElementTrait>
+    {
         NumberElement() : Type() {}
 
         NumberElement(const TraitType::ValueType& value) : Type()
@@ -290,11 +290,12 @@ namespace refract
         static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
     };
 
-    struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {
-
+    struct BooleanElement : Element<BooleanElement, BooleanElementTrait>
+    {
         BooleanElement() : Type() {}
 
-        BooleanElement(const TraitType::ValueType& value) : Type() {
+        BooleanElement(const TraitType::ValueType& value) : Type()
+        {
             set(value);
         }
     };
@@ -512,6 +513,26 @@ namespace refract
         }
     };
 
+    struct RefElementTrait
+    {
+        typedef std::string ValueType;
+
+        static ValueType init() { return ValueType(); }
+        static const std::string element() { return "ref"; }
+        static void release(ValueType&) {}
+        static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
+    };
+
+    struct RefElement : Element<RefElement, RefElementTrait>
+    {
+        RefElement() : Type() {}
+
+        RefElement(const TraitType::ValueType& value) : Type()
+        {
+            set(value);
+        }
+    };
+
     struct ExtendElementTrait : public ElementCollectionTrait<>
     {
         static const std::string element() { return "extend"; }
@@ -580,7 +601,6 @@ namespace refract
 
     struct SelectElement : Element<SelectElement, SelectElementTrait>
     {
-
         SelectElement() : Type()
         {
         }
