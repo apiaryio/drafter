@@ -103,11 +103,9 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "A"
-                                }
-                              ]
+                              "content": {
+                                "element": "A"
+                              }
                             },
                             {
                               "element": "asset",
@@ -177,267 +175,257 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "string",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "StrSample"
+              "content": {
+                "element": "string",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "StrSample"
+                  }
+                },
+                "attributes": {
+                  "samples": {
+                    "element": "array",
+                    "content": [
+                      {
+                        "element": "string",
+                        "content": "str sample\n\n"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "element": "dataStructure",
+              "content": {
+                "element": "string",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "StrDefault"
+                  }
+                },
+                "attributes": {
+                  "default": {
+                    "element": "string",
+                    "content": "str default\n\n"
+                  }
+                }
+              }
+            },
+            {
+              "element": "dataStructure",
+              "content": {
+                "element": "string",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "StrEmpty"
+                  }
+                }
+              }
+            },
+            {
+              "element": "dataStructure",
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "StrObj"
+                  }
+                }
+              }
+            },
+            {
+              "element": "dataStructure",
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "A"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "s"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "start"
+                      }
                     }
                   },
-                  "attributes": {
-                    "samples": {
-                      "element": "array",
-                      "content": [
-                        {
-                          "element": "string",
-                          "content": "str sample\n\n"
-                        }
-                      ]
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "element": "dataStructure",
-              "content": [
-                {
-                  "element": "string",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "StrDefault"
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "attributes": {
+                          "variable": {
+                            "element": "boolean",
+                            "content": true
+                          }
+                        },
+                        "content": "direct"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "v1"
+                      }
                     }
                   },
-                  "attributes": {
-                    "default": {
-                      "element": "string",
-                      "content": "str default\n\n"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "element": "dataStructure",
-              "content": [
-                {
-                  "element": "string",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "StrEmpty"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "StrObj"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "A"
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "attributes": {
+                          "variable": {
+                            "element": "boolean",
+                            "content": true
+                          }
+                        },
+                        "content": "str"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "v2"
+                      }
                     }
                   },
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "s"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "start"
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "attributes": {
-                            "variable": {
-                              "element": "boolean",
-                              "content": true
-                            }
-                          },
-                          "content": "direct"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "v1"
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "attributes": {
-                            "variable": {
-                              "element": "boolean",
-                              "content": true
-                            }
-                          },
-                          "content": "str"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "v2"
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "StrSample",
-                          "attributes": {
-                            "variable": {
-                              "element": "boolean",
-                              "content": true
-                            }
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "StrSample",
+                        "attributes": {
+                          "variable": {
+                            "element": "boolean",
+                            "content": true
                           }
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "s1"
                         }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "StrSample",
-                          "attributes": {
-                            "variable": {
-                              "element": "boolean",
-                              "content": true
-                            }
-                          },
-                          "content": "ss"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "s2"
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "StrDefault",
-                          "attributes": {
-                            "variable": {
-                              "element": "boolean",
-                              "content": true
-                            }
-                          }
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "d1"
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "StrDefault",
-                          "attributes": {
-                            "variable": {
-                              "element": "boolean",
-                              "content": true
-                            }
-                          },
-                          "content": "sd"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "d2"
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "StrEmpty",
-                          "attributes": {
-                            "variable": {
-                              "element": "boolean",
-                              "content": true
-                            }
-                          }
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "e1"
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "StrEmpty",
-                          "attributes": {
-                            "variable": {
-                              "element": "boolean",
-                              "content": true
-                            }
-                          },
-                          "content": "se"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "e2"
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "e"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "end"
-                        }
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "s1"
                       }
                     }
-                  ]
-                }
-              ]
+                  },
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "StrSample",
+                        "attributes": {
+                          "variable": {
+                            "element": "boolean",
+                            "content": true
+                          }
+                        },
+                        "content": "ss"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "s2"
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "StrDefault",
+                        "attributes": {
+                          "variable": {
+                            "element": "boolean",
+                            "content": true
+                          }
+                        }
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "d1"
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "StrDefault",
+                        "attributes": {
+                          "variable": {
+                            "element": "boolean",
+                            "content": true
+                          }
+                        },
+                        "content": "sd"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "d2"
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "StrEmpty",
+                        "attributes": {
+                          "variable": {
+                            "element": "boolean",
+                            "content": true
+                          }
+                        }
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "e1"
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "StrEmpty",
+                        "attributes": {
+                          "variable": {
+                            "element": "boolean",
+                            "content": true
+                          }
+                        },
+                        "content": "se"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "e2"
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "e"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "end"
+                      }
+                    }
+                  }
+                ]
+              }
             }
           ]
         }

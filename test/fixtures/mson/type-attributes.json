@@ -35,60 +35,58 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "A"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "member",
-                      "attributes": {
-                        "typeAttributes": {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "required"
-                            },
-                            {
-                              "element": "string",
-                              "content": "optional"
-                            },
-                            {
-                              "element": "string",
-                              "content": "fixed"
-                            },
-                            {
-                              "element": "string",
-                              "content": "fixedType"
-                            }
-                          ]
-                        }
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "A"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "attributes": {
+                      "typeAttributes": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "required"
+                          },
+                          {
+                            "element": "string",
+                            "content": "optional"
+                          },
+                          {
+                            "element": "string",
+                            "content": "fixed"
+                          },
+                          {
+                            "element": "string",
+                            "content": "fixedType"
+                          }
+                        ]
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "a"
                       },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "a"
-                        },
-                        "value": {
-                          "element": "string",
-                          "attributes": {
-                            "default": {
-                              "element": "string",
-                              "content": "a"
-                            }
+                      "value": {
+                        "element": "string",
+                        "attributes": {
+                          "default": {
+                            "element": "string",
+                            "content": "a"
                           }
                         }
                       }
                     }
-                  ]
-                }
-              ]
+                  }
+                ]
+              }
             }
           ]
         }

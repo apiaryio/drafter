@@ -35,213 +35,211 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "User"
-                    },
-                    "description": {
-                      "element": "string",
-                      "content": "User of the application"
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "User"
+                  },
+                  "description": {
+                    "element": "string",
+                    "content": "User of the application"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "username"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "pavan"
+                      }
                     }
                   },
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "username"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "pavan"
-                        }
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "Id of the user"
                       }
                     },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "Id of the user"
-                        }
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "id"
                       },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "id"
-                        },
-                        "value": {
-                          "element": "number",
-                          "content": 5
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "address"
-                        },
-                        "value": {
-                          "element": "object",
-                          "content": [
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "street"
-                                },
-                                "value": {
-                                  "element": "string"
-                                }
-                              }
-                            },
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "city"
-                                },
-                                "value": {
-                                  "element": "string"
-                                }
-                              }
-                            },
-                            {
-                              "element": "member",
-                              "meta": {
-                                "description": {
-                                  "element": "string",
-                                  "content": "zip description"
-                                }
-                              },
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "zip"
-                                },
-                                "value": {
-                                  "element": "number",
-                                  "content": 1234
-                                }
-                              }
-                            },
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "attributes": {
-                                    "variable": {
-                                      "element": "boolean",
-                                      "content": true
-                                    }
-                                  },
-                                  "content": "variable"
-                                },
-                                "value": {
-                                  "element": "string",
-                                  "content": "trololo"
-                                }
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "array description"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "array"
-                        },
-                        "value": {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "3"
-                            },
-                            {
-                              "element": "string",
-                              "content": "4"
-                            },
-                            {
-                              "element": "string",
-                              "content": "5"
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "desc"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "inline array"
-                        },
-                        "value": {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "1"
-                            },
-                            {
-                              "element": "string",
-                              "content": "2"
-                            },
-                            {
-                              "element": "string",
-                              "content": "3"
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "some dummy text\n\nand it continue there\nand will end there"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "multilined description"
-                        },
-                        "value": {
-                          "element": "string"
-                        }
+                      "value": {
+                        "element": "number",
+                        "content": 5
                       }
                     }
-                  ]
-                }
-              ]
+                  },
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "address"
+                      },
+                      "value": {
+                        "element": "object",
+                        "content": [
+                          {
+                            "element": "member",
+                            "content": {
+                              "key": {
+                                "element": "string",
+                                "content": "street"
+                              },
+                              "value": {
+                                "element": "string"
+                              }
+                            }
+                          },
+                          {
+                            "element": "member",
+                            "content": {
+                              "key": {
+                                "element": "string",
+                                "content": "city"
+                              },
+                              "value": {
+                                "element": "string"
+                              }
+                            }
+                          },
+                          {
+                            "element": "member",
+                            "meta": {
+                              "description": {
+                                "element": "string",
+                                "content": "zip description"
+                              }
+                            },
+                            "content": {
+                              "key": {
+                                "element": "string",
+                                "content": "zip"
+                              },
+                              "value": {
+                                "element": "number",
+                                "content": 1234
+                              }
+                            }
+                          },
+                          {
+                            "element": "member",
+                            "content": {
+                              "key": {
+                                "element": "string",
+                                "attributes": {
+                                  "variable": {
+                                    "element": "boolean",
+                                    "content": true
+                                  }
+                                },
+                                "content": "variable"
+                              },
+                              "value": {
+                                "element": "string",
+                                "content": "trololo"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "array description"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "array"
+                      },
+                      "value": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "3"
+                          },
+                          {
+                            "element": "string",
+                            "content": "4"
+                          },
+                          {
+                            "element": "string",
+                            "content": "5"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "desc"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "inline array"
+                      },
+                      "value": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "1"
+                          },
+                          {
+                            "element": "string",
+                            "content": "2"
+                          },
+                          {
+                            "element": "string",
+                            "content": "3"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "some dummy text\n\nand it continue there\nand will end there"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "multilined description"
+                      },
+                      "value": {
+                        "element": "string"
+                      }
+                    }
+                  }
+                ]
+              }
             }
           ]
         }

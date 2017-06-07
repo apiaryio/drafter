@@ -103,62 +103,60 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "tag"
-                                        },
-                                        "value": {
-                                          "element": "enum",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "green"
-                                            },
-                                            {
-                                              "element": "object",
-                                              "content": [
-                                                {
-                                                  "element": "member",
-                                                  "content": {
-                                                    "key": {
-                                                      "element": "string",
-                                                      "content": "tag_id"
-                                                    },
-                                                    "value": {
-                                                      "element": "string",
-                                                      "content": "1"
-                                                    }
-                                                  }
-                                                },
-                                                {
-                                                  "element": "member",
-                                                  "content": {
-                                                    "key": {
-                                                      "element": "string",
-                                                      "content": "label"
-                                                    },
-                                                    "value": {
-                                                      "element": "string",
-                                                      "content": "green"
-                                                    }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "tag"
+                                      },
+                                      "value": {
+                                        "element": "enum",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "green"
+                                          },
+                                          {
+                                            "element": "object",
+                                            "content": [
+                                              {
+                                                "element": "member",
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "tag_id"
+                                                  },
+                                                  "value": {
+                                                    "element": "string",
+                                                    "content": "1"
                                                   }
                                                 }
-                                              ]
-                                            }
-                                          ]
-                                        }
+                                              },
+                                              {
+                                                "element": "member",
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "label"
+                                                  },
+                                                  "value": {
+                                                    "element": "string",
+                                                    "content": "green"
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

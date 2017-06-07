@@ -103,46 +103,44 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "list"
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "list"
+                                      },
+                                      "value": {
+                                        "element": "enum",
+                                        "attributes": {
+                                          "default": {
+                                            "element": "enum",
+                                            "content": [
+                                              {
+                                                "element": "string",
+                                                "content": "4"
+                                              }
+                                            ]
+                                          }
                                         },
-                                        "value": {
-                                          "element": "enum",
-                                          "attributes": {
-                                            "default": {
-                                              "element": "enum",
-                                              "content": [
-                                                {
-                                                  "element": "string",
-                                                  "content": "4"
-                                                }
-                                              ]
-                                            }
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "3"
                                           },
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "3"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "4"
-                                            }
-                                          ]
-                                        }
+                                          {
+                                            "element": "string",
+                                            "content": "4"
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

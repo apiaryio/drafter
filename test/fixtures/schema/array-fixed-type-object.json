@@ -54,96 +54,94 @@
               "content": [
                 {
                   "element": "dataStructure",
-                  "content": [
-                    {
-                      "element": "object",
-                      "meta": {
-                        "id": {
-                          "element": "string",
-                          "content": "Test"
+                  "content": {
+                    "element": "object",
+                    "meta": {
+                      "id": {
+                        "element": "string",
+                        "content": "Test"
+                      }
+                    },
+                    "content": [
+                      {
+                        "element": "member",
+                        "content": {
+                          "key": {
+                            "element": "string",
+                            "content": "id"
+                          },
+                          "value": {
+                            "element": "number",
+                            "content": 12
+                          }
                         }
                       },
-                      "content": [
-                        {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "id"
-                            },
-                            "value": {
-                              "element": "number",
-                              "content": 12
-                            }
+                      {
+                        "element": "member",
+                        "meta": {
+                          "description": {
+                            "element": "string",
+                            "content": "List description"
                           }
                         },
-                        {
-                          "element": "member",
-                          "meta": {
-                            "description": {
-                              "element": "string",
-                              "content": "List description"
-                            }
-                          },
-                          "attributes": {
-                            "typeAttributes": {
-                              "element": "array",
-                              "content": [
-                                {
-                                  "element": "string",
-                                  "content": "required"
-                                }
-                              ]
-                            }
-                          },
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "name"
-                            },
-                            "value": {
-                              "element": "string",
-                              "content": "Films you must watch"
-                            }
+                        "attributes": {
+                          "typeAttributes": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "required"
+                              }
+                            ]
                           }
                         },
-                        {
-                          "element": "member",
-                          "meta": {
-                            "description": {
-                              "element": "string",
-                              "content": "References to the medias in the list"
-                            }
+                        "content": {
+                          "key": {
+                            "element": "string",
+                            "content": "name"
                           },
-                          "attributes": {
-                            "typeAttributes": {
-                              "element": "array",
-                              "content": [
-                                {
-                                  "element": "string",
-                                  "content": "fixedType"
-                                }
-                              ]
-                            }
-                          },
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "medias"
-                            },
-                            "value": {
-                              "element": "array",
-                              "content": [
-                                {
-                                  "element": "Media"
-                                }
-                              ]
-                            }
+                          "value": {
+                            "element": "string",
+                            "content": "Films you must watch"
                           }
                         }
-                      ]
-                    }
-                  ]
+                      },
+                      {
+                        "element": "member",
+                        "meta": {
+                          "description": {
+                            "element": "string",
+                            "content": "References to the medias in the list"
+                          }
+                        },
+                        "attributes": {
+                          "typeAttributes": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "fixedType"
+                              }
+                            ]
+                          }
+                        },
+                        "content": {
+                          "key": {
+                            "element": "string",
+                            "content": "medias"
+                          },
+                          "value": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "Media"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
                 }
               ]
             },
@@ -213,11 +211,9 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "Test"
-                                }
-                              ]
+                              "content": {
+                                "element": "Test"
+                              }
                             },
                             {
                               "element": "asset",
@@ -287,67 +283,65 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "Media"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "member",
-                      "attributes": {
-                        "typeAttributes": {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "required"
-                            }
-                          ]
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "mediaId"
-                        },
-                        "value": {
-                          "element": "number",
-                          "content": 25
-                        }
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "Media"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "attributes": {
+                      "typeAttributes": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "required"
+                          }
+                        ]
                       }
                     },
-                    {
-                      "element": "member",
-                      "attributes": {
-                        "typeAttributes": {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "required"
-                            }
-                          ]
-                        }
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "mediaId"
                       },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "name"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "Some name"
-                        }
+                      "value": {
+                        "element": "number",
+                        "content": 25
                       }
                     }
-                  ]
-                }
-              ]
+                  },
+                  {
+                    "element": "member",
+                    "attributes": {
+                      "typeAttributes": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "required"
+                          }
+                        ]
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "name"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "Some name"
+                      }
+                    }
+                  }
+                ]
+              }
             }
           ]
         }

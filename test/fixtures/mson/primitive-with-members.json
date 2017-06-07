@@ -39,87 +39,77 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "string",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "StringType"
-                    }
+              "content": {
+                "element": "string",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "StringType"
                   }
                 }
-              ]
+              }
             },
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "boolean",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "BooleanType"
-                    }
+              "content": {
+                "element": "boolean",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "BooleanType"
                   }
                 }
-              ]
+              }
             },
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "number",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "NumberType"
-                    }
+              "content": {
+                "element": "number",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "NumberType"
                   }
                 }
-              ]
+              }
             },
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "number",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "NumericType"
-                    }
+              "content": {
+                "element": "number",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "NumericType"
                   }
                 }
-              ]
+              }
             },
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "ObjectType"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "m1"
-                        },
-                        "value": {
-                          "element": "string"
-                        }
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "ObjectType"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "m1"
+                      },
+                      "value": {
+                        "element": "string"
                       }
                     }
-                  ]
-                }
-              ]
+                  }
+                ]
+              }
             }
           ]
         }

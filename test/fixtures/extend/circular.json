@@ -103,19 +103,17 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "array",
-                                  "content": [
-                                    {
-                                      "element": "A"
-                                    },
-                                    {
-                                      "element": "B"
-                                    }
-                                  ]
-                                }
-                              ]
+                              "content": {
+                                "element": "array",
+                                "content": [
+                                  {
+                                    "element": "A"
+                                  },
+                                  {
+                                    "element": "B"
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",
@@ -185,57 +183,53 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "enum",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "A"
-                    }
+              "content": {
+                "element": "enum",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "A"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "B"
                   },
-                  "content": [
-                    {
-                      "element": "B"
-                    },
-                    {
-                      "element": "array",
-                      "content": [
-                        {
-                          "element": "B"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
+                  {
+                    "element": "array",
+                    "content": [
+                      {
+                        "element": "B"
+                      }
+                    ]
+                  }
+                ]
+              }
             },
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "enum",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "B"
-                    }
+              "content": {
+                "element": "enum",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "B"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "A"
                   },
-                  "content": [
-                    {
-                      "element": "A"
-                    },
-                    {
-                      "element": "array",
-                      "content": [
-                        {
-                          "element": "A"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
+                  {
+                    "element": "array",
+                    "content": [
+                      {
+                        "element": "A"
+                      }
+                    ]
+                  }
+                ]
+              }
             }
           ]
         }

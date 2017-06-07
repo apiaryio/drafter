@@ -103,72 +103,70 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "attributes": {
-                                        "typeAttributes": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "fixedType"
-                                            }
-                                          ]
-                                        }
-                                      },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "attributes": {
-                                            "variable": {
-                                              "element": "boolean",
-                                              "content": true
-                                            }
-                                          },
-                                          "content": "y"
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "attributes": {
+                                      "typeAttributes": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "fixedType"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "attributes": {
+                                          "variable": {
+                                            "element": "boolean",
+                                            "content": true
+                                          }
                                         },
-                                        "value": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "object",
-                                              "content": [
-                                                {
-                                                  "element": "member",
-                                                  "attributes": {
-                                                    "typeAttributes": {
-                                                      "element": "array",
-                                                      "content": [
-                                                        {
-                                                          "element": "string",
-                                                          "content": "required"
-                                                        }
-                                                      ]
-                                                    }
+                                        "content": "y"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "object",
+                                            "content": [
+                                              {
+                                                "element": "member",
+                                                "attributes": {
+                                                  "typeAttributes": {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "string",
+                                                        "content": "required"
+                                                      }
+                                                    ]
+                                                  }
+                                                },
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "name"
                                                   },
-                                                  "content": {
-                                                    "key": {
-                                                      "element": "string",
-                                                      "content": "name"
-                                                    },
-                                                    "value": {
-                                                      "element": "string"
-                                                    }
+                                                  "value": {
+                                                    "element": "string"
                                                   }
                                                 }
-                                              ]
-                                            }
-                                          ]
-                                        }
+                                              }
+                                            ]
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

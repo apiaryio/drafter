@@ -98,9 +98,9 @@ namespace drafter {
             return NULL;
         }
 
-        refract::ObjectElement* element = new refract::ObjectElement;
+        refract::DirectElement* element = new refract::DirectElement;
         element->element(SerializeKey::DataStructure);
-        element->push_back(msonElement);
+        element->set(msonElement);
 
         return element;
     }

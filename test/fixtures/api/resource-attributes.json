@@ -54,32 +54,30 @@
               "content": [
                 {
                   "element": "dataStructure",
-                  "content": [
-                    {
-                      "element": "object",
-                      "meta": {
-                        "id": {
-                          "element": "string",
-                          "content": "User"
-                        }
-                      },
-                      "content": [
-                        {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "username"
-                            },
-                            "value": {
-                              "element": "string",
-                              "content": "pavan"
-                            }
+                  "content": {
+                    "element": "object",
+                    "meta": {
+                      "id": {
+                        "element": "string",
+                        "content": "User"
+                      }
+                    },
+                    "content": [
+                      {
+                        "element": "member",
+                        "content": {
+                          "key": {
+                            "element": "string",
+                            "content": "username"
+                          },
+                          "value": {
+                            "element": "string",
+                            "content": "pavan"
                           }
                         }
-                      ]
-                    }
-                  ]
+                      }
+                    ]
+                  }
                 }
               ]
             }

@@ -103,113 +103,111 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "attributes": {
-                                        "typeAttributes": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "fixed"
-                                            }
-                                          ]
-                                        }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "attributes": {
+                                      "typeAttributes": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "fixed"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "tags"
                                       },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "tags"
-                                        },
-                                        "value": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "hello"
-                                            },
-                                            {
-                                              "element": "number",
-                                              "attributes": {
-                                                "samples": {
-                                                  "element": "array",
-                                                  "content": [
-                                                    {
-                                                      "element": "number",
-                                                      "content": 42
-                                                    }
-                                                  ]
-                                                }
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "hello"
+                                          },
+                                          {
+                                            "element": "number",
+                                            "attributes": {
+                                              "samples": {
+                                                "element": "array",
+                                                "content": [
+                                                  {
+                                                    "element": "number",
+                                                    "content": 42
+                                                  }
+                                                ]
                                               }
-                                            },
-                                            {
-                                              "element": "object",
-                                              "content": [
-                                                {
-                                                  "element": "member",
-                                                  "content": {
-                                                    "key": {
-                                                      "element": "string",
-                                                      "content": "name"
-                                                    },
-                                                    "value": {
-                                                      "element": "string",
-                                                      "attributes": {
-                                                        "samples": {
-                                                          "element": "array",
-                                                          "content": [
-                                                            {
-                                                              "element": "string",
-                                                              "content": "snow"
-                                                            }
-                                                          ]
-                                                        }
+                                            }
+                                          },
+                                          {
+                                            "element": "object",
+                                            "content": [
+                                              {
+                                                "element": "member",
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "name"
+                                                  },
+                                                  "value": {
+                                                    "element": "string",
+                                                    "attributes": {
+                                                      "samples": {
+                                                        "element": "array",
+                                                        "content": [
+                                                          {
+                                                            "element": "string",
+                                                            "content": "snow"
+                                                          }
+                                                        ]
                                                       }
                                                     }
                                                   }
-                                                },
-                                                {
-                                                  "element": "member",
-                                                  "content": {
-                                                    "key": {
-                                                      "element": "string",
-                                                      "content": "color"
-                                                    },
-                                                    "value": {
-                                                      "element": "string",
-                                                      "content": "white"
-                                                    }
-                                                  }
-                                                },
-                                                {
-                                                  "element": "member",
-                                                  "content": {
-                                                    "key": {
-                                                      "element": "string",
-                                                      "content": "description"
-                                                    },
-                                                    "value": {
-                                                      "element": "string"
-                                                    }
+                                                }
+                                              },
+                                              {
+                                                "element": "member",
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "color"
+                                                  },
+                                                  "value": {
+                                                    "element": "string",
+                                                    "content": "white"
                                                   }
                                                 }
-                                              ]
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "world"
-                                            }
-                                          ]
-                                        }
+                                              },
+                                              {
+                                                "element": "member",
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "description"
+                                                  },
+                                                  "value": {
+                                                    "element": "string"
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "world"
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

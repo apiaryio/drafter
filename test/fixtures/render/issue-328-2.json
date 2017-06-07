@@ -58,17 +58,15 @@
                 },
                 {
                   "element": "dataStructure",
-                  "content": [
-                    {
-                      "element": "C",
-                      "meta": {
-                        "id": {
-                          "element": "string",
-                          "content": "C"
-                        }
+                  "content": {
+                    "element": "C",
+                    "meta": {
+                      "id": {
+                        "element": "string",
+                        "content": "C"
                       }
                     }
-                  ]
+                  }
                 }
               ]
             }

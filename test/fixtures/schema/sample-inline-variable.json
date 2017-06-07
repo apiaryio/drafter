@@ -103,35 +103,33 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "list"
-                                        },
-                                        "value": {
-                                          "element": "enum",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "*3"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "4*"
-                                            }
-                                          ]
-                                        }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "list"
+                                      },
+                                      "value": {
+                                        "element": "enum",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "*3"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "4*"
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

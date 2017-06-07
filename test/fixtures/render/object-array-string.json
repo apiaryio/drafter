@@ -134,38 +134,36 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "a"
-                                        },
-                                        "value": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "b"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "c"
-                                            }
-                                          ]
-                                        }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "a"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "b"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "c"
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

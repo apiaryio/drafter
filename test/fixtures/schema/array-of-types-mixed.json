@@ -103,35 +103,33 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "tags"
-                                        },
-                                        "value": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "hello"
-                                            },
-                                            {
-                                              "element": "number",
-                                              "content": 42
-                                            }
-                                          ]
-                                        }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "tags"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "hello"
+                                          },
+                                          {
+                                            "element": "number",
+                                            "content": 42
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

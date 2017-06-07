@@ -39,123 +39,121 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "User"
-                    },
-                    "description": {
-                      "element": "string",
-                      "content": "Description of User going there"
-                    }
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "User"
                   },
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "fibbonaci"
-                        },
-                        "value": {
-                          "element": "array",
-                          "attributes": {
-                            "samples": {
-                              "element": "array",
-                              "content": [
-                                {
-                                  "element": "array",
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "5"
-                                    },
-                                    {
-                                      "element": "string",
-                                      "content": "8"
-                                    },
-                                    {
-                                      "element": "string",
-                                      "content": "13"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "element": "array",
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "8"
-                                    },
-                                    {
-                                      "element": "string",
-                                      "content": "13"
-                                    },
-                                    {
-                                      "element": "string",
-                                      "content": "21"
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            "default": {
-                              "element": "array",
-                              "content": [
-                                {
-                                  "element": "string",
-                                  "content": "1"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "2"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "3"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "5"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "8"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "13"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "21"
-                                }
-                              ]
-                            }
+                  "description": {
+                    "element": "string",
+                    "content": "Description of User going there"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "fibbonaci"
+                      },
+                      "value": {
+                        "element": "array",
+                        "attributes": {
+                          "samples": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "array",
+                                "content": [
+                                  {
+                                    "element": "string",
+                                    "content": "5"
+                                  },
+                                  {
+                                    "element": "string",
+                                    "content": "8"
+                                  },
+                                  {
+                                    "element": "string",
+                                    "content": "13"
+                                  }
+                                ]
+                              },
+                              {
+                                "element": "array",
+                                "content": [
+                                  {
+                                    "element": "string",
+                                    "content": "8"
+                                  },
+                                  {
+                                    "element": "string",
+                                    "content": "13"
+                                  },
+                                  {
+                                    "element": "string",
+                                    "content": "21"
+                                  }
+                                ]
+                              }
+                            ]
                           },
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "1"
-                            },
-                            {
-                              "element": "string",
-                              "content": "2"
-                            },
-                            {
-                              "element": "string",
-                              "content": "3"
-                            }
-                          ]
-                        }
+                          "default": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "1"
+                              },
+                              {
+                                "element": "string",
+                                "content": "2"
+                              },
+                              {
+                                "element": "string",
+                                "content": "3"
+                              },
+                              {
+                                "element": "string",
+                                "content": "5"
+                              },
+                              {
+                                "element": "string",
+                                "content": "8"
+                              },
+                              {
+                                "element": "string",
+                                "content": "13"
+                              },
+                              {
+                                "element": "string",
+                                "content": "21"
+                              }
+                            ]
+                          }
+                        },
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "1"
+                          },
+                          {
+                            "element": "string",
+                            "content": "2"
+                          },
+                          {
+                            "element": "string",
+                            "content": "3"
+                          }
+                        ]
                       }
                     }
-                  ]
-                }
-              ]
+                  }
+                ]
+              }
             }
           ]
         }

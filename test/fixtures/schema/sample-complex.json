@@ -103,54 +103,52 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "colors"
-                                        },
-                                        "value": {
-                                          "element": "array",
-                                          "attributes": {
-                                            "samples": {
-                                              "element": "array",
-                                              "content": [
-                                                {
-                                                  "element": "array",
-                                                  "content": [
-                                                    {
-                                                      "element": "string",
-                                                      "content": "red"
-                                                    }
-                                                  ]
-                                                },
-                                                {
-                                                  "element": "array",
-                                                  "content": [
-                                                    {
-                                                      "element": "string",
-                                                      "content": "blue"
-                                                    },
-                                                    {
-                                                      "element": "string",
-                                                      "content": "green"
-                                                    }
-                                                  ]
-                                                }
-                                              ]
-                                            }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "colors"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "attributes": {
+                                          "samples": {
+                                            "element": "array",
+                                            "content": [
+                                              {
+                                                "element": "array",
+                                                "content": [
+                                                  {
+                                                    "element": "string",
+                                                    "content": "red"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "element": "array",
+                                                "content": [
+                                                  {
+                                                    "element": "string",
+                                                    "content": "blue"
+                                                  },
+                                                  {
+                                                    "element": "string",
+                                                    "content": "green"
+                                                  }
+                                                ]
+                                              }
+                                            ]
                                           }
                                         }
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

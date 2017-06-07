@@ -103,50 +103,48 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "enumField"
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "enumField"
+                                      },
+                                      "value": {
+                                        "element": "enum",
+                                        "attributes": {
+                                          "default": {
+                                            "element": "enum",
+                                            "content": [
+                                              {
+                                                "element": "string",
+                                                "content": "c"
+                                              }
+                                            ]
+                                          }
                                         },
-                                        "value": {
-                                          "element": "enum",
-                                          "attributes": {
-                                            "default": {
-                                              "element": "enum",
-                                              "content": [
-                                                {
-                                                  "element": "string",
-                                                  "content": "c"
-                                                }
-                                              ]
-                                            }
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "a"
                                           },
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "a"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "b"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "c"
-                                            }
-                                          ]
-                                        }
+                                          {
+                                            "element": "string",
+                                            "content": "b"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "c"
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

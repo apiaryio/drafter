@@ -103,36 +103,34 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "attributes": {
-                                        "typeAttributes": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "required"
-                                            }
-                                          ]
-                                        }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "attributes": {
+                                      "typeAttributes": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "required"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "street"
                                       },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "street"
-                                        },
-                                        "value": {
-                                          "element": "string"
-                                        }
+                                      "value": {
+                                        "element": "string"
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

@@ -35,51 +35,49 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "Object"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "member",
-                      "attributes": {
-                        "typeAttributes": {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "optional"
-                            }
-                          ]
-                        }
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "Object"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "attributes": {
+                      "typeAttributes": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "optional"
+                          }
+                        ]
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "thing"
                       },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "thing"
-                        },
-                        "value": {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "object"
-                            },
-                            {
-                              "element": "string",
-                              "content": "foo: bar"
-                            }
-                          ]
-                        }
+                      "value": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "object"
+                          },
+                          {
+                            "element": "string",
+                            "content": "foo: bar"
+                          }
+                        ]
                       }
                     }
-                  ]
-                }
-              ]
+                  }
+                ]
+              }
             }
           ]
         }

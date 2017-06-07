@@ -103,45 +103,43 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "tag"
-                                        },
-                                        "value": {
-                                          "element": "enum",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "green"
-                                            },
-                                            {
-                                              "element": "number",
-                                              "attributes": {
-                                                "samples": {
-                                                  "element": "array",
-                                                  "content": [
-                                                    {
-                                                      "element": "number",
-                                                      "content": 5
-                                                    }
-                                                  ]
-                                                }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "tag"
+                                      },
+                                      "value": {
+                                        "element": "enum",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "green"
+                                          },
+                                          {
+                                            "element": "number",
+                                            "attributes": {
+                                              "samples": {
+                                                "element": "array",
+                                                "content": [
+                                                  {
+                                                    "element": "number",
+                                                    "content": 5
+                                                  }
+                                                ]
                                               }
                                             }
-                                          ]
-                                        }
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

@@ -39,303 +39,299 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "string",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "Color"
-                    }
-                  },
-                  "attributes": {
-                    "samples": {
-                      "element": "array",
-                      "content": [
-                        {
-                          "element": "string",
-                          "content": "red\n\n\n"
-                        }
-                      ]
-                    }
+              "content": {
+                "element": "string",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "Color"
+                  }
+                },
+                "attributes": {
+                  "samples": {
+                    "element": "array",
+                    "content": [
+                      {
+                        "element": "string",
+                        "content": "red\n\n\n"
+                      }
+                    ]
                   }
                 }
-              ]
+              }
             },
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "User"
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "User"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "not variable"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "c1"
+                      },
+                      "value": {
+                        "element": "string"
+                      }
                     }
                   },
-                  "content": [
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "not variable"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "c1"
-                        },
-                        "value": {
-                          "element": "string"
-                        }
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "this one is"
                       }
                     },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "this one is"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "attributes": {
-                            "variable": {
-                              "element": "boolean",
-                              "content": true
-                            }
-                          },
-                          "content": "c2"
-                        },
-                        "value": {
-                          "element": "string"
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "var w/ value"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "attributes": {
-                            "variable": {
-                              "element": "boolean",
-                              "content": true
-                            }
-                          },
-                          "content": "c3"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "color value"
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "var w/ type"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "attributes": {
-                            "variable": {
-                              "element": "boolean",
-                              "content": true
-                            }
-                          },
-                          "content": "c4"
-                        },
-                        "value": {
-                          "element": "number"
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "var w/ type and value"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "attributes": {
-                            "variable": {
-                              "element": "boolean",
-                              "content": true
-                            }
-                          },
-                          "content": "c5"
-                        },
-                        "value": {
-                          "element": "number",
-                          "content": 3.14
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "var w/ sample"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "attributes": {
-                            "variable": {
-                              "element": "boolean",
-                              "content": true
-                            }
-                          },
-                          "content": "c6"
-                        },
-                        "value": {
-                          "element": "string",
-                          "attributes": {
-                            "samples": {
-                              "element": "array",
-                              "content": [
-                                {
-                                  "element": "string",
-                                  "content": "example"
-                                }
-                              ]
-                            }
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "attributes": {
+                          "variable": {
+                            "element": "boolean",
+                            "content": true
                           }
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "var w/ type and value and sample"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "attributes": {
-                            "variable": {
-                              "element": "boolean",
-                              "content": true
-                            }
-                          },
-                          "content": "c7"
                         },
-                        "value": {
-                          "element": "number",
-                          "attributes": {
-                            "samples": {
-                              "element": "array",
-                              "content": [
-                                {
-                                  "element": "number",
-                                  "content": 3.14
-                                }
-                              ]
-                            }
-                          }
-                        }
+                        "content": "c2"
+                      },
+                      "value": {
+                        "element": "string"
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "var w/ value"
                       }
                     },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "var w/ variable type"
-                        }
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "attributes": {
+                          "variable": {
+                            "element": "boolean",
+                            "content": true
+                          }
+                        },
+                        "content": "c3"
                       },
-                      "content": {
-                        "key": {
-                          "element": "extend",
-                          "content": [
-                            {
-                              "element": "string",
-                              "meta": {
-                                "ref": {
-                                  "element": "string",
-                                  "content": "Color"
-                                }
-                              },
-                              "attributes": {
-                                "samples": {
-                                  "element": "array",
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "red\n\n\n"
-                                    }
-                                  ]
-                                }
+                      "value": {
+                        "element": "string",
+                        "content": "color value"
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "var w/ type"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "attributes": {
+                          "variable": {
+                            "element": "boolean",
+                            "content": true
+                          }
+                        },
+                        "content": "c4"
+                      },
+                      "value": {
+                        "element": "number"
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "var w/ type and value"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "attributes": {
+                          "variable": {
+                            "element": "boolean",
+                            "content": true
+                          }
+                        },
+                        "content": "c5"
+                      },
+                      "value": {
+                        "element": "number",
+                        "content": 3.14
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "var w/ sample"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "attributes": {
+                          "variable": {
+                            "element": "boolean",
+                            "content": true
+                          }
+                        },
+                        "content": "c6"
+                      },
+                      "value": {
+                        "element": "string",
+                        "attributes": {
+                          "samples": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "example"
                               }
-                            },
-                            {
-                              "element": "string",
-                              "attributes": {
-                                "variable": {
-                                  "element": "boolean",
-                                  "content": true
-                                }
-                              },
-                              "content": "c8"
-                            }
-                          ]
-                        },
-                        "value": {
-                          "element": "string"
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "generic variable"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "c9"
-                        },
-                        "value": {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "generic",
-                              "content": "T"
-                            }
-                          ]
+                            ]
+                          }
                         }
                       }
                     }
-                  ]
-                }
-              ]
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "var w/ type and value and sample"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "attributes": {
+                          "variable": {
+                            "element": "boolean",
+                            "content": true
+                          }
+                        },
+                        "content": "c7"
+                      },
+                      "value": {
+                        "element": "number",
+                        "attributes": {
+                          "samples": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "number",
+                                "content": 3.14
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "var w/ variable type"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "extend",
+                        "content": [
+                          {
+                            "element": "string",
+                            "meta": {
+                              "ref": {
+                                "element": "string",
+                                "content": "Color"
+                              }
+                            },
+                            "attributes": {
+                              "samples": {
+                                "element": "array",
+                                "content": [
+                                  {
+                                    "element": "string",
+                                    "content": "red\n\n\n"
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "element": "string",
+                            "attributes": {
+                              "variable": {
+                                "element": "boolean",
+                                "content": true
+                              }
+                            },
+                            "content": "c8"
+                          }
+                        ]
+                      },
+                      "value": {
+                        "element": "string"
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "generic variable"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "c9"
+                      },
+                      "value": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "generic",
+                            "content": "T"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
             }
           ]
         }

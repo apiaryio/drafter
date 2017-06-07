@@ -103,25 +103,23 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "person"
-                                        },
-                                        "value": {
-                                          "element": "Person"
-                                        }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "person"
+                                      },
+                                      "value": {
+                                        "element": "Person"
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",
@@ -191,54 +189,52 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "Person"
-                    }
-                  },
-                  "attributes": {
-                    "typeAttributes": {
-                      "element": "array",
-                      "content": [
-                        {
-                          "element": "string",
-                          "content": "fixedType"
-                        }
-                      ]
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "first_name"
-                        },
-                        "value": {
-                          "element": "string"
-                        }
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "Person"
+                  }
+                },
+                "attributes": {
+                  "typeAttributes": {
+                    "element": "array",
+                    "content": [
+                      {
+                        "element": "string",
+                        "content": "fixedType"
                       }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "last_name"
-                        },
-                        "value": {
-                          "element": "string"
-                        }
+                    ]
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "first_name"
+                      },
+                      "value": {
+                        "element": "string"
                       }
                     }
-                  ]
-                }
-              ]
+                  },
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "last_name"
+                      },
+                      "value": {
+                        "element": "string"
+                      }
+                    }
+                  }
+                ]
+              }
             }
           ]
         }

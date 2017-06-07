@@ -103,51 +103,49 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "extend",
-                                  "content": [
-                                    {
-                                      "element": "object",
-                                      "meta": {
-                                        "ref": {
-                                          "element": "string",
-                                          "content": "A"
-                                        }
-                                      },
-                                      "content": [
-                                        {
-                                          "element": "member",
-                                          "content": {
-                                            "key": {
-                                              "element": "string",
-                                              "content": "type"
+                              "content": {
+                                "element": "extend",
+                                "content": [
+                                  {
+                                    "element": "object",
+                                    "meta": {
+                                      "ref": {
+                                        "element": "string",
+                                        "content": "A"
+                                      }
+                                    },
+                                    "content": [
+                                      {
+                                        "element": "member",
+                                        "content": {
+                                          "key": {
+                                            "element": "string",
+                                            "content": "type"
+                                          },
+                                          "value": {
+                                            "element": "enum",
+                                            "attributes": {
+                                              "default": {
+                                                "element": "enum",
+                                                "content": []
+                                              }
                                             },
-                                            "value": {
-                                              "element": "enum",
-                                              "attributes": {
-                                                "default": {
-                                                  "element": "enum",
-                                                  "content": []
-                                                }
-                                              },
-                                              "content": [
-                                                {
-                                                  "element": "string",
-                                                  "content": "regular"
-                                                }
-                                              ]
-                                            }
+                                            "content": [
+                                              {
+                                                "element": "string",
+                                                "content": "regular"
+                                              }
+                                            ]
                                           }
                                         }
-                                      ]
-                                    },
-                                    {
-                                      "element": "object"
-                                    }
-                                  ]
-                                }
-                              ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "element": "object"
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",
@@ -217,43 +215,41 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "A"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "type"
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "A"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "type"
+                      },
+                      "value": {
+                        "element": "enum",
+                        "attributes": {
+                          "default": {
+                            "element": "enum",
+                            "content": []
+                          }
                         },
-                        "value": {
-                          "element": "enum",
-                          "attributes": {
-                            "default": {
-                              "element": "enum",
-                              "content": []
-                            }
-                          },
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "regular"
-                            }
-                          ]
-                        }
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "regular"
+                          }
+                        ]
                       }
                     }
-                  ]
-                }
-              ]
+                  }
+                ]
+              }
             }
           ]
         }

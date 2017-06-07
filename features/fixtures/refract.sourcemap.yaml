@@ -357,90 +357,89 @@ content:
               -
                 element: "dataStructure"
                 content:
-                  -
-                    element: "object"
-                    meta:
-                      id:
-                        element: "string"
-                        attributes:
-                          sourceMap:
-                            element: "array"
-                            content:
-                              -
-                                element: "sourceMap"
-                                content:
-                                  -
-                                    element: "array"
-                                    content:
-                                      -
-                                        element: "number"
-                                        content: 104
-                                      -
-                                        element: "number"
-                                        content: 43
-                        content: "<resource name>"
-                    attributes:
-                      sourceMap:
-                        element: "array"
-                        content:
-                          -
-                            element: "sourceMap"
-                            content:
-                              -
-                                element: "array"
-                                content:
-                                  -
-                                    element: "number"
-                                    content: 173
-                                  -
-                                    element: "number"
-                                    content: 20
-                    content:
-                      -
-                        element: "member"
-                        meta:
-                          description:
-                            element: "string"
-                            content: "<attribute property description>"
-                        content:
-                          key:
-                            element: "string"
-                            attributes:
-                              sourceMap:
-                                element: "array"
-                                content:
-                                  -
-                                    element: "sourceMap"
-                                    content:
-                                      -
-                                        element: "array"
-                                        content:
-                                          -
-                                            element: "number"
-                                            content: 200
-                                          -
-                                            element: "number"
-                                            content: 102
-                            content: "<attribute property name>"
-                          value:
-                            element: "number"
-                            attributes:
-                              sourceMap:
-                                element: "array"
-                                content:
-                                  -
-                                    element: "sourceMap"
-                                    content:
-                                      -
-                                        element: "array"
-                                        content:
-                                          -
-                                            element: "number"
-                                            content: 200
-                                          -
-                                            element: "number"
-                                            content: 102
-                            content: 0
+                  element: "object"
+                  meta:
+                    id:
+                      element: "string"
+                      attributes:
+                        sourceMap:
+                          element: "array"
+                          content:
+                            -
+                              element: "sourceMap"
+                              content:
+                                -
+                                  element: "array"
+                                  content:
+                                    -
+                                      element: "number"
+                                      content: 104
+                                    -
+                                      element: "number"
+                                      content: 43
+                      content: "<resource name>"
+                  attributes:
+                    sourceMap:
+                      element: "array"
+                      content:
+                        -
+                          element: "sourceMap"
+                          content:
+                            -
+                              element: "array"
+                              content:
+                                -
+                                  element: "number"
+                                  content: 173
+                                -
+                                  element: "number"
+                                  content: 20
+                  content:
+                    -
+                      element: "member"
+                      meta:
+                        description:
+                          element: "string"
+                          content: "<attribute property description>"
+                      content:
+                        key:
+                          element: "string"
+                          attributes:
+                            sourceMap:
+                              element: "array"
+                              content:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      element: "array"
+                                      content:
+                                        -
+                                          element: "number"
+                                          content: 200
+                                        -
+                                          element: "number"
+                                          content: 102
+                          content: "<attribute property name>"
+                        value:
+                          element: "number"
+                          attributes:
+                            sourceMap:
+                              element: "array"
+                              content:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      element: "array"
+                                      content:
+                                        -
+                                          element: "number"
+                                          content: 200
+                                        -
+                                          element: "number"
+                                          content: 102
+                          content: 0
               -
                 element: "transition"
                 meta:
@@ -1910,24 +1909,23 @@ content:
                           -
                             element: "dataStructure"
                             content:
-                              -
-                                element: "<data structure name>"
-                                attributes:
-                                  sourceMap:
-                                    element: "array"
-                                    content:
-                                      -
-                                        element: "sourceMap"
-                                        content:
-                                          -
-                                            element: "array"
-                                            content:
-                                              -
-                                                element: "number"
-                                                content: 1518
-                                              -
-                                                element: "number"
-                                                content: 35
+                              element: "<data structure name>"
+                              attributes:
+                                sourceMap:
+                                  element: "array"
+                                  content:
+                                    -
+                                      element: "sourceMap"
+                                      content:
+                                        -
+                                          element: "array"
+                                          content:
+                                            -
+                                              element: "number"
+                                              content: 1518
+                                            -
+                                              element: "number"
+                                              content: 35
                           -
                             element: "asset"
                             meta:
@@ -1969,93 +1967,92 @@ content:
           -
             element: "dataStructure"
             content:
-              -
-                element: "object"
-                meta:
-                  id:
-                    element: "string"
-                    attributes:
-                      sourceMap:
-                        element: "array"
-                        content:
-                          -
-                            element: "sourceMap"
-                            content:
-                              -
-                                element: "array"
-                                content:
-                                  -
-                                    element: "number"
-                                    content: 1573
-                                  -
-                                    element: "number"
-                                    content: 27
-                    content: "<data structure name>"
-                  description:
-                    element: "string"
-                    attributes:
-                      sourceMap:
-                        element: "array"
-                        content:
-                          -
-                            element: "sourceMap"
-                            content:
-                              -
-                                element: "array"
-                                content:
-                                  -
-                                    element: "number"
-                                    content: 1600
-                                  -
-                                    element: "number"
-                                    content: 30
-                    content: "<data structure description>"
-                content:
-                  -
-                    element: "member"
-                    meta:
-                      description:
-                        element: "string"
-                        content: "<data structure property description>"
-                    content:
-                      key:
-                        element: "string"
-                        attributes:
-                          sourceMap:
-                            element: "array"
-                            content:
-                              -
-                                element: "sourceMap"
-                                content:
-                                  -
-                                    element: "array"
-                                    content:
-                                      -
-                                        element: "number"
-                                        content: 1647
-                                      -
-                                        element: "number"
-                                        content: 117
-                        content: "<data structure property name>"
-                      value:
-                        element: "string"
-                        attributes:
-                          sourceMap:
-                            element: "array"
-                            content:
-                              -
-                                element: "sourceMap"
-                                content:
-                                  -
-                                    element: "array"
-                                    content:
-                                      -
-                                        element: "number"
-                                        content: 1647
-                                      -
-                                        element: "number"
-                                        content: 117
-                        content: "<data structure property value>"
+              element: "object"
+              meta:
+                id:
+                  element: "string"
+                  attributes:
+                    sourceMap:
+                      element: "array"
+                      content:
+                        -
+                          element: "sourceMap"
+                          content:
+                            -
+                              element: "array"
+                              content:
+                                -
+                                  element: "number"
+                                  content: 1573
+                                -
+                                  element: "number"
+                                  content: 27
+                  content: "<data structure name>"
+                description:
+                  element: "string"
+                  attributes:
+                    sourceMap:
+                      element: "array"
+                      content:
+                        -
+                          element: "sourceMap"
+                          content:
+                            -
+                              element: "array"
+                              content:
+                                -
+                                  element: "number"
+                                  content: 1600
+                                -
+                                  element: "number"
+                                  content: 30
+                  content: "<data structure description>"
+              content:
+                -
+                  element: "member"
+                  meta:
+                    description:
+                      element: "string"
+                      content: "<data structure property description>"
+                  content:
+                    key:
+                      element: "string"
+                      attributes:
+                        sourceMap:
+                          element: "array"
+                          content:
+                            -
+                              element: "sourceMap"
+                              content:
+                                -
+                                  element: "array"
+                                  content:
+                                    -
+                                      element: "number"
+                                      content: 1647
+                                    -
+                                      element: "number"
+                                      content: 117
+                      content: "<data structure property name>"
+                    value:
+                      element: "string"
+                      attributes:
+                        sourceMap:
+                          element: "array"
+                          content:
+                            -
+                              element: "sourceMap"
+                              content:
+                                -
+                                  element: "array"
+                                  content:
+                                    -
+                                      element: "number"
+                                      content: 1647
+                                    -
+                                      element: "number"
+                                      content: 117
+                      content: "<data structure property value>"
   -
     element: "annotation"
     meta:

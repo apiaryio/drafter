@@ -103,120 +103,118 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "o1"
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "o1"
+                                      },
+                                      "value": {
+                                        "element": "object",
+                                        "attributes": {
+                                          "samples": {
+                                            "element": "array",
+                                            "content": [
+                                              {
+                                                "element": "object",
+                                                "content": [
+                                                  {
+                                                    "element": "member",
+                                                    "content": {
+                                                      "key": {
+                                                        "element": "string",
+                                                        "content": "p1"
+                                                      },
+                                                      "value": {
+                                                        "element": "string",
+                                                        "content": "x"
+                                                      }
+                                                    }
+                                                  },
+                                                  {
+                                                    "element": "member",
+                                                    "content": {
+                                                      "key": {
+                                                        "element": "string",
+                                                        "content": "p2"
+                                                      },
+                                                      "value": {
+                                                        "element": "string",
+                                                        "content": "y"
+                                                      }
+                                                    }
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "element": "object",
+                                                "content": [
+                                                  {
+                                                    "element": "member",
+                                                    "content": {
+                                                      "key": {
+                                                        "element": "string",
+                                                        "content": "p1"
+                                                      },
+                                                      "value": {
+                                                        "element": "string",
+                                                        "content": "1"
+                                                      }
+                                                    }
+                                                  },
+                                                  {
+                                                    "element": "member",
+                                                    "content": {
+                                                      "key": {
+                                                        "element": "string",
+                                                        "content": "p2"
+                                                      },
+                                                      "value": {
+                                                        "element": "string",
+                                                        "content": "2"
+                                                      }
+                                                    }
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
                                         },
-                                        "value": {
-                                          "element": "object",
-                                          "attributes": {
-                                            "samples": {
-                                              "element": "array",
-                                              "content": [
-                                                {
-                                                  "element": "object",
-                                                  "content": [
-                                                    {
-                                                      "element": "member",
-                                                      "content": {
-                                                        "key": {
-                                                          "element": "string",
-                                                          "content": "p1"
-                                                        },
-                                                        "value": {
-                                                          "element": "string",
-                                                          "content": "x"
-                                                        }
-                                                      }
-                                                    },
-                                                    {
-                                                      "element": "member",
-                                                      "content": {
-                                                        "key": {
-                                                          "element": "string",
-                                                          "content": "p2"
-                                                        },
-                                                        "value": {
-                                                          "element": "string",
-                                                          "content": "y"
-                                                        }
-                                                      }
-                                                    }
-                                                  ]
-                                                },
-                                                {
-                                                  "element": "object",
-                                                  "content": [
-                                                    {
-                                                      "element": "member",
-                                                      "content": {
-                                                        "key": {
-                                                          "element": "string",
-                                                          "content": "p1"
-                                                        },
-                                                        "value": {
-                                                          "element": "string",
-                                                          "content": "1"
-                                                        }
-                                                      }
-                                                    },
-                                                    {
-                                                      "element": "member",
-                                                      "content": {
-                                                        "key": {
-                                                          "element": "string",
-                                                          "content": "p2"
-                                                        },
-                                                        "value": {
-                                                          "element": "string",
-                                                          "content": "2"
-                                                        }
-                                                      }
-                                                    }
-                                                  ]
-                                                }
-                                              ]
+                                        "content": [
+                                          {
+                                            "element": "member",
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "p1"
+                                              },
+                                              "value": {
+                                                "element": "string"
+                                              }
                                             }
                                           },
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "p1"
-                                                },
-                                                "value": {
-                                                  "element": "string"
-                                                }
-                                              }
-                                            },
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "p2"
-                                                },
-                                                "value": {
-                                                  "element": "string"
-                                                }
+                                          {
+                                            "element": "member",
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "p2"
+                                              },
+                                              "value": {
+                                                "element": "string"
                                               }
                                             }
-                                          ]
-                                        }
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

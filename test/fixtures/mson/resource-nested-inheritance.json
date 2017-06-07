@@ -103,68 +103,66 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "b"
-                                        },
-                                        "value": {
-                                          "element": "object",
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "c"
-                                                },
-                                                "value": {
-                                                  "element": "extend",
-                                                  "content": [
-                                                    {
-                                                      "element": "object",
-                                                      "meta": {
-                                                        "ref": {
-                                                          "element": "string",
-                                                          "content": "X"
-                                                        }
-                                                      },
-                                                      "content": [
-                                                        {
-                                                          "element": "member",
-                                                          "content": {
-                                                            "key": {
-                                                              "element": "string",
-                                                              "content": "id"
-                                                            },
-                                                            "value": {
-                                                              "element": "string",
-                                                              "content": "pavan"
-                                                            }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "b"
+                                      },
+                                      "value": {
+                                        "element": "object",
+                                        "content": [
+                                          {
+                                            "element": "member",
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "c"
+                                              },
+                                              "value": {
+                                                "element": "extend",
+                                                "content": [
+                                                  {
+                                                    "element": "object",
+                                                    "meta": {
+                                                      "ref": {
+                                                        "element": "string",
+                                                        "content": "X"
+                                                      }
+                                                    },
+                                                    "content": [
+                                                      {
+                                                        "element": "member",
+                                                        "content": {
+                                                          "key": {
+                                                            "element": "string",
+                                                            "content": "id"
+                                                          },
+                                                          "value": {
+                                                            "element": "string",
+                                                            "content": "pavan"
                                                           }
                                                         }
-                                                      ]
-                                                    },
-                                                    {
-                                                      "element": "object"
-                                                    }
-                                                  ]
-                                                }
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "element": "object"
+                                                  }
+                                                ]
                                               }
                                             }
-                                          ]
-                                        }
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",
@@ -234,32 +232,30 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "X"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "id"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "pavan"
-                        }
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "X"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "id"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "pavan"
                       }
                     }
-                  ]
-                }
-              ]
+                  }
+                ]
+              }
             }
           ]
         }

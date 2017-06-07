@@ -103,61 +103,59 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "tags"
-                                        },
-                                        "value": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "object",
-                                              "content": [
-                                                {
-                                                  "element": "member",
-                                                  "content": {
-                                                    "key": {
-                                                      "element": "string",
-                                                      "content": "name"
-                                                    },
-                                                    "value": {
-                                                      "element": "string",
-                                                      "content": "snow"
-                                                    }
-                                                  }
-                                                },
-                                                {
-                                                  "element": "member",
-                                                  "content": {
-                                                    "key": {
-                                                      "element": "string",
-                                                      "content": "description"
-                                                    },
-                                                    "value": {
-                                                      "element": "string"
-                                                    }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "tags"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "object",
+                                            "content": [
+                                              {
+                                                "element": "member",
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "name"
+                                                  },
+                                                  "value": {
+                                                    "element": "string",
+                                                    "content": "snow"
                                                   }
                                                 }
-                                              ]
-                                            },
-                                            {
-                                              "element": "number",
-                                              "content": 42
-                                            }
-                                          ]
-                                        }
+                                              },
+                                              {
+                                                "element": "member",
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "description"
+                                                  },
+                                                  "value": {
+                                                    "element": "string"
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "element": "number",
+                                            "content": 42
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

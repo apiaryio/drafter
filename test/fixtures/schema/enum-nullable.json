@@ -103,42 +103,40 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "attributes": {
-                                        "typeAttributes": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "nullable"
-                                            }
-                                          ]
-                                        }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "attributes": {
+                                      "typeAttributes": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "nullable"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "address"
                                       },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "address"
-                                        },
-                                        "value": {
-                                          "element": "enum",
-                                          "content": [
-                                            {
-                                              "element": "number",
-                                              "content": 4
-                                            }
-                                          ]
-                                        }
+                                      "value": {
+                                        "element": "enum",
+                                        "content": [
+                                          {
+                                            "element": "number",
+                                            "content": 4
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

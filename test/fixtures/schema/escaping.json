@@ -103,70 +103,68 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "meta": {
-                                        "description": {
-                                          "element": "string",
-                                          "content": "Our real estate listing has different properties available.\n\n- `Properties`\n    - This one.\n    - That one."
-                                        }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "meta": {
+                                      "description": {
+                                        "element": "string",
+                                        "content": "Our real estate listing has different properties available.\n\n- `Properties`\n    - This one.\n    - That one."
+                                      }
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "listing"
                                       },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "listing"
-                                        },
-                                        "value": {
-                                          "element": "object",
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "description"
-                                                },
-                                                "value": {
-                                                  "element": "string"
-                                                }
-                                              }
-                                            },
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "date_listed"
-                                                },
-                                                "value": {
-                                                  "element": "string"
-                                                }
-                                              }
-                                            },
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "some:location"
-                                                },
-                                                "value": {
-                                                  "element": "string",
-                                                  "content": "local"
-                                                }
+                                      "value": {
+                                        "element": "object",
+                                        "content": [
+                                          {
+                                            "element": "member",
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "description"
+                                              },
+                                              "value": {
+                                                "element": "string"
                                               }
                                             }
-                                          ]
-                                        }
+                                          },
+                                          {
+                                            "element": "member",
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "date_listed"
+                                              },
+                                              "value": {
+                                                "element": "string"
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "element": "member",
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "some:location"
+                                              },
+                                              "value": {
+                                                "element": "string",
+                                                "content": "local"
+                                              }
+                                            }
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

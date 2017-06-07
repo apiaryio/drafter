@@ -103,11 +103,9 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "A"
-                                }
-                              ]
+                              "content": {
+                                "element": "A"
+                              }
                             },
                             {
                               "element": "asset",
@@ -177,26 +175,24 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "array",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "A"
-                    }
+              "content": {
+                "element": "array",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "A"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "string",
+                    "content": "1"
                   },
-                  "content": [
-                    {
-                      "element": "string",
-                      "content": "1"
-                    },
-                    {
-                      "element": "A"
-                    }
-                  ]
-                }
-              ]
+                  {
+                    "element": "A"
+                  }
+                ]
+              }
             }
           ]
         }

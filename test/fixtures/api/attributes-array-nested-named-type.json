@@ -35,61 +35,57 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "User"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "username"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "pksunkara"
-                        }
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "User"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "username"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "pksunkara"
                       }
                     }
-                  ]
-                }
-              ]
+                  }
+                ]
+              }
             },
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "Org"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "name"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "Apiary"
-                        }
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "Org"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "name"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "Apiary"
                       }
                     }
-                  ]
-                }
-              ]
+                  }
+                ]
+              }
             }
           ]
         },
@@ -177,19 +173,17 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "array",
-                                  "content": [
-                                    {
-                                      "element": "User"
-                                    },
-                                    {
-                                      "element": "Org"
-                                    }
-                                  ]
-                                }
-                              ]
+                              "content": {
+                                "element": "array",
+                                "content": [
+                                  {
+                                    "element": "User"
+                                  },
+                                  {
+                                    "element": "Org"
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

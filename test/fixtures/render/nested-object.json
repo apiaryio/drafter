@@ -103,53 +103,51 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "user"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "content": "pksunkara"
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "social"
-                                        },
-                                        "value": {
-                                          "element": "object",
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "github"
-                                                },
-                                                "value": {
-                                                  "element": "string",
-                                                  "content": "pksunkara"
-                                                }
-                                              }
-                                            }
-                                          ]
-                                        }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "user"
+                                      },
+                                      "value": {
+                                        "element": "string",
+                                        "content": "pksunkara"
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  },
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "social"
+                                      },
+                                      "value": {
+                                        "element": "object",
+                                        "content": [
+                                          {
+                                            "element": "member",
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "github"
+                                              },
+                                              "value": {
+                                                "element": "string",
+                                                "content": "pksunkara"
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

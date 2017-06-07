@@ -39,280 +39,272 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "User"
-                    },
-                    "description": {
-                      "element": "string",
-                      "content": "The User description"
-                    }
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "User"
                   },
-                  "content": [
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "user name"
-                        }
+                  "description": {
+                    "element": "string",
+                    "content": "The User description"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "user name"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "login"
                       },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "login"
-                        },
-                        "value": {
-                          "element": "string"
-                        }
+                      "value": {
+                        "element": "string"
                       }
                     }
-                  ]
-                }
-              ]
+                  }
+                ]
+              }
             },
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "extend",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "Customer"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "object",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "The User description"
-                        },
-                        "ref": {
-                          "element": "string",
-                          "content": "User"
-                        }
+              "content": {
+                "element": "extend",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "Customer"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "object",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "The User description"
                       },
-                      "content": [
-                        {
-                          "element": "member",
-                          "meta": {
-                            "description": {
-                              "element": "string",
-                              "content": "user name"
-                            }
-                          },
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "login"
-                            },
-                            "value": {
-                              "element": "string"
-                            }
-                          }
-                        }
-                      ]
+                      "ref": {
+                        "element": "string",
+                        "content": "User"
+                      }
                     },
-                    {
-                      "element": "object",
-                      "content": [
-                        {
-                          "element": "member",
-                          "meta": {
-                            "description": {
-                              "element": "string",
-                              "content": "unique number"
-                            }
+                    "content": [
+                      {
+                        "element": "member",
+                        "meta": {
+                          "description": {
+                            "element": "string",
+                            "content": "user name"
+                          }
+                        },
+                        "content": {
+                          "key": {
+                            "element": "string",
+                            "content": "login"
                           },
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "id"
-                            },
-                            "value": {
-                              "element": "number",
-                              "content": 0
-                            }
+                          "value": {
+                            "element": "string"
                           }
                         }
-                      ]
-                    }
-                  ]
-                }
-              ]
+                      }
+                    ]
+                  },
+                  {
+                    "element": "object",
+                    "content": [
+                      {
+                        "element": "member",
+                        "meta": {
+                          "description": {
+                            "element": "string",
+                            "content": "unique number"
+                          }
+                        },
+                        "content": {
+                          "key": {
+                            "element": "string",
+                            "content": "id"
+                          },
+                          "value": {
+                            "element": "number",
+                            "content": 0
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
             },
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "extend",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "Vip Customer"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "object",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "The User description"
+              "content": {
+                "element": "extend",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "Vip Customer"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "object",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "The User description"
+                      },
+                      "ref": {
+                        "element": "string",
+                        "content": "User"
+                      }
+                    },
+                    "content": [
+                      {
+                        "element": "member",
+                        "meta": {
+                          "description": {
+                            "element": "string",
+                            "content": "user name"
+                          }
                         },
-                        "ref": {
-                          "element": "string",
-                          "content": "User"
-                        }
-                      },
-                      "content": [
-                        {
-                          "element": "member",
-                          "meta": {
-                            "description": {
-                              "element": "string",
-                              "content": "user name"
-                            }
+                        "content": {
+                          "key": {
+                            "element": "string",
+                            "content": "login"
                           },
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "login"
-                            },
-                            "value": {
-                              "element": "string"
-                            }
+                          "value": {
+                            "element": "string"
                           }
                         }
-                      ]
+                      }
+                    ]
+                  },
+                  {
+                    "element": "object",
+                    "meta": {
+                      "ref": {
+                        "element": "string",
+                        "content": "Customer"
+                      }
                     },
-                    {
-                      "element": "object",
-                      "meta": {
-                        "ref": {
-                          "element": "string",
-                          "content": "Customer"
-                        }
-                      },
-                      "content": [
-                        {
-                          "element": "member",
-                          "meta": {
-                            "description": {
-                              "element": "string",
-                              "content": "unique number"
-                            }
+                    "content": [
+                      {
+                        "element": "member",
+                        "meta": {
+                          "description": {
+                            "element": "string",
+                            "content": "unique number"
+                          }
+                        },
+                        "content": {
+                          "key": {
+                            "element": "string",
+                            "content": "id"
                           },
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "id"
-                            },
-                            "value": {
-                              "element": "number",
-                              "content": 0
-                            }
+                          "value": {
+                            "element": "number",
+                            "content": 0
                           }
                         }
-                      ]
-                    },
-                    {
-                      "element": "object",
-                      "content": [
-                        {
-                          "element": "member",
-                          "meta": {
-                            "description": {
-                              "element": "string",
-                              "content": "in percent 0 - 100"
-                            }
+                      }
+                    ]
+                  },
+                  {
+                    "element": "object",
+                    "content": [
+                      {
+                        "element": "member",
+                        "meta": {
+                          "description": {
+                            "element": "string",
+                            "content": "in percent 0 - 100"
+                          }
+                        },
+                        "content": {
+                          "key": {
+                            "element": "string",
+                            "content": "discount"
                           },
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "discount"
-                            },
-                            "value": {
-                              "element": "number",
-                              "attributes": {
-                                "default": {
-                                  "element": "number",
-                                  "content": 15
-                                }
+                          "value": {
+                            "element": "number",
+                            "attributes": {
+                              "default": {
+                                "element": "number",
+                                "content": 15
                               }
                             }
                           }
                         }
-                      ]
-                    }
-                  ]
-                }
-              ]
+                      }
+                    ]
+                  }
+                ]
+              }
             },
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "extend",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "Other Customer"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "object",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "The User description"
-                        },
-                        "ref": {
-                          "element": "string",
-                          "content": "User"
-                        }
+              "content": {
+                "element": "extend",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "Other Customer"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "object",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "The User description"
                       },
-                      "content": [
-                        {
-                          "element": "member",
-                          "meta": {
-                            "description": {
-                              "element": "string",
-                              "content": "user name"
-                            }
+                      "ref": {
+                        "element": "string",
+                        "content": "User"
+                      }
+                    },
+                    "content": [
+                      {
+                        "element": "member",
+                        "meta": {
+                          "description": {
+                            "element": "string",
+                            "content": "user name"
+                          }
+                        },
+                        "content": {
+                          "key": {
+                            "element": "string",
+                            "content": "login"
                           },
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "login"
-                            },
-                            "value": {
-                              "element": "string"
-                            }
+                          "value": {
+                            "element": "string"
                           }
                         }
-                      ]
-                    },
-                    {
-                      "element": "object",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "This object has no own members"
-                        }
+                      }
+                    ]
+                  },
+                  {
+                    "element": "object",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "This object has no own members"
                       }
                     }
-                  ]
-                }
-              ]
+                  }
+                ]
+              }
             }
           ]
         }

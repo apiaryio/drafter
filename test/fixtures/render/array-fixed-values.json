@@ -103,55 +103,53 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "tags"
-                                        },
-                                        "value": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "attributes": {
-                                                "typeAttributes": {
-                                                  "element": "array",
-                                                  "content": [
-                                                    {
-                                                      "element": "string",
-                                                      "content": "fixed"
-                                                    }
-                                                  ]
-                                                }
-                                              }
-                                            },
-                                            {
-                                              "element": "number",
-                                              "attributes": {
-                                                "typeAttributes": {
-                                                  "element": "array",
-                                                  "content": [
-                                                    {
-                                                      "element": "string",
-                                                      "content": "fixed"
-                                                    }
-                                                  ]
-                                                }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "tags"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "attributes": {
+                                              "typeAttributes": {
+                                                "element": "array",
+                                                "content": [
+                                                  {
+                                                    "element": "string",
+                                                    "content": "fixed"
+                                                  }
+                                                ]
                                               }
                                             }
-                                          ]
-                                        }
+                                          },
+                                          {
+                                            "element": "number",
+                                            "attributes": {
+                                              "typeAttributes": {
+                                                "element": "array",
+                                                "content": [
+                                                  {
+                                                    "element": "string",
+                                                    "content": "fixed"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

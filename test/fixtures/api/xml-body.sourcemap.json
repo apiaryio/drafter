@@ -226,101 +226,99 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "attributes": {
-                                    "sourceMap": {
-                                      "element": "array",
-                                      "content": [
-                                        {
-                                          "element": "sourceMap",
-                                          "content": [
-                                            {
-                                              "element": "array",
-                                              "content": [
-                                                {
-                                                  "element": "number",
-                                                  "content": 48
-                                                },
-                                                {
-                                                  "element": "number",
-                                                  "content": 11
-                                                }
-                                              ]
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  },
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "attributes": {
-                                            "sourceMap": {
-                                              "element": "array",
-                                              "content": [
-                                                {
-                                                  "element": "sourceMap",
-                                                  "content": [
-                                                    {
-                                                      "element": "array",
-                                                      "content": [
-                                                        {
-                                                          "element": "number",
-                                                          "content": 69
-                                                        },
-                                                        {
-                                                          "element": "number",
-                                                          "content": 11
-                                                        }
-                                                      ]
-                                                    }
-                                                  ]
-                                                }
-                                              ]
-                                            }
-                                          },
-                                          "content": "name"
+                              "content": {
+                                "element": "object",
+                                "attributes": {
+                                  "sourceMap": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          {
+                                            "element": "array",
+                                            "content": [
+                                              {
+                                                "element": "number",
+                                                "content": 48
+                                              },
+                                              {
+                                                "element": "number",
+                                                "content": 11
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "attributes": {
+                                          "sourceMap": {
+                                            "element": "array",
+                                            "content": [
+                                              {
+                                                "element": "sourceMap",
+                                                "content": [
+                                                  {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "number",
+                                                        "content": 69
+                                                      },
+                                                      {
+                                                        "element": "number",
+                                                        "content": 11
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
                                         },
-                                        "value": {
-                                          "element": "string",
-                                          "attributes": {
-                                            "sourceMap": {
-                                              "element": "array",
-                                              "content": [
-                                                {
-                                                  "element": "sourceMap",
-                                                  "content": [
-                                                    {
-                                                      "element": "array",
-                                                      "content": [
-                                                        {
-                                                          "element": "number",
-                                                          "content": 69
-                                                        },
-                                                        {
-                                                          "element": "number",
-                                                          "content": 11
-                                                        }
-                                                      ]
-                                                    }
-                                                  ]
-                                                }
-                                              ]
-                                            }
-                                          },
-                                          "content": "kyle"
-                                        }
+                                        "content": "name"
+                                      },
+                                      "value": {
+                                        "element": "string",
+                                        "attributes": {
+                                          "sourceMap": {
+                                            "element": "array",
+                                            "content": [
+                                              {
+                                                "element": "sourceMap",
+                                                "content": [
+                                                  {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "number",
+                                                        "content": 69
+                                                      },
+                                                      {
+                                                        "element": "number",
+                                                        "content": 11
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        },
+                                        "content": "kyle"
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             }
                           ]
                         }

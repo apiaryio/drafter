@@ -117,26 +117,25 @@ content:
               -
                 element: "dataStructure"
                 content:
-                  -
-                    element: "object"
-                    meta:
-                      id:
-                        element: "string"
-                        content: "<resource name>"
-                    content:
-                      -
-                        element: "member"
-                        meta:
-                          description:
-                            element: "string"
-                            content: "<attribute property description>"
-                        content:
-                          key:
-                            element: "string"
-                            content: "<attribute property name>"
-                          value:
-                            element: "number"
-                            content: 0
+                  element: "object"
+                  meta:
+                    id:
+                      element: "string"
+                      content: "<resource name>"
+                  content:
+                    -
+                      element: "member"
+                      meta:
+                        description:
+                          element: "string"
+                          content: "<attribute property description>"
+                      content:
+                        key:
+                          element: "string"
+                          content: "<attribute property name>"
+                        value:
+                          element: "number"
+                          content: 0
               -
                 element: "transition"
                 meta:
@@ -628,8 +627,7 @@ content:
                           -
                             element: "dataStructure"
                             content:
-                              -
-                                element: "<data structure name>"
+                              element: "<data structure name>"
                           -
                             element: "asset"
                             meta:
@@ -671,29 +669,28 @@ content:
           -
             element: "dataStructure"
             content:
-              -
-                element: "object"
-                meta:
-                  id:
-                    element: "string"
-                    content: "<data structure name>"
-                  description:
-                    element: "string"
-                    content: "<data structure description>"
-                content:
-                  -
-                    element: "member"
-                    meta:
-                      description:
-                        element: "string"
-                        content: "<data structure property description>"
-                    content:
-                      key:
-                        element: "string"
-                        content: "<data structure property name>"
-                      value:
-                        element: "string"
-                        content: "<data structure property value>"
+              element: "object"
+              meta:
+                id:
+                  element: "string"
+                  content: "<data structure name>"
+                description:
+                  element: "string"
+                  content: "<data structure description>"
+              content:
+                -
+                  element: "member"
+                  meta:
+                    description:
+                      element: "string"
+                      content: "<data structure property description>"
+                  content:
+                    key:
+                      element: "string"
+                      content: "<data structure property name>"
+                    value:
+                      element: "string"
+                      content: "<data structure property value>"
   -
     element: "annotation"
     meta:
