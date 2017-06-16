@@ -31,7 +31,7 @@ namespace refract
         void operator()(const StringElement& e);
         void operator()(const NumberElement& e);
         void operator()(const BooleanElement& e);
-        void operator()(const DirectElement& e);
+        void operator()(const HolderElement& e);
         void operator()(const ArrayElement& e);
         void operator()(const EnumElement& e);
         void operator()(const MemberElement& e);

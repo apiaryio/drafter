@@ -93,7 +93,7 @@ namespace refract
         os << "NullElement(null)" << "\n";
     }
 
-    void PrintVisitor::operator()(const DirectElement& e)
+    void PrintVisitor::operator()(const HolderElement& e)
     {
         os << "Direct Element(" << e.element() << ") {\n";
         indentOS(indent + 1);

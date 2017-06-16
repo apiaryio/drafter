@@ -300,7 +300,7 @@ namespace refract
         }
     };
 
-    struct DirectElementTrait
+    struct HolderElementTrait
     {
         typedef IElement* ValueType;
 
@@ -319,12 +319,15 @@ namespace refract
         }
     };
 
-    struct DirectElement : Element<DirectElement, DirectElementTrait> {
+    // FIXME: This is just a temporary element which is not in the refract spec
+    // until the Element implementation is moved away from abstraction.
+    struct HolderElement : Element<HolderElement, HolderElementTrait>
+    {
+        HolderElement() : Type() {}
 
-        DirectElement() : Type() {}
-
-        DirectElement(const TraitType::ValueType& value) : Type()
+        HolderElement(const std::string name, const TraitType::ValueType& value) : Type()
         {
+            element(name);
             set(value);
         }
     };

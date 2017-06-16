@@ -17,7 +17,7 @@ namespace refract
         throw NotImplemented("NI: IElement Compact Serialization");
     }
 
-    void SosSerializeCompactVisitor::operator()(const DirectElement& e)
+    void SosSerializeCompactVisitor::operator()(const HolderElement& e)
     {
         throw NotImplemented("NI: DirectElement Compact Serialization");
     }

@@ -17,7 +17,7 @@ namespace refract
         virtual void visit(const IElement& e) = 0;
 
         virtual void visit(const NullElement& e) = 0;
-        virtual void visit(const DirectElement& e) = 0;
+        virtual void visit(const HolderElement& e) = 0;
         virtual void visit(const StringElement& e) = 0;
         virtual void visit(const NumberElement& e) = 0;
         virtual void visit(const BooleanElement& e) = 0;
@@ -45,7 +45,7 @@ namespace refract
 
         APPLY_VISIT_IMPL(IElement)
         APPLY_VISIT_IMPL(NullElement)
-        APPLY_VISIT_IMPL(DirectElement)
+        APPLY_VISIT_IMPL(HolderElement)
         APPLY_VISIT_IMPL(StringElement)
         APPLY_VISIT_IMPL(NumberElement)
         APPLY_VISIT_IMPL(BooleanElement)

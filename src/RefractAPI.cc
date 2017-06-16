@@ -98,11 +98,7 @@ namespace drafter {
             return NULL;
         }
 
-        refract::DirectElement* element = new refract::DirectElement;
-        element->element(SerializeKey::DataStructure);
-        element->set(msonElement);
-
-        return element;
+        return new refract::HolderElement(SerializeKey::DataStructure, msonElement);
     }
 
     refract::IElement* MetadataToRefract(const NodeInfo<snowcrash::Metadata>& metadata, ConversionContext& context)

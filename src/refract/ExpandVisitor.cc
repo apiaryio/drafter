@@ -340,7 +340,7 @@ namespace refract
     }
 
     // do nothing, DirectElements are not expandable
-    void ExpandVisitor::operator()(const DirectElement& e) {}
+    void ExpandVisitor::operator()(const HolderElement& e) {}
 
     // do nothing, NullElements are not expandable
     void ExpandVisitor::operator()(const NullElement& e) {}

@@ -389,7 +389,7 @@ namespace drafter {
                 return mson::EnumTypeName;
 
             case refract::TypeQueryVisitor::Null:
-            case refract::TypeQueryVisitor::Direct:
+            case refract::TypeQueryVisitor::Holder:
             case refract::TypeQueryVisitor::Member:
             case refract::TypeQueryVisitor::Ref:
             case refract::TypeQueryVisitor::Extend:

@@ -97,7 +97,7 @@ namespace refract
         }
     }
 
-    void SosSerializeVisitor::operator()(const DirectElement& e)
+    void SosSerializeVisitor::operator()(const HolderElement& e)
     {
         sos::Object object = ElementToObject(e.value, generateSourceMap);
 
