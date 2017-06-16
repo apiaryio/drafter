@@ -103,58 +103,56 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "i1"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "attributes": {
-                                            "samples": {
-                                              "element": "array",
-                                              "content": [
-                                                {
-                                                  "element": "string",
-                                                  "content": "sample"
-                                                }
-                                              ]
-                                            }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "i1"
+                                      },
+                                      "value": {
+                                        "element": "string",
+                                        "attributes": {
+                                          "samples": {
+                                            "element": "array",
+                                            "content": [
+                                              {
+                                                "element": "string",
+                                                "content": "sample"
+                                              }
+                                            ]
                                           }
                                         }
                                       }
+                                    }
+                                  },
+                                  {
+                                    "element": "ref",
+                                    "attributes": {
+                                      "path": {
+                                        "element": "string",
+                                        "content": "content"
+                                      }
                                     },
-                                    {
-                                      "element": "ref",
-                                      "attributes": {
-                                        "path": {
-                                          "element": "string",
-                                          "content": "content"
-                                        }
+                                    "content": "RefSample"
+                                  },
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "i2"
                                       },
-                                      "content": "RefSample"
-                                    },
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "i2"
-                                        },
-                                        "value": {
-                                          "element": "string"
-                                        }
+                                      "value": {
+                                        "element": "string"
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",
@@ -224,83 +222,81 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "RefSample"
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "RefSample"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "r1"
+                      },
+                      "value": {
+                        "element": "string",
+                        "attributes": {
+                          "samples": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "v1"
+                              }
+                            ]
+                          }
+                        }
+                      }
                     }
                   },
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "r1"
-                        },
-                        "value": {
-                          "element": "string",
-                          "attributes": {
-                            "samples": {
-                              "element": "array",
-                              "content": [
-                                {
-                                  "element": "string",
-                                  "content": "v1"
-                                }
-                              ]
-                            }
-                          }
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "r2"
-                        },
-                        "value": {
-                          "element": "string",
-                          "attributes": {
-                            "samples": {
-                              "element": "array",
-                              "content": [
-                                {
-                                  "element": "string",
-                                  "content": "v2"
-                                }
-                              ]
-                            }
-                          }
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "r3"
-                        },
-                        "value": {
-                          "element": "string",
-                          "attributes": {
-                            "default": {
-                              "element": "string",
-                              "content": "v3"
-                            }
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "r2"
+                      },
+                      "value": {
+                        "element": "string",
+                        "attributes": {
+                          "samples": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "v2"
+                              }
+                            ]
                           }
                         }
                       }
                     }
-                  ]
-                }
-              ]
+                  },
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "r3"
+                      },
+                      "value": {
+                        "element": "string",
+                        "attributes": {
+                          "default": {
+                            "element": "string",
+                            "content": "v3"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
             }
           ]
         }

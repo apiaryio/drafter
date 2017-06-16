@@ -103,27 +103,25 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "array",
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "Karlin"
+                              "content": {
+                                "element": "array",
+                                "content": [
+                                  {
+                                    "element": "string",
+                                    "content": "Karlin"
+                                  },
+                                  {
+                                    "element": "ref",
+                                    "attributes": {
+                                      "path": {
+                                        "element": "string",
+                                        "content": "content"
+                                      }
                                     },
-                                    {
-                                      "element": "ref",
-                                      "attributes": {
-                                        "path": {
-                                          "element": "string",
-                                          "content": "content"
-                                        }
-                                      },
-                                      "content": "Address"
-                                    }
-                                  ]
-                                }
-                              ]
+                                    "content": "Address"
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",
@@ -193,23 +191,21 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "array",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "Address"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "string",
-                      "content": "Prague"
-                    }
-                  ]
-                }
-              ]
+              "content": {
+                "element": "array",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "Address"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "string",
+                    "content": "Prague"
+                  }
+                ]
+              }
             }
           ]
         }

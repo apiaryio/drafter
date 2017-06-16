@@ -103,56 +103,54 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "enum"
-                                        },
-                                        "value": {
-                                          "element": "enum",
-                                          "content": [
-                                            {
-                                              "element": "enum",
-                                              "content": [
-                                                {
-                                                  "element": "number",
-                                                  "content": 1
-                                                },
-                                                {
-                                                  "element": "number",
-                                                  "content": 2
-                                                },
-                                                {
-                                                  "element": "number",
-                                                  "content": 3
-                                                },
-                                                {
-                                                  "element": "number",
-                                                  "content": 4
-                                                }
-                                              ]
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "something"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "anything"
-                                            }
-                                          ]
-                                        }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "enum"
+                                      },
+                                      "value": {
+                                        "element": "enum",
+                                        "content": [
+                                          {
+                                            "element": "enum",
+                                            "content": [
+                                              {
+                                                "element": "number",
+                                                "content": 1
+                                              },
+                                              {
+                                                "element": "number",
+                                                "content": 2
+                                              },
+                                              {
+                                                "element": "number",
+                                                "content": 3
+                                              },
+                                              {
+                                                "element": "number",
+                                                "content": 4
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "something"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "anything"
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

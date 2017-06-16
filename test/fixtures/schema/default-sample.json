@@ -103,50 +103,48 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "list"
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "list"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "attributes": {
+                                          "default": {
+                                            "element": "array",
+                                            "content": [
+                                              {
+                                                "element": "string",
+                                                "content": "4"
+                                              }
+                                            ]
+                                          }
                                         },
-                                        "value": {
-                                          "element": "array",
-                                          "attributes": {
-                                            "default": {
-                                              "element": "array",
-                                              "content": [
-                                                {
-                                                  "element": "string",
-                                                  "content": "4"
-                                                }
-                                              ]
-                                            }
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "3"
                                           },
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "3"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "2"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "1"
-                                            }
-                                          ]
-                                        }
+                                          {
+                                            "element": "string",
+                                            "content": "2"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "1"
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

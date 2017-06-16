@@ -103,74 +103,72 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "address"
-                                        },
-                                        "value": {
-                                          "element": "object",
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "street"
-                                                },
-                                                "value": {
-                                                  "element": "string"
-                                                }
-                                              }
-                                            },
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "city"
-                                                },
-                                                "value": {
-                                                  "element": "string"
-                                                }
-                                              }
-                                            },
-                                            {
-                                              "element": "member",
-                                              "attributes": {
-                                                "typeAttributes": {
-                                                  "element": "array",
-                                                  "content": [
-                                                    {
-                                                      "element": "string",
-                                                      "content": "required"
-                                                    }
-                                                  ]
-                                                }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "address"
+                                      },
+                                      "value": {
+                                        "element": "object",
+                                        "content": [
+                                          {
+                                            "element": "member",
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "street"
                                               },
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "state"
-                                                },
-                                                "value": {
-                                                  "element": "string"
-                                                }
+                                              "value": {
+                                                "element": "string"
                                               }
                                             }
-                                          ]
-                                        }
+                                          },
+                                          {
+                                            "element": "member",
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "city"
+                                              },
+                                              "value": {
+                                                "element": "string"
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "element": "member",
+                                            "attributes": {
+                                              "typeAttributes": {
+                                                "element": "array",
+                                                "content": [
+                                                  {
+                                                    "element": "string",
+                                                    "content": "required"
+                                                  }
+                                                ]
+                                              }
+                                            },
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "state"
+                                              },
+                                              "value": {
+                                                "element": "string"
+                                              }
+                                            }
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

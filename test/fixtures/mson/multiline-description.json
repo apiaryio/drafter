@@ -39,94 +39,92 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "User"
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "User"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "An additional\nmulti-line description.\n\n- here\n\n- there"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "name"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "Andrew"
+                      }
                     }
                   },
-                  "content": [
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "An additional\nmulti-line description.\n\n- here\n\n- there"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "name"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "Andrew"
-                        }
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "address description\n\nmultilined object\ndescription"
                       }
                     },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "address description\n\nmultilined object\ndescription"
-                        }
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "address"
                       },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "address"
-                        },
-                        "value": {
-                          "element": "object",
-                          "content": [
-                            {
-                              "element": "member",
-                              "meta": {
-                                "description": {
-                                  "element": "string",
-                                  "content": "this should be member of address"
-                                }
+                      "value": {
+                        "element": "object",
+                        "content": [
+                          {
+                            "element": "member",
+                            "meta": {
+                              "description": {
+                                "element": "string",
+                                "content": "this should be member of address"
+                              }
+                            },
+                            "content": {
+                              "key": {
+                                "element": "string",
+                                "content": "m1"
                               },
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "m1"
-                                },
-                                "value": {
-                                  "element": "string"
-                                }
+                              "value": {
+                                "element": "string"
                               }
                             }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "this should ...\n\nbe member of user"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "m2"
-                        },
-                        "value": {
-                          "element": "string"
-                        }
+                          }
+                        ]
                       }
                     }
-                  ]
-                }
-              ]
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "this should ...\n\nbe member of user"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "m2"
+                      },
+                      "value": {
+                        "element": "string"
+                      }
+                    }
+                  }
+                ]
+              }
             }
           ]
         }

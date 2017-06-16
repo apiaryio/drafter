@@ -39,45 +39,43 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "User"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "tag"
-                        },
-                        "value": {
-                          "element": "enum",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "red"
-                            },
-                            {
-                              "element": "string",
-                              "content": "yellow"
-                            },
-                            {
-                              "element": "string",
-                              "content": "green"
-                            }
-                          ]
-                        }
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "User"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "tag"
+                      },
+                      "value": {
+                        "element": "enum",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "red"
+                          },
+                          {
+                            "element": "string",
+                            "content": "yellow"
+                          },
+                          {
+                            "element": "string",
+                            "content": "green"
+                          }
+                        ]
                       }
                     }
-                  ]
-                }
-              ]
+                  }
+                ]
+              }
             }
           ]
         }

@@ -103,98 +103,96 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "item"
-                                        },
-                                        "value": {
-                                          "element": "object",
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "attributes": {
-                                                    "variable": {
-                                                      "element": "boolean",
-                                                      "content": true
-                                                    }
-                                                  },
-                                                  "content": "link"
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "item"
+                                      },
+                                      "value": {
+                                        "element": "object",
+                                        "content": [
+                                          {
+                                            "element": "member",
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "attributes": {
+                                                  "variable": {
+                                                    "element": "boolean",
+                                                    "content": true
+                                                  }
                                                 },
-                                                "value": {
-                                                  "element": "object",
-                                                  "content": [
-                                                    {
-                                                      "element": "member",
-                                                      "content": {
-                                                        "key": {
-                                                          "element": "string",
-                                                          "content": "href"
-                                                        },
-                                                        "value": {
-                                                          "element": "string",
-                                                          "content": "a URI"
-                                                        }
+                                                "content": "link"
+                                              },
+                                              "value": {
+                                                "element": "object",
+                                                "content": [
+                                                  {
+                                                    "element": "member",
+                                                    "content": {
+                                                      "key": {
+                                                        "element": "string",
+                                                        "content": "href"
+                                                      },
+                                                      "value": {
+                                                        "element": "string",
+                                                        "content": "a URI"
                                                       }
                                                     }
-                                                  ]
-                                                }
-                                              }
-                                            },
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "id"
-                                                },
-                                                "value": {
-                                                  "element": "object",
-                                                  "content": [
-                                                    {
-                                                      "element": "member",
-                                                      "content": {
-                                                        "key": {
-                                                          "element": "string",
-                                                          "content": "name"
-                                                        },
-                                                        "value": {
-                                                          "element": "string"
-                                                        }
-                                                      }
-                                                    },
-                                                    {
-                                                      "element": "member",
-                                                      "content": {
-                                                        "key": {
-                                                          "element": "string",
-                                                          "content": "email"
-                                                        },
-                                                        "value": {
-                                                          "element": "string"
-                                                        }
-                                                      }
-                                                    }
-                                                  ]
-                                                }
+                                                  }
+                                                ]
                                               }
                                             }
-                                          ]
-                                        }
+                                          },
+                                          {
+                                            "element": "member",
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "id"
+                                              },
+                                              "value": {
+                                                "element": "object",
+                                                "content": [
+                                                  {
+                                                    "element": "member",
+                                                    "content": {
+                                                      "key": {
+                                                        "element": "string",
+                                                        "content": "name"
+                                                      },
+                                                      "value": {
+                                                        "element": "string"
+                                                      }
+                                                    }
+                                                  },
+                                                  {
+                                                    "element": "member",
+                                                    "content": {
+                                                      "key": {
+                                                        "element": "string",
+                                                        "content": "email"
+                                                      },
+                                                      "value": {
+                                                        "element": "string"
+                                                      }
+                                                    }
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

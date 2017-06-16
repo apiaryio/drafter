@@ -103,206 +103,204 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "s1"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "content": "abc"
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "member",
-                                      "attributes": {
-                                        "typeAttributes": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "required"
-                                            }
-                                          ]
-                                        }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "s1"
                                       },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "s2"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "content": "def"
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "member",
-                                      "attributes": {
-                                        "typeAttributes": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "optional"
-                                            }
-                                          ]
-                                        }
-                                      },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "s3"
-                                        },
-                                        "value": {
-                                          "element": "string"
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "member",
-                                      "attributes": {
-                                        "typeAttributes": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "nullable"
-                                            }
-                                          ]
-                                        }
-                                      },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "s4"
-                                        },
-                                        "value": {
-                                          "element": "string"
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "member",
-                                      "attributes": {
-                                        "typeAttributes": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "required"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "nullable"
-                                            }
-                                          ]
-                                        }
-                                      },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "s5"
-                                        },
-                                        "value": {
-                                          "element": "string"
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "member",
-                                      "attributes": {
-                                        "typeAttributes": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "optional"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "nullable"
-                                            }
-                                          ]
-                                        }
-                                      },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "s6"
-                                        },
-                                        "value": {
-                                          "element": "string"
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "member",
-                                      "attributes": {
-                                        "typeAttributes": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "required"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "nullable"
-                                            }
-                                          ]
-                                        }
-                                      },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "s7"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "content": "xyz"
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "member",
-                                      "attributes": {
-                                        "typeAttributes": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "optional"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "nullable"
-                                            }
-                                          ]
-                                        }
-                                      },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "s8"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "content": "xyz"
-                                        }
+                                      "value": {
+                                        "element": "string",
+                                        "content": "abc"
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  },
+                                  {
+                                    "element": "member",
+                                    "attributes": {
+                                      "typeAttributes": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "required"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "s2"
+                                      },
+                                      "value": {
+                                        "element": "string",
+                                        "content": "def"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "attributes": {
+                                      "typeAttributes": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "optional"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "s3"
+                                      },
+                                      "value": {
+                                        "element": "string"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "attributes": {
+                                      "typeAttributes": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "nullable"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "s4"
+                                      },
+                                      "value": {
+                                        "element": "string"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "attributes": {
+                                      "typeAttributes": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "required"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "nullable"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "s5"
+                                      },
+                                      "value": {
+                                        "element": "string"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "attributes": {
+                                      "typeAttributes": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "optional"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "nullable"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "s6"
+                                      },
+                                      "value": {
+                                        "element": "string"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "attributes": {
+                                      "typeAttributes": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "required"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "nullable"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "s7"
+                                      },
+                                      "value": {
+                                        "element": "string",
+                                        "content": "xyz"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "attributes": {
+                                      "typeAttributes": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "optional"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "nullable"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "s8"
+                                      },
+                                      "value": {
+                                        "element": "string",
+                                        "content": "xyz"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

@@ -103,44 +103,42 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "array",
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "Karlin"
-                                    },
-                                    {
-                                      "element": "array",
-                                      "content": [
-                                        {
-                                          "element": "string",
-                                          "content": "Prague"
-                                        },
-                                        {
-                                          "element": "object",
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "zip"
-                                                },
-                                                "value": {
-                                                  "element": "number",
-                                                  "content": 34567
-                                                }
+                              "content": {
+                                "element": "array",
+                                "content": [
+                                  {
+                                    "element": "string",
+                                    "content": "Karlin"
+                                  },
+                                  {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "Prague"
+                                      },
+                                      {
+                                        "element": "object",
+                                        "content": [
+                                          {
+                                            "element": "member",
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "zip"
+                                              },
+                                              "value": {
+                                                "element": "number",
+                                                "content": 34567
                                               }
                                             }
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                }
-                              ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

@@ -103,78 +103,76 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "hello"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "content": "42"
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "nested"
-                                        },
-                                        "value": {
-                                          "element": "extend",
-                                          "content": [
-                                            {
-                                              "element": "object",
-                                              "meta": {
-                                                "ref": {
-                                                  "element": "string",
-                                                  "content": "Question"
-                                                }
-                                              },
-                                              "content": [
-                                                {
-                                                  "element": "member",
-                                                  "content": {
-                                                    "key": {
-                                                      "element": "string",
-                                                      "content": "question"
-                                                    },
-                                                    "value": {
-                                                      "element": "string"
-                                                    }
-                                                  }
-                                                },
-                                                {
-                                                  "element": "member",
-                                                  "content": {
-                                                    "key": {
-                                                      "element": "string",
-                                                      "content": "url"
-                                                    },
-                                                    "value": {
-                                                      "element": "string"
-                                                    }
-                                                  }
-                                                }
-                                              ]
-                                            },
-                                            {
-                                              "element": "object"
-                                            }
-                                          ]
-                                        }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "hello"
+                                      },
+                                      "value": {
+                                        "element": "string",
+                                        "content": "42"
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  },
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "nested"
+                                      },
+                                      "value": {
+                                        "element": "extend",
+                                        "content": [
+                                          {
+                                            "element": "object",
+                                            "meta": {
+                                              "ref": {
+                                                "element": "string",
+                                                "content": "Question"
+                                              }
+                                            },
+                                            "content": [
+                                              {
+                                                "element": "member",
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "question"
+                                                  },
+                                                  "value": {
+                                                    "element": "string"
+                                                  }
+                                                }
+                                              },
+                                              {
+                                                "element": "member",
+                                                "content": {
+                                                  "key": {
+                                                    "element": "string",
+                                                    "content": "url"
+                                                  },
+                                                  "value": {
+                                                    "element": "string"
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "element": "object"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",
@@ -263,43 +261,41 @@
               "content": [
                 {
                   "element": "dataStructure",
-                  "content": [
-                    {
-                      "element": "object",
-                      "meta": {
-                        "id": {
-                          "element": "string",
-                          "content": "Question"
+                  "content": {
+                    "element": "object",
+                    "meta": {
+                      "id": {
+                        "element": "string",
+                        "content": "Question"
+                      }
+                    },
+                    "content": [
+                      {
+                        "element": "member",
+                        "content": {
+                          "key": {
+                            "element": "string",
+                            "content": "question"
+                          },
+                          "value": {
+                            "element": "string"
+                          }
                         }
                       },
-                      "content": [
-                        {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "question"
-                            },
-                            "value": {
-                              "element": "string"
-                            }
-                          }
-                        },
-                        {
-                          "element": "member",
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "url"
-                            },
-                            "value": {
-                              "element": "string"
-                            }
+                      {
+                        "element": "member",
+                        "content": {
+                          "key": {
+                            "element": "string",
+                            "content": "url"
+                          },
+                          "value": {
+                            "element": "string"
                           }
                         }
-                      ]
-                    }
-                  ]
+                      }
+                    ]
+                  }
                 }
               ]
             }

@@ -103,20 +103,18 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "array",
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "Karlin"
-                                    },
-                                    {
-                                      "element": "Address"
-                                    }
-                                  ]
-                                }
-                              ]
+                              "content": {
+                                "element": "array",
+                                "content": [
+                                  {
+                                    "element": "string",
+                                    "content": "Karlin"
+                                  },
+                                  {
+                                    "element": "Address"
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",
@@ -186,23 +184,21 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "array",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "Address"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "string",
-                      "content": "Prague"
-                    }
-                  ]
-                }
-              ]
+              "content": {
+                "element": "array",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "Address"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "string",
+                    "content": "Prague"
+                  }
+                ]
+              }
             }
           ]
         }

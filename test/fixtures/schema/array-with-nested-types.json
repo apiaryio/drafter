@@ -103,49 +103,47 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "address"
-                                        },
-                                        "value": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "number"
-                                            },
-                                            {
-                                              "element": "string"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "4"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "2"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "hello"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "42"
-                                            }
-                                          ]
-                                        }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "address"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "number"
+                                          },
+                                          {
+                                            "element": "string"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "4"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "2"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "hello"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "42"
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

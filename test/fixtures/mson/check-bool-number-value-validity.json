@@ -35,103 +35,95 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "number",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "num"
-                    }
+              "content": {
+                "element": "number",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "num"
                   }
                 }
-              ]
+              }
             },
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "num",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "int"
-                    }
+              "content": {
+                "element": "num",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "int"
                   }
                 }
-              ]
+              }
             },
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "array",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "A"
-                    }
+              "content": {
+                "element": "array",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "A"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "number",
+                    "content": 0
                   },
-                  "content": [
-                    {
-                      "element": "number",
-                      "content": 0
+                  {
+                    "element": "number",
+                    "attributes": {
+                      "samples": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "number",
+                            "content": 0
+                          }
+                        ]
+                      }
                     },
-                    {
-                      "element": "number",
-                      "attributes": {
-                        "samples": {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "number",
-                              "content": 0
-                            }
-                          ]
-                        }
+                    "content": 3
+                  },
+                  {
+                    "element": "boolean",
+                    "content": false
+                  },
+                  {
+                    "element": "int",
+                    "content": 0
+                  }
+                ]
+              }
+            },
+            {
+              "element": "dataStructure",
+              "content": {
+                "element": "int",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "C"
+                  }
+                },
+                "attributes": {
+                  "samples": {
+                    "element": "array",
+                    "content": [
+                      {
+                        "element": "number",
+                        "content": 3
                       },
-                      "content": 3
-                    },
-                    {
-                      "element": "boolean",
-                      "content": false
-                    },
-                    {
-                      "element": "int",
-                      "content": 0
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "element": "dataStructure",
-              "content": [
-                {
-                  "element": "int",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "C"
-                    }
-                  },
-                  "attributes": {
-                    "samples": {
-                      "element": "array",
-                      "content": [
-                        {
-                          "element": "number",
-                          "content": 3
-                        },
-                        {
-                          "element": "number",
-                          "content": 0
-                        }
-                      ]
-                    }
+                      {
+                        "element": "number",
+                        "content": 0
+                      }
+                    ]
                   }
                 }
-              ]
+              }
             }
           ]
         },
@@ -219,11 +211,9 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "A"
-                                }
-                              ]
+                              "content": {
+                                "element": "A"
+                              }
                             },
                             {
                               "element": "asset",

@@ -39,140 +39,138 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "User"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "person"
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "User"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "person"
+                      },
+                      "value": {
+                        "element": "object",
+                        "attributes": {
+                          "samples": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "full_name"
+                                      },
+                                      "value": {
+                                        "element": "string",
+                                        "content": "Jiri Kratochvil"
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "first_name"
+                                      },
+                                      "value": {
+                                        "element": "string",
+                                        "content": "Jiri"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "last_name"
+                                      },
+                                      "value": {
+                                        "element": "string",
+                                        "content": "Kratochvil"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
                         },
-                        "value": {
-                          "element": "object",
-                          "attributes": {
-                            "samples": {
-                              "element": "array",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "full_name"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "content": "Jiri Kratochvil"
-                                        }
+                        "content": [
+                          {
+                            "element": "select",
+                            "content": [
+                              {
+                                "element": "option",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "full_name"
+                                      },
+                                      "value": {
+                                        "element": "string"
                                       }
                                     }
-                                  ]
-                                },
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "first_name"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "content": "Jiri"
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "last_name"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "content": "Kratochvil"
-                                        }
+                                  }
+                                ]
+                              },
+                              {
+                                "element": "option",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "first_name"
+                                      },
+                                      "value": {
+                                        "element": "string"
                                       }
                                     }
-                                  ]
-                                }
-                              ]
-                            }
-                          },
-                          "content": [
-                            {
-                              "element": "select",
-                              "content": [
-                                {
-                                  "element": "option",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "full_name"
-                                        },
-                                        "value": {
-                                          "element": "string"
-                                        }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "last_name"
+                                      },
+                                      "value": {
+                                        "element": "string"
                                       }
                                     }
-                                  ]
-                                },
-                                {
-                                  "element": "option",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "first_name"
-                                        },
-                                        "value": {
-                                          "element": "string"
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "last_name"
-                                        },
-                                        "value": {
-                                          "element": "string"
-                                        }
-                                      }
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
-                        }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
                       }
                     }
-                  ]
-                }
-              ]
+                  }
+                ]
+              }
             }
           ]
         }

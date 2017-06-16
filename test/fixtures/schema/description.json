@@ -103,125 +103,123 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "meta": {
-                                        "description": {
-                                          "element": "string",
-                                          "content": "The unique identifier for a product"
-                                        }
-                                      },
-                                      "attributes": {
-                                        "typeAttributes": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "required"
-                                            }
-                                          ]
-                                        }
-                                      },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "id"
-                                        },
-                                        "value": {
-                                          "element": "number",
-                                          "content": 1
-                                        }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "meta": {
+                                      "description": {
+                                        "element": "string",
+                                        "content": "The unique identifier for a product"
                                       }
                                     },
-                                    {
-                                      "element": "member",
-                                      "meta": {
-                                        "description": {
-                                          "element": "string",
-                                          "content": "Name of the product"
-                                        }
-                                      },
-                                      "attributes": {
-                                        "typeAttributes": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "required"
-                                            }
-                                          ]
-                                        }
-                                      },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "name"
-                                        },
-                                        "value": {
-                                          "element": "string",
-                                          "content": "A green door"
-                                        }
+                                    "attributes": {
+                                      "typeAttributes": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "required"
+                                          }
+                                        ]
                                       }
                                     },
-                                    {
-                                      "element": "member",
-                                      "attributes": {
-                                        "typeAttributes": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "required"
-                                            }
-                                          ]
-                                        }
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "id"
                                       },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "price"
-                                        },
-                                        "value": {
-                                          "element": "number",
-                                          "content": 12.5
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "member",
-                                      "meta": {
-                                        "description": {
-                                          "element": "string",
-                                          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n\nSed sed lacus a arcu vehicula ultricies sed vel nibh. Mauris id cursus felis.\n\nInterdum et malesuada fames ac ante ipsum primis in faucibus.\n\n- unus\n\n- duo\n\n- tres\n\n- quattuor"
-                                        }
-                                      },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "tags"
-                                        },
-                                        "value": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "home"
-                                            },
-                                            {
-                                              "element": "string",
-                                              "content": "green"
-                                            }
-                                          ]
-                                        }
+                                      "value": {
+                                        "element": "number",
+                                        "content": 1
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  },
+                                  {
+                                    "element": "member",
+                                    "meta": {
+                                      "description": {
+                                        "element": "string",
+                                        "content": "Name of the product"
+                                      }
+                                    },
+                                    "attributes": {
+                                      "typeAttributes": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "required"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "name"
+                                      },
+                                      "value": {
+                                        "element": "string",
+                                        "content": "A green door"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "attributes": {
+                                      "typeAttributes": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "required"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "price"
+                                      },
+                                      "value": {
+                                        "element": "number",
+                                        "content": 12.5
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "element": "member",
+                                    "meta": {
+                                      "description": {
+                                        "element": "string",
+                                        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n\nSed sed lacus a arcu vehicula ultricies sed vel nibh. Mauris id cursus felis.\n\nInterdum et malesuada fames ac ante ipsum primis in faucibus.\n\n- unus\n\n- duo\n\n- tres\n\n- quattuor"
+                                      }
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "tags"
+                                      },
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "home"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "green"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

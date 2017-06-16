@@ -103,66 +103,64 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "array",
-                                  "attributes": {
-                                    "typeAttributes": {
-                                      "element": "array",
-                                      "content": [
-                                        {
-                                          "element": "string",
-                                          "content": "fixedType"
-                                        }
-                                      ]
-                                    }
-                                  },
-                                  "content": [
-                                    {
-                                      "element": "object",
-                                      "content": [
-                                        {
-                                          "element": "member",
-                                          "attributes": {
-                                            "typeAttributes": {
-                                              "element": "array",
-                                              "content": [
-                                                {
-                                                  "element": "string",
-                                                  "content": "required"
-                                                }
-                                              ]
-                                            }
-                                          },
-                                          "content": {
-                                            "key": {
-                                              "element": "string",
-                                              "content": "msg"
-                                            },
-                                            "value": {
-                                              "element": "string",
-                                              "content": "hello"
-                                            }
+                              "content": {
+                                "element": "array",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixedType"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": [
+                                  {
+                                    "element": "object",
+                                    "content": [
+                                      {
+                                        "element": "member",
+                                        "attributes": {
+                                          "typeAttributes": {
+                                            "element": "array",
+                                            "content": [
+                                              {
+                                                "element": "string",
+                                                "content": "required"
+                                              }
+                                            ]
                                           }
                                         },
-                                        {
-                                          "element": "member",
-                                          "content": {
-                                            "key": {
-                                              "element": "string",
-                                              "content": "id"
-                                            },
-                                            "value": {
-                                              "element": "number",
-                                              "content": 42
-                                            }
+                                        "content": {
+                                          "key": {
+                                            "element": "string",
+                                            "content": "msg"
+                                          },
+                                          "value": {
+                                            "element": "string",
+                                            "content": "hello"
                                           }
                                         }
-                                      ]
-                                    }
-                                  ]
-                                }
-                              ]
+                                      },
+                                      {
+                                        "element": "member",
+                                        "content": {
+                                          "key": {
+                                            "element": "string",
+                                            "content": "id"
+                                          },
+                                          "value": {
+                                            "element": "number",
+                                            "content": 42
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

@@ -35,72 +35,70 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "array",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "ArraySample"
-                    },
-                    "description": {
-                      "element": "string",
-                      "content": "description"
-                    }
+              "content": {
+                "element": "array",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "ArraySample"
                   },
-                  "attributes": {
-                    "samples": {
-                      "element": "array",
-                      "content": [
-                        {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "d"
-                            },
-                            {
-                              "element": "string",
-                              "content": "e"
-                            }
-                          ]
-                        },
-                        {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "h"
-                            },
-                            {
-                              "element": "string",
-                              "content": "j"
-                            }
-                          ]
-                        }
-                      ]
-                    }
+                  "description": {
+                    "element": "string",
+                    "content": "description"
+                  }
+                },
+                "attributes": {
+                  "samples": {
+                    "element": "array",
+                    "content": [
+                      {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "d"
+                          },
+                          {
+                            "element": "string",
+                            "content": "e"
+                          }
+                        ]
+                      },
+                      {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "h"
+                          },
+                          {
+                            "element": "string",
+                            "content": "j"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "content": [
+                  {
+                    "element": "string",
+                    "content": "a"
                   },
-                  "content": [
-                    {
-                      "element": "string",
-                      "content": "a"
-                    },
-                    {
-                      "element": "string",
-                      "content": "b"
-                    },
-                    {
-                      "element": "string",
-                      "content": "f"
-                    },
-                    {
-                      "element": "string",
-                      "content": "g"
-                    }
-                  ]
-                }
-              ]
+                  {
+                    "element": "string",
+                    "content": "b"
+                  },
+                  {
+                    "element": "string",
+                    "content": "f"
+                  },
+                  {
+                    "element": "string",
+                    "content": "g"
+                  }
+                ]
+              }
             }
           ]
         }

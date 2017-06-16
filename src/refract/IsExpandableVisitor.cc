@@ -133,6 +133,7 @@ namespace refract
     template void IsExpandableVisitor::operator()<StringElement>(const StringElement&);
     template void IsExpandableVisitor::operator()<NumberElement>(const NumberElement&);
     template void IsExpandableVisitor::operator()<BooleanElement>(const BooleanElement&);
+    template void IsExpandableVisitor::operator()<HolderElement>(const HolderElement&);
     template void IsExpandableVisitor::operator()<ArrayElement>(const ArrayElement&);
     template void IsExpandableVisitor::operator()<EnumElement>(const EnumElement&);
     template void IsExpandableVisitor::operator()<MemberElement>(const MemberElement&);

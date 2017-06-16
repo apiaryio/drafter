@@ -103,31 +103,29 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "array",
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "x"
+                              "content": {
+                                "element": "array",
+                                "content": [
+                                  {
+                                    "element": "string",
+                                    "content": "x"
+                                  },
+                                  {
+                                    "element": "ref",
+                                    "attributes": {
+                                      "path": {
+                                        "element": "string",
+                                        "content": "content"
+                                      }
                                     },
-                                    {
-                                      "element": "ref",
-                                      "attributes": {
-                                        "path": {
-                                          "element": "string",
-                                          "content": "content"
-                                        }
-                                      },
-                                      "content": "RefSample"
-                                    },
-                                    {
-                                      "element": "string",
-                                      "content": "y"
-                                    }
-                                  ]
-                                }
-                              ]
+                                    "content": "RefSample"
+                                  },
+                                  {
+                                    "element": "string",
+                                    "content": "y"
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",
@@ -197,54 +195,52 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "array",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "RefSample"
-                    },
-                    "description": {
-                      "element": "string",
-                      "content": "description"
-                    }
+              "content": {
+                "element": "array",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "RefSample"
                   },
-                  "attributes": {
-                    "samples": {
-                      "element": "array",
-                      "content": [
-                        {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "a"
-                            },
-                            {
-                              "element": "string",
-                              "content": "b"
-                            }
-                          ]
-                        },
-                        {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "d"
-                            },
-                            {
-                              "element": "string",
-                              "content": "e"
-                            }
-                          ]
-                        }
-                      ]
-                    }
+                  "description": {
+                    "element": "string",
+                    "content": "description"
+                  }
+                },
+                "attributes": {
+                  "samples": {
+                    "element": "array",
+                    "content": [
+                      {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "a"
+                          },
+                          {
+                            "element": "string",
+                            "content": "b"
+                          }
+                        ]
+                      },
+                      {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "d"
+                          },
+                          {
+                            "element": "string",
+                            "content": "e"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 }
-              ]
+              }
             }
           ]
         }

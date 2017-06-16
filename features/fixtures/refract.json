@@ -170,38 +170,36 @@
                 },
                 {
                   "element": "dataStructure",
-                  "content": [
-                    {
-                      "element": "object",
-                      "meta": {
-                        "id": {
-                          "element": "string",
-                          "content": "<resource name>"
-                        }
-                      },
-                      "content": [
-                        {
-                          "element": "member",
-                          "meta": {
-                            "description": {
-                              "element": "string",
-                              "content": "<attribute property description>"
-                            }
+                  "content": {
+                    "element": "object",
+                    "meta": {
+                      "id": {
+                        "element": "string",
+                        "content": "<resource name>"
+                      }
+                    },
+                    "content": [
+                      {
+                        "element": "member",
+                        "meta": {
+                          "description": {
+                            "element": "string",
+                            "content": "<attribute property description>"
+                          }
+                        },
+                        "content": {
+                          "key": {
+                            "element": "string",
+                            "content": "<attribute property name>"
                           },
-                          "content": {
-                            "key": {
-                              "element": "string",
-                              "content": "<attribute property name>"
-                            },
-                            "value": {
-                              "element": "number",
-                              "content": 0
-                            }
+                          "value": {
+                            "element": "number",
+                            "content": 0
                           }
                         }
-                      ]
-                    }
-                  ]
+                      }
+                    ]
+                  }
                 },
                 {
                   "element": "transition",
@@ -926,11 +924,9 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "<data structure name>"
-                                }
-                              ]
+                              "content": {
+                                "element": "<data structure name>"
+                              }
                             },
                             {
                               "element": "asset",
@@ -1000,42 +996,40 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "<data structure name>"
-                    },
-                    "description": {
-                      "element": "string",
-                      "content": "<data structure description>"
-                    }
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "<data structure name>"
                   },
-                  "content": [
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "<data structure property description>"
-                        }
+                  "description": {
+                    "element": "string",
+                    "content": "<data structure description>"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "<data structure property description>"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "<data structure property name>"
                       },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "<data structure property name>"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "<data structure property value>"
-                        }
+                      "value": {
+                        "element": "string",
+                        "content": "<data structure property value>"
                       }
                     }
-                  ]
-                }
-              ]
+                  }
+                ]
+              }
             }
           ]
         }

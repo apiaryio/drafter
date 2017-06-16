@@ -103,142 +103,140 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "name"
-                                        },
-                                        "value": {
-                                          "element": "string"
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "element": "select",
-                                      "content": [
-                                        {
-                                          "element": "option",
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "city"
-                                                },
-                                                "value": {
-                                                  "element": "string"
-                                                }
-                                              }
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "element": "option",
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "town"
-                                                },
-                                                "value": {
-                                                  "element": "string"
-                                                }
-                                              }
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "element": "select",
-                                      "content": [
-                                        {
-                                          "element": "option",
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "content": "state"
-                                                },
-                                                "value": {
-                                                  "element": "string"
-                                                }
-                                              }
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "element": "option",
-                                          "content": [
-                                            {
-                                              "element": "select",
-                                              "content": [
-                                                {
-                                                  "element": "option",
-                                                  "content": [
-                                                    {
-                                                      "element": "member",
-                                                      "content": {
-                                                        "key": {
-                                                          "element": "string",
-                                                          "content": "province"
-                                                        },
-                                                        "value": {
-                                                          "element": "string"
-                                                        }
-                                                      }
-                                                    }
-                                                  ]
-                                                },
-                                                {
-                                                  "element": "option",
-                                                  "content": [
-                                                    {
-                                                      "element": "member",
-                                                      "content": {
-                                                        "key": {
-                                                          "element": "string",
-                                                          "content": "territory"
-                                                        },
-                                                        "value": {
-                                                          "element": "string"
-                                                        }
-                                                      }
-                                                    }
-                                                  ]
-                                                }
-                                              ]
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "country"
-                                        },
-                                        "value": {
-                                          "element": "string"
-                                        }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "name"
+                                      },
+                                      "value": {
+                                        "element": "string"
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  },
+                                  {
+                                    "element": "select",
+                                    "content": [
+                                      {
+                                        "element": "option",
+                                        "content": [
+                                          {
+                                            "element": "member",
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "city"
+                                              },
+                                              "value": {
+                                                "element": "string"
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "element": "option",
+                                        "content": [
+                                          {
+                                            "element": "member",
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "town"
+                                              },
+                                              "value": {
+                                                "element": "string"
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "element": "select",
+                                    "content": [
+                                      {
+                                        "element": "option",
+                                        "content": [
+                                          {
+                                            "element": "member",
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "content": "state"
+                                              },
+                                              "value": {
+                                                "element": "string"
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "element": "option",
+                                        "content": [
+                                          {
+                                            "element": "select",
+                                            "content": [
+                                              {
+                                                "element": "option",
+                                                "content": [
+                                                  {
+                                                    "element": "member",
+                                                    "content": {
+                                                      "key": {
+                                                        "element": "string",
+                                                        "content": "province"
+                                                      },
+                                                      "value": {
+                                                        "element": "string"
+                                                      }
+                                                    }
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "element": "option",
+                                                "content": [
+                                                  {
+                                                    "element": "member",
+                                                    "content": {
+                                                      "key": {
+                                                        "element": "string",
+                                                        "content": "territory"
+                                                      },
+                                                      "value": {
+                                                        "element": "string"
+                                                      }
+                                                    }
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "country"
+                                      },
+                                      "value": {
+                                        "element": "string"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

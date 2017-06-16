@@ -103,11 +103,9 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "A"
-                                }
-                              ]
+                              "content": {
+                                "element": "A"
+                              }
                             },
                             {
                               "element": "asset",
@@ -177,71 +175,67 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "enum",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "E"
-                    }
+              "content": {
+                "element": "enum",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "E"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "A"
                   },
-                  "content": [
-                    {
-                      "element": "A"
-                    },
-                    {
-                      "element": "array",
-                      "content": [
-                        {
-                          "element": "A"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
+                  {
+                    "element": "array",
+                    "content": [
+                      {
+                        "element": "A"
+                      }
+                    ]
+                  }
+                ]
+              }
             },
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "A"
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "A"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "id"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "1"
+                      }
                     }
                   },
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "id"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "1"
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "data"
-                        },
-                        "value": {
-                          "element": "E"
-                        }
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "data"
+                      },
+                      "value": {
+                        "element": "E"
                       }
                     }
-                  ]
-                }
-              ]
+                  }
+                ]
+              }
             }
           ]
         }

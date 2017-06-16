@@ -300,6 +300,38 @@ namespace refract
         }
     };
 
+    struct HolderElementTrait
+    {
+        typedef IElement* ValueType;
+
+        static ValueType init() { return NULL; }
+        static const std::string element() { return ""; }
+
+        static void release(ValueType& value)
+        {
+            delete value;
+            value = NULL;
+        }
+
+        static void cloneValue(const ValueType& self, ValueType& other)
+        {
+            other = self ? self->clone() : NULL;
+        }
+    };
+
+    // FIXME: This is just a temporary element which is not in the refract spec
+    // until the Element implementation is moved away from abstraction.
+    struct HolderElement : Element<HolderElement, HolderElementTrait>
+    {
+        HolderElement() : Type() {}
+
+        HolderElement(const std::string name, const TraitType::ValueType& value) : Type()
+        {
+            element(name);
+            set(value);
+        }
+    };
+
     typedef std::vector<IElement*> RefractElements;
 
     template <typename Type = IElement, typename Collection = std::vector<Type*> >
@@ -323,7 +355,8 @@ namespace refract
          * WARN: possible dangerous method. We trust underlaying type in collection
          * if anyone push casted type, bad things can happen.
          */
-        static typename ValueType::value_type typedMemberClone(IElement* element, const IElement::cloneFlags flags) {
+        static typename ValueType::value_type typedMemberClone(IElement* element, const IElement::cloneFlags flags)
+        {
             if (!element) {
                 return NULL;
             }
@@ -331,7 +364,8 @@ namespace refract
             return static_cast<typename ValueType::value_type>(element->clone(flags));
         }
 
-        static void cloneValue(const ValueType& self, ValueType& other) {
+        static void cloneValue(const ValueType& self, ValueType& other)
+        {
             std::transform(self.begin(), self.end(),
                            std::back_inserter(other),
                            std::bind(&SelfType::typedMemberClone, std::placeholders::_1, IElement::cAll));

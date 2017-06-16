@@ -103,53 +103,51 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "attributes": {
-                                        "typeAttributes": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "string",
-                                              "content": "fixed"
-                                            }
-                                          ]
-                                        }
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "attributes": {
+                                      "typeAttributes": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "string",
+                                            "content": "fixed"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "street"
                                       },
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "street"
-                                        },
-                                        "value": {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "number"
-                                            },
-                                            {
-                                              "element": "number",
-                                              "content": 0
-                                            },
-                                            {
-                                              "element": "number",
-                                              "content": 1.5
-                                            },
-                                            {
-                                              "element": "number",
-                                              "content": 340
-                                            }
-                                          ]
-                                        }
+                                      "value": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "number"
+                                          },
+                                          {
+                                            "element": "number",
+                                            "content": 0
+                                          },
+                                          {
+                                            "element": "number",
+                                            "content": 1.5
+                                          },
+                                          {
+                                            "element": "number",
+                                            "content": 340
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

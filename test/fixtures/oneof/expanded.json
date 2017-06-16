@@ -103,11 +103,9 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "A or B"
-                                }
-                              ]
+                              "content": {
+                                "element": "A or B"
+                              }
                             },
                             {
                               "element": "asset",
@@ -177,101 +175,97 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "A or B"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "select",
-                      "content": [
-                        {
-                          "element": "option",
-                          "content": [
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "text"
-                                },
-                                "value": {
-                                  "element": "string",
-                                  "content": "A"
-                                }
-                              }
-                            },
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "somevalue"
-                                },
-                                "value": {
-                                  "element": "C"
-                                }
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "A or B"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "select",
+                    "content": [
+                      {
+                        "element": "option",
+                        "content": [
+                          {
+                            "element": "member",
+                            "content": {
+                              "key": {
+                                "element": "string",
+                                "content": "text"
+                              },
+                              "value": {
+                                "element": "string",
+                                "content": "A"
                               }
                             }
-                          ]
-                        },
-                        {
-                          "element": "option",
-                          "content": [
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "text"
-                                },
-                                "value": {
-                                  "element": "string",
-                                  "content": "B"
-                                }
+                          },
+                          {
+                            "element": "member",
+                            "content": {
+                              "key": {
+                                "element": "string",
+                                "content": "somevalue"
+                              },
+                              "value": {
+                                "element": "C"
                               }
                             }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
+                          }
+                        ]
+                      },
+                      {
+                        "element": "option",
+                        "content": [
+                          {
+                            "element": "member",
+                            "content": {
+                              "key": {
+                                "element": "string",
+                                "content": "text"
+                              },
+                              "value": {
+                                "element": "string",
+                                "content": "B"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
             },
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "C"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "c1"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "C1"
-                        }
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "C"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "c1"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "C1"
                       }
                     }
-                  ]
-                }
-              ]
+                  }
+                ]
+              }
             }
           ]
         }

@@ -39,159 +39,157 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "User"
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "member",
-                      "attributes": {
-                        "typeAttributes": {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "required"
-                            }
-                          ]
-                        }
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "User"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "attributes": {
+                      "typeAttributes": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "required"
+                          }
+                        ]
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "id"
                       },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "id"
-                        },
-                        "value": {
-                          "element": "number",
-                          "attributes": {
-                            "default": {
-                              "element": "number",
-                              "content": 42
-                            }
+                      "value": {
+                        "element": "number",
+                        "attributes": {
+                          "default": {
+                            "element": "number",
+                            "content": 42
                           }
                         }
                       }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "login"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "name"
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "description of property"
-                        }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "login"
                       },
-                      "attributes": {
-                        "typeAttributes": {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "optional"
-                            }
-                          ]
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "banned"
-                        },
-                        "value": {
-                          "element": "boolean",
-                          "content": true
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "attributes": {
-                        "typeAttributes": {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "optional"
-                            }
-                          ]
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "uid"
-                        },
-                        "value": {
-                          "element": "number",
-                          "attributes": {
-                            "default": {
-                              "element": "number",
-                              "content": -1
-                            }
-                          },
-                          "content": 5
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "blaaaa blaa"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "motto"
-                        },
-                        "value": {
-                          "element": "string",
-                          "attributes": {
-                            "samples": {
-                              "element": "array",
-                              "content": [
-                                {
-                                  "element": "string",
-                                  "content": "diem perdidi"
-                                },
-                                {
-                                  "element": "string",
-                                  "content": "humppa forever"
-                                }
-                              ]
-                            },
-                            "default": {
-                              "element": "string",
-                              "content": "carpe diem"
-                            }
-                          },
-                          "content": "content"
-                        }
+                      "value": {
+                        "element": "string",
+                        "content": "name"
                       }
                     }
-                  ]
-                }
-              ]
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "description of property"
+                      }
+                    },
+                    "attributes": {
+                      "typeAttributes": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "optional"
+                          }
+                        ]
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "banned"
+                      },
+                      "value": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "attributes": {
+                      "typeAttributes": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "optional"
+                          }
+                        ]
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "uid"
+                      },
+                      "value": {
+                        "element": "number",
+                        "attributes": {
+                          "default": {
+                            "element": "number",
+                            "content": -1
+                          }
+                        },
+                        "content": 5
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "blaaaa blaa"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "motto"
+                      },
+                      "value": {
+                        "element": "string",
+                        "attributes": {
+                          "samples": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "diem perdidi"
+                              },
+                              {
+                                "element": "string",
+                                "content": "humppa forever"
+                              }
+                            ]
+                          },
+                          "default": {
+                            "element": "string",
+                            "content": "carpe diem"
+                          }
+                        },
+                        "content": "content"
+                      }
+                    }
+                  }
+                ]
+              }
             }
           ]
         }

@@ -93,6 +93,20 @@ namespace refract
         os << "NullElement(null)" << "\n";
     }
 
+    void PrintVisitor::operator()(const HolderElement& e)
+    {
+        os << "Direct Element(" << e.element() << ") {\n";
+        indentOS(indent + 1);
+
+        PrintVisitor ps(indent + 1, os);
+        Visitor visitor(ps);
+
+        visitor.visit(*e.value);
+
+        indentOS(indent);
+        os << "}\n";
+    }
+
     void PrintVisitor::operator()(const StringElement& e)
     {
         const StringElement::ValueType* v = GetValue<StringElement>(e);

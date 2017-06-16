@@ -103,11 +103,9 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "Notification Token Full"
-                                }
-                              ]
+                              "content": {
+                                "element": "Notification Token Full"
+                              }
                             },
                             {
                               "element": "asset",
@@ -177,134 +175,130 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "Notification Token Create"
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "Notification Token Create"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "The platform. Should be `ios` or `gcm`."
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "device_type"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "ios"
+                      }
                     }
                   },
-                  "content": [
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "The platform. Should be `ios` or `gcm`."
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "device_type"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "ios"
-                        }
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "The token given by the platform."
                       }
                     },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "The token given by the platform."
-                        }
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "token"
                       },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "token"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "a-push-token"
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "attributes": {
-                        "typeAttributes": {
-                          "element": "array",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "optional"
-                            }
-                          ]
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "links"
-                        },
-                        "value": {
-                          "element": "object",
-                          "content": [
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "user"
-                                },
-                                "value": {
-                                  "element": "string",
-                                  "content": "123"
-                                }
-                              }
-                            }
-                          ]
-                        }
+                      "value": {
+                        "element": "string",
+                        "content": "a-push-token"
                       }
                     }
-                  ]
-                }
-              ]
+                  },
+                  {
+                    "element": "member",
+                    "attributes": {
+                      "typeAttributes": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "optional"
+                          }
+                        ]
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "links"
+                      },
+                      "value": {
+                        "element": "object",
+                        "content": [
+                          {
+                            "element": "member",
+                            "content": {
+                              "key": {
+                                "element": "string",
+                                "content": "user"
+                              },
+                              "value": {
+                                "element": "string",
+                                "content": "123"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
             },
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "Notification Token Full"
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "Notification Token Full"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "id"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "122"
+                      }
                     }
                   },
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "id"
-                        },
-                        "value": {
-                          "element": "string",
-                          "content": "122"
-                        }
+                  {
+                    "element": "ref",
+                    "attributes": {
+                      "path": {
+                        "element": "string",
+                        "content": "content"
                       }
                     },
-                    {
-                      "element": "ref",
-                      "attributes": {
-                        "path": {
-                          "element": "string",
-                          "content": "content"
-                        }
-                      },
-                      "content": "Notification Token Create"
-                    }
-                  ]
-                }
-              ]
+                    "content": "Notification Token Create"
+                  }
+                ]
+              }
             }
           ]
         }

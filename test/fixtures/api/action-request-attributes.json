@@ -63,26 +63,24 @@
                   "attributes": {
                     "data": {
                       "element": "dataStructure",
-                      "content": [
-                        {
-                          "element": "object",
-                          "content": [
-                            {
-                              "element": "member",
-                              "content": {
-                                "key": {
-                                  "element": "string",
-                                  "content": "username"
-                                },
-                                "value": {
-                                  "element": "string",
-                                  "content": "pavan"
-                                }
+                      "content": {
+                        "element": "object",
+                        "content": [
+                          {
+                            "element": "member",
+                            "content": {
+                              "key": {
+                                "element": "string",
+                                "content": "username"
+                              },
+                              "value": {
+                                "element": "string",
+                                "content": "pavan"
                               }
                             }
-                          ]
-                        }
-                      ]
+                          }
+                        ]
+                      }
                     }
                   },
                   "content": [

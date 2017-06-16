@@ -103,60 +103,58 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "object",
-                                  "content": [
-                                    {
-                                      "element": "member",
-                                      "content": {
-                                        "key": {
-                                          "element": "string",
-                                          "content": "_links"
-                                        },
-                                        "value": {
-                                          "element": "object",
-                                          "content": [
-                                            {
-                                              "element": "member",
-                                              "content": {
-                                                "key": {
-                                                  "element": "string",
-                                                  "attributes": {
-                                                    "variable": {
-                                                      "element": "boolean",
-                                                      "content": true
-                                                    }
-                                                  },
-                                                  "content": "self"
+                              "content": {
+                                "element": "object",
+                                "content": [
+                                  {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
+                                        "element": "string",
+                                        "content": "_links"
+                                      },
+                                      "value": {
+                                        "element": "object",
+                                        "content": [
+                                          {
+                                            "element": "member",
+                                            "content": {
+                                              "key": {
+                                                "element": "string",
+                                                "attributes": {
+                                                  "variable": {
+                                                    "element": "boolean",
+                                                    "content": true
+                                                  }
                                                 },
-                                                "value": {
-                                                  "element": "object",
-                                                  "content": [
-                                                    {
-                                                      "element": "member",
-                                                      "content": {
-                                                        "key": {
-                                                          "element": "string",
-                                                          "content": "href"
-                                                        },
-                                                        "value": {
-                                                          "element": "string",
-                                                          "content": "a URI"
-                                                        }
+                                                "content": "self"
+                                              },
+                                              "value": {
+                                                "element": "object",
+                                                "content": [
+                                                  {
+                                                    "element": "member",
+                                                    "content": {
+                                                      "key": {
+                                                        "element": "string",
+                                                        "content": "href"
+                                                      },
+                                                      "value": {
+                                                        "element": "string",
+                                                        "content": "a URI"
                                                       }
                                                     }
-                                                  ]
-                                                }
+                                                  }
+                                                ]
                                               }
                                             }
-                                          ]
-                                        }
+                                          }
+                                        ]
                                       }
                                     }
-                                  ]
-                                }
-                              ]
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",

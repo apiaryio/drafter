@@ -35,265 +35,263 @@
           "content": [
             {
               "element": "dataStructure",
-              "content": [
-                {
-                  "element": "object",
-                  "meta": {
-                    "id": {
-                      "element": "string",
-                      "content": "User"
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "User"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "e1"
+                      },
+                      "value": {
+                        "element": "enum",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "3"
+                          },
+                          {
+                            "element": "string",
+                            "content": "4"
+                          }
+                        ]
+                      }
                     }
                   },
-                  "content": [
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "e1"
-                        },
-                        "value": {
-                          "element": "enum",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "3"
-                            },
-                            {
-                              "element": "string",
-                              "content": "4"
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "e2"
-                        },
-                        "value": {
-                          "element": "enum",
-                          "attributes": {
-                            "samples": {
-                              "element": "array",
-                              "content": [
-                                {
-                                  "element": "enum",
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "3"
-                                    },
-                                    {
-                                      "element": "string",
-                                      "content": "4"
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          }
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "FIXME: must be handled by different way in snowcrash"
-                        }
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "e2"
                       },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "e3"
-                        },
-                        "value": {
-                          "element": "enum",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "*3"
-                            },
-                            {
-                              "element": "string",
-                              "content": "4*"
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "nontyped enum, samples should be by default string"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "e4"
-                        },
-                        "value": {
-                          "element": "enum",
-                          "attributes": {
-                            "samples": {
-                              "element": "array",
-                              "content": [
-                                {
-                                  "element": "enum",
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "3"
-                                    },
-                                    {
-                                      "element": "string",
-                                      "content": "4"
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          }
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "typed enum -> samples && default should be numbers"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "e5"
-                        },
-                        "value": {
-                          "element": "enum",
-                          "attributes": {
-                            "samples": {
-                              "element": "array",
-                              "content": [
-                                {
-                                  "element": "enum",
-                                  "content": [
-                                    {
-                                      "element": "number",
-                                      "content": 3
-                                    },
-                                    {
-                                      "element": "number",
-                                      "content": 4
-                                    }
-                                  ]
-                                },
-                                {
-                                  "element": "enum",
-                                  "content": [
-                                    {
-                                      "element": "number",
-                                      "content": 5
-                                    },
-                                    {
-                                      "element": "number",
-                                      "content": 6
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            "default": {
-                              "element": "enum",
-                              "content": [
-                                {
-                                  "element": "number",
-                                  "content": 1
-                                }
-                              ]
-                            }
-                          }
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "nontyped enum, by default string, but overided by type specification on content members"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "e6"
-                        },
-                        "value": {
-                          "element": "enum",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "pavan"
-                            },
-                            {
-                              "element": "number",
-                              "content": 4
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "element": "member",
-                      "meta": {
-                        "description": {
-                          "element": "string",
-                          "content": "nontyped enum, by default string, but overided by type specification on content members"
-                        }
-                      },
-                      "content": {
-                        "key": {
-                          "element": "string",
-                          "content": "e7"
-                        },
-                        "value": {
-                          "element": "enum",
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "pavan"
-                            },
-                            {
-                              "element": "number",
-                              "attributes": {
-                                "samples": {
-                                  "element": "array",
-                                  "content": [
-                                    {
-                                      "element": "number",
-                                      "content": 4
-                                    }
-                                  ]
-                                }
+                      "value": {
+                        "element": "enum",
+                        "attributes": {
+                          "samples": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "enum",
+                                "content": [
+                                  {
+                                    "element": "string",
+                                    "content": "3"
+                                  },
+                                  {
+                                    "element": "string",
+                                    "content": "4"
+                                  }
+                                ]
                               }
-                            }
-                          ]
+                            ]
+                          }
                         }
                       }
                     }
-                  ]
-                }
-              ]
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "FIXME: must be handled by different way in snowcrash"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "e3"
+                      },
+                      "value": {
+                        "element": "enum",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "*3"
+                          },
+                          {
+                            "element": "string",
+                            "content": "4*"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "nontyped enum, samples should be by default string"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "e4"
+                      },
+                      "value": {
+                        "element": "enum",
+                        "attributes": {
+                          "samples": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "enum",
+                                "content": [
+                                  {
+                                    "element": "string",
+                                    "content": "3"
+                                  },
+                                  {
+                                    "element": "string",
+                                    "content": "4"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "typed enum -> samples && default should be numbers"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "e5"
+                      },
+                      "value": {
+                        "element": "enum",
+                        "attributes": {
+                          "samples": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "enum",
+                                "content": [
+                                  {
+                                    "element": "number",
+                                    "content": 3
+                                  },
+                                  {
+                                    "element": "number",
+                                    "content": 4
+                                  }
+                                ]
+                              },
+                              {
+                                "element": "enum",
+                                "content": [
+                                  {
+                                    "element": "number",
+                                    "content": 5
+                                  },
+                                  {
+                                    "element": "number",
+                                    "content": 6
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "default": {
+                            "element": "enum",
+                            "content": [
+                              {
+                                "element": "number",
+                                "content": 1
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "nontyped enum, by default string, but overided by type specification on content members"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "e6"
+                      },
+                      "value": {
+                        "element": "enum",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "pavan"
+                          },
+                          {
+                            "element": "number",
+                            "content": 4
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "nontyped enum, by default string, but overided by type specification on content members"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "e7"
+                      },
+                      "value": {
+                        "element": "enum",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "pavan"
+                          },
+                          {
+                            "element": "number",
+                            "attributes": {
+                              "samples": {
+                                "element": "array",
+                                "content": [
+                                  {
+                                    "element": "number",
+                                    "content": 4
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
             }
           ]
         }

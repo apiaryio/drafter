@@ -103,25 +103,23 @@
                           "content": [
                             {
                               "element": "dataStructure",
-                              "content": [
-                                {
-                                  "element": "array",
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "pksunkara"
-                                    },
-                                    {
-                                      "element": "number",
-                                      "content": 12
-                                    },
-                                    {
-                                      "element": "boolean",
-                                      "content": false
-                                    }
-                                  ]
-                                }
-                              ]
+                              "content": {
+                                "element": "array",
+                                "content": [
+                                  {
+                                    "element": "string",
+                                    "content": "pksunkara"
+                                  },
+                                  {
+                                    "element": "number",
+                                    "content": 12
+                                  },
+                                  {
+                                    "element": "boolean",
+                                    "content": false
+                                  }
+                                ]
+                              }
                             },
                             {
                               "element": "asset",
