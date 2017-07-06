@@ -66,6 +66,7 @@ TEST_REFRACT("schema", "array-fixed-type-object");
 TEST_REFRACT("schema", "array-fixed-samples-complex");
 
 TEST_REFRACT("schema", "array-restricted-to-type");
+TEST_REFRACT("schema", "array-restricted-to-types");
 TEST_REFRACT("schema", "array-restricted-to-types-complex");
 
 TEST_REFRACT("schema", "object-fixed");
