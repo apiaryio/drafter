@@ -28,7 +28,7 @@
 #include <string.h>
 
 
-DRAFTER_API int drafter_parse_blueprint_to(const char* source,
+DRAFTER_API drafter_error drafter_parse_blueprint_to(const char* source,
                                            char ** out,
                                            const drafter_parse_options parse_opts,
                                            const drafter_serialize_options serialize_opts) {
@@ -44,7 +44,7 @@ DRAFTER_API int drafter_parse_blueprint_to(const char* source,
     drafter_result* result = nullptr;
     *out = nullptr;
 
-    int ret = drafter_parse_blueprint(source, &result, parse_opts);
+    drafter_error ret = drafter_parse_blueprint(source, &result, parse_opts);
 
     if (!result) {
         return ret;
@@ -61,7 +61,7 @@ namespace sc = snowcrash;
 
 /* Parse API Bleuprint and return result, which is a opaque handle for
  * later use*/
-DRAFTER_API int drafter_parse_blueprint(const char* source,
+DRAFTER_API drafter_error drafter_parse_blueprint(const char* source,
                                         drafter_result** out,
                                         const drafter_parse_options parse_opts) {
 
@@ -88,7 +88,7 @@ DRAFTER_API int drafter_parse_blueprint(const char* source,
 
     *out = result;
 
-    return blueprint.report.error.code;
+    return (drafter_error)blueprint.report.error.code;
 }
 
 namespace { // FIXME: cut'n'paste from main.cc - duplicity
@@ -155,7 +155,7 @@ DRAFTER_API char* drafter_serialize(drafter_result *res, const drafter_serialize
 
 /* Parse API Blueprint and return only annotations, if NULL than
  * document is error and warning free.*/
-DRAFTER_API int drafter_check_blueprint(const char* source,
+DRAFTER_API drafter_error drafter_check_blueprint(const char* source,
                                         drafter_result **res,
                                         const drafter_parse_options parse_opts) {
 
@@ -165,7 +165,7 @@ DRAFTER_API int drafter_check_blueprint(const char* source,
 
     drafter_result* result = nullptr;
 
-    int ret = drafter_parse_blueprint(source, &result, parse_opts);
+    drafter_error ret = drafter_parse_blueprint(source, &result, parse_opts);
 
     if (!result) {
         return ret;

@@ -1,5 +1,12 @@
 # Drafter Changelog
 
+## Master
+
+### Enhancements
+
+- Instead of returning int, functions that may error return `drafter_error`
+  type. This adds additional type-safety when handling errors.
+
 ## 3.2.7
 
 ## Bug Fixes
