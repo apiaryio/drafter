@@ -87,10 +87,12 @@ typedef struct {
 } drafter_serialize_options;
 
 
-/* Error codes */
-#define DRAFTER_EUNKNOWN -1
-#define DRAFTER_EINVALID_INPUT -2
-#define DRAFTER_EINVALID_OUTPUT -3
+typedef enum {
+    DRAFTER_OK = 0,
+    DRAFTER_EUNKNOWN = -1,
+    DRAFTER_EINVALID_INPUT = -2,
+    DRAFTER_EINVALID_OUTPUT = -3,
+} drafter_error;
 
 /* Parse API Blueprint and serialize it to given format.
  * Returns:
@@ -98,7 +100,7 @@ typedef struct {
  * - positive numbers if it encountered parsing errors.
  * - negative numbers if it failed to parse due the programming errors like invalid input.
  */
-DRAFTER_API int drafter_parse_blueprint_to(const char* source,
+DRAFTER_API drafter_error drafter_parse_blueprint_to(const char* source,
                                            char** out,
                                            const drafter_parse_options parse_opts,
                                            const drafter_serialize_options serialize_opts);
@@ -111,7 +113,7 @@ DRAFTER_API int drafter_parse_blueprint_to(const char* source,
  * - positive numbers if it encountered parsing errors.
  * - negative numbers if it failed to parse due the programming errors like invalid input.
  */
-DRAFTER_API int drafter_parse_blueprint(const char* source,
+DRAFTER_API drafter_error drafter_parse_blueprint(const char* source,
                                         drafter_result** out,
                                         const drafter_parse_options parse_opts);
 
@@ -127,7 +129,7 @@ DRAFTER_API void drafter_free_result(drafter_result* res);
  * - positive numbers if it encountered parsing errors, which are described in the result
  * - negative numbers if it failed to parse due the programming errors like invalid input.
  */
-DRAFTER_API int drafter_check_blueprint(const char* source,
+DRAFTER_API drafter_error drafter_check_blueprint(const char* source,
                                         drafter_result **res,
                                         const drafter_parse_options parse_opts);
 
