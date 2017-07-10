@@ -65,11 +65,9 @@ TEST_REFRACT("schema", "array-fixed-type-object");
 //"content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"tags\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\",\n          \"enum\": [\n           \"hello\"\n          ]\n        },\n        {\n          \"type\": \"number\"\n        },\n        {\n          \"type\": \"object\",\n          \"properties\": {\n            \"name\": {\n              \"type\": \"string\"\n            },\n            \"color\": {\n              \"type\": \"string\",\n              \"enum\": [\"white\"]\n            },\n            \"description\": {\n              \"type\": \"string\"\n            }\n          },\n          \"additionalProperties\": false,\n          \"required\": [\"name\", \"color\", \"description\"]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\"world\"]\n        }\n      ]\n    }\n  },\n  \"required\": [\"tags\"]\n}"
 TEST_REFRACT("schema", "array-fixed-samples-complex");
 
-//FIXME: fixed bug #193
-//TEST_REFRACT("schema", "array-restricted-to-type");
-
-//FIXME: fixed bug #193
-//TEST_REFRACT("schema", "array-restricted-to-types-complex");
+TEST_REFRACT("schema", "array-restricted-to-type");
+TEST_REFRACT("schema", "array-restricted-to-types");
+TEST_REFRACT("schema", "array-restricted-to-types-complex");
 
 TEST_REFRACT("schema", "object-fixed");
 TEST_REFRACT("schema", "object-fixed-values");
