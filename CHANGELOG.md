@@ -2,6 +2,14 @@
 
 ## Master
 
+### Breaking
+
+* The following compiler versions are supported:
+
+  * Microsoft Visual C++ 2015 or higher
+  * GCC 5.3 or higher
+  * Clang 4.0 or higher
+
 ### Enhancements
 
 - Instead of returning int, functions that may error return `drafter_error`

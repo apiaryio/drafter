@@ -147,6 +147,15 @@ if (result) {
 ```
 
 ## Build
+
+### Compiler Support
+
+| Compiler | Minimum Supported Version |
+|----------|---------------------------|
+| Clang    | 4.0 |
+| GCC      | 5.3 |
+| MSVC++   | 2015 |
+
 1. Clone the repo + fetch the submodules:
 
     ```sh
