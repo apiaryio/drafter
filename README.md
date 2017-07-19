@@ -105,7 +105,7 @@ if (drafter_parse_blueprint_to(blueprint, &result, options) == 0) {
 }
 ```
 
-#### Checking the validity of a blueprint
+#### Checking the validity of a blueprint
 
 The `drafter_check_blueprint` function allows checking the validity of a
 blueprint. This function will return a `drafter_result` when the blueprint
