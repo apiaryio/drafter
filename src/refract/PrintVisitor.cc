@@ -6,173 +6,158 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
-#include "VisitorUtils.h"
-#include <sstream>
+#include <cassert>
 #include <iostream>
+#include "VisitorUtils.h"
 
 #include "PrintVisitor.h"
 #include "Visitor.h"
 
-#define VISIT_IMPL( ELEMENT ) void PrintVisitor::operator()(const ELEMENT ## Element& e) \
-    {                                                                    \
-        typedef ELEMENT ## Element::ValueType::const_iterator iterator;  \
-        PrintVisitor ps(indent + 1, os);                                 \
-        Visitor visitor(ps);                                             \
-                                                                         \
-        os << "" #ELEMENT "Element  {\n";                                \
-        for (iterator it = e.value.begin(); it != e.value.end(); ++it) { \
-            visitor.visit(*(*it));                                       \
-        }                                                                \
-        indentOS(indent);                                                \
-        os << "}\n";                                                     \
-    }                                                                    \
-
 namespace refract
 {
     PrintVisitor::PrintVisitor()
-    : indent(0), os(std::cout) {}
-
-    PrintVisitor::PrintVisitor(int indent_, std::ostream& os_)
-    : indent(indent_), os(os_) {}
-
-    void PrintVisitor::indentOS(int ind)
+        : indent(0), os(std::cerr), ommitSourceMap(false)
     {
-        for (int i = 0; i < ind; i++) {
+    }
+
+    PrintVisitor::PrintVisitor(int indent_, std::ostream& os_,
+                               bool ommitSourceMap_)
+        : indent(indent_), os(os_), ommitSourceMap(ommitSourceMap_)
+    {
+    }
+
+    std::ostream& PrintVisitor::indented()
+    {
+        for (int i = 0; i < indent; ++i) {
             os << "  ";
         }
+        return os;
     }
 
     void PrintVisitor::printMeta(const IElement& e)
     {
-        if (e.meta.size() > 0) {
-            os << "meta {\n";
-            indentOS(indent);
+        indented() << "- <meta>\n";
 
-            for (IElement::MemberElementCollection::const_iterator i = e.meta.begin();
-                i != e.meta.end();
-                ++i) {
-
-                refract::Visit(*this, *(*i));
-            }
-
-            indentOS(indent);
-            os << "}\n";
+        for (const auto& m : e.meta) {
+            PrintVisitor{indent + 1, os, ommitSourceMap}(*m);
         }
     }
 
     void PrintVisitor::printAttr(const IElement& e)
     {
-        if (e.attributes.size() > 0) {
-            os << "attributes {\n";
-            indentOS(indent);
+        indented() << "- <attr>\n";
 
-            for (IElement::MemberElementCollection::const_iterator i = e.attributes.begin();
-                i != e.attributes.end();
-                ++i) {
+        for (const auto& a : e.attributes) {
+            if (const auto mPtr = TypeQueryVisitor::as<MemberElement>(a))
+                if (const auto strPtr =
+                        TypeQueryVisitor::as<StringElement>(mPtr->value.first))
+                    if (ommitSourceMap &&
+                        (strPtr->value.compare("sourceMap") == 0))
+                        continue;
 
-                refract::Visit(*this, *(*i));
-            }
-
-            indentOS(indent);
-            os << "}\n";
+            PrintVisitor{indent + 1, os, ommitSourceMap}(*a);
         }
     }
 
-
     void PrintVisitor::operator()(const IElement& e)
     {
-        indentOS(indent);
-        printMeta(e);
-        printAttr(e);
+        indented() << "+ " << e.element() << '\n';
 
-        VisitBy(e, *this);
+        PrintVisitor pv{indent + 1, os, ommitSourceMap};
+
+        pv.printMeta(e);
+        pv.printAttr(e);
+
+        refract::VisitBy(e, pv);
     }
 
     void PrintVisitor::operator()(const NullElement& e)
     {
-        os << "NullElement(null)" << "\n";
+        indented() << "- Null\n";
     }
 
     void PrintVisitor::operator()(const HolderElement& e)
     {
-        os << "Direct Element(" << e.element() << ") {\n";
-        indentOS(indent + 1);
+        indented() << "- Holder[" << e.element() << "]\n";
 
-        PrintVisitor ps(indent + 1, os);
-        Visitor visitor(ps);
-
-        visitor.visit(*e.value);
-
-        indentOS(indent);
-        os << "}\n";
+        assert(e.value);
+        PrintVisitor{indent + 1, os, ommitSourceMap}(*e.value);
     }
 
     void PrintVisitor::operator()(const StringElement& e)
     {
         const StringElement::ValueType* v = GetValue<StringElement>(e);
-        os << "StringElement(" << *v << ")" << "\n";
+
+        assert(v);
+        indented() << "- String \"" << *v << "\"\n";
     }
 
     void PrintVisitor::operator()(const NumberElement& e)
     {
         const NumberElement::ValueType* v = GetValue<NumberElement>(e);
 
-        os << "NumberElement(";
-        if (v) {
-            os << *v;
-        } else {
-            os << "null";
-        }
-        os << ")" << "\n";
+        assert(v);
+        indented() << "- Number " << *v << "\n";
     }
 
     void PrintVisitor::operator()(const BooleanElement& e)
     {
         const BooleanElement::ValueType* v = GetValue<BooleanElement>(e);
 
-        os << "BooleanElement(";
-        if (v) {
-            os << *v;
-        } else {
-            os << "null";
-        }
-        os << ")" << "\n";
+        assert(v);
+        indented() << "- Boolean " << *v << "\n";
     }
 
     void PrintVisitor::operator()(const RefElement& e)
     {
         const RefElement::ValueType* v = GetValue<RefElement>(e);
-        os << "RefElement(" << *v << ")" << "\n";
+
+        assert(v);
+        indented() << "- RefElement " << *v << "&\n";
     }
 
     void PrintVisitor::operator()(const MemberElement& e)
     {
-        os << "MemberElement {\n";
-        indentOS(indent + 1);
+        indented() << "- MemberElement\n";
 
-        if (e.value.first) {
-            if (StringElement* str = TypeQueryVisitor::as<StringElement>(e.value.first)) {
-                os<< "\"" << str->value << "\": \n";
-            } else {
-                throw std::logic_error("A property's key in the object is not of type string");
-            }
-        }
+        const auto keyPtr = e.value.first;
+        assert(keyPtr);
+        PrintVisitor{indent + 1, os, ommitSourceMap}(*keyPtr);
 
-        if (e.value.second) {
-            PrintVisitor ps(indent + 1, os);
-            refract::Visit(ps, *e.value.second);
-        }
-
-        indentOS(indent);
-        os << "}\n";
+        const auto valuePtr = e.value.second;
+        assert(valuePtr);
+        PrintVisitor{indent + 1, os, ommitSourceMap}(*valuePtr);
     }
 
-    VISIT_IMPL(Array)
-    VISIT_IMPL(Enum)
-    VISIT_IMPL(Object)
-    VISIT_IMPL(Extend)
-    VISIT_IMPL(Option)
-    VISIT_IMPL(Select)
+    void PrintVisitor::operator()(const ArrayElement& e)
+    {
+        printValues(e, "Array");
+    }
+
+    void PrintVisitor::operator()(const EnumElement& e)
+    {
+        printValues(e, "Enum");
+    }
+
+    void PrintVisitor::operator()(const ObjectElement& e)
+    {
+        printValues(e, "Object");
+    }
+
+    void PrintVisitor::operator()(const ExtendElement& e)
+    {
+        printValues(e, "Extend");
+    }
+
+    void PrintVisitor::operator()(const OptionElement& e)
+    {
+        printValues(e, "Option");
+    }
+
+    void PrintVisitor::operator()(const SelectElement& e)
+    {
+        printValues(e, "Select");
+    }
 
     void PrintVisitor::Visit(const IElement& e)
     {
@@ -180,6 +165,6 @@ namespace refract
         refract::Visit(ps, e);
     }
 
-}; // namespace refract
+};  // namespace refract
 
 #undef VISIT_IMPL

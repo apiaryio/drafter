@@ -9,26 +9,37 @@
 #ifndef REFRACT_PRINTVISITOR_H
 #define REFRACT_PRINTVISITOR_H
 
-#include <string>
 #include <ostream>
 
 #include "ElementFwd.h"
 
 namespace refract
 {
-
-    class PrintVisitor 
+    class PrintVisitor
     {
         int indent;
         std::ostream& os;
+        bool ommitSourceMap;
 
-        void indentOS(int ind);
+       private:
+        std::ostream& indented();
+
         void printMeta(const IElement& e);
         void printAttr(const IElement& e);
 
-    public:
+        template <typename T>
+        void printValues(const T& e, const char* name)
+        {
+            indented() << "- " << name << "Element\n";
+            for (const auto& v : e.value) {
+                PrintVisitor{indent + 1, os, ommitSourceMap}(*v);
+            }
+        }
+
+       public:
         PrintVisitor();
-        PrintVisitor(int indentation, std::ostream& os);
+        PrintVisitor(int indentation, std::ostream& os,
+                     bool ommitSourceMap = false);
 
         void operator()(const IElement& e);
         void operator()(const MemberElement& e);
