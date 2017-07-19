@@ -15,13 +15,14 @@
 
 namespace refract
 {
-    PrintVisitor::PrintVisitor() : indent(0), os(std::cerr), ommitSrcMap(false)
+    PrintVisitor::PrintVisitor()
+        : indent(0), os(std::cerr), ommitSourceMap(false)
     {
     }
 
     PrintVisitor::PrintVisitor(int indent_, std::ostream& os_,
-                               bool ommitSrcMap_)
-        : indent(indent_), os(os_), ommitSrcMap(ommitSrcMap_)
+                               bool ommitSourceMap_)
+        : indent(indent_), os(os_), ommitSourceMap(ommitSourceMap_)
     {
     }
 
@@ -38,7 +39,7 @@ namespace refract
         indented() << "- <meta>\n";
 
         for (const auto& m : e.meta) {
-            PrintVisitor{indent + 1, os, ommitSrcMap}(*m);
+            PrintVisitor{indent + 1, os, ommitSourceMap}(*m);
         }
     }
 
@@ -47,7 +48,14 @@ namespace refract
         indented() << "- <attr>\n";
 
         for (const auto& a : e.attributes) {
-            PrintVisitor{indent + 1, os, ommitSrcMap}(*a);
+            if (const auto mPtr = TypeQueryVisitor::as<MemberElement>(a))
+                if (const auto strPtr =
+                        TypeQueryVisitor::as<StringElement>(mPtr->value.first))
+                    if (ommitSourceMap &&
+                        (strPtr->value.compare("sourceMap") == 0))
+                        continue;
+
+            PrintVisitor{indent + 1, os, ommitSourceMap}(*a);
         }
     }
 
@@ -55,12 +63,12 @@ namespace refract
     {
         indented() << "+ " << e.element() << '\n';
 
-        PrintVisitor pv{indent + 1, os, ommitSrcMap};
-
-        refract::VisitBy(e, pv);
+        PrintVisitor pv{indent + 1, os, ommitSourceMap};
 
         pv.printMeta(e);
         pv.printAttr(e);
+
+        refract::VisitBy(e, pv);
     }
 
     void PrintVisitor::operator()(const NullElement& e)
@@ -73,7 +81,7 @@ namespace refract
         indented() << "- Holder[" << e.element() << "]\n";
 
         assert(e.value);
-        PrintVisitor{indent + 1, os, ommitSrcMap}(*e.value);
+        PrintVisitor{indent + 1, os, ommitSourceMap}(*e.value);
     }
 
     void PrintVisitor::operator()(const StringElement& e)
@@ -88,24 +96,16 @@ namespace refract
     {
         const NumberElement::ValueType* v = GetValue<NumberElement>(e);
 
-        auto& out = indented();
-        out << "- Number ";
-        if (v) {
-            out << *v;
-        }
-        out << "\n";
+        assert(v);
+        indented() << "- Number " << *v << "\n";
     }
 
     void PrintVisitor::operator()(const BooleanElement& e)
     {
         const BooleanElement::ValueType* v = GetValue<BooleanElement>(e);
 
-        auto& out = indented();
-        out << "- Boolean ";
-        if (v) {
-            out << *v;
-        }
-        out << "\n";
+        assert(v);
+        indented() << "- Boolean " << *v << "\n";
     }
 
     void PrintVisitor::operator()(const RefElement& e)
@@ -118,29 +118,15 @@ namespace refract
 
     void PrintVisitor::operator()(const MemberElement& e)
     {
-        StringElement* str = TypeQueryVisitor::as<StringElement>(e.value.first);
-        assert(str);
+        indented() << "- MemberElement\n";
 
-        if (ommitSrcMap && (str->value.compare("sourceMap") == 0)) return;
+        const auto keyPtr = e.value.first;
+        assert(keyPtr);
+        PrintVisitor{indent + 1, os, ommitSourceMap}(*keyPtr);
 
-        auto& out = indented();
-        out << "- MemberElement ";
-
-        if (e.value.first) {
-            if (str) {
-                out << '[' << str->value << "]";
-            } else {
-                throw std::logic_error(
-                    "A property's key in the object is not of type string");
-            }
-        }
-
-        if (e.value.second) {
-            out << ":\n";
-            PrintVisitor{indent + 1, out, ommitSrcMap}(*e.value.second);
-        } else {
-            out << "\n";
-        }
+        const auto valuePtr = e.value.second;
+        assert(valuePtr);
+        PrintVisitor{indent + 1, os, ommitSourceMap}(*valuePtr);
     }
 
     void PrintVisitor::operator()(const ArrayElement& e)
