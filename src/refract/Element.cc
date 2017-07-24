@@ -228,7 +228,10 @@ namespace refract
 
                 void operator()(const T& merge) {
                     typedef std::map<std::string, MemberElement*> MapKeyToMember;
+                    typedef std::map<std::string, RefElement*> MapNameToRef;
+
                     MapKeyToMember keysBase;
+                    MapNameToRef refBase;
 
                     for (RefractElements::iterator it = value.begin() ; it != value.end() ; ++it) {
                         if (MemberElement* member = TypeQueryVisitor::as<MemberElement>(*it)) {
@@ -236,6 +239,9 @@ namespace refract
                             if (StringElement* key = TypeQueryVisitor::as<StringElement>(member->value.first)) {
                                 keysBase[key->value] = member;
                             }
+                        }
+                        else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(*it)) {
+                            refBase[ref->value] = ref;
                         }
                     }
 
@@ -257,6 +263,14 @@ namespace refract
                                     value.push_back(clone);
                                     keysBase[key->value] = clone;
                                 }
+                            }
+                        }
+                        else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(*it)) {
+                            if (refBase.find(ref->value) == refBase.end()) {
+                                RefElement* clone =
+                                    static_cast<RefElement*>(member->clone());
+                                value.push_back(clone);
+                                refBase[ref->value] = clone;
                             }
                         }
                         else if(!(*it)->empty()) { // merge member is not MemberElement, append value
@@ -383,6 +397,10 @@ namespace refract
 
                     case TypeQueryVisitor::Enum:
                         doMerge<EnumElement>(result, e);
+                        return;
+
+                    case TypeQueryVisitor::Ref:
+                        doMerge<RefElement>(result, e);
                         return;
 
                     case TypeQueryVisitor::Member:
