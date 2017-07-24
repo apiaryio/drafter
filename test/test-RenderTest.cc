@@ -47,3 +47,4 @@ TEST_REFRACT("render", "issue-328-2");
 
 TEST_REFRACT("render", "fixed-attributes-section");
 TEST_REFRACT("render", "fixed-named-type");
+TEST_REFRACT("render", "mixin-override");
