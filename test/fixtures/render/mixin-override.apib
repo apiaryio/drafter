@@ -1,0 +1,25 @@
+# GET /
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + tasks (array, optional)
+            + (Task)  
+                + name: `one` (string, required)
+            + (Task)
+                + Include Status
+                + name: `two` (string, required)
+
+# Data Structures
+
+## Status
++ status (enum[string])
+    + `CREATED`         
+    + `QUEUED`
+    + `RUNNING`
+    + `FINISHED`
+    + `ERROR`
+
+## Task (object)
++ Include Status
++ name (string, required) - Name of task
