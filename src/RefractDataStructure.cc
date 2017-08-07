@@ -832,7 +832,7 @@ namespace drafter {
             // most safe is check it via refract::TypeQueryVisitor
             descriptionRef = (static_cast<refract::StringElement*>((*iterator)->value.second)->value);
             element->meta.push_back(*iterator);
-            value->meta.std::vector<refract::MemberElement*>::erase(iterator);
+            value->meta.erase(iterator);
             // FIXME: extract source map
         }
         else {
