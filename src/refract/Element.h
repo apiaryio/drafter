@@ -67,16 +67,52 @@ namespace refract
 
     struct IElement
     {
-
-        struct MemberElementCollection : public std::vector<MemberElement*>
+        class MemberElementCollection final
         {
-            virtual const_iterator find(const std::string& name) const;
-            virtual iterator find(const std::string& name);
+            // FIXME raw pointer ownership
+            using Container = std::vector<MemberElement*>;
+            Container elements;
+
+           public:
+            using iterator = typename Container::iterator;
+            using const_iterator = typename Container::const_iterator;
+
+           public:
+            MemberElementCollection() = default;
+            ~MemberElementCollection();
+
+            MemberElementCollection(const MemberElementCollection&) = delete;
+            MemberElementCollection(MemberElementCollection&&) = default;
+
+            MemberElementCollection& operator=(const MemberElementCollection&) = delete;
+            MemberElementCollection& operator=(MemberElementCollection&&) = default;
+
+           public:
+            const_iterator begin() const noexcept { return elements.begin(); }
+            iterator begin() noexcept { return elements.begin(); }
+
+            const_iterator end() const noexcept { return elements.end(); }
+            iterator end() noexcept { return elements.end(); }
+
+            const_iterator find(const std::string& name) const;
+            iterator find(const std::string& name);
+
             MemberElement& operator[](const std::string& name);
-            MemberElement& operator[](const int index);
-            virtual void clone(const MemberElementCollection& other); /// < clone elements from `other` to `this`
-            virtual void erase(const std::string& key);
-            virtual ~MemberElementCollection();
+
+            /// clone elements from `other` to `this`
+            void clone(const MemberElementCollection& other);
+
+            // FIXME erase(const std::string) deletes pointer, whereas erase(iterator) does not
+            void erase(const std::string& key);
+            void erase(iterator it) { elements.erase(it); }
+
+            // FIXME pointers are not deleted
+            void clear() { elements.clear(); }
+
+            void push_back(MemberElement* e) { elements.push_back(e); }
+
+            bool empty() const noexcept { return elements.empty(); }
+            Container::size_type size() const noexcept { return elements.size(); }
         };
 
         MemberElementCollection meta;

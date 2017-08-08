@@ -47,34 +47,29 @@ namespace refract
     {
         ComparableVisitor v(name);
         Visitor visitor(v);
-        const_iterator it;
 
-        for (it = begin(); it != end(); ++it) {
-            (*it)->value.first->content(visitor);
-
-            if (v.get()) {
-                return it;
-            }
-        }
-
-        return it;
+        return std::find_if(elements.begin(), elements.end(),
+                            [&visitor, &v](const MemberElement* e) {
+                                e->value.first->content(visitor);
+                                return v.get();
+                            });
     }
 
     IElement::MemberElementCollection::iterator IElement::MemberElementCollection::find(const std::string& name)
     {
         ComparableVisitor v(name);
         Visitor visitor(v);
-        iterator it;
 
-        for (it = begin(); it != end(); ++it) {
-            (*it)->value.first->content(visitor);
+        return std::find_if(elements.begin(), elements.end(),
+                            [&visitor, &v](const MemberElement* e) {
+                                e->value.first->content(visitor);
+                                return v.get();
+                            });
+    }
 
-            if (v.get()) {
-                return it;
-            }
-        }
-
-        return it;
+    IElement::MemberElementCollection::~MemberElementCollection()
+    {
+        for (MemberElement* e : elements) delete e;
     }
 
     StringElement* IElement::Create(const char* value)
@@ -84,51 +79,30 @@ namespace refract
 
     MemberElement& IElement::MemberElementCollection::operator[](const std::string& name)
     {
-        const_iterator it = find(name);
-        if (it != end()) {
+        auto it = find(name);
+        if (it != elements.end()) {
             return *(*it);
         }
 
-        // key not found - create new one and return reference
-        MemberElement* member = new MemberElement;
-        member->value.first = new StringElement(name);
-        push_back(member);
+        elements.emplace_back(new MemberElement(new StringElement(name), nullptr));
 
-        return *member;
-    }
-
-    IElement::MemberElementCollection::~MemberElementCollection()
-    {
-        for (iterator it = begin(); it != end(); ++it) {
-            delete (*it);
-        }
-
-        clear();
-    }
-
-    MemberElement& IElement::MemberElementCollection::operator[](const int index)
-    {
-        // IDEA : use static assert;
-        throw LogicError("Do not use number index");
+        return *elements.back();
     }
 
     void IElement::MemberElementCollection::clone(const IElement::MemberElementCollection& other)
     {
-        for (const_iterator it = other.begin() ; it != other.end() ; ++it) {
-            push_back(static_cast<value_type>((*it)->clone()));
+        for (const auto& el : other.elements) {
+            elements.emplace_back(static_cast<MemberElement*>(el->clone()));
         }
     }
 
     void IElement::MemberElementCollection::erase(const std::string& key)
     {
-        iterator it = find(key);
+        auto it = find(key);
 
-        if (it != end()) {
-            if (*it) {
-                delete (*it);
-            }
-
-            std::vector<MemberElement*>::erase(it);
+        if (it != elements.end()) {
+            delete *it;
+            elements.erase(it);
         }
     }
 
