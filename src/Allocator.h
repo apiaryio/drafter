@@ -12,9 +12,9 @@ namespace refract
     namespace memory
     {
         ///
-        /// Block of untyped memory
+        /// Untyped block of memory
         ///
-        struct Block {
+        struct block_t {
             void* ptr;
             size_t size;
         };
@@ -27,14 +27,14 @@ namespace refract
         class FallbackAllocator : private Primary, private Fallback
         {
            public:
-            Block allocate(size_t size)
+            block_t allocate(size_t size)
             {
-                Block r = Primary::allocate(size);
+                block_t r = Primary::allocate(size);
                 if (!r.ptr) r = Fallback::allocate(size);
                 return r;
             }
 
-            void deallocate(Block b)
+            void deallocate(block_t b)
             {
                 if (Primary::owns(b))
                     Primary::deallocate(b);
@@ -42,7 +42,7 @@ namespace refract
                     Fallback::deallocate(b);
             }
 
-            bool owns(Block b) const
+            bool owns(block_t b) const
             {
                 return Primary::owns(b) || Fallback::owns(b);
             }
@@ -54,23 +54,23 @@ namespace refract
         class Mallocator
         {
            public:
-            Block allocate(size_t size)
+            block_t allocate(size_t size)
             {
-                return Block{std::malloc(size), size};
+                return block_t{std::malloc(size), size};
             }
 
-            void deallocate(Block b) { std::free(b.ptr); }
+            void deallocate(block_t b) { std::free(b.ptr); }
         };
 
         ///
-        /// Always allocates a block with nullptr and no size; asserts when
-        /// deallocate is called by non-nullptr block.
+        /// Always allocates a block_t with nullptr and no size; asserts when
+        /// deallocate is called by non-nullptr block_t.
         ///
         class NullAllocator
         {
            public:
-            Block allocate(size_t) { return Block{nullptr, 0}; }
-            void deallocate(Block b) { assert(!b.ptr); }
+            block_t allocate(size_t) { return block_t{nullptr, 0}; }
+            void deallocate(block_t b) { assert(!b.ptr); }
         };
 
         ///
@@ -94,21 +94,21 @@ namespace refract
             StackAllocator() : p_(b_) {}
 
            public:
-            Block allocate(size_t n) noexcept
+            block_t allocate(size_t n) noexcept
             {
                 auto n1 = round_aligned(n);
-                if (n1 > (b_ + Size) - p_) return Block{nullptr, 0};
-                Block result{p_, n};
+                if (n1 > (b_ + Size) - p_) return block_t{nullptr, 0};
+                block_t result{p_, n};
                 p_ += n1;
                 return result;
             }
 
-            void deallocate(Block b) noexcept
+            void deallocate(block_t b) noexcept
             {
                 if (b.ptr + round_aligned(b.size) == p_) p_ = b.ptr;
             }
 
-            bool owns(Block b) const noexcept
+            bool owns(block_t b) const noexcept
             {
                 return b.ptr >= b_ && b.ptr < b_ + Size;
             }
@@ -116,29 +116,46 @@ namespace refract
             void deallocateAll() noexcept { p_ = b_; }
         };
 
+        ///
+        /// Functor calling deallocate with a block of captured size on captured
+        /// allocator
+        ///
         template <typename Allocator>
         struct deleter {
-            Allocator& alloc;
-            size_t size;
+            Allocator& alloc;  /// allocator to be deallocated from
+            size_t size;       /// amount to be deallocated
 
+            ///
+            /// Deallocate captured amount of bytes beginning at given address,
+            /// using captured allocator
+            ///
+            /// @param ptr address to be deallocated from
+            ///
             template <typename T>
             void operator()(T* ptr)
             {
-                alloc.deallocate(memory::Block{ptr, size});
+                alloc.deallocate(block_t{ptr, size});
             }
         };
-    }
 
-    template <typename T, typename Allocator, typename... Args>
-    auto make_unique(Allocator& alloc, Args&&... args)
-    {
-        using namespace memory;
+        ///
+        /// Create an instance of T in memory provided by allocator alloc
+        ///
+        /// @params args    arguments to T's constructor
+        ///
+        /// @return unique_ptr calling deallocate on provided allocator upon
+        /// destruction
+        ///
+        template <typename T, typename Allocator, typename... TArgs>
+        auto make_unique_alloc(Allocator& alloc, TArgs&&... args)
+        {
+            auto blk = alloc.allocate(sizeof(T));
+            assert(blk.ptr);
 
-        Block blk = alloc.allocate(sizeof(T));
-        assert(blk.ptr);
-
-        return std::unique_ptr<T, memory::deleter<Allocator>>{
-            new (blk.ptr) T(std::forward<Args>(args)...), {alloc, blk.size}};
+            return std::unique_ptr<T, memory::deleter<Allocator>>{
+                new (blk.ptr) T(std::forward<TArgs>(args)...),
+                {alloc, blk.size}};
+        }
     }
 
     using DefaultAllocator =
