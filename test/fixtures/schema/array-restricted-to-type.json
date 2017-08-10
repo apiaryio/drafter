@@ -119,21 +119,21 @@
                                           {
                                             "element": "number",
                                             "attributes": {
-                                              "typeAttributes": {
-                                                "element": "array",
-                                                "content": [
-                                                  {
-                                                    "element": "string",
-                                                    "content": "fixed"
-                                                  }
-                                                ]
-                                              },
                                               "samples": {
                                                 "element": "array",
                                                 "content": [
                                                   {
                                                     "element": "number",
                                                     "content": 5
+                                                  }
+                                                ]
+                                              },
+                                              "typeAttributes": {
+                                                "element": "array",
+                                                "content": [
+                                                  {
+                                                    "element": "string",
+                                                    "content": "fixed"
                                                   }
                                                 ]
                                               }
