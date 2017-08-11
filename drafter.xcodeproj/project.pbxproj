@@ -18,7 +18,6 @@
 		19A1298F1B70ABE100366AA7 /* SerializeResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129791B70ABE100366AA7 /* SerializeResult.h */; };
 		19A129921B70ABE100366AA7 /* stream.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A1297C1B70ABE100366AA7 /* stream.h */; };
 		19A129931B70ABE100366AA7 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A1297D1B70ABE100366AA7 /* Version.h */; };
-		19A129AF1B70AC9A00366AA7 /* AppendDecorator.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129971B70AC9A00366AA7 /* AppendDecorator.h */; };
 		19A129B01B70AC9A00366AA7 /* ComparableVisitor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A129981B70AC9A00366AA7 /* ComparableVisitor.cc */; };
 		19A129B11B70AC9A00366AA7 /* ComparableVisitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 19A129991B70AC9A00366AA7 /* ComparableVisitor.h */; };
 		19A129B21B70AC9A00366AA7 /* Element.cc in Sources */ = {isa = PBXBuildFile; fileRef = 19A1299A1B70AC9A00366AA7 /* Element.cc */; };
@@ -141,7 +140,6 @@
 		19A129791B70ABE100366AA7 /* SerializeResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SerializeResult.h; path = src/SerializeResult.h; sourceTree = SOURCE_ROOT; };
 		19A1297C1B70ABE100366AA7 /* stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stream.h; path = src/stream.h; sourceTree = SOURCE_ROOT; };
 		19A1297D1B70ABE100366AA7 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Version.h; path = src/Version.h; sourceTree = SOURCE_ROOT; };
-		19A129971B70AC9A00366AA7 /* AppendDecorator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppendDecorator.h; path = src/refract/AppendDecorator.h; sourceTree = SOURCE_ROOT; };
 		19A129981B70AC9A00366AA7 /* ComparableVisitor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ComparableVisitor.cc; path = src/refract/ComparableVisitor.cc; sourceTree = SOURCE_ROOT; };
 		19A129991B70AC9A00366AA7 /* ComparableVisitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComparableVisitor.h; path = src/refract/ComparableVisitor.h; sourceTree = SOURCE_ROOT; };
 		19A1299A1B70AC9A00366AA7 /* Element.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Element.cc; path = src/refract/Element.cc; sourceTree = SOURCE_ROOT; };
@@ -291,7 +289,6 @@
 		19A129961B70AC7B00366AA7 /* refract */ = {
 			isa = PBXGroup;
 			children = (
-				19A129971B70AC9A00366AA7 /* AppendDecorator.h */,
 				400F53F61C5989F1004EA235 /* Build.h */,
 				19A129981B70AC9A00366AA7 /* ComparableVisitor.cc */,
 				19A129991B70AC9A00366AA7 /* ComparableVisitor.h */,
@@ -424,7 +421,6 @@
 				400F53FD1C5989F1004EA235 /* Build.h in Headers */,
 				40D03D4F1C182FBD008AD2EF /* VisitorUtils.h in Headers */,
 				19A129B81B70AC9A00366AA7 /* IsExpandableVisitor.h in Headers */,
-				19A129AF1B70AC9A00366AA7 /* AppendDecorator.h in Headers */,
 				40DDBDD81BE14EA700B10819 /* RefractSourceMap.h in Headers */,
 				19A129931B70ABE100366AA7 /* Version.h in Headers */,
 				19A129921B70ABE100366AA7 /* stream.h in Headers */,

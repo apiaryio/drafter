@@ -1,5 +1,6 @@
 #include "RefractElementFactory.h"
 #include "refract/Element.h"
+#include "ElementData.h"
 
 #include "Serialize.h"        // LiteralTo<>
 #include "SourceAnnotation.h" // mson::Error
@@ -7,12 +8,15 @@
 namespace drafter
 {
 
-    template <typename E, typename V = typename E::ValueType>
-    struct RefractElementFactoryImpl : RefractElementFactory {
+    template <typename E, bool IsPrimitive = ElementData<E>::IsPrimitive> struct RefractElementFactoryImpl;
 
-        RefractElementFactoryImpl()
-        {
-        }
+    template <typename E>
+    struct RefractElementFactoryImpl<E, true> : RefractElementFactory
+    {
+
+        typedef typename E::ValueType ValueType;
+
+        RefractElementFactoryImpl() {}
 
         virtual refract::IElement* Create(const std::string& literal, FactoryCreateMethod method) const
         {
@@ -24,20 +28,22 @@ namespace drafter
 
             switch (method) {
                 case eSample: {
-                    refract::ArrayElement* samples = new refract::ArrayElement;
-                    std::pair<bool, typename E::ValueType> value = LiteralTo<typename E::ValueType>(literal);
-                    if (value.first) {
-                        samples->push_back(refract::IElement::Create(value.second));
+                        refract::ArrayElement* samples = new refract::ArrayElement;
+                        std::pair<bool, ValueType> value = LiteralTo<ValueType>(literal);
+                        if (value.first) {
+                            samples->push_back(refract::IElement::Create(value.second));
+                        }
+                        element->attributes[SerializeKey::Samples] = samples;
                     }
-                    element->attributes[SerializeKey::Samples] = samples;
-                } break;
+                    break;
 
                 case eValue: {
-                    std::pair<bool, V> value = LiteralTo<V>(literal);
-                    if (value.first) {
-                        element->set(value.second);
+                        std::pair<bool, ValueType> value = LiteralTo<ValueType>(literal);
+                        if (value.first) {
+                            element->set(value.second);
+                        }
                     }
-                } break;
+                    break;
 
                 case eElement:
                     element->element(literal);
@@ -49,11 +55,10 @@ namespace drafter
     };
 
     template <typename E>
-    struct RefractElementFactoryImpl<E, refract::RefractElements> : RefractElementFactory {
+    struct RefractElementFactoryImpl<E, false> : RefractElementFactory
+    {
 
-        RefractElementFactoryImpl()
-        {
-        }
+        RefractElementFactoryImpl() {}
 
         virtual refract::IElement* Create(const std::string& literal, FactoryCreateMethod method) const
         {
@@ -84,22 +89,23 @@ namespace drafter
         static const RefractElementFactoryImpl<refract::ArrayElement> arrayFactory;
         static const RefractElementFactoryImpl<refract::ObjectElement> objectFactory;
 
-        switch (typeName) {
-            case mson::BooleanTypeName:
+         switch (typeName) {
+             case mson::BooleanTypeName:
                 return boolFactory;
-            case mson::NumberTypeName:
+             case mson::NumberTypeName:
                 return numberFactory;
-            case mson::StringTypeName:
+             case mson::StringTypeName:
                 return stringFactory;
             case mson::ArrayTypeName:
                 return arrayFactory;
             case mson::EnumTypeName:
                 return enumFactory;
-            case mson::ObjectTypeName:
-            case mson::UndefinedTypeName:
+             case mson::ObjectTypeName:
+             case mson::UndefinedTypeName:
                 return objectFactory;
-            default:; // do nothing
-        }
+             default:
+                 ; // do nothing
+         }
 
         throw snowcrash::Error("unknown mson type", snowcrash::ApplicationError);
     }

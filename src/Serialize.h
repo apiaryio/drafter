@@ -95,6 +95,7 @@ namespace drafter
         static const std::string Type;
         static const std::string Required;
         static const std::string Default;
+        static const std::string Enumerations;
         static const std::string Nullable;
         static const std::string Example;
         static const std::string Values;
