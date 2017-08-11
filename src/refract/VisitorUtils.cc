@@ -46,7 +46,6 @@ namespace refract
                 delete merged;
 
                 return key;
-
             }
 
             delete merged;
@@ -54,5 +53,4 @@ namespace refract
 
         return std::string();
     }
-
 }

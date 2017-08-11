@@ -9,7 +9,7 @@
 #include "drafter.h"
 
 #include "snowcrash.h"
-#include "SectionParserData.h"  // snowcrash::BlueprintParserOptions
+#include "SectionParserData.h" // snowcrash::BlueprintParserOptions
 
 #include "sos.h"
 #include "sosJSON.h"
@@ -42,9 +42,7 @@ sos::Serialize* CreateSerializer(const drafter::SerializeFormat& format)
 /**
  * \brief Serialize sos::Object into stream
  */
-void Serialization(std::ostream *stream,
-                   const sos::Object& object,
-                   sos::Serialize* serializer)
+void Serialization(std::ostream* stream, const sos::Object& object, sos::Serialize* serializer)
 {
     serializer->process(object, *stream);
     *stream << "\n";
@@ -58,14 +56,12 @@ int ProcessRefract(const Config& config, std::unique_ptr<std::istream>& in, std:
 
     drafter_serialize_options options;
     options.sourcemap = config.sourceMap;
-    options.format = config.format == drafter::YAMLFormat
-       ? DRAFTER_SERIALIZE_YAML
-       : DRAFTER_SERIALIZE_JSON;
+    options.format = config.format == drafter::YAMLFormat ? DRAFTER_SERIALIZE_YAML : DRAFTER_SERIALIZE_JSON;
 
     refract::IElement* result = nullptr;
 
     // TODO: Read parse options from CLI
-    drafter_parse_options parseOptions = {false};
+    drafter_parse_options parseOptions = { false };
 
     int ret = drafter_parse_blueprint(inputStream.str().c_str(), &result, parseOptions);
 
@@ -77,9 +73,7 @@ int ProcessRefract(const Config& config, std::unique_ptr<std::istream>& in, std:
         char* output = drafter_serialize(result, options);
 
         if (output) {
-            *out << output
-                 << "\n"
-                 << std::flush;
+            *out << output << "\n" << std::flush;
 
             free(output);
         }
@@ -92,7 +86,7 @@ int ProcessRefract(const Config& config, std::unique_ptr<std::istream>& in, std:
     return ret;
 }
 
-int main(int argc, const char *argv[])
+int main(int argc, const char* argv[])
 {
     Config config;
     ParseCommadLineOptions(argc, argv, config);

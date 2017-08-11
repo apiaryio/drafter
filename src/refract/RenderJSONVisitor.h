@@ -21,8 +21,8 @@ namespace refract
     {
         IElement* result;
         IElement* enumValue;
-    public:
 
+    public:
         RenderJSONVisitor();
         virtual ~RenderJSONVisitor();
 
@@ -38,15 +38,15 @@ namespace refract
         void operator()(const BooleanElement& e);
         void operator()(const ExtendElement& e);
 
-        // FIXME: throwning - not implemented 
+        // FIXME: throwning - not implemented
         // need to resolve in ApplyVisitor
-        //void operator()(const HolderElement& e);
-        //void operator()(const RefElement& e);
-        //void operator()(const OptionElement& e);
-        //void operator()(const SelectElement& e);
+        // void operator()(const HolderElement& e);
+        // void operator()(const RefElement& e);
+        // void operator()(const OptionElement& e);
+        // void operator()(const SelectElement& e);
 
         std::string getString() const;
-        IElement* getOwnership(); 
+        IElement* getOwnership();
     };
 }
 

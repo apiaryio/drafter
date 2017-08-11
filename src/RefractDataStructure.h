@@ -11,16 +11,16 @@
 
 #include "Serialize.h"
 
-namespace drafter {
+namespace drafter
+{
 
     class ConversionContext;
 
-    refract::IElement* MSONToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context);
+    refract::IElement* MSONToRefract(
+        const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context);
     refract::IElement* ExpandRefract(refract::IElement* element, ConversionContext& context);
 
     sos::Object SerializeRefract(refract::IElement*, ConversionContext& context);
-
 }
 
 #endif // #ifndef DRAFTER_REFRACTDATASTRUCTURE_H
-

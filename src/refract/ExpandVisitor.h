@@ -16,7 +16,8 @@ namespace refract
 
     class Registry;
 
-    class ExpandVisitor {
+    class ExpandVisitor
+    {
 
     public:
         struct Context;
@@ -50,7 +51,6 @@ namespace refract
         IElement* get() const;
 
     private:
-
         IElement* result;
         Context* context;
     };

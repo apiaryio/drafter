@@ -19,9 +19,7 @@
  *  \param source Source data
  *  \param useLineNumbers True if the annotations needs to be printed by line and column number
  */
-void PrintReport(const snowcrash::Report& report,
-                 const std::string& source,
-                 const bool useLineNumbers);
+void PrintReport(const snowcrash::Report& report, const std::string& source, const bool useLineNumbers);
 
 /**
  *  \brief Print parser report to stderr.
@@ -31,9 +29,6 @@ void PrintReport(const snowcrash::Report& report,
  *  \param useLineNumbers True if the annotations needs to be printed by line and column number
  *  \param error - code form parsing
  */
-void PrintReport(const drafter_result*,
-                 const std::string& source,
-                 const bool useLineNumbers,
-                 const int error);
+void PrintReport(const drafter_result*, const std::string& source, const bool useLineNumbers, const int error);
 
 #endif // #ifndef DRAFTER_REPORTING_H

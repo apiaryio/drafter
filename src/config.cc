@@ -13,29 +13,36 @@
 
 #include "Version.h"
 
-namespace config {
-    static const std::string Program          = "drafter";
+namespace config
+{
+    static const std::string Program = "drafter";
 
-    static const std::string Output           = "output";
-    static const std::string Format           = "format";
-    static const std::string Sourcemap        = "sourcemap";
-    static const std::string Help             = "help";
-    static const std::string Validate         = "validate";
-    static const std::string Version          = "version";
-    static const std::string UseLineNumbers   = "use-line-num";
+    static const std::string Output = "output";
+    static const std::string Format = "format";
+    static const std::string Sourcemap = "sourcemap";
+    static const std::string Help = "help";
+    static const std::string Validate = "validate";
+    static const std::string Version = "version";
+    static const std::string UseLineNumbers = "use-line-num";
 };
 
 void PrepareCommanLineParser(cmdline::parser& parser)
 {
     parser.set_program_name(config::Program);
 
-    parser.add<std::string>(config::Output,    'o', "save output Parse Result into file", false);
-    parser.add<std::string>(config::Format,    'f', "output format of the Parse Result (yaml|json)", false, "yaml", cmdline::oneof<std::string>("yaml", "json"));
-    parser.add(config::Sourcemap,              's', "export sourcemap in the Parse Result");
-    parser.add(config::Help,                   'h', "display this help message");
-    parser.add(config::Version ,               'v', "print Drafter version");
-    parser.add(config::Validate,               'l', "validate input only, do not output Parse Result");
-    parser.add(config::UseLineNumbers ,        'u', "use line and row number instead of character index when printing annotation");
+    parser.add<std::string>(config::Output, 'o', "save output Parse Result into file", false);
+    parser.add<std::string>(config::Format,
+        'f',
+        "output format of the Parse Result (yaml|json)",
+        false,
+        "yaml",
+        cmdline::oneof<std::string>("yaml", "json"));
+    parser.add(config::Sourcemap, 's', "export sourcemap in the Parse Result");
+    parser.add(config::Help, 'h', "display this help message");
+    parser.add(config::Version, 'v', "print Drafter version");
+    parser.add(config::Validate, 'l', "validate input only, do not output Parse Result");
+    parser.add(
+        config::UseLineNumbers, 'u', "use line and row number instead of character index when printing annotation");
 
     std::stringstream ss;
 
@@ -63,10 +70,9 @@ void ValidateParsedCommandLine(const cmdline::parser& parser, const Config& conf
             std::cerr << "WARN: While validation is enabled, output file will not be created" << std::endl;
         }
     }
-
 }
 
-void ParseCommadLineOptions(int argc, const char *argv[], /* out */Config& conf)
+void ParseCommadLineOptions(int argc, const char* argv[], /* out */ Config& conf)
 {
     cmdline::parser parser;
     PrepareCommanLineParser(parser);
@@ -77,11 +83,11 @@ void ParseCommadLineOptions(int argc, const char *argv[], /* out */Config& conf)
         conf.input = parser.rest().front();
     }
 
-    conf.lineNumbers      = parser.exist(config::UseLineNumbers);
-    conf.validate         = parser.exist(config::Validate);
-    conf.format           = parser.get<std::string>(config::Format) == "json" ? drafter::JSONFormat : drafter::YAMLFormat;
-    conf.output           = parser.get<std::string>(config::Output);
-    conf.sourceMap        = parser.exist(config::Sourcemap);
+    conf.lineNumbers = parser.exist(config::UseLineNumbers);
+    conf.validate = parser.exist(config::Validate);
+    conf.format = parser.get<std::string>(config::Format) == "json" ? drafter::JSONFormat : drafter::YAMLFormat;
+    conf.output = parser.get<std::string>(config::Output);
+    conf.sourceMap = parser.exist(config::Sourcemap);
 
     ValidateParsedCommandLine(parser, conf);
 }

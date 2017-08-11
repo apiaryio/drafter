@@ -25,4 +25,3 @@ refract::IElement* drafter::SourceMapToRefract(const mdp::CharactersRangeSet& so
 
     return element;
 }
-

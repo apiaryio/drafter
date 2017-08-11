@@ -31,7 +31,6 @@ struct Config {
  *
  *  side effect - can call exit() if wrong params are sent to program
  */
-void ParseCommadLineOptions(int argc, const char *argv[], /** out */Config& conf);
-
+void ParseCommadLineOptions(int argc, const char* argv[], /** out */ Config& conf);
 
 #endif /* end of include guard: DRAFTER_CONFIG_H */

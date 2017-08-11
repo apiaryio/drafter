@@ -8,8 +8,11 @@
 #include "Element.h"
 #include "TypeQueryVisitor.h"
 
-
-#define VISIT_IMPL( ELEMENT ) void TypeQueryVisitor::operator()(const ELEMENT ## Element& e) { typeInfo = ELEMENT; }
+#define VISIT_IMPL(ELEMENT)                                                                                            \
+    void TypeQueryVisitor::operator()(const ELEMENT##Element& e)                                                       \
+    {                                                                                                                  \
+        typeInfo = ELEMENT;                                                                                            \
+    }
 
 namespace refract
 {
@@ -23,7 +26,6 @@ namespace refract
         VisitBy(e, query);
         typeInfo = query.get();
     }
-
 
     VISIT_IMPL(Null)
     VISIT_IMPL(Holder)

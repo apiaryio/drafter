@@ -45,7 +45,8 @@ TEST_REFRACT("schema", "sample-fixed");
 
 // FIXME: Discuss it with hj, as current drafter seems legit
 // boutique version of schema
-//   "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"list\": {}\n  }\n}"
+//   "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n
+//   \"properties\": {\n    \"list\": {}\n  }\n}"
 TEST_REFRACT("schema", "sample-inline-variable");
 
 TEST_REFRACT("schema", "boolean-literal");
@@ -60,9 +61,17 @@ TEST_REFRACT("schema", "array-fixed-type");
 TEST_REFRACT("schema", "array-fixed-type-attributes");
 TEST_REFRACT("schema", "array-fixed-type-object");
 
-//FIXME: Discuss it with hj, as current drafter seems legit
-//boutique version of schema
-//"content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"tags\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\",\n          \"enum\": [\n           \"hello\"\n          ]\n        },\n        {\n          \"type\": \"number\"\n        },\n        {\n          \"type\": \"object\",\n          \"properties\": {\n            \"name\": {\n              \"type\": \"string\"\n            },\n            \"color\": {\n              \"type\": \"string\",\n              \"enum\": [\"white\"]\n            },\n            \"description\": {\n              \"type\": \"string\"\n            }\n          },\n          \"additionalProperties\": false,\n          \"required\": [\"name\", \"color\", \"description\"]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\"world\"]\n        }\n      ]\n    }\n  },\n  \"required\": [\"tags\"]\n}"
+// FIXME: Discuss it with hj, as current drafter seems legit
+// boutique version of schema
+//"content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\":
+//{\n    \"tags\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\",\n
+//\"enum\": [\n           \"hello\"\n          ]\n        },\n        {\n          \"type\": \"number\"\n        },\n
+//{\n          \"type\": \"object\",\n          \"properties\": {\n            \"name\": {\n              \"type\":
+//\"string\"\n            },\n            \"color\": {\n              \"type\": \"string\",\n              \"enum\":
+//[\"white\"]\n            },\n            \"description\": {\n              \"type\": \"string\"\n            }\n
+//},\n          \"additionalProperties\": false,\n          \"required\": [\"name\", \"color\", \"description\"]\n
+//},\n        {\n          \"type\": \"string\",\n          \"enum\": [\"world\"]\n        }\n      ]\n    }\n  },\n
+//\"required\": [\"tags\"]\n}"
 TEST_REFRACT("schema", "array-fixed-samples-complex");
 
 TEST_REFRACT("schema", "array-restricted-to-type");
@@ -101,7 +110,6 @@ TEST_REFRACT("schema", "variable-property-fixed-type2");
 // we are looking for solution how to correctly define Schema,
 // But currently is this solution "good enough"
 //
- TEST_REFRACT("schema", "one-of");
- TEST_REFRACT("schema", "one-of-complex");
- TEST_REFRACT("schema", "one-of-properties");
-
+TEST_REFRACT("schema", "one-of");
+TEST_REFRACT("schema", "one-of-complex");
+TEST_REFRACT("schema", "one-of-properties");

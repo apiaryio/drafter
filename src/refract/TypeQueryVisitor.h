@@ -14,12 +14,11 @@
 namespace refract
 {
 
-    class TypeQueryVisitor 
+    class TypeQueryVisitor
     {
 
     public:
-        typedef enum
-        {
+        typedef enum {
             Null,
             Holder,
 
@@ -45,7 +44,6 @@ namespace refract
         ElementType typeInfo;
 
     public:
-
         TypeQueryVisitor();
 
         void operator()(const IElement& e);
@@ -65,7 +63,7 @@ namespace refract
 
         ElementType get() const;
 
-        template<typename E>
+        template <typename E>
         static E* as(IElement* e)
         {
             if (!e) {
@@ -86,7 +84,7 @@ namespace refract
             return static_cast<E*>(e);
         }
 
-        template<typename E>
+        template <typename E>
         static const E* as(const IElement* e)
         {
             if (!e) {
@@ -106,7 +104,6 @@ namespace refract
 
             return static_cast<const E*>(e);
         }
-
     };
 
 }; // namespace refract

@@ -11,7 +11,8 @@
 namespace refract
 {
 
-    ComparableVisitor::ComparableVisitor(const std::string& str, const int compare) : compare_to(str), result(false), compare(compare)
+    ComparableVisitor::ComparableVisitor(const std::string& str, const int compare)
+        : compare_to(str), result(false), compare(compare)
     {
     }
 
@@ -22,8 +23,7 @@ namespace refract
 
         if (compare == key && e.value.first) {
             e.value.first->content(visitor);
-        }
-        else if (e.value.second) {
+        } else if (e.value.second) {
             e.value.second->content(visitor);
         }
 

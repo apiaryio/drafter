@@ -11,17 +11,20 @@
 
 #include "Serialize.h"
 
-namespace snowcrash {
+namespace snowcrash
+{
     struct SourceAnnotation;
 }
 
-namespace drafter {
+namespace drafter
+{
 
     class ConversionContext;
 
     refract::IElement* AnnotationToRefract(const snowcrash::SourceAnnotation& annotation, const std::string& key);
 
-    refract::IElement* DataStructureToRefract(const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context);
+    refract::IElement* DataStructureToRefract(
+        const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context);
     refract::IElement* BlueprintToRefract(const NodeInfo<snowcrash::Blueprint>& blueprint, ConversionContext& context);
 }
 

@@ -20,34 +20,43 @@ namespace refract
     struct ElementInsertIterator : public std::iterator<std::output_iterator_tag, void, void, void, void> {
         T* element;
 
-        ElementInsertIterator(T& element) : element(&element) {}
+        ElementInsertIterator(T& element) : element(&element)
+        {
+        }
 
-        ElementInsertIterator(const ElementInsertIterator& other) : element(other.element) {}
+        ElementInsertIterator(const ElementInsertIterator& other) : element(other.element)
+        {
+        }
 
         ElementInsertIterator& operator=(const ElementInsertIterator& other) = default;
         ElementInsertIterator& operator=(ElementInsertIterator&& other) = default;
 
-        ElementInsertIterator& operator=(refract::IElement* e) {
+        ElementInsertIterator& operator=(refract::IElement* e)
+        {
             element->push_back(e);
             return *this;
         }
 
-        ElementInsertIterator& operator=(const refract::IElement* e) {
+        ElementInsertIterator& operator=(const refract::IElement* e)
+        {
             element->push_back(e);
             return *this;
         }
 
-        ElementInsertIterator& operator++() {
+        ElementInsertIterator& operator++()
+        {
             return *this;
         }
 
-        ElementInsertIterator& operator*() {
+        ElementInsertIterator& operator*()
+        {
             return *this;
         }
     };
 
     template <typename T>
-    ElementInsertIterator<T> ElementInserter(T& element) {
+    ElementInsertIterator<T> ElementInserter(T& element)
+    {
         return ElementInsertIterator<T>(element);
     }
 

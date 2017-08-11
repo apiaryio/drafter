@@ -20,23 +20,27 @@ namespace refract
 
             template <typename U, bool dummy = true>
             struct Impl {
-                void operator()(IApply* apply, Visitor&, const U&) {
+                void operator()(IApply* apply, Visitor&, const U&)
+                {
                 }
             };
 
             template <bool dummy>
-            struct Impl <RefractElements, dummy> {
-                void operator()(IApply* apply, Visitor& v, const RefractElements& e) {
-                    for (RefractElements::const_iterator i = e.begin() ; i != e.end() ; ++i) {
-                        if (!(*i)) continue;
+            struct Impl<RefractElements, dummy> {
+                void operator()(IApply* apply, Visitor& v, const RefractElements& e)
+                {
+                    for (RefractElements::const_iterator i = e.begin(); i != e.end(); ++i) {
+                        if (!(*i))
+                            continue;
                         (*i)->content(v);
                     }
                 }
             };
 
             template <bool dummy>
-            struct Impl <MemberElement::ValueType, dummy> {
-                void operator()(IApply* apply, Visitor& v, const MemberElement::ValueType& e) {
+            struct Impl<MemberElement::ValueType, dummy> {
+                void operator()(IApply* apply, Visitor& v, const MemberElement::ValueType& e)
+                {
                     if (e.first) {
                         e.first->content(v);
                     }
@@ -47,17 +51,18 @@ namespace refract
                 }
             };
 
-            void operator()(IApply* apply, Visitor& iterable, const T& e) {
+            void operator()(IApply* apply, Visitor& iterable, const T& e)
+            {
                 apply->visit(e);
-                Impl<V>()(apply, iterable ,e.value);
+                Impl<V>()(apply, iterable, e.value);
             }
         };
 
         template <typename T>
-        void operator()(IApply* apply, Visitor& iterable, const T& e) {
+        void operator()(IApply* apply, Visitor& iterable, const T& e)
+        {
             Iterate<T>()(apply, iterable, e);
         }
-
     };
 
     struct Children {
@@ -67,46 +72,53 @@ namespace refract
 
             template <typename U, bool dummy = true>
             struct Impl {
-                void operator()(Children* strategy, IApply* apply, Visitor&, const U&) {
+                void operator()(Children* strategy, IApply* apply, Visitor&, const U&)
+                {
                 }
             };
 
             template <bool dummy>
-            struct Impl <RefractElements, dummy> {
-                void operator()(Children* strategy, IApply* apply, Visitor& v, const RefractElements& e) {
+            struct Impl<RefractElements, dummy> {
+                void operator()(Children* strategy, IApply* apply, Visitor& v, const RefractElements& e)
+                {
                     if (strategy->level) { // we need no go deeply
                         return;
                     }
 
                     strategy->level++;
-                    for (RefractElements::const_iterator i = e.begin() ; i != e.end() ; ++i) {
-                        if (!(*i)) continue;
+                    for (RefractElements::const_iterator i = e.begin(); i != e.end(); ++i) {
+                        if (!(*i))
+                            continue;
                         (*i)->content(v);
                     }
                     strategy->level--;
                 }
             };
 
-            void operator()(Children* strategy, IApply* apply, Visitor& iterable, const T& e) {
-                Impl<V>()(strategy, apply, iterable ,e.value);
+            void operator()(Children* strategy, IApply* apply, Visitor& iterable, const T& e)
+            {
+                Impl<V>()(strategy, apply, iterable, e.value);
             }
         };
 
         int level;
-        Children() : level(0) {}
+        Children() : level(0)
+        {
+        }
 
         template <typename T>
-        void operator()(IApply* apply, Visitor& iterable, const T& e) {
+        void operator()(IApply* apply, Visitor& iterable, const T& e)
+        {
             if (level == 1) {
                 apply->visit(e);
             }
             Iterate<T>()(this, apply, iterable, e);
         }
-
     };
 
     template <typename Strategy = Recursive>
-    class Iterate {
+    class Iterate
+    {
 
         struct Impl {
 
@@ -114,16 +126,18 @@ namespace refract
             Visitor* iterator;
             IApply* apply;
 
-            void operator()(const IElement& e) {
+            void operator()(const IElement& e)
+            {
                 // redirect to concrete override
                 e.content(*iterator);
             }
 
             template <typename T>
-            void operator()(const T& e) {
+            void operator()(const T& e)
+            {
                 if (!apply) {
                     return;
-                    //apply->visit(e);
+                    // apply->visit(e);
                 }
                 (*strategy)(apply, *iterator, e);
             }
@@ -135,25 +149,26 @@ namespace refract
         IApply* apply;
 
     public:
-
         template <typename Functor>
-        explicit Iterate(Functor& functor) : impl(), iterator(impl), strategy(), apply(new ApplyImpl<Functor>(functor)) {
+        explicit Iterate(Functor& functor) : impl(), iterator(impl), strategy(), apply(new ApplyImpl<Functor>(functor))
+        {
             impl.strategy = &strategy;
             impl.iterator = &iterator;
             impl.apply = apply;
         }
 
-        ~Iterate() {
+        ~Iterate()
+        {
             if (apply) {
                 delete apply;
             }
         }
 
-        void operator()(const IElement& e) {
+        void operator()(const IElement& e)
+        {
             iterator.visit(e);
         }
     };
-
 
 }; // namespace refract
 

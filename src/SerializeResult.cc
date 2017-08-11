@@ -22,22 +22,26 @@
 
 using namespace drafter;
 
-namespace helper {
+namespace helper
+{
 
     struct AnnotationToRefract {
 
         const std::string& key;
 
-        AnnotationToRefract(const std::string& key) : key(key) {}
+        AnnotationToRefract(const std::string& key) : key(key)
+        {
+        }
 
-        refract::IElement* operator()(snowcrash::SourceAnnotation& annotation) {
+        refract::IElement* operator()(snowcrash::SourceAnnotation& annotation)
+        {
             return drafter::AnnotationToRefract(annotation, key);
         }
     };
 }
 
-refract::IElement* drafter::WrapRefract(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-                                                   ConversionContext& context)
+refract::IElement* drafter::WrapRefract(
+    snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, ConversionContext& context)
 {
     snowcrash::Error error;
     refract::IElement* blueprintRefract = NULL;
@@ -47,13 +51,12 @@ refract::IElement* drafter::WrapRefract(snowcrash::ParseResult<snowcrash::Bluepr
 
     if (blueprint.report.error.code == snowcrash::Error::OK) {
         try {
-            RegisterNamedTypes(MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()), context);
+            RegisterNamedTypes(
+                MakeNodeInfo(blueprint.node.content.elements(), blueprint.sourceMap.content.elements()), context);
             blueprintRefract = BlueprintToRefract(MakeNodeInfo(blueprint.node, blueprint.sourceMap), context);
-        }
-        catch (std::exception& e) {
+        } catch (std::exception& e) {
             error = snowcrash::Error(e.what(), snowcrash::MSONError);
-        }
-        catch (snowcrash::Error& e) {
+        } catch (snowcrash::Error& e) {
             error = e;
         }
 
@@ -79,9 +82,10 @@ refract::IElement* drafter::WrapRefract(snowcrash::ParseResult<snowcrash::Bluepr
     }
 
     if (!warnings.empty()) {
-        std::transform(warnings.begin(), warnings.end(),
-                       refract::ElementInserter(*parseResult),
-                       helper::AnnotationToRefract(SerializeKey::Warning));
+        std::transform(warnings.begin(),
+            warnings.end(),
+            refract::ElementInserter(*parseResult),
+            helper::AnnotationToRefract(SerializeKey::Warning));
     }
 
     return parseResult;

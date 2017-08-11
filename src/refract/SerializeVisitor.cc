@@ -16,7 +16,8 @@ namespace refract
 
     namespace
     {
-        sos::Object SerializeElementCollection(const IElement::MemberElementCollection& collection, bool generateSourceMap)
+        sos::Object SerializeElementCollection(
+            const IElement::MemberElementCollection& collection, bool generateSourceMap)
         {
             typedef IElement::MemberElementCollection::const_iterator iterator;
 
@@ -27,7 +28,7 @@ namespace refract
                 StringElement* key = TypeQueryVisitor::as<StringElement>((*it)->value.first);
 
                 if (!generateSourceMap) {
-                    if (key && key->value == "sourceMap"){
+                    if (key && key->value == "sourceMap") {
                         continue;
                     }
                 }
@@ -48,7 +49,8 @@ namespace refract
         }
 
         template <typename T>
-        sos::Array SerializeValueList(const T& e, bool generateSourceMap) {
+        sos::Array SerializeValueList(const T& e, bool generateSourceMap)
+        {
             sos::Array array;
             typedef typename T::ValueType::const_iterator iterator;
 
@@ -142,7 +144,6 @@ namespace refract
 
         SetSerializerValue(*this, value);
     }
-
 
     void SosSerializeVisitor::operator()(const MemberElement& e)
     {

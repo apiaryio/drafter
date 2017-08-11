@@ -16,15 +16,19 @@
 namespace refract
 {
 
-    class SosSerializeCompactVisitor 
+    class SosSerializeCompactVisitor
     {
         std::string key_;
         sos::Base value_;
         bool generateSourceMap;
 
     public:
-        SosSerializeCompactVisitor() : generateSourceMap(true) {}
-        SosSerializeCompactVisitor(bool generateSourceMap) : generateSourceMap(generateSourceMap) {}
+        SosSerializeCompactVisitor() : generateSourceMap(true)
+        {
+        }
+        SosSerializeCompactVisitor(bool generateSourceMap) : generateSourceMap(generateSourceMap)
+        {
+        }
 
         void operator()(const IElement& e);
         void operator()(const NullElement& e);
@@ -50,7 +54,6 @@ namespace refract
         {
             return value_;
         }
-
     };
 
 }; // namespace refract

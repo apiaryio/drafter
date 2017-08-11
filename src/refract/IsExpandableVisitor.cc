@@ -14,7 +14,8 @@ namespace refract
     namespace
     {
         struct CheckElement {
-            bool checkElement(const IElement* e) const {
+            bool checkElement(const IElement* e) const
+            {
                 std::string type;
 
                 if (e) {
@@ -27,7 +28,8 @@ namespace refract
 
         template <typename T, typename V = typename T::ValueType>
         struct IsExpandable : public CheckElement {
-            bool operator()(const T* e) const {
+            bool operator()(const T* e) const
+            {
 
                 if (checkElement(e)) {
                     return true;
@@ -39,7 +41,8 @@ namespace refract
 
         template <typename T>
         struct IsExpandable<T, RefElement::ValueType> : public CheckElement {
-            bool operator()(const T* e) const {
+            bool operator()(const T* e) const
+            {
 
                 return true;
             }
@@ -47,13 +50,14 @@ namespace refract
 
         template <typename T>
         struct IsExpandable<T, SelectElement::ValueType> : public CheckElement {
-            bool operator()(const T* e) const {
+            bool operator()(const T* e) const
+            {
 
                 if (checkElement(e)) {
                     return true;
                 }
 
-                for (std::vector<OptionElement*>::const_iterator i = e->value.begin() ; i != e->value.end() ; ++i ) {
+                for (std::vector<OptionElement*>::const_iterator i = e->value.begin(); i != e->value.end(); ++i) {
                     IsExpandableVisitor v;
                     VisitBy(*(*i), v);
 
@@ -68,7 +72,8 @@ namespace refract
 
         template <typename T>
         struct IsExpandable<T, MemberElement::ValueType> : public CheckElement {
-            bool operator()(const T* e) const {
+            bool operator()(const T* e) const
+            {
 
                 if (checkElement(e)) {
                     return true;
@@ -96,13 +101,14 @@ namespace refract
 
         template <typename T>
         struct IsExpandable<T, RefractElements> : public CheckElement {
-            bool operator()(const T* e) const {
+            bool operator()(const T* e) const
+            {
 
                 if (checkElement(e)) {
                     return true;
                 }
 
-                for (std::vector<IElement*>::const_iterator i = e->value.begin() ; i != e->value.end() ; ++i ) {
+                for (std::vector<IElement*>::const_iterator i = e->value.begin(); i != e->value.end(); ++i) {
                     IsExpandableVisitor v;
                     VisitBy(*(*i), v);
 
@@ -116,15 +122,19 @@ namespace refract
         };
     } // anonymous namespace
 
-    IsExpandableVisitor::IsExpandableVisitor() : result(false) {}
+    IsExpandableVisitor::IsExpandableVisitor() : result(false)
+    {
+    }
 
-    template<typename T>
-    void IsExpandableVisitor::operator()(const T& e) {
+    template <typename T>
+    void IsExpandableVisitor::operator()(const T& e)
+    {
         result = IsExpandable<T>()(&e);
     }
 
-    template<>
-    void IsExpandableVisitor::operator()(const IElement& e) {
+    template <>
+    void IsExpandableVisitor::operator()(const IElement& e)
+    {
         VisitBy(e, *this);
     }
 
@@ -143,7 +153,8 @@ namespace refract
     template void IsExpandableVisitor::operator()<OptionElement>(const OptionElement&);
     template void IsExpandableVisitor::operator()<SelectElement>(const SelectElement&);
 
-    bool IsExpandableVisitor::get() const {
+    bool IsExpandableVisitor::get() const
+    {
         return result;
     }
 

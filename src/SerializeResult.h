@@ -12,15 +12,18 @@
 #include "Serialize.h"
 #include "SectionParserData.h"
 
-namespace snowcrash {
+namespace snowcrash
+{
     struct SourceAnnotation;
 }
 
-namespace refract {
+namespace refract
+{
     struct IElement;
 }
 
-namespace drafter {
+namespace drafter
+{
 
     class ConversionContext;
 

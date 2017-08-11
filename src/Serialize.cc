@@ -13,7 +13,8 @@
 
 using namespace drafter;
 
-namespace drafter {
+namespace drafter
+{
 
     refract::ArrayElement* CreateArrayElement(refract::IElement* value)
     {
@@ -67,7 +68,7 @@ const std::string SerializeKey::Role = "role";
 
 const std::string SerializeKey::Version = "_version";
 const std::string SerializeKey::Ast = "ast";
-const std::string SerializeKey::Sourcemap= "sourcemap";
+const std::string SerializeKey::Sourcemap = "sourcemap";
 const std::string SerializeKey::Error = "error";
 const std::string SerializeKey::Warning = "warning";
 const std::string SerializeKey::Warnings = "warnings";
@@ -115,8 +116,8 @@ const std::string SerializeKey::ParseResult = "parseResult";
 const std::string SerializeKey::Annotation = "annotation";
 const std::string SerializeKey::SourceMap = "sourceMap";
 
-
-namespace drafter {
+namespace drafter
+{
 
     template <>
     std::pair<bool, bool> LiteralTo<bool>(const mson::Literal& literal)
@@ -139,10 +140,9 @@ namespace drafter {
         const char* end = literal.c_str() + literal.length();
         if (pos == end) {
             valid = true;
-        }
-        else {
+        } else {
             // check for trailing whitespaces
-            valid = (literal.end() != std::find_if(literal.begin() + (end-pos), literal.end(), ::isspace));
+            valid = (literal.end() != std::find_if(literal.begin() + (end - pos), literal.end(), ::isspace));
         }
 
         return std::make_pair(valid, value);

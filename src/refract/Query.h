@@ -16,21 +16,22 @@
 namespace refract
 {
 
-    namespace query {
+    namespace query
+    {
 
         typedef std::function<bool(const IElement&)> Query;
 
-        class Element {
+        class Element
+        {
             const std::string name;
 
         public:
-
-            Element(const std::string& name) : name(name) {}
+            Element(const std::string& name) : name(name)
+            {
+            }
 
             bool operator()(const IElement& e);
-
         };
-
     };
 
 }; // namespace refract

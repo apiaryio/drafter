@@ -35,5 +35,4 @@ namespace refract
     struct SelectElement;
 }
 
-
 #endif /* #ifndef REFRACT_ELEMENTFWD_H */

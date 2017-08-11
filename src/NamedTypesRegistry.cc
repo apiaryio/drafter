@@ -23,25 +23,28 @@
 #include <iostream>
 #endif /* DEBUG_DEPENDENCIES */
 
-namespace drafter {
+namespace drafter
+{
 
-    namespace {
+    namespace
+    {
 
         typedef std::vector<NodeInfo<snowcrash::DataStructure> > DataStructures;
 
         void FindNamedTypes(NodeInfoCollection<snowcrash::Elements>& elements, DataStructures& found)
         {
 
-            for (NodeInfoCollection<snowcrash::Elements>::const_iterator i = elements.begin(); i != elements.end(); ++i) {
+            for (NodeInfoCollection<snowcrash::Elements>::const_iterator i = elements.begin(); i != elements.end();
+                 ++i) {
 
                 if (i->node->element == snowcrash::Element::DataStructureElement) {
                     found.push_back(MakeNodeInfo(i->node->content.dataStructure, i->sourceMap->content.dataStructure));
-                }
-                else if (!i->node->content.resource.attributes.empty()) {
-                    found.push_back(MakeNodeInfo(i->node->content.resource.attributes, i->sourceMap->content.resource.attributes));
-                }
-                else if (i->node->element == snowcrash::Element::CategoryElement) {
-                    NodeInfoCollection<snowcrash::Elements> children(MakeNodeInfo(i->node->content.elements(), i->sourceMap->content.elements()));
+                } else if (!i->node->content.resource.attributes.empty()) {
+                    found.push_back(
+                        MakeNodeInfo(i->node->content.resource.attributes, i->sourceMap->content.resource.attributes));
+                } else if (i->node->element == snowcrash::Element::CategoryElement) {
+                    NodeInfoCollection<snowcrash::Elements> children(
+                        MakeNodeInfo(i->node->content.elements(), i->sourceMap->content.elements()));
                     FindNamedTypes(children, found);
                 }
             }
@@ -60,75 +63,80 @@ namespace drafter {
             typedef std::map<std::string, const snowcrash::DataStructure*> ElementMap;
             ElementMap nameToElement;
 
-            const std::string& parent(const snowcrash::DataStructure* ds) const {
+            const std::string& parent(const snowcrash::DataStructure* ds) const
+            {
                 return ds->typeDefinition.typeSpecification.name.symbol.literal;
             }
 
-            bool hasParent(const snowcrash::DataStructure* ds) const {
+            bool hasParent(const snowcrash::DataStructure* ds) const
+            {
                 return !parent(ds).empty();
             }
 
-            const std::string& name(const mson::TypeName& tn) const {
+            const std::string& name(const mson::TypeName& tn) const
+            {
                 return tn.symbol.literal;
             }
 
-            const std::string& name(const snowcrash::DataStructure* ds) const {
+            const std::string& name(const snowcrash::DataStructure* ds) const
+            {
                 return ds->name.symbol.literal;
             }
 
-            const std::string& name(const mson::TypeSpecification& ts) const {
+            const std::string& name(const mson::TypeSpecification& ts) const
+            {
                 return ts.name.symbol.literal;
             }
 
-            const std::string& name(const mson::ValueDefinition& vd) const {
+            const std::string& name(const mson::ValueDefinition& vd) const
+            {
                 return name(vd.typeDefinition.typeSpecification);
             }
 
-            const std::string& name(const mson::ValueMember& vm) const {
+            const std::string& name(const mson::ValueMember& vm) const
+            {
                 return name(vm.valueDefinition);
             }
 
-            const std::string& name(const mson::PropertyMember& pm) const {
+            const std::string& name(const mson::PropertyMember& pm) const
+            {
                 return name(pm.valueDefinition);
             }
 
-            const std::string& name(const mson::Mixin& mx) const {
+            const std::string& name(const mson::Mixin& mx) const
+            {
                 return name(mx.typeSpecification);
             }
 
-            Members collectMembers(const mson::Elements& elements) {
+            Members collectMembers(const mson::Elements& elements)
+            {
                 Members members;
 
-                for (mson::Elements::const_iterator it = elements.begin() ; it != elements.end() ; ++it) {
+                for (mson::Elements::const_iterator it = elements.begin(); it != elements.end(); ++it) {
 
                     std::string member;
                     const mson::TypeSections* ts = NULL;
                     const mson::TypeNames* tn = NULL;
 
-                    if (!it->content.value.empty() ) {
+                    if (!it->content.value.empty()) {
                         if (!name(it->content.value).empty()) {
                             member = name(it->content.value);
-                        }
-                        else {
+                        } else {
                             ts = &it->content.value.sections;
                         }
-                    }
-                    else if (!it->content.property.empty()) {
-                        if(!name(it->content.property).empty()) {
+                    } else if (!it->content.property.empty()) {
+                        if (!name(it->content.property).empty()) {
                             member = name(it->content.property);
-                        }
-                        else if (!name(it->content.property.name.variable).empty()) {
+                        } else if (!name(it->content.property.name.variable).empty()) {
                             member = name(it->content.property.name.variable);
-                        }
-                        else if (!it->content.property.valueDefinition.typeDefinition.typeSpecification.nestedTypes.empty()) {
+                        } else if (!it->content.property.valueDefinition.typeDefinition.typeSpecification.nestedTypes
+                                        .empty()) {
                             // - name (array|enum[<nested>, <type>])
                             tn = &it->content.property.valueDefinition.typeDefinition.typeSpecification.nestedTypes;
-                        }
-                        else {
+                        } else {
                             ts = &it->content.property.sections;
                         }
-                    }
-                    else if (!it->content.mixin.empty()) {
+                    } else if (!it->content.mixin.empty()) {
                         if (!name(it->content.mixin).empty()) {
                             member = name(it->content.mixin);
                         }
@@ -136,12 +144,10 @@ namespace drafter {
 
                     if (!member.empty()) {
                         members.insert(member);
-                    }
-                    else if (ts) {
+                    } else if (ts) {
                         Members sub = collectMembers(*ts);
                         members.insert(sub.begin(), sub.end());
-                    }
-                    else if (tn) {
+                    } else if (tn) {
                         Members sub = collectMembers(*tn);
                         members.insert(sub.begin(), sub.end());
                     }
@@ -150,11 +156,12 @@ namespace drafter {
                 return members;
             }
 
-            Members collectMembers(const mson::TypeSections& ts) {
+            Members collectMembers(const mson::TypeSections& ts)
+            {
                 Members members;
 
                 // map direct members
-                for (mson::TypeSections::const_iterator its = ts.begin() ; its != ts.end() ; ++its) {
+                for (mson::TypeSections::const_iterator its = ts.begin(); its != ts.end(); ++its) {
                     Members sub = collectMembers(its->content.elements());
                     members.insert(sub.begin(), sub.end());
                 }
@@ -162,21 +169,24 @@ namespace drafter {
                 return members;
             }
 
-            Members collectMembers(const mson::TypeNames& tn) {
+            Members collectMembers(const mson::TypeNames& tn)
+            {
                 Members members;
 
-                for (mson::TypeNames::const_iterator itn = tn.begin() ; itn != tn.end() ; ++itn) {
+                for (mson::TypeNames::const_iterator itn = tn.begin(); itn != tn.end(); ++itn) {
                     members.insert(name(*itn));
                 }
 
                 return members;
             }
 
-            Members collectMembers(const snowcrash::DataStructure* ds) {
+            Members collectMembers(const snowcrash::DataStructure* ds)
+            {
                 return collectMembers(ds->sections);
             }
 
-            Members collectMembers(const std::string& id, const MembersMap& members, Members& resolved) {
+            Members collectMembers(const std::string& id, const MembersMap& members, Members& resolved)
+            {
                 Members collected;
 
                 if (resolved.find(id) != resolved.end()) {
@@ -190,7 +200,7 @@ namespace drafter {
                     return collected;
                 }
 
-                for (Members::const_iterator i = member->second.begin() ; i != member->second.end() ; ++i) {
+                for (Members::const_iterator i = member->second.begin(); i != member->second.end(); ++i) {
                     Members sub = collectMembers(*i, members, resolved);
                     collected.insert(*i);
                     collected.insert(sub.begin(), sub.end());
@@ -199,10 +209,11 @@ namespace drafter {
                 return collected;
             }
 
-            DependencyTypeInfo(const DataStructures& elements) {
+            DependencyTypeInfo(const DataStructures& elements)
+            {
 
                 // map inheritance && element
-                for (DataStructures::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
+                for (DataStructures::const_iterator i = elements.begin(); i != elements.end(); ++i) {
 
                     nameToElement[name(i->node)] = &(*i->node);
 
@@ -212,35 +223,36 @@ namespace drafter {
 #ifdef DEBUG_DEPENDENCIES
                         std::cout << "Parent: " << name(i->node) << "=>" << parent(i->node) << std::endl;
 #endif
-
                     }
                 }
 
                 // Map members
                 MembersMap members;
-                for (DataStructures::const_iterator i = elements.begin() ; i != elements.end() ; ++i) {
+                for (DataStructures::const_iterator i = elements.begin(); i != elements.end(); ++i) {
                     members[name(i->node)] = collectMembers(i->node);
                 }
 
                 // Map members into deep
-                for (MembersMap::const_iterator i = members.begin() ; i != members.end() ; ++i) {
+                for (MembersMap::const_iterator i = members.begin(); i != members.end(); ++i) {
                     Members resolved;
                     objectToMembers[i->first] = collectMembers(i->first, members, resolved);
                 }
 
 #ifdef DEBUG_DEPENDENCIES
                 // debug out members
-                for (MembersMap::const_iterator i = objectToMembers.begin() ; i != objectToMembers.end() ; ++i) {
+                for (MembersMap::const_iterator i = objectToMembers.begin(); i != objectToMembers.end(); ++i) {
                     std::cout << "Members: " << i->first << std::endl;
-                    for (Members::const_iterator it = objectToMembers[i->first].begin() ; it != objectToMembers[i->first].end() ; ++it) {
+                    for (Members::const_iterator it = objectToMembers[i->first].begin();
+                         it != objectToMembers[i->first].end();
+                         ++it) {
                         std::cout << " - " << *it << std::endl;
                     }
                 }
 #endif /* DEBUG_DEPENDENCIES */
-
             }
 
-            bool hasMember(const snowcrash::DataStructure* object, const snowcrash::DataStructure* member) const {
+            bool hasMember(const snowcrash::DataStructure* object, const snowcrash::DataStructure* member) const
+            {
                 MembersMap::const_iterator members = objectToMembers.find(name(object));
                 if (members == objectToMembers.end()) {
                     return false;
@@ -249,11 +261,12 @@ namespace drafter {
                 return members->second.find(name(member)) != members->second.end();
             }
 
-            bool hasAncestor(const snowcrash::DataStructure* object, const snowcrash::DataStructure* ancestor) const {
+            bool hasAncestor(const snowcrash::DataStructure* object, const snowcrash::DataStructure* ancestor) const
+            {
                 std::string s = name(object);
                 const std::string& isAncestor = name(ancestor);
 
-                while(!s.empty()) {
+                while (!s.empty()) {
                     if (s == isAncestor) {
                         return true;
                     }
@@ -269,14 +282,16 @@ namespace drafter {
                 return false;
             }
 
-            mson::BaseTypeName GetType(const snowcrash::DataStructure* ds) const {
+            mson::BaseTypeName GetType(const snowcrash::DataStructure* ds) const
+            {
                 return ds->typeDefinition.typeSpecification.name.base;
             }
 
-            mson::BaseTypeName ResolveType(const snowcrash::DataStructure* object) const {
+            mson::BaseTypeName ResolveType(const snowcrash::DataStructure* object) const
+            {
                 std::string s = name(object);
 
-                while(!s.empty()) {
+                while (!s.empty()) {
                     ElementMap::const_iterator ei = nameToElement.find(s);
                     if (ei == nameToElement.end()) {
                         return mson::UndefinedTypeName;
@@ -284,7 +299,7 @@ namespace drafter {
 
                     mson::BaseTypeName type = GetType(ei->second);
 
-                    if ( type != mson::UndefinedTypeName) {
+                    if (type != mson::UndefinedTypeName) {
                         return type;
                     }
 
@@ -298,14 +313,15 @@ namespace drafter {
 
                 return mson::UndefinedTypeName;
             }
-
         };
 
         struct InheritanceComparator {
 
             const DependencyTypeInfo& typeInfo;
 
-            InheritanceComparator(const DependencyTypeInfo& typeInfo) : typeInfo(typeInfo) {}
+            InheritanceComparator(const DependencyTypeInfo& typeInfo) : typeInfo(typeInfo)
+            {
+            }
 
             /* This is a comparator for std::sort so it has to compare
              * objects in strictly weak ordering otherwise it would crash
@@ -317,7 +333,8 @@ namespace drafter {
              * names to provide some ordering for all objects as we don't
              * really care.
              */
-            bool operator()(DataStructures::const_reference first, DataStructures::const_reference second) {
+            bool operator()(DataStructures::const_reference first, DataStructures::const_reference second)
+            {
 
                 if (typeInfo.hasAncestor(first.node, second.node) || typeInfo.hasMember(first.node, second.node)) {
                     return false;
@@ -364,7 +381,7 @@ namespace drafter {
                 context.GetNamedTypesRegistry().add(element);
             } catch (refract::LogicError& e) {
                 std::ostringstream out;
-                out << name  << " is a reserved keyword and cannot be used.";
+                out << name << " is a reserved keyword and cannot be used.";
                 throw snowcrash::Error(out.str(), snowcrash::MSONError, i->sourceMap->name.sourceMap);
             }
         }
@@ -391,7 +408,7 @@ namespace drafter {
                     context.GetNamedTypesRegistry().add(element);
                 } catch (refract::LogicError& e) {
                     std::ostringstream out;
-                    out << name  << " is a reserved keyword and cannot be used.";
+                    out << name << " is a reserved keyword and cannot be used.";
                     throw snowcrash::Error(out.str(), snowcrash::MSONError, i->sourceMap->name.sourceMap);
                 }
             }
@@ -400,6 +417,5 @@ namespace drafter {
 #ifdef DEBUG_DEPENDENCIES
         std::cout << "==DEPENDENCIES INFO END==" << std::endl;
 #endif /* DEBUG_DEPENDENCIES */
-
     }
 } // ns drafter

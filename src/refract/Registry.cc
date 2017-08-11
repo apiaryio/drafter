@@ -86,7 +86,8 @@ namespace refract
         return true;
     }
 
-    bool Registry::remove(const std::string& name) {
+    bool Registry::remove(const std::string& name)
+    {
         Map::iterator i = registrated.find(name);
 
         if (i == registrated.end()) {
@@ -97,13 +98,14 @@ namespace refract
         return true;
     }
 
-    template<typename T>
+    template <typename T>
     static void DeleteSecond(T& pair)
     {
         delete pair.second;
     }
 
-    void Registry::clearAll(bool releaseElements) {
+    void Registry::clearAll(bool releaseElements)
+    {
         if (releaseElements) {
             std::for_each(registrated.begin(), registrated.end(), DeleteSecond<Map::value_type>);
         }

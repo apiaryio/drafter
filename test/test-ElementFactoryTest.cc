@@ -5,11 +5,11 @@
 
 #include "RefractElementFactory.h"
 
-
 using namespace refract;
 using namespace drafter;
 
-TEST_CASE("Create empty primitive element","[ElementFactory]") {
+TEST_CASE("Create empty primitive element", "[ElementFactory]")
+{
     const RefractElementFactory& factory = FactoryFromType(mson::StringTypeName);
     IElement* e = factory.Create(std::string(), eValue);
 
@@ -23,7 +23,8 @@ TEST_CASE("Create empty primitive element","[ElementFactory]") {
     delete e;
 }
 
-TEST_CASE("Create primitive element w/ value","[ElementFactory]") {
+TEST_CASE("Create primitive element w/ value", "[ElementFactory]")
+{
     const RefractElementFactory& factory = FactoryFromType(mson::NumberTypeName);
     IElement* e = factory.Create("42", eValue);
 
@@ -37,7 +38,8 @@ TEST_CASE("Create primitive element w/ value","[ElementFactory]") {
     delete e;
 }
 
-TEST_CASE("Create primitive element w/ sample","[ElementFactory]") {
+TEST_CASE("Create primitive element w/ sample", "[ElementFactory]")
+{
     const RefractElementFactory& factory = FactoryFromType(mson::NumberTypeName);
     IElement* e = factory.Create("42", eSample);
 
@@ -53,7 +55,8 @@ TEST_CASE("Create primitive element w/ sample","[ElementFactory]") {
     delete e;
 }
 
-TEST_CASE("Create primitive element w/ element","[ElementFactory]") {
+TEST_CASE("Create primitive element w/ element", "[ElementFactory]")
+{
     const RefractElementFactory& factory = FactoryFromType(mson::NumberTypeName);
     IElement* e = factory.Create("NAMED", eElement);
 
@@ -67,7 +70,8 @@ TEST_CASE("Create primitive element w/ element","[ElementFactory]") {
     delete e;
 }
 
-TEST_CASE("Create empty complex element","[ElementFactory]") {
+TEST_CASE("Create empty complex element", "[ElementFactory]")
+{
     const RefractElementFactory& factory = FactoryFromType(mson::EnumTypeName);
     IElement* e = factory.Create(std::string(), eValue);
 
@@ -81,7 +85,8 @@ TEST_CASE("Create empty complex element","[ElementFactory]") {
     delete e;
 }
 
-TEST_CASE("Create complex named element","[ElementFactory]") {
+TEST_CASE("Create complex named element", "[ElementFactory]")
+{
     const RefractElementFactory& factory = FactoryFromType(mson::ObjectTypeName);
     IElement* e = factory.Create("NAMED", eElement);
 
@@ -95,7 +100,8 @@ TEST_CASE("Create complex named element","[ElementFactory]") {
     delete e;
 }
 
-TEST_CASE("Create element as generic","[ElementFactory]") {
+TEST_CASE("Create element as generic", "[ElementFactory]")
+{
     const RefractElementFactory& factory = FactoryFromType(mson::EnumTypeName);
     IElement* e = factory.Create("Enumerator", eSample);
 
