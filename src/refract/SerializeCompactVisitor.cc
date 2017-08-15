@@ -42,7 +42,8 @@ namespace refract
         value_ = sos::Boolean(e.value);
     }
 
-    namespace {
+    namespace
+    {
 
         template <typename Values>
         void SerializeValues(sos::Array& array, const Values& values, bool generateSourceMap)
@@ -121,6 +122,5 @@ namespace refract
         SerializeValues(array, e.value, generateSourceMap);
         value_ = array;
     }
-
 
 }; // namespace refract

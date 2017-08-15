@@ -12,11 +12,13 @@
 #include <string>
 #include "MSON.h"
 
-namespace refract {
+namespace refract
+{
     struct IElement;
 }
 
-namespace drafter {
+namespace drafter
+{
 
     /**
      * This interface is used while conversion from legacy AST
@@ -44,15 +46,17 @@ namespace drafter {
      * Code will be deprecated (refactoring or remove) after remove legacy AST.
      */
 
-    enum FactoryCreateMethod {
+    enum FactoryCreateMethod
+    {
         eValue,
         eSample,
         eElement,
     };
 
-    struct RefractElementFactory
-    {
-        virtual ~RefractElementFactory() {}
+    struct RefractElementFactory {
+        virtual ~RefractElementFactory()
+        {
+        }
         virtual refract::IElement* Create(const std::string& literal, FactoryCreateMethod type) const = 0;
     };
 
@@ -61,7 +65,6 @@ namespace drafter {
      * it is due to thread safety
      */
     const RefractElementFactory& FactoryFromType(const mson::BaseTypeName typeName);
-
 }
 
 #endif /* #ifndef DRAFTER_REFRACTELEMENTFACTORY_H */

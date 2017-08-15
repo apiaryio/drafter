@@ -14,14 +14,18 @@
 
 #include <sstream>
 
-#include"SourceAnnotation.h"
+#include "SourceAnnotation.h"
 
 #include "IsExpandableVisitor.h"
 #include "ExpandVisitor.h"
 #include "TypeQueryVisitor.h"
 #include "VisitorUtils.h"
 
-#define VISIT_IMPL( ELEMENT ) void ExpandVisitor::operator()(const ELEMENT ## Element& e) { result = Expand(e, context); }
+#define VISIT_IMPL(ELEMENT)                                                                                            \
+    void ExpandVisitor::operator()(const ELEMENT##Element& e)                                                          \
+    {                                                                                                                  \
+        result = Expand(e, context);                                                                                   \
+    }
 
 namespace refract
 {
@@ -58,7 +62,8 @@ namespace refract
         struct ExpandValueImpl {
 
             template <typename Functor>
-            T operator()(const T& value, Functor&) {
+            T operator()(const T& value, Functor&)
+            {
                 return value;
             }
         };
@@ -67,10 +72,11 @@ namespace refract
         struct ExpandValueImpl<RefractElements> {
 
             template <typename Functor>
-            RefractElements operator()(const RefractElements& value, Functor& expand) {
+            RefractElements operator()(const RefractElements& value, Functor& expand)
+            {
                 RefractElements members;
 
-                for (RefractElements::const_iterator it = value.begin() ; it != value.end() ; ++it) {
+                for (RefractElements::const_iterator it = value.begin(); it != value.end(); ++it) {
                     members.push_back(expand(*it));
                 }
 
@@ -85,9 +91,8 @@ namespace refract
 
             // FIXME: add check against recursive inheritance
             // walk recursive in registry and expand inheritance tree
-            for (const IElement* parent = registry.find(en)
-                ; parent && !isReserved(en)
-                ; en = parent->element(), parent = registry.find(en)) {
+            for (const IElement *parent = registry.find(en); parent && !isReserved(en);
+                 en = parent->element(), parent = registry.find(en)) {
 
                 inheritance.push(parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId));
                 inheritance.top()->meta["ref"] = IElement::Create(en);
@@ -103,7 +108,7 @@ namespace refract
             // FIXME: posible solution while referenced type is not found in regisry
             // \see test/fixtures/mson-resource-unresolved-reference.apib
             //
-            //if (e->value.empty()) {
+            // if (e->value.empty()) {
             //   e->meta["ref"] = IElement::Create(name);
             //}
 
@@ -116,7 +121,9 @@ namespace refract
         const Registry& registry;
         ExpandVisitor* expand;
 
-        Context(const Registry& registry, ExpandVisitor* expand) : registry(registry), expand(expand) {}
+        Context(const Registry& registry, ExpandVisitor* expand) : registry(registry), expand(expand)
+        {
+        }
 
         IElement* ExpandOrClone(const IElement* e)
         {
@@ -136,12 +143,13 @@ namespace refract
         }
 
         template <typename V>
-        V ExpandValue(const V& v) {
+        V ExpandValue(const V& v)
+        {
             auto expandOrClone = std::bind(&ExpandVisitor::Context::ExpandOrClone, this, std::placeholders::_1);
             return ExpandValueImpl<V>()(v, expandOrClone);
         }
 
-        template<typename T>
+        template <typename T>
         T* ExpandMembers(const T& e)
         {
             T* o = new T;
@@ -160,7 +168,7 @@ namespace refract
         template <typename T>
         IElement* ExpandNamedType(const T& e)
         {
-            
+
             // Look for Circular Reference thro members
             if (std::find(members.begin(), members.end(), e.element()) != members.end()) {
                 // To avoid unfinised recursion just clone
@@ -200,7 +208,7 @@ namespace refract
             if (std::find(members.begin(), members.end(), ref->value) != members.end()) {
 
                 std::stringstream msg;
-                msg <<  "named type '";
+                msg << "named type '";
                 msg << ref->value;
                 msg << "' is circularly referencing itself by mixin";
 
@@ -219,21 +227,22 @@ namespace refract
 
             return ref;
         }
-
     };
 
     template <typename T, typename V = typename T::ValueType>
     struct ExpandElement {
         IElement* result;
 
-        ExpandElement(const T& e, ExpandVisitor::Context* context) : result(NULL) {
+        ExpandElement(const T& e, ExpandVisitor::Context* context) : result(NULL)
+        {
 
             if (!isReserved(e.element())) { // expand named type
                 result = context->ExpandNamedType(e);
             }
         }
 
-        operator IElement* () {
+        operator IElement*()
+        {
             return result;
         }
     };
@@ -242,13 +251,15 @@ namespace refract
     struct ExpandElement<RefElement, RefElement::ValueType> {
         IElement* result;
 
-        ExpandElement(const RefElement& e, ExpandVisitor::Context* context) : result(NULL) {
+        ExpandElement(const RefElement& e, ExpandVisitor::Context* context) : result(NULL)
+        {
 
             // expand reference
             result = context->ExpandReference(e);
         }
 
-        operator IElement* () {
+        operator IElement*()
+        {
             return result;
         }
     };
@@ -257,9 +268,10 @@ namespace refract
     struct ExpandElement<T, SelectElement::ValueType> {
         IElement* result;
 
-        ExpandElement(const T& e, ExpandVisitor::Context* context) : result(NULL) {
+        ExpandElement(const T& e, ExpandVisitor::Context* context) : result(NULL)
+        {
 
-            if (!Expandable(e)) {  // do we have some expandable members?
+            if (!Expandable(e)) { // do we have some expandable members?
                 return;
             }
 
@@ -273,7 +285,8 @@ namespace refract
             result = o;
         }
 
-        operator IElement* () {
+        operator IElement*()
+        {
             return result;
         }
     };
@@ -282,9 +295,10 @@ namespace refract
     struct ExpandElement<T, RefractElements> {
         IElement* result;
 
-        ExpandElement(const T& e, ExpandVisitor::Context* context) : result(NULL) {
+        ExpandElement(const T& e, ExpandVisitor::Context* context) : result(NULL)
+        {
 
-            if (!Expandable(e)) {  // do we have some expandable members?
+            if (!Expandable(e)) { // do we have some expandable members?
                 return;
             }
 
@@ -292,13 +306,13 @@ namespace refract
 
             if (!isReserved(en)) { // expand named type
                 result = context->ExpandNamedType(e);
-            }
-            else { // walk throught members and expand them
+            } else { // walk throught members and expand them
                 result = context->ExpandMembers(e);
             }
         }
 
-        operator IElement* () {
+        operator IElement*()
+        {
             return result;
         }
     };
@@ -307,7 +321,8 @@ namespace refract
     struct ExpandElement<T, MemberElement::ValueType> {
         IElement* result;
 
-        ExpandElement(const T& e, ExpandVisitor::Context* context) : result(NULL) {
+        ExpandElement(const T& e, ExpandVisitor::Context* context) : result(NULL)
+        {
 
             if (!Expandable(e)) {
                 return;
@@ -319,31 +334,39 @@ namespace refract
             result = expanded;
         }
 
-        operator IElement* () {
+        operator IElement*()
+        {
             return result;
         }
     };
 
     template <typename T>
-    inline IElement* Expand(const T& e, ExpandVisitor::Context* context) {
+    inline IElement* Expand(const T& e, ExpandVisitor::Context* context)
+    {
         return ExpandElement<T>(e, context);
     }
 
-    ExpandVisitor::ExpandVisitor(const Registry& registry) : result(NULL), context(new Context(registry, this)) {};
+    ExpandVisitor::ExpandVisitor(const Registry& registry) : result(NULL), context(new Context(registry, this)){};
 
-    ExpandVisitor::~ExpandVisitor() {
+    ExpandVisitor::~ExpandVisitor()
+    {
         delete context;
     }
 
-    void ExpandVisitor::operator()(const IElement& e) {
+    void ExpandVisitor::operator()(const IElement& e)
+    {
         VisitBy(e, *this);
     }
 
     // do nothing, DirectElements are not expandable
-    void ExpandVisitor::operator()(const HolderElement& e) {}
+    void ExpandVisitor::operator()(const HolderElement& e)
+    {
+    }
 
     // do nothing, NullElements are not expandable
-    void ExpandVisitor::operator()(const NullElement& e) {}
+    void ExpandVisitor::operator()(const NullElement& e)
+    {
+    }
 
     VISIT_IMPL(String)
     VISIT_IMPL(Number)
@@ -357,7 +380,8 @@ namespace refract
     VISIT_IMPL(Option)
     VISIT_IMPL(Select)
 
-    IElement* ExpandVisitor::get() const {
+    IElement* ExpandVisitor::get() const
+    {
         return result;
     }
 

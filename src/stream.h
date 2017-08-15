@@ -21,15 +21,17 @@
  *  \brief proxy redirect i/o operations to stdin/stdout
  *  and avoid close stdin/stdout while delete
  */
-template <typename T> struct std_io_proxy;
+template <typename T>
+struct std_io_proxy;
 
-template <> struct std_io_proxy<std::ostream> : public std::ostream {
-    //std::streambuf dummy;
+template <>
+struct std_io_proxy<std::ostream> : public std::ostream {
+    // std::streambuf dummy;
     std::stringbuf dummy;
 
     std_io_proxy() : std::ostream(std::cout.rdbuf())
     {
-        //rdbuf(std::cout.rdbuf());
+        // rdbuf(std::cout.rdbuf());
     }
 
     virtual ~std_io_proxy()
@@ -38,13 +40,14 @@ template <> struct std_io_proxy<std::ostream> : public std::ostream {
     }
 };
 
-template <> struct std_io_proxy<std::istream> : public std::istream {
-    //std::streambuf dummy;
+template <>
+struct std_io_proxy<std::istream> : public std::istream {
+    // std::streambuf dummy;
     std::stringbuf dummy;
 
     std_io_proxy() : std::istream(std::cin.rdbuf())
     {
-        //saved = rdbuf(std::cin.rdbuf());
+        // saved = rdbuf(std::cin.rdbuf());
     }
 
     virtual ~std_io_proxy()
@@ -56,7 +59,8 @@ template <> struct std_io_proxy<std::istream> : public std::istream {
 /**
  *  \brief functor returns cin/cout ptr in based on istream or ostream
  */
-template<typename T> struct std_io {
+template <typename T>
+struct std_io {
     T* operator()() const
     {
         return new std_io_proxy<T>();
@@ -66,7 +70,8 @@ template<typename T> struct std_io {
 /**
  *  \brief functor returns appropriate cin/cout based on istream/ostream
  */
-template<typename T> struct std_io_selector {
+template <typename T>
+struct std_io_selector {
     typedef T stream_type;
     typedef stream_type* return_type;
 
@@ -79,24 +84,32 @@ template<typename T> struct std_io_selector {
 /**
  *  \brief functor select fstream based on iostream
  */
-template <typename T> struct to_fstream;
+template <typename T>
+struct to_fstream;
 
-template<>
-struct to_fstream<std::istream>{
-  typedef std::ifstream stream_type;
-  static std::ios_base::openmode open_flags() { return std::ios_base::in | std::ios_base::binary; }
+template <>
+struct to_fstream<std::istream> {
+    typedef std::ifstream stream_type;
+    static std::ios_base::openmode open_flags()
+    {
+        return std::ios_base::in | std::ios_base::binary;
+    }
 };
 
-template<>
-struct to_fstream<std::ostream>{
-  typedef std::ofstream stream_type;
-  static std::ios_base::openmode open_flags() { return std::ios_base::out | std::ios_base::binary; }
+template <>
+struct to_fstream<std::ostream> {
+    typedef std::ofstream stream_type;
+    static std::ios_base::openmode open_flags()
+    {
+        return std::ios_base::out | std::ios_base::binary;
+    }
 };
 
 /**
  *  \brief functor select return appropriate opened fstream based on type of stream
  */
-template<typename T> struct fstream_io_selector{
+template <typename T>
+struct fstream_io_selector {
     typedef typename to_fstream<T>::stream_type stream_type;
     typedef stream_type* return_type;
 
@@ -124,7 +137,7 @@ template<typename T> struct fstream_io_selector{
  *
  */
 
-template<typename T>
+template <typename T>
 T* CreateStreamFromName(const std::string& file)
 {
     if (file.empty()) {
@@ -136,13 +149,12 @@ T* CreateStreamFromName(const std::string& file)
     return_type stream = fstream_io_selector<T>()(file.c_str());
 
     if (!stream->is_open()) {
-      std::cerr << "fatal: unable to open file '" << file << "'\n";
-      delete stream;
-      exit(EXIT_FAILURE);
+        std::cerr << "fatal: unable to open file '" << file << "'\n";
+        delete stream;
+        exit(EXIT_FAILURE);
     }
 
     return stream;
 }
-
 
 #endif // #ifndef DRAFTER_STREAM_H

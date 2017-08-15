@@ -21,7 +21,7 @@ namespace refract
         std::ostream& os;
         bool ommitSourceMap;
 
-       private:
+    private:
         std::ostream& indented();
 
         void printMeta(const IElement& e);
@@ -32,14 +32,13 @@ namespace refract
         {
             indented() << "- " << name << "Element\n";
             for (const auto& v : e.value) {
-                PrintVisitor{indent + 1, os, ommitSourceMap}(*v);
+                PrintVisitor{ indent + 1, os, ommitSourceMap }(*v);
             }
         }
 
-       public:
+    public:
         PrintVisitor();
-        PrintVisitor(int indentation, std::ostream& os,
-                     bool ommitSourceMap = false);
+        PrintVisitor(int indentation, std::ostream& os, bool ommitSourceMap = false);
 
         void operator()(const IElement& e);
         void operator()(const MemberElement& e);

@@ -28,10 +28,9 @@ namespace refract
         std::string getElementId(IElement* element);
 
     public:
-
         IElement* find(const std::string& name) const;
 
-        bool add(IElement* element) ;
+        bool add(IElement* element);
         bool remove(const std::string& name);
         void clearAll(bool releaseElements = false);
     };

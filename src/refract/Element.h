@@ -25,59 +25,53 @@ namespace refract
 
     class Visitor;
 
-    template <typename T> struct ElementTypeSelector;
+    template <typename T>
+    struct ElementTypeSelector;
 
     // NOTE: alternative solution:
     // find in Element* for ValueType instead of specialized templates
     template <>
-    struct ElementTypeSelector<std::string>
-    {
+    struct ElementTypeSelector<std::string> {
         typedef StringElement ElementType;
     };
 
     template <>
-    struct ElementTypeSelector<char*>
-    {
+    struct ElementTypeSelector<char*> {
         typedef StringElement ElementType;
     };
 
     template <>
-    struct ElementTypeSelector<double>
-    {
+    struct ElementTypeSelector<double> {
         typedef NumberElement ElementType;
     };
 
     template <>
-    struct ElementTypeSelector<int>
-    {
+    struct ElementTypeSelector<int> {
         typedef NumberElement ElementType;
     };
 
     template <>
-    struct ElementTypeSelector<size_t>
-    {
+    struct ElementTypeSelector<size_t> {
         typedef NumberElement ElementType;
     };
 
     template <>
-    struct ElementTypeSelector<bool>
-    {
+    struct ElementTypeSelector<bool> {
         typedef BooleanElement ElementType;
     };
 
-    struct IElement
-    {
+    struct IElement {
         class MemberElementCollection final
         {
             // FIXME raw pointer ownership
             using Container = std::vector<MemberElement*>;
             Container elements;
 
-           public:
+        public:
             using iterator = typename Container::iterator;
             using const_iterator = typename Container::const_iterator;
 
-           public:
+        public:
             MemberElementCollection() = default;
             ~MemberElementCollection();
 
@@ -87,12 +81,24 @@ namespace refract
             MemberElementCollection& operator=(const MemberElementCollection&) = delete;
             MemberElementCollection& operator=(MemberElementCollection&&) = default;
 
-           public:
-            const_iterator begin() const noexcept { return elements.begin(); }
-            iterator begin() noexcept { return elements.begin(); }
+        public:
+            const_iterator begin() const noexcept
+            {
+                return elements.begin();
+            }
+            iterator begin() noexcept
+            {
+                return elements.begin();
+            }
 
-            const_iterator end() const noexcept { return elements.end(); }
-            iterator end() noexcept { return elements.end(); }
+            const_iterator end() const noexcept
+            {
+                return elements.end();
+            }
+            iterator end() noexcept
+            {
+                return elements.end();
+            }
 
             const_iterator find(const std::string& name) const;
             iterator find(const std::string& name);
@@ -104,15 +110,30 @@ namespace refract
 
             // FIXME erase(const std::string) deletes pointer, whereas erase(iterator) does not
             void erase(const std::string& key);
-            void erase(iterator it) { elements.erase(it); }
+            void erase(iterator it)
+            {
+                elements.erase(it);
+            }
 
             // FIXME pointers are not deleted
-            void clear() { elements.clear(); }
+            void clear()
+            {
+                elements.clear();
+            }
 
-            void push_back(MemberElement* e) { elements.push_back(e); }
+            void push_back(MemberElement* e)
+            {
+                elements.push_back(e);
+            }
 
-            bool empty() const noexcept { return elements.empty(); }
-            Container::size_type size() const noexcept { return elements.size(); }
+            bool empty() const noexcept
+            {
+                return elements.empty();
+            }
+            Container::size_type size() const noexcept
+            {
+                return elements.size();
+            }
         };
 
         MemberElementCollection meta;
@@ -134,15 +155,14 @@ namespace refract
          * \see Element<T>::clone()
          */
         typedef enum {
-            cMeta       = 0x01,
+            cMeta = 0x01,
             cAttributes = 0x02,
-            cValue      = 0x04,
-            cElement    = 0x08,
+            cValue = 0x04,
+            cElement = 0x08,
             cAll = cMeta | cAttributes | cValue | cElement,
 
-            cNoMetaId   = 0x10,
+            cNoMetaId = 0x10,
         } cloneFlags;
-
 
         virtual IElement* clone(const int flag = cAll) const = 0;
 
@@ -166,7 +186,9 @@ namespace refract
          */
         static StringElement* Create(const char* value);
 
-        virtual ~IElement() {}
+        virtual ~IElement()
+        {
+        }
     };
 
     bool isReserved(const std::string& element);
@@ -179,7 +201,6 @@ namespace refract
     {
 
     public:
-
         typedef Element<T, Trait> Type;
         typedef Trait TraitType;
         typedef typename TraitType::ValueType ValueType;
@@ -189,7 +210,6 @@ namespace refract
         bool hasContent; ///< was content of element already set? \see empty()
 
     public:
-
         // FIXME: move into protected part, currently still required in ComparableVisitor
         ValueType value;
 
@@ -219,9 +239,10 @@ namespace refract
             v.visit(static_cast<const T&>(*this));
         }
 
-        virtual IElement* clone(const int flags = cAll) const {
+        virtual IElement* clone(const int flags = cAll) const
+        {
             const Type* self = static_cast<const T*>(this);
-            Type* element =  new Type;
+            Type* element = new Type;
 
             element->hasContent = self->hasContent;
 
@@ -263,32 +284,54 @@ namespace refract
         }
     };
 
-    struct NullElementTrait
-    {
-        struct null_type {};
+    struct NullElementTrait {
+        struct null_type {
+        };
         typedef null_type ValueType;
 
-        static ValueType init() { return ValueType(); }
-        static const std::string element() { return "null"; }
-        static void release(ValueType&) {}
-        static void cloneValue(const ValueType&, ValueType&) {}
+        static ValueType init()
+        {
+            return ValueType();
+        }
+        static const std::string element()
+        {
+            return "null";
+        }
+        static void release(ValueType&)
+        {
+        }
+        static void cloneValue(const ValueType&, ValueType&)
+        {
+        }
     };
 
-    struct NullElement : Element<NullElement, NullElementTrait> {};
+    struct NullElement : Element<NullElement, NullElementTrait> {
+    };
 
-    struct StringElementTrait
-    {
+    struct StringElementTrait {
         typedef std::string ValueType;
 
-        static ValueType init() { return ValueType(); }
-        static const std::string element() { return "string"; }
-        static void release(ValueType&) {}
-        static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
+        static ValueType init()
+        {
+            return ValueType();
+        }
+        static const std::string element()
+        {
+            return "string";
+        }
+        static void release(ValueType&)
+        {
+        }
+        static void cloneValue(const ValueType& self, ValueType& other)
+        {
+            other = self;
+        }
     };
 
-    struct StringElement : Element<StringElement, StringElementTrait>
-    {
-        StringElement() : Type() {}
+    struct StringElement : Element<StringElement, StringElementTrait> {
+        StringElement() : Type()
+        {
+        }
 
         StringElement(const TraitType::ValueType& value) : Type()
         {
@@ -296,19 +339,30 @@ namespace refract
         }
     };
 
-    struct NumberElementTrait
-    {
+    struct NumberElementTrait {
         typedef double ValueType;
 
-        static ValueType init() { return 0; }
-        static const std::string element() { return "number"; }
-        static void release(ValueType&) {}
-        static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
+        static ValueType init()
+        {
+            return 0;
+        }
+        static const std::string element()
+        {
+            return "number";
+        }
+        static void release(ValueType&)
+        {
+        }
+        static void cloneValue(const ValueType& self, ValueType& other)
+        {
+            other = self;
+        }
     };
 
-    struct NumberElement : Element<NumberElement, NumberElementTrait>
-    {
-        NumberElement() : Type() {}
+    struct NumberElement : Element<NumberElement, NumberElementTrait> {
+        NumberElement() : Type()
+        {
+        }
 
         NumberElement(const TraitType::ValueType& value) : Type()
         {
@@ -316,19 +370,30 @@ namespace refract
         }
     };
 
-    struct BooleanElementTrait
-    {
+    struct BooleanElementTrait {
         typedef bool ValueType;
 
-        static ValueType init() { return false; }
-        static const std::string element() { return "boolean"; }
-        static void release(ValueType&) {}
-        static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
+        static ValueType init()
+        {
+            return false;
+        }
+        static const std::string element()
+        {
+            return "boolean";
+        }
+        static void release(ValueType&)
+        {
+        }
+        static void cloneValue(const ValueType& self, ValueType& other)
+        {
+            other = self;
+        }
     };
 
-    struct BooleanElement : Element<BooleanElement, BooleanElementTrait>
-    {
-        BooleanElement() : Type() {}
+    struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {
+        BooleanElement() : Type()
+        {
+        }
 
         BooleanElement(const TraitType::ValueType& value) : Type()
         {
@@ -336,12 +401,17 @@ namespace refract
         }
     };
 
-    struct HolderElementTrait
-    {
+    struct HolderElementTrait {
         typedef IElement* ValueType;
 
-        static ValueType init() { return NULL; }
-        static const std::string element() { return ""; }
+        static ValueType init()
+        {
+            return NULL;
+        }
+        static const std::string element()
+        {
+            return "";
+        }
 
         static void release(ValueType& value)
         {
@@ -357,9 +427,10 @@ namespace refract
 
     // FIXME: This is just a temporary element which is not in the refract spec
     // until the Element implementation is moved away from abstraction.
-    struct HolderElement : Element<HolderElement, HolderElementTrait>
-    {
-        HolderElement() : Type() {}
+    struct HolderElement : Element<HolderElement, HolderElementTrait> {
+        HolderElement() : Type()
+        {
+        }
 
         HolderElement(const std::string name, const TraitType::ValueType& value) : Type()
         {
@@ -371,12 +442,14 @@ namespace refract
     typedef std::vector<IElement*> RefractElements;
 
     template <typename Type = IElement, typename Collection = std::vector<Type*> >
-    struct ElementCollectionTrait
-    {
+    struct ElementCollectionTrait {
         typedef Collection ValueType;
         typedef ElementCollectionTrait<Type, Collection> SelfType;
 
-        static ValueType init() { return ValueType(); }
+        static ValueType init()
+        {
+            return ValueType();
+        }
 
         static void release(ValueType& values)
         {
@@ -402,20 +475,21 @@ namespace refract
 
         static void cloneValue(const ValueType& self, ValueType& other)
         {
-            std::transform(self.begin(), self.end(),
-                           std::back_inserter(other),
-                           std::bind(&SelfType::typedMemberClone, std::placeholders::_1, IElement::cAll));
+            std::transform(self.begin(),
+                self.end(),
+                std::back_inserter(other),
+                std::bind(&SelfType::typedMemberClone, std::placeholders::_1, IElement::cAll));
         }
     };
 
-
-    struct ArrayElementTrait : public ElementCollectionTrait<>
-    {
-        static const std::string element() { return "array"; }
+    struct ArrayElementTrait : public ElementCollectionTrait<> {
+        static const std::string element()
+        {
+            return "array";
+        }
     };
 
-    struct ArrayElement : Element<ArrayElement, ArrayElementTrait>
-    {
+    struct ArrayElement : Element<ArrayElement, ArrayElementTrait> {
         ArrayElement() : Type()
         {
         }
@@ -434,13 +508,14 @@ namespace refract
         }
     };
 
-    struct EnumElementTrait : public ElementCollectionTrait<>
-    {
-        static const std::string element() { return "enum"; }
+    struct EnumElementTrait : public ElementCollectionTrait<> {
+        static const std::string element()
+        {
+            return "enum";
+        }
     };
 
-    struct EnumElement : Element<EnumElement, EnumElementTrait>
-    {
+    struct EnumElement : Element<EnumElement, EnumElementTrait> {
         EnumElement() : Type()
         {
         }
@@ -457,12 +532,17 @@ namespace refract
         }
     };
 
-    struct MemberElementTrait
-    {
+    struct MemberElementTrait {
         typedef std::pair<IElement*, IElement*> ValueType;
 
-        static ValueType init() { return ValueType(); }
-        static const std::string element() { return "member"; }
+        static ValueType init()
+        {
+            return ValueType();
+        }
+        static const std::string element()
+        {
+            return "member";
+        }
 
         static void release(ValueType& member)
         {
@@ -477,19 +557,15 @@ namespace refract
             }
         }
 
-        static void cloneValue(const ValueType& self, ValueType& other) {
-            other.first = self.first
-                ? self.first->clone()
-                : NULL;
+        static void cloneValue(const ValueType& self, ValueType& other)
+        {
+            other.first = self.first ? self.first->clone() : NULL;
 
-            other.second = self.second
-                ? self.second->clone()
-                : NULL;
+            other.second = self.second ? self.second->clone() : NULL;
         }
     };
 
-    struct MemberElement : Element<MemberElement, MemberElementTrait>
-    {
+    struct MemberElement : Element<MemberElement, MemberElementTrait> {
 
         MemberElement() : Type()
         {
@@ -541,8 +617,7 @@ namespace refract
         }
     };
 
-    struct ObjectElementTrait : public ElementCollectionTrait<>
-    {
+    struct ObjectElementTrait : public ElementCollectionTrait<> {
         // Use inherited ValueType definition instead of specialized std::vector<MemberElement*>
         // because ObjectElement can contain:
         // - (array[Member Element])
@@ -554,11 +629,13 @@ namespace refract
         // FIXME: behavioration for content types different than
         // `(array[Member Element])` is not currently implemented
 
-        static const std::string element() { return "object"; }
+        static const std::string element()
+        {
+            return "object";
+        }
     };
 
-    struct ObjectElement : Element<ObjectElement, ObjectElementTrait>
-    {
+    struct ObjectElement : Element<ObjectElement, ObjectElementTrait> {
 
         ObjectElement() : Type()
         {
@@ -583,19 +660,30 @@ namespace refract
         }
     };
 
-    struct RefElementTrait
-    {
+    struct RefElementTrait {
         typedef std::string ValueType;
 
-        static ValueType init() { return ValueType(); }
-        static const std::string element() { return "ref"; }
-        static void release(ValueType&) {}
-        static void cloneValue(const ValueType& self, ValueType& other) { other = self; }
+        static ValueType init()
+        {
+            return ValueType();
+        }
+        static const std::string element()
+        {
+            return "ref";
+        }
+        static void release(ValueType&)
+        {
+        }
+        static void cloneValue(const ValueType& self, ValueType& other)
+        {
+            other = self;
+        }
     };
 
-    struct RefElement : Element<RefElement, RefElementTrait>
-    {
-        RefElement() : Type() {}
+    struct RefElement : Element<RefElement, RefElementTrait> {
+        RefElement() : Type()
+        {
+        }
 
         RefElement(const TraitType::ValueType& value) : Type()
         {
@@ -603,13 +691,14 @@ namespace refract
         }
     };
 
-    struct ExtendElementTrait : public ElementCollectionTrait<>
-    {
-        static const std::string element() { return "extend"; }
+    struct ExtendElementTrait : public ElementCollectionTrait<> {
+        static const std::string element()
+        {
+            return "extend";
+        }
     };
 
-    struct ExtendElement : Element<ExtendElement, ExtendElementTrait>
-    {
+    struct ExtendElement : Element<ExtendElement, ExtendElementTrait> {
         ExtendElement() : Type()
         {
         }
@@ -625,13 +714,14 @@ namespace refract
         IElement* merge() const;
     };
 
-    struct OptionElementTrait : public ElementCollectionTrait<>
-    {
-        static const std::string element() { return "option"; }
+    struct OptionElementTrait : public ElementCollectionTrait<> {
+        static const std::string element()
+        {
+            return "option";
+        }
     };
 
-    struct OptionElement : Element<OptionElement, OptionElementTrait>
-    {
+    struct OptionElement : Element<OptionElement, OptionElementTrait> {
 
         OptionElement() : Type()
         {
@@ -656,9 +746,11 @@ namespace refract
         }
     };
 
-    struct SelectElementTrait : public ElementCollectionTrait<OptionElement>
-    {
-        static const std::string element() { return "select"; }
+    struct SelectElementTrait : public ElementCollectionTrait<OptionElement> {
+        static const std::string element()
+        {
+            return "select";
+        }
 
         static void cloneValue(const ValueType& self, ValueType& other)
         {
@@ -669,8 +761,7 @@ namespace refract
         }
     };
 
-    struct SelectElement : Element<SelectElement, SelectElementTrait>
-    {
+    struct SelectElement : Element<SelectElement, SelectElementTrait> {
         SelectElement() : Type()
         {
         }
@@ -693,7 +784,6 @@ namespace refract
             value.push_back(e);
         }
     };
-
 };
 
 #endif // #ifndef REFRACT_ELEMENT_H

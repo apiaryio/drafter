@@ -8,14 +8,15 @@
 #ifndef DRAFTER_NAMEDTYPESREGISRTY_H
 #define DRAFTER_NAMEDTYPESREGISRTY_H
 
-
 #include "Blueprint.h"
 
-namespace refract {
+namespace refract
+{
     class Registry;
 }
 
-namespace drafter {
+namespace drafter
+{
 
     template <typename T>
     struct NodeInfo;
@@ -23,6 +24,5 @@ namespace drafter {
     class ConversionContext;
 
     void RegisterNamedTypes(const NodeInfo<snowcrash::Elements>& elements, ConversionContext& context);
-
 }
 #endif // #ifndef DRAFTER_NAMEDTYPESREGISRTY_H

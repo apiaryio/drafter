@@ -15,7 +15,8 @@
 #define NODE_INFO(from, member) from.node->member, from.sourceMap->member
 #define MAKE_NODE_INFO(from, member) MakeNodeInfo(NODE_INFO(from, member))
 
-namespace drafter {
+namespace drafter
+{
 
     /**
      * For returned values,
@@ -27,16 +28,17 @@ namespace drafter {
      * There is NodeInfo<> constructor accepting directly NodeInfoByValue<> for simplified conversion
      */
     template <typename T>
-    struct NodeInfoByValue : public std::pair<T, const snowcrash::SourceMap<T>* > {
-        typedef std::pair<T, const snowcrash::SourceMap<T>* > BaseType;
+    struct NodeInfoByValue : public std::pair<T, const snowcrash::SourceMap<T>*> {
+        typedef std::pair<T, const snowcrash::SourceMap<T>*> BaseType;
 
-        NodeInfoByValue(const BaseType& info) {
+        NodeInfoByValue(const BaseType& info)
+        {
             BaseType::first = info.first;
             BaseType::second = info.second;
         }
     };
 
-    template<typename T>
+    template <typename T>
     struct NodeInfo {
         typedef T NodeType;
         typedef NodeInfo<T> Type;
@@ -46,28 +48,39 @@ namespace drafter {
         const SourceMapType* sourceMap;
         bool empty;
 
-        NodeInfo(const NodeType* node, const SourceMapType* sourceMap) : node(node), sourceMap(sourceMap), empty(false) {}
-        NodeInfo(const NodeInfoByValue<T>& node) : node(&node.first), sourceMap(node.second ? node.second : NodeInfo<T>::NullSourceMap()), empty(false) {}
-        NodeInfo() : node(Type::NullNode()), sourceMap(Type::NullSourceMap()), empty(true) {}
+        NodeInfo(const NodeType* node, const SourceMapType* sourceMap) : node(node), sourceMap(sourceMap), empty(false)
+        {
+        }
+        NodeInfo(const NodeInfoByValue<T>& node)
+            : node(&node.first), sourceMap(node.second ? node.second : NodeInfo<T>::NullSourceMap()), empty(false)
+        {
+        }
+        NodeInfo() : node(Type::NullNode()), sourceMap(Type::NullSourceMap()), empty(true)
+        {
+        }
 
-        NodeInfo<T>& operator=(const NodeInfo<T>& other) {
+        NodeInfo<T>& operator=(const NodeInfo<T>& other)
+        {
             node = other.node;
             sourceMap = other.sourceMap;
             empty = other.empty;
             return *this;
         }
 
-        static const NodeType* NullNode() {
+        static const NodeType* NullNode()
+        {
             static NodeType nullNode;
             return &nullNode;
         }
 
-        static const SourceMapType* NullSourceMap() {
+        static const SourceMapType* NullSourceMap()
+        {
             static SourceMapType nullSourceMap;
             return &nullSourceMap;
         }
 
-        bool isNull() const {
+        bool isNull() const
+        {
             return empty;
         }
     };
@@ -90,15 +103,17 @@ namespace drafter {
         return NodeInfo<T>(&node, NodeInfo<T>::NullSourceMap());
     }
 
-    template<typename ResultType, typename Collection1, typename Collection2, typename BinOp>
-    ResultType Zip(const Collection1& collection1, const Collection2& collection2, const BinOp& Combinator) {
+    template <typename ResultType, typename Collection1, typename Collection2, typename BinOp>
+    ResultType Zip(const Collection1& collection1, const Collection2& collection2, const BinOp& Combinator)
+    {
         ResultType result;
-        std::transform(collection1.begin(), collection1.end(), collection2.begin(), std::back_inserter(result), Combinator);
+        std::transform(
+            collection1.begin(), collection1.end(), collection2.begin(), std::back_inserter(result), Combinator);
         return result;
     }
 
-    template<typename T>
-    struct NodeInfoCollection  : public std::vector<NodeInfo<typename T::value_type> > {
+    template <typename T>
+    struct NodeInfoCollection : public std::vector<NodeInfo<typename T::value_type> > {
         typedef NodeInfoCollection<T> SelfType;
         typedef std::vector<NodeInfo<typename T::value_type> > CollectionType;
 
@@ -114,13 +129,14 @@ namespace drafter {
             const snowcrash::SourceMap<T>& sourceMaps = *nodeInfo.sourceMap;
 
             if (collection.size() == sourceMaps.collection.size()) {
-                CollectionType nodes = Zip<CollectionType>(collection, sourceMaps.collection, NodeInfoCollection::MakeNodeInfo<typename T::value_type>);
+                CollectionType nodes = Zip<CollectionType>(
+                    collection, sourceMaps.collection, NodeInfoCollection::MakeNodeInfo<typename T::value_type>);
                 std::copy(nodes.begin(), nodes.end(), std::back_inserter(*this));
-            }
-            else {
-                std::transform(collection.begin(), collection.end(),
-                               std::back_inserter(*this),
-                               MakeNodeInfoWithoutSourceMap<typename T::value_type>);
+            } else {
+                std::transform(collection.begin(),
+                    collection.end(),
+                    std::back_inserter(*this),
+                    MakeNodeInfoWithoutSourceMap<typename T::value_type>);
             }
         }
 
@@ -128,13 +144,14 @@ namespace drafter {
         {
 
             if (collection.size() == sourceMaps.collection.size()) {
-                CollectionType nodes = Zip<CollectionType>(collection, sourceMaps.collection, NodeInfoCollection::MakeNodeInfo<typename T::value_type>);
+                CollectionType nodes = Zip<CollectionType>(
+                    collection, sourceMaps.collection, NodeInfoCollection::MakeNodeInfo<typename T::value_type>);
                 std::copy(nodes.begin(), nodes.end(), std::back_inserter(*this));
-            }
-            else {
-                std::transform(collection.begin(), collection.end(),
-                               std::back_inserter(*this),
-                               MakeNodeInfoWithoutSourceMap<typename T::value_type>);
+            } else {
+                std::transform(collection.begin(),
+                    collection.end(),
+                    std::back_inserter(*this),
+                    MakeNodeInfoWithoutSourceMap<typename T::value_type>);
             }
         }
     };

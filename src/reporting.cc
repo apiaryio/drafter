@@ -35,9 +35,7 @@ struct AnnotationPosition {
  *  \param range Character index mapping as input
  *  \param out Position of the given range as output
  */
-void GetLineFromMap(const std::vector<size_t>& linesEndIndex,
-                    const mdp::Range& range,
-                    AnnotationPosition& out)
+void GetLineFromMap(const std::vector<size_t>& linesEndIndex, const mdp::Range& range, AnnotationPosition& out)
 {
 
     std::vector<size_t>::const_iterator annotationPositionIt;
@@ -57,7 +55,8 @@ void GetLineFromMap(const std::vector<size_t>& linesEndIndex,
     }
 
     // Finds ending line and column position
-    annotationPositionIt = std::lower_bound(linesEndIndex.begin(), linesEndIndex.end(), range.location + range.length) - 1;
+    annotationPositionIt
+        = std::lower_bound(linesEndIndex.begin(), linesEndIndex.end(), range.location + range.length) - 1;
 
     if (annotationPositionIt != linesEndIndex.end()) {
 
@@ -75,8 +74,7 @@ void GetLineFromMap(const std::vector<size_t>& linesEndIndex,
  *  \param source Source data
  *  \param out Vector containing indexes of all end line character in source
  */
-void GetLinesEndIndex(const std::string& source,
-                      std::vector<size_t>& out)
+void GetLinesEndIndex(const std::string& source, std::vector<size_t>& out)
 {
 
     out.push_back(0);
@@ -90,9 +88,9 @@ void GetLinesEndIndex(const std::string& source,
 }
 
 void PrintAnnotation(const std::string& prefix,
-                     const snowcrash::SourceAnnotation& annotation,
-                     const std::string& source,
-                     const bool useLineNumbers)
+    const snowcrash::SourceAnnotation& annotation,
+    const std::string& source,
+    const bool useLineNumbers)
 {
 
     std::cerr << prefix;
@@ -113,8 +111,7 @@ void PrintAnnotation(const std::string& prefix,
 
     if (!annotation.location.empty()) {
 
-        for (mdp::CharactersRangeSet::const_iterator it = annotation.location.begin();
-             it != annotation.location.end();
+        for (mdp::CharactersRangeSet::const_iterator it = annotation.location.begin(); it != annotation.location.end();
              ++it) {
 
             if (useLineNumbers) {
@@ -124,8 +121,7 @@ void PrintAnnotation(const std::string& prefix,
 
                 std::cerr << "; line " << annotationPosition.fromLine << ", column " << annotationPosition.fromColumn;
                 std::cerr << " - line " << annotationPosition.toLine << ", column " << annotationPosition.toColumn;
-            }
-            else {
+            } else {
 
                 std::cerr << ((it == annotation.location.begin()) ? " :" : ";");
                 std::cerr << it->location << ":" << it->length;
@@ -142,17 +138,14 @@ void PrintAnnotation(const std::string& prefix,
  *  \param source Source data
  *  \param isUseLineNumbers True if the annotations needs to be printed by line and column number
  */
-void PrintReport(const snowcrash::Report& report,
-                 const std::string& source,
-                 const bool isUseLineNumbers)
+void PrintReport(const snowcrash::Report& report, const std::string& source, const bool isUseLineNumbers)
 {
 
     std::cerr << std::endl;
 
     if (report.error.code == sc::Error::OK) {
         std::cerr << "OK.\n";
-    }
-    else {
+    } else {
         PrintAnnotation("error:", report.error, source, isUseLineNumbers);
     }
 
@@ -166,13 +159,15 @@ struct AnnotationToString {
     std::vector<size_t> linesEndIndex;
     const bool useLineNumbers;
 
-    AnnotationToString(const std::string& source, const bool useLineNumbers) : useLineNumbers(useLineNumbers) {
+    AnnotationToString(const std::string& source, const bool useLineNumbers) : useLineNumbers(useLineNumbers)
+    {
         if (useLineNumbers) {
             GetLinesEndIndex(source, linesEndIndex);
         }
     }
 
-    const std::string location(const refract::IElement* sourceMap) {
+    const std::string location(const refract::IElement* sourceMap)
+    {
         std::stringstream output;
         const refract::ArrayElement* map = refract::TypeQueryVisitor::as<refract::ArrayElement>(sourceMap);
         if (map && map->value.size() == 2) {
@@ -187,8 +182,7 @@ struct AnnotationToString {
 
                     output << "; line " << annotationPosition.fromLine << ", column " << annotationPosition.fromColumn;
                     output << " - line " << annotationPosition.toLine << ", column " << annotationPosition.toColumn;
-                }
-                else {
+                } else {
                     output << loc->value << ":" << len->value;
                 }
             }
@@ -196,37 +190,42 @@ struct AnnotationToString {
         return output.str();
     }
 
-    const std::string operator()(const refract::IElement* annotation) {
+    const std::string operator()(const refract::IElement* annotation)
+    {
         std::stringstream output;
 
         if (!annotation || annotation->element() != "annotation") {
             return output.str();
         }
 
-        if (const refract::ArrayElement* classes = refract::FindCollectionMemberValue<refract::ArrayElement>(annotation->meta, "classes")) {
+        if (const refract::ArrayElement* classes
+            = refract::FindCollectionMemberValue<refract::ArrayElement>(annotation->meta, "classes")) {
             if (classes->value.size() == 1) {
-                refract::StringElement* type = refract::TypeQueryVisitor::as<refract::StringElement>(classes->value.front());
+                refract::StringElement* type
+                    = refract::TypeQueryVisitor::as<refract::StringElement>(classes->value.front());
                 if (type) {
                     output << type->value << ": ";
                 }
             }
         };
 
-        if (const refract::NumberElement* code = refract::FindCollectionMemberValue<refract::NumberElement>(annotation->attributes, "code")) {
-            output << "(" <<code->value << ")  ";
+        if (const refract::NumberElement* code
+            = refract::FindCollectionMemberValue<refract::NumberElement>(annotation->attributes, "code")) {
+            output << "(" << code->value << ")  ";
         }
 
         if (const refract::StringElement* message = refract::TypeQueryVisitor::as<refract::StringElement>(annotation)) {
             output << message->value;
         }
 
-        if (refract::ArrayElement* sourceMap = refract::FindCollectionMemberValue<refract::ArrayElement>(annotation->attributes, "sourceMap")) {
+        if (refract::ArrayElement* sourceMap
+            = refract::FindCollectionMemberValue<refract::ArrayElement>(annotation->attributes, "sourceMap")) {
             if (sourceMap->value.size() == 1) {
                 sourceMap = refract::TypeQueryVisitor::as<refract::ArrayElement>(sourceMap->value.front());
                 if (sourceMap) {
                     for (refract::IElement* array : sourceMap->value) {
                         if (!useLineNumbers) {
-                            const char* prefix = array == (*sourceMap->value.begin()) ? " :" :";";
+                            const char* prefix = array == (*sourceMap->value.begin()) ? " :" : ";";
                             output << prefix;
                         }
                         output << location(array);
@@ -239,10 +238,7 @@ struct AnnotationToString {
     }
 };
 
-void PrintReport(const drafter_result* result,
-                 const std::string& source,
-                 const bool useLineNumbers,
-                 const int error)
+void PrintReport(const drafter_result* result, const std::string& source, const bool useLineNumbers, const int error)
 {
     std::cerr << std::endl;
 
@@ -256,8 +252,8 @@ void PrintReport(const drafter_result* result,
         std::cerr << "OK.\n";
     }
 
-    std::transform(filter.elements().begin(), filter.elements().end(),
-              std::ostream_iterator<std::string>(std::cerr, "\n"),
-              AnnotationToString(source, useLineNumbers));
-
+    std::transform(filter.elements().begin(),
+        filter.elements().end(),
+        std::ostream_iterator<std::string>(std::cerr, "\n"),
+        AnnotationToString(source, useLineNumbers));
 }

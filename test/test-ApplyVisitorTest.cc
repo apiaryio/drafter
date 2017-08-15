@@ -10,11 +10,13 @@
 using namespace refract;
 
 static int Fcounter = 0;
-void Function (const refract::IElement&) {
+void Function(const refract::IElement&)
+{
     Fcounter++;
 }
 
-TEST_CASE("It should accept and invoke function as functor ","[Visitor]") {
+TEST_CASE("It should accept and invoke function as functor ", "[Visitor]")
+{
     refract::IElement* e = new refract::StringElement;
     refract::Visitor a(Function);
     a.visit(*e);
@@ -27,25 +29,31 @@ struct Functor {
     int GCounter;
     int SCounter;
 
-    Functor() : GCounter(0), SCounter(0) {}
+    Functor() : GCounter(0), SCounter(0)
+    {
+    }
 
-    void operator()(const refract::IElement& e) {
+    void operator()(const refract::IElement& e)
+    {
         GCounter++;
     }
 
-    void operator()(const refract::StringElement& e) {
+    void operator()(const refract::StringElement& e)
+    {
         SCounter++;
     }
 };
 
-TEST_CASE("It should accept Functor","[Visitor]") {
+TEST_CASE("It should accept Functor", "[Visitor]")
+{
     refract::IElement* e = new refract::StringElement;
     Functor f;
     refract::Visitor a(f);
     delete e;
 }
 
-TEST_CASE("It should invoke generalized operator for non specialized element","[Visitor]") {
+TEST_CASE("It should invoke generalized operator for non specialized element", "[Visitor]")
+{
     refract::IElement* e = new refract::NumberElement;
     Functor f;
     refract::Visitor a(f);
@@ -58,7 +66,8 @@ TEST_CASE("It should invoke generalized operator for non specialized element","[
     delete e;
 }
 
-TEST_CASE("It should invoke specific operator for specialized element","[Visitor]") {
+TEST_CASE("It should invoke specific operator for specialized element", "[Visitor]")
+{
 #if 0
     refract::IElement* e = new refract::StringElement;
     Functor f;
@@ -73,15 +82,14 @@ TEST_CASE("It should invoke specific operator for specialized element","[Visitor
 #endif
 }
 
-TEST_CASE("It should invoke Functor for member of container elements","[Visitor]") {
+TEST_CASE("It should invoke Functor for member of container elements", "[Visitor]")
+{
 
     Functor f;
     refract::Visitor v(f);
 
-    refract::IElement* e = Build(new ArrayElement)
-                                (IElement::Create(3))
-                                (IElement::Create(false))
-                                (IElement::Create("Ehlo"));
+    refract::IElement* e
+        = Build(new ArrayElement)(IElement::Create(3))(IElement::Create(false))(IElement::Create("Ehlo"));
     v.visit(*e);
 
     REQUIRE(f.GCounter == 1); // just array
@@ -90,7 +98,8 @@ TEST_CASE("It should invoke Functor for member of container elements","[Visitor]
     delete e;
 }
 
-TEST_CASE("It should recognize Element Type by `Is` type operand","[Visitor]") {
+TEST_CASE("It should recognize Element Type by `Is` type operand", "[Visitor]")
+{
 #if 0
     IElement* e = IElement::Create("xxxx");
 
@@ -117,68 +126,39 @@ struct Fixture {
 
     static IElement* Complex()
     {
-        return Build(new ObjectElement)
-                    ("m1", IElement::Create("Str1"))
-                    ("m2", Build(new ArrayElement)
-                                (IElement::Create("m2[0]"))
-                                (IElement::Create(2.1))
-                    )
-                    ("m3", Build(new ObjectElement)
-                                ("m3.1", IElement::Create("Str3.1"))
-                                ("m3.2", IElement::Create(3.2))
-                                ("m3.3", Build(new ArrayElement)
-                                              (IElement::Create("m[3][3][0]"))
-                                              (IElement::Create(false))
-                     )
-                     ("m3.4", Build(new ObjectElement)
-                                   ("m3.4.1", IElement::Create("Str3/4/1"))
-                                   ("m3.4.2", IElement::Create(3.42))
-                                   ("m3.4.2", new NullElement))
-                     );
+        return Build(new ObjectElement)("m1", IElement::Create("Str1"))(
+            "m2", Build(new ArrayElement)(IElement::Create("m2[0]"))(IElement::Create(2.1)))("m3",
+            Build(new ObjectElement)("m3.1", IElement::Create("Str3.1"))("m3.2", IElement::Create(3.2))(
+                "m3.3", Build(new ArrayElement)(IElement::Create("m[3][3][0]"))(IElement::Create(false)))("m3.4",
+                Build(new ObjectElement)("m3.4.1", IElement::Create("Str3/4/1"))("m3.4.2", IElement::Create(3.42))(
+                    "m3.4.2", new NullElement)));
     }
 
     static IElement* SimpleObject()
     {
-        return Build(new ObjectElement)
-                    ("m1", IElement::Create("Str1"))
-                    ("m2", IElement::Create("Str2"))
-                    ("m3", IElement::Create(3))
-        ;
+        return Build(new ObjectElement)("m1", IElement::Create("Str1"))("m2", IElement::Create("Str2"))(
+            "m3", IElement::Create(3));
     }
 
     static IElement* ObjectWithChild()
     {
-        return Build(new ObjectElement)
-                    ("m1", IElement::Create("Str1"))
-                    ("m2", Build(new ObjectElement)
-                                ("m2.1", IElement::Create("Str2/1"))
-                                ("m2.2", new NullElement))
-        ;
+        return Build(new ObjectElement)("m1", IElement::Create("Str1"))(
+            "m2", Build(new ObjectElement)("m2.1", IElement::Create("Str2/1"))("m2.2", new NullElement));
     }
 
     static IElement* SimpleArray()
     {
-        return Build(new ArrayElement)
-                    (IElement::Create("1"))
-                    (IElement::Create(2))
-                    (IElement::Create("3"))
-        ;
+        return Build(new ArrayElement)(IElement::Create("1"))(IElement::Create(2))(IElement::Create("3"));
     }
 
     static IElement* ArrayWithChild()
     {
-        return Build(new ArrayElement)
-                    (IElement::Create("1"))
-                    (Build(new ArrayElement())
-                        (IElement::Create(1))
-                        (IElement::Create(2))
-                    )
-                    (IElement::Create("3"))
-        ;
+        return Build(new ArrayElement)(IElement::Create("1"))(
+            Build(new ArrayElement())(IElement::Create(1))(IElement::Create(2)))(IElement::Create("3"));
     }
 };
 
-TEST_CASE("Iterate<Recursive>","[Visitor]")
+TEST_CASE("Iterate<Recursive>", "[Visitor]")
 {
     IElement* e = Fixture::SimpleArray();
 
@@ -192,7 +172,7 @@ TEST_CASE("Iterate<Recursive>","[Visitor]")
     delete e;
 }
 
-TEST_CASE("Iterate<Children> on array","[Visitor]")
+TEST_CASE("Iterate<Children> on array", "[Visitor]")
 {
     IElement* e = Fixture::ArrayWithChild();
 
@@ -206,7 +186,7 @@ TEST_CASE("Iterate<Children> on array","[Visitor]")
     delete e;
 }
 
-TEST_CASE("Iterate<Children> on object","[Visitor]")
+TEST_CASE("Iterate<Children> on object", "[Visitor]")
 {
     IElement* e = Fixture::ObjectWithChild();
 
@@ -220,7 +200,7 @@ TEST_CASE("Iterate<Children> on object","[Visitor]")
     delete e;
 }
 
-TEST_CASE("Iterate<Children> on string","[Visitor]")
+TEST_CASE("Iterate<Children> on string", "[Visitor]")
 {
     IElement* e = IElement::Create("string");
 
@@ -235,7 +215,7 @@ TEST_CASE("Iterate<Children> on string","[Visitor]")
     delete e;
 }
 
-TEST_CASE("Query Element name","[Visitor]")
+TEST_CASE("Query Element name", "[Visitor]")
 {
     ArrayElement* a = new ArrayElement;
 

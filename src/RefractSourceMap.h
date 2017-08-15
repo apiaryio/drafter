@@ -11,11 +11,12 @@
 
 #include "Serialize.h"
 
-namespace drafter {
+namespace drafter
+{
 
     refract::IElement* SourceMapToRefract(const mdp::CharactersRangeSet& sourceMap);
 
-    template<typename T>
+    template <typename T>
     void AttachSourceMap(refract::IElement* element, const T& nodeInfo)
     {
         if (!nodeInfo.sourceMap->sourceMap.empty()) {
@@ -23,7 +24,7 @@ namespace drafter {
         }
     }
 
-    template<typename T>
+    template <typename T>
     refract::IElement* PrimitiveToRefract(const NodeInfo<T>& primitive)
     {
         typedef typename refract::ElementTypeSelector<T>::ElementType ElementType;
@@ -37,12 +38,13 @@ namespace drafter {
 
     class ConversionContext;
 
-    template<typename T>
+    template <typename T>
     refract::IElement* LiteralToRefract(const NodeInfo<std::string>& literal, ConversionContext& context)
     {
         std::pair<bool, T> parsed = LiteralTo<T>(*literal.node);
 
-        typename refract::ElementTypeSelector<T>::ElementType* element = new typename refract::ElementTypeSelector<T>::ElementType;
+        typename refract::ElementTypeSelector<T>::ElementType* element
+            = new typename refract::ElementTypeSelector<T>::ElementType;
         if (parsed.first) {
             element->set(parsed.second);
         }
@@ -51,7 +53,6 @@ namespace drafter {
 
         return element;
     }
-
 }
 
 #endif // #ifndef DRAFTER_REFRACTSOURCEMAP_H

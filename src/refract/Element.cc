@@ -18,7 +18,8 @@
 namespace refract
 {
 
-    bool isReserved(const std::string& element) {
+    bool isReserved(const std::string& element)
+    {
         static std::set<std::string> reserved;
         if (reserved.empty()) {
             reserved.insert("null");
@@ -43,16 +44,16 @@ namespace refract
         return reserved.find(element) != reserved.end();
     }
 
-    IElement::MemberElementCollection::const_iterator IElement::MemberElementCollection::find(const std::string& name) const
+    IElement::MemberElementCollection::const_iterator IElement::MemberElementCollection::find(
+        const std::string& name) const
     {
         ComparableVisitor v(name);
         Visitor visitor(v);
 
-        return std::find_if(elements.begin(), elements.end(),
-                            [&visitor, &v](const MemberElement* e) {
-                                e->value.first->content(visitor);
-                                return v.get();
-                            });
+        return std::find_if(elements.begin(), elements.end(), [&visitor, &v](const MemberElement* e) {
+            e->value.first->content(visitor);
+            return v.get();
+        });
     }
 
     IElement::MemberElementCollection::iterator IElement::MemberElementCollection::find(const std::string& name)
@@ -60,16 +61,16 @@ namespace refract
         ComparableVisitor v(name);
         Visitor visitor(v);
 
-        return std::find_if(elements.begin(), elements.end(),
-                            [&visitor, &v](const MemberElement* e) {
-                                e->value.first->content(visitor);
-                                return v.get();
-                            });
+        return std::find_if(elements.begin(), elements.end(), [&visitor, &v](const MemberElement* e) {
+            e->value.first->content(visitor);
+            return v.get();
+        });
     }
 
     IElement::MemberElementCollection::~MemberElementCollection()
     {
-        for (MemberElement* e : elements) delete e;
+        for (MemberElement* e : elements)
+            delete e;
     }
 
     StringElement* IElement::Create(const char* value)
@@ -106,7 +107,8 @@ namespace refract
         }
     }
 
-    namespace {
+    namespace
+    {
 
         bool TypeChecker(const ExtendElement::ValueType& values)
         {
@@ -118,7 +120,7 @@ namespace refract
             Visit(v, *values.front());
 
             const TypeQueryVisitor::ElementType base = v.get();
-            for (ExtendElement::ValueType::const_iterator i = values.begin() ; i != values.end() ; ++i) {
+            for (ExtendElement::ValueType::const_iterator i = values.begin(); i != values.end(); ++i) {
                 Visit(v, *(*i));
                 if (base != v.get()) {
                     return false;
@@ -165,9 +167,11 @@ namespace refract
         value.push_back(e);
     }
 
-    namespace {
+    namespace
+    {
 
-        class ElementMerger {
+        class ElementMerger
+        {
 
             IElement* result;
             TypeQueryVisitor::ElementType base;
@@ -178,9 +182,12 @@ namespace refract
             template <typename T, typename V = typename T::ValueType>
             struct ValueMerge {
                 V& value;
-                ValueMerge(T& element) : value(element.value) {}
+                ValueMerge(T& element) : value(element.value)
+                {
+                }
 
-                void operator()(const T& merge) {
+                void operator()(const T& merge)
+                {
                     value = merge.value;
                 }
             };
@@ -198,28 +205,30 @@ namespace refract
             struct ValueMerge<T, RefractElements> {
                 typename T::ValueType& value;
 
-                ValueMerge(T& element) : value(element.value) {}
+                ValueMerge(T& element) : value(element.value)
+                {
+                }
 
-                void operator()(const T& merge) {
+                void operator()(const T& merge)
+                {
                     typedef std::map<std::string, MemberElement*> MapKeyToMember;
                     typedef std::map<std::string, RefElement*> MapNameToRef;
 
                     MapKeyToMember keysBase;
                     MapNameToRef refBase;
 
-                    for (RefractElements::iterator it = value.begin() ; it != value.end() ; ++it) {
+                    for (RefractElements::iterator it = value.begin(); it != value.end(); ++it) {
                         if (MemberElement* member = TypeQueryVisitor::as<MemberElement>(*it)) {
 
                             if (StringElement* key = TypeQueryVisitor::as<StringElement>(member->value.first)) {
                                 keysBase[key->value] = member;
                             }
-                        }
-                        else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(*it)) {
+                        } else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(*it)) {
                             refBase[ref->value] = ref;
                         }
                     }
 
-                    for (RefractElements::const_iterator it = merge.value.begin() ; it != merge.value.end() ; ++it) {
+                    for (RefractElements::const_iterator it = merge.value.begin(); it != merge.value.end(); ++it) {
                         if (MemberElement* member = TypeQueryVisitor::as<MemberElement>(*it)) {
                             if (StringElement* key = TypeQueryVisitor::as<StringElement>(member->value.first)) {
                                 MapKeyToMember::iterator iKey = keysBase.find(key->value);
@@ -231,23 +240,19 @@ namespace refract
                                     std::set<std::string> emptySet;
                                     InfoMerge<T>(iKey->second->meta, emptySet)(member->meta);
                                     InfoMerge<T>(iKey->second->attributes, emptySet)(member->attributes);
-                                }
-                                else { // unknown key, append value
+                                } else { // unknown key, append value
                                     MemberElement* clone = static_cast<MemberElement*>(member->clone());
                                     value.push_back(clone);
                                     keysBase[key->value] = clone;
                                 }
                             }
-                        }
-                        else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(*it)) {
+                        } else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(*it)) {
                             if (refBase.find(ref->value) == refBase.end()) {
-                                RefElement* clone =
-                                    static_cast<RefElement*>(member->clone());
+                                RefElement* clone = static_cast<RefElement*>(member->clone());
                                 value.push_back(clone);
                                 refBase[ref->value] = clone;
                             }
-                        }
-                        else if(!(*it)->empty()) { // merge member is not MemberElement, append value
+                        } else if (!(*it)->empty()) { // merge member is not MemberElement, append value
                             value.push_back((*it)->clone());
                         }
                     }
@@ -255,18 +260,23 @@ namespace refract
             };
 
             template <typename T>
-            class InfoMerge {
+            class InfoMerge
+            {
                 IElement::MemberElementCollection& info;
                 const std::set<std::string>& noMergeKeys;
 
             public:
+                InfoMerge(IElement::MemberElementCollection& info, const std::set<std::string>& noMergeKeys)
+                    : info(info), noMergeKeys(noMergeKeys)
+                {
+                }
 
-                InfoMerge(IElement::MemberElementCollection& info, const std::set<std::string>& noMergeKeys) : info(info), noMergeKeys(noMergeKeys) {}
-
-                void operator()(const IElement::MemberElementCollection& append) {
+                void operator()(const IElement::MemberElementCollection& append)
+                {
                     IElement::MemberElementCollection toAppend;
 
-                    for (IElement::MemberElementCollection::const_iterator it = append.begin() ; it != append.end() ; ++it) {
+                    for (IElement::MemberElementCollection::const_iterator it = append.begin(); it != append.end();
+                         ++it) {
 
                         if (!*it) {
                             continue;
@@ -290,7 +300,8 @@ namespace refract
                         toAppend.push_back(static_cast<MemberElement*>((*it)->clone()));
                     }
 
-                    for (IElement::MemberElementCollection::const_iterator it = toAppend.begin() ; it != toAppend.end() ; ++it) {
+                    for (IElement::MemberElementCollection::const_iterator it = toAppend.begin(); it != toAppend.end();
+                         ++it) {
                         info.push_back(*it);
                     }
 
@@ -303,7 +314,8 @@ namespace refract
              * we use static_cast<> without checking type this is responsibility of caller
              */
             template <typename T>
-            static void doMerge(IElement* target, const IElement* append) {
+            static void doMerge(IElement* target, const IElement* append)
+            {
                 typedef T ElementType;
 
                 // FIXME: static initialization on C++11
@@ -319,15 +331,16 @@ namespace refract
                 InfoMerge<T>(target->meta, noMeta)(append->meta);
                 InfoMerge<T>(target->attributes, noAttributes)(append->attributes);
 
-                ValueMerge<T>(static_cast<ElementType&>(*target))
-                             (static_cast<const ElementType&>(*append));
+                ValueMerge<T>(static_cast<ElementType&>(*target))(static_cast<const ElementType&>(*append));
             }
 
         public:
+            ElementMerger() : result(NULL), base(TypeQueryVisitor::Unknown)
+            {
+            }
 
-            ElementMerger() : result(NULL), base(TypeQueryVisitor::Unknown) {}
-
-            void operator()(const IElement* e) {
+            void operator()(const IElement* e)
+            {
                 if (!e) {
                     return;
                 }
@@ -344,11 +357,11 @@ namespace refract
                 TypeQueryVisitor type;
                 VisitBy(*e, type);
 
-                if(type.get() != base) {
+                if (type.get() != base) {
                     throw refract::LogicError("Can not merge different types of elements");
                 }
 
-                switch(base) {
+                switch (base) {
                     case TypeQueryVisitor::String:
                         doMerge<StringElement>(result, e);
                         return;
@@ -386,10 +399,10 @@ namespace refract
                 }
             }
 
-            operator IElement* () const {
+            operator IElement*() const
+            {
                 return result;
             }
-
         };
     }
 

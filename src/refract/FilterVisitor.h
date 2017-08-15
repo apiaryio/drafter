@@ -24,27 +24,28 @@ namespace refract
         Elements selected;
         query::Query query;
 
-        public:
-
+    public:
         template <typename Predicate>
-        FilterVisitor(Predicate predicate) : query(predicate) {};
+        FilterVisitor(Predicate predicate) : query(predicate){};
 
         template <typename T>
-        void operator()(const T& e){
+        void operator()(const T& e)
+        {
 
-            if(query(e)) {
+            if (query(e)) {
                 selected.push_back(&e);
             }
         };
 
-        bool empty() const {
+        bool empty() const
+        {
             return selected.empty();
         }
 
-        const Elements& elements() const {
+        const Elements& elements() const
+        {
             return selected;
         }
-
     };
 
 }; // namespace refract

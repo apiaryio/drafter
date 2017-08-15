@@ -1,13 +1,15 @@
 #include "Query.h"
 #include "Element.h"
 
-namespace refract {
+namespace refract
+{
 
-    namespace query {
+    namespace query
+    {
 
-            bool Element::operator()(const IElement& e) {
-                return e.element() == name;
-            }
+        bool Element::operator()(const IElement& e)
+        {
+            return e.element() == name;
+        }
     }
-
 }

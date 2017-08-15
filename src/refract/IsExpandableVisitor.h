@@ -12,15 +12,15 @@
 namespace refract
 {
 
-    class IsExpandableVisitor {
+    class IsExpandableVisitor
+    {
 
         bool result;
 
     public:
-
         IsExpandableVisitor();
 
-        template<typename T>
+        template <typename T>
         void operator()(const T& e);
 
         bool get() const;

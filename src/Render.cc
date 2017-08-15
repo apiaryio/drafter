@@ -20,25 +20,28 @@
 
 using namespace snowcrash;
 
-namespace drafter {
+namespace drafter
+{
 
-    RenderFormat findRenderFormat(const std::string& contentType) {
+    RenderFormat findRenderFormat(const std::string& contentType)
+    {
 
         if (RegexMatch(contentType, JSONSchemaRegex)) {
             return JSONSchemaRenderFormat;
-        }
-        else if (RegexMatch(contentType, JSONRegex)) {
+        } else if (RegexMatch(contentType, JSONRegex)) {
             return JSONRenderFormat;
         }
 
         return UndefinedRenderFormat;
     }
 
-    std::string getContentTypeFromHeaders(const Headers& headers) {
+    std::string getContentTypeFromHeaders(const Headers& headers)
+    {
         Collection<Header>::const_iterator header;
 
-        header = std::find_if(headers.begin(), headers.end(),
-                              std::bind(MatchFirstWith<Header, std::string>(), std::placeholders::_1, HTTPHeaderName::ContentType));
+        header = std::find_if(headers.begin(),
+            headers.end(),
+            std::bind(MatchFirstWith<Header, std::string>(), std::placeholders::_1, HTTPHeaderName::ContentType));
 
         if (header != headers.end()) {
             return header->second;
@@ -47,9 +50,9 @@ namespace drafter {
         return "";
     }
 
-    NodeInfoByValue<Asset> renderPayloadBody(const NodeInfo<Payload>& payload,
-                                             const NodeInfo<Action>& action,
-                                             ConversionContext& context) {
+    NodeInfoByValue<Asset> renderPayloadBody(
+        const NodeInfo<Payload>& payload, const NodeInfo<Action>& action, ConversionContext& context)
+    {
 
         NodeInfoByValue<Asset> body = std::make_pair(payload.node->body, &payload.sourceMap->body);
 
@@ -60,7 +63,7 @@ namespace drafter {
         NodeInfo<Attributes>* attributes = &payloadAttributes;
 
         if (payload.node->attributes.empty() && !action.isNull() && !action.node->attributes.empty()) {
-           attributes = &actionAttributes;
+            attributes = &actionAttributes;
         }
 
         RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node->headers));
@@ -85,8 +88,7 @@ namespace drafter {
 
         // One of this will always execute since we have a catch above for not having render format
         switch (renderFormat) {
-            case JSONRenderFormat:
-            {
+            case JSONRenderFormat: {
                 refract::RenderJSONVisitor renderer;
                 refract::Visit(renderer, *expanded);
 
@@ -95,8 +97,7 @@ namespace drafter {
                 return std::make_pair(renderer.getString(), NodeInfo<Asset>::NullSourceMap());
             }
 
-            case JSONSchemaRenderFormat:
-            {
+            case JSONSchemaRenderFormat: {
                 refract::JSONSchemaVisitor renderer;
                 std::string result = renderer.getSchema(*expanded);
 
@@ -114,8 +115,9 @@ namespace drafter {
     }
 
     NodeInfoByValue<Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload,
-                                               const NodeInfo<snowcrash::Action>& action,
-                                               ConversionContext& context) {
+        const NodeInfo<snowcrash::Action>& action,
+        ConversionContext& context)
+    {
 
         NodeInfoByValue<Asset> schema = std::make_pair(payload.node->schema, &payload.sourceMap->schema);
 
@@ -130,8 +132,8 @@ namespace drafter {
         }
 
         // Generate Schema only if Body content type is JSON
-        if (!payload.node->schema.empty() || payload.node->attributes.empty() ||
-            findRenderFormat(getContentTypeFromHeaders(payload.node->headers)) != JSONRenderFormat) {
+        if (!payload.node->schema.empty() || payload.node->attributes.empty()
+            || findRenderFormat(getContentTypeFromHeaders(payload.node->headers)) != JSONRenderFormat) {
 
             return schema;
         }

@@ -12,7 +12,7 @@
 namespace refract
 {
     /**
-     * Simple concept based on operator() override. It 
+     * Simple concept based on operator() override. It
      * allows tricky creating of complex refract structures
      * eg:
      * ```
@@ -36,30 +36,37 @@ namespace refract
     struct ElementBuilder {
         T* element;
 
-        ElementBuilder(T* element) : element(element) {}
+        ElementBuilder(T* element) : element(element)
+        {
+        }
 
-        operator T*() {
+        operator T*()
+        {
             return element;
         }
 
-        ElementBuilder<T>& operator()(IElement* member) {
+        ElementBuilder<T>& operator()(IElement* member)
+        {
             element->push_back(member);
             return *this;
         }
 
-        ElementBuilder<T>& operator()(IElement* key, IElement* value) {
+        ElementBuilder<T>& operator()(IElement* key, IElement* value)
+        {
             element->push_back(new MemberElement(key, value));
             return *this;
         }
 
-        ElementBuilder<T>& operator()(const std::string& key, IElement* value) {
+        ElementBuilder<T>& operator()(const std::string& key, IElement* value)
+        {
             element->push_back(new MemberElement(key, value));
             return *this;
         }
     };
 
     template <typename E>
-    ElementBuilder<E> Build(E* e) {
+    ElementBuilder<E> Build(E* e)
+    {
         return ElementBuilder<E>(e);
     }
 }; // namespace refract

@@ -16,45 +16,44 @@
 
 namespace refract
 {
-    class JSONSchemaVisitor 
+    class JSONSchemaVisitor
     {
-        ObjectElement *pObj;
-        ObjectElement *pDefs;
+        ObjectElement* pObj;
+        ObjectElement* pDefs;
         bool fixed;
         bool fixedType;
 
         void setSchemaType(const std::string& type);
         void addSchemaType(const std::string& type);
         void addNullToEnum();
-        void addMember(const std::string& key, IElement *val);
+        void addMember(const std::string& key, IElement* val);
         void anyOf(std::map<std::string, std::vector<IElement*> >& types, std::vector<std::string>& typesOrder);
         bool allItemsEmpty(const ArrayElement::ValueType* val);
         ObjectElement* definitionFromVariableProperty(JSONSchemaVisitor& renderer);
-        void addVariableProps(std::vector<MemberElement*>& props,ObjectElement *o);
+        void addVariableProps(std::vector<MemberElement*>& props, ObjectElement* o);
         ArrayElement* arrayFromProps(std::vector<MemberElement*>& props);
 
-        template<typename T>
+        template <typename T>
         void setPrimitiveType(const T& e)
         {
-            //FIXME: static_assert is missing in our code base
-            //static_assert(sizeof(T) == 0, "Only String, Number, Boolean types allowed");
+            // FIXME: static_assert is missing in our code base
+            // static_assert(sizeof(T) == 0, "Only String, Number, Boolean types allowed");
 
             throw std::runtime_error("Only String, Number, Boolean types allowed");
         };
 
-        template<typename T> void primitiveType(const T& e);
+        template <typename T>
+        void primitiveType(const T& e);
 
         void processMembers(std::vector<refract::IElement*>::const_iterator begin,
-                            std::vector<refract::IElement*>::const_iterator end,
-                            ArrayElement::ValueType& reqVals,
-                            std::vector<MemberElement*>& varProps,
-                            RefractElements& oneOfMembers,
-                            ObjectElement *o);
+            std::vector<refract::IElement*>::const_iterator end,
+            ArrayElement::ValueType& reqVals,
+            std::vector<MemberElement*>& varProps,
+            RefractElements& oneOfMembers,
+            ObjectElement* o);
 
     public:
-        JSONSchemaVisitor(ObjectElement *pDefinitions = NULL,
-                          bool _fixed = false,
-                          bool _fixedType = false);
+        JSONSchemaVisitor(ObjectElement* pDefinitions = NULL, bool _fixed = false, bool _fixedType = false);
         ~JSONSchemaVisitor();
         void setFixed(bool _fixed);
         void setFixedType(bool _fixedType);

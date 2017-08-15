@@ -15,7 +15,7 @@ namespace refract
     struct IElement;
     struct MemberElement;
 
-    class ComparableVisitor 
+    class ComparableVisitor
     {
         std::string compare_to;
         bool result;
@@ -34,8 +34,8 @@ namespace refract
         }
 
     public:
-
-        enum {
+        enum
+        {
             key,
             value
         };
@@ -45,9 +45,9 @@ namespace refract
         template <typename E>
         void operator()(const E& e)
         {
-           if (compare == value) {
-               result = IsEqual(compare_to, e.value);
-           }
+            if (compare == value) {
+                result = IsEqual(compare_to, e.value);
+            }
         }
 
         void operator()(const MemberElement& e);
@@ -55,7 +55,6 @@ namespace refract
 
         bool get() const;
     };
-
 
 }; // namespace refract
 

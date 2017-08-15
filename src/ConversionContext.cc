@@ -8,7 +8,8 @@
 
 #include "ConversionContext.h"
 
-namespace drafter {
+namespace drafter
+{
 
     void ConversionContext::warn(const snowcrash::Warning& warning)
     {
@@ -18,14 +19,13 @@ namespace drafter {
             // Compare sourcemap
             if (item.location.size() == warning.location.size()) {
                 for (size_t i = 0; i < item.location.size(); i++) {
-                    if (item.location.at(i).length != warning.location.at(i).length ||
-                        item.location.at(i).location != warning.location.at(i).location) {
+                    if (item.location.at(i).length != warning.location.at(i).length
+                        || item.location.at(i).location != warning.location.at(i).location) {
 
                         equalSourceMap = false;
                     }
                 }
-            }
-            else {
+            } else {
                 equalSourceMap = false;
             }
 

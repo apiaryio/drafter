@@ -12,4 +12,3 @@ using namespace draftertest;
 
 TEST_REFRACT("syntax", "issue-350");
 TEST_REFRACT("syntax", "undisclosed-listitem");
-

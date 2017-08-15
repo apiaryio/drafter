@@ -23,17 +23,20 @@
 #define PARSE_RESULT_SERIALIZATION_VERSION "2.2"
 
 // Forward declaration
-namespace snowcrash {
+namespace snowcrash
+{
 
     template <typename T>
     struct ParseResult;
 }
 
-namespace drafter {
+namespace drafter
+{
 
-    enum SerializeFormat {
-        JSONFormat = 0,     // JSON Format
-        YAMLFormat,         // YAML Format
+    enum SerializeFormat
+    {
+        JSONFormat = 0, // JSON Format
+        YAMLFormat,     // YAML Format
         UnknownFormat = -1
     };
 
@@ -43,13 +46,17 @@ namespace drafter {
         const bool expandMSON;
 
         WrapperOptions(const bool generateSourceMap, const bool expandMSON)
-        : generateSourceMap(generateSourceMap), expandMSON(expandMSON) {}
+            : generateSourceMap(generateSourceMap), expandMSON(expandMSON)
+        {
+        }
 
-        WrapperOptions(const bool generateSourceMap)
-        : generateSourceMap(generateSourceMap), expandMSON(false) {}
+        WrapperOptions(const bool generateSourceMap) : generateSourceMap(generateSourceMap), expandMSON(false)
+        {
+        }
 
-        WrapperOptions()
-        : generateSourceMap(false), expandMSON(false) {}
+        WrapperOptions() : generateSourceMap(false), expandMSON(false)
+        {
+        }
     };
 
     /**
@@ -172,12 +179,15 @@ namespace drafter {
         static const std::string SourceMap;
     };
 
-    template<typename T> std::pair<bool, T> LiteralTo(const mson::Literal&);
+    template <typename T>
+    std::pair<bool, T> LiteralTo(const mson::Literal&);
 
-    template <> std::pair<bool, bool> LiteralTo<bool>(const mson::Literal& literal);
-    template <> std::pair<bool, double> LiteralTo<double>(const mson::Literal& literal);
-    template <> std::pair<bool, std::string> LiteralTo<std::string>(const mson::Literal& literal);
-
+    template <>
+    std::pair<bool, bool> LiteralTo<bool>(const mson::Literal& literal);
+    template <>
+    std::pair<bool, double> LiteralTo<double>(const mson::Literal& literal);
+    template <>
+    std::pair<bool, std::string> LiteralTo<std::string>(const mson::Literal& literal);
 
     refract::ArrayElement* CreateArrayElement(refract::IElement* value);
 
@@ -202,13 +212,14 @@ namespace drafter {
      *        you have to write your own, for example \see SeriallizeAST.cc
      *
      */
-    template<typename T, typename R = sos::Array>
+    template <typename T, typename R = sos::Array>
     struct WrapCollection {
 
         typedef T value_type;
 
-        template<typename Collection, typename Functor>
-        R operator()(const Collection& collection, Functor &wrapper) const {
+        template <typename Collection, typename Functor>
+        R operator()(const Collection& collection, Functor& wrapper) const
+        {
             typedef typename Collection::const_iterator iterator_type;
             R array;
 
@@ -219,8 +230,9 @@ namespace drafter {
             return array;
         }
 
-        template<typename Collection, typename Functor, typename Arg1>
-        R operator()(const Collection& collection, Functor &wrapper, Arg1 arg1) const {
+        template <typename Collection, typename Functor, typename Arg1>
+        R operator()(const Collection& collection, Functor& wrapper, Arg1 arg1) const
+        {
             typedef typename Collection::const_iterator iterator_type;
             R array;
 
@@ -231,8 +243,9 @@ namespace drafter {
             return array;
         }
 
-        template<typename Collection, typename Functor, typename Arg1, typename Arg2>
-        R operator()(const Collection& collection, Functor &wrapper, Arg1 arg1, Arg2 arg2) const {
+        template <typename Collection, typename Functor, typename Arg1, typename Arg2>
+        R operator()(const Collection& collection, Functor& wrapper, Arg1 arg1, Arg2 arg2) const
+        {
             typedef typename Collection::const_iterator iterator_type;
             R array;
 
@@ -244,11 +257,12 @@ namespace drafter {
         }
     };
 
-    template<typename T, typename R = sos::Array>
+    template <typename T, typename R = sos::Array>
     struct WrapCollectionIf {
         // When we want to use predicate, let's use a dummy argument to distinguish it
-        template<typename Collection, typename Functor, typename Predicate>
-        R operator()(const Collection& collection, Functor &wrapper, Predicate &predicate) const {
+        template <typename Collection, typename Functor, typename Predicate>
+        R operator()(const Collection& collection, Functor& wrapper, Predicate& predicate) const
+        {
             typedef typename Collection::const_iterator iterator_type;
             R array;
 
@@ -261,8 +275,9 @@ namespace drafter {
             return array;
         }
 
-        template<typename Collection, typename Functor, typename Predicate, typename Arg1>
-        R operator()(const Collection& collection, Functor &wrapper, Predicate &predicate, Arg1& arg1) const {
+        template <typename Collection, typename Functor, typename Predicate, typename Arg1>
+        R operator()(const Collection& collection, Functor& wrapper, Predicate& predicate, Arg1& arg1) const
+        {
             typedef typename Collection::const_iterator iterator_type;
             R array;
 
@@ -274,9 +289,7 @@ namespace drafter {
 
             return array;
         }
-
     };
-
 }
 
 #endif

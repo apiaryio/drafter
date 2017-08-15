@@ -19,8 +19,9 @@
 
 namespace refract
 {
-    template<typename T>
-    bool IsTypeAttribute(const T& e, std::string typeAttribute) {
+    template <typename T>
+    bool IsTypeAttribute(const T& e, std::string typeAttribute)
+    {
         IElement::MemberElementCollection::const_iterator ta = e.attributes.find("typeAttributes");
 
         if (ta == e.attributes.end()) {
@@ -33,7 +34,7 @@ namespace refract
             return false;
         }
 
-        for (ArrayElement::ValueType::const_iterator it = attrs->value.begin() ; it != attrs->value.end() ; ++it ) {
+        for (ArrayElement::ValueType::const_iterator it = attrs->value.begin(); it != attrs->value.end(); ++it) {
             StringElement* attr = TypeQueryVisitor::as<StringElement>(*it);
             if (!attr) {
                 continue;
@@ -46,21 +47,22 @@ namespace refract
         return false;
     }
 
-    template<typename T>
-    bool IsVariableProperty(const T& e) {
+    template <typename T>
+    bool IsVariableProperty(const T& e)
+    {
         IElement::MemberElementCollection::const_iterator i = e.attributes.find("variable");
 
         if (i == e.attributes.end()) {
             return false;
         }
 
-        BooleanElement* b =  TypeQueryVisitor::as<BooleanElement>((*i)->value.second);
+        BooleanElement* b = TypeQueryVisitor::as<BooleanElement>((*i)->value.second);
         return b ? b->value : false;
     }
 
-
-    template<typename T>
-    const T* GetDefault(const T& e) {
+    template <typename T>
+    const T* GetDefault(const T& e)
+    {
         IElement::MemberElementCollection::const_iterator i = e.attributes.find("default");
 
         if (i == e.attributes.end()) {
@@ -70,8 +72,9 @@ namespace refract
         return TypeQueryVisitor::as<T>((*i)->value.second);
     }
 
-    template<typename T>
-    const T* GetSample(const T& e) {
+    template <typename T>
+    const T* GetSample(const T& e)
+    {
         IElement::MemberElementCollection::const_iterator i = e.attributes.find("samples");
 
         if (i == e.attributes.end()) {
@@ -87,13 +90,16 @@ namespace refract
         return TypeQueryVisitor::as<T>(*(a->value.begin()));
     }
 
-    template<typename T, typename R = typename T::ValueType>
+    template <typename T, typename R = typename T::ValueType>
     struct GetValue {
         const T& element;
 
-        GetValue(const T& e) : element(e) {}
+        GetValue(const T& e) : element(e)
+        {
+        }
 
-        operator const R*() {
+        operator const R*()
+        {
             // FIXME: if value is propageted as first
             // following example will be rendered w/ empty members
             // ```
@@ -128,9 +134,12 @@ namespace refract
     struct GetEnumValue {
         const EnumElement& element;
 
-        GetEnumValue(const EnumElement& e) : element(e) {}
+        GetEnumValue(const EnumElement& e) : element(e)
+        {
+        }
 
-        operator const EnumElement::ValueType*() {
+        operator const EnumElement::ValueType*()
+        {
             if (const EnumElement* s = GetSample(element)) {
                 return &s->value;
             }
@@ -158,13 +167,17 @@ namespace refract
         const T* resolved = TypeQueryVisitor::as<T>(element);
 
         if (!resolved) {
-            throw snowcrash::Error("mixin base type should be the same as parent base type. objects should contain object mixins. arrays should contain array mixins", snowcrash::MSONError);
+            throw snowcrash::Error(
+                "mixin base type should be the same as parent base type. objects should contain object mixins. arrays "
+                "should contain array mixins",
+                snowcrash::MSONError);
         }
     }
 
     // will be moved into different header (as part of drafter instead of refract)
-    template<typename T, typename Functor>
-    void HandleRefWhenFetchingMembers(const refract::IElement* e, typename T::ValueType& members, const Functor& functor)
+    template <typename T, typename Functor>
+    void HandleRefWhenFetchingMembers(
+        const refract::IElement* e, typename T::ValueType& members, const Functor& functor)
     {
         IElement::MemberElementCollection::const_iterator found = e->attributes.find("resolved");
 
@@ -181,9 +194,7 @@ namespace refract
             return;
         }
 
-        for (RefractElements::const_iterator it = extended->value.begin();
-             it != extended->value.end();
-             ++it) {
+        for (RefractElements::const_iterator it = extended->value.begin(); it != extended->value.end(); ++it) {
 
             CheckMixinParent<T>(*it);
             // We can safely cast it because we are already checking the type in the above line.
@@ -192,12 +203,9 @@ namespace refract
     }
 
     template <typename T>
-    MemberElement* FindMemberByKey(const T& e,
-                                   const std::string& name)
+    MemberElement* FindMemberByKey(const T& e, const std::string& name)
     {
-        for (typename T::ValueType::const_iterator it = e.value.begin()
-                 ; it != e.value.end()
-                 ; ++it ) {
+        for (typename T::ValueType::const_iterator it = e.value.begin(); it != e.value.end(); ++it) {
 
             ComparableVisitor cmp(name, ComparableVisitor::key);
             VisitBy(*(*it), cmp);
@@ -211,7 +219,8 @@ namespace refract
     }
 
     template <typename T>
-    T* FindCollectionMemberValue(const IElement::MemberElementCollection& collection, const std::string& key) {
+    T* FindCollectionMemberValue(const IElement::MemberElementCollection& collection, const std::string& key)
+    {
         IElement::MemberElementCollection::const_iterator i = collection.find(key);
         if (i == collection.end()) {
             return NULL;
@@ -223,7 +232,6 @@ namespace refract
     std::string GetKeyAsString(const MemberElement& e);
 
     StringElement* GetDescription(const IElement& e);
-
 }
 
 #endif /* REFRACT_VISITORUTILS_H */

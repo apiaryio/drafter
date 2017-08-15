@@ -15,13 +15,11 @@
 
 namespace refract
 {
-    PrintVisitor::PrintVisitor()
-        : indent(0), os(std::cerr), ommitSourceMap(false)
+    PrintVisitor::PrintVisitor() : indent(0), os(std::cerr), ommitSourceMap(false)
     {
     }
 
-    PrintVisitor::PrintVisitor(int indent_, std::ostream& os_,
-                               bool ommitSourceMap_)
+    PrintVisitor::PrintVisitor(int indent_, std::ostream& os_, bool ommitSourceMap_)
         : indent(indent_), os(os_), ommitSourceMap(ommitSourceMap_)
     {
     }
@@ -39,7 +37,7 @@ namespace refract
         indented() << "- <meta>\n";
 
         for (const auto& m : e.meta) {
-            PrintVisitor{indent + 1, os, ommitSourceMap}(*m);
+            PrintVisitor{ indent + 1, os, ommitSourceMap }(*m);
         }
     }
 
@@ -49,13 +47,11 @@ namespace refract
 
         for (const auto& a : e.attributes) {
             if (const auto mPtr = TypeQueryVisitor::as<MemberElement>(a))
-                if (const auto strPtr =
-                        TypeQueryVisitor::as<StringElement>(mPtr->value.first))
-                    if (ommitSourceMap &&
-                        (strPtr->value.compare("sourceMap") == 0))
+                if (const auto strPtr = TypeQueryVisitor::as<StringElement>(mPtr->value.first))
+                    if (ommitSourceMap && (strPtr->value.compare("sourceMap") == 0))
                         continue;
 
-            PrintVisitor{indent + 1, os, ommitSourceMap}(*a);
+            PrintVisitor{ indent + 1, os, ommitSourceMap }(*a);
         }
     }
 
@@ -63,7 +59,7 @@ namespace refract
     {
         indented() << "+ " << e.element() << '\n';
 
-        PrintVisitor pv{indent + 1, os, ommitSourceMap};
+        PrintVisitor pv{ indent + 1, os, ommitSourceMap };
 
         pv.printMeta(e);
         pv.printAttr(e);
@@ -81,7 +77,7 @@ namespace refract
         indented() << "- Holder[" << e.element() << "]\n";
 
         assert(e.value);
-        PrintVisitor{indent + 1, os, ommitSourceMap}(*e.value);
+        PrintVisitor{ indent + 1, os, ommitSourceMap }(*e.value);
     }
 
     void PrintVisitor::operator()(const StringElement& e)
@@ -122,11 +118,11 @@ namespace refract
 
         const auto keyPtr = e.value.first;
         assert(keyPtr);
-        PrintVisitor{indent + 1, os, ommitSourceMap}(*keyPtr);
+        PrintVisitor{ indent + 1, os, ommitSourceMap }(*keyPtr);
 
         const auto valuePtr = e.value.second;
         assert(valuePtr);
-        PrintVisitor{indent + 1, os, ommitSourceMap}(*valuePtr);
+        PrintVisitor{ indent + 1, os, ommitSourceMap }(*valuePtr);
     }
 
     void PrintVisitor::operator()(const ArrayElement& e)
@@ -165,6 +161,6 @@ namespace refract
         refract::Visit(ps, e);
     }
 
-};  // namespace refract
+}; // namespace refract
 
 #undef VISIT_IMPL
