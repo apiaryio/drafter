@@ -54,7 +54,7 @@ if "%config%"=="Debug" set debug_arg=--debug
 :project-gen
 @rem Skip project generation if requested.
 if defined noprojgen goto msbuild
-if "%GYP_MSVS_VERSION%"=="" set GYP_MSVS_VERSION=2012
+if "%GYP_MSVS_VERSION%"=="" set GYP_MSVS_VERSION=2015
 
 @rem Generate the VS project.
 SETLOCAL
@@ -72,6 +72,7 @@ ENDLOCAL
 :msbuild
 @rem Skip project generation if requested.
 if defined nobuild goto exit
+if "%GYP_MSVS_VERSION%"=="2015" goto vc-set-2015
 if "%GYP_MSVS_VERSION%"=="2013" goto vc-set-2013
 if "%GYP_MSVS_VERSION%"=="2012" goto vc-set-2012
 if "%GYP_MSVS_VERSION%"=="2010" goto vc-set-2010
@@ -79,6 +80,7 @@ if "%GYP_MSVS_VERSION%"=="2008" goto vc-set-2008
 
 
 @rem MSVS 2015 is VS14
+:vc-set-2015
 if not defined VS140COMNTOOLS goto vc-set-2013
 if not exist "%VS140COMNTOOLS%\..\..\vc\vcvarsall.bat" goto vc-set-2013
 call "%VS140COMNTOOLS%\..\..\vc\vcvarsall.bat"
