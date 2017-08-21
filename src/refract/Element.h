@@ -244,7 +244,6 @@ namespace refract
             const Type* self = static_cast<const T*>(this);
             Type* element = new Type;
 
-            element->hasContent = self->hasContent;
 
             if (flags & cElement) {
                 element->element_ = self->element_;
@@ -263,6 +262,7 @@ namespace refract
             }
 
             if (flags & cValue) {
+                element->hasContent = self->hasContent;
                 TraitType::cloneValue(value, element->value);
             }
 
@@ -508,27 +508,52 @@ namespace refract
         }
     };
 
-    struct EnumElementTrait : public ElementCollectionTrait<> {
-        static const std::string element()
+    struct EnumElementTrait
+    {
+
+        typedef IElement* ValueType;
+
+        static ValueType init() { return NULL; }
+        static const std::string element() { return "enum"; }
+
+        static void release(ValueType& value)
         {
-            return "enum";
+            if (value) {
+                delete value;
+                value = NULL;
+            }
+        }
+
+        static void cloneValue(const ValueType& self, ValueType& other)
+        {
+            other = self ? self->clone() : NULL;
         }
     };
 
-    struct EnumElement : Element<EnumElement, EnumElementTrait> {
+    //
+    // FIXME: what about `empty()`? should it reflect "enumeration" attribute?
+    //
+
+    struct EnumElement : Element<EnumElement, EnumElementTrait>
+    {
         EnumElement() : Type()
         {
         }
 
-        EnumElement(const TraitType::ValueType& value) : Type()
+        EnumElement(const TraitType::ValueType& val) : Type()
         {
-            set(value);
+            set(val);
         }
 
-        void push_back(IElement* e)
+        void set(const ValueType& val)
         {
             hasContent = true;
-            value.push_back(e);
+            value = val;
+        }
+
+        const ValueType& get() const
+        {
+            return value;
         }
     };
 

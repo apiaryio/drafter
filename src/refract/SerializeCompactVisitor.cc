@@ -59,9 +59,12 @@ namespace refract
 
     void SosSerializeCompactVisitor::operator()(const EnumElement& e)
     {
-        sos::Array array;
-        SerializeValues(array, e.value, generateSourceMap);
-        value_ = array;
+        IElement::MemberElementCollection::const_iterator enums = e.attributes.find("enumerations");
+        if (enums == e.attributes.end() || !(*enums)->value.second) {
+            return;
+        }
+
+        VisitBy(*(*enums)->value.second, *this);
     }
 
     void SosSerializeCompactVisitor::operator()(const ArrayElement& e)

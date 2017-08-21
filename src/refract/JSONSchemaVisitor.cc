@@ -422,18 +422,24 @@ namespace refract
         }
     }
 
-    void JSONSchemaVisitor::operator()(const EnumElement& e)
-    {
-        const EnumElement::ValueType* val = GetValue<EnumElement>(e);
+    void JSONSchemaVisitor::operator()(const EnumElement& e) {
 
-        if (!val || val->empty()) {
+        const auto& it = e.attributes.find("enumerations");
+        if (it == e.attributes.end()) {
+            return;
+        }
+
+        ArrayElement* enums = TypeQueryVisitor::as<ArrayElement>((*it)->value.second);
+        if (!enums) {
             return;
         }
 
         std::map<std::string, std::vector<IElement*> > types;
         std::vector<std::string> typesOrder;
 
-        for (ArrayElement::ValueType::const_iterator it = val->begin(); it != val->end(); ++it) {
+        for (ArrayElement::ValueType::const_iterator it = enums->value.begin();
+             it != enums->value.end();
+             ++it) {
 
             if (*it) {
                 std::vector<IElement*>& items = types[(*it)->element()];
@@ -450,9 +456,9 @@ namespace refract
             anyOf(types, typesOrder);
         } else {
             const EnumElement* def = GetDefault(e);
-            if (!e.empty() || (def && !def->empty())) {
-                ArrayElement* a = new ArrayElement;
-                CloneMembers(a, val);
+            if (!enums->empty() || (def && !def->empty())) {
+                ArrayElement *a = new ArrayElement;
+                CloneMembers(a, &enums->value);
                 setSchemaType(types.begin()->first);
                 addMember("enum", a);
             }
@@ -460,8 +466,10 @@ namespace refract
 
         const EnumElement* def = GetDefault(e);
 
-        if (def && !def->empty() && !def->value.empty()) {
-            IElement* d = def->value.front()->clone();
+        // this works because "default" is everytime set by value
+        // if value will be moved into "enumerations" it need aditional check
+        if (def && !def->empty() && !def->value->empty()) {
+            IElement *d = def->value->clone();
             addMember("default", d);
         }
     }
@@ -601,7 +609,8 @@ namespace refract
                             }
                         }
                     }
-                } break;
+                }
+                break;
 
                 case TypeQueryVisitor::Select: {
                     SelectElement* sel = static_cast<SelectElement*>(*it);
@@ -614,7 +623,8 @@ namespace refract
                         VisitBy(*(*it), v);
                         oneOfMembers.push_back(v.getOwnership());
                     }
-                } break;
+                }
+                break;
 
                 default:
                     throw LogicError("Invalid member type of object in MSON definition");

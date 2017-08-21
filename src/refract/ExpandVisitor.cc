@@ -21,11 +21,7 @@
 #include "TypeQueryVisitor.h"
 #include "VisitorUtils.h"
 
-#define VISIT_IMPL(ELEMENT)                                                                                            \
-    void ExpandVisitor::operator()(const ELEMENT##Element& e)                                                          \
-    {                                                                                                                  \
-        result = Expand(e, context);                                                                                   \
-    }
+#define VISIT_IMPL( ELEMENT ) void ExpandVisitor::operator()(const ELEMENT ## Element& e) { result = Expand(e, context); }
 
 namespace refract
 {
@@ -68,6 +64,20 @@ namespace refract
             }
         };
 
+        //
+        // FIXME: it seem it is not required for implemetation
+        // maybe there is no EnumElement expansion in samples?
+        //
+
+        //template <>
+        //struct ExpandValueImpl<IElement*> {
+
+        //    template <typename Functor>
+        //    IElement* const operator()(const IElement* value, Functor& expand) {
+        //        return expand(value);
+        //    }
+        //};
+
         template <>
         struct ExpandValueImpl<RefractElements> {
 
@@ -76,8 +86,8 @@ namespace refract
             {
                 RefractElements members;
 
-                for (RefractElements::const_iterator it = value.begin(); it != value.end(); ++it) {
-                    members.push_back(expand(*it));
+                for (auto const& item: value) {
+                    members.push_back(expand(item));
                 }
 
                 return members;
@@ -91,8 +101,9 @@ namespace refract
 
             // FIXME: add check against recursive inheritance
             // walk recursive in registry and expand inheritance tree
-            for (const IElement *parent = registry.find(en); parent && !isReserved(en);
-                 en = parent->element(), parent = registry.find(en)) {
+            for (const IElement* parent = registry.find(en)
+                ; parent && !isReserved(en)
+                ; en = parent->element(), parent = registry.find(en)) {
 
                 inheritance.push(parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId));
                 inheritance.top()->meta["ref"] = IElement::Create(en);
@@ -121,9 +132,7 @@ namespace refract
         const Registry& registry;
         ExpandVisitor* expand;
 
-        Context(const Registry& registry, ExpandVisitor* expand) : registry(registry), expand(expand)
-        {
-        }
+        Context(const Registry& registry, ExpandVisitor* expand) : registry(registry), expand(expand) {}
 
         IElement* ExpandOrClone(const IElement* e)
         {

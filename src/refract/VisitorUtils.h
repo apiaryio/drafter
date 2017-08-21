@@ -131,34 +131,6 @@ namespace refract
         }
     };
 
-    struct GetEnumValue {
-        const EnumElement& element;
-
-        GetEnumValue(const EnumElement& e) : element(e)
-        {
-        }
-
-        operator const EnumElement::ValueType*()
-        {
-            if (const EnumElement* s = GetSample(element)) {
-                return &s->value;
-            }
-
-            if (const EnumElement* d = GetDefault(element)) {
-                return &d->value;
-            }
-
-            if (!element.empty()) {
-                return &element.value;
-            }
-
-            if (element.empty() && IsTypeAttribute(element, "nullable")) {
-                return NULL;
-            }
-
-            return &element.value;
-        }
-    };
 
     // will be moved into different header (as part of drafter instead of refract)
     template <typename T>

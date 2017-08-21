@@ -20,10 +20,6 @@
 
 #include "ElementData.h"
 
-#include <assert.h>
-
-//#define ENUM_REIMPL 1
-
 namespace drafter {
 
     template <typename U>
@@ -259,7 +255,6 @@ namespace drafter {
             }
         };
 
-#ifdef ENUM_REIMPL
         template <bool dummy> 
         struct Store<refract::EnumElement, ElementData<refract::EnumElement>::IsPrimitive, dummy> {
             void operator()(ElementData<refract::EnumElement>& data, const NodeInfo<mson::TypeSection>& typeSection, ConversionContext& context, const mson::BaseTypeName& defaultNestedType ) {
@@ -267,7 +262,6 @@ namespace drafter {
                 data.enumerations.push_back(Fetch<refract::EnumElement>()(typeSection, context, defaultNestedType));
             }
         };
-#endif
 
         template <typename U, bool dummy = true>
         struct TypeDefinition;
@@ -314,9 +308,6 @@ namespace drafter {
                     break;
 
                 case mson::TypeSection::BlockDescriptionClass:
-                    //data.descriptions.push_back(typeSection.node->content.description);
-                    //data.descriptionsSourceMap.push_back(typeSection.sourceMap->description);
-
                     data.descriptions.push_back(
                             std::make_tuple(
                                 typeSection.node->content.description,
@@ -432,7 +423,6 @@ namespace drafter {
             }
         };
 
-#ifdef ENUM_REIMPL
         template <bool dummy> 
         struct Store<refract::EnumElement, ElementData<refract::EnumElement>::IsPrimitive, dummy> {
             using E = refract::EnumElement;
@@ -440,7 +430,6 @@ namespace drafter {
                 data.enumerations.push_back(Fetch<E>()(typeNames, context));
             }
         };
-#endif
 
         ExtractTypeDefinition(ElementData<ElementType>& data, const ConversionContext& context) : data(data), context(context) {}
 
@@ -462,10 +451,10 @@ namespace drafter {
         ElementData<T>& data;
         ConversionContext& context;
 
-        template <typename U, bool IsPrimitive = ElementData<U>::IsPrimitive> struct Fetch;
+        template <typename U, bool IsPrimitive = ElementData<U>::IsPrimitive, bool dummy = true> struct Fetch;
 
-        template <typename U>
-        struct Fetch <U, true> {  // primitive values
+        template <typename U, bool dummy>
+        struct Fetch <U, true, dummy> {  // primitive values
 
             ElementInfo operator()(const NodeInfo<mson::ValueMember>& valueMember, ConversionContext& context) {
                 if (valueMember.node->valueDefinition.values.size() > 1) {
@@ -480,8 +469,8 @@ namespace drafter {
             }
         };
 
-        template<typename U>
-        struct Fetch<U, false> { // Array|Object
+        template<typename U, bool dummy>
+        struct Fetch<U, false, dummy> { // Array|Object
 
             ElementInfo operator()(const NodeInfo<mson::ValueMember>& valueMember, ConversionContext& context) {
 
@@ -494,6 +483,26 @@ namespace drafter {
 
                 for (mson::Values::const_iterator it = values.begin(); it != values.end(); ++it) {
                     elements.push_back(f.Create(it->literal, it->variable ? eSample : eValue));
+                }
+
+                return std::make_tuple(elements, FetchSourceMap<V>()(valueMember));
+            }
+        };
+
+        template<bool dummy>
+        struct Fetch<refract::EnumElement, ElementData<refract::EnumElement>::IsPrimitive, dummy> { // Enum
+
+            ElementInfo operator()(const NodeInfo<mson::ValueMember>& valueMember, ConversionContext& context) {
+
+                const mson::BaseTypeName type = SelectNestedTypeSpecification(valueMember.node->valueDefinition.typeDefinition.typeSpecification.nestedTypes);
+
+                const RefractElementFactory& f = FactoryFromType(type);
+                const mson::Values& values = valueMember.node->valueDefinition.values;
+
+                RefractElements elements;
+
+                for (mson::Values::const_iterator it = values.begin(); it != values.end(); ++it) {
+                    elements.push_back(f.Create(it->literal, eValue));
                 }
 
                 return std::make_tuple(elements, FetchSourceMap<V>()(valueMember));
@@ -523,7 +532,6 @@ namespace drafter {
             }
         };
 
-#ifdef ENUM_REIMPL
         template <bool dummy>
         struct Store<refract::EnumElement, dummy> {
             void operator()(ElementData<refract::EnumElement>&data, const ElementInfo& info) {
@@ -535,8 +543,6 @@ namespace drafter {
                 }
             }
         };
-#endif
-
 
         ExtractValueMember(ElementData<T>& data, ConversionContext& context, const mson::BaseTypeName) : data(data), context(context) {}
 
@@ -571,26 +577,20 @@ namespace drafter {
             }
             else {
                 if (attrs & mson::DefaultTypeAttribute) {
-                    context.warn(snowcrash::Warning("no value present when 'default' is specified"
-#ifdef ENUM_REIMPL
-                                ,snowcrash::MSONError, valueMember.sourceMap->sourceMap
-#endif
-                            ));
+                    context.warn(snowcrash::Warning("no value present when 'default' is specified",
+                                                    snowcrash::MSONError, valueMember.sourceMap->sourceMap)
+                                );
                 }
 
 
                 if (attrs & mson::SampleTypeAttribute) {
-                    context.warn(snowcrash::Warning("no value present when 'sample' is specified"
-#ifdef ENUM_REIMPL
-                                ,snowcrash::MSONError, valueMember.sourceMap->sourceMap
-#endif
-                            ));
+                    context.warn(snowcrash::Warning("no value present when 'sample' is specified",
+                                                    snowcrash::MSONError, valueMember.sourceMap->sourceMap)
+                                );
                 }
             }
 
             if (!valueMember.node->description.empty()) {
-                //data.descriptions.push_back(valueMember.node->description);
-                //data.descriptionsSourceMap.push_back(valueMember.sourceMap->description);
                 data.descriptions.push_back(
                         std::make_tuple(
                             valueMember.node->description,
@@ -599,11 +599,7 @@ namespace drafter {
             }
 
             if ((valueMember.node->valueDefinition.values.empty() ||
-                (valueMember.node->valueDefinition.typeDefinition.typeSpecification.nestedTypes.size() > 1)) 
-#ifndef ENUM_REIMPL
-                    && (GetType(valueMember.node->valueDefinition, context) != mson::EnumTypeName)
-#endif
-               ) {
+                (valueMember.node->valueDefinition.typeDefinition.typeSpecification.nestedTypes.size() > 1))) {
 
                 ExtractTypeDefinition<T> extd(data, context);
                 extd(MakeNodeInfoWithoutSourceMap(valueMember.node->valueDefinition.typeDefinition));
@@ -633,22 +629,6 @@ namespace drafter {
             }
         };
 
-        template <typename E, bool IsPrimitive = ElementData<E>::IsPrimitive> struct ElementInfoToElement;
-
-        template <typename E> 
-        struct ElementInfoToElement<E, true> {
-            E* operator()(const typename ElementData<E>::ElementInfo& value) {
-                std::pair <bool, typename E::ValueType> result = LiteralTo<typename E::ValueType>(std::get<0>(value));
-                return new E(std::get<1>(result));
-            }
-        };
-
-        template <typename E> 
-        struct ElementInfoToElement<E, false> {
-            E* operator()(const typename ElementData<E>::ElementInfo& value) {
-                return new E(std::get<0>(value));
-            }
-        };
 
         template <typename T, bool IsPrimitive = ElementData<T>::IsPrimitive> struct Merge;
 
@@ -693,6 +673,41 @@ namespace drafter {
             }
         };
 
+        template <typename E, bool IsPrimitive = ElementData<E>::IsPrimitive> struct ElementInfoToElement;
+
+        template <typename E> 
+        struct ElementInfoToElement<E, true> {
+            E* operator()(const typename ElementData<E>::ElementInfo& value) {
+                std::pair <bool, typename E::ValueType> result = LiteralTo<typename E::ValueType>(std::get<0>(value));
+                return new E(std::get<1>(result));
+            }
+        };
+
+        template <typename E> 
+        struct ElementInfoToElement<E, false> {
+            E* operator()(const typename ElementData<E>::ElementInfo& value) {
+                return new E(std::get<0>(value));
+            }
+        };
+
+        template <> 
+        struct ElementInfoToElement<refract::EnumElement, ElementData<refract::EnumElement>::IsPrimitive> {
+            refract::EnumElement* operator()(const typename ElementData<refract::EnumElement>::ElementInfo& value) {
+
+                auto v = std::get<0>(value);
+
+                refract::EnumElement* e = new refract::EnumElement;
+
+                if (v.size() == 1) {
+                    e->set(v.front());
+                } else if (v.size() > 1) {
+                    e->attributes[SerializeKey::Enumerations] = new refract::ArrayElement(v);
+                }
+
+                return e;
+            }
+        };
+
         template <typename T, bool IsPrimitive = ElementData<T>::IsPrimitive> struct SaveValue;
 
         template <typename T>
@@ -700,18 +715,17 @@ namespace drafter {
             using ElementInfo = typename ElementData<T>::ElementInfo;
             using ValueType = typename T::ValueType;
 
-            template <typename U>
-            void operator()(const U& values, T* element) {
-                if (values.empty()) {
+            void operator()(const ElementData<T>& data, T* element) {
+                if (data.values.empty()) {
                     return;
                 }
 
-                ElementInfo value = Merge<T>()(values);
+                ElementInfo value = Merge<T>()(data.values);
                 std::pair <bool, ValueType> result = LiteralTo<ValueType>(std::get<0>(value));
 
                 element->set(std::get<1>(result));
 
-                // refactoring adept - AttachSourceMap require NodeInfo, let it pass for now
+                // FIXME: refactoring adept - AttachSourceMap require NodeInfo, let it pass for now
                 AttachSourceMap(element, MakeNodeInfo(std::get<1>(result), std::get<1>(value)));
             }
         };
@@ -720,12 +734,31 @@ namespace drafter {
         struct SaveValue<T, false> {
             using ElementInfo = typename ElementData<T>::ElementInfo;
 
-            template <typename U>
-            void operator()(const U& values, T* element) {
-                ElementInfo value = Merge<T>()(values);
+            void operator()(const ElementData<T>& data, T* element) {
+                ElementInfo value = Merge<T>()(data.values);
 
                 if (!std::get<0>(value).empty()) {
                     element->set(std::get<0>(value));
+                }
+            }
+        };
+
+        template <>
+        struct SaveValue<refract::EnumElement, ElementData<refract::EnumElement>::IsPrimitive> {
+            using ElementInfo = typename ElementData<refract::EnumElement>::ElementInfo;
+
+            void operator()(const ElementData<refract::EnumElement>& data, refract::EnumElement* element) {
+                ElementInfo values = Merge<refract::EnumElement>()(data.values);
+                ElementInfo enumerations = Merge<refract::EnumElement>()(data.enumerations);
+
+                if (!std::get<0>(values).empty()) {
+                    element->set(std::get<0>(values).front());
+                    // FIXME: relese rest of elements
+                    // it can leak if more values wil be in `values`
+                }
+
+                if (!std::get<0>(enumerations).empty()) {
+                    element->attributes[SerializeKey::Enumerations]= new refract::ArrayElement(std::get<0>(enumerations));
                 }
             }
         };
@@ -764,6 +797,9 @@ namespace drafter {
 
                 ElementInfoToElement<T> fetch;
                 T* value = fetch(*values.rbegin());
+                
+                // FIXME: relese rest of elements
+                // it can leak if more values wil be in `values`
 
                 element->attributes[key] = value;
             }
@@ -778,12 +814,10 @@ namespace drafter {
                         std::bind(CheckValueValidity<T>(),std::placeholders::_1, std::ref(context)));
             }
 
-            SaveValue<T>()(data.values, element);
+            SaveValue<T>()(data, element);
             AllElementsToAtribute<T>()(data.samples, SerializeKey::Samples, element);
-            AllElementsToAtribute<T>()(data.enumerations, SerializeKey::Enumerations, element);
             LastElementToAttribute<T>()(data.defaults, SerializeKey::Default, element);
         }
-
     }
 
     template<typename T>
@@ -809,30 +843,13 @@ namespace drafter {
         return PrimitiveToRefract(NodeInfo<std::string>(&description, &sourceMap));
     }
 
-#ifndef ENUM_REIMPL
+    // FIXME: refactoring - description is not used while calling from
+    // `RefractElementFromProperty()` 
     template <typename T>
-    struct MoveFirstValueToSample {
-       void operator() (const NodeInfo<mson::ValueMember>& value, ElementData<T>& data)
-       {
-       }
-    };
-
-    template <>
-    struct MoveFirstValueToSample<refract::EnumElement> {
-        typedef refract::EnumElement T;
-        void operator()(const NodeInfo<mson::ValueMember>& value, ElementData<T>& data) {
-            if (value.node->valueDefinition.values.empty() || data.values.empty()) {
-                return;
-            }
-
-            data.samples.insert(data.samples.begin(), data.values.front());
-            data.values.erase(data.values.begin());
-        }
-    };
-#endif
-
-    template <typename T>
-    refract::IElement* RefractElementFromValue(const NodeInfo<mson::ValueMember>& value, ConversionContext& context, const mson::BaseTypeName defaultNestedType, typename ElementData<T>::DescriptionInfoContainer& descriptions)
+    refract::IElement* RefractElementFromValue(const NodeInfo<mson::ValueMember>& value,
+                                               ConversionContext& context,
+                                               const mson::BaseTypeName defaultNestedType,
+                                               typename ElementData<T>::DescriptionInfoContainer& descriptions)
     {
         using namespace refract;
         using ElementType = T;
@@ -841,10 +858,6 @@ namespace drafter {
         ElementType* element = new ElementType;
 
         ExtractValueMember<ElementType>(data, context, defaultNestedType)(value);
-#ifndef ENUM_REIMPL
-        size_t valuesCount = data.values.size();
-#endif
-
 
         SetElementType(element, value.node->valueDefinition.typeDefinition);
         AttachSourceMap(element, value);
@@ -852,13 +865,6 @@ namespace drafter {
         NodeInfoCollection<mson::TypeSections> typeSections(MAKE_NODE_INFO(value, sections));
 
         std::for_each(typeSections.begin(), typeSections.end(), ExtractTypeSection<T>(data, context, value));
-
-#ifndef ENUM_REIMPL
-        if (valuesCount != data.values.size()) {
-            // there are some values coming from TypeSections -> move first value into examples
-            MoveFirstValueToSample<ElementType>()(value, data);
-        }
-#endif
 
         ElementDataToElement(element, data, context);
 

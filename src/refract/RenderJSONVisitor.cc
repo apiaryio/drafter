@@ -19,7 +19,18 @@ namespace refract
     namespace
     {
 
-        IElement* getEnumValue(const ExtendElement& extend)
+        const ArrayElement* GetEnumerations(const EnumElement& e) {
+
+            IElement::MemberElementCollection::const_iterator i = e.attributes.find("enumerations");
+
+            if (i == e.attributes.end()) {
+                return NULL;
+            }
+
+            return TypeQueryVisitor::as<ArrayElement>((*i)->value.second);
+        }
+
+        IElement* GetEnumValue(const ExtendElement& extend)
         {
             if (extend.empty()) {
                 return NULL;
@@ -34,14 +45,56 @@ namespace refract
                     continue;
                 }
 
-                const ArrayElement::ValueType* items = GetValue<EnumElement>(*element);
+                const EnumElement::ValueType* item = GetValue<EnumElement>(*element);
 
-                if (!items->empty()) {
-                    return *items->begin();
+                if (item) {
+                    return *item;
                 }
             }
 
             return NULL;
+        }
+
+        const IElement* GetEnumValue(const EnumElement& element) {
+            if (const EnumElement* s = GetSample(element)) {
+                return GetEnumValue(*s);
+            }
+
+            if (const EnumElement* d = GetDefault(element)) {
+                return GetEnumValue(*d);
+            }
+
+            if (!element.empty()) {
+                return element.value;
+            }
+
+            if (const ArrayElement* e = GetEnumerations(element)) {
+                if (e && !e->empty()) {
+                    for (const auto& item : e->value) {
+                        if (!item) {
+                            continue;
+                        }
+
+                        // We need hadle Enum individualy because of attr["enumerations"]
+                        if (EnumElement* val = TypeQueryVisitor::as<EnumElement>(item)) {
+                            const IElement* ret = GetEnumValue(*val);
+                            if (ret) {
+                                return ret;
+                            }
+                        }
+
+                        if (!item->empty()) {
+                            return  item;
+                        }
+                    }
+                }
+            }
+
+            if (element.empty() && IsTypeAttribute(element, "nullable")) {
+                return NULL;
+            }
+
+            return element.value;
         }
 
         template <typename T>
@@ -116,16 +169,21 @@ namespace refract
         RenderJSONVisitor renderer;
 
         if (e.value.second) {
-            if (IsTypeAttribute(e, "nullable") && e.value.second->empty()) {
+            if (EnumElement* enm = TypeQueryVisitor::as<EnumElement>(e.value.second)) {
+                // We nned nadle Enum individualy because of attr["enumerations"]
+                Visit(renderer, *enm);
+            }
+            else if (IsTypeAttribute(e, "nullable") && e.value.second->empty()) {
                 renderer.result = new NullElement;
             } else if (IsTypeAttribute(e, "optional") && e.value.second->empty()) {
                 return;
             } else {
                 Visit(renderer, *e.value.second);
-                if (!renderer.result) {
-                    return;
-                }
             }
+        }
+
+        if (!renderer.result) {
+            return;
         }
 
         result = new MemberElement(key, renderer.result ? renderer.getOwnership() : new StringElement);
@@ -145,13 +203,15 @@ namespace refract
 
         if (!enumValue) { // there is no enumValue injected from ExtendElement,try to pick value directly
 
-            const EnumElement::ValueType* val = GetEnumValue(e);
+            const IElement* val = GetEnumValue(e);
             if (val && !val->empty()) {
-                enumValue = val->front()->clone();
-            } else {
+                enumValue = val->clone();
+            }
+            else {
                 enumValue = new StringElement;
             }
         }
+        
 
         RenderJSONVisitor renderer;
         VisitBy(*enumValue, renderer);
@@ -215,7 +275,7 @@ namespace refract
         }
 
         if (TypeQueryVisitor::as<EnumElement>(merged)) {
-            renderer.enumValue = getEnumValue(e);
+            renderer.enumValue = GetEnumValue(e);
             if (renderer.enumValue) {
                 renderer.enumValue = renderer.enumValue->clone();
             }
