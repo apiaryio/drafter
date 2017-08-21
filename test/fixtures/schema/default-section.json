@@ -116,26 +116,27 @@
                                       "value": {
                                         "element": "enum",
                                         "attributes": {
-                                          "default": {
-                                            "element": "enum",
+                                          "enumerations": {
+                                            "element": "array",
                                             "content": [
+                                              {
+                                                "element": "string",
+                                                "content": "3"
+                                              },
                                               {
                                                 "element": "string",
                                                 "content": "4"
                                               }
                                             ]
-                                          }
-                                        },
-                                        "content": [
-                                          {
-                                            "element": "string",
-                                            "content": "3"
                                           },
-                                          {
-                                            "element": "string",
-                                            "content": "4"
+                                          "default": {
+                                            "element": "enum",
+                                            "content": {
+                                              "element": "string",
+                                              "content": "4"
+                                            }
                                           }
-                                        ]
+                                        }
                                       }
                                     }
                                   }

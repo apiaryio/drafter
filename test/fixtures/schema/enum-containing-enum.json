@@ -115,37 +115,47 @@
                                       },
                                       "value": {
                                         "element": "enum",
-                                        "content": [
-                                          {
-                                            "element": "enum",
+                                        "attributes": {
+                                          "enumerations": {
+                                            "element": "array",
                                             "content": [
                                               {
-                                                "element": "number",
-                                                "content": 1
+                                                "element": "enum",
+                                                "attributes": {
+                                                  "enumerations": {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "number",
+                                                        "content": 1
+                                                      },
+                                                      {
+                                                        "element": "number",
+                                                        "content": 2
+                                                      },
+                                                      {
+                                                        "element": "number",
+                                                        "content": 3
+                                                      },
+                                                      {
+                                                        "element": "number",
+                                                        "content": 4
+                                                      }
+                                                    ]
+                                                  }
+                                                }
                                               },
                                               {
-                                                "element": "number",
-                                                "content": 2
+                                                "element": "string",
+                                                "content": "something"
                                               },
                                               {
-                                                "element": "number",
-                                                "content": 3
-                                              },
-                                              {
-                                                "element": "number",
-                                                "content": 4
+                                                "element": "string",
+                                                "content": "anything"
                                               }
                                             ]
-                                          },
-                                          {
-                                            "element": "string",
-                                            "content": "something"
-                                          },
-                                          {
-                                            "element": "string",
-                                            "content": "anything"
                                           }
-                                        ]
+                                        }
                                       }
                                     }
                                   }

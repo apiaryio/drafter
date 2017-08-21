@@ -288,28 +288,36 @@
                       },
                       "value": {
                         "element": "enum",
-                        "content": [
-                          {
-                            "element": "string",
-                            "content": "CREATED"
-                          },
-                          {
-                            "element": "string",
-                            "content": "QUEUED"
-                          },
-                          {
-                            "element": "string",
-                            "content": "RUNNING"
-                          },
-                          {
-                            "element": "string",
-                            "content": "FINISHED"
-                          },
-                          {
-                            "element": "string",
-                            "content": "ERROR"
+                        "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string"
+                              },
+                              {
+                                "element": "string",
+                                "content": "CREATED"
+                              },
+                              {
+                                "element": "string",
+                                "content": "QUEUED"
+                              },
+                              {
+                                "element": "string",
+                                "content": "RUNNING"
+                              },
+                              {
+                                "element": "string",
+                                "content": "FINISHED"
+                              },
+                              {
+                                "element": "string",
+                                "content": "ERROR"
+                              }
+                            ]
                           }
-                        ]
+                        }
                       }
                     }
                   }

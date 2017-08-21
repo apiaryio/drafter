@@ -59,38 +59,43 @@
                       },
                       "value": {
                         "element": "enum",
-                        "content": [
-                          {
-                            "element": "string",
-                            "meta": {
-                              "description": {
+                        "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
                                 "element": "string",
-                                "content": "red"
-                              }
-                            },
-                            "content": "#ff0000"
-                          },
-                          {
-                            "element": "string",
-                            "meta": {
-                              "description": {
+                                "meta": {
+                                  "description": {
+                                    "element": "string",
+                                    "content": "red"
+                                  }
+                                },
+                                "content": "#ff0000"
+                              },
+                              {
                                 "element": "string",
-                                "content": "green"
-                              }
-                            },
-                            "content": "#00ff00"
-                          },
-                          {
-                            "element": "string",
-                            "meta": {
-                              "description": {
+                                "meta": {
+                                  "description": {
+                                    "element": "string",
+                                    "content": "green"
+                                  }
+                                },
+                                "content": "#00ff00"
+                              },
+                              {
                                 "element": "string",
-                                "content": "blue"
+                                "meta": {
+                                  "description": {
+                                    "element": "string",
+                                    "content": "blue"
+                                  }
+                                },
+                                "content": "#0000ff"
                               }
-                            },
-                            "content": "#0000ff"
+                            ]
                           }
-                        ]
+                        }
                       }
                     }
                   }

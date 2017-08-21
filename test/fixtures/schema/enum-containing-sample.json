@@ -115,26 +115,31 @@
                                       },
                                       "value": {
                                         "element": "enum",
-                                        "content": [
-                                          {
-                                            "element": "string",
-                                            "content": "green"
-                                          },
-                                          {
-                                            "element": "number",
-                                            "attributes": {
-                                              "samples": {
-                                                "element": "array",
-                                                "content": [
-                                                  {
-                                                    "element": "number",
-                                                    "content": 5
+                                        "attributes": {
+                                          "enumerations": {
+                                            "element": "array",
+                                            "content": [
+                                              {
+                                                "element": "string",
+                                                "content": "green"
+                                              },
+                                              {
+                                                "element": "number",
+                                                "attributes": {
+                                                  "samples": {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "number",
+                                                        "content": 5
+                                                      }
+                                                    ]
                                                   }
-                                                ]
+                                                }
                                               }
-                                            }
+                                            ]
                                           }
-                                        ]
+                                        }
                                       }
                                     }
                                   }
