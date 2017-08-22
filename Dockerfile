@@ -1,12 +1,10 @@
-FROM apiaryio/cpp
+FROM gcc
 MAINTAINER Apiary "sre@apiary.io"
 
-ADD ./ /drafter
+ADD . /usr/src/drafter
+WORKDIR /usr/src/drafter
 
-WORKDIR /drafter
-
-# It's tempting to put ./configure into RUN, but then you have timestamp issues
-
-RUN ./configure && make all && make install
+RUN ./configure
+RUN make install
 
 CMD /usr/local/bin/drafter
