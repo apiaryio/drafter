@@ -141,7 +141,7 @@
       'target_name': 'test-libsnowcrash',
       'type': 'executable',
       'include_dirs': [
-        'test/vendor/Catch/include',
+        '../../test/vendor/Catch/include',
       ],
       'sources': [
         'test/test-ActionParser.cc',
