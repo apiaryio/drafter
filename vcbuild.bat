@@ -78,7 +78,6 @@ if "%GYP_MSVS_VERSION%"=="2012" goto vc-set-2012
 if "%GYP_MSVS_VERSION%"=="2010" goto vc-set-2010
 if "%GYP_MSVS_VERSION%"=="2008" goto vc-set-2008
 
-
 @rem MSVS 2015 is VS14
 :vc-set-2015
 if not defined VS140COMNTOOLS goto vc-set-2013
@@ -130,7 +129,10 @@ if errorlevel 1 goto exit
 @rem Run tests if requested.
 if "%test%"=="" goto intigration-test
 echo Running tests...
+.\build\%config%\test-libmarkdownparser.exe
+.\build\%config%\test-libsnowcrash.exe
 .\build\%config%\test-libdrafter.exe
+.\build\%config%\test-capi.exe
 
 :intigration-test
 if defined inttest goto run-integration-test

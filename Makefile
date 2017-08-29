@@ -3,7 +3,7 @@
 BUILDTYPE ?= Release
 BUILD_DIR ?= ./build
 PYTHON ?= python
-GYP ?= ./ext/snowcrash/tools/gyp/gyp
+GYP ?= ./tools/gyp/gyp
 DESTDIR ?= /usr/local
 BINDIR ?= $(DESTDIR)/bin
 
@@ -12,6 +12,27 @@ V ?= 1
 
 # Targets
 all: drafter
+
+libmarkdownparser: config.gypi $(BUILD_DIR)/Makefile
+	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
+
+test-libmarkdownparser: config.gypi $(BUILD_DIR)/Makefile
+	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
+	mkdir -p ./bin
+	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/$@ ./bin/$@
+
+libsnowcrash: config.gypi $(BUILD_DIR)/Makefile
+	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
+
+test-libsnowcrash: config.gypi $(BUILD_DIR)/Makefile
+	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
+	mkdir -p ./bin
+	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/$@ ./bin/$@
+
+perf-libsnowcrash: config.gypi $(BUILD_DIR)/Makefile
+	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
+	mkdir -p ./bin
+	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/$@ ./bin/$@
 
 libdrafter: config.gypi $(BUILD_DIR)/Makefile
 	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
@@ -51,12 +72,17 @@ distclean:
 	rm -f ./config.gypi
 	rm -rf ./bin
 
-test: libdrafter test-libdrafter test-capi drafter
+test: libmarkdownparser test-libmarkdownparser libsnowcrash test-libsnowcrash libdrafter test-libdrafter test-capi drafter
+	./bin/test-libmarkdownparser
+	./bin/test-libsnowcrash
 	./bin/test-libdrafter
 	./bin/test-capi
+
+perf: libsnowcrash perf-libsnowcrash
+	./bin/perf-libsnowcrash ./ext/snowcrash/test/performance/fixtures/fixture-1.apib
 
 ifdef INTEGRATION_TESTS
 	bundle exec cucumber
 endif
 
-.PHONY: all libdrafter drafter test test-libdrafter install
+.PHONY: all libmarkdownparser test-libmarkdownparser libsnowcrash libdrafter drafter test test-libsnowcrash test-libdrafter perf perf-libsnowcrash install

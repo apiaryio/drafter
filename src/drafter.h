@@ -13,8 +13,7 @@
 extern "C" {
 #endif
 
-//#if defined(BUILDING_DRAFTER)
-#if defined(BUILDING_SNOWCRASH)
+#if defined(BUILDING_DRAFTER)
 #define DEPRECATED
 #endif
 

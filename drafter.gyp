@@ -1,16 +1,232 @@
 {
   "includes": [
-    "ext/snowcrash/common.gypi"
+    "common.gypi"
   ],
 
   "targets" : [
+
+# LIBSUNDOWN
+    {
+      'target_name': 'libsundown',
+      'type': 'static_library',
+      'include_dirs': [
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/src',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/html'
+      ],
+      'direct_dependent_settings' : {
+        'include_dirs': [
+          'ext/snowcrash/ext/markdown-parser/ext/sundown/src',
+        ],
+      },
+      'sources': [
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/src/autolink.c',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/src/autolink.h',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/src/buffer.c',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/src/buffer.h',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/src/html_blocks.h',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/src/markdown.c',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/src/markdown.h',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/src/src_map.c',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/src/src_map.h',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/src/stack.c',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/src/stack.h',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/html/houdini.h',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/html/houdini_href_e.c',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/html/houdini_html_e.c',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/html/html.c',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/html/html.h',
+        'ext/snowcrash/ext/markdown-parser/ext/sundown/html/html_smartypants.c'
+      ]
+    },
+
+# LIBMARKDOWNPARSER
+    {
+      'target_name': 'libmarkdownparser',
+      'type': 'static_library',
+      'direct_dependent_settings' : {
+        'include_dirs': [
+          'ext/snowcrash/ext/markdown-parser/src',
+        ],
+      },
+      'export_dependent_settings': [
+        'libsundown'
+      ],
+      'sources': [
+        'ext/snowcrash/ext/markdown-parser/src/ByteBuffer.cc',
+        'ext/snowcrash/ext/markdown-parser/src/ByteBuffer.h',
+        'ext/snowcrash/ext/markdown-parser/src/MarkdownNode.cc',
+        'ext/snowcrash/ext/markdown-parser/src/MarkdownNode.h',
+        'ext/snowcrash/ext/markdown-parser/src/MarkdownParser.cc',
+        'ext/snowcrash/ext/markdown-parser/src/MarkdownParser.h'
+      ],
+      'dependencies': [
+        'libsundown'
+      ]
+    },
+
+# TEST-LIBMARKDOWNPARSER
+    {
+      'target_name': 'test-libmarkdownparser',
+      'type': 'executable',
+      'include_dirs': [
+        'test/vendor/Catch/include',
+      ],
+      'sources': [
+        'ext/snowcrash/ext/markdown-parser/test/test-ByteBuffer.cc',
+        'ext/snowcrash/ext/markdown-parser/test/test-MarkdownParser.cc',
+        'ext/snowcrash/ext/markdown-parser/test/test-libmarkdownparser.cc'
+      ],
+      'dependencies': [
+        'libmarkdownparser',
+      ]
+    },
+
+# LIBSNOWCRASH
+    {
+      'target_name': 'libsnowcrash',
+      'type': 'static_library',
+      'direct_dependent_settings' : {
+        'include_dirs': [
+          'ext/snowcrash/src',
+        ],
+      },
+      'export_dependent_settings': [
+        'libmarkdownparser'
+      ],
+      'sources': [
+        'ext/snowcrash/src/HTTP.cc',
+        'ext/snowcrash/src/HTTP.h',
+        'ext/snowcrash/src/MSON.cc',
+        'ext/snowcrash/src/MSONOneOfParser.cc',
+        'ext/snowcrash/src/MSONSourcemap.cc',
+        'ext/snowcrash/src/MSONTypeSectionParser.cc',
+        'ext/snowcrash/src/MSONValueMemberParser.cc',
+        'ext/snowcrash/src/Blueprint.cc',
+        'ext/snowcrash/src/BlueprintSourcemap.cc',
+        'ext/snowcrash/src/Section.cc',
+        'ext/snowcrash/src/Section.h',
+        'ext/snowcrash/src/Signature.cc',
+        'ext/snowcrash/src/Signature.h',
+        'ext/snowcrash/src/snowcrash.cc',
+        'ext/snowcrash/src/snowcrash.h',
+        'ext/snowcrash/src/UriTemplateParser.cc',
+        'ext/snowcrash/src/UriTemplateParser.h',
+        'ext/snowcrash/src/PayloadParser.h',
+        'ext/snowcrash/src/SectionParserData.h',
+        'ext/snowcrash/src/ActionParser.h',
+        'ext/snowcrash/src/AssetParser.h',
+        'ext/snowcrash/src/AttributesParser.h',
+        'ext/snowcrash/src/Blueprint.h',
+        'ext/snowcrash/src/BlueprintParser.h',
+        'ext/snowcrash/src/BlueprintSourcemap.h',
+        'ext/snowcrash/src/BlueprintUtility.h',
+        'ext/snowcrash/src/CodeBlockUtility.h',
+        'ext/snowcrash/src/DataStructureGroupParser.h',
+        'ext/snowcrash/src/HeadersParser.h',
+        'ext/snowcrash/src/HeadersParser.cc',
+        'ext/snowcrash/src/ModelTable.h',
+        'ext/snowcrash/src/MSON.h',
+        'ext/snowcrash/src/MSONSourcemap.h',
+        'ext/snowcrash/src/MSONMixinParser.h',
+        'ext/snowcrash/src/MSONNamedTypeParser.h',
+        'ext/snowcrash/src/MSONOneOfParser.h',
+        'ext/snowcrash/src/MSONParameterParser.h',
+        'ext/snowcrash/src/MSONPropertyMemberParser.h',
+        'ext/snowcrash/src/MSONTypeSectionParser.h',
+        'ext/snowcrash/src/MSONUtility.h',
+        'ext/snowcrash/src/MSONValueMemberParser.h',
+        'ext/snowcrash/src/ParameterParser.h',
+        'ext/snowcrash/src/ParametersParser.h',
+        'ext/snowcrash/src/Platform.h',
+        'ext/snowcrash/src/RegexMatch.h',
+        'ext/snowcrash/src/RelationParser.h',
+        'ext/snowcrash/src/ResourceGroupParser.h',
+        'ext/snowcrash/src/ResourceParser.h',
+        'ext/snowcrash/src/SectionParser.h',
+        'ext/snowcrash/src/SectionProcessor.h',
+        'ext/snowcrash/src/SignatureSectionProcessor.h',
+        'ext/snowcrash/src/SourceAnnotation.h',
+        'ext/snowcrash/src/StringUtility.h',
+        'ext/snowcrash/src/ValuesParser.h',
+      ],
+      'conditions': [
+        [ 'OS=="win"',
+          { 'sources': [ 'ext/snowcrash/src/win/RegexMatch.cc' ] },
+          { 'sources': [ 'ext/snowcrash/src/posix/RegexMatch.cc' ] } # OS != Windows
+        ]
+      ],
+      'dependencies': [
+        'libmarkdownparser',
+      ]
+    },
+
+# TEST-LIBSNOWCRASH
+    {
+      'target_name': 'test-libsnowcrash',
+      'type': 'executable',
+      'include_dirs': [
+        'test/vendor/Catch/include',
+      ],
+      'sources': [
+        'ext/snowcrash/test/test-ActionParser.cc',
+        'ext/snowcrash/test/test-AssetParser.cc',
+        'ext/snowcrash/test/test-AttributesParser.cc',
+        'ext/snowcrash/test/test-Blueprint.cc',
+        'ext/snowcrash/test/test-BlueprintParser.cc',
+        'ext/snowcrash/test/test-BlueprintUtility.cc',
+        'ext/snowcrash/test/test-DataStructureGroupParser.cc',
+        'ext/snowcrash/test/test-HeadersParser.cc',
+        'ext/snowcrash/test/test-Indentation.cc',
+        'ext/snowcrash/test/test-ModelTable.cc',
+        'ext/snowcrash/test/test-MSONMixinParser.cc',
+        'ext/snowcrash/test/test-MSONNamedTypeParser.cc',
+        'ext/snowcrash/test/test-MSONOneOfParser.cc',
+        'ext/snowcrash/test/test-MSONParameterParser.cc',
+        'ext/snowcrash/test/test-MSONPropertyMemberParser.cc',
+        'ext/snowcrash/test/test-MSONTypeSectionParser.cc',
+        'ext/snowcrash/test/test-MSONUtility.cc',
+        'ext/snowcrash/test/test-MSONValueMemberParser.cc',
+        'ext/snowcrash/test/test-ParameterParser.cc',
+        'ext/snowcrash/test/test-ParametersParser.cc',
+        'ext/snowcrash/test/test-PayloadParser.cc',
+        'ext/snowcrash/test/test-RegexMatch.cc',
+        'ext/snowcrash/test/test-RelationParser.cc',
+        'ext/snowcrash/test/test-ResourceParser.cc',
+        'ext/snowcrash/test/test-ResourceGroupParser.cc',
+        'ext/snowcrash/test/test-SectionParser.cc',
+        'ext/snowcrash/test/test-Signature.cc',
+        'ext/snowcrash/test/test-StringUtility.cc',
+        'ext/snowcrash/test/test-SymbolIdentifier.cc',
+        'ext/snowcrash/test/test-UriTemplateParser.cc',
+        'ext/snowcrash/test/test-ValuesParser.cc',
+        'ext/snowcrash/test/test-Warnings.cc',
+        'ext/snowcrash/test/test-snowcrash.cc'
+      ],
+      'dependencies': [
+        'libsnowcrash',
+      ]
+    },
+
+# PERF-LIBSNOWCRASH
+    {
+      'target_name': 'perf-libsnowcrash',
+      'type': 'executable',
+      'sources': [
+        'ext/snowcrash/test/performance/perf-snowcrash.cc'
+      ],
+      'dependencies': [
+        'libsnowcrash',
+      ]
+    },
 
 # LIBSOS
     {
       'target_name': 'libsos',
       'type': 'static_library',
       'direct_dependent_settings' : {
-          'include_dirs': [ 'ext/sos/src' ],
+        'include_dirs': [
+          'ext/sos/src'
+        ],
       },
       'sources': [
         'ext/sos/src/sos.cc',
@@ -20,7 +236,7 @@
       ]
     },
 
-# LIBDRAFTER  
+# LIBDRAFTER
     {
       "target_name": "libdrafter",
       'type': '<(libdrafter_type)',
@@ -28,13 +244,13 @@
         [ 'libdrafter_type=="shared_library"', { 'defines' : [ 'DRAFTER_BUILD_SHARED' ] }, { 'defines' : [ 'DRAFTER_BUILD_STATIC' ] }],
       ],
       'direct_dependent_settings' : {
-          'include_dirs': [
-            'src',
-          ],
+        'include_dirs': [
+          'src',
+        ],
       },
       'export_dependent_settings': [
         'libsos',
-        'ext/snowcrash/snowcrash.gyp:libsnowcrash',
+        'libsnowcrash',
       ],
       "sources": [
         "src/drafter.h",
@@ -62,7 +278,7 @@
         "src/ConversionContext.cc",
         "src/ConversionContext.h",
 
-# librefract parts - will be separated into other project
+        # librefract parts - will be separated into other project
         "src/refract/Element.h",
         "src/refract/Element.cc",
         "src/refract/ElementFwd.h",
@@ -105,11 +321,11 @@
       ],
       "dependencies": [
         "libsos",
-        "ext/snowcrash/snowcrash.gyp:libsnowcrash",
+        "libsnowcrash",
       ],
     },
 
-# TESTLIBDRAFTER
+# TEST-LIBDRAFTER
     {
       'target_name': 'test-libdrafter',
       'type': 'executable',
@@ -141,7 +357,7 @@
       ],
     },
 
-# DRAFTER    
+# DRAFTER
     {
       "target_name": "drafter",
       "type": "executable",
@@ -171,7 +387,7 @@
         [ 'libdrafter_type=="static_library"', { 'defines' : [ 'DRAFTER_BUILD_STATIC' ] }],
       ],
       "sources": [
-          "test/test-CAPI.c"
+        "test/test-CAPI.c"
       ],
       "dependencies": [
         "libdrafter",

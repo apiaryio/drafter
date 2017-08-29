@@ -36,6 +36,7 @@ vendor/
 .vagrant/
 tmp/
 
+# OS X and Xcode specific
 .DS_Store
 build/
 *.pbxuser
@@ -52,6 +53,7 @@ profile
 *.moved-aside
 DerivedData
 .idea/
+
 node_modules
 emcc/drafter.js
 emcc/drafter.js.mem
@@ -60,3 +62,6 @@ drafter.js-*.tgz
 tags
 *.swo
 *.swp
+.cproject
+.project
+.settings
