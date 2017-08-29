@@ -1,0 +1,49 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# OS X and Xcode specific
+.DS_Store
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+*.xcodeproj/*.xcworkspace
+xcuserdata
+xcshareddata
+profile
+*.moved-aside
+DerivedData
+.idea/
+
+# Generated files
+config.mk
+config.gypi
+bin/
+vendor/
+.vagrant/
+tmp/
+
+# Ruby
+.bundle/
+features/support/env-win.rb
+
+# Eclipse specific
+.cproject
+.project
+.settings
