@@ -10,11 +10,11 @@
 {
   'variables': {
     'target_arch%': 'ia32',
-    'libsnowcrash_type%': 'static_library'
+    'libdrafter_type%': 'static_library'
   },
   'target_defaults': {
     'defines': [
-      'BUILDING_SNOWCRASH=1'
+      'BUILDING_DRAFTER=1'
     ],
     'configurations': {
       'Debug': {

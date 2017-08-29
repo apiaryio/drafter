@@ -12,7 +12,7 @@
 #define AS_TYPE(Type, Obj) reinterpret_cast<Type*>(Obj)
 #define AS_CTYPE(Type, Obj) reinterpret_cast<const Type*>(Obj)
 
-#if defined(BUILDING_SNOWCRASH)
+#if defined(BUILDING_DRAFTER)
 #define DEPRECATED
 #endif
 
