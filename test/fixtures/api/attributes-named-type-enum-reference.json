@@ -64,12 +64,10 @@
                       },
                       "value": {
                         "element": "B",
-                        "content": [
-                          {
-                            "element": "string",
-                            "content": "valueA"
-                          }
-                        ]
+                        "content": {
+                          "element": "string",
+                          "content": "valueA"
+                        }
                       }
                     }
                   }
@@ -86,12 +84,17 @@
                     "content": "B"
                   }
                 },
-                "content": [
-                  {
-                    "element": "string",
-                    "content": "valueB"
+                "attributes": {
+                  "enumerations": {
+                    "element": "array",
+                    "content": [
+                      {
+                        "element": "string",
+                        "content": "valueB"
+                      }
+                    ]
                   }
-                ]
+                }
               }
             }
           ]
