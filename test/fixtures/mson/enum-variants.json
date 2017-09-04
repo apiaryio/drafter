@@ -640,7 +640,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "C: 'A', E: ['D','E'], S: {E: ['F','G']}"
+                        "content": "C: 'A', E: ['D','E'], S: {E: ['F','G']}, D: 'H'"
                       }
                     },
                     "content": {

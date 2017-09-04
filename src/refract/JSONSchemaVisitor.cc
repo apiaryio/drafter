@@ -424,31 +424,36 @@ namespace refract
 
     void JSONSchemaVisitor::operator()(const EnumElement& e) {
 
+        RefractElements elms;
+
         const auto& it = e.attributes.find("enumerations");
-        if (it == e.attributes.end()) {
-            return;
+        if (it != e.attributes.end()) {
+            if (ArrayElement* enums = TypeQueryVisitor::as<ArrayElement>((*it)->value.second)) {
+                elms.insert(elms.end(), enums->value.begin(), enums->value.end());
+            }
         }
 
-        ArrayElement* enums = TypeQueryVisitor::as<ArrayElement>((*it)->value.second);
-        if (!enums) {
+        if (e.value) {
+            elms.push_back(e.value);
+        }
+
+        if (elms.empty()) {
             return;
         }
 
         std::map<std::string, std::vector<IElement*> > types;
         std::vector<std::string> typesOrder;
 
-        for (ArrayElement::ValueType::const_iterator it = enums->value.begin();
-             it != enums->value.end();
-             ++it) {
+        for (const auto& it: elms) {
 
-            if (*it) {
-                std::vector<IElement*>& items = types[(*it)->element()];
+            if (it) {
+                std::vector<IElement*>& items = types[(it)->element()];
 
                 if (items.empty()) {
-                    typesOrder.push_back((*it)->element());
+                    typesOrder.push_back((it)->element());
                 }
 
-                items.push_back(*it);
+                items.push_back(it);
             }
         }
 
@@ -456,9 +461,9 @@ namespace refract
             anyOf(types, typesOrder);
         } else {
             const EnumElement* def = GetDefault(e);
-            if (!enums->empty() || (def && !def->empty())) {
+            if (!elms.empty() || (def && !def->empty())) {
                 ArrayElement *a = new ArrayElement;
-                CloneMembers(a, &enums->value);
+                CloneMembers(a, &elms);
                 setSchemaType(types.begin()->first);
                 addMember("enum", a);
             }

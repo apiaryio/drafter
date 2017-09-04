@@ -8,10 +8,10 @@
 namespace drafter
 {
 
-    template <typename E, bool IsPrimitive = ElementData<E>::IsPrimitive> struct RefractElementFactoryImpl;
+    template <typename E, typename IsPrimitive = typename ElementData<E>::IsPrimitive> struct RefractElementFactoryImpl;
 
     template <typename E>
-    struct RefractElementFactoryImpl<E, true> : RefractElementFactory
+    struct RefractElementFactoryImpl<E, std::true_type> : RefractElementFactory
     {
 
         typedef typename E::ValueType ValueType;
@@ -55,7 +55,7 @@ namespace drafter
     };
 
     template <typename E>
-    struct RefractElementFactoryImpl<E, false> : RefractElementFactory
+    struct RefractElementFactoryImpl<E, std::false_type> : RefractElementFactory
     {
 
         RefractElementFactoryImpl() {}

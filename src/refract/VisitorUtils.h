@@ -131,6 +131,67 @@ namespace refract
         }
     };
 
+    template<>
+    struct GetValue<refract::EnumElement, typename refract::EnumElement::ValueType> {
+        using EnumElement = refract::EnumElement;
+        const EnumElement& element;
+
+        GetValue(const EnumElement& e) : element(e) {}
+
+        operator const IElement*() {
+            return GetEnumValue(element);
+        }
+
+        IElement* GetEnumValue(const EnumElement& element) {
+            if (const EnumElement* s = GetSample(element)) {
+                return GetEnumValue(*s);
+            }
+
+            if (const EnumElement* d = GetDefault(element)) {
+                return GetEnumValue(*d);
+            }
+
+            if (element.value) {
+                return element.value;
+            }
+
+            if (const ArrayElement* e = GetEnumerations(element)) {
+                if (e && !e->empty()) {
+                    for (const auto& item : e->value) {
+                        if (!item) {
+                            continue;
+                        }
+
+                        // We need hadle Enum individualy because of attr["enumerations"]
+                        if (EnumElement* val = TypeQueryVisitor::as<EnumElement>(item)) {
+                            IElement* ret = GetEnumValue(*val);
+                            if (ret) {
+                                return ret;
+                            }
+                        }
+
+                        if (!item->empty()) {
+                            return  item;
+                        }
+                    }
+                }
+            }
+
+            return element.value;
+        }
+
+        const ArrayElement* GetEnumerations(const EnumElement& e) {
+
+            IElement::MemberElementCollection::const_iterator i = e.attributes.find("enumerations");
+
+            if (i == e.attributes.end()) {
+                return nullptr;
+            }
+
+            return TypeQueryVisitor::as<ArrayElement>((*i)->value.second);
+        }
+    };
+
 
     // will be moved into different header (as part of drafter instead of refract)
     template <typename T>

@@ -16,86 +16,7 @@
 namespace refract
 {
 
-    namespace
-    {
-
-        const ArrayElement* GetEnumerations(const EnumElement& e) {
-
-            IElement::MemberElementCollection::const_iterator i = e.attributes.find("enumerations");
-
-            if (i == e.attributes.end()) {
-                return NULL;
-            }
-
-            return TypeQueryVisitor::as<ArrayElement>((*i)->value.second);
-        }
-
-        IElement* GetEnumValue(const ExtendElement& extend)
-        {
-            if (extend.empty()) {
-                return NULL;
-            }
-
-            for (ExtendElement::ValueType::const_reverse_iterator it = extend.value.rbegin(); it != extend.value.rend();
-                 ++it) {
-
-                const EnumElement* element = TypeQueryVisitor::as<EnumElement>(*it);
-
-                if (!element) {
-                    continue;
-                }
-
-                const EnumElement::ValueType* item = GetValue<EnumElement>(*element);
-
-                if (item) {
-                    return *item;
-                }
-            }
-
-            return NULL;
-        }
-
-        const IElement* GetEnumValue(const EnumElement& element) {
-            if (const EnumElement* s = GetSample(element)) {
-                return GetEnumValue(*s);
-            }
-
-            if (const EnumElement* d = GetDefault(element)) {
-                return GetEnumValue(*d);
-            }
-
-            if (!element.empty()) {
-                return element.value;
-            }
-
-            if (const ArrayElement* e = GetEnumerations(element)) {
-                if (e && !e->empty()) {
-                    for (const auto& item : e->value) {
-                        if (!item) {
-                            continue;
-                        }
-
-                        // We need hadle Enum individualy because of attr["enumerations"]
-                        if (EnumElement* val = TypeQueryVisitor::as<EnumElement>(item)) {
-                            const IElement* ret = GetEnumValue(*val);
-                            if (ret) {
-                                return ret;
-                            }
-                        }
-
-                        if (!item->empty()) {
-                            return  item;
-                        }
-                    }
-                }
-            }
-
-            if (element.empty() && IsTypeAttribute(element, "nullable")) {
-                return NULL;
-            }
-
-            return element.value;
-        }
+    namespace {
 
         template <typename T>
         void FetchMembers(const T& element, typename T::ValueType& members)
@@ -106,7 +27,9 @@ namespace refract
                 return;
             }
 
-            for (typename T::ValueType::const_iterator it = val->begin(); it != val->end(); ++it) {
+            for (typename T::ValueType::const_iterator it = val->begin();
+                 it != val->end();
+                 ++it) {
 
                 if (!(*it) || (*it)->empty()) {
                     continue;
@@ -115,7 +38,8 @@ namespace refract
                 if (RefElement* ref = TypeQueryVisitor::as<RefElement>(*it)) {
                     HandleRefWhenFetchingMembers<T>(ref, members, FetchMembers<T>);
                     continue;
-                } else if (SelectElement* select = TypeQueryVisitor::as<SelectElement>(*it)) {
+                }
+                else if (SelectElement* select = TypeQueryVisitor::as<SelectElement>(*it)) {
                     if (select->value.empty() || !(*select->value.begin())) {
                         continue;
                     }
@@ -135,20 +59,14 @@ namespace refract
                 members.push_back(e);
             }
         }
+
     }
 
-    RenderJSONVisitor::RenderJSONVisitor() : result(NULL), enumValue(NULL)
-    {
-    }
+    RenderJSONVisitor::RenderJSONVisitor() : result(nullptr) {}
 
-    RenderJSONVisitor::~RenderJSONVisitor()
-    {
+    RenderJSONVisitor::~RenderJSONVisitor() {
         if (result) {
             delete result;
-        }
-
-        if (enumValue) {
-            delete enumValue;
         }
     }
 
@@ -189,8 +107,7 @@ namespace refract
         result = new MemberElement(key, renderer.result ? renderer.getOwnership() : new StringElement);
     }
 
-    void RenderJSONVisitor::operator()(const ObjectElement& e)
-    {
+    void RenderJSONVisitor::operator()(const ObjectElement& e) {
         ObjectElement::ValueType members;
         FetchMembers(e, members);
         ObjectElement* o = new ObjectElement;
@@ -198,27 +115,21 @@ namespace refract
         result = o;
     }
 
-    void RenderJSONVisitor::operator()(const EnumElement& e)
-    {
+    void RenderJSONVisitor::operator()(const EnumElement& e) {
 
-        if (!enumValue) { // there is no enumValue injected from ExtendElement,try to pick value directly
-
-            const IElement* val = GetEnumValue(e);
-            if (val && !val->empty()) {
-                enumValue = val->clone();
-            }
-            else {
-                enumValue = new StringElement;
-            }
+        const IElement* val = GetValue<EnumElement>(e);
+        if (val && !val->empty()) {
+            val = val->clone();
         }
-        
+        else {
+            val = new StringElement;
+        }
 
         RenderJSONVisitor renderer;
-        VisitBy(*enumValue, renderer);
+        VisitBy(*val, renderer);
         result = renderer.getOwnership();
 
-        delete enumValue;
-        enumValue = NULL;
+        delete val;
     }
 
     void RenderJSONVisitor::operator()(const ArrayElement& e)
@@ -241,7 +152,7 @@ namespace refract
         const typename T::ValueType* v = GetValue<T>(e);
 
         if (!v) {
-            return NULL;
+            return nullptr;
         }
 
         T* result = IElement::Create(*v);
@@ -274,25 +185,17 @@ namespace refract
             return;
         }
 
-        if (TypeQueryVisitor::as<EnumElement>(merged)) {
-            renderer.enumValue = GetEnumValue(e);
-            if (renderer.enumValue) {
-                renderer.enumValue = renderer.enumValue->clone();
-            }
-        }
-
         Visit(renderer, *merged);
         result = renderer.getOwnership();
 
         delete merged;
     }
 
-    IElement* RenderJSONVisitor::getOwnership()
-    {
-        IElement* ret = result;
-        result = NULL;
-        return ret;
-    }
+   IElement* RenderJSONVisitor::getOwnership() {
+       IElement* ret = result;
+       result = nullptr;
+       return ret;
+   }
 
     std::string RenderJSONVisitor::getString() const
     {

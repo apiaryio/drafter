@@ -19,16 +19,17 @@ namespace drafter {
         typedef typename ElementType::ValueType ValueType;
         typedef snowcrash::SourceMap<ValueType> ValueSourceMapType;
 
-        static const bool IsPrimitive = std::conditional<
+        typedef typename std::conditional<
             std::is_same<ValueType, refract::RefractElements>::value || std::is_same<ValueType, refract::IElement*>::value, // check for primitive values
-            std::false_type, std::true_type>::type::value;
+            std::false_type, std::true_type>::type
+            IsPrimitive;
 
         // This is required because snowcrash internal stuctures holds data 
         // for primitive types as "string" for complex types as "element array"
         // it will be converted into apropriated element typer once all required data are colected
         
         typedef typename std::conditional<
-            IsPrimitive, 
+            IsPrimitive::value, 
             std::string, // for primitive values, we will hold data as string
             refract::RefractElements // for complex types, we will hold elements
             >::type StoredType;

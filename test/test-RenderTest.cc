@@ -35,6 +35,7 @@ TEST_REFRACT("render", "override");
 TEST_REFRACT("render", "action-request-attributes");
 TEST_REFRACT("render", "object-array-string");
 TEST_REFRACT("render", "enum-default");
+TEST_REFRACT("render", "enum-default-multiple");
 TEST_REFRACT("render", "enum-sample");
 TEST_REFRACT("render", "array-fixed-values");
 

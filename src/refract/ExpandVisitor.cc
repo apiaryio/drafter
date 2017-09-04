@@ -64,19 +64,14 @@ namespace refract
             }
         };
 
-        //
-        // FIXME: it seem it is not required for implemetation
-        // maybe there is no EnumElement expansion in samples?
-        //
+        template <>
+        struct ExpandValueImpl<IElement*> {
 
-        //template <>
-        //struct ExpandValueImpl<IElement*> {
-
-        //    template <typename Functor>
-        //    IElement* const operator()(const IElement* value, Functor& expand) {
-        //        return expand(value);
-        //    }
-        //};
+            template <typename Functor>
+            IElement* operator()(const IElement* value, Functor& expand) {
+                return expand(value);
+            }
+        };
 
         template <>
         struct ExpandValueImpl<RefractElements> {
@@ -134,7 +129,7 @@ namespace refract
 
         Context(const Registry& registry, ExpandVisitor* expand) : registry(registry), expand(expand) {}
 
-        IElement* ExpandOrClone(const IElement* e)
+        IElement* ExpandOrClone(const IElement* e) const
         {
             IElement* result = NULL;
             if (!e) {

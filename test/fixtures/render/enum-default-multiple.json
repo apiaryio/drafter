@@ -79,7 +79,7 @@
                           "attributes": {
                             "statusCode": {
                               "element": "string",
-                              "content": "201"
+                              "content": "200"
                             },
                             "headers": {
                               "element": "httpHeaders",
@@ -104,47 +104,28 @@
                             {
                               "element": "dataStructure",
                               "content": {
-                                "element": "extend",
+                                "element": "object",
                                 "content": [
                                   {
-                                    "element": "object",
-                                    "meta": {
-                                      "ref": {
+                                    "element": "member",
+                                    "content": {
+                                      "key": {
                                         "element": "string",
-                                        "content": "A"
-                                      }
-                                    },
-                                    "content": [
-                                      {
-                                        "element": "member",
-                                        "content": {
-                                          "key": {
-                                            "element": "string",
-                                            "content": "type"
-                                          },
-                                          "value": {
+                                        "content": "enumField"
+                                      },
+                                      "value": {
+                                        "element": "enum",
+                                        "attributes": {
+                                          "default": {
                                             "element": "enum",
-                                            "attributes": {
-                                              "enumerations": {
-                                                "element": "array",
-                                                "content": [
-                                                  {
-                                                    "element": "string",
-                                                    "content": "regular"
-                                                  }
-                                                ]
-                                              },
-                                              "default": {
-                                                "element": "enum"
-                                              }
+                                            "content": {
+                                              "element": "string",
+                                              "content": "g"
                                             }
                                           }
                                         }
                                       }
-                                    ]
-                                  },
-                                  {
-                                    "element": "object"
+                                    }
                                   }
                                 ]
                               }
@@ -168,7 +149,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"type\": \"\"\n}"
+                              "content": "{\n  \"enumField\": \"g\"\n}"
                             },
                             {
                               "element": "asset",
@@ -189,7 +170,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"type\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"regular\"\n      ]\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"enumField\": {}\n  }\n}"
                             }
                           ]
                         }
@@ -200,108 +181,8 @@
               ]
             }
           ]
-        },
-        {
-          "element": "category",
-          "meta": {
-            "classes": {
-              "element": "array",
-              "content": [
-                {
-                  "element": "string",
-                  "content": "dataStructures"
-                }
-              ]
-            }
-          },
-          "content": [
-            {
-              "element": "dataStructure",
-              "content": {
-                "element": "object",
-                "meta": {
-                  "id": {
-                    "element": "string",
-                    "content": "A"
-                  }
-                },
-                "content": [
-                  {
-                    "element": "member",
-                    "content": {
-                      "key": {
-                        "element": "string",
-                        "content": "type"
-                      },
-                      "value": {
-                        "element": "enum",
-                        "attributes": {
-                          "enumerations": {
-                            "element": "array",
-                            "content": [
-                              {
-                                "element": "string",
-                                "content": "regular"
-                              }
-                            ]
-                          },
-                          "default": {
-                            "element": "enum"
-                          }
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          ]
         }
       ]
-    },
-    {
-      "element": "annotation",
-      "meta": {
-        "classes": {
-          "element": "array",
-          "content": [
-            {
-              "element": "string",
-              "content": "warning"
-            }
-          ]
-        }
-      },
-      "attributes": {
-        "code": {
-          "element": "number",
-          "content": 6
-        },
-        "sourceMap": {
-          "element": "array",
-          "content": [
-            {
-              "element": "sourceMap",
-              "content": [
-                {
-                  "element": "array",
-                  "content": [
-                    {
-                      "element": "number",
-                      "content": 99
-                    },
-                    {
-                      "element": "number",
-                      "content": 13
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      },
-      "content": "no value(s) specified"
     }
   ]
 }
