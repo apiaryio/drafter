@@ -682,7 +682,9 @@ namespace drafter {
         struct ElementInfoToElement<E, PrimitiveType> {
             E* operator()(const typename ElementData<E>::ElementInfo& value) {
                 std::pair <bool, typename E::ValueType> result = LiteralTo<typename E::ValueType>(std::get<0>(value));
-                return new E(std::get<1>(result));
+                return result.first
+                    ? new E(std::get<1>(result))
+                    : new E;
             }
         };
 
@@ -766,6 +768,31 @@ namespace drafter {
             }
         };
 
+
+        template <typename T, typename IsPrimitive = typename ElementData<T>::IsPrimitive> struct ReleaseStoredData;
+        
+        template <typename T>
+        struct ReleaseStoredData<T, PrimitiveType> {
+            template <typename I1, typename I2>
+            void operator()(const I1& begin, const I2& end) {
+                // do nothing
+            }
+        };
+
+        template <typename T>
+        struct ReleaseStoredData<T, ComplexType> {
+            template <typename I1, typename I2>
+            void operator()(const I1& begin, const I2& end) {
+                    std::for_each(begin, end,
+                                 [](const typename ElementData<T>::ElementInfo& info){
+                                    const auto& elements = std::get<0>(info); 
+                                    for_each(elements.begin(), elements.end(),
+                                             [](const refract::IElement* e) { delete e; }
+                                    );
+                                 });
+            }
+        };
+
         template <typename T>
         struct AllElementsToAtribute {
 
@@ -784,30 +811,9 @@ namespace drafter {
                 }
 
                 element->attributes[key] = a;
+
             }
 
-        };
-
-        template <typename T, typename IsPrimitive = typename ElementData<T>::IsPrimitive> struct ReleaseStoredData;
-        
-        template <typename T>
-        struct ReleaseStoredData<T, PrimitiveType> {
-            void operator()(const typename ElementData<T>::ElementInfoContainer& data) {
-                // do nothing
-            }
-        };
-
-        template <typename T>
-        struct ReleaseStoredData<T, ComplexType> {
-            void operator()(const typename ElementData<T>::ElementInfoContainer& data) {
-                    std::for_each(data.begin(), data.end(),
-                                 [](const typename ElementData<T>::ElementInfo& info){
-                                    const auto& elements = std::get<0>(info); 
-                                    for_each(elements.begin(), elements.end(),
-                                             [](const refract::IElement* e) { delete e; }
-                                    );
-                                 });
-            }
         };
 
         template <typename T>
@@ -824,8 +830,9 @@ namespace drafter {
                 refract::IElement* value = fetch(*values.rbegin());
 
                 if (values.size() > 1) {
-                    value = value->clone();
-                    ReleaseStoredData<T>()(values);
+                    auto begin = values.rbegin(); 
+                    begin++; // avoid last one
+                    ReleaseStoredData<T>()(begin, values.rend());
                 }
 
                 element->attributes[key] = value;
