@@ -415,7 +415,7 @@ namespace drafter {
         template <typename E, bool dummy> 
         struct Store<E, PrimitiveType, dummy> {
             void operator()(ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context){
-                // do nothing
+                // do nothing - Primitive types does not contain TypeDefinitions
             }
         };
 
@@ -479,14 +479,13 @@ namespace drafter {
 
                 const mson::BaseTypeName type = SelectNestedTypeSpecification(valueMember.node->valueDefinition.typeDefinition.typeSpecification.nestedTypes);
 
-                const RefractElementFactory& f = FactoryFromType(type);
+                const RefractElementFactory& factory = FactoryFromType(type);
                 const mson::Values& values = valueMember.node->valueDefinition.values;
 
                 RefractElements elements;
-
-                for (mson::Values::const_iterator it = values.begin(); it != values.end(); ++it) {
-                    elements.push_back(f.Create(it->literal, it->variable ? eSample : eValue));
-                }
+                std::transform(values.begin(), values.end(),
+                        std::back_inserter(elements),
+                        [&factory](const mson::Value& value){ return factory.Create(value.literal, value.variable ? eSample : eValue); });
 
                 return std::make_tuple(elements, FetchSourceMap<V>()(valueMember));
             }

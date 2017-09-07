@@ -102,7 +102,6 @@ namespace drafter
         refract::IElement* msonElement = MSONToRefract(dataStructure, context);
 
         if (context.options.expandMSON) {
-        //if (true) {
             refract::IElement* msonExpanded = ExpandRefract(msonElement, context);
             msonElement = msonExpanded;
         }

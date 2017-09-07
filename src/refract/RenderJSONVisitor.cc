@@ -88,7 +88,7 @@ namespace refract
 
         if (e.value.second) {
             if (EnumElement* enm = TypeQueryVisitor::as<EnumElement>(e.value.second)) {
-                // We nned nadle Enum individualy because of attr["enumerations"]
+                // We need to handle Enum individualy because of attr["enumerations"]
                 Visit(renderer, *enm);
             }
             else if (IsTypeAttribute(e, "nullable") && e.value.second->empty()) {

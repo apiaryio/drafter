@@ -26,7 +26,7 @@ namespace drafter {
 
         // This is required because snowcrash internal stuctures holds data 
         // for primitive types as "string" for complex types as "element array"
-        // it will be converted into apropriated element typer once all required data are colected
+        // it will be converted into apropriated element type once all required data are colected
         
         typedef typename std::conditional<
             IsPrimitive::value, 
@@ -46,9 +46,6 @@ namespace drafter {
         ElementInfoContainer enumerations;
 
         DescriptionInfoContainer descriptions;
-
-        //std::vector<std::string> descriptions;
-        //std::vector<snowcrash::SourceMap<std::string> > descriptionsSourceMap;
     };
 
 } // namespace drafter

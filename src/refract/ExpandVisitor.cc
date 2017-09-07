@@ -80,10 +80,9 @@ namespace refract
             RefractElements operator()(const RefractElements& value, Functor& expand)
             {
                 RefractElements members;
-
-                for (auto const& item: value) {
-                    members.push_back(expand(item));
-                }
+                std::transform(value.begin(), value.end(),
+                        std::back_inserter(members),
+                        expand);
 
                 return members;
             }

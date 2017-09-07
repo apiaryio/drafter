@@ -162,7 +162,7 @@ namespace refract
                             continue;
                         }
 
-                        // We need hadle Enum individualy because of attr["enumerations"]
+                        // We need to hadle Enum individualy because of attr["enumerations"]
                         if (EnumElement* val = TypeQueryVisitor::as<EnumElement>(item)) {
                             IElement* ret = GetEnumValue(*val);
                             if (ret) {
