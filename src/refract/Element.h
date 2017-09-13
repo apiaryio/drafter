@@ -244,7 +244,6 @@ namespace refract
             const Type* self = static_cast<const T*>(this);
             Type* element = new Type;
 
-
             if (flags & cElement) {
                 element->element_ = self->element_;
             }
@@ -508,13 +507,18 @@ namespace refract
         }
     };
 
-    struct EnumElementTrait
-    {
+    struct EnumElementTrait {
 
         typedef IElement* ValueType;
 
-        static ValueType init() { return NULL; }
-        static const std::string element() { return "enum"; }
+        static ValueType init()
+        {
+            return NULL;
+        }
+        static const std::string element()
+        {
+            return "enum";
+        }
 
         static void release(ValueType& value)
         {
@@ -534,8 +538,7 @@ namespace refract
     // FIXME: what about `empty()`? should it reflect "enumeration" attribute?
     //
 
-    struct EnumElement : Element<EnumElement, EnumElementTrait>
-    {
+    struct EnumElement : Element<EnumElement, EnumElementTrait> {
         EnumElement() : Type()
         {
         }

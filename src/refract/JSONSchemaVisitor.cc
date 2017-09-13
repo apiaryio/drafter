@@ -422,7 +422,8 @@ namespace refract
         }
     }
 
-    void JSONSchemaVisitor::operator()(const EnumElement& e) {
+    void JSONSchemaVisitor::operator()(const EnumElement& e)
+    {
 
         RefractElements elms;
 
@@ -444,7 +445,7 @@ namespace refract
         std::map<std::string, std::vector<IElement*> > types;
         std::vector<std::string> typesOrder;
 
-        for (const auto& it: elms) {
+        for (const auto& it : elms) {
 
             if (it) {
                 std::vector<IElement*>& items = types[(it)->element()];
@@ -462,7 +463,7 @@ namespace refract
         } else {
             const EnumElement* def = GetDefault(e);
             if (!elms.empty() || (def && !def->empty())) {
-                ArrayElement *a = new ArrayElement;
+                ArrayElement* a = new ArrayElement;
                 CloneMembers(a, &elms);
                 setSchemaType(types.begin()->first);
                 addMember("enum", a);
@@ -474,7 +475,7 @@ namespace refract
         // this works because "default" is everytime set by value
         // if value will be moved into "enumerations" it need aditional check
         if (def && !def->empty() && !def->value->empty()) {
-            IElement *d = def->value->clone();
+            IElement* d = def->value->clone();
             addMember("default", d);
         }
     }
@@ -614,8 +615,7 @@ namespace refract
                             }
                         }
                     }
-                }
-                break;
+                } break;
 
                 case TypeQueryVisitor::Select: {
                     SelectElement* sel = static_cast<SelectElement*>(*it);
@@ -628,8 +628,7 @@ namespace refract
                         VisitBy(*(*it), v);
                         oneOfMembers.push_back(v.getOwnership());
                     }
-                }
-                break;
+                } break;
 
                 default:
                     throw LogicError("Invalid member type of object in MSON definition");

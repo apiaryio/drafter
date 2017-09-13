@@ -131,18 +131,22 @@ namespace refract
         }
     };
 
-    template<>
+    template <>
     struct GetValue<refract::EnumElement, typename refract::EnumElement::ValueType> {
         using EnumElement = refract::EnumElement;
         const EnumElement& element;
 
-        GetValue(const EnumElement& e) : element(e) {}
+        GetValue(const EnumElement& e) : element(e)
+        {
+        }
 
-        operator const IElement*() {
+        operator const IElement*()
+        {
             return GetEnumValue(element);
         }
 
-        IElement* GetEnumValue(const EnumElement& element) {
+        IElement* GetEnumValue(const EnumElement& element)
+        {
             if (const EnumElement* s = GetSample(element)) {
                 return GetEnumValue(*s);
             }
@@ -171,7 +175,7 @@ namespace refract
                         }
 
                         if (!item->empty()) {
-                            return  item;
+                            return item;
                         }
                     }
                 }
@@ -180,7 +184,8 @@ namespace refract
             return element.value;
         }
 
-        const ArrayElement* GetEnumerations(const EnumElement& e) {
+        const ArrayElement* GetEnumerations(const EnumElement& e)
+        {
 
             IElement::MemberElementCollection::const_iterator i = e.attributes.find("enumerations");
 
@@ -191,7 +196,6 @@ namespace refract
             return TypeQueryVisitor::as<ArrayElement>((*i)->value.second);
         }
     };
-
 
     // will be moved into different header (as part of drafter instead of refract)
     template <typename T>

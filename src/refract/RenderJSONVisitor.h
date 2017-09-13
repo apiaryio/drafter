@@ -20,6 +20,7 @@ namespace refract
     class RenderJSONVisitor
     {
         IElement* result;
+
     public:
         RenderJSONVisitor();
         virtual ~RenderJSONVisitor();

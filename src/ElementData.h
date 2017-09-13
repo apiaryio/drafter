@@ -10,7 +10,8 @@
 
 #include "RefractSourceMap.h"
 
-namespace drafter {
+namespace drafter
+{
 
     template <typename T>
     struct ElementData {
@@ -19,22 +20,21 @@ namespace drafter {
         typedef typename ElementType::ValueType ValueType;
         typedef snowcrash::SourceMap<ValueType> ValueSourceMapType;
 
-        typedef typename std::conditional<
-            std::is_same<ValueType, refract::RefractElements>::value || std::is_same<ValueType, refract::IElement*>::value, // check for primitive values
-            std::false_type, std::true_type>::type
-            IsPrimitive;
+        typedef typename std::conditional<std::is_same<ValueType, refract::RefractElements>::value
+                || std::is_same<ValueType, refract::IElement*>::value, // check for primitive values
+            std::false_type,
+            std::true_type>::type IsPrimitive;
 
-        // This is required because snowcrash internal stuctures holds data 
+        // This is required because snowcrash internal stuctures holds data
         // for primitive types as "string" for complex types as "element array"
         // it will be converted into apropriated element type once all required data are colected
-        
-        typedef typename std::conditional<
-            IsPrimitive::value, 
-            std::string, // for primitive values, we will hold data as string
+
+        typedef typename std::conditional<IsPrimitive::value,
+            std::string,             // for primitive values, we will hold data as string
             refract::RefractElements // for complex types, we will hold elements
             >::type StoredType;
 
-        typedef std::tuple<StoredType, ValueSourceMapType> ElementInfo; // [value, sourceMap]
+        typedef std::tuple<StoredType, ValueSourceMapType> ElementInfo;                      // [value, sourceMap]
         typedef std::tuple<std::string, snowcrash::SourceMap<std::string> > DescriptionInfo; // [description, sourceMap]
 
         typedef std::vector<ElementInfo> ElementInfoContainer;
@@ -51,4 +51,3 @@ namespace drafter {
 } // namespace drafter
 
 #endif // #ifndef DRAFTER_ELEMENTDATA_H
-

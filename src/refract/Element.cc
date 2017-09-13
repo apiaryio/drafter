@@ -18,9 +18,9 @@
 namespace refract
 {
 
-    bool isReserved(const std::string& element) {
-        static const std::set<std::string> reserved = {
-            "null",
+    bool isReserved(const std::string& element)
+    {
+        static const std::set<std::string> reserved = { "null",
             "boolean",
             "number",
             "string",
@@ -36,8 +36,7 @@ namespace refract
             "option",
             "extend",
 
-            "generic"
-        };
+            "generic" };
 
         return reserved.find(element) != reserved.end();
     }
@@ -119,12 +118,10 @@ namespace refract
 
             const TypeQueryVisitor::ElementType base = visitor.get();
 
-            return std::all_of(values.begin(), values.end(),
-                               [&visitor, base](const IElement* e) {
-                                   Visit(visitor,*e);
-                                   return base == visitor.get();
-                               });
-
+            return std::all_of(values.begin(), values.end(), [&visitor, base](const IElement* e) {
+                Visit(visitor, *e);
+                return base == visitor.get();
+            });
         }
     }
 
@@ -193,15 +190,17 @@ namespace refract
             template <typename T>
             struct ValueMerge<T, IElement*> {
                 IElement*& value;
-                ValueMerge(T& element) : value(element.value) {}
+                ValueMerge(T& element) : value(element.value)
+                {
+                }
 
-                void operator()(const T& merge) {
-                        if (!value && merge.value) {
-                            value = merge.value->clone();
-                        }
+                void operator()(const T& merge)
+                {
+                    if (!value && merge.value) {
+                        value = merge.value->clone();
+                    }
                 }
             };
-
 
             /**
              * Merge stategy for objects/array
@@ -228,19 +227,18 @@ namespace refract
                     MapKeyToMember keysBase;
                     MapNameToRef refBase;
 
-                    for (auto& it: value) {
+                    for (auto& it : value) {
                         if (MemberElement* member = TypeQueryVisitor::as<MemberElement>(it)) {
 
                             if (StringElement* key = TypeQueryVisitor::as<StringElement>(member->value.first)) {
                                 keysBase[key->value] = member;
                             }
-                        }
-                        else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(it)) {
+                        } else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(it)) {
                             refBase[ref->value] = ref;
                         }
                     }
 
-                    for (auto const& it: merge.value) {
+                    for (auto const& it : merge.value) {
                         if (MemberElement* member = TypeQueryVisitor::as<MemberElement>(it)) {
                             if (StringElement* key = TypeQueryVisitor::as<StringElement>(member->value.first)) {
                                 MapKeyToMember::iterator iKey = keysBase.find(key->value);
@@ -251,22 +249,19 @@ namespace refract
 
                                     CollectionMerge<T>(iKey->second->meta, {})(member->meta);
                                     CollectionMerge<T>(iKey->second->attributes, {})(member->attributes);
-                                }
-                                else { // unknown key, append value
+                                } else { // unknown key, append value
                                     MemberElement* clone = static_cast<MemberElement*>(member->clone());
                                     value.push_back(clone);
                                     keysBase[key->value] = clone;
                                 }
                             }
-                        }
-                        else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(it)) {
+                        } else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(it)) {
                             if (refBase.find(ref->value) == refBase.end()) {
                                 RefElement* clone = static_cast<RefElement*>(member->clone());
                                 value.push_back(clone);
                                 refBase[ref->value] = clone;
                             }
-                        }
-                        else if(!(it)->empty()) { // merge member is not MemberElement, append value
+                        } else if (!(it)->empty()) { // merge member is not MemberElement, append value
                             value.push_back(it->clone());
                         }
                     }
@@ -274,19 +269,23 @@ namespace refract
             };
 
             template <typename T>
-            class CollectionMerge {
+            class CollectionMerge
+            {
                 using KeySet = std::set<std::string>;
                 IElement::MemberElementCollection& info;
                 const KeySet& noMergeKeys;
 
             public:
+                CollectionMerge(IElement::MemberElementCollection& info, const KeySet& noMergeKeys)
+                    : info(info), noMergeKeys(noMergeKeys)
+                {
+                }
 
-                CollectionMerge(IElement::MemberElementCollection& info, const KeySet& noMergeKeys) : info(info), noMergeKeys(noMergeKeys) {}
-
-                void operator()(const IElement::MemberElementCollection& append) {
+                void operator()(const IElement::MemberElementCollection& append)
+                {
                     IElement::MemberElementCollection toAppend;
 
-                    for (const auto& it: append) {
+                    for (const auto& it : append) {
 
                         if (!it) {
                             continue;
@@ -310,7 +309,7 @@ namespace refract
                         toAppend.push_back(static_cast<MemberElement*>(it->clone()));
                     }
 
-                    for (const auto& it: toAppend) {
+                    for (const auto& it : toAppend) {
                         info.push_back(it);
                     }
 

@@ -24,8 +24,14 @@ namespace drafter
         const WrapperOptions& options;
         std::vector<snowcrash::Warning> warnings;
 
-        inline refract::Registry& GetNamedTypesRegistry() { return registry; }
-        inline const refract::Registry& GetNamedTypesRegistry() const { return registry; }
+        inline refract::Registry& GetNamedTypesRegistry()
+        {
+            return registry;
+        }
+        inline const refract::Registry& GetNamedTypesRegistry() const
+        {
+            return registry;
+        }
 
         ConversionContext(const WrapperOptions& options) : options(options)
         {
