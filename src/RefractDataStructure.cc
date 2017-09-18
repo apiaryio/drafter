@@ -23,8 +23,8 @@
 namespace drafter
 {
 
-    using PrimitiveType = std::true_type;
-    using ComplexType = std::false_type;
+    auto const PrimitiveType = std::true_type::value;
+    auto const ComplexType = std::false_type::value;
 
     template <typename U>
     struct FetchSourceMap {
@@ -58,8 +58,8 @@ namespace drafter
     template <bool dummy>
     struct CheckValueValidity<refract::NumberElement, dummy> {
 
-        typedef typename ElementData<refract::NumberElement>::ElementInfo ElementInfo;
-        typedef typename refract::NumberElement::ValueType ValueType;
+        using ElementInfo = typename ElementData<refract::NumberElement>::ElementInfo;
+        using ValueType = typename refract::NumberElement::ValueType;
 
         void operator()(const ElementInfo& value, ConversionContext& context)
         {
@@ -233,7 +233,7 @@ namespace drafter
         mson::BaseTypeName elementTypeName;
         mson::BaseTypeName defaultNestedType;
 
-        template <typename U, typename IsPrimitive = typename ElementData<U>::IsPrimitive>
+        template <typename U, bool IsPrimitive = IsPrimitive<U>::type::value>
         struct Fetch;
 
         template <typename U>
@@ -262,7 +262,7 @@ namespace drafter
             }
         };
 
-        template <typename U, typename IsPrimitive = typename ElementData<U>::IsPrimitive, bool dummy = true>
+        template <typename U, bool IsPrimitive = IsPrimitive<U>::type::value, bool dummy = true>
         struct Store;
 
         template <typename U, bool dummy>
@@ -293,7 +293,7 @@ namespace drafter
         };
 
         template <bool dummy>
-        struct Store<refract::EnumElement, typename ElementData<refract::EnumElement>::IsPrimitive, dummy> {
+        struct Store<refract::EnumElement, IsPrimitive<refract::EnumElement>::type::value, dummy> {
             void operator()(ElementData<refract::EnumElement>& data,
                 const NodeInfo<mson::TypeSection>& typeSection,
                 ConversionContext& context,
@@ -425,7 +425,7 @@ namespace drafter
         ElementData<ElementType>& data;
         const ConversionContext& context;
 
-        template <typename E, typename IsPrimitive = typename ElementData<E>::IsPrimitive>
+        template <typename E, bool IsPrimitive = IsPrimitive<E>::type::value>
         struct Fetch;
 
         template <typename E>
@@ -451,7 +451,7 @@ namespace drafter
             }
         };
 
-        template <typename E, typename IsPrimitive = typename ElementData<E>::IsPrimitive, bool dummy = true>
+        template <typename E, bool IsPrimitive = IsPrimitive<E>::type::value, bool dummy = true>
         struct Store;
 
         template <typename E, bool dummy>
@@ -471,7 +471,7 @@ namespace drafter
         };
 
         template <bool dummy>
-        struct Store<refract::EnumElement, typename ElementData<refract::EnumElement>::IsPrimitive, dummy> {
+        struct Store<refract::EnumElement, IsPrimitive<refract::EnumElement>::type::value, dummy> {
             using E = refract::EnumElement;
             void operator()(ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context)
             {
@@ -502,7 +502,7 @@ namespace drafter
         ElementData<T>& data;
         ConversionContext& context;
 
-        template <typename U, typename IsPrimitive = typename ElementData<U>::IsPrimitive, bool dummy = true>
+        template <typename U, bool IsPrimitive = IsPrimitive<U>::type::value, bool dummy = true>
         struct Fetch;
 
         template <typename U, bool dummy>
@@ -546,7 +546,7 @@ namespace drafter
         };
 
         template <bool dummy>
-        struct Fetch<refract::EnumElement, typename ElementData<refract::EnumElement>::IsPrimitive, dummy> { // Enum
+        struct Fetch<refract::EnumElement, IsPrimitive<refract::EnumElement>::type::value, dummy> { // Enum
 
             ElementInfo operator()(const NodeInfo<mson::ValueMember>& valueMember, ConversionContext& context)
             {
@@ -686,7 +686,7 @@ namespace drafter
             }
         };
 
-        template <typename T, typename IsPrimitive = typename ElementData<T>::IsPrimitive>
+        template <typename T, bool IsPrimitive = IsPrimitive<T>::type::value>
         struct Merge;
 
         template <typename T>
@@ -730,7 +730,7 @@ namespace drafter
             }
         };
 
-        template <typename E, typename IsPrimitive = typename ElementData<E>::IsPrimitive>
+        template <typename E, bool IsPrimitive = IsPrimitive<E>::type::value>
         struct ElementInfoToElement;
 
         template <typename E>
@@ -751,7 +751,7 @@ namespace drafter
         };
 
         template <>
-        struct ElementInfoToElement<refract::EnumElement, typename ElementData<refract::EnumElement>::IsPrimitive> {
+        struct ElementInfoToElement<refract::EnumElement, IsPrimitive<refract::EnumElement>::type::value> {
             refract::EnumElement* operator()(const typename ElementData<refract::EnumElement>::ElementInfo& value)
             {
 
@@ -769,7 +769,7 @@ namespace drafter
             }
         };
 
-        template <typename T, typename IsPrimitive = typename ElementData<T>::IsPrimitive>
+        template <typename T, bool IsPrimitive = IsPrimitive<T>::type::value>
         struct SaveValue;
 
         template <typename T>
@@ -808,7 +808,7 @@ namespace drafter
         };
 
         template <>
-        struct SaveValue<refract::EnumElement, typename ElementData<refract::EnumElement>::IsPrimitive> {
+        struct SaveValue<refract::EnumElement, IsPrimitive<refract::EnumElement>::type::value> {
             using ElementInfo = typename ElementData<refract::EnumElement>::ElementInfo;
 
             void operator()(const ElementData<refract::EnumElement>& data, refract::EnumElement* element)
@@ -829,7 +829,7 @@ namespace drafter
             }
         };
 
-        template <typename T, typename IsPrimitive = typename ElementData<T>::IsPrimitive>
+        template <typename T, bool IsPrimitive = IsPrimitive<T>::type::value>
         struct ReleaseStoredData;
 
         template <typename T>

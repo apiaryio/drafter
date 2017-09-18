@@ -8,7 +8,7 @@
 namespace drafter
 {
 
-    template <typename E, typename IsPrimitive = typename ElementData<E>::IsPrimitive>
+    template <typename E, typename IsPrimitive = typename IsPrimitive<E>::type>
     struct RefractElementFactoryImpl;
 
     template <typename E>

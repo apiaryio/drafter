@@ -405,7 +405,7 @@ namespace refract
 
         static ValueType init()
         {
-            return NULL;
+            return nullptr;
         }
         static const std::string element()
         {
@@ -415,12 +415,12 @@ namespace refract
         static void release(ValueType& value)
         {
             delete value;
-            value = NULL;
+            value = nullptr;
         }
 
         static void cloneValue(const ValueType& self, ValueType& other)
         {
-            other = self ? self->clone() : NULL;
+            other = self ? self->clone() : nullptr;
         }
     };
 
@@ -466,7 +466,7 @@ namespace refract
         static typename ValueType::value_type typedMemberClone(IElement* element, const IElement::cloneFlags flags)
         {
             if (!element) {
-                return NULL;
+                return nullptr;
             }
 
             return static_cast<typename ValueType::value_type>(element->clone(flags));
@@ -513,7 +513,7 @@ namespace refract
 
         static ValueType init()
         {
-            return NULL;
+            return nullptr;
         }
         static const std::string element()
         {
@@ -522,15 +522,13 @@ namespace refract
 
         static void release(ValueType& value)
         {
-            if (value) {
-                delete value;
-                value = NULL;
-            }
+            delete value;
+            value = nullptr;
         }
 
         static void cloneValue(const ValueType& self, ValueType& other)
         {
-            other = self ? self->clone() : NULL;
+            other = self ? self->clone() : nullptr;
         }
     };
 
@@ -574,22 +572,18 @@ namespace refract
 
         static void release(ValueType& member)
         {
-            if (member.first) {
-                delete member.first;
-                member.first = NULL;
-            }
+            delete member.first;
+            member.first = nullptr;
 
-            if (member.second) {
-                delete member.second;
-                member.second = NULL;
-            }
+            delete member.second;
+            member.second = nullptr;
         }
 
         static void cloneValue(const ValueType& self, ValueType& other)
         {
-            other.first = self.first ? self.first->clone() : NULL;
+            other.first = self.first ? self.first->clone() : nullptr;
 
-            other.second = self.second ? self.second->clone() : NULL;
+            other.second = self.second ? self.second->clone() : nullptr;
         }
     };
 
@@ -616,18 +610,10 @@ namespace refract
 
         void set(IElement* key, IElement* element)
         {
-            if (value.first != NULL) {
-                delete value.first;
-                value.first = NULL;
-            }
-
+            delete value.first;
             value.first = key;
 
-            if (value.second != NULL) {
-                delete value.second;
-                value.second = NULL;
-            }
-
+            delete value.second;
             value.second = element;
 
             hasContent = true;
@@ -635,11 +621,7 @@ namespace refract
 
         MemberElement& operator=(IElement* element)
         {
-            if (value.second != NULL) {
-                delete value.second;
-                value.second = NULL;
-            }
-
+            delete value.second;
             value.second = element;
             return *this;
         }

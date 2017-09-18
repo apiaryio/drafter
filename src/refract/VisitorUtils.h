@@ -22,7 +22,7 @@ namespace refract
     template <typename T>
     bool IsTypeAttribute(const T& e, std::string typeAttribute)
     {
-        IElement::MemberElementCollection::const_iterator ta = e.attributes.find("typeAttributes");
+        auto ta = e.attributes.find("typeAttributes");
 
         if (ta == e.attributes.end()) {
             return false;
@@ -34,8 +34,8 @@ namespace refract
             return false;
         }
 
-        for (ArrayElement::ValueType::const_iterator it = attrs->value.begin(); it != attrs->value.end(); ++it) {
-            StringElement* attr = TypeQueryVisitor::as<StringElement>(*it);
+        for (auto const& value: attrs->value) {
+            StringElement* attr = TypeQueryVisitor::as<StringElement>(value);
             if (!attr) {
                 continue;
             }
@@ -50,32 +50,32 @@ namespace refract
     template <typename T>
     bool IsVariableProperty(const T& e)
     {
-        IElement::MemberElementCollection::const_iterator i = e.attributes.find("variable");
+        auto const var = e.attributes.find("variable");
 
-        if (i == e.attributes.end()) {
+        if (var == e.attributes.end()) {
             return false;
         }
 
-        BooleanElement* b = TypeQueryVisitor::as<BooleanElement>((*i)->value.second);
+        const BooleanElement* b = TypeQueryVisitor::as<BooleanElement>((*var)->value.second);
         return b ? b->value : false;
     }
 
     template <typename T>
     const T* GetDefault(const T& e)
     {
-        IElement::MemberElementCollection::const_iterator i = e.attributes.find("default");
+        auto const dflt = e.attributes.find("default");
 
-        if (i == e.attributes.end()) {
+        if (dflt == e.attributes.end()) {
             return NULL;
         }
 
-        return TypeQueryVisitor::as<T>((*i)->value.second);
+        return TypeQueryVisitor::as<T>((*dflt)->value.second);
     }
 
     template <typename T>
     const T* GetSample(const T& e)
     {
-        IElement::MemberElementCollection::const_iterator i = e.attributes.find("samples");
+        auto const i = e.attributes.find("samples");
 
         if (i == e.attributes.end()) {
             return NULL;
@@ -187,7 +187,7 @@ namespace refract
         const ArrayElement* GetEnumerations(const EnumElement& e)
         {
 
-            IElement::MemberElementCollection::const_iterator i = e.attributes.find("enumerations");
+            auto i = e.attributes.find("enumerations");
 
             if (i == e.attributes.end()) {
                 return nullptr;
@@ -216,7 +216,7 @@ namespace refract
     void HandleRefWhenFetchingMembers(
         const refract::IElement* e, typename T::ValueType& members, const Functor& functor)
     {
-        IElement::MemberElementCollection::const_iterator found = e->attributes.find("resolved");
+        auto const found = e->attributes.find("resolved");
 
         if (found == e->attributes.end()) {
             return;
@@ -242,13 +242,13 @@ namespace refract
     template <typename T>
     MemberElement* FindMemberByKey(const T& e, const std::string& name)
     {
-        for (typename T::ValueType::const_iterator it = e.value.begin(); it != e.value.end(); ++it) {
+        for (auto const& value: e.value) {
 
             ComparableVisitor cmp(name, ComparableVisitor::key);
-            VisitBy(*(*it), cmp);
+            VisitBy(*value, cmp);
 
-            if (cmp.get()) { // key was recognized - it is save to cast to MemberElement
-                return static_cast<MemberElement*>(*it);
+            if (cmp.get()) { // key was recognized - it is safe to cast to MemberElement
+                return static_cast<MemberElement*>(value);
             }
         }
 
@@ -258,7 +258,7 @@ namespace refract
     template <typename T>
     T* FindCollectionMemberValue(const IElement::MemberElementCollection& collection, const std::string& key)
     {
-        IElement::MemberElementCollection::const_iterator i = collection.find(key);
+        auto const i = collection.find(key);
         if (i == collection.end()) {
             return NULL;
         }

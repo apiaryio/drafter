@@ -28,16 +28,16 @@ namespace refract
                 return;
             }
 
-            for (typename T::ValueType::const_iterator it = val->begin(); it != val->end(); ++it) {
+            for (auto const& item: *val) {
 
-                if (!(*it) || (*it)->empty()) {
+                if (!item || item->empty()) {
                     continue;
                 }
 
-                if (RefElement* ref = TypeQueryVisitor::as<RefElement>(*it)) {
+                if (RefElement* ref = TypeQueryVisitor::as<RefElement>(item)) {
                     HandleRefWhenFetchingMembers<T>(ref, members, FetchMembers<T>);
                     continue;
-                } else if (SelectElement* select = TypeQueryVisitor::as<SelectElement>(*it)) {
+                } else if (SelectElement* select = TypeQueryVisitor::as<SelectElement>(item)) {
                     if (select->value.empty() || !(*select->value.begin())) {
                         continue;
                     }
@@ -47,7 +47,7 @@ namespace refract
                 }
 
                 RenderJSONVisitor renderer;
-                Visit(renderer, *(*it));
+                Visit(renderer, *item);
                 IElement* e = renderer.getOwnership();
 
                 if (!e) {
@@ -59,15 +59,9 @@ namespace refract
         }
     }
 
-    RenderJSONVisitor::RenderJSONVisitor() : result(nullptr)
-    {
-    }
-
     RenderJSONVisitor::~RenderJSONVisitor()
     {
-        if (result) {
-            delete result;
-        }
+        delete result;
     }
 
     void RenderJSONVisitor::operator()(const IElement& e)

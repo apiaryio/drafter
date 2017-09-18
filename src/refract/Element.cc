@@ -227,19 +227,19 @@ namespace refract
                     MapKeyToMember keysBase;
                     MapNameToRef refBase;
 
-                    for (auto& it : value) {
-                        if (MemberElement* member = TypeQueryVisitor::as<MemberElement>(it)) {
+                    for (auto& element : value) {
+                        if (MemberElement* member = TypeQueryVisitor::as<MemberElement>(element)) {
 
                             if (StringElement* key = TypeQueryVisitor::as<StringElement>(member->value.first)) {
                                 keysBase[key->value] = member;
                             }
-                        } else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(it)) {
+                        } else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(element)) {
                             refBase[ref->value] = ref;
                         }
                     }
 
-                    for (auto const& it : merge.value) {
-                        if (MemberElement* member = TypeQueryVisitor::as<MemberElement>(it)) {
+                    for (auto const& element : merge.value) {
+                        if (MemberElement* member = TypeQueryVisitor::as<MemberElement>(element)) {
                             if (StringElement* key = TypeQueryVisitor::as<StringElement>(member->value.first)) {
                                 MapKeyToMember::iterator iKey = keysBase.find(key->value);
 
@@ -255,14 +255,14 @@ namespace refract
                                     keysBase[key->value] = clone;
                                 }
                             }
-                        } else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(it)) {
+                        } else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(element)) {
                             if (refBase.find(ref->value) == refBase.end()) {
                                 RefElement* clone = static_cast<RefElement*>(member->clone());
                                 value.push_back(clone);
                                 refBase[ref->value] = clone;
                             }
-                        } else if (!(it)->empty()) { // merge member is not MemberElement, append value
-                            value.push_back(it->clone());
+                        } else if (!(element)->empty()) { // merge member is not MemberElement, append value
+                            value.push_back(element->clone());
                         }
                     }
                 }
@@ -285,13 +285,15 @@ namespace refract
                 {
                     IElement::MemberElementCollection toAppend;
 
-                    for (const auto& it : append) {
+                    for (const auto& member : append) {
 
-                        if (!it) {
+                        assert(member);
+
+                        if (!member) {
                             continue;
                         }
 
-                        if (StringElement* key = TypeQueryVisitor::as<StringElement>(it->value.first)) {
+                        if (StringElement* key = TypeQueryVisitor::as<StringElement>(member->value.first)) {
                             if (noMergeKeys.find(key->value) != noMergeKeys.end()) {
                                 // this key should not be merged
                                 continue;
@@ -301,16 +303,16 @@ namespace refract
                             if (item != info.end()) {
                                 // this key alrady exist, replace value
                                 delete (*item)->value.second;
-                                (*item)->value.second = it->value.second->clone();
+                                (*item)->value.second = member->value.second->clone();
                                 continue;
                             }
                         }
 
-                        toAppend.push_back(static_cast<MemberElement*>(it->clone()));
+                        toAppend.push_back(static_cast<MemberElement*>(member->clone()));
                     }
 
-                    for (const auto& it : toAppend) {
-                        info.push_back(it);
+                    for (const auto& member : toAppend) {
+                        info.push_back(member);
                     }
 
                     toAppend.clear();
@@ -408,5 +410,6 @@ namespace refract
     {
         return std::for_each(value.begin(), value.end(), ElementMerger());
     }
+
 
 }; // namespace refract

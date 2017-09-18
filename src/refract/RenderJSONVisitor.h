@@ -19,10 +19,10 @@ namespace refract
 
     class RenderJSONVisitor
     {
-        IElement* result;
+        IElement* result = nullptr;
 
     public:
-        RenderJSONVisitor();
+        RenderJSONVisitor() = default;
         virtual ~RenderJSONVisitor();
 
         void operator()(const IElement& e);
