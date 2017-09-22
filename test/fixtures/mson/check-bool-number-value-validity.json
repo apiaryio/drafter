@@ -79,8 +79,7 @@
                         "element": "array",
                         "content": [
                           {
-                            "element": "number",
-                            "content": 0
+                            "element": "number"
                           }
                         ]
                       }
@@ -117,8 +116,7 @@
                         "content": 3
                       },
                       {
-                        "element": "number",
-                        "content": 0
+                        "element": "number"
                       }
                     ]
                   }

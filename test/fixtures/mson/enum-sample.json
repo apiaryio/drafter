@@ -53,16 +53,21 @@
                       },
                       "value": {
                         "element": "enum",
-                        "content": [
-                          {
-                            "element": "string",
-                            "content": "3"
-                          },
-                          {
-                            "element": "string",
-                            "content": "4"
+                        "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "3"
+                              },
+                              {
+                                "element": "string",
+                                "content": "4"
+                              }
+                            ]
                           }
-                        ]
+                        }
                       }
                     }
                   },
@@ -81,16 +86,21 @@
                             "content": [
                               {
                                 "element": "enum",
-                                "content": [
-                                  {
-                                    "element": "string",
-                                    "content": "3"
-                                  },
-                                  {
-                                    "element": "string",
-                                    "content": "4"
+                                "attributes": {
+                                  "enumerations": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "3"
+                                      },
+                                      {
+                                        "element": "string",
+                                        "content": "4"
+                                      }
+                                    ]
                                   }
-                                ]
+                                }
                               }
                             ]
                           }
@@ -113,16 +123,21 @@
                       },
                       "value": {
                         "element": "enum",
-                        "content": [
-                          {
-                            "element": "string",
-                            "content": "*3"
-                          },
-                          {
-                            "element": "string",
-                            "content": "4*"
+                        "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "*3"
+                              },
+                              {
+                                "element": "string",
+                                "content": "4*"
+                              }
+                            ]
                           }
-                        ]
+                        }
                       }
                     }
                   },
@@ -147,16 +162,21 @@
                             "content": [
                               {
                                 "element": "enum",
-                                "content": [
-                                  {
-                                    "element": "string",
-                                    "content": "3"
-                                  },
-                                  {
-                                    "element": "string",
-                                    "content": "4"
+                                "attributes": {
+                                  "enumerations": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "3"
+                                      },
+                                      {
+                                        "element": "string",
+                                        "content": "4"
+                                      }
+                                    ]
                                   }
-                                ]
+                                }
                               }
                             ]
                           }
@@ -180,45 +200,61 @@
                       "value": {
                         "element": "enum",
                         "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "number"
+                              }
+                            ]
+                          },
                           "samples": {
                             "element": "array",
                             "content": [
                               {
                                 "element": "enum",
-                                "content": [
-                                  {
-                                    "element": "number",
-                                    "content": 3
-                                  },
-                                  {
-                                    "element": "number",
-                                    "content": 4
+                                "attributes": {
+                                  "enumerations": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "number",
+                                        "content": 3
+                                      },
+                                      {
+                                        "element": "number",
+                                        "content": 4
+                                      }
+                                    ]
                                   }
-                                ]
+                                }
                               },
                               {
                                 "element": "enum",
-                                "content": [
-                                  {
-                                    "element": "number",
-                                    "content": 5
-                                  },
-                                  {
-                                    "element": "number",
-                                    "content": 6
+                                "attributes": {
+                                  "enumerations": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "number",
+                                        "content": 5
+                                      },
+                                      {
+                                        "element": "number",
+                                        "content": 6
+                                      }
+                                    ]
                                   }
-                                ]
+                                }
                               }
                             ]
                           },
                           "default": {
                             "element": "enum",
-                            "content": [
-                              {
-                                "element": "number",
-                                "content": 1
-                              }
-                            ]
+                            "content": {
+                              "element": "number",
+                              "content": 1
+                            }
                           }
                         }
                       }
@@ -239,16 +275,21 @@
                       },
                       "value": {
                         "element": "enum",
-                        "content": [
-                          {
-                            "element": "string",
-                            "content": "pavan"
-                          },
-                          {
-                            "element": "number",
-                            "content": 4
+                        "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "pavan"
+                              },
+                              {
+                                "element": "number",
+                                "content": 4
+                              }
+                            ]
                           }
-                        ]
+                        }
                       }
                     }
                   },
@@ -267,26 +308,31 @@
                       },
                       "value": {
                         "element": "enum",
-                        "content": [
-                          {
-                            "element": "string",
-                            "content": "pavan"
-                          },
-                          {
-                            "element": "number",
-                            "attributes": {
-                              "samples": {
-                                "element": "array",
-                                "content": [
-                                  {
-                                    "element": "number",
-                                    "content": 4
+                        "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "pavan"
+                              },
+                              {
+                                "element": "number",
+                                "attributes": {
+                                  "samples": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "number",
+                                        "content": 4
+                                      }
+                                    ]
                                   }
-                                ]
+                                }
                               }
-                            }
+                            ]
                           }
-                        ]
+                        }
                       }
                     }
                   }

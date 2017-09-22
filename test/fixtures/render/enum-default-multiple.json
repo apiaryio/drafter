@@ -42,13 +42,13 @@
               "meta": {
                 "title": {
                   "element": "string",
-                  "content": "Resource"
+                  "content": ""
                 }
               },
               "attributes": {
                 "href": {
                   "element": "string",
-                  "content": "/example"
+                  "content": "/"
                 }
               },
               "content": [
@@ -57,7 +57,7 @@
                   "meta": {
                     "title": {
                       "element": "string",
-                      "content": "Action"
+                      "content": ""
                     }
                   },
                   "content": [
@@ -111,33 +111,17 @@
                                     "content": {
                                       "key": {
                                         "element": "string",
-                                        "content": "tag"
+                                        "content": "enumField"
                                       },
                                       "value": {
                                         "element": "enum",
                                         "attributes": {
-                                          "enumerations": {
-                                            "element": "array",
-                                            "content": [
-                                              {
-                                                "element": "string",
-                                                "content": "green"
-                                              },
-                                              {
-                                                "element": "number",
-                                                "attributes": {
-                                                  "samples": {
-                                                    "element": "array",
-                                                    "content": [
-                                                      {
-                                                        "element": "number",
-                                                        "content": 5
-                                                      }
-                                                    ]
-                                                  }
-                                                }
-                                              }
-                                            ]
+                                          "default": {
+                                            "element": "enum",
+                                            "content": {
+                                              "element": "string",
+                                              "content": "g"
+                                            }
                                           }
                                         }
                                       }
@@ -165,7 +149,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"tag\": \"green\"\n}"
+                              "content": "{\n  \"enumField\": \"g\"\n}"
                             },
                             {
                               "element": "asset",
@@ -186,7 +170,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"tag\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"green\"\n          ]\n        },\n        {\n          \"type\": \"number\"\n        }\n      ]\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"enumField\": {}\n  }\n}"
                             }
                           ]
                         }

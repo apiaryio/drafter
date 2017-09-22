@@ -126,7 +126,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"id\": \"1\",\n  \"data\": {}\n}"
+                              "content": "{\n  \"id\": \"1\",\n  \"data\": []\n}"
                             },
                             {
                               "element": "asset",
@@ -147,7 +147,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"string\"\n    },\n    \"data\": {\n      \"anyOf\": [\n        {\n          \"type\": \"object\",\n          \"properties\": {}\n        },\n        {\n          \"type\": \"array\",\n          \"enum\": [\n            [\n              {}\n            ]\n          ]\n        }\n      ]\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"string\"\n    },\n    \"data\": {\n      \"anyOf\": [\n        {\n          \"type\": \"object\",\n          \"properties\": {}\n        },\n        {\n          \"type\": \"array\",\n          \"enum\": [\n            []\n          ]\n        }\n      ]\n    }\n  }\n}"
                             }
                           ]
                         }
@@ -183,19 +183,24 @@
                     "content": "E"
                   }
                 },
-                "content": [
-                  {
-                    "element": "A"
-                  },
-                  {
+                "attributes": {
+                  "enumerations": {
                     "element": "array",
                     "content": [
                       {
                         "element": "A"
+                      },
+                      {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "A"
+                          }
+                        ]
                       }
                     ]
                   }
-                ]
+                }
               }
             },
             {

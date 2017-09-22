@@ -134,7 +134,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "[\n  \"\",\n  \"\"\n]"
+                              "content": "[\n  [],\n  []\n]"
                             },
                             {
                               "element": "asset",
@@ -191,19 +191,24 @@
                     "content": "A"
                   }
                 },
-                "content": [
-                  {
-                    "element": "B"
-                  },
-                  {
+                "attributes": {
+                  "enumerations": {
                     "element": "array",
                     "content": [
                       {
                         "element": "B"
+                      },
+                      {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "B"
+                          }
+                        ]
                       }
                     ]
                   }
-                ]
+                }
               }
             },
             {
@@ -216,19 +221,24 @@
                     "content": "B"
                   }
                 },
-                "content": [
-                  {
-                    "element": "A"
-                  },
-                  {
+                "attributes": {
+                  "enumerations": {
                     "element": "array",
                     "content": [
                       {
                         "element": "A"
+                      },
+                      {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "A"
+                          }
+                        ]
                       }
                     ]
                   }
-                ]
+                }
               }
             }
           ]

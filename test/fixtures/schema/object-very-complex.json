@@ -352,16 +352,21 @@
                                               },
                                               "value": {
                                                 "element": "enum",
-                                                "content": [
-                                                  {
-                                                    "element": "string",
-                                                    "content": "Czech Republic"
-                                                  },
-                                                  {
-                                                    "element": "string",
-                                                    "content": "United States of America"
+                                                "attributes": {
+                                                  "enumerations": {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "string",
+                                                        "content": "Czech Republic"
+                                                      },
+                                                      {
+                                                        "element": "string",
+                                                        "content": "United States of America"
+                                                      }
+                                                    ]
                                                   }
-                                                ]
+                                                }
                                               }
                                             }
                                           }

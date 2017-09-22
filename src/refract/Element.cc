@@ -20,26 +20,23 @@ namespace refract
 
     bool isReserved(const std::string& element)
     {
-        static std::set<std::string> reserved;
-        if (reserved.empty()) {
-            reserved.insert("null");
-            reserved.insert("boolean");
-            reserved.insert("number");
-            reserved.insert("string");
+        static const std::set<std::string> reserved = { "null",
+            "boolean",
+            "number",
+            "string",
 
-            reserved.insert("member");
+            "member",
 
-            reserved.insert("array");
-            reserved.insert("enum");
-            reserved.insert("object");
+            "array",
+            "enum",
+            "object",
 
-            reserved.insert("ref");
-            reserved.insert("select");
-            reserved.insert("option");
-            reserved.insert("extend");
+            "ref",
+            "select",
+            "option",
+            "extend",
 
-            reserved.insert("generic");
-        }
+            "generic" };
 
         return reserved.find(element) != reserved.end();
     }
@@ -116,17 +113,15 @@ namespace refract
                 return true;
             }
 
-            TypeQueryVisitor v;
-            Visit(v, *values.front());
+            TypeQueryVisitor visitor;
+            Visit(visitor, *values.front());
 
-            const TypeQueryVisitor::ElementType base = v.get();
-            for (ExtendElement::ValueType::const_iterator i = values.begin(); i != values.end(); ++i) {
-                Visit(v, *(*i));
-                if (base != v.get()) {
-                    return false;
-                }
-            }
-            return true;
+            const TypeQueryVisitor::ElementType base = visitor.get();
+
+            return std::all_of(values.begin(), values.end(), [&visitor, base](const IElement* e) {
+                Visit(visitor, *e);
+                return base == visitor.get();
+            });
         }
     }
 
@@ -192,6 +187,21 @@ namespace refract
                 }
             };
 
+            template <typename T>
+            struct ValueMerge<T, IElement*> {
+                IElement*& value;
+                ValueMerge(T& element) : value(element.value)
+                {
+                }
+
+                void operator()(const T& merge)
+                {
+                    if (!value && merge.value) {
+                        value = merge.value->clone();
+                    }
+                }
+            };
+
             /**
              * Merge stategy for objects/array
              * - if member
@@ -217,19 +227,19 @@ namespace refract
                     MapKeyToMember keysBase;
                     MapNameToRef refBase;
 
-                    for (RefractElements::iterator it = value.begin(); it != value.end(); ++it) {
-                        if (MemberElement* member = TypeQueryVisitor::as<MemberElement>(*it)) {
+                    for (auto& element : value) {
+                        if (MemberElement* member = TypeQueryVisitor::as<MemberElement>(element)) {
 
                             if (StringElement* key = TypeQueryVisitor::as<StringElement>(member->value.first)) {
                                 keysBase[key->value] = member;
                             }
-                        } else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(*it)) {
+                        } else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(element)) {
                             refBase[ref->value] = ref;
                         }
                     }
 
-                    for (RefractElements::const_iterator it = merge.value.begin(); it != merge.value.end(); ++it) {
-                        if (MemberElement* member = TypeQueryVisitor::as<MemberElement>(*it)) {
+                    for (auto const& element : merge.value) {
+                        if (MemberElement* member = TypeQueryVisitor::as<MemberElement>(element)) {
                             if (StringElement* key = TypeQueryVisitor::as<StringElement>(member->value.first)) {
                                 MapKeyToMember::iterator iKey = keysBase.find(key->value);
 
@@ -237,36 +247,36 @@ namespace refract
                                     delete iKey->second->value.second;
                                     iKey->second->value.second = member->value.second->clone();
 
-                                    std::set<std::string> emptySet;
-                                    InfoMerge<T>(iKey->second->meta, emptySet)(member->meta);
-                                    InfoMerge<T>(iKey->second->attributes, emptySet)(member->attributes);
+                                    CollectionMerge<T>(iKey->second->meta, {})(member->meta);
+                                    CollectionMerge<T>(iKey->second->attributes, {})(member->attributes);
                                 } else { // unknown key, append value
                                     MemberElement* clone = static_cast<MemberElement*>(member->clone());
                                     value.push_back(clone);
                                     keysBase[key->value] = clone;
                                 }
                             }
-                        } else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(*it)) {
+                        } else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(element)) {
                             if (refBase.find(ref->value) == refBase.end()) {
                                 RefElement* clone = static_cast<RefElement*>(member->clone());
                                 value.push_back(clone);
                                 refBase[ref->value] = clone;
                             }
-                        } else if (!(*it)->empty()) { // merge member is not MemberElement, append value
-                            value.push_back((*it)->clone());
+                        } else if (!(element)->empty()) { // merge member is not MemberElement, append value
+                            value.push_back(element->clone());
                         }
                     }
                 }
             };
 
             template <typename T>
-            class InfoMerge
+            class CollectionMerge
             {
+                using KeySet = std::set<std::string>;
                 IElement::MemberElementCollection& info;
-                const std::set<std::string>& noMergeKeys;
+                const KeySet& noMergeKeys;
 
             public:
-                InfoMerge(IElement::MemberElementCollection& info, const std::set<std::string>& noMergeKeys)
+                CollectionMerge(IElement::MemberElementCollection& info, const KeySet& noMergeKeys)
                     : info(info), noMergeKeys(noMergeKeys)
                 {
                 }
@@ -275,14 +285,15 @@ namespace refract
                 {
                     IElement::MemberElementCollection toAppend;
 
-                    for (IElement::MemberElementCollection::const_iterator it = append.begin(); it != append.end();
-                         ++it) {
+                    for (const auto& member : append) {
 
-                        if (!*it) {
+                        assert(member);
+
+                        if (!member) {
                             continue;
                         }
 
-                        if (StringElement* key = TypeQueryVisitor::as<StringElement>((*it)->value.first)) {
+                        if (StringElement* key = TypeQueryVisitor::as<StringElement>(member->value.first)) {
                             if (noMergeKeys.find(key->value) != noMergeKeys.end()) {
                                 // this key should not be merged
                                 continue;
@@ -292,17 +303,16 @@ namespace refract
                             if (item != info.end()) {
                                 // this key alrady exist, replace value
                                 delete (*item)->value.second;
-                                (*item)->value.second = (*it)->value.second->clone();
+                                (*item)->value.second = member->value.second->clone();
                                 continue;
                             }
                         }
 
-                        toAppend.push_back(static_cast<MemberElement*>((*it)->clone()));
+                        toAppend.push_back(static_cast<MemberElement*>(member->clone()));
                     }
 
-                    for (IElement::MemberElementCollection::const_iterator it = toAppend.begin(); it != toAppend.end();
-                         ++it) {
-                        info.push_back(*it);
+                    for (const auto& member : toAppend) {
+                        info.push_back(member);
                     }
 
                     toAppend.clear();
@@ -318,18 +328,8 @@ namespace refract
             {
                 typedef T ElementType;
 
-                // FIXME: static initialization on C++11
-                static std::set<std::string> noMeta;
-                static std::set<std::string> noAttributes;
-
-                if (noMeta.empty()) {
-                    noMeta.insert("id");
-                    noMeta.insert("prefix");
-                    noMeta.insert("namespace");
-                }
-
-                InfoMerge<T>(target->meta, noMeta)(append->meta);
-                InfoMerge<T>(target->attributes, noAttributes)(append->attributes);
+                CollectionMerge<T>(target->meta, { "id", "prefix", "namespace" })(append->meta);
+                CollectionMerge<T>(target->attributes, {})(append->attributes);
 
                 ValueMerge<T>(static_cast<ElementType&>(*target))(static_cast<const ElementType&>(*append));
             }
@@ -410,5 +410,6 @@ namespace refract
     {
         return std::for_each(value.begin(), value.end(), ElementMerger());
     }
+
 
 }; // namespace refract

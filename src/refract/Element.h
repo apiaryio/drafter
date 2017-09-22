@@ -244,8 +244,6 @@ namespace refract
             const Type* self = static_cast<const T*>(this);
             Type* element = new Type;
 
-            element->hasContent = self->hasContent;
-
             if (flags & cElement) {
                 element->element_ = self->element_;
             }
@@ -263,6 +261,7 @@ namespace refract
             }
 
             if (flags & cValue) {
+                element->hasContent = self->hasContent;
                 TraitType::cloneValue(value, element->value);
             }
 
@@ -406,7 +405,7 @@ namespace refract
 
         static ValueType init()
         {
-            return NULL;
+            return nullptr;
         }
         static const std::string element()
         {
@@ -416,12 +415,12 @@ namespace refract
         static void release(ValueType& value)
         {
             delete value;
-            value = NULL;
+            value = nullptr;
         }
 
         static void cloneValue(const ValueType& self, ValueType& other)
         {
-            other = self ? self->clone() : NULL;
+            other = self ? self->clone() : nullptr;
         }
     };
 
@@ -467,7 +466,7 @@ namespace refract
         static typename ValueType::value_type typedMemberClone(IElement* element, const IElement::cloneFlags flags)
         {
             if (!element) {
-                return NULL;
+                return nullptr;
             }
 
             return static_cast<typename ValueType::value_type>(element->clone(flags));
@@ -508,27 +507,54 @@ namespace refract
         }
     };
 
-    struct EnumElementTrait : public ElementCollectionTrait<> {
+    struct EnumElementTrait {
+
+        typedef IElement* ValueType;
+
+        static ValueType init()
+        {
+            return nullptr;
+        }
         static const std::string element()
         {
             return "enum";
         }
+
+        static void release(ValueType& value)
+        {
+            delete value;
+            value = nullptr;
+        }
+
+        static void cloneValue(const ValueType& self, ValueType& other)
+        {
+            other = self ? self->clone() : nullptr;
+        }
     };
+
+    //
+    // FIXME: what about `empty()`? should it reflect "enumeration" attribute?
+    //
 
     struct EnumElement : Element<EnumElement, EnumElementTrait> {
         EnumElement() : Type()
         {
         }
 
-        EnumElement(const TraitType::ValueType& value) : Type()
+        EnumElement(const TraitType::ValueType& val) : Type()
         {
-            set(value);
+            set(val);
         }
 
-        void push_back(IElement* e)
+        void set(const ValueType& val)
         {
             hasContent = true;
-            value.push_back(e);
+            value = val;
+        }
+
+        const ValueType& get() const
+        {
+            return value;
         }
     };
 
@@ -546,22 +572,18 @@ namespace refract
 
         static void release(ValueType& member)
         {
-            if (member.first) {
-                delete member.first;
-                member.first = NULL;
-            }
+            delete member.first;
+            member.first = nullptr;
 
-            if (member.second) {
-                delete member.second;
-                member.second = NULL;
-            }
+            delete member.second;
+            member.second = nullptr;
         }
 
         static void cloneValue(const ValueType& self, ValueType& other)
         {
-            other.first = self.first ? self.first->clone() : NULL;
+            other.first = self.first ? self.first->clone() : nullptr;
 
-            other.second = self.second ? self.second->clone() : NULL;
+            other.second = self.second ? self.second->clone() : nullptr;
         }
     };
 
@@ -588,18 +610,10 @@ namespace refract
 
         void set(IElement* key, IElement* element)
         {
-            if (value.first != NULL) {
-                delete value.first;
-                value.first = NULL;
-            }
-
+            delete value.first;
             value.first = key;
 
-            if (value.second != NULL) {
-                delete value.second;
-                value.second = NULL;
-            }
-
+            delete value.second;
             value.second = element;
 
             hasContent = true;
@@ -607,11 +621,7 @@ namespace refract
 
         MemberElement& operator=(IElement* element)
         {
-            if (value.second != NULL) {
-                delete value.second;
-                value.second = NULL;
-            }
-
+            delete value.second;
             value.second = element;
             return *this;
         }

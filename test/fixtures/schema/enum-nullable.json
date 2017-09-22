@@ -126,12 +126,20 @@
                                       },
                                       "value": {
                                         "element": "enum",
-                                        "content": [
-                                          {
-                                            "element": "number",
-                                            "content": 4
+                                        "attributes": {
+                                          "enumerations": {
+                                            "element": "array",
+                                            "content": [
+                                              {
+                                                "element": "number"
+                                              },
+                                              {
+                                                "element": "number",
+                                                "content": 4
+                                              }
+                                            ]
                                           }
-                                        ]
+                                        }
                                       }
                                     }
                                   }

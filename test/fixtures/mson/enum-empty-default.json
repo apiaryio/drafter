@@ -125,17 +125,19 @@
                                           "value": {
                                             "element": "enum",
                                             "attributes": {
+                                              "enumerations": {
+                                                "element": "array",
+                                                "content": [
+                                                  {
+                                                    "element": "string",
+                                                    "content": "regular"
+                                                  }
+                                                ]
+                                              },
                                               "default": {
-                                                "element": "enum",
-                                                "content": []
+                                                "element": "enum"
                                               }
-                                            },
-                                            "content": [
-                                              {
-                                                "element": "string",
-                                                "content": "regular"
-                                              }
-                                            ]
+                                            }
                                           }
                                         }
                                       }
@@ -234,17 +236,19 @@
                       "value": {
                         "element": "enum",
                         "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "regular"
+                              }
+                            ]
+                          },
                           "default": {
-                            "element": "enum",
-                            "content": []
+                            "element": "enum"
                           }
-                        },
-                        "content": [
-                          {
-                            "element": "string",
-                            "content": "regular"
-                          }
-                        ]
+                        }
                       }
                     }
                   }

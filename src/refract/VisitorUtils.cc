@@ -13,7 +13,7 @@ namespace refract
 
     StringElement* GetDescription(const IElement& e)
     {
-        IElement::MemberElementCollection::const_iterator i = e.meta.find("description");
+        auto i = e.meta.find("description");
 
         if (i == e.meta.end()) {
             return NULL;

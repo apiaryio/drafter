@@ -168,8 +168,8 @@ namespace refract
 
     void SosSerializeVisitor::operator()(const EnumElement& e)
     {
-        sos::Array array = SerializeValueList(e, generateSourceMap);
-        SetSerializerValue(*this, array);
+        sos::Object object = ElementToObject(e.value, generateSourceMap);
+        SetSerializerValue(*this, object);
     }
 
     void SosSerializeVisitor::operator()(const ObjectElement& e)

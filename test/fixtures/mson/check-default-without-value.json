@@ -131,14 +131,28 @@
       "attributes": {
         "code": {
           "element": "number",
-          "content": 0
+          "content": 4
         },
         "sourceMap": {
           "element": "array",
           "content": [
             {
               "element": "sourceMap",
-              "content": []
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 50
+                    },
+                    {
+                      "element": "number",
+                      "content": 15
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }

@@ -47,12 +47,17 @@
                     "content": "EnumType"
                   }
                 },
-                "content": [
-                  {
-                    "element": "string",
-                    "content": "m1"
+                "attributes": {
+                  "enumerations": {
+                    "element": "array",
+                    "content": [
+                      {
+                        "element": "string",
+                        "content": "m1"
+                      }
+                    ]
                   }
-                ]
+                }
               }
             },
             {

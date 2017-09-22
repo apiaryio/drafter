@@ -2,24 +2,24 @@
 # Data Structures       
 
 # Enum behavior (object)
-- size1: L (enum) - content ['L']
+- size1: L (enum) - C: 'L'
 
-- size2: S, M, L, XL (enum) - content ['S','M','L','XL']
+- size2: S, M, L, XL (enum) - E: ['S','M','L','XL']
 
-- size3: L (enum) - sample [['L']], content ['S','M','L','XL']
+- size3: L (enum) - C: 'L', E: ['S','M','L','XL']
     - S
     - M
     - L
     - XL
 
-- size4: L (enum) - sample [['L']], content [ 'S, M, L, XL' ] - FIXME: from snowcrash we receive "enum of strings" should be string "S, M, L, XL"
+- size4: L (enum) - C: 'L', E: [ 'S, M, L, XL' ] - FIXME: from snowcrash we receive "enum of strings" should be string "S, M, L, XL"
     - S, M, L, XL
 
-- size5: *L* (enum) - sample [['L']]
+- size5: *L* (enum) - S: [C:'L']
 
-- size6: L (enum, sample) - sample [['L']]
+- size6: L (enum, sample) - S: [C:'L']
 
-- size7 (enum) - content ['S','M','L','XL','XXL','XXXL']
+- size7 (enum) - E: ['S','M','L','XL','XXL','XXXL']
     - S
     - M
     - L
@@ -29,38 +29,54 @@
         - XXL
         - XXXL
 
-- size8: S (enum) - content ['T'], samples [[ 'S' ],[ 'U']]
+- size8: S (enum) - C: 'S', E: ['T'] S: [C:'U']
     - T
 
     - sample
         - U
 
-- size9: L (enum, sample) - sample [['L'],['M','N']]
+- size9: L (enum, sample) - E: ['M','N'], S: [C:'L'] 
     - M
     - N
 
-- size10: L (enum, sample) - sample [['L'],['M','N']] 
+- size10: L (enum, sample) - E: ['M','N'], S: [C:'L'] 
     - items
         - M
         - M
 
-- size11 (enum[string, number]) - content['M','N']
+- size11 (enum[string, number]) - E:[<string>,<number>,'M','N']
     - M
     - N
 
-- size12: L (enum,default) - default['M','N'] - FIXME: current default['L'], sample[['M','N']]
+- size12: L (enum,default) - D: {C:'L'}, E: ['M','N']
     - M
     - N
 
-- size13: L (enum,default) - default['M','N'] - FIXME: current default['L'], sample[['M','N']]
+- size13: L (enum,default) - D: {C:'L'}, E: ['M','N']
     - items
         - M
         - N
 
-- size14 (enum,sample) - sample[['M','N']] - FIXME: curent content[['M','N']]
+- size14 (enum,sample) - E: ['M','N']
     - M
     - N
 
-- size15 (enum,default) - default['M','N'] - FIXME: curent content[['M','N']]
+- size15 (enum,default) - E: ['M','N'] 
     - M
     - N
+
+- size16: A (enum) - C: 'A', E: ['D','E'], S: {E: ['F','G']}, D: 'H'
+    - D
+    - E
+
+    - sample
+        - F
+        - G
+
+    - default
+        - H
+
+- size17: A,B,C (enum) - E: ['A','B','C','D','E','F']
+    - D
+    - E
+    - F

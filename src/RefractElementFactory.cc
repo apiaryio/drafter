@@ -1,5 +1,6 @@
 #include "RefractElementFactory.h"
 #include "refract/Element.h"
+#include "ElementData.h"
 
 #include "Serialize.h"        // LiteralTo<>
 #include "SourceAnnotation.h" // mson::Error
@@ -7,8 +8,13 @@
 namespace drafter
 {
 
-    template <typename E, typename V = typename E::ValueType>
-    struct RefractElementFactoryImpl : RefractElementFactory {
+    template <typename E, typename IsPrimitive = typename IsPrimitive<E>::type>
+    struct RefractElementFactoryImpl;
+
+    template <typename E>
+    struct RefractElementFactoryImpl<E, std::true_type> : RefractElementFactory {
+
+        typedef typename E::ValueType ValueType;
 
         RefractElementFactoryImpl()
         {
@@ -25,7 +31,7 @@ namespace drafter
             switch (method) {
                 case eSample: {
                     refract::ArrayElement* samples = new refract::ArrayElement;
-                    std::pair<bool, typename E::ValueType> value = LiteralTo<typename E::ValueType>(literal);
+                    std::pair<bool, ValueType> value = LiteralTo<ValueType>(literal);
                     if (value.first) {
                         samples->push_back(refract::IElement::Create(value.second));
                     }
@@ -33,7 +39,7 @@ namespace drafter
                 } break;
 
                 case eValue: {
-                    std::pair<bool, V> value = LiteralTo<V>(literal);
+                    std::pair<bool, ValueType> value = LiteralTo<ValueType>(literal);
                     if (value.first) {
                         element->set(value.second);
                     }
@@ -49,7 +55,7 @@ namespace drafter
     };
 
     template <typename E>
-    struct RefractElementFactoryImpl<E, refract::RefractElements> : RefractElementFactory {
+    struct RefractElementFactoryImpl<E, std::false_type> : RefractElementFactory {
 
         RefractElementFactoryImpl()
         {

@@ -16,20 +16,22 @@
 #include "JSONSchemaVisitor.h"
 #include "SerializeCompactVisitor.h"
 
+#include <assert.h>
+
 namespace refract
 {
 
     template <typename T>
     void CloneMembers(T* a, const RefractElements* val)
     {
-        for (RefractElements::const_iterator it = val->begin(); it != val->end(); ++it) {
+        for (const auto& value : *val) {
 
-            if ((*it)->empty()) {
+            if ((value)->empty()) {
                 continue;
             }
 
             RenderJSONVisitor v;
-            Visit(v, *(*it));
+            Visit(v, *value);
             IElement* e = v.getOwnership();
             a->push_back(e);
         }
@@ -44,23 +46,23 @@ namespace refract
             return;
         }
 
-        for (typename T::ValueType::const_iterator it = val->begin(); it != val->end(); ++it) {
+        for (auto const& value : *val) {
 
-            if (!(*it) || (*it)->empty()) {
+            if (!value || value->empty()) {
                 continue;
             }
 
-            if ((*it)->element() == "ref") {
-                HandleRefWhenFetchingMembers<T>(*it, members, IncludeMembers<T>);
+            if (value->element() == "ref") {
+                HandleRefWhenFetchingMembers<T>(value, members, IncludeMembers<T>);
                 continue;
             }
 
-            members.push_back(*it);
+            members.push_back(value);
         }
     }
 
     JSONSchemaVisitor::JSONSchemaVisitor(
-        ObjectElement* pDefinitions /*= NULL*/, bool _fixed /*= false*/, bool _fixedType /*= false*/)
+        ObjectElement* pDefinitions /*= nullptr*/, bool _fixed /*= false*/, bool _fixedType /*= false*/)
         : pDefs(pDefinitions), fixed(_fixed), fixedType(_fixedType)
     {
         pObj = new ObjectElement;
@@ -72,7 +74,7 @@ namespace refract
 
     JSONSchemaVisitor::~JSONSchemaVisitor()
     {
-        if (NULL != pObj) {
+        if (nullptr != pObj) {
             delete pObj;
         }
     }
@@ -213,8 +215,7 @@ namespace refract
             BooleanElement* boolSecond = TypeQueryVisitor::as<BooleanElement>(e.value.second);
 
             if (e.value.second && (strSecond || numSecond || boolSecond)) {
-                IElement::MemberElementCollection::const_iterator defaultIt
-                    = e.value.second->attributes.find("default");
+                auto defaultIt = e.value.second->attributes.find("default");
 
                 if (defaultIt != e.value.second->attributes.end()) {
                     renderer.addMember("default", (*defaultIt)->clone());
@@ -247,14 +248,14 @@ namespace refract
     {
         ArrayElement* a = new ArrayElement;
 
-        for (std::vector<MemberElement*>::const_iterator i = props.begin(); i != props.end(); ++i) {
+        for (auto const& prop : props) {
 
-            StringElement* str = TypeQueryVisitor::as<StringElement>((*i)->value.first);
+            StringElement* str = TypeQueryVisitor::as<StringElement>(prop->value.first);
 
             if (str) {
-                bool fixedType = IsTypeAttribute(*(*i), "fixedType");
+                bool fixedType = IsTypeAttribute(*prop, "fixedType");
                 JSONSchemaVisitor renderer(pDefs, fixed, fixedType);
-                Visit(renderer, *(*i)->value.second);
+                Visit(renderer, *prop->value.second);
 
                 pDefs->push_back(new MemberElement(str->value, definitionFromVariableProperty(renderer)));
 
@@ -339,9 +340,9 @@ namespace refract
     {
         ArrayElement* a = new ArrayElement;
 
-        for (std::vector<std::string>::const_iterator i = typesOrder.begin(); i != typesOrder.end(); ++i) {
+        for (auto const& item : typesOrder) {
 
-            const std::vector<IElement*>& items = types[*i];
+            const std::vector<IElement*>& items = types[item];
 
             IElement* elm = items.front();
             JSONSchemaVisitor v(pDefs);
@@ -388,17 +389,20 @@ namespace refract
             ArrayElement::ValueType av;
             bool allEmpty = allItemsEmpty(val);
 
-            for (ArrayElement::ValueType::const_iterator it = val->begin(); it != val->end(); ++it) {
+            for (auto const& value : *val) {
 
-                if (*it) {
-                    // if all items are just type items then we
-                    // want them in the schema, otherwise skip
-                    // empty ones
-                    if (allEmpty || !(*it)->empty()) {
-                        JSONSchemaVisitor v(pDefs, fixed);
-                        Visit(v, *(*it));
-                        av.push_back(v.getOwnership());
-                    }
+                assert(value);
+                if (!value) {
+                    continue;
+                }
+
+                // if all items are just type items then we
+                // want them in the schema, otherwise skip
+                // empty ones
+                if (allEmpty || !value->empty()) {
+                    JSONSchemaVisitor v(pDefs, fixed);
+                    Visit(v, *value);
+                    av.push_back(v.getOwnership());
                 }
             }
 
@@ -424,25 +428,37 @@ namespace refract
 
     void JSONSchemaVisitor::operator()(const EnumElement& e)
     {
-        const EnumElement::ValueType* val = GetValue<EnumElement>(e);
 
-        if (!val || val->empty()) {
+        RefractElements elms;
+
+        const auto& it = e.attributes.find("enumerations");
+        if (it != e.attributes.end()) {
+            if (ArrayElement* enums = TypeQueryVisitor::as<ArrayElement>((*it)->value.second)) {
+                elms.insert(elms.end(), enums->value.begin(), enums->value.end());
+            }
+        }
+
+        if (e.value) {
+            elms.push_back(e.value);
+        }
+
+        if (elms.empty()) {
             return;
         }
 
         std::map<std::string, std::vector<IElement*> > types;
         std::vector<std::string> typesOrder;
 
-        for (ArrayElement::ValueType::const_iterator it = val->begin(); it != val->end(); ++it) {
+        for (const auto& enumeration : elms) {
 
-            if (*it) {
-                std::vector<IElement*>& items = types[(*it)->element()];
+            if (enumeration) {
+                std::vector<IElement*>& items = types[enumeration->element()];
 
                 if (items.empty()) {
-                    typesOrder.push_back((*it)->element());
+                    typesOrder.push_back(enumeration->element());
                 }
 
-                items.push_back(*it);
+                items.push_back(enumeration);
             }
         }
 
@@ -450,9 +466,9 @@ namespace refract
             anyOf(types, typesOrder);
         } else {
             const EnumElement* def = GetDefault(e);
-            if (!e.empty() || (def && !def->empty())) {
+            if (!elms.empty() || (def && !def->empty())) {
                 ArrayElement* a = new ArrayElement;
-                CloneMembers(a, val);
+                CloneMembers(a, &elms);
                 setSchemaType(types.begin()->first);
                 addMember("enum", a);
             }
@@ -460,8 +476,10 @@ namespace refract
 
         const EnumElement* def = GetDefault(e);
 
-        if (def && !def->empty() && !def->value.empty()) {
-            IElement* d = def->value.front()->clone();
+        // this works because "default" is everytime set by value
+        // if value will be moved into "enumerations" it need aditional check
+        if (def && !def->empty() && !def->value->empty()) {
+            IElement* d = def->value->clone();
             addMember("default", d);
         }
     }
@@ -529,7 +547,7 @@ namespace refract
     IElement* JSONSchemaVisitor::getOwnership()
     {
         IElement* ret = pObj;
-        pObj = NULL;
+        pObj = nullptr;
         return ret;
     }
 
@@ -564,7 +582,7 @@ namespace refract
         RefractElements& oneOfMembers,
         ObjectElement* o)
     {
-        for (std::vector<refract::IElement*>::const_iterator it = begin; it != end; ++it) {
+        for (auto it = begin; it != end; ++it) {
             if (!*it) {
                 continue;
             }
@@ -608,10 +626,9 @@ namespace refract
 
                     // FIXME: there is no valid solution for multiple "SelectElement" in one object.
 
-                    for (SelectElement::ValueType::const_iterator it = sel->value.begin(); it != sel->value.end();
-                         ++it) {
+                    for (auto const& select : sel->value) {
                         JSONSchemaVisitor v(pDefs);
-                        VisitBy(*(*it), v);
+                        VisitBy(*select, v);
                         oneOfMembers.push_back(v.getOwnership());
                     }
                 } break;

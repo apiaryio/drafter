@@ -49,9 +49,9 @@ namespace refract
         void SerializeValues(sos::Array& array, const Values& values, bool generateSourceMap)
         {
 
-            for (typename Values::const_iterator it = values.begin(); it != values.end(); ++it) {
+            for (auto const& value : values) {
                 SosSerializeCompactVisitor s(generateSourceMap);
-                VisitBy(*(*it), s);
+                VisitBy(*value, s);
                 array.push(s.value());
             }
         }
@@ -59,9 +59,12 @@ namespace refract
 
     void SosSerializeCompactVisitor::operator()(const EnumElement& e)
     {
-        sos::Array array;
-        SerializeValues(array, e.value, generateSourceMap);
-        value_ = array;
+        auto enums = e.attributes.find("enumerations");
+        if (enums == e.attributes.end() || !(*enums)->value.second) {
+            return;
+        }
+
+        VisitBy(*(*enums)->value.second, *this);
     }
 
     void SosSerializeCompactVisitor::operator()(const ArrayElement& e)
@@ -86,13 +89,11 @@ namespace refract
 
     void SosSerializeCompactVisitor::operator()(const ObjectElement& e)
     {
-        typedef ObjectElement::ValueType::const_iterator iterator;
-
         sos::Object obj;
 
-        for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
+        for (auto const& value : e.value) {
             SosSerializeCompactVisitor sv(generateSourceMap);
-            VisitBy(*(*it), sv);
+            VisitBy(*value, sv);
             obj.set(sv.key(), sv.value());
         }
 

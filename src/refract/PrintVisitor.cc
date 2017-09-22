@@ -132,7 +132,11 @@ namespace refract
 
     void PrintVisitor::operator()(const EnumElement& e)
     {
-        printValues(e, "Enum");
+        indented() << "- EnumElement "
+                   << "\n";
+        if (e.value) {
+            PrintVisitor{ indent + 1, os, ommitSourceMap }(*e.value);
+        }
     }
 
     void PrintVisitor::operator()(const ObjectElement& e)

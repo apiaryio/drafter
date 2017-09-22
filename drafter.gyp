@@ -313,7 +313,6 @@
 
         "src/refract/Build.h",
 
-        "src/refract/AppendDecorator.h",
         "src/refract/ElementInserter.h",
         "src/refract/Query.h",
         "src/refract/Query.cc",
@@ -348,6 +347,7 @@
         "test/test-ElementFactoryTest.cc",
         "test/test-OneOfTest.cc",
         "test/test-SyntaxIssuesTest.cc",
+        "test/test-ElementDataTest.cc",
       ],
       'dependencies': [
         "libdrafter",

@@ -116,35 +116,36 @@
                                       "value": {
                                         "element": "enum",
                                         "attributes": {
+                                          "enumerations": {
+                                            "element": "array",
+                                            "content": [
+                                              {
+                                                "element": "string",
+                                                "content": "a"
+                                              },
+                                              {
+                                                "element": "string",
+                                                "content": "b"
+                                              },
+                                              {
+                                                "element": "string",
+                                                "content": "c"
+                                              }
+                                            ]
+                                          },
                                           "samples": {
                                             "element": "array",
                                             "content": [
                                               {
                                                 "element": "enum",
-                                                "content": [
-                                                  {
-                                                    "element": "string",
-                                                    "content": "c"
-                                                  }
-                                                ]
+                                                "content": {
+                                                  "element": "string",
+                                                  "content": "c"
+                                                }
                                               }
                                             ]
                                           }
-                                        },
-                                        "content": [
-                                          {
-                                            "element": "string",
-                                            "content": "a"
-                                          },
-                                          {
-                                            "element": "string",
-                                            "content": "b"
-                                          },
-                                          {
-                                            "element": "string",
-                                            "content": "c"
-                                          }
-                                        ]
+                                        }
                                       }
                                     }
                                   }

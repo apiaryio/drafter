@@ -400,6 +400,22 @@ content:
                       meta:
                         description:
                           element: "string"
+                          attributes:
+                            sourceMap:
+                              element: "array"
+                              content:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      element: "array"
+                                      content:
+                                        -
+                                          element: "number"
+                                          content: 200
+                                        -
+                                          element: "number"
+                                          content: 102
                           content: "<attribute property description>"
                       content:
                         key:
@@ -2013,6 +2029,22 @@ content:
                   meta:
                     description:
                       element: "string"
+                      attributes:
+                        sourceMap:
+                          element: "array"
+                          content:
+                            -
+                              element: "sourceMap"
+                              content:
+                                -
+                                  element: "array"
+                                  content:
+                                    -
+                                      element: "number"
+                                      content: 1647
+                                    -
+                                      element: "number"
+                                      content: 117
                       content: "<data structure property description>"
                   content:
                     key:

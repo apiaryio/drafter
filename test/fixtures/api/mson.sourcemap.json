@@ -191,6 +191,31 @@
                     "meta": {
                       "description": {
                         "element": "string",
+                        "attributes": {
+                          "sourceMap": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "number",
+                                        "content": 99
+                                      },
+                                      {
+                                        "element": "number",
+                                        "content": 32
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
                         "content": "Id of the user"
                       }
                     },
@@ -444,6 +469,31 @@
                             "meta": {
                               "description": {
                                 "element": "string",
+                                "attributes": {
+                                  "sourceMap": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          {
+                                            "element": "array",
+                                            "content": [
+                                              {
+                                                "element": "number",
+                                                "content": 171
+                                              },
+                                              {
+                                                "element": "number",
+                                                "content": 37
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "zip description"
                               }
                             },
@@ -584,6 +634,31 @@
                     "meta": {
                       "description": {
                         "element": "string",
+                        "attributes": {
+                          "sourceMap": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "number",
+                                        "content": 236
+                                      },
+                                      {
+                                        "element": "number",
+                                        "content": 34
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
                         "content": "array description"
                       }
                     },
@@ -741,6 +816,31 @@
                     "meta": {
                       "description": {
                         "element": "string",
+                        "attributes": {
+                          "sourceMap": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "sourceMap",
+                                "content": [
+                                  {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "number",
+                                        "content": 296
+                                      },
+                                      {
+                                        "element": "number",
+                                        "content": 35
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
                         "content": "desc"
                       }
                     },
@@ -830,6 +930,19 @@
                               {
                                 "element": "sourceMap",
                                 "content": [
+                                  {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "number",
+                                        "content": 333
+                                      },
+                                      {
+                                        "element": "number",
+                                        "content": 42
+                                      }
+                                    ]
+                                  },
                                   {
                                     "element": "array",
                                     "content": [

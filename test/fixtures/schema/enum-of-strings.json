@@ -115,16 +115,21 @@
                                       },
                                       "value": {
                                         "element": "enum",
-                                        "content": [
-                                          {
-                                            "element": "string",
-                                            "content": "male"
-                                          },
-                                          {
-                                            "element": "string",
-                                            "content": "female"
+                                        "attributes": {
+                                          "enumerations": {
+                                            "element": "array",
+                                            "content": [
+                                              {
+                                                "element": "string",
+                                                "content": "male"
+                                              },
+                                              {
+                                                "element": "string",
+                                                "content": "female"
+                                              }
+                                            ]
                                           }
-                                        ]
+                                        }
                                       }
                                     }
                                   }

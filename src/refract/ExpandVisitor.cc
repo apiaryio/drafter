@@ -69,16 +69,23 @@ namespace refract
         };
 
         template <>
+        struct ExpandValueImpl<IElement*> {
+
+            template <typename Functor>
+            IElement* operator()(const IElement* value, Functor& expand)
+            {
+                return expand(value);
+            }
+        };
+
+        template <>
         struct ExpandValueImpl<RefractElements> {
 
             template <typename Functor>
             RefractElements operator()(const RefractElements& value, Functor& expand)
             {
                 RefractElements members;
-
-                for (RefractElements::const_iterator it = value.begin(); it != value.end(); ++it) {
-                    members.push_back(expand(*it));
-                }
+                std::transform(value.begin(), value.end(), std::back_inserter(members), expand);
 
                 return members;
             }
@@ -125,7 +132,7 @@ namespace refract
         {
         }
 
-        IElement* ExpandOrClone(const IElement* e)
+        IElement* ExpandOrClone(const IElement* e) const
         {
             IElement* result = NULL;
             if (!e) {
