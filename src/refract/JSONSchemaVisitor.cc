@@ -587,7 +587,6 @@ namespace refract
         std::set<std::string> required;
 
         for (const auto& member: members) {
-            assert(member);
             if (!member) {
                 continue;
             }
@@ -644,9 +643,10 @@ namespace refract
             }
         }
 
-        std::for_each(required.begin(), required.end(),
-                [&reqVals](const std::string value) {
-                    reqVals.push_back(IElement::Create(value));
+        std::transform(required.begin(), required.end(),
+                std::back_inserter(reqVals), 
+                [](const std::string& value) {
+                    return IElement::Create(value);
                 });
     }
 }
