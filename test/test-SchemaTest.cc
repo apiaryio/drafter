@@ -113,3 +113,5 @@ TEST_REFRACT("schema", "variable-property-fixed-type2");
 TEST_REFRACT("schema", "one-of");
 TEST_REFRACT("schema", "one-of-complex");
 TEST_REFRACT("schema", "one-of-properties");
+
+TEST_REFRACT("schema", "issue-493-multiple-same-required");

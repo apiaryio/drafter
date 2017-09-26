@@ -27,6 +27,82 @@
               "content": [
                 {
                   "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
+          },
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "Struct"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "attributes": {
+                      "typeAttributes": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "required"
+                          }
+                        ]
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "field"
+                      },
+                      "value": {
+                        "element": "string"
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "attributes": {
+                      "typeAttributes": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "required"
+                          }
+                        ]
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "field"
+                      },
+                      "value": {
+                        "element": "string"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "element": "category",
+          "meta": {
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
                   "content": "resourceGroup"
                 }
               ]
@@ -42,13 +118,13 @@
               "meta": {
                 "title": {
                   "element": "string",
-                  "content": "Resource"
+                  "content": "test"
                 }
               },
               "attributes": {
                 "href": {
                   "element": "string",
-                  "content": "/example"
+                  "content": "/"
                 }
               },
               "content": [
@@ -57,7 +133,13 @@
                   "meta": {
                     "title": {
                       "element": "string",
-                      "content": "Action"
+                      "content": "test"
+                    }
+                  },
+                  "attributes": {
+                    "href": {
+                      "element": "string",
+                      "content": "/"
                     }
                   },
                   "content": [
@@ -114,7 +196,11 @@
                                         "content": [
                                           {
                                             "element": "string",
-                                            "content": "fixed"
+                                            "content": "required"
+                                          },
+                                          {
+                                            "element": "string",
+                                            "content": "fixedType"
                                           }
                                         ]
                                       }
@@ -122,85 +208,13 @@
                                     "content": {
                                       "key": {
                                         "element": "string",
-                                        "content": "tags"
+                                        "content": "data"
                                       },
                                       "value": {
                                         "element": "array",
                                         "content": [
                                           {
-                                            "element": "string",
-                                            "content": "hello"
-                                          },
-                                          {
-                                            "element": "number",
-                                            "attributes": {
-                                              "samples": {
-                                                "element": "array",
-                                                "content": [
-                                                  {
-                                                    "element": "number",
-                                                    "content": 42
-                                                  }
-                                                ]
-                                              }
-                                            }
-                                          },
-                                          {
-                                            "element": "object",
-                                            "content": [
-                                              {
-                                                "element": "member",
-                                                "content": {
-                                                  "key": {
-                                                    "element": "string",
-                                                    "content": "name"
-                                                  },
-                                                  "value": {
-                                                    "element": "string",
-                                                    "attributes": {
-                                                      "samples": {
-                                                        "element": "array",
-                                                        "content": [
-                                                          {
-                                                            "element": "string",
-                                                            "content": "snow"
-                                                          }
-                                                        ]
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              },
-                                              {
-                                                "element": "member",
-                                                "content": {
-                                                  "key": {
-                                                    "element": "string",
-                                                    "content": "color"
-                                                  },
-                                                  "value": {
-                                                    "element": "string",
-                                                    "content": "white"
-                                                  }
-                                                }
-                                              },
-                                              {
-                                                "element": "member",
-                                                "content": {
-                                                  "key": {
-                                                    "element": "string",
-                                                    "content": "description"
-                                                  },
-                                                  "value": {
-                                                    "element": "string"
-                                                  }
-                                                }
-                                              }
-                                            ]
-                                          },
-                                          {
-                                            "element": "string",
-                                            "content": "world"
+                                            "element": "Struct"
                                           }
                                         ]
                                       }
@@ -228,7 +242,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"tags\": [\n    \"hello\",\n    {\n      \"name\": \"snow\",\n      \"color\": \"white\",\n      \"description\": \"\"\n    },\n    \"world\"\n  ]\n}"
+                              "content": "{\n  \"data\": [\n    {\n      \"field\": \"\"\n    }\n  ]\n}"
                             },
                             {
                               "element": "asset",
@@ -249,7 +263,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"tags\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"hello\"\n          ]\n        },\n        {\n          \"type\": \"object\",\n          \"properties\": {\n            \"name\": {\n              \"type\": \"string\",\n              \"enum\": [\n                \"snow\"\n              ]\n            },\n            \"color\": {\n              \"type\": \"string\",\n              \"enum\": [\n                \"white\"\n              ]\n            },\n            \"description\": {\n              \"type\": \"string\",\n              \"enum\": [\n                \"\"\n              ]\n            }\n          },\n          \"required\": [\n            \"color\",\n            \"description\",\n            \"name\"\n          ],\n          \"additionalProperties\": false\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"world\"\n          ]\n        }\n      ]\n    }\n  },\n  \"required\": [\n    \"tags\"\n  ]\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"data\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"field\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"field\"\n        ]\n      }\n    }\n  },\n  \"required\": [\n    \"data\"\n  ]\n}"
                             }
                           ]
                         }

@@ -1,4 +1,5 @@
 //
+//
 //  refract/JSONSchemaVisitor.cc
 //  librefract
 //
@@ -11,10 +12,12 @@
 #include <sstream>
 #include <iostream>
 #include <map>
+#include <set>
 
 #include "RenderJSONVisitor.h"
 #include "JSONSchemaVisitor.h"
 #include "SerializeCompactVisitor.h"
+
 
 #include <assert.h>
 
@@ -310,7 +313,7 @@ namespace refract
             fixedType = true;
         }
 
-        processMembers(val.begin(), val.end(), reqVals, varProps, oneOfMembers, o);
+        processMembers(val, reqVals, varProps, oneOfMembers, o);
 
         if (!varProps.empty()) {
             addVariableProps(varProps, o);
@@ -524,7 +527,7 @@ namespace refract
         RefractElements oneOfMembers;
         IncludeMembers(e, members);
 
-        processMembers(members.begin(), members.end(), reqVals, varProps, oneOfMembers, props);
+        processMembers(members, reqVals, varProps, oneOfMembers, props);
 
         pObj = new ObjectElement;
 
@@ -575,32 +578,35 @@ namespace refract
         return ss.str();
     }
 
-    void JSONSchemaVisitor::processMembers(std::vector<refract::IElement*>::const_iterator begin,
-        std::vector<refract::IElement*>::const_iterator end,
+    void JSONSchemaVisitor::processMembers(const std::vector<refract::IElement*>& members,
         ArrayElement::ValueType& reqVals,
         std::vector<MemberElement*>& varProps,
         RefractElements& oneOfMembers,
         ObjectElement* o)
     {
-        for (auto it = begin; it != end; ++it) {
-            if (!*it) {
+        std::set<std::string> required;
+
+        for (const auto& member: members) {
+            assert(member);
+            if (!member) {
                 continue;
             }
 
             TypeQueryVisitor type;
-            Visit(type, *(*it));
+            Visit(type, *member);
+
 
             switch (type.get()) {
                 case TypeQueryVisitor::Member: {
-                    MemberElement* mr = static_cast<MemberElement*>(*it);
+                    MemberElement* mr = static_cast<MemberElement*>(member);
 
-                    if (IsTypeAttribute(*(*it), "required") || IsTypeAttribute(*(*it), "fixed")
-                        || ((fixed || fixedType) && !IsTypeAttribute(*(*it), "optional"))) {
+                    if (IsTypeAttribute(*member, "required") || IsTypeAttribute(*member, "fixed")
+                        || ((fixed || fixedType) && !IsTypeAttribute(*member, "optional"))) {
 
                         StringElement* str = TypeQueryVisitor::as<StringElement>(mr->value.first);
 
                         if (str) {
-                            reqVals.push_back(IElement::Create(str->value));
+                            required.insert(str->value);
                         }
                     }
 
@@ -608,7 +614,7 @@ namespace refract
                         varProps.push_back(mr);
                     } else {
                         JSONSchemaVisitor renderer(pDefs, fixed);
-                        Visit(renderer, *(*it));
+                        Visit(renderer, *member);
                         ObjectElement* o1 = TypeQueryVisitor::as<ObjectElement>(renderer.get());
 
                         if (!o1->value.empty()) {
@@ -622,7 +628,7 @@ namespace refract
                 } break;
 
                 case TypeQueryVisitor::Select: {
-                    SelectElement* sel = static_cast<SelectElement*>(*it);
+                    SelectElement* sel = static_cast<SelectElement*>(member);
 
                     // FIXME: there is no valid solution for multiple "SelectElement" in one object.
 
@@ -637,5 +643,10 @@ namespace refract
                     throw LogicError("Invalid member type of object in MSON definition");
             }
         }
+
+        std::for_each(required.begin(), required.end(),
+                [&reqVals](const std::string value) {
+                    reqVals.push_back(IElement::Create(value));
+                });
     }
 }
