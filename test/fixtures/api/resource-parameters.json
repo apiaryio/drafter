@@ -84,44 +84,32 @@
                         "value": {
                           "element": "enum",
                           "attributes": {
-                            "samples": {
-                              "element": "array",
-                              "content": [
-                                {
-                                  "element": "array",
-                                  "content": [
-                                    {
-                                      "element": "string",
-                                      "content": "23"
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
                             "default": {
+                              "element": "string",
+                              "content": "1"
+                            },
+                            "enumerations": {
                               "element": "array",
                               "content": [
                                 {
                                   "element": "string",
+                                  "content": "37"
+                                },
+                                {
+                                  "element": "string",
                                   "content": "1"
+                                },
+                                {
+                                  "element": "string",
+                                  "content": "23"
                                 }
                               ]
                             }
                           },
-                          "content": [
-                            {
-                              "element": "string",
-                              "content": "37"
-                            },
-                            {
-                              "element": "string",
-                              "content": "1"
-                            },
-                            {
-                              "element": "string",
-                              "content": "23"
-                            }
-                          ]
+                          "content": {
+                            "element": "string",
+                            "content": "23"
+                          }
                         }
                       }
                     }

@@ -88,28 +88,21 @@ content:
                       value:
                         element: "enum"
                         attributes:
-                          samples:
-                            element: "array"
-                            content:
-                              -
-                                element: "array"
-                                content:
-                                  -
-                                    element: "string"
-                                    content: "<example value>"
                           default:
+                            element: "string"
+                            content: "<default value>"
+                          enumerations:
                             element: "array"
                             content:
                               -
                                 element: "string"
                                 content: "<default value>"
+                              -
+                                element: "string"
+                                content: "<example value>"
                         content:
-                          -
-                            element: "string"
-                            content: "<default value>"
-                          -
-                            element: "string"
-                            content: "<example value>"
+                          element: "string"
+                          content: "<example value>"
             content:
               -
                 element: "copy"
@@ -172,28 +165,21 @@ content:
                           value:
                             element: "enum"
                             attributes:
-                              samples:
-                                element: "array"
-                                content:
-                                  -
-                                    element: "array"
-                                    content:
-                                      -
-                                        element: "string"
-                                        content: "<example value>"
                               default:
+                                element: "string"
+                                content: "<default value>"
+                              enumerations:
                                 element: "array"
                                 content:
                                   -
                                     element: "string"
                                     content: "<default value>"
+                                  -
+                                    element: "string"
+                                    content: "<example value>"
                             content:
-                              -
-                                element: "string"
-                                content: "<default value>"
-                              -
-                                element: "string"
-                                content: "<example value>"
+                              element: "string"
+                              content: "<example value>"
                 content:
                   -
                     element: "copy"
