@@ -46,9 +46,7 @@ namespace drafter
             const Functor& functor;
             ConversionContext& context;
 
-            ContextBinder(const Functor& functor, ConversionContext& context) : functor(functor), context(context)
-            {
-            }
+            ContextBinder(const Functor& functor, ConversionContext& context) : functor(functor), context(context) {}
 
             refract::IElement* operator()(const NodeInfo<T>& nodeInfo) const
             {
@@ -142,22 +140,22 @@ namespace drafter
     refract::IElement* ParameterValuesToRefract(
         const NodeInfo<snowcrash::Parameter>& parameter, ConversionContext& context)
     {
-        refract::ArrayElement* element = CollectionToRefract<refract::ArrayElement>(
-            MAKE_NODE_INFO(parameter, values), context, LiteralToRefract<std::string>, SerializeKey::Enum);
+        refract::EnumElement* element = new refract::EnumElement;
 
         // Add sample value
         if (!parameter.node->exampleValue.empty()) {
-            refract::ArrayElement* samples = new refract::ArrayElement;
-            samples->push_back(
-                CreateArrayElement(LiteralToRefract<std::string>(MAKE_NODE_INFO(parameter, exampleValue), context)));
-            element->attributes[SerializeKey::Samples] = samples;
+            element->set(LiteralToRefract<std::string>(MAKE_NODE_INFO(parameter, exampleValue), context));
         }
 
         // Add default value
         if (!parameter.node->defaultValue.empty()) {
             element->attributes[SerializeKey::Default]
-                = CreateArrayElement(LiteralToRefract<std::string>(MAKE_NODE_INFO(parameter, defaultValue), context));
+                = LiteralToRefract<std::string>(MAKE_NODE_INFO(parameter, defaultValue), context);
         }
+
+        // Add enumerations
+        element->attributes[SerializeKey::Enumerations] = CollectionToRefract<refract::ArrayElement>(
+            MAKE_NODE_INFO(parameter, values), context, LiteralToRefract<std::string>);
 
         return element;
     }

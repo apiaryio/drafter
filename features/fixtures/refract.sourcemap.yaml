@@ -248,32 +248,26 @@ content:
                       value:
                         element: "enum"
                         attributes:
-                          samples:
-                            element: "array"
-                            content:
-                              -
+                          default:
+                            element: "string"
+                            attributes:
+                              sourceMap:
                                 element: "array"
                                 content:
                                   -
-                                    element: "string"
-                                    attributes:
-                                      sourceMap:
+                                    element: "sourceMap"
+                                    content:
+                                      -
                                         element: "array"
                                         content:
                                           -
-                                            element: "sourceMap"
-                                            content:
-                                              -
-                                                element: "array"
-                                                content:
-                                                  -
-                                                    element: "number"
-                                                    content: 516
-                                                  -
-                                                    element: "number"
-                                                    content: 86
-                                    content: "<example value>"
-                          default:
+                                            element: "number"
+                                            content: 516
+                                          -
+                                            element: "number"
+                                            content: 86
+                            content: "<default value>"
+                          enumerations:
                             element: "array"
                             content:
                               -
@@ -290,50 +284,49 @@ content:
                                             content:
                                               -
                                                 element: "number"
-                                                content: 516
+                                                content: 632
                                               -
                                                 element: "number"
-                                                content: 86
+                                                content: 20
                                 content: "<default value>"
+                              -
+                                element: "string"
+                                attributes:
+                                  sourceMap:
+                                    element: "array"
+                                    content:
+                                      -
+                                        element: "sourceMap"
+                                        content:
+                                          -
+                                            element: "array"
+                                            content:
+                                              -
+                                                element: "number"
+                                                content: 664
+                                              -
+                                                element: "number"
+                                                content: 20
+                                content: "<example value>"
                         content:
-                          -
-                            element: "string"
-                            attributes:
-                              sourceMap:
-                                element: "array"
-                                content:
-                                  -
-                                    element: "sourceMap"
-                                    content:
-                                      -
-                                        element: "array"
-                                        content:
-                                          -
-                                            element: "number"
-                                            content: 632
-                                          -
-                                            element: "number"
-                                            content: 20
-                            content: "<default value>"
-                          -
-                            element: "string"
-                            attributes:
-                              sourceMap:
-                                element: "array"
-                                content:
-                                  -
-                                    element: "sourceMap"
-                                    content:
-                                      -
-                                        element: "array"
-                                        content:
-                                          -
-                                            element: "number"
-                                            content: 664
-                                          -
-                                            element: "number"
-                                            content: 20
-                            content: "<example value>"
+                          element: "string"
+                          attributes:
+                            sourceMap:
+                              element: "array"
+                              content:
+                                -
+                                  element: "sourceMap"
+                                  content:
+                                    -
+                                      element: "array"
+                                      content:
+                                        -
+                                          element: "number"
+                                          content: 516
+                                        -
+                                          element: "number"
+                                          content: 86
+                          content: "<example value>"
             content:
               -
                 element: "copy"
@@ -572,32 +565,26 @@ content:
                           value:
                             element: "enum"
                             attributes:
-                              samples:
-                                element: "array"
-                                content:
-                                  -
+                              default:
+                                element: "string"
+                                attributes:
+                                  sourceMap:
                                     element: "array"
                                     content:
                                       -
-                                        element: "string"
-                                        attributes:
-                                          sourceMap:
+                                        element: "sourceMap"
+                                        content:
+                                          -
                                             element: "array"
                                             content:
                                               -
-                                                element: "sourceMap"
-                                                content:
-                                                  -
-                                                    element: "array"
-                                                    content:
-                                                      -
-                                                        element: "number"
-                                                        content: 823
-                                                      -
-                                                        element: "number"
-                                                        content: 86
-                                        content: "<example value>"
-                              default:
+                                                element: "number"
+                                                content: 823
+                                              -
+                                                element: "number"
+                                                content: 86
+                                content: "<default value>"
+                              enumerations:
                                 element: "array"
                                 content:
                                   -
@@ -614,50 +601,49 @@ content:
                                                 content:
                                                   -
                                                     element: "number"
-                                                    content: 823
+                                                    content: 939
                                                   -
                                                     element: "number"
-                                                    content: 86
+                                                    content: 20
                                     content: "<default value>"
+                                  -
+                                    element: "string"
+                                    attributes:
+                                      sourceMap:
+                                        element: "array"
+                                        content:
+                                          -
+                                            element: "sourceMap"
+                                            content:
+                                              -
+                                                element: "array"
+                                                content:
+                                                  -
+                                                    element: "number"
+                                                    content: 971
+                                                  -
+                                                    element: "number"
+                                                    content: 20
+                                    content: "<example value>"
                             content:
-                              -
-                                element: "string"
-                                attributes:
-                                  sourceMap:
-                                    element: "array"
-                                    content:
-                                      -
-                                        element: "sourceMap"
-                                        content:
-                                          -
-                                            element: "array"
-                                            content:
-                                              -
-                                                element: "number"
-                                                content: 939
-                                              -
-                                                element: "number"
-                                                content: 20
-                                content: "<default value>"
-                              -
-                                element: "string"
-                                attributes:
-                                  sourceMap:
-                                    element: "array"
-                                    content:
-                                      -
-                                        element: "sourceMap"
-                                        content:
-                                          -
-                                            element: "array"
-                                            content:
-                                              -
-                                                element: "number"
-                                                content: 971
-                                              -
-                                                element: "number"
-                                                content: 20
-                                content: "<example value>"
+                              element: "string"
+                              attributes:
+                                sourceMap:
+                                  element: "array"
+                                  content:
+                                    -
+                                      element: "sourceMap"
+                                      content:
+                                        -
+                                          element: "array"
+                                          content:
+                                            -
+                                              element: "number"
+                                              content: 823
+                                            -
+                                              element: "number"
+                                              content: 86
+                              content: "<example value>"
                 content:
                   -
                     element: "copy"

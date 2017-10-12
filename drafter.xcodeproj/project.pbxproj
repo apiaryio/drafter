@@ -70,6 +70,7 @@
 		400FFA0C1C1B0E12006A4CE0 /* test-SchemaTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 400FFA0B1C1B0E12006A4CE0 /* test-SchemaTest.cc */; };
 		401074A31B833A1000B66442 /* Render.cc in Sources */ = {isa = PBXBuildFile; fileRef = 401074A21B833A1000B66442 /* Render.cc */; };
 		401A61C11D65D28900B0CC17 /* ConversionContext.cc in Sources */ = {isa = PBXBuildFile; fileRef = 401A61C01D65D28900B0CC17 /* ConversionContext.cc */; };
+		401CEE991F8E42FD00371DA1 /* ElementData.h in Headers */ = {isa = PBXBuildFile; fileRef = 401CEE981F8E42FD00371DA1 /* ElementData.h */; };
 		4038935E1CBFC1D400D01E17 /* ConversionContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 4038935D1CBFC1D400D01E17 /* ConversionContext.h */; };
 		4041F8D61DB66CEE005A4A40 /* test-SyntaxIssuesTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4041F8D51DB66CEE005A4A40 /* test-SyntaxIssuesTest.cc */; };
 		408560761CBB983100932414 /* test-ExtendElementTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40AEF8201CB80C4F000A0DEE /* test-ExtendElementTest.cc */; };
@@ -189,6 +190,7 @@
 		400FFA0B1C1B0E12006A4CE0 /* test-SchemaTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-SchemaTest.cc"; path = "test/test-SchemaTest.cc"; sourceTree = "<group>"; };
 		401074A21B833A1000B66442 /* Render.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Render.cc; path = src/Render.cc; sourceTree = SOURCE_ROOT; };
 		401A61C01D65D28900B0CC17 /* ConversionContext.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConversionContext.cc; path = src/ConversionContext.cc; sourceTree = SOURCE_ROOT; };
+		401CEE981F8E42FD00371DA1 /* ElementData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ElementData.h; path = src/ElementData.h; sourceTree = SOURCE_ROOT; };
 		4038935D1CBFC1D400D01E17 /* ConversionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConversionContext.h; path = src/ConversionContext.h; sourceTree = SOURCE_ROOT; };
 		4041F8D51DB66CEE005A4A40 /* test-SyntaxIssuesTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-SyntaxIssuesTest.cc"; path = "test/test-SyntaxIssuesTest.cc"; sourceTree = "<group>"; };
 		4093675C1CBB90DE0065A78A /* test-ApplyVisitorTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-ApplyVisitorTest.cc"; path = "test/test-ApplyVisitorTest.cc"; sourceTree = "<group>"; };
@@ -371,6 +373,7 @@
 				19A1296D1B70ABE100366AA7 /* drafter.h */,
 				401A61C01D65D28900B0CC17 /* ConversionContext.cc */,
 				4038935D1CBFC1D400D01E17 /* ConversionContext.h */,
+				401CEE981F8E42FD00371DA1 /* ElementData.h */,
 				400F53971C5989C7004EA235 /* NamedTypesRegistry.cc */,
 				400F53981C5989C7004EA235 /* NamedTypesRegistry.h */,
 				40DDBDD31BE14EA700B10819 /* NodeInfo.h */,
@@ -421,6 +424,7 @@
 				400F53FD1C5989F1004EA235 /* Build.h in Headers */,
 				40D03D4F1C182FBD008AD2EF /* VisitorUtils.h in Headers */,
 				19A129B81B70AC9A00366AA7 /* IsExpandableVisitor.h in Headers */,
+				401CEE991F8E42FD00371DA1 /* ElementData.h in Headers */,
 				40DDBDD81BE14EA700B10819 /* RefractSourceMap.h in Headers */,
 				19A129931B70ABE100366AA7 /* Version.h in Headers */,
 				19A129921B70ABE100366AA7 /* stream.h in Headers */,
