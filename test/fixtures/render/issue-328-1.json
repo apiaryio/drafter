@@ -30,11 +30,11 @@
                   "content": [
                     {
                       "element": "number",
-                      "content": 32
+                      "content": 30
                     },
                     {
                       "element": "number",
-                      "content": 15
+                      "content": 18
                     }
                   ]
                 }
@@ -43,7 +43,7 @@
           ]
         }
       },
-      "content": "base type 'C' is not defined in the document"
+      "content": "base type 'C' circularly referencing itself"
     }
   ]
 }

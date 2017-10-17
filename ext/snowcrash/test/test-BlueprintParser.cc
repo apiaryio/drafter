@@ -1480,3 +1480,22 @@ TEST_CASE("Parse blueprint with escaped data structure reference", "[blueprint]"
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
 }
+
+TEST_CASE("Parse blueprint with random header node after resource", "[blueprint]")
+{
+    mdp::ByteBuffer source
+        = "## Examples [/examples]\n"
+          "## X\n"
+          "+ Attributes (Examples)\n"
+          "# Data Structures\n"
+          "# Examples (object)\n"
+          "\n"
+          "# Y\n";
+
+    ParseResult<Blueprint> blueprint;
+    SectionParserHelper<Blueprint, BlueprintParser>::parse(
+        source, BlueprintSectionType, blueprint, ExportSourcemapOption, Models(), &blueprint);
+
+    REQUIRE(blueprint.report.error.code != Error::OK);
+    REQUIRE(blueprint.report.warnings.size() == 1);
+}

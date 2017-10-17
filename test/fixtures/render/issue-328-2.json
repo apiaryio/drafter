@@ -2,92 +2,48 @@
   "element": "parseResult",
   "content": [
     {
-      "element": "category",
+      "element": "annotation",
       "meta": {
         "classes": {
           "element": "array",
           "content": [
             {
               "element": "string",
-              "content": "api"
+              "content": "error"
             }
           ]
-        },
-        "title": {
-          "element": "string",
-          "content": "API"
         }
       },
-      "content": [
-        {
-          "element": "category",
-          "meta": {
-            "classes": {
-              "element": "array",
-              "content": [
-                {
-                  "element": "string",
-                  "content": "resourceGroup"
-                }
-              ]
-            },
-            "title": {
-              "element": "string",
-              "content": ""
-            }
-          },
+      "attributes": {
+        "code": {
+          "element": "number",
+          "content": 4
+        },
+        "sourceMap": {
+          "element": "array",
           "content": [
             {
-              "element": "resource",
-              "meta": {
-                "title": {
-                  "element": "string",
-                  "content": "C"
-                }
-              },
-              "attributes": {
-                "href": {
-                  "element": "string",
-                  "content": "/c"
-                }
-              },
+              "element": "sourceMap",
               "content": [
                 {
-                  "element": "copy",
-                  "content": "### Add C(`[POST"
-                },
-                {
-                  "element": "dataStructure",
-                  "content": {
-                    "element": "C",
-                    "meta": {
-                      "id": {
-                        "element": "string",
-                        "content": "C"
-                      }
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 35
+                    },
+                    {
+                      "element": "number",
+                      "content": 18
                     }
-                  }
+                  ]
                 }
               ]
             }
           ]
-        },
-        {
-          "element": "category",
-          "meta": {
-            "classes": {
-              "element": "array",
-              "content": [
-                {
-                  "element": "string",
-                  "content": "dataStructures"
-                }
-              ]
-            }
-          },
-          "content": []
         }
-      ]
+      },
+      "content": "base type 'C' circularly referencing itself"
     },
     {
       "element": "annotation",

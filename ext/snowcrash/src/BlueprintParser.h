@@ -181,7 +181,8 @@ namespace snowcrash
 
                         contextSectionType = sectionType;
                         contextCur = cur;
-                    } else if (contextSectionType != DataStructureGroupSectionType) {
+                    } else if (contextSectionType != DataStructureGroupSectionType
+                        && SectionProcessor<Action>::sectionType(cur) == ActionSectionType) {
 
                         contextSectionType = UndefinedSectionType;
                     }
@@ -190,8 +191,7 @@ namespace snowcrash
                     if (contextSectionType == DataStructureGroupSectionType) {
 
                         if (sectionType != MSONSampleDefaultSectionType && sectionType != MSONPropertyMembersSectionType
-                            && sectionType != MSONValueMembersSectionType
-                            && sectionType != UndefinedSectionType
+                            && sectionType != MSONValueMembersSectionType && sectionType != UndefinedSectionType
                             && sectionType != DataStructureGroupSectionType) {
 
                             contextSectionType = UndefinedSectionType;
