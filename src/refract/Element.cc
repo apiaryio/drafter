@@ -15,32 +15,65 @@
 #include "ComparableVisitor.h"
 #include "TypeQueryVisitor.h"
 
+#include <string.h>
+
 namespace refract
 {
 
-    bool isReserved(const std::string& element) {
-        static std::set<std::string> reserved;
-        if (reserved.empty()) {
-            reserved.insert("null");
-            reserved.insert("boolean");
-            reserved.insert("number");
-            reserved.insert("string");
+    namespace {
+        const constexpr std::array<const char*, 13> reservedKeywords = {
 
-            reserved.insert("member");
+            "null",
+            "boolean",
+            "number",
+            "string",
 
-            reserved.insert("array");
-            reserved.insert("enum");
-            reserved.insert("object");
+            "member",
 
-            reserved.insert("ref");
-            reserved.insert("select");
-            reserved.insert("option");
-            reserved.insert("extend");
+            "array",
+            "enum",
+            "object",
 
-            reserved.insert("generic");
+            "ref",
+            "select",
+            "option",
+            "extend",
+
+            "generic",
+        };
+
+        const constexpr std::array<const char*, 3> noMetaKeywords = {
+            "id",
+            "prefix",
+            "namespace" 
+        };
+
+        const constexpr std::array<const char*, 0> emptyArray = {
+        };
+
+        template <typename Container>
+        struct inKeys {
+            const Container& keywords;
+            inKeys(const Container& keywords) : keywords(keywords) {}
+
+            bool operator()(const std::string& searched) {
+                return std::any_of(keywords.begin(), keywords.end(),
+                                   [&searched](const char* key) {
+                                       return !strcmp(key, searched.c_str());
+                                   });
+            }
+        };
+
+        template <typename Container>
+        inKeys<Container> InKeysChecker(const Container& keywords) {
+            return inKeys<Container>(keywords);
         }
+    }
 
-        return reserved.find(element) != reserved.end();
+
+
+    bool isReserved(const std::string& element) {
+        return InKeysChecker(reservedKeywords)(element);
     }
 
     IElement::MemberElementCollection::const_iterator IElement::MemberElementCollection::find(const std::string& name) const
@@ -248,9 +281,8 @@ namespace refract
                                     delete iKey->second->value.second;
                                     iKey->second->value.second = member->value.second->clone();
 
-                                    std::set<std::string> emptySet;
-                                    InfoMerge<T>(iKey->second->meta, emptySet)(member->meta);
-                                    InfoMerge<T>(iKey->second->attributes, emptySet)(member->attributes);
+                                    InfoMerge()(iKey->second->meta, member->meta, InKeysChecker(noMetaKeywords));
+                                    InfoMerge()(iKey->second->attributes, member->attributes, InKeysChecker(emptyArray));
                                 }
                                 else { // unknown key, append value
                                     MemberElement* clone = static_cast<MemberElement*>(member->clone());
@@ -266,16 +298,12 @@ namespace refract
                 }
             };
 
-            template <typename T>
+
             class InfoMerge {
-                IElement::MemberElementCollection& info;
-                const std::set<std::string>& noMergeKeys;
 
             public:
 
-                InfoMerge(IElement::MemberElementCollection& info, const std::set<std::string>& noMergeKeys) : info(info), noMergeKeys(noMergeKeys) {}
-
-                void operator()(const IElement::MemberElementCollection& append) {
+                void operator()(IElement::MemberElementCollection& info, const IElement::MemberElementCollection& append, std::function<bool (const std::string&)> noMerge) {
                     IElement::MemberElementCollection toAppend;
 
                     for (IElement::MemberElementCollection::const_iterator it = append.begin() ; it != append.end() ; ++it) {
@@ -285,8 +313,7 @@ namespace refract
                         }
 
                         if (StringElement* key = TypeQueryVisitor::as<StringElement>((*it)->value.first)) {
-                            if (noMergeKeys.find(key->value) != noMergeKeys.end()) {
-                                // this key should not be merged
+                            if (noMerge(key->value)) {
                                 continue;
                             }
 
@@ -318,18 +345,8 @@ namespace refract
             static void doMerge(IElement* target, const IElement* append) {
                 typedef T ElementType;
 
-                // FIXME: static initialization on C++11
-                static std::set<std::string> noMeta;
-                static std::set<std::string> noAttributes;
-
-                if (noMeta.empty()) {
-                    noMeta.insert("id");
-                    noMeta.insert("prefix");
-                    noMeta.insert("namespace");
-                }
-
-                InfoMerge<T>(target->meta, noMeta)(append->meta);
-                InfoMerge<T>(target->attributes, noAttributes)(append->attributes);
+                InfoMerge()(target->meta, append->meta, InKeysChecker(noMetaKeywords));
+                InfoMerge()(target->attributes, append->attributes, InKeysChecker(emptyArray));
 
                 ValueMerge<T>(static_cast<ElementType&>(*target))
                              (static_cast<const ElementType&>(*append));
