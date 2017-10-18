@@ -16,6 +16,7 @@
 #include "TypeQueryVisitor.h"
 
 #include <string.h>
+#include <array>
 
 namespace refract
 {
