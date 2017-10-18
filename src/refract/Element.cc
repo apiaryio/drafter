@@ -49,8 +49,7 @@ namespace refract
             "namespace" 
         };
 
-        const constexpr std::array<const char*, 0> emptyArray = {
-        };
+        const constexpr std::array<const char*, 0> emptyArray;
 
         template <typename Container>
         struct inKeys {
