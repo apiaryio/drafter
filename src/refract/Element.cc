@@ -21,7 +21,8 @@
 namespace refract
 {
 
-    namespace {
+    namespace
+    {
 
         const constexpr std::array<const char*, 13> reservedKeywords = {
 
@@ -44,37 +45,34 @@ namespace refract
             "generic"
         };
 
-        const constexpr std::array<const char*, 3> noMetaKeywords = {
-            "id",
-            "prefix",
-            "namespace" 
-        };
+        const constexpr std::array<const char*, 3> noMetaKeywords = { "id", "prefix", "namespace" };
 
         const constexpr std::array<const char*, 0> emptyArray;
 
         template <typename Container>
         struct inKeys {
             const Container& keywords;
-            inKeys(const Container& keywords) : keywords(keywords) {}
+            inKeys(const Container& keywords) : keywords(keywords)
+            {
+            }
 
-            bool operator()(const std::string& searched) {
-                return std::any_of(keywords.begin(), keywords.end(),
-                                   [&searched](const char* key) {
-                                       return !strcmp(key, searched.c_str());
-                                   });
+            bool operator()(const std::string& searched)
+            {
+                return std::any_of(keywords.begin(), keywords.end(), [&searched](const char* key) {
+                    return !strcmp(key, searched.c_str());
+                });
             }
         };
 
         template <typename Container>
-        inKeys<Container> InKeysChecker(const Container& keywords) {
+        inKeys<Container> InKeysChecker(const Container& keywords)
+        {
             return inKeys<Container>(keywords);
         }
-
     }
 
-
-
-    bool isReserved(const std::string& element) {
+    bool isReserved(const std::string& element)
+    {
         return InKeysChecker(reservedKeywords)(element);
     }
 
@@ -285,9 +283,9 @@ namespace refract
                                     iKey->second->value.second = member->value.second->clone();
 
                                     CollectionMerge()(iKey->second->meta, member->meta, InKeysChecker(noMetaKeywords));
-                                    CollectionMerge()(iKey->second->attributes, member->attributes, InKeysChecker(emptyArray));
-                                }
-                                else { // unknown key, append value
+                                    CollectionMerge()(
+                                        iKey->second->attributes, member->attributes, InKeysChecker(emptyArray));
+                                } else { // unknown key, append value
                                     MemberElement* clone = static_cast<MemberElement*>(member->clone());
                                     value.push_back(clone);
                                     keysBase[key->value] = clone;
@@ -306,8 +304,8 @@ namespace refract
                 }
             };
 
-
-            class CollectionMerge {
+            class CollectionMerge
+            {
 
             public:
                 CollectionMerge() = default;
