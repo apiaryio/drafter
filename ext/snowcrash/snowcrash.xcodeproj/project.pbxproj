@@ -719,7 +719,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "./ext/markdown-parser/src/** ./ext/markdown-parser/ext/sundown/src/** ./test/**";
+				USER_HEADER_SEARCH_PATHS = "./ext/markdown-parser/src/** ./ext/markdown-parser/ext/sundown/src/** ../../test/**";
 			};
 			name = Debug;
 		};
@@ -727,7 +727,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "./ext/markdown-parser/src/** ./ext/markdown-parser/ext/sundown/src/** ./test/**";
+				USER_HEADER_SEARCH_PATHS = "./ext/markdown-parser/src/** ./ext/markdown-parser/ext/sundown/src/** ../../test/**";
 			};
 			name = Release;
 		};

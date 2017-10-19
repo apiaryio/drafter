@@ -319,7 +319,7 @@
 					CATCH_NO_EXCEPT,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "./test/**";
+				USER_HEADER_SEARCH_PATHS = "../../../../test/**";
 			};
 			name = Debug;
 		};
@@ -329,7 +329,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				GCC_PREPROCESSOR_DEFINITIONS = CATCH_NO_EXCEPT;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "./test/**";
+				USER_HEADER_SEARCH_PATHS = "../../../../test/**";
 			};
 			name = Release;
 		};
