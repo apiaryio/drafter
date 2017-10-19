@@ -15,12 +15,18 @@
 #include "ComparableVisitor.h"
 #include "TypeQueryVisitor.h"
 
+#include <string.h>
+#include <array>
+
 namespace refract
 {
 
-    bool isReserved(const std::string& element)
+    namespace
     {
-        static const std::set<std::string> reserved = { "null",
+
+        const constexpr std::array<const char*, 13> reservedKeywords = {
+
+            "null",
             "boolean",
             "number",
             "string",
@@ -36,9 +42,38 @@ namespace refract
             "option",
             "extend",
 
-            "generic" };
+            "generic"
+        };
 
-        return reserved.find(element) != reserved.end();
+        const constexpr std::array<const char*, 3> noMetaKeywords = { "id", "prefix", "namespace" };
+
+        const constexpr std::array<const char*, 0> emptyArray;
+
+        template <typename Container>
+        struct inKeys {
+            const Container& keywords;
+            inKeys(const Container& keywords) : keywords(keywords)
+            {
+            }
+
+            bool operator()(const std::string& searched)
+            {
+                return std::any_of(keywords.begin(), keywords.end(), [&searched](const char* key) {
+                    return !strcmp(key, searched.c_str());
+                });
+            }
+        };
+
+        template <typename Container>
+        inKeys<Container> InKeysChecker(const Container& keywords)
+        {
+            return inKeys<Container>(keywords);
+        }
+    }
+
+    bool isReserved(const std::string& element)
+    {
+        return InKeysChecker(reservedKeywords)(element);
     }
 
     IElement::MemberElementCollection::const_iterator IElement::MemberElementCollection::find(
@@ -247,8 +282,9 @@ namespace refract
                                     delete iKey->second->value.second;
                                     iKey->second->value.second = member->value.second->clone();
 
-                                    CollectionMerge<T>(iKey->second->meta, {})(member->meta);
-                                    CollectionMerge<T>(iKey->second->attributes, {})(member->attributes);
+                                    CollectionMerge()(iKey->second->meta, member->meta, InKeysChecker(noMetaKeywords));
+                                    CollectionMerge()(
+                                        iKey->second->attributes, member->attributes, InKeysChecker(emptyArray));
                                 } else { // unknown key, append value
                                     MemberElement* clone = static_cast<MemberElement*>(member->clone());
                                     value.push_back(clone);
@@ -268,21 +304,13 @@ namespace refract
                 }
             };
 
-            template <typename T>
             class CollectionMerge
             {
-                using KeySet = std::set<std::string>;
-                IElement::MemberElementCollection& info;
-                const KeySet& noMergeKeys;
 
             public:
-                CollectionMerge(IElement::MemberElementCollection& info, const KeySet& noMergeKeys)
-                    : info(info), noMergeKeys(noMergeKeys)
-                {
-                }
+                CollectionMerge() = default;
 
-                void operator()(const IElement::MemberElementCollection& append)
-                {
+                void operator()(IElement::MemberElementCollection& info, const IElement::MemberElementCollection& append, std::function<bool (const std::string&)> noMerge) {
                     IElement::MemberElementCollection toAppend;
 
                     for (const auto& member : append) {
@@ -294,8 +322,7 @@ namespace refract
                         }
 
                         if (StringElement* key = TypeQueryVisitor::as<StringElement>(member->value.first)) {
-                            if (noMergeKeys.find(key->value) != noMergeKeys.end()) {
-                                // this key should not be merged
+                            if (noMerge(key->value)) {
                                 continue;
                             }
 
@@ -328,8 +355,8 @@ namespace refract
             {
                 typedef T ElementType;
 
-                CollectionMerge<T>(target->meta, { "id", "prefix", "namespace" })(append->meta);
-                CollectionMerge<T>(target->attributes, {})(append->attributes);
+                CollectionMerge()(target->meta, append->meta, InKeysChecker(noMetaKeywords));
+                CollectionMerge()(target->attributes, append->attributes, InKeysChecker(emptyArray));
 
                 ValueMerge<T>(static_cast<ElementType&>(*target))(static_cast<const ElementType&>(*append));
             }
