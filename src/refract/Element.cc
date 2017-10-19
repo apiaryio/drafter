@@ -47,7 +47,7 @@ namespace refract
 
         const constexpr std::array<const char*, 3> noMetaKeywords = { "id", "prefix", "namespace" };
 
-        const constexpr std::array<const char*, 0> emptyArray;
+        const constexpr std::array<const char*, 0> emptyArray = std::array<const char*, 0>();
 
         template <typename Container>
         struct inKeys {
