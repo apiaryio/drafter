@@ -52,9 +52,7 @@ namespace refract
         template <typename Container>
         struct inKeys {
             const Container& keywords;
-            inKeys(const Container& keywords) : keywords(keywords)
-            {
-            }
+            inKeys(const Container& keywords) : keywords(keywords) {}
 
             bool operator()(const std::string& searched)
             {
@@ -212,9 +210,7 @@ namespace refract
             template <typename T, typename V = typename T::ValueType>
             struct ValueMerge {
                 V& value;
-                ValueMerge(T& element) : value(element.value)
-                {
-                }
+                ValueMerge(T& element) : value(element.value) {}
 
                 void operator()(const T& merge)
                 {
@@ -225,9 +221,7 @@ namespace refract
             template <typename T>
             struct ValueMerge<T, IElement*> {
                 IElement*& value;
-                ValueMerge(T& element) : value(element.value)
-                {
-                }
+                ValueMerge(T& element) : value(element.value) {}
 
                 void operator()(const T& merge)
                 {
@@ -250,9 +244,7 @@ namespace refract
             struct ValueMerge<T, RefractElements> {
                 typename T::ValueType& value;
 
-                ValueMerge(T& element) : value(element.value)
-                {
-                }
+                ValueMerge(T& element) : value(element.value) {}
 
                 void operator()(const T& merge)
                 {
@@ -310,7 +302,10 @@ namespace refract
             public:
                 CollectionMerge() = default;
 
-                void operator()(IElement::MemberElementCollection& info, const IElement::MemberElementCollection& append, std::function<bool (const std::string&)> noMerge) {
+                void operator()(IElement::MemberElementCollection& info,
+                    const IElement::MemberElementCollection& append,
+                    std::function<bool(const std::string&)> noMerge)
+                {
                     IElement::MemberElementCollection toAppend;
 
                     for (const auto& member : append) {
@@ -362,9 +357,7 @@ namespace refract
             }
 
         public:
-            ElementMerger() : result(NULL), base(TypeQueryVisitor::Unknown)
-            {
-            }
+            ElementMerger() : result(NULL), base(TypeQueryVisitor::Unknown) {}
 
             void operator()(const IElement* e)
             {
@@ -437,6 +430,5 @@ namespace refract
     {
         return std::for_each(value.begin(), value.end(), ElementMerger());
     }
-
 
 }; // namespace refract

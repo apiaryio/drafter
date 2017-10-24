@@ -66,9 +66,7 @@ namespace mson
     struct Value {
 
         /** Constructor */
-        Value() : variable(false)
-        {
-        }
+        Value() : variable(false) {}
 
         /** Literal value */
         Literal literal;
@@ -87,9 +85,7 @@ namespace mson
     struct Symbol {
 
         /** Constructor */
-        Symbol() : variable(false)
-        {
-        }
+        Symbol() : variable(false) {}
 
         /** Name of the symbol */
         Literal literal;
@@ -117,9 +113,7 @@ namespace mson
     struct TypeName {
 
         /** Constructor */
-        TypeName(const BaseTypeName& base_ = UndefinedTypeName) : base(base_)
-        {
-        }
+        TypeName(const BaseTypeName& base_ = UndefinedTypeName) : base(base_) {}
 
         /** EITHER Base type's value */
         BaseTypeName base;
@@ -166,9 +160,7 @@ namespace mson
     struct TypeDefinition {
 
         /** Constructor */
-        TypeDefinition() : baseType(UndefinedBaseType), attributes(0)
-        {
-        }
+        TypeDefinition() : baseType(UndefinedBaseType), attributes(0) {}
 
         /**
          * Base Type (for the type definition)

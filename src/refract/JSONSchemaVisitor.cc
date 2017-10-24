@@ -18,7 +18,6 @@
 #include "JSONSchemaVisitor.h"
 #include "SerializeCompactVisitor.h"
 
-
 #include <assert.h>
 
 namespace refract
@@ -586,14 +585,13 @@ namespace refract
     {
         std::set<std::string> required;
 
-        for (const auto& member: members) {
+        for (const auto& member : members) {
             if (!member) {
                 continue;
             }
 
             TypeQueryVisitor type;
             Visit(type, *member);
-
 
             switch (type.get()) {
                 case TypeQueryVisitor::Member: {
@@ -643,10 +641,8 @@ namespace refract
             }
         }
 
-        std::transform(required.begin(), required.end(),
-                std::back_inserter(reqVals), 
-                [](const std::string& value) {
-                    return IElement::Create(value);
-                });
+        std::transform(required.begin(), required.end(), std::back_inserter(reqVals), [](const std::string& value) {
+            return IElement::Create(value);
+        });
     }
 }

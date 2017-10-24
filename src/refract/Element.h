@@ -186,9 +186,7 @@ namespace refract
          */
         static StringElement* Create(const char* value);
 
-        virtual ~IElement()
-        {
-        }
+        virtual ~IElement() {}
     };
 
     bool isReserved(const std::string& element);
@@ -268,9 +266,7 @@ namespace refract
             return element;
         }
 
-        Element() : hasContent(false), value(TraitType::init())
-        {
-        }
+        Element() : hasContent(false), value(TraitType::init()) {}
 
         virtual bool empty() const
         {
@@ -296,12 +292,8 @@ namespace refract
         {
             return "null";
         }
-        static void release(ValueType&)
-        {
-        }
-        static void cloneValue(const ValueType&, ValueType&)
-        {
-        }
+        static void release(ValueType&) {}
+        static void cloneValue(const ValueType&, ValueType&) {}
     };
 
     struct NullElement : Element<NullElement, NullElementTrait> {
@@ -318,9 +310,7 @@ namespace refract
         {
             return "string";
         }
-        static void release(ValueType&)
-        {
-        }
+        static void release(ValueType&) {}
         static void cloneValue(const ValueType& self, ValueType& other)
         {
             other = self;
@@ -328,9 +318,7 @@ namespace refract
     };
 
     struct StringElement : Element<StringElement, StringElementTrait> {
-        StringElement() : Type()
-        {
-        }
+        StringElement() : Type() {}
 
         StringElement(const TraitType::ValueType& value) : Type()
         {
@@ -349,9 +337,7 @@ namespace refract
         {
             return "number";
         }
-        static void release(ValueType&)
-        {
-        }
+        static void release(ValueType&) {}
         static void cloneValue(const ValueType& self, ValueType& other)
         {
             other = self;
@@ -359,9 +345,7 @@ namespace refract
     };
 
     struct NumberElement : Element<NumberElement, NumberElementTrait> {
-        NumberElement() : Type()
-        {
-        }
+        NumberElement() : Type() {}
 
         NumberElement(const TraitType::ValueType& value) : Type()
         {
@@ -380,9 +364,7 @@ namespace refract
         {
             return "boolean";
         }
-        static void release(ValueType&)
-        {
-        }
+        static void release(ValueType&) {}
         static void cloneValue(const ValueType& self, ValueType& other)
         {
             other = self;
@@ -390,9 +372,7 @@ namespace refract
     };
 
     struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {
-        BooleanElement() : Type()
-        {
-        }
+        BooleanElement() : Type() {}
 
         BooleanElement(const TraitType::ValueType& value) : Type()
         {
@@ -427,9 +407,7 @@ namespace refract
     // FIXME: This is just a temporary element which is not in the refract spec
     // until the Element implementation is moved away from abstraction.
     struct HolderElement : Element<HolderElement, HolderElementTrait> {
-        HolderElement() : Type()
-        {
-        }
+        HolderElement() : Type() {}
 
         HolderElement(const std::string name, const TraitType::ValueType& value) : Type()
         {
@@ -489,9 +467,7 @@ namespace refract
     };
 
     struct ArrayElement : Element<ArrayElement, ArrayElementTrait> {
-        ArrayElement() : Type()
-        {
-        }
+        ArrayElement() : Type() {}
 
         ArrayElement(const TraitType::ValueType& value) : Type()
         {
@@ -537,9 +513,7 @@ namespace refract
     //
 
     struct EnumElement : Element<EnumElement, EnumElementTrait> {
-        EnumElement() : Type()
-        {
-        }
+        EnumElement() : Type() {}
 
         EnumElement(const TraitType::ValueType& val) : Type()
         {
@@ -589,9 +563,7 @@ namespace refract
 
     struct MemberElement : Element<MemberElement, MemberElementTrait> {
 
-        MemberElement() : Type()
-        {
-        }
+        MemberElement() : Type() {}
 
         MemberElement(IElement* key, IElement* value) : Type()
         {
@@ -647,9 +619,7 @@ namespace refract
 
     struct ObjectElement : Element<ObjectElement, ObjectElementTrait> {
 
-        ObjectElement() : Type()
-        {
-        }
+        ObjectElement() : Type() {}
 
         ObjectElement(const TraitType::ValueType& value) : Type()
         {
@@ -681,9 +651,7 @@ namespace refract
         {
             return "ref";
         }
-        static void release(ValueType&)
-        {
-        }
+        static void release(ValueType&) {}
         static void cloneValue(const ValueType& self, ValueType& other)
         {
             other = self;
@@ -691,9 +659,7 @@ namespace refract
     };
 
     struct RefElement : Element<RefElement, RefElementTrait> {
-        RefElement() : Type()
-        {
-        }
+        RefElement() : Type() {}
 
         RefElement(const TraitType::ValueType& value) : Type()
         {
@@ -709,9 +675,7 @@ namespace refract
     };
 
     struct ExtendElement : Element<ExtendElement, ExtendElementTrait> {
-        ExtendElement() : Type()
-        {
-        }
+        ExtendElement() : Type() {}
 
         ExtendElement(const TraitType::ValueType& value) : Type()
         {
@@ -733,9 +697,7 @@ namespace refract
 
     struct OptionElement : Element<OptionElement, OptionElementTrait> {
 
-        OptionElement() : Type()
-        {
-        }
+        OptionElement() : Type() {}
 
         OptionElement(const TraitType::ValueType& value) : Type()
         {
@@ -772,9 +734,7 @@ namespace refract
     };
 
     struct SelectElement : Element<SelectElement, SelectElementTrait> {
-        SelectElement() : Type()
-        {
-        }
+        SelectElement() : Type() {}
 
         SelectElement(const TraitType::ValueType& value) : Type()
         {

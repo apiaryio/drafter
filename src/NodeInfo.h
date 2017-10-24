@@ -55,9 +55,7 @@ namespace drafter
             : node(&node.first), sourceMap(node.second ? node.second : NodeInfo<T>::NullSourceMap()), empty(false)
         {
         }
-        NodeInfo() : node(Type::NullNode()), sourceMap(Type::NullSourceMap()), empty(true)
-        {
-        }
+        NodeInfo() : node(Type::NullNode()), sourceMap(Type::NullSourceMap()), empty(true) {}
 
         NodeInfo<T>& operator=(const NodeInfo<T>& other)
         {

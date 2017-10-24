@@ -29,9 +29,7 @@ struct Functor {
     int GCounter;
     int SCounter;
 
-    Functor() : GCounter(0), SCounter(0)
-    {
-    }
+    Functor() : GCounter(0), SCounter(0) {}
 
     void operator()(const refract::IElement& e)
     {

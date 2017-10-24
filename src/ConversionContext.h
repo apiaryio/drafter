@@ -33,9 +33,7 @@ namespace drafter
             return registry;
         }
 
-        ConversionContext(const WrapperOptions& options) : options(options)
-        {
-        }
+        ConversionContext(const WrapperOptions& options) : options(options) {}
 
         void warn(const snowcrash::Warning& warning);
     };

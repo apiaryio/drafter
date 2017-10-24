@@ -20,9 +20,7 @@ namespace refract
 
             template <typename U, bool dummy = true>
             struct Impl {
-                void operator()(IApply* apply, Visitor&, const U&)
-                {
-                }
+                void operator()(IApply* apply, Visitor&, const U&) {}
             };
 
             template <bool dummy>
@@ -72,9 +70,7 @@ namespace refract
 
             template <typename U, bool dummy = true>
             struct Impl {
-                void operator()(Children* strategy, IApply* apply, Visitor&, const U&)
-                {
-                }
+                void operator()(Children* strategy, IApply* apply, Visitor&, const U&) {}
             };
 
             template <bool dummy>
@@ -102,9 +98,7 @@ namespace refract
         };
 
         int level;
-        Children() : level(0)
-        {
-        }
+        Children() : level(0) {}
 
         template <typename T>
         void operator()(IApply* apply, Visitor& iterable, const T& e)

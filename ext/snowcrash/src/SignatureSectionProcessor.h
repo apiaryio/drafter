@@ -15,8 +15,8 @@ namespace scpl
 {
 
     using mdp::MarkdownNode;
-    using mdp::MarkdownNodes;
     using mdp::MarkdownNodeIterator;
+    using mdp::MarkdownNodes;
 
     const char EscapeCharacter = '`';
 

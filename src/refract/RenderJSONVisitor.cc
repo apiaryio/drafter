@@ -28,7 +28,7 @@ namespace refract
                 return;
             }
 
-            for (auto const& item: *val) {
+            for (auto const& item : *val) {
 
                 if (!item || item->empty()) {
                     continue;

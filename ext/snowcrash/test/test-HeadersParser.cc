@@ -220,7 +220,8 @@ TEST_CASE("Headers Filed Name should be case insensitive", "[headers][issue][230
     REQUIRE(headers.node[1].second == "application/json");
 }
 
-TEST_CASE("Additional test for Header name insensitivity combined with allowed multiple headers", "[headers][issue][230]")
+TEST_CASE(
+    "Additional test for Header name insensitivity combined with allowed multiple headers", "[headers][issue][230]")
 {
     const mdp::ByteBuffer source
         = "+ Headers\n"

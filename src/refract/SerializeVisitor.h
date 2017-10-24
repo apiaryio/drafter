@@ -27,9 +27,7 @@ namespace refract
         static void SetSerializerValue(SosSerializeVisitor& s, sos::Base& value);
 
     public:
-        SosSerializeVisitor(bool generateSourceMap) : partial(sos::Null()), generateSourceMap(generateSourceMap)
-        {
-        }
+        SosSerializeVisitor(bool generateSourceMap) : partial(sos::Null()), generateSourceMap(generateSourceMap) {}
 
         void operator()(const IElement& e);
         void operator()(const NullElement& e);

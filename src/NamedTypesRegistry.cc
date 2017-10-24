@@ -319,9 +319,7 @@ namespace drafter
 
             const DependencyTypeInfo& typeInfo;
 
-            InheritanceComparator(const DependencyTypeInfo& typeInfo) : typeInfo(typeInfo)
-            {
-            }
+            InheritanceComparator(const DependencyTypeInfo& typeInfo) : typeInfo(typeInfo) {}
 
             /* This is a comparator for std::sort so it has to compare
              * objects in strictly weak ordering otherwise it would crash

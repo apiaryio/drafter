@@ -28,8 +28,7 @@ namespace drafter
         using ValueType = typename ElementType::ValueType;
         using ValueSourceMapType = snowcrash::SourceMap<ValueType>;
 
-
-        //typedef typename std::conditional<std::is_same<ValueType, refract::RefractElements>::value
+        // typedef typename std::conditional<std::is_same<ValueType, refract::RefractElements>::value
         //        || std::is_same<ValueType, refract::IElement*>::value, // check for primitive values
         //    std::false_type,
         //    std::true_type>::type IsPrimitive;

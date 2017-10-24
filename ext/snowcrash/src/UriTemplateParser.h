@@ -21,8 +21,8 @@ namespace snowcrash
 {
 
     /**
-    *  \brief URI template parse result.
-    */
+     *  \brief URI template parse result.
+     */
     struct ParsedURITemplate {
         std::string scheme;
         std::string host;
@@ -32,23 +32,23 @@ namespace snowcrash
     };
 
     /**
-    *  \brief URI template expression.
-    */
+     *  \brief URI template expression.
+     */
     typedef std::string Expression;
 
     /**
-    *  \brief collection for expressions for a single URI template.
-    */
+     *  \brief collection for expressions for a single URI template.
+     */
     typedef std::vector<Expression> Expressions;
 
     /**
-    *  \brief iterator for collection of expressions.
-    */
+     *  \brief iterator for collection of expressions.
+     */
     typedef std::vector<Expression>::const_iterator ExpressionIterator;
 
     /**
-    *  \brief base class for URI template expression once classified.
-    */
+     *  \brief base class for URI template expression once classified.
+     */
     class ClassifiedExpression
     {
     protected:
@@ -108,8 +108,8 @@ namespace snowcrash
     };
 
     /**
-    *  \brief level one basic variable expansion URI template expression.
-    */
+     *  \brief level one basic variable expansion URI template expression.
+     */
     class VariableExpression : public ClassifiedExpression
     {
     public:
@@ -125,8 +125,8 @@ namespace snowcrash
     };
 
     /**
-    *  \brief level three query string expansion URI template expression.
-    */
+     *  \brief level three query string expansion URI template expression.
+     */
     class QueryStringExpression : public ClassifiedExpression
     {
     public:
@@ -142,8 +142,8 @@ namespace snowcrash
     };
 
     /**
-    *  \brief level two fragment expansion URI template expression.
-    */
+     *  \brief level two fragment expansion URI template expression.
+     */
     class FragmentExpression : public ClassifiedExpression
     {
     public:
@@ -159,8 +159,8 @@ namespace snowcrash
     };
 
     /**
-    *  \brief level two reserved expansion URI template expression.
-    */
+     *  \brief level two reserved expansion URI template expression.
+     */
     class ReservedExpansionExpression : public ClassifiedExpression
     {
     public:
@@ -176,8 +176,8 @@ namespace snowcrash
     };
 
     /**
-    *  \brief level three label expansion URI template expression.
-    */
+     *  \brief level three label expansion URI template expression.
+     */
     class LabelExpansionExpression : public ClassifiedExpression
     {
     public:
@@ -193,8 +193,8 @@ namespace snowcrash
     };
 
     /**
-    *  \brief level three path segment expansion URI template expression.
-    */
+     *  \brief level three path segment expansion URI template expression.
+     */
     class PathSegmentExpansionExpression : public ClassifiedExpression
     {
     public:
@@ -210,8 +210,8 @@ namespace snowcrash
     };
 
     /**
-    *  \brief level three path style parameter expansion URI template expression.
-    */
+     *  \brief level three path style parameter expansion URI template expression.
+     */
     class PathStyleParameterExpansionExpression : public ClassifiedExpression
     {
     public:
@@ -227,8 +227,8 @@ namespace snowcrash
     };
 
     /**
-    *  \brief level three form style query continuation expansion URI template expression.
-    */
+     *  \brief level three form style query continuation expansion URI template expression.
+     */
     class FormStyleQueryContinuationExpression : public ClassifiedExpression
     {
     public:
@@ -244,8 +244,8 @@ namespace snowcrash
     };
 
     /**
-    *  \brief undefined URI template expression.
-    */
+     *  \brief undefined URI template expression.
+     */
     class UndefinedExpression : public ClassifiedExpression
     {
     public:
@@ -261,18 +261,18 @@ namespace snowcrash
     };
 
     /**
-    *  URI Template Parser Interface
-    *  ------------------------------
-    */
+     *  URI Template Parser Interface
+     *  ------------------------------
+     */
     class URITemplateParser
     {
     public:
         /**
-        *  \brief Parse the URI template into scheme, host and path and then parse for supported URI template
-        * expressions
-        *
-        *  \param uri        A uri to be parsed.
-        */
+         *  \brief Parse the URI template into scheme, host and path and then parse for supported URI template
+         * expressions
+         *
+         *  \param uri        A uri to be parsed.
+         */
         static void parse(
             const URITemplate& uri, const mdp::CharactersRangeSet& sourceBlock, ParsedURITemplate& result);
     };

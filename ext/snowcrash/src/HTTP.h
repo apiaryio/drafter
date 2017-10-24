@@ -65,9 +65,7 @@ namespace snowcrash
 
         bool allowBody; /// < Response body is allowed.
 
-        HTTPResponseTraits() : allowBody(true)
-        {
-        }
+        HTTPResponseTraits() : allowBody(true) {}
     };
 
     /**
@@ -78,9 +76,7 @@ namespace snowcrash
      */
     struct HTTPMethodTraits : HTTPResponseTraits {
         HTTPMethod method;
-        HTTPMethodTraits() : method("")
-        {
-        }
+        HTTPMethodTraits() : method("") {}
     };
 
     /**
@@ -91,9 +87,7 @@ namespace snowcrash
      */
     struct StatusCodeTraits : HTTPResponseTraits {
         HTTPStatusCode code;
-        StatusCodeTraits() : code(0)
-        {
-        }
+        StatusCodeTraits() : code(0) {}
     };
 
     /**

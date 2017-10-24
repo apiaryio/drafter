@@ -48,9 +48,7 @@ namespace snowcrash
 
         const std::string& headerName;
 
-        explicit HeaderNameTokenChecker(const std::string& headerName) : headerName(headerName)
-        {
-        }
+        explicit HeaderNameTokenChecker(const std::string& headerName) : headerName(headerName) {}
 
         virtual bool operator()() const;
         virtual std::string getMessage() const;
@@ -61,9 +59,7 @@ namespace snowcrash
 
         const CaptureGroups& captures;
 
-        explicit ColonPresentedChecker(const CaptureGroups& captures) : captures(captures)
-        {
-        }
+        explicit ColonPresentedChecker(const CaptureGroups& captures) : captures(captures) {}
 
         virtual bool operator()() const;
         virtual std::string getMessage() const;
@@ -89,9 +85,7 @@ namespace snowcrash
 
         const Header& header;
 
-        explicit HeaderValuePresentedChecker(const Header& header) : header(header)
-        {
-        }
+        explicit HeaderValuePresentedChecker(const Header& header) : header(header) {}
 
         virtual bool operator()() const;
         virtual std::string getMessage() const;

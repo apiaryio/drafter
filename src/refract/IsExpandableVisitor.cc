@@ -122,9 +122,7 @@ namespace refract
         };
     } // anonymous namespace
 
-    IsExpandableVisitor::IsExpandableVisitor() : result(false)
-    {
-    }
+    IsExpandableVisitor::IsExpandableVisitor() : result(false) {}
 
     template <typename T>
     void IsExpandableVisitor::operator()(const T& e)

@@ -65,9 +65,7 @@ SourceMap<mson::TypeSection>& SourceMap<mson::TypeSection>::operator=(const Sour
     return *this;
 }
 
-SourceMap<mson::TypeSection>::~SourceMap()
-{
-}
+SourceMap<mson::TypeSection>::~SourceMap() {}
 
 SourceMap<mson::OneOf>& SourceMap<mson::Element>::oneOf()
 {
@@ -131,6 +129,4 @@ SourceMap<mson::Element>& SourceMap<mson::Element>::operator=(const SourceMap<ms
     return *this;
 }
 
-SourceMap<mson::Element>::~SourceMap()
-{
-}
+SourceMap<mson::Element>::~SourceMap() {}

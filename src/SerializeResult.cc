@@ -29,9 +29,7 @@ namespace helper
 
         const std::string& key;
 
-        AnnotationToRefract(const std::string& key) : key(key)
-        {
-        }
+        AnnotationToRefract(const std::string& key) : key(key) {}
 
         refract::IElement* operator()(snowcrash::SourceAnnotation& annotation)
         {

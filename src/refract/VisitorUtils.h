@@ -34,7 +34,7 @@ namespace refract
             return false;
         }
 
-        for (auto const& value: attrs->value) {
+        for (auto const& value : attrs->value) {
             StringElement* attr = TypeQueryVisitor::as<StringElement>(value);
             if (!attr) {
                 continue;
@@ -94,9 +94,7 @@ namespace refract
     struct GetValue {
         const T& element;
 
-        GetValue(const T& e) : element(e)
-        {
-        }
+        GetValue(const T& e) : element(e) {}
 
         operator const R*()
         {
@@ -136,9 +134,7 @@ namespace refract
         using EnumElement = refract::EnumElement;
         const EnumElement& element;
 
-        GetValue(const EnumElement& e) : element(e)
-        {
-        }
+        GetValue(const EnumElement& e) : element(e) {}
 
         operator const IElement*()
         {
@@ -242,7 +238,7 @@ namespace refract
     template <typename T>
     MemberElement* FindMemberByKey(const T& e, const std::string& name)
     {
-        for (auto const& value: e.value) {
+        for (auto const& value : e.value) {
 
             ComparableVisitor cmp(name, ComparableVisitor::key);
             VisitBy(*value, cmp);

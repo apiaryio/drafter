@@ -49,13 +49,9 @@ SourceMap<Element>::Content& SourceMap<Element>::Content::operator=(const Source
     return *this;
 }
 
-SourceMap<Element>::Content::~Content()
-{
-}
+SourceMap<Element>::Content::~Content() {}
 
-SourceMap<Element>::SourceMap(const Element::Class& element_) : element(element_)
-{
-}
+SourceMap<Element>::SourceMap(const Element::Class& element_) : element(element_) {}
 
 SourceMap<Element>::SourceMap(const SourceMap<Element>& rhs)
 {
@@ -75,6 +71,4 @@ SourceMap<Element>& SourceMap<Element>::operator=(const SourceMap<Element>& rhs)
     return *this;
 }
 
-SourceMap<Element>::~SourceMap()
-{
-}
+SourceMap<Element>::~SourceMap() {}

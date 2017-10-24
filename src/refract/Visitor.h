@@ -30,9 +30,7 @@ namespace refract
         virtual void visit(const OptionElement& e) = 0;
         virtual void visit(const SelectElement& e) = 0;
 
-        virtual ~IApply()
-        {
-        }
+        virtual ~IApply() {}
     };
 
 #ifndef APPLY_VISIT_IMPL
@@ -47,9 +45,7 @@ namespace refract
     struct ApplyImpl : public IApply {
 
         Impl& impl;
-        ApplyImpl(Impl& impl) : impl(impl)
-        {
-        }
+        ApplyImpl(Impl& impl) : impl(impl) {}
 
         APPLY_VISIT_IMPL(IElement)
         APPLY_VISIT_IMPL(NullElement)
@@ -66,9 +62,7 @@ namespace refract
         APPLY_VISIT_IMPL(OptionElement)
         APPLY_VISIT_IMPL(SelectElement)
 
-        virtual ~ApplyImpl()
-        {
-        }
+        virtual ~ApplyImpl() {}
     };
 
 #undef APPLY_VISIT_IMPL

@@ -26,9 +26,7 @@ namespace refract
             const std::string name;
 
         public:
-            Element(const std::string& name) : name(name)
-            {
-            }
+            Element(const std::string& name) : name(name) {}
 
             bool operator()(const IElement& e);
         };

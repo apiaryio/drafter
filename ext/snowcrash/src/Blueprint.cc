@@ -58,13 +58,9 @@ Element::Content& Element::Content::operator=(const Element::Content& rhs)
     return *this;
 }
 
-Element::Content::~Content()
-{
-}
+Element::Content::~Content() {}
 
-Element::Element(const Element::Class& element_) : element(element_)
-{
-}
+Element::Element(const Element::Class& element_) : element(element_) {}
 
 Element::Element(const Element& rhs)
 {
@@ -84,6 +80,4 @@ Element& Element::operator=(const Element& rhs)
     return *this;
 }
 
-Element::~Element()
-{
-}
+Element::~Element() {}

@@ -16,9 +16,7 @@ namespace drafter
 
         typedef typename E::ValueType ValueType;
 
-        RefractElementFactoryImpl()
-        {
-        }
+        RefractElementFactoryImpl() {}
 
         virtual refract::IElement* Create(const std::string& literal, FactoryCreateMethod method) const
         {
@@ -57,9 +55,7 @@ namespace drafter
     template <typename E>
     struct RefractElementFactoryImpl<E, std::false_type> : RefractElementFactory {
 
-        RefractElementFactoryImpl()
-        {
-        }
+        RefractElementFactoryImpl() {}
 
         virtual refract::IElement* Create(const std::string& literal, FactoryCreateMethod method) const
         {
