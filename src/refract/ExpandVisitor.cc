@@ -128,9 +128,7 @@ namespace refract
         const Registry& registry;
         ExpandVisitor* expand;
 
-        Context(const Registry& registry, ExpandVisitor* expand) : registry(registry), expand(expand)
-        {
-        }
+        Context(const Registry& registry, ExpandVisitor* expand) : registry(registry), expand(expand) {}
 
         IElement* ExpandOrClone(const IElement* e) const
         {
@@ -366,14 +364,10 @@ namespace refract
     }
 
     // do nothing, DirectElements are not expandable
-    void ExpandVisitor::operator()(const HolderElement& e)
-    {
-    }
+    void ExpandVisitor::operator()(const HolderElement& e) {}
 
     // do nothing, NullElements are not expandable
-    void ExpandVisitor::operator()(const NullElement& e)
-    {
-    }
+    void ExpandVisitor::operator()(const NullElement& e) {}
 
     VISIT_IMPL(String)
     VISIT_IMPL(Number)

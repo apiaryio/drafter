@@ -50,13 +50,9 @@ namespace drafter
         {
         }
 
-        WrapperOptions(const bool generateSourceMap) : generateSourceMap(generateSourceMap), expandMSON(false)
-        {
-        }
+        WrapperOptions(const bool generateSourceMap) : generateSourceMap(generateSourceMap), expandMSON(false) {}
 
-        WrapperOptions() : generateSourceMap(false), expandMSON(false)
-        {
-        }
+        WrapperOptions() : generateSourceMap(false), expandMSON(false) {}
     };
 
     /**

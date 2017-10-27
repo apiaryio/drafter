@@ -20,13 +20,9 @@ namespace refract
     struct ElementInsertIterator : public std::iterator<std::output_iterator_tag, void, void, void, void> {
         T* element;
 
-        ElementInsertIterator(T& element) : element(&element)
-        {
-        }
+        ElementInsertIterator(T& element) : element(&element) {}
 
-        ElementInsertIterator(const ElementInsertIterator& other) : element(other.element)
-        {
-        }
+        ElementInsertIterator(const ElementInsertIterator& other) : element(other.element) {}
 
         ElementInsertIterator& operator=(const ElementInsertIterator& other) = default;
         ElementInsertIterator& operator=(ElementInsertIterator&& other) = default;

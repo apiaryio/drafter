@@ -23,12 +23,8 @@ namespace refract
         bool generateSourceMap;
 
     public:
-        SosSerializeCompactVisitor() : generateSourceMap(true)
-        {
-        }
-        SosSerializeCompactVisitor(bool generateSourceMap) : generateSourceMap(generateSourceMap)
-        {
-        }
+        SosSerializeCompactVisitor() : generateSourceMap(true) {}
+        SosSerializeCompactVisitor(bool generateSourceMap) : generateSourceMap(generateSourceMap) {}
 
         void operator()(const IElement& e);
         void operator()(const NullElement& e);

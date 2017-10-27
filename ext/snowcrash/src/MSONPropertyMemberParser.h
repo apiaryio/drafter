@@ -43,8 +43,7 @@ namespace snowcrash
         {
 
             SignatureTraits signatureTraits(SignatureTraits::IdentifierTrait | SignatureTraits::ValuesTrait
-                | SignatureTraits::AttributesTrait
-                | SignatureTraits::ContentTrait);
+                | SignatureTraits::AttributesTrait | SignatureTraits::ContentTrait);
 
             return signatureTraits;
         }

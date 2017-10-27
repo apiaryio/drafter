@@ -753,22 +753,30 @@ TEST_CASE("Deprecated resource and action headers", "[resource]")
     REQUIRE(resource.sourceMap.actions.collection[0].headers.collection.empty());
     REQUIRE(resource.sourceMap.actions.collection[0].examples.collection.size() == 1);
     REQUIRE(resource.sourceMap.actions.collection[0].examples.collection[0].responses.collection.size() == 1);
-    REQUIRE(resource.sourceMap.actions.collection[0].examples.collection[0].responses.collection
-                [0].headers.collection.size()
+    REQUIRE(resource.sourceMap.actions.collection[0]
+                .examples.collection[0]
+                .responses.collection[0]
+                .headers.collection.size()
         == 3);
-    SourceMapHelper::check(
-        resource.sourceMap.actions.collection[0].examples.collection[0].responses.collection[0].headers.collection
-            [0].sourceMap,
+    SourceMapHelper::check(resource.sourceMap.actions.collection[0]
+                               .examples.collection[0]
+                               .responses.collection[0]
+                               .headers.collection[0]
+                               .sourceMap,
         23,
         15);
-    SourceMapHelper::check(
-        resource.sourceMap.actions.collection[0].examples.collection[0].responses.collection[0].headers.collection
-            [1].sourceMap,
+    SourceMapHelper::check(resource.sourceMap.actions.collection[0]
+                               .examples.collection[0]
+                               .responses.collection[0]
+                               .headers.collection[1]
+                               .sourceMap,
         66,
         15);
-    SourceMapHelper::check(
-        resource.sourceMap.actions.collection[0].examples.collection[0].responses.collection[0].headers.collection
-            [2].sourceMap,
+    SourceMapHelper::check(resource.sourceMap.actions.collection[0]
+                               .examples.collection[0]
+                               .responses.collection[0]
+                               .headers.collection[2]
+                               .sourceMap,
         125,
         15);
 }

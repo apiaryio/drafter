@@ -78,15 +78,12 @@ TypeSection::Content& TypeSection::Content::operator=(const TypeSection::Content
     return *this;
 }
 
-TypeSection::Content::~Content()
-{
-}
+TypeSection::Content::~Content() {}
 
 bool TypeSection::empty() const
 {
     return (this->klass == TypeSection::UndefinedClass && this->content.value.empty()
-        && this->content.description.empty()
-        && this->content.elements().empty());
+        && this->content.description.empty() && this->content.elements().empty());
 }
 
 bool NamedType::empty() const
@@ -171,13 +168,9 @@ Element::Content& Element::Content::operator=(const Element::Content& rhs)
     return *this;
 }
 
-Element::Content::~Content()
-{
-}
+Element::Content::~Content() {}
 
-Element::Element(const Element::Class& klass_) : klass(klass_)
-{
-}
+Element::Element(const Element::Class& klass_) : klass(klass_) {}
 
 Element::Element(const Element& rhs)
 {
@@ -193,9 +186,7 @@ Element& Element::operator=(const Element& rhs)
     return *this;
 }
 
-Element::~Element()
-{
-}
+Element::~Element() {}
 
 /**
  * \brief Build Element from property member

@@ -15,12 +15,14 @@ checkout:
 
 dependencies:
   pre:
-    - sudo apt-get update && sudo apt-get install valgrind
+    - sudo add-apt-repository 'deb http://llvm.org/apt/trusty/ llvm-toolchain-trusty-5.0 main'
+    - sudo apt-get update && sudo apt-get install valgrind clang-format-5.0
 
 test:
   pre:
     - ./configure -i
   override:
+    - ./tools/clang-format-check.sh
     - env CXXFLAGS="-Werror" make test
     - valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --error-exitcode=1 ./bin/test-libdrafter 2> memcheck.log
     - valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --error-exitcode=1 ./bin/test-capi 2> memcheck-capi.log

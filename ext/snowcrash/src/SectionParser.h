@@ -122,9 +122,10 @@ namespace snowcrash
                     cur = SectionProcessor<T>::processUnexpectedNode(cur, collection, pd, lastSectionType, out);
                 }
 
-                if (cur != collection.end() && (pd.sectionContext() != UndefinedSectionType
-                                                   || (cur->type != mdp::ParagraphMarkdownNodeType
-                                                          && cur->type != mdp::CodeMarkdownNodeType))) {
+                if (cur != collection.end()
+                    && (pd.sectionContext() != UndefinedSectionType
+                           || (cur->type != mdp::ParagraphMarkdownNodeType
+                                  && cur->type != mdp::CodeMarkdownNodeType))) {
 
                     lastSectionType = pd.sectionContext();
                 }

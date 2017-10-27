@@ -36,9 +36,7 @@ namespace refract
     struct ElementBuilder {
         T* element;
 
-        ElementBuilder(T* element) : element(element)
-        {
-        }
+        ElementBuilder(T* element) : element(element) {}
 
         operator T*()
         {

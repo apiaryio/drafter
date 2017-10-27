@@ -668,9 +668,7 @@ namespace drafter
     {
         struct Join {
             std::string& base;
-            Join(std::string& str) : base(str)
-            {
-            }
+            Join(std::string& str) : base(str) {}
 
             void operator()(const std::string& append, const std::string separator = "\n")
             {

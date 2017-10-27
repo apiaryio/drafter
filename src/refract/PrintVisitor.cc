@@ -15,9 +15,7 @@
 
 namespace refract
 {
-    PrintVisitor::PrintVisitor() : indent(0), os(std::cerr), ommitSourceMap(false)
-    {
-    }
+    PrintVisitor::PrintVisitor() : indent(0), os(std::cerr), ommitSourceMap(false) {}
 
     PrintVisitor::PrintVisitor(int indent_, std::ostream& os_, bool ommitSourceMap_)
         : indent(indent_), os(os_), ommitSourceMap(ommitSourceMap_)

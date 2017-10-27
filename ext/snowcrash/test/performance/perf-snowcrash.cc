@@ -17,8 +17,8 @@
 #include <sys/time.h>
 #endif
 
-using snowcrash::SourceAnnotation;
 using snowcrash::Error;
+using snowcrash::SourceAnnotation;
 
 static const int TestRunCount = 1000;
 

@@ -16,9 +16,7 @@
 
 namespace refract
 {
-    TypeQueryVisitor::TypeQueryVisitor() : typeInfo(Unknown)
-    {
-    }
+    TypeQueryVisitor::TypeQueryVisitor() : typeInfo(Unknown) {}
 
     void TypeQueryVisitor::operator()(const IElement& e)
     {

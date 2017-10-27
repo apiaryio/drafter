@@ -17,7 +17,8 @@ static const HeadersKeyCollection& getAllowedMultipleDefinitions()
 {
 
     static std::string keys[] = {
-        HTTPHeaderName::SetCookie, HTTPHeaderName::Link,
+        HTTPHeaderName::SetCookie,
+        HTTPHeaderName::Link,
     };
 
     static const HeadersKeyCollection allowedMultipleDefinitions(keys, keys + (sizeof(keys) / sizeof(keys[0])));

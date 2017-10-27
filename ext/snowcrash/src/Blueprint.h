@@ -171,9 +171,7 @@ namespace snowcrash
         struct ReferenceMetadata {
 
             /** Constructor */
-            ReferenceMetadata(State state_ = StateUnresolved) : state(state_)
-            {
-            }
+            ReferenceMetadata(State state_ = StateUnresolved) : state(state_) {}
 
             /** Markdown AST reference source node (for source map) */
             mdp::MarkdownNodeIterator node;

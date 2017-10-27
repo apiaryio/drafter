@@ -32,8 +32,8 @@ namespace snowcrash
 {
 
     using mdp::MarkdownNode;
-    using mdp::MarkdownNodes;
     using mdp::MarkdownNodeIterator;
+    using mdp::MarkdownNodes;
 
     typedef Collection<SectionType>::type SectionTypes;
 
@@ -57,9 +57,7 @@ namespace snowcrash
     template <typename T>
     struct ParseResult {
 
-        ParseResult(const Report& report_ = Report()) : report(report_)
-        {
-        }
+        ParseResult(const Report& report_ = Report()) : report(report_) {}
 
         Report report;          /// Parser's report
         T node;                 /// Parsed AST node
@@ -76,9 +74,7 @@ namespace snowcrash
     template <typename T>
     struct IntermediateParseResult {
 
-        explicit IntermediateParseResult(Report& report_) : report(report_)
-        {
-        }
+        explicit IntermediateParseResult(Report& report_) : report(report_) {}
 
         Report& report;
         T node;
@@ -237,9 +233,7 @@ namespace snowcrash
         }
 
         /** Final validation after processing */
-        static void finalize(const MarkdownNodeIterator& node, SectionParserData& pd, const ParseResultRef<T>& out)
-        {
-        }
+        static void finalize(const MarkdownNodeIterator& node, SectionParserData& pd, const ParseResultRef<T>& out) {}
 
         /** \return True if the node is a section description node */
         static bool isDescriptionNode(const MarkdownNodeIterator& node, SectionType sectionType)

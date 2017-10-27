@@ -204,8 +204,7 @@ namespace snowcrash
 
             if ((node->type == mdp::ParagraphMarkdownNodeType || node->type == mdp::CodeMarkdownNodeType)
                 && (sectionType == ResponseBodySectionType || sectionType == ResponseSectionType)
-                && !out.node.examples.empty()
-                && !out.node.examples.back().responses.empty()) {
+                && !out.node.examples.empty() && !out.node.examples.back().responses.empty()) {
 
                 mdp::ByteBuffer content = CodeBlockUtility::addDanglingAsset(
                     node, pd, sectionType, out.report, out.node.examples.back().responses.back().body);
@@ -220,8 +219,7 @@ namespace snowcrash
 
             if ((node->type == mdp::ParagraphMarkdownNodeType || node->type == mdp::CodeMarkdownNodeType)
                 && (sectionType == RequestBodySectionType || sectionType == RequestSectionType)
-                && !out.node.examples.empty()
-                && !out.node.examples.back().requests.empty()) {
+                && !out.node.examples.empty() && !out.node.examples.back().requests.empty()) {
 
                 mdp::ByteBuffer content = CodeBlockUtility::addDanglingAsset(
                     node, pd, sectionType, out.report, out.node.examples.back().requests.back().body);

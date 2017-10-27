@@ -34,9 +34,7 @@ namespace snowcrash
          *
          *  Creates an empty annotation with the default annotation code.
          */
-        SourceAnnotation() : code(OK)
-        {
-        }
+        SourceAnnotation() : code(OK) {}
 
         /**
          *  \brief  %SourceAnnotation copy constructor.
@@ -70,9 +68,7 @@ namespace snowcrash
         }
 
         /** \brief  %SourceAnnotation destructor. */
-        ~SourceAnnotation()
-        {
-        }
+        ~SourceAnnotation() {}
 
         /**
          *  \brief  %SourceAnnotation assignment operator
