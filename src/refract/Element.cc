@@ -293,7 +293,7 @@ namespace refract
                             }
                         } else if (RefElement* ref = TypeQueryVisitor::as<RefElement>(element)) {
                             if (refBase.find(ref->value) == refBase.end()) {
-                                RefElement* clone = static_cast<RefElement*>(member->clone());
+                                RefElement* clone = static_cast<RefElement*>(ref->clone());
                                 value.push_back(clone);
                                 refBase[ref->value] = clone;
                             }
