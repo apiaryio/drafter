@@ -10,12 +10,19 @@
   * GCC 5.3 or higher
   * Clang 4.0 or higher
 
+* Deprecated API Blueprint AST support has been removed.
+
+* Drafter will now produce API Elements 1.0 using the Refract 1.0 JSON Serialisation format.
+  [Refract JSON Serialisation](https://github.com/refractproject/refract-spec/blob/master/formats/json-refract.md)
+  [API Elements 1.0](http://apielements.org/)
+
 ### Enhancements
 
-- Instead of returning int, functions that may error return `drafter_error`
+* Instead of returning int, functions that may error return `drafter_error`
   type. This adds additional type-safety when handling errors.
 
 ## Bug Fixes
+
 * Fix JSON Schema "required" for multiple defined members
   [#493](https://github.com/apiaryio/drafter/issues/493)
 
