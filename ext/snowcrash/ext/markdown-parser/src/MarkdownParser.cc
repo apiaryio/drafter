@@ -58,7 +58,7 @@ void MarkdownParser::parse(const ByteBuffer& source, MarkdownNode& ast)
     m_sourceLength = 0;
     m_listBlockContext = false;
 
-#ifdef DEBUG
+#ifdef DEBUG_MARKDOWN
     ast.printNode();
 #endif
 }

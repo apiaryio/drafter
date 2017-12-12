@@ -9,29 +9,33 @@
 #ifndef REFRACT_JSONSCHEMAVISITOR_H
 #define REFRACT_JSONSCHEMAVISITOR_H
 
-#include "VisitorUtils.h"
-#include <string>
-
 #include "ElementFwd.h"
+#include "VisitorUtils.h"
+
+#include <memory>
+#include <string>
+#include <map>
+#include <set>
 
 namespace refract
 {
-    class JSONSchemaVisitor
+    class JSONSchemaVisitor final
     {
-        ObjectElement* pObj;
-        ObjectElement* pDefs;
+        std::unique_ptr<ObjectElement> pObj;
+        ObjectElement& pDefs;
+
         bool fixed;
         bool fixedType;
 
         void setSchemaType(const std::string& type);
         void addSchemaType(const std::string& type);
         void addNullToEnum();
-        void addMember(const std::string& key, IElement* val);
-        void anyOf(std::map<std::string, std::vector<IElement*> >& types, std::vector<std::string>& typesOrder);
+        void addMember(const std::string& key, std::unique_ptr<IElement> val);
+        void anyOf(std::map<std::string, std::vector<const IElement*> >& types, std::vector<std::string>& typesOrder);
         bool allItemsEmpty(const ArrayElement::ValueType* val);
-        ObjectElement* definitionFromVariableProperty(JSONSchemaVisitor& renderer);
-        void addVariableProps(std::vector<MemberElement*>& props, ObjectElement* o);
-        ArrayElement* arrayFromProps(std::vector<MemberElement*>& props);
+        std::unique_ptr<ObjectElement> definitionFromVariableProperty(JSONSchemaVisitor& renderer);
+        void addVariableProps(std::vector<const MemberElement*>& props, std::unique_ptr<ObjectElement> o);
+        std::unique_ptr<ArrayElement> arrayFromProps(std::vector<const MemberElement*>& props);
 
         template <typename T>
         void setPrimitiveType(const T& e)
@@ -45,15 +49,35 @@ namespace refract
         template <typename T>
         void primitiveType(const T& e);
 
-        void processMembers(const std::vector<refract::IElement*>& members,
+        void processMember(const IElement& member,
+            std::vector<const MemberElement*>& varProps,
+            dsd::Array& oneOfMembers,
+            ObjectElement& o,
+            std::set<std::string>& required);
+
+        template <typename ContentT>
+        void processMembers(const ContentT& members,
             ArrayElement::ValueType& reqVals,
-            std::vector<MemberElement*>& varProps,
-            RefractElements& oneOfMembers,
-            ObjectElement* o);
+            std::vector<const MemberElement*>& varProps,
+            dsd::Array& oneOfMembers,
+            ObjectElement& o)
+        {
+            std::set<std::string> required;
+
+            for (const auto& member : members) {
+                if (!member)
+                    continue;
+                processMember(*member, varProps, oneOfMembers, o, required);
+            }
+
+            std::transform(required.begin(), required.end(), std::back_inserter(reqVals), [](const std::string& value) {
+                return from_primitive(value);
+            });
+        }
 
     public:
-        JSONSchemaVisitor(ObjectElement* pDefinitions = NULL, bool _fixed = false, bool _fixedType = false);
-        ~JSONSchemaVisitor();
+        JSONSchemaVisitor(ObjectElement& pDefinitions, bool _fixed = false, bool _fixedType = false);
+
         void setFixed(bool _fixed);
         void setFixedType(bool _fixedType);
         void operator()(const IElement& e);
@@ -70,10 +94,11 @@ namespace refract
 
         void operator()(const OptionElement& e);
 
-        IElement* get();
-        IElement* getOwnership();
-        std::string getSchema(const IElement& e);
+        ObjectElement* get();
+        std::unique_ptr<ObjectElement> getOwnership();
     };
+
+    std::string renderJsonSchema(const IElement& e);
 }
 
 #endif

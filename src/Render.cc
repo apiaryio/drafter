@@ -74,13 +74,13 @@ namespace drafter
         }
 
         // Expand MSON into Refract
-        refract::IElement* element = MSONToRefract(*attributes, context);
+        auto element = MSONToRefract(*attributes, context);
 
         if (!element) {
             return body;
         }
 
-        refract::IElement* expanded = ExpandRefract(element, context);
+        auto expanded = ExpandRefract(std::move(element), context);
 
         if (!expanded) {
             return body;
@@ -91,19 +91,11 @@ namespace drafter
             case JSONRenderFormat: {
                 refract::RenderJSONVisitor renderer;
                 refract::Visit(renderer, *expanded);
-
-                delete expanded;
-
                 return std::make_pair(renderer.getString(), NodeInfo<Asset>::NullSourceMap());
             }
 
             case JSONSchemaRenderFormat: {
-                refract::JSONSchemaVisitor renderer;
-                std::string result = renderer.getSchema(*expanded);
-
-                delete expanded;
-
-                return std::make_pair(result, NodeInfo<Asset>::NullSourceMap());
+                return std::make_pair(renderJsonSchema(*expanded), NodeInfo<Asset>::NullSourceMap());
             }
 
             case UndefinedRenderFormat:
@@ -138,22 +130,18 @@ namespace drafter
             return schema;
         }
 
-        refract::JSONSchemaVisitor renderer;
-        refract::IElement* element = MSONToRefract(*attributes, context);
+        auto element = MSONToRefract(*attributes, context);
 
         if (!element) {
             return schema;
         }
 
-        refract::IElement* expanded = ExpandRefract(element, context);
+        auto expanded = ExpandRefract(std::move(element), context);
 
         if (!expanded) {
             return schema;
         }
 
-        std::string result = renderer.getSchema(*expanded);
-        delete expanded;
-
-        return std::make_pair(result, NodeInfo<Asset>::NullSourceMap());
+        return std::make_pair(renderJsonSchema(*expanded), NodeInfo<Asset>::NullSourceMap());
     }
 }

@@ -2,758 +2,192 @@
 //  refract/Element.h
 //  librefract
 //
-//  Created by Jiri Kratochvil on 18/05/15.
-//  Copyright (c) 2015 Apiary Inc. All rights reserved.
+//  Created by Thomas Jandecka on 04/09/2017
+//  Copyright (c) 2017 Apiary Inc. All rights reserved.
 //
+
 #ifndef REFRACT_ELEMENT_H
 #define REFRACT_ELEMENT_H
 
 #include <string>
-#include <vector>
-#include <algorithm>
-#include <functional>
-#include <stdexcept>
-#include <iterator>
 
-#include "Exception.h"
+#include "dsd/ElementData.h"
+#include "dsd/Traits.h"
+
+#include "ElementIfc.h"
+#include "InfoElements.h"
 #include "Visitor.h"
-
-#include "ElementFwd.h"
+#include "Utils.h"
 
 namespace refract
 {
-
-    class Visitor;
-
-    template <typename T>
-    struct ElementTypeSelector;
-
-    // NOTE: alternative solution:
-    // find in Element* for ValueType instead of specialized templates
-    template <>
-    struct ElementTypeSelector<std::string> {
-        typedef StringElement ElementType;
-    };
-
-    template <>
-    struct ElementTypeSelector<char*> {
-        typedef StringElement ElementType;
-    };
-
-    template <>
-    struct ElementTypeSelector<double> {
-        typedef NumberElement ElementType;
-    };
-
-    template <>
-    struct ElementTypeSelector<int> {
-        typedef NumberElement ElementType;
-    };
-
-    template <>
-    struct ElementTypeSelector<size_t> {
-        typedef NumberElement ElementType;
-    };
-
-    template <>
-    struct ElementTypeSelector<bool> {
-        typedef BooleanElement ElementType;
-    };
-
-    struct IElement {
-        class MemberElementCollection final
-        {
-            // FIXME raw pointer ownership
-            using Container = std::vector<MemberElement*>;
-            Container elements;
-
-        public:
-            using iterator = typename Container::iterator;
-            using const_iterator = typename Container::const_iterator;
-
-        public:
-            MemberElementCollection() = default;
-            ~MemberElementCollection();
-
-            MemberElementCollection(const MemberElementCollection&) = delete;
-            MemberElementCollection(MemberElementCollection&&) = default;
-
-            MemberElementCollection& operator=(const MemberElementCollection&) = delete;
-            MemberElementCollection& operator=(MemberElementCollection&&) = default;
-
-        public:
-            const_iterator begin() const noexcept
-            {
-                return elements.begin();
-            }
-            iterator begin() noexcept
-            {
-                return elements.begin();
-            }
-
-            const_iterator end() const noexcept
-            {
-                return elements.end();
-            }
-            iterator end() noexcept
-            {
-                return elements.end();
-            }
-
-            const_iterator find(const std::string& name) const;
-            iterator find(const std::string& name);
-
-            MemberElement& operator[](const std::string& name);
-
-            /// clone elements from `other` to `this`
-            void clone(const MemberElementCollection& other);
-
-            // FIXME erase(const std::string) deletes pointer, whereas erase(iterator) does not
-            void erase(const std::string& key);
-            void erase(iterator it)
-            {
-                elements.erase(it);
-            }
-
-            // FIXME pointers are not deleted
-            void clear()
-            {
-                elements.clear();
-            }
-
-            void push_back(MemberElement* e)
-            {
-                elements.push_back(e);
-            }
-
-            bool empty() const noexcept
-            {
-                return elements.empty();
-            }
-            Container::size_type size() const noexcept
-            {
-                return elements.size();
-            }
-        };
-
-        MemberElementCollection meta;
-        MemberElementCollection attributes;
-
-        /**
-         * return "name" of element
-         * usualy injected by "trait", but you can set own
-         * via pair method `element(std::string)`
-         */
-        virtual std::string element() const = 0;
-        virtual void element(const std::string&) = 0;
-
-        // NOTE: probably rename to Accept
-        virtual void content(Visitor& v) const = 0;
-
-        /**
-         * Flags for clone() element - select parts of refract element to be clonned
-         * \see Element<T>::clone()
-         */
-        typedef enum {
-            cMeta = 0x01,
-            cAttributes = 0x02,
-            cValue = 0x04,
-            cElement = 0x08,
-            cAll = cMeta | cAttributes | cValue | cElement,
-
-            cNoMetaId = 0x10,
-        } cloneFlags;
-
-        virtual IElement* clone(const int flag = cAll) const = 0;
-
-        virtual bool empty() const = 0;
-
-        /**
-         * Returns new element with content set as `value`
-         * Type of returned element depends on type of `value`
-         *
-         * In current implementation iis able create just primitive element types: (Bool|Number|String)
-         */
-        template <typename T>
-        static typename ElementTypeSelector<T>::ElementType* Create(const T& value)
-        {
-            typedef typename ElementTypeSelector<T>::ElementType ElementType;
-            return new ElementType(value);
-        };
-
-        /**
-         * overrided for static function `Create()` with classic c-string
-         */
-        static StringElement* Create(const char* value);
-
-        virtual ~IElement() {}
-    };
-
-    bool isReserved(const std::string& element);
-
-    /**
-     * CRTP implementation of RefractElement
-     */
-    template <typename T, typename Trait>
-    class Element : public IElement
+    ///
+    /// Refract Element definition
+    ///
+    /// @tparam DataType    Data structure definition (DSD) of the Refract Element
+    ///
+    template <typename DataType>
+    class Element final : public IElement
     {
+        InfoElements meta_ = {};       //< Refract Element meta
+        InfoElements attributes_ = {}; //< Refract Element attributes
+
+        bool hasValue_ = false; //< Whether DSD is set
+        DataType data_ = {};    //< DSD
+
+        std::string name_ = DataType::name; //< Name of the Element
 
     public:
-        typedef Element<T, Trait> Type;
-        typedef Trait TraitType;
-        typedef typename TraitType::ValueType ValueType;
-
-    protected:
-        std::string element_;
-        bool hasContent; ///< was content of element already set? \see empty()
+        using ValueType = DataType; //< DSD type definition
 
     public:
-        // FIXME: move into protected part, currently still required in ComparableVisitor
-        ValueType value;
+        ///
+        /// Initialize a Refract Element with empty DSD
+        /// @remark sets name of the element to DataType::name
+        ///
+        Element() = default;
 
-        virtual std::string element() const
+        ///
+        /// Initialize a Refract Element from a DSD
+        /// @remark sets name of the element to DataType::name
+        ///
+        explicit Element(DataType data) : hasValue_(true), data_(std::move(data)), name_(DataType::name) {}
+
+        ///
+        /// Initialize a Refract Element from given name and DSD
+        ///
+        Element(const std::string& name, DataType data) : hasValue_(true), data_(data), name_(name) {}
+
+        Element(Element&&) = default;
+        Element(const Element&) = default;
+
+        Element& operator=(Element&&) = default;
+        Element& operator=(const Element&) = default;
+
+    public:
+        DataType& get() noexcept
         {
-            return element_.empty() ? TraitType::element() : element_;
+            assert(hasValue_);
+            return data_;
         }
 
-        virtual void element(const std::string& name)
+        const DataType& get() const noexcept
         {
-            element_ = name;
+            assert(hasValue_);
+            return data_;
         }
 
-        void set(const ValueType& val)
+        void set(DataType data = {})
         {
-            hasContent = true;
-            value = val;
+            hasValue_ = true;
+            data_ = data;
         }
 
-        const ValueType& get() const
+    public: // IElement
+        InfoElements& meta() noexcept override
         {
-            return value;
+            return meta_;
         }
 
-        virtual void content(Visitor& v) const
+        const InfoElements& meta() const noexcept override
         {
-            v.visit(static_cast<const T&>(*this));
+            return meta_;
         }
 
-        virtual IElement* clone(const int flags = cAll) const
+        InfoElements& attributes() noexcept override
         {
-            const Type* self = static_cast<const T*>(this);
-            Type* element = new Type;
+            return attributes_;
+        }
 
-            if (flags & cElement) {
-                element->element_ = self->element_;
+        const InfoElements& attributes() const noexcept override
+        {
+            return attributes_;
+        }
+
+        std::string element() const override
+        {
+            return name_;
+        }
+
+        void element(const std::string& name) override
+        {
+            name_ = name;
+        }
+
+        void content(Visitor& v) const override
+        {
+            v.visit(*this);
+        }
+
+        void visit(IVisitor& v) const override
+        {
+            v(*this);
+        }
+
+        std::unique_ptr<IElement> clone(int flags = IElement::cAll) const override
+        {
+            auto el = std::make_unique<Element>();
+
+            if (flags & IElement::cElement)
+                el->element(name_);
+            if (flags & IElement::cAttributes)
+                el->attributes_ = attributes_;
+            if (flags & IElement::cMeta) {
+                el->meta_ = meta_; // FIXME use copy_if rather than full copy with remove
+                if (flags & IElement::cNoMetaId)
+                    el->meta_.erase("id");
+            }
+            if (flags & IElement::cValue) {
+                el->hasValue_ = hasValue_;
+                el->data_ = data_;
             }
 
-            if (flags & cAttributes) {
-                element->attributes.clone(self->attributes);
-            }
-
-            if (flags & cMeta) {
-                element->meta.clone(self->meta);
-
-                if (flags & cNoMetaId) {
-                    element->meta.erase("id");
-                }
-            }
-
-            if (flags & cValue) {
-                element->hasContent = self->hasContent;
-                TraitType::cloneValue(value, element->value);
-            }
-
-            return element;
+            return std::move(el);
         }
 
-        Element() : hasContent(false), value(TraitType::init()) {}
-
-        virtual bool empty() const
+        bool empty() const override
         {
-            return !hasContent;
-        }
-
-        virtual ~Element()
-        {
-            TraitType::release(value);
+            return !hasValue_;
         }
     };
 
-    struct NullElementTrait {
-        struct null_type {
-        };
-        typedef null_type ValueType;
-
-        static ValueType init()
-        {
-            return ValueType();
-        }
-        static const std::string element()
-        {
-            return "null";
-        }
-        static void release(ValueType&) {}
-        static void cloneValue(const ValueType&, ValueType&) {}
-    };
-
-    struct NullElement : Element<NullElement, NullElementTrait> {
-    };
-
-    struct StringElementTrait {
-        typedef std::string ValueType;
-
-        static ValueType init()
-        {
-            return ValueType();
-        }
-        static const std::string element()
-        {
-            return "string";
-        }
-        static void release(ValueType&) {}
-        static void cloneValue(const ValueType& self, ValueType& other)
-        {
-            other = self;
-        }
-    };
-
-    struct StringElement : Element<StringElement, StringElementTrait> {
-        StringElement() : Type() {}
-
-        StringElement(const TraitType::ValueType& value) : Type()
-        {
-            set(value);
-        }
-    };
-
-    struct NumberElementTrait {
-        typedef double ValueType;
-
-        static ValueType init()
-        {
-            return 0;
-        }
-        static const std::string element()
-        {
-            return "number";
-        }
-        static void release(ValueType&) {}
-        static void cloneValue(const ValueType& self, ValueType& other)
-        {
-            other = self;
-        }
-    };
-
-    struct NumberElement : Element<NumberElement, NumberElementTrait> {
-        NumberElement() : Type() {}
-
-        NumberElement(const TraitType::ValueType& value) : Type()
-        {
-            set(value);
-        }
-    };
-
-    struct BooleanElementTrait {
-        typedef bool ValueType;
-
-        static ValueType init()
-        {
-            return false;
-        }
-        static const std::string element()
-        {
-            return "boolean";
-        }
-        static void release(ValueType&) {}
-        static void cloneValue(const ValueType& self, ValueType& other)
-        {
-            other = self;
-        }
-    };
-
-    struct BooleanElement : Element<BooleanElement, BooleanElementTrait> {
-        BooleanElement() : Type() {}
-
-        BooleanElement(const TraitType::ValueType& value) : Type()
-        {
-            set(value);
-        }
-    };
-
-    struct HolderElementTrait {
-        typedef IElement* ValueType;
-
-        static ValueType init()
-        {
-            return nullptr;
-        }
-        static const std::string element()
-        {
-            return "";
-        }
-
-        static void release(ValueType& value)
-        {
-            delete value;
-            value = nullptr;
-        }
-
-        static void cloneValue(const ValueType& self, ValueType& other)
-        {
-            other = self ? self->clone() : nullptr;
-        }
-    };
-
-    // FIXME: This is just a temporary element which is not in the refract spec
-    // until the Element implementation is moved away from abstraction.
-    struct HolderElement : Element<HolderElement, HolderElementTrait> {
-        HolderElement() : Type() {}
-
-        HolderElement(const std::string name, const TraitType::ValueType& value) : Type()
-        {
-            element(name);
-            set(value);
-        }
-    };
-
-    typedef std::vector<IElement*> RefractElements;
-
-    template <typename Type = IElement, typename Collection = std::vector<Type*> >
-    struct ElementCollectionTrait {
-        typedef Collection ValueType;
-        typedef ElementCollectionTrait<Type, Collection> SelfType;
-
-        static ValueType init()
-        {
-            return ValueType();
-        }
-
-        static void release(ValueType& values)
-        {
-            for (typename ValueType::iterator it = values.begin(); it != values.end(); ++it) {
-                delete (*it);
-            }
-
-            values.clear();
-        }
-
-        /**
-         * WARN: possible dangerous method. We trust underlaying type in collection
-         * if anyone push casted type, bad things can happen.
-         */
-        static typename ValueType::value_type typedMemberClone(IElement* element, const IElement::cloneFlags flags)
-        {
-            if (!element) {
-                return nullptr;
-            }
-
-            return static_cast<typename ValueType::value_type>(element->clone(flags));
-        }
-
-        static void cloneValue(const ValueType& self, ValueType& other)
-        {
-            std::transform(self.begin(),
-                self.end(),
-                std::back_inserter(other),
-                std::bind(&SelfType::typedMemberClone, std::placeholders::_1, IElement::cAll));
-        }
-    };
-
-    struct ArrayElementTrait : public ElementCollectionTrait<> {
-        static const std::string element()
-        {
-            return "array";
-        }
-    };
-
-    struct ArrayElement : Element<ArrayElement, ArrayElementTrait> {
-        ArrayElement() : Type() {}
-
-        ArrayElement(const TraitType::ValueType& value) : Type()
-        {
-            set(value);
-        }
-
-        void push_back(IElement* e)
-        {
-            // FIXME: warn if MemberElement
-            // there is no way to present "key: value" in array
-            hasContent = true;
-            value.push_back(e);
-        }
-    };
-
-    struct EnumElementTrait {
-
-        typedef IElement* ValueType;
-
-        static ValueType init()
-        {
-            return nullptr;
-        }
-        static const std::string element()
-        {
-            return "enum";
-        }
-
-        static void release(ValueType& value)
-        {
-            delete value;
-            value = nullptr;
-        }
-
-        static void cloneValue(const ValueType& self, ValueType& other)
-        {
-            other = self ? self->clone() : nullptr;
-        }
-    };
-
-    //
-    // FIXME: what about `empty()`? should it reflect "enumeration" attribute?
-    //
-
-    struct EnumElement : Element<EnumElement, EnumElementTrait> {
-        EnumElement() : Type() {}
-
-        EnumElement(const TraitType::ValueType& val) : Type()
-        {
-            set(val);
-        }
-
-        void set(const ValueType& val)
-        {
-            hasContent = true;
-            value = val;
-        }
-
-        const ValueType& get() const
-        {
-            return value;
-        }
-    };
-
-    struct MemberElementTrait {
-        typedef std::pair<IElement*, IElement*> ValueType;
-
-        static ValueType init()
-        {
-            return ValueType();
-        }
-        static const std::string element()
-        {
-            return "member";
-        }
-
-        static void release(ValueType& member)
-        {
-            delete member.first;
-            member.first = nullptr;
-
-            delete member.second;
-            member.second = nullptr;
-        }
-
-        static void cloneValue(const ValueType& self, ValueType& other)
-        {
-            other.first = self.first ? self.first->clone() : nullptr;
-
-            other.second = self.second ? self.second->clone() : nullptr;
-        }
-    };
-
-    struct MemberElement : Element<MemberElement, MemberElementTrait> {
-
-        MemberElement() : Type() {}
-
-        MemberElement(IElement* key, IElement* value) : Type()
-        {
-            set(key, value);
-        }
-
-        MemberElement(const std::string& key, IElement* value) : Type()
-        {
-            set(key, value);
-        }
-
-        void set(const std::string& key, IElement* element)
-        {
-            set(IElement::Create(key), element);
-        }
-
-        void set(IElement* key, IElement* element)
-        {
-            delete value.first;
-            value.first = key;
-
-            delete value.second;
-            value.second = element;
-
-            hasContent = true;
-        }
-
-        MemberElement& operator=(IElement* element)
-        {
-            delete value.second;
-            value.second = element;
-            return *this;
-        }
-    };
-
-    struct ObjectElementTrait : public ElementCollectionTrait<> {
-        // Use inherited ValueType definition instead of specialized std::vector<MemberElement*>
-        // because ObjectElement can contain:
-        // - (array[Member Element])
-        // - (object)
-        // - (Extend Element)
-        // - (Select Element)
-        // - (Ref Element)
-        //
-        // FIXME: behavioration for content types different than
-        // `(array[Member Element])` is not currently implemented
-
-        static const std::string element()
-        {
-            return "object";
-        }
-    };
-
-    struct ObjectElement : Element<ObjectElement, ObjectElementTrait> {
-
-        ObjectElement() : Type() {}
-
-        ObjectElement(const TraitType::ValueType& value) : Type()
-        {
-            set(value);
-        }
-
-        ObjectElement(IElement* e) : Type()
-        {
-            value.push_back(e);
-        }
-
-        void push_back(IElement* e)
-        {
-            // FIXME:
-            // probably add check for allowed type
-            hasContent = true;
-            value.push_back(e);
-        }
-    };
-
-    struct RefElementTrait {
-        typedef std::string ValueType;
-
-        static ValueType init()
-        {
-            return ValueType();
-        }
-        static const std::string element()
-        {
-            return "ref";
-        }
-        static void release(ValueType&) {}
-        static void cloneValue(const ValueType& self, ValueType& other)
-        {
-            other = self;
-        }
-    };
-
-    struct RefElement : Element<RefElement, RefElementTrait> {
-        RefElement() : Type() {}
-
-        RefElement(const TraitType::ValueType& value) : Type()
-        {
-            set(value);
-        }
-    };
-
-    struct ExtendElementTrait : public ElementCollectionTrait<> {
-        static const std::string element()
-        {
-            return "extend";
-        }
-    };
-
-    struct ExtendElement : Element<ExtendElement, ExtendElementTrait> {
-        ExtendElement() : Type() {}
-
-        ExtendElement(const TraitType::ValueType& value) : Type()
-        {
-            set(value);
-        }
-
-        void push_back(IElement* e);
-        void set(const ValueType& val);
-
-        IElement* merge() const;
-    };
-
-    struct OptionElementTrait : public ElementCollectionTrait<> {
-        static const std::string element()
-        {
-            return "option";
-        }
-    };
-
-    struct OptionElement : Element<OptionElement, OptionElementTrait> {
-
-        OptionElement() : Type() {}
-
-        OptionElement(const TraitType::ValueType& value) : Type()
-        {
-            set(value);
-        }
-
-        OptionElement(IElement* e) : Type()
-        {
-            value.push_back(e);
-        }
-
-        void push_back(IElement* e)
-        {
-            // FIXME:
-            // probably add check for allowed type
-            hasContent = true;
-            value.push_back(e);
-        }
-    };
-
-    struct SelectElementTrait : public ElementCollectionTrait<OptionElement> {
-        static const std::string element()
-        {
-            return "select";
-        }
-
-        static void cloneValue(const ValueType& self, ValueType& other)
-        {
-            for (std::vector<OptionElement*>::const_iterator it = self.begin(); it != self.end(); ++it) {
-                IElement* clonned = (*it)->clone();
-                other.push_back(static_cast<OptionElement*>(clonned));
-            }
-        }
-    };
-
-    struct SelectElement : Element<SelectElement, SelectElementTrait> {
-        SelectElement() : Type() {}
-
-        SelectElement(const TraitType::ValueType& value) : Type()
-        {
-            set(value);
-        }
-
-        SelectElement(OptionElement* e) : Type()
-        {
-            value.push_back(e);
-        }
-
-        void push_back(OptionElement* e)
-        {
-            // FIXME:
-            // probably add check for allowed type
-            hasContent = true;
-            value.push_back(e);
-        }
-    };
-};
-
-#endif // #ifndef REFRACT_ELEMENT_H
+    ///
+    /// Create an empty Element of given type
+    /// @remark an empty Element has an empty data structure definition (DSD)
+    ///
+    template <typename ElementT>
+    auto make_empty()
+    {
+        return std::make_unique<ElementT>();
+    }
+
+    ///
+    /// Create an Element of given type forwarding arguments to the constructor
+    /// of its data structure definition (DSD)
+    ///
+    template <typename ElementT, typename... Args>
+    auto make_element(Args&&... args)
+    {
+        using DataT = typename ElementT::ValueType;
+        return std::make_unique<ElementT>(DataT{ std::forward<Args>(args)... });
+    }
+
+    template <typename Primitive, typename DataT = typename dsd::data_of<Primitive>::type>
+    auto from_primitive(const Primitive& p)
+    {
+        return make_element<Element<DataT> >(p);
+    }
+
+    template <typename ElementT, typename ContentVisitor, typename... Args>
+    auto generate_element(ContentVisitor visit, Args&&... visitorArgs)
+    {
+        auto element = make_element<ElementT>();
+        visit(element->get(), std::forward<Args>(visitorArgs)...);
+        return element;
+    }
+
+    bool isReserved(const char* w) noexcept;
+    bool isReserved(const std::string& w) noexcept;
+}
+
+#endif

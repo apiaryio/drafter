@@ -6,12 +6,15 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
-#include "VisitorUtils.h"
-#include "sosJSON.h"
-#include <sstream>
-#include "SerializeCompactVisitor.h"
-
 #include "RenderJSONVisitor.h"
+
+#include "SerializeCompactVisitor.h"
+#include "VisitorUtils.h"
+#include "PrintVisitor.h"
+
+#include <sos.h>
+#include <sosJSON.h>
+#include <sstream>
 
 namespace refract
 {
@@ -19,49 +22,45 @@ namespace refract
     namespace
     {
 
-        template <typename T>
-        void FetchMembers(const T& element, typename T::ValueType& members)
+        template <typename T, typename Collection>
+        void FetchMembers(const T& element, Collection& members)
         {
-            const typename T::ValueType* val = GetValue<T>(element);
+            auto val = GetValue<T>()(element);
 
             if (!val) {
                 return;
             }
 
-            for (auto const& item : *val) {
+            if (!val->empty())
+                for (auto const& item : val->get()) {
 
-                if (!item || item->empty()) {
-                    continue;
-                }
-
-                if (RefElement* ref = TypeQueryVisitor::as<RefElement>(item)) {
-                    HandleRefWhenFetchingMembers<T>(ref, members, FetchMembers<T>);
-                    continue;
-                } else if (SelectElement* select = TypeQueryVisitor::as<SelectElement>(item)) {
-                    if (select->value.empty() || !(*select->value.begin())) {
+                    if (!item || item->empty()) {
                         continue;
                     }
 
-                    FetchMembers(*(*select->value.begin()), members);
-                    continue;
+                    if (auto ref = TypeQueryVisitor::as<const RefElement>(item.get())) {
+                        HandleRefWhenFetchingMembers<T>(*ref, members, FetchMembers<T, Collection>);
+                        continue;
+                    } else if (auto select = TypeQueryVisitor::as<const SelectElement>(item.get())) {
+                        if (select->get().empty() || !(*select->get().begin())) {
+                            continue;
+                        }
+
+                        FetchMembers(*(*select->get().begin()), members);
+                        continue;
+                    }
+
+                    RenderJSONVisitor renderer;
+                    Visit(renderer, *item);
+                    auto e = renderer.getOwnership();
+
+                    if (!e) {
+                        continue;
+                    }
+
+                    members.push_back(std::move(e));
                 }
-
-                RenderJSONVisitor renderer;
-                Visit(renderer, *item);
-                IElement* e = renderer.getOwnership();
-
-                if (!e) {
-                    continue;
-                }
-
-                members.push_back(e);
-            }
         }
-    }
-
-    RenderJSONVisitor::~RenderJSONVisitor()
-    {
-        delete result;
     }
 
     void RenderJSONVisitor::operator()(const IElement& e)
@@ -79,17 +78,18 @@ namespace refract
         }
 
         RenderJSONVisitor renderer;
+        auto& content = e.get();
 
-        if (e.value.second) {
-            if (EnumElement* enm = TypeQueryVisitor::as<EnumElement>(e.value.second)) {
+        if (content.value()) {
+            if (auto enm = TypeQueryVisitor::as<const EnumElement>(content.value())) {
                 // We need to handle Enum individualy because of attr["enumerations"]
                 Visit(renderer, *enm);
-            } else if (IsTypeAttribute(e, "nullable") && e.value.second->empty()) {
-                renderer.result = new NullElement;
-            } else if (IsTypeAttribute(e, "optional") && e.value.second->empty()) {
+            } else if (HasTypeAttribute(e, "nullable") && content.value()->empty()) {
+                renderer.result = make_element<NullElement>();
+            } else if (HasTypeAttribute(e, "optional") && content.value()->empty()) {
                 return;
             } else {
-                Visit(renderer, *e.value.second);
+                Visit(renderer, *content.value());
             }
         }
 
@@ -97,61 +97,54 @@ namespace refract
             return;
         }
 
-        result = new MemberElement(key, renderer.result ? renderer.getOwnership() : new StringElement);
+        result = make_element<MemberElement>( //
+            from_primitive(key),
+            renderer.result ? renderer.getOwnership() : make_empty<StringElement>());
     }
 
     void RenderJSONVisitor::operator()(const ObjectElement& e)
     {
         ObjectElement::ValueType members;
-        FetchMembers(e, members);
-        ObjectElement* o = new ObjectElement;
-        o->set(members);
-        result = o;
+        FetchMembers(e, members); // TODO XXX investigate this
+        result = make_element<ObjectElement>(members);
     }
 
     void RenderJSONVisitor::operator()(const EnumElement& e)
     {
 
-        const IElement* val = GetValue<EnumElement>(e);
-        if (val && !val->empty()) {
-            val = val->clone();
-        } else {
-            val = new StringElement;
-        }
+        const IElement* val = GetValue<EnumElement>()(e);
+
+        std::unique_ptr<IElement> value = //
+            (val && !val->empty()) ?      //
+            val->clone() :                //
+            make_empty<StringElement>();
 
         RenderJSONVisitor renderer;
-        VisitBy(*val, renderer);
+        VisitBy(*value, renderer);
         result = renderer.getOwnership();
-
-        delete val;
     }
 
     void RenderJSONVisitor::operator()(const ArrayElement& e)
     {
         ArrayElement::ValueType members;
         FetchMembers(e, members);
-        ArrayElement* a = new ArrayElement;
-        a->set(members);
-        result = a;
+        result = make_element<ArrayElement>(std::move(members));
     }
 
     void RenderJSONVisitor::operator()(const NullElement& e)
     {
-        result = new NullElement;
+        result = make_empty<NullElement>();
     }
 
     template <typename T>
-    IElement* getResult(const T& e)
+    std::unique_ptr<IElement> getResult(const T& e)
     {
-        const typename T::ValueType* v = GetValue<T>(e);
-
-        if (!v) {
-            return nullptr;
-        }
-
-        T* result = IElement::Create(*v);
-
-        return result;
+        auto v = GetValue<T>{}(e);
+        return v ?                      //
+            (v->empty() ?               //
+                    make_element<T>() : // default content if empty
+                    make_element<T>(v->get())) :
+            nullptr;
     }
 
     void RenderJSONVisitor::operator()(const StringElement& e)
@@ -173,7 +166,7 @@ namespace refract
     {
 
         RenderJSONVisitor renderer;
-        IElement* merged = e.merge();
+        auto merged = e.get().merge();
 
         if (!merged) {
             return;
@@ -181,15 +174,11 @@ namespace refract
 
         Visit(renderer, *merged);
         result = renderer.getOwnership();
-
-        delete merged;
     }
 
-    IElement* RenderJSONVisitor::getOwnership()
+    std::unique_ptr<IElement> RenderJSONVisitor::getOwnership()
     {
-        IElement* ret = result;
-        result = nullptr;
-        return ret;
+        return std::move(result);
     }
 
     std::string RenderJSONVisitor::getString() const

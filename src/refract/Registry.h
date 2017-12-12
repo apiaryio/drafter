@@ -10,32 +10,31 @@
 
 #include <map>
 #include <string>
+#include <memory>
+
+#include "ElementIfc.h"
 
 namespace refract
 {
-
-    // Forward declarations of IElement
-    struct IElement;
-
     class Registry
     {
         // FIXME: potentionally dangerous,
         // if element is deleted and not removed from registry
         // solution: std::shared_ptr<> || std::weak_ptr<>
-        typedef std::map<std::string, IElement*> Map;
+        typedef std::map<std::string, std::unique_ptr<IElement> > Map;
         Map registrated;
 
-        std::string getElementId(IElement* element);
+        std::string getElementId(IElement& element);
 
     public:
-        IElement* find(const std::string& name) const;
+        const IElement* find(const std::string& name) const;
 
-        bool add(IElement* element);
+        bool add(std::unique_ptr<IElement> element);
         bool remove(const std::string& name);
         void clearAll(bool releaseElements = false);
     };
 
-    IElement* FindRootAncestor(const std::string& name, const Registry& registry);
+    const IElement* FindRootAncestor(const std::string& name, const Registry& registry);
 
 }; // namespace refract
 

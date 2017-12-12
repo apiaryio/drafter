@@ -84,9 +84,9 @@ DRAFTER_API drafter_error drafter_parse_blueprint(
 
     drafter::WrapperOptions wrapperOptions;
     drafter::ConversionContext context(wrapperOptions);
-    refract::IElement* result = WrapRefract(blueprint, context);
+    auto result = WrapRefract(blueprint, context);
 
-    *out = result;
+    *out = result.release();
 
     return (drafter_error)blueprint.report.error.code;
 }

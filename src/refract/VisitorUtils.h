@@ -20,26 +20,26 @@
 namespace refract
 {
     template <typename T>
-    bool IsTypeAttribute(const T& e, std::string typeAttribute)
+    bool HasTypeAttribute(const T& e, std::string typeAttribute)
     {
-        auto ta = e.attributes.find("typeAttributes");
+        auto ta = e.attributes().find("typeAttributes");
 
-        if (ta == e.attributes.end()) {
+        if (ta == e.attributes().end()) {
             return false;
         }
 
-        ArrayElement* attrs = TypeQueryVisitor::as<ArrayElement>((*ta)->value.second);
+        auto attrs = TypeQueryVisitor::as<const ArrayElement>(ta->second.get());
 
         if (!attrs) {
             return false;
         }
 
-        for (auto const& value : attrs->value) {
-            StringElement* attr = TypeQueryVisitor::as<StringElement>(value);
+        for (const auto& value : attrs->get()) {
+            auto attr = TypeQueryVisitor::as<const StringElement>(value.get());
             if (!attr) {
                 continue;
             }
-            if (attr->value == typeAttribute) {
+            if (attr->get() == typeAttribute) {
                 return true;
             }
         }
@@ -50,53 +50,50 @@ namespace refract
     template <typename T>
     bool IsVariableProperty(const T& e)
     {
-        auto const var = e.attributes.find("variable");
+        auto const var = e.attributes().find("variable");
 
-        if (var == e.attributes.end()) {
+        if (var == e.attributes().end()) {
             return false;
         }
 
-        const BooleanElement* b = TypeQueryVisitor::as<BooleanElement>((*var)->value.second);
-        return b ? b->value : false;
+        auto b = TypeQueryVisitor::as<const BooleanElement>(var->second.get());
+        return b ? static_cast<bool>(b->get()) : false;
     }
 
     template <typename T>
     const T* GetDefault(const T& e)
     {
-        auto const dflt = e.attributes.find("default");
+        auto const dflt = e.attributes().find("default");
 
-        if (dflt == e.attributes.end()) {
+        if (dflt == e.attributes().end()) {
             return NULL;
         }
 
-        return TypeQueryVisitor::as<T>((*dflt)->value.second);
+        return TypeQueryVisitor::as<const T>(dflt->second.get());
     }
 
     template <typename T>
     const T* GetSample(const T& e)
     {
-        auto const i = e.attributes.find("samples");
+        auto const i = e.attributes().find("samples");
 
-        if (i == e.attributes.end()) {
-            return NULL;
+        if (i == e.attributes().end()) {
+            return nullptr;
         }
 
-        ArrayElement* a = TypeQueryVisitor::as<ArrayElement>((*i)->value.second);
+        auto a = TypeQueryVisitor::as<ArrayElement>(i->second.get());
 
-        if (!a || a->value.empty()) {
-            return NULL;
+        if (!a || a->get().empty()) {
+            return nullptr;
         }
 
-        return TypeQueryVisitor::as<T>(*(a->value.begin()));
+        return TypeQueryVisitor::as<T>(a->get().begin()->get());
     }
 
     template <typename T, typename R = typename T::ValueType>
     struct GetValue {
-        const T& element;
 
-        GetValue(const T& e) : element(e) {}
-
-        operator const R*()
+        const T* operator()(const T& element) const
         {
             // FIXME: if value is propageted as first
             // following example will be rendered w/ empty members
@@ -110,92 +107,86 @@ namespace refract
             // ```
             // because `o` has members `m1` and  `m2` , but members has no sed value
             if (!element.empty()) {
-                return &element.value;
+                return &element;
             }
 
             if (const T* s = GetSample(element)) {
-                return &s->value;
+                return s;
             }
 
             if (const T* d = GetDefault(element)) {
-                return &d->value;
+                return d;
             }
 
-            if (element.empty() && IsTypeAttribute(element, "nullable")) {
-                return NULL;
+            if (element.empty() && HasTypeAttribute(element, "nullable")) {
+                return nullptr;
             }
 
-            return &element.value;
+            return &element;
         }
     };
 
-    template <>
-    struct GetValue<refract::EnumElement, typename refract::EnumElement::ValueType> {
-        using EnumElement = refract::EnumElement;
-        const EnumElement& element;
-
-        GetValue(const EnumElement& e) : element(e) {}
-
-        operator const IElement*()
-        {
-            return GetEnumValue(element);
-        }
-
-        IElement* GetEnumValue(const EnumElement& element)
+    template <typename ValueType>
+    struct GetValue<refract::EnumElement, ValueType> {
+        const IElement* operator()(const EnumElement& element) const
         {
             if (const EnumElement* s = GetSample(element)) {
-                return GetEnumValue(*s);
+                return operator()(*s);
             }
 
             if (const EnumElement* d = GetDefault(element)) {
-                return GetEnumValue(*d);
+                return operator()(*d);
             }
 
-            if (element.value) {
-                return element.value;
+            if (!element.empty()) {
+                const auto& value = element.get();
+                if (value.value()) {
+                    return value.value();
+                }
             }
 
             if (const ArrayElement* e = GetEnumerations(element)) {
                 if (e && !e->empty()) {
-                    for (const auto& item : e->value) {
+                    for (const auto& item : e->get()) {
                         if (!item) {
                             continue;
                         }
 
                         // We need to hadle Enum individualy because of attr["enumerations"]
-                        if (EnumElement* val = TypeQueryVisitor::as<EnumElement>(item)) {
-                            IElement* ret = GetEnumValue(*val);
+                        if (const EnumElement* val = TypeQueryVisitor::as<const EnumElement>(item.get())) {
+                            auto ret = operator()(*val);
                             if (ret) {
                                 return ret;
                             }
                         }
 
                         if (!item->empty()) {
-                            return item;
+                            return item.get();
                         }
                     }
                 }
             }
 
-            return element.value;
+            return element.empty() ? //
+                nullptr :
+                element.get().value();
         }
 
-        const ArrayElement* GetEnumerations(const EnumElement& e)
+        const ArrayElement* GetEnumerations(const EnumElement& e) const
         {
+            auto i = e.attributes().find("enumerations");
 
-            auto i = e.attributes.find("enumerations");
-
-            if (i == e.attributes.end()) {
+            if (i == e.attributes().end()) {
                 return nullptr;
             }
 
-            return TypeQueryVisitor::as<ArrayElement>((*i)->value.second);
+            return TypeQueryVisitor::as<const ArrayElement>(i->second.get());
         }
     };
 
     // will be moved into different header (as part of drafter instead of refract)
     template <typename T>
-    void CheckMixinParent(refract::IElement* element)
+    void CheckMixinParent(const refract::IElement* element)
     {
         const T* resolved = TypeQueryVisitor::as<T>(element);
 
@@ -208,63 +199,51 @@ namespace refract
     }
 
     // will be moved into different header (as part of drafter instead of refract)
-    template <typename T, typename Functor>
-    void HandleRefWhenFetchingMembers(
-        const refract::IElement* e, typename T::ValueType& members, const Functor& functor)
+    template <typename T, typename Collection, typename Functor>
+    void HandleRefWhenFetchingMembers(const refract::IElement& e, Collection& members, const Functor& functor)
     {
-        auto const found = e->attributes.find("resolved");
+        auto found = e.attributes().find("resolved");
 
-        if (found == e->attributes.end()) {
+        if (found == e.attributes().end()) {
             return;
         }
 
-        const ExtendElement* extended = TypeQueryVisitor::as<ExtendElement>((*found)->value.second);
+        const IElement* foundValue = found->second.get();
+
+        const ExtendElement* extended = TypeQueryVisitor::as<const ExtendElement>(foundValue);
 
         if (!extended) {
-            CheckMixinParent<T>((*found)->value.second);
+
+            CheckMixinParent<T>(foundValue);
             // We can safely cast it because we are already checking the type in the above line.
-            functor(static_cast<const T&>(*(*found)->value.second), members);
+            functor(static_cast<const T&>(*foundValue), members);
             return;
         }
 
-        for (RefractElements::const_iterator it = extended->value.begin(); it != extended->value.end(); ++it) {
+        for (const auto& ext : extended->get()) {
 
-            CheckMixinParent<T>(*it);
+            CheckMixinParent<T>(ext.get());
             // We can safely cast it because we are already checking the type in the above line.
-            functor(static_cast<const T&>(**it), members);
+            functor(static_cast<const T&>(*ext), members);
         }
     }
 
-    template <typename T>
-    MemberElement* FindMemberByKey(const T& e, const std::string& name)
-    {
-        for (auto const& value : e.value) {
-
-            ComparableVisitor cmp(name, ComparableVisitor::key);
-            VisitBy(*value, cmp);
-
-            if (cmp.get()) { // key was recognized - it is safe to cast to MemberElement
-                return static_cast<MemberElement*>(value);
-            }
-        }
-
-        return NULL;
-    }
+    MemberElement* FindMemberByKey(const ObjectElement& e, const std::string& name);
 
     template <typename T>
-    T* FindCollectionMemberValue(const IElement::MemberElementCollection& collection, const std::string& key)
+    T* FindCollectionMemberValue(const InfoElements& collection, const std::string& key)
     {
         auto const i = collection.find(key);
         if (i == collection.end()) {
-            return NULL;
+            return nullptr;
         }
 
-        return TypeQueryVisitor::as<T>((*i)->value.second);
+        return TypeQueryVisitor::as<T>(i->second.get());
     }
 
     std::string GetKeyAsString(const MemberElement& e);
 
-    StringElement* GetDescription(const IElement& e);
+    const StringElement* GetDescription(const IElement& e);
 }
 
 #endif /* REFRACT_VISITORUTILS_H */

@@ -42,23 +42,22 @@ namespace refract
 
         void CopyMetaId(IElement& dst, const IElement& src)
         {
-            IElement::MemberElementCollection::const_iterator name = src.meta.find("id");
-            if (name != src.meta.end() && (*name)->value.second && !(*name)->value.second->empty()) {
-                dst.meta["id"] = (*name)->value.second->clone();
+            auto name = src.meta().find("id");
+            if (name != src.meta().end() && name->second && !name->second->empty()) {
+                dst.meta().set("id", name->second->clone());
             }
         }
 
         void MetaIdToRef(IElement& e)
         {
-            IElement::MemberElementCollection::const_iterator name = e.meta.find("id");
-            if (name != e.meta.end() && (*name)->value.second && !(*name)->value.second->empty()) {
-                IElement* clone = (*name)->value.second->clone();
-                e.meta["ref"] = clone;
-                e.meta.erase("id");
+            auto name = e.meta().find("id");
+            if (name != e.meta().end() && name->second && !name->second->empty()) {
+                e.meta().set("ref", name->second->clone());
+                e.meta().erase("id");
             }
         }
 
-        template <typename T>
+        template <typename T, bool IsIterable = dsd::is_iterable<T>::value>
         struct ExpandValueImpl {
 
             template <typename Functor>
@@ -69,31 +68,42 @@ namespace refract
         };
 
         template <>
-        struct ExpandValueImpl<IElement*> {
+        struct ExpandValueImpl<dsd::Enum, false> {
 
             template <typename Functor>
-            IElement* operator()(const IElement* value, Functor& expand)
+            dsd::Enum operator()(const dsd::Enum& v, Functor& expand)
             {
-                return expand(value);
+                return dsd::Enum{ expand(v.value()) };
             }
         };
 
         template <>
-        struct ExpandValueImpl<RefractElements> {
+        struct ExpandValueImpl<dsd::Holder, false> {
 
             template <typename Functor>
-            RefractElements operator()(const RefractElements& value, Functor& expand)
+            dsd::Holder operator()(const dsd::Holder& v, Functor& expand)
             {
-                RefractElements members;
-                std::transform(value.begin(), value.end(), std::back_inserter(members), expand);
-
-                return members;
+                return dsd::Holder{ expand(v.data()) };
             }
         };
 
-        ExtendElement* GetInheritanceTree(const std::string& name, const Registry& registry)
+        template <typename T>
+        struct ExpandValueImpl<T, true> {
+
+            template <typename Functor>
+            T operator()(const T& value, Functor& expand)
+            {
+                T members;
+                std::transform(value.begin(), value.end(), std::back_inserter(members), [&expand](const auto& el) {
+                    return expand(el.get());
+                });
+                return std::move(members);
+            }
+        };
+
+        std::unique_ptr<ExtendElement> GetInheritanceTree(const std::string& name, const Registry& registry)
         {
-            std::stack<IElement*> inheritance;
+            std::stack<std::unique_ptr<IElement> > inheritance;
             std::string en = name;
 
             // FIXME: add check against recursive inheritance
@@ -101,16 +111,20 @@ namespace refract
             for (const IElement *parent = registry.find(en); parent && !isReserved(en);
                  en = parent->element(), parent = registry.find(en)) {
 
-                inheritance.push(parent->clone((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId));
-                inheritance.top()->meta["ref"] = IElement::Create(en);
+                inheritance.push(clone(*parent, ((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId)));
+                inheritance.top()->meta().set("ref", from_primitive(en));
             }
 
-            ExtendElement* e = new ExtendElement;
+            if (inheritance.empty())
+                return make_empty<ExtendElement>();
 
-            while (!inheritance.empty()) {
-                e->push_back(inheritance.top());
+            auto e = make_element<ExtendElement>();
+            auto& content = e->get();
+
+            do {
+                content.push_back(std::move(inheritance.top()));
                 inheritance.pop();
-            }
+            } while (!inheritance.empty());
 
             // FIXME: posible solution while referenced type is not found in regisry
             // \see test/fixtures/mson-resource-unresolved-reference.apib
@@ -127,18 +141,18 @@ namespace refract
 
         const Registry& registry;
         ExpandVisitor* expand;
+        std::deque<std::string> members;
 
         Context(const Registry& registry, ExpandVisitor* expand) : registry(registry), expand(expand) {}
 
-        IElement* ExpandOrClone(const IElement* e) const
+        std::unique_ptr<IElement> ExpandOrClone(const IElement* e) const
         {
-            IElement* result = NULL;
             if (!e) {
-                return result;
+                return nullptr;
             }
 
             VisitBy(*e, *expand);
-            result = expand->get();
+            auto result = expand->get();
 
             if (!result) {
                 result = e->clone();
@@ -150,82 +164,83 @@ namespace refract
         template <typename V>
         V ExpandValue(const V& v)
         {
-            auto expandOrClone = std::bind(&ExpandVisitor::Context::ExpandOrClone, this, std::placeholders::_1);
+            auto expandOrClone = [this](const auto& el) { return ExpandOrClone(el); };
+
             return ExpandValueImpl<V>()(v, expandOrClone);
         }
 
         template <typename T>
-        T* ExpandMembers(const T& e)
+        std::unique_ptr<T> ExpandMembers(const T& e)
         {
-            T* o = new T;
-            o->attributes.clone(e.attributes);
-            o->meta.clone(e.meta);
+            auto o = e.empty() ? //
+                make_empty<T>() :
+                make_element<T>(ExpandValue(e.get()));
 
-            if (!e.empty()) {
-                o->set(ExpandValue(e.value));
-            }
+            o->attributes() = e.attributes();
+            o->meta() = e.meta();
 
-            return o;
+            return std::move(o);
         }
 
-        std::deque<std::string> members;
-
         template <typename T>
-        IElement* ExpandNamedType(const T& e)
+        std::unique_ptr<IElement> ExpandNamedType(const T& e)
         {
 
             // Look for Circular Reference thro members
             if (std::find(members.begin(), members.end(), e.element()) != members.end()) {
                 // To avoid unfinised recursion just clone
                 const IElement* root = FindRootAncestor(e.element(), registry);
+
                 // FIXME: if not found root
-                IElement* result = root->clone(IElement::cMeta | IElement::cAttributes | IElement::cNoMetaId);
-                result->meta["ref"] = IElement::Create(e.element());
+                assert(root);
+
+                auto result = clone(*root, IElement::cMeta | IElement::cAttributes | IElement::cNoMetaId);
+
+                result->meta().set("ref", from_primitive(e.element()));
+
                 return result;
             }
 
             members.push_back(e.element());
 
-            ExtendElement* tree = GetInheritanceTree(e.element(), registry);
-            ExtendElement* extend = ExpandMembers(*tree);
-            delete tree;
+            auto extend = ExpandMembers(*GetInheritanceTree(e.element(), registry));
 
             CopyMetaId(*extend, e);
 
             members.pop_back();
 
-            T* origin = ExpandMembers(e);
-            origin->meta.erase("id");
+            auto origin = ExpandMembers(e);
+            origin->meta().erase("id");
+            extend->get().push_back(std::move(origin));
 
-            extend->push_back(origin);
-
-            return extend;
+            return std::move(extend);
         }
 
-        RefElement* ExpandReference(const RefElement& e)
+        std::unique_ptr<RefElement> ExpandReference(const RefElement& e)
         {
-            RefElement* ref = static_cast<RefElement*>(e.clone());
+            auto ref = clone(e);
+            const auto& symbol = ref->get().symbol();
 
-            if (ref->value.empty()) {
+            if (symbol.empty()) {
                 return ref;
             }
 
-            if (std::find(members.begin(), members.end(), ref->value) != members.end()) {
+            if (std::find(members.begin(), members.end(), symbol) != members.end()) {
 
                 std::stringstream msg;
                 msg << "named type '";
-                msg << ref->value;
+                msg << symbol;
                 msg << "' is circularly referencing itself by mixin";
 
                 throw snowcrash::Error(msg.str(), snowcrash::MSONError);
             }
 
-            members.push_back(ref->value);
+            members.push_back(symbol);
 
-            if (IElement* referenced = registry.find(ref->value)) {
-                referenced = ExpandOrClone(referenced);
-                MetaIdToRef(*referenced);
-                ref->attributes["resolved"] = referenced;
+            if (auto referenced = registry.find(symbol)) {
+                auto expanded = ExpandOrClone(std::move(referenced));
+                MetaIdToRef(*expanded);
+                ref->attributes().set("resolved", std::move(expanded));
             }
 
             members.pop_back();
@@ -234,124 +249,89 @@ namespace refract
         }
     };
 
-    template <typename T, typename V = typename T::ValueType>
+    template <typename T, typename V = typename T::ValueType, bool IsIterable = dsd::is_iterable<V>::value>
     struct ExpandElement {
-        IElement* result;
-
-        ExpandElement(const T& e, ExpandVisitor::Context* context) : result(NULL)
+        std::unique_ptr<IElement> operator()(const T& e, ExpandVisitor::Context* context)
         {
-
-            if (!isReserved(e.element())) { // expand named type
-                result = context->ExpandNamedType(e);
+            if (!isReserved(e.element().c_str())) { // expand named type
+                return context->ExpandNamedType(e);
             }
-        }
-
-        operator IElement*()
-        {
-            return result;
+            return nullptr;
         }
     };
 
     template <>
-    struct ExpandElement<RefElement, RefElement::ValueType> {
-        IElement* result;
-
-        ExpandElement(const RefElement& e, ExpandVisitor::Context* context) : result(NULL)
+    struct ExpandElement<RefElement, RefElement::ValueType, false> {
+        std::unique_ptr<IElement> operator()(const RefElement& e, ExpandVisitor::Context* context)
         {
-
-            // expand reference
-            result = context->ExpandReference(e);
-        }
-
-        operator IElement*()
-        {
-            return result;
+            return context->ExpandReference(e); // expand reference
         }
     };
 
     template <typename T>
-    struct ExpandElement<T, SelectElement::ValueType> {
-        IElement* result;
-
-        ExpandElement(const T& e, ExpandVisitor::Context* context) : result(NULL)
+    struct ExpandElement<T, dsd::Select, true> {
+        std::unique_ptr<IElement> operator()(const T& e, ExpandVisitor::Context* context)
         {
-
             if (!Expandable(e)) { // do we have some expandable members?
-                return;
+                return nullptr;
             }
 
-            T* o = new T;
-            o->meta.clone(e.meta);
+            auto o = make_element<T>();
+            auto& content = o->get();
 
-            for (std::vector<OptionElement*>::const_iterator it = e.value.begin(); it != e.value.end(); ++it) {
-                o->push_back(static_cast<OptionElement*>(context->ExpandOrClone(*it)));
+            o->meta() = e.meta(); // clone
+
+            for (const auto& opt : e.get()) {
+                content.push_back(std::unique_ptr<OptionElement>(
+                    static_cast<OptionElement*>(context->ExpandOrClone(opt.get()).release())));
             }
 
-            result = o;
-        }
-
-        operator IElement*()
-        {
-            return result;
+            return std::move(o);
         }
     };
 
-    template <typename T>
-    struct ExpandElement<T, RefractElements> {
-        IElement* result;
-
-        ExpandElement(const T& e, ExpandVisitor::Context* context) : result(NULL)
+    template <typename T, typename V>
+    struct ExpandElement<T, V, true> {
+        std::unique_ptr<IElement> operator()(const T& e, ExpandVisitor::Context* context)
         {
-
             if (!Expandable(e)) { // do we have some expandable members?
-                return;
+                return nullptr;
             }
 
             std::string en = e.element();
 
-            if (!isReserved(en)) { // expand named type
-                result = context->ExpandNamedType(e);
+            if (!isReserved(en.c_str())) { // expand named type
+                return context->ExpandNamedType(e);
             } else { // walk throught members and expand them
-                result = context->ExpandMembers(e);
+                return context->ExpandMembers(e);
             }
-        }
-
-        operator IElement*()
-        {
-            return result;
         }
     };
 
     template <typename T>
-    struct ExpandElement<T, MemberElement::ValueType> {
-        IElement* result;
-
-        ExpandElement(const T& e, ExpandVisitor::Context* context) : result(NULL)
+    struct ExpandElement<T, dsd::Member, false> {
+        std::unique_ptr<IElement> operator()(const T& e, ExpandVisitor::Context* context)
         {
-
             if (!Expandable(e)) {
-                return;
+                return nullptr;
             }
 
-            MemberElement* expanded = static_cast<MemberElement*>(e.clone(IElement::cAll ^ IElement::cValue));
-            expanded->set(context->ExpandOrClone(e.value.first), context->ExpandOrClone(e.value.second));
+            auto expanded = clone(e, IElement::cAll ^ IElement::cValue);
 
-            result = expanded;
-        }
+            expanded->set(
+                dsd::Member{ context->ExpandOrClone(e.get().key()), context->ExpandOrClone(e.get().value()) });
 
-        operator IElement*()
-        {
-            return result;
+            return std::move(expanded);
         }
     };
 
     template <typename T>
-    inline IElement* Expand(const T& e, ExpandVisitor::Context* context)
+    inline std::unique_ptr<IElement> Expand(const T& e, ExpandVisitor::Context* context)
     {
-        return ExpandElement<T>(e, context);
+        return ExpandElement<T>()(e, context);
     }
 
-    ExpandVisitor::ExpandVisitor(const Registry& registry) : result(NULL), context(new Context(registry, this)){};
+    ExpandVisitor::ExpandVisitor(const Registry& registry) : result(nullptr), context(new Context(registry, this)){};
 
     ExpandVisitor::~ExpandVisitor()
     {
@@ -381,9 +361,9 @@ namespace refract
     VISIT_IMPL(Option)
     VISIT_IMPL(Select)
 
-    IElement* ExpandVisitor::get() const
+    std::unique_ptr<IElement> ExpandVisitor::get()
     {
-        return result;
+        return std::move(result);
     }
 
 }; // namespace refract

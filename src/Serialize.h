@@ -180,20 +180,11 @@ namespace drafter
     std::pair<bool, T> LiteralTo(const mson::Literal&);
 
     template <>
-    std::pair<bool, bool> LiteralTo<bool>(const mson::Literal& literal);
+    std::pair<bool, refract::dsd::Boolean> LiteralTo<refract::dsd::Boolean>(const mson::Literal& literal);
     template <>
-    std::pair<bool, double> LiteralTo<double>(const mson::Literal& literal);
+    std::pair<bool, refract::dsd::Number> LiteralTo<refract::dsd::Number>(const mson::Literal& literal);
     template <>
-    std::pair<bool, std::string> LiteralTo<std::string>(const mson::Literal& literal);
-
-    refract::ArrayElement* CreateArrayElement(refract::IElement* value);
-
-    template <typename T>
-    refract::ArrayElement* CreateArrayElement(const T& content)
-    {
-        refract::IElement* value = refract::IElement::Create(content);
-        return CreateArrayElement(value);
-    }
+    std::pair<bool, refract::dsd::String> LiteralTo<refract::dsd::String>(const mson::Literal& literal);
 
     /**
      * \brief functor pattern to translate _collection_ into sos::Array on serialization

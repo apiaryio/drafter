@@ -8,7 +8,7 @@
 #ifndef REFRACT_QUERY_H
 #define REFRACT_QUERY_H
 
-#include "ElementFwd.h"
+#include "ElementIfc.h"
 
 #include <functional>
 #include <string>

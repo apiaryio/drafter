@@ -5,8 +5,9 @@
 //  Created by Jiri Kratochvil on 21/05/15.
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
-#include "Element.h"
 
+#include "Element.h"
+#include "Exception.h"
 #include "SerializeCompactVisitor.h"
 
 namespace refract
@@ -29,17 +30,17 @@ namespace refract
 
     void SosSerializeCompactVisitor::operator()(const StringElement& e)
     {
-        value_ = sos::String(e.value);
+        value_ = sos::String(e.get());
     }
 
     void SosSerializeCompactVisitor::operator()(const NumberElement& e)
     {
-        value_ = sos::Number(e.value);
+        value_ = sos::Number(e.get());
     }
 
     void SosSerializeCompactVisitor::operator()(const BooleanElement& e)
     {
-        value_ = sos::Boolean(e.value);
+        value_ = sos::Boolean(e.get());
     }
 
     namespace
@@ -59,31 +60,31 @@ namespace refract
 
     void SosSerializeCompactVisitor::operator()(const EnumElement& e)
     {
-        auto enums = e.attributes.find("enumerations");
-        if (enums == e.attributes.end() || !(*enums)->value.second) {
+        auto enums = e.attributes().find("enumerations");
+        if (enums == e.attributes().end() || !enums->second) {
             return;
         }
 
-        VisitBy(*(*enums)->value.second, *this);
+        VisitBy(*enums->second, *this);
     }
 
     void SosSerializeCompactVisitor::operator()(const ArrayElement& e)
     {
         sos::Array array;
-        SerializeValues(array, e.value, generateSourceMap);
+        SerializeValues(array, e.get(), generateSourceMap);
         value_ = array;
     }
 
     void SosSerializeCompactVisitor::operator()(const MemberElement& e)
     {
-        if (e.value.first) {
+        if (const IElement* key = e.get().key()) {
             SosSerializeCompactVisitor s(generateSourceMap);
-            VisitBy(*e.value.first, s);
+            VisitBy(*key, s);
             key_ = s.value().str;
         }
 
-        if (e.value.second) {
-            VisitBy(*e.value.second, *this);
+        if (const IElement* value = e.get().value()) {
+            VisitBy(*value, *this);
         }
     }
 
@@ -91,11 +92,12 @@ namespace refract
     {
         sos::Object obj;
 
-        for (auto const& value : e.value) {
-            SosSerializeCompactVisitor sv(generateSourceMap);
-            VisitBy(*value, sv);
-            obj.set(sv.key(), sv.value());
-        }
+        if (!e.empty())
+            for (auto const& value : e.get()) {
+                SosSerializeCompactVisitor sv(generateSourceMap);
+                VisitBy(*value, sv);
+                obj.set(sv.key(), sv.value());
+            }
 
         value_ = obj;
     }
@@ -113,14 +115,14 @@ namespace refract
     void SosSerializeCompactVisitor::operator()(const OptionElement& e)
     {
         sos::Array array;
-        SerializeValues(array, e.value, generateSourceMap);
+        SerializeValues(array, e.get(), generateSourceMap);
         value_ = array;
     }
 
     void SosSerializeCompactVisitor::operator()(const SelectElement& e)
     {
         sos::Array array;
-        SerializeValues(array, e.value, generateSourceMap);
+        SerializeValues(array, e.get(), generateSourceMap);
         value_ = array;
     }
 

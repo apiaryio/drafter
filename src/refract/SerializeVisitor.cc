@@ -16,26 +16,21 @@ namespace refract
 
     namespace
     {
-        sos::Object SerializeElementCollection(
-            const IElement::MemberElementCollection& collection, bool generateSourceMap)
+        sos::Object SerializeElementCollection(const InfoElements& collection, bool generateSourceMap)
         {
-            typedef IElement::MemberElementCollection::const_iterator iterator;
-
             sos::Object result;
 
-            for (iterator it = collection.begin(); it != collection.end(); ++it) {
-
-                StringElement* key = TypeQueryVisitor::as<StringElement>((*it)->value.first);
+            for (const auto& m : collection) {
 
                 if (!generateSourceMap) {
-                    if (key && key->value == "sourceMap") {
+                    if (m.first == "sourceMap") {
                         continue;
                     }
                 }
 
                 SosSerializeVisitor s(generateSourceMap);
-                Visit(s, *((*it)->value.second));
-                result.set(key->value, s.get());
+                Visit(s, *m.second);
+                result.set(m.first, s.get());
             }
 
             return result;
@@ -52,10 +47,9 @@ namespace refract
         sos::Array SerializeValueList(const T& e, bool generateSourceMap)
         {
             sos::Array array;
-            typedef typename T::ValueType::const_iterator iterator;
 
-            for (iterator it = e.value.begin(); it != e.value.end(); ++it) {
-                array.push(ElementToObject(*it, generateSourceMap));
+            for (const auto& v : e.get()) {
+                array.push(ElementToObject(v.get(), generateSourceMap));
             }
 
             return array;
@@ -68,7 +62,7 @@ namespace refract
         result.set("element", sos::String(e.element()));
         bool sourceMap = generateSourceMap;
 
-        sos::Object meta = SerializeElementCollection(e.meta, sourceMap);
+        sos::Object meta = SerializeElementCollection(e.meta(), sourceMap);
         if (!meta.empty()) {
             result.set("meta", meta);
         }
@@ -77,7 +71,7 @@ namespace refract
             sourceMap = true;
         }
 
-        sos::Object attr = SerializeElementCollection(e.attributes, sourceMap);
+        sos::Object attr = SerializeElementCollection(e.attributes(), sourceMap);
         if (!attr.empty()) {
             result.set("attributes", attr);
         }
@@ -101,7 +95,7 @@ namespace refract
 
     void SosSerializeVisitor::operator()(const HolderElement& e)
     {
-        sos::Object object = ElementToObject(e.value, generateSourceMap);
+        sos::Object object = ElementToObject(e.get().data(), generateSourceMap);
 
         SetSerializerValue(*this, object);
     }
@@ -117,7 +111,7 @@ namespace refract
         sos::Base value = sos::Null();
 
         if (!e.empty()) {
-            value = sos::String(e.value);
+            value = sos::String(e.get());
         }
 
         SetSerializerValue(*this, value);
@@ -128,7 +122,7 @@ namespace refract
         sos::Base value = sos::Null();
 
         if (!e.empty()) {
-            value = sos::Number(e.value);
+            value = sos::Number(e.get());
         }
 
         SetSerializerValue(*this, value);
@@ -139,7 +133,7 @@ namespace refract
         sos::Base value = sos::Null();
 
         if (!e.empty()) {
-            value = sos::Boolean(e.value);
+            value = sos::Boolean(e.get());
         }
 
         SetSerializerValue(*this, value);
@@ -149,12 +143,12 @@ namespace refract
     {
         sos::Object object;
 
-        if (e.value.first) {
-            object.set("key", ElementToObject(e.value.first, generateSourceMap));
+        if (const auto key = e.get().key()) {
+            object.set("key", ElementToObject(key, generateSourceMap));
         }
 
-        if (e.value.second) {
-            object.set("value", ElementToObject(e.value.second, generateSourceMap));
+        if (const auto value = e.get().value()) {
+            object.set("value", ElementToObject(value, generateSourceMap));
         }
 
         SetSerializerValue(*this, object);
@@ -168,7 +162,7 @@ namespace refract
 
     void SosSerializeVisitor::operator()(const EnumElement& e)
     {
-        sos::Object object = ElementToObject(e.value, generateSourceMap);
+        sos::Object object = ElementToObject(e.get().value(), generateSourceMap);
         SetSerializerValue(*this, object);
     }
 
@@ -183,7 +177,7 @@ namespace refract
         sos::Base value = sos::Null();
 
         if (!e.empty()) {
-            value = sos::String(e.value);
+            value = sos::String(e.get().symbol());
         }
 
         SetSerializerValue(*this, value);
