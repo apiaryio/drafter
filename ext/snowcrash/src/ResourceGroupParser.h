@@ -112,7 +112,7 @@ namespace snowcrash
 
                 bool duplicate = SectionProcessor<Resource>::isResourceDuplicate(
                     out.node.content.elements(), resource.node.uriTemplate);
-                bool globalDuplicate;
+                bool globalDuplicate = false;
 
                 if (!duplicate) {
                     globalDuplicate = isResourceDuplicate(pd.blueprint, resource.node.uriTemplate);

@@ -78,11 +78,11 @@ test: libmarkdownparser test-libmarkdownparser libsnowcrash test-libsnowcrash li
 	./bin/test-libdrafter
 	./bin/test-capi
 
-perf: libsnowcrash perf-libsnowcrash
-	./bin/perf-libsnowcrash ./ext/snowcrash/test/performance/fixtures/fixture-1.apib
-
 ifdef INTEGRATION_TESTS
 	bundle exec cucumber
 endif
+
+perf: libsnowcrash perf-libsnowcrash
+	./bin/perf-libsnowcrash ./ext/snowcrash/test/performance/fixtures/fixture-1.apib
 
 .PHONY: all libmarkdownparser test-libmarkdownparser libsnowcrash libdrafter drafter test test-libsnowcrash test-libdrafter perf perf-libsnowcrash install

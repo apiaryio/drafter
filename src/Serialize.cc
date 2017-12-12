@@ -12,18 +12,7 @@
 #include <cstdlib>
 
 using namespace drafter;
-
-namespace drafter
-{
-
-    refract::ArrayElement* CreateArrayElement(refract::IElement* value)
-    {
-        refract::ArrayElement* array = new refract::ArrayElement;
-
-        array->push_back(value);
-        return array;
-    }
-}
+using namespace refract;
 
 const std::string SerializeKey::Metadata = "metadata";
 const std::string SerializeKey::Reference = "reference";
@@ -117,41 +106,38 @@ const std::string SerializeKey::ParseResult = "parseResult";
 const std::string SerializeKey::Annotation = "annotation";
 const std::string SerializeKey::SourceMap = "sourceMap";
 
-namespace drafter
+using namespace drafter;
+
+template <>
+std::pair<bool, dsd::Boolean> drafter::LiteralTo<dsd::Boolean>(const mson::Literal& literal)
 {
+    if (literal == "true" || literal == "false") {
+        return std::make_pair(true, dsd::Boolean{ literal == SerializeKey::True });
+    }
+    return std::make_pair(false, dsd::Boolean{});
+}
 
-    template <>
-    std::pair<bool, bool> LiteralTo<bool>(const mson::Literal& literal)
-    {
-        bool valid = false;
-        if (literal == "true" || literal == "false") {
-            valid = true;
-        }
-        return std::make_pair(valid, literal == SerializeKey::True);
+template <>
+std::pair<bool, dsd::Number> drafter::LiteralTo<dsd::Number>(const mson::Literal& literal)
+{
+    char* pos = 0;
+    bool valid = false;
+    double value = 0;
+
+    value = std::strtod(literal.c_str(), &pos);
+    const char* end = literal.c_str() + literal.length();
+    if (pos == end) {
+        valid = true;
+    } else {
+        // check for trailing whitespaces
+        valid = (literal.end() != std::find_if(literal.begin() + (end - pos), literal.end(), ::isspace));
     }
 
-    template <>
-    std::pair<bool, double> LiteralTo<double>(const mson::Literal& literal)
-    {
-        char* pos = 0;
-        bool valid = false;
-        double value = 0;
+    return std::make_pair(valid, dsd::Number{ value });
+}
 
-        value = std::strtod(literal.c_str(), &pos);
-        const char* end = literal.c_str() + literal.length();
-        if (pos == end) {
-            valid = true;
-        } else {
-            // check for trailing whitespaces
-            valid = (literal.end() != std::find_if(literal.begin() + (end - pos), literal.end(), ::isspace));
-        }
-
-        return std::make_pair(valid, value);
-    }
-
-    template <>
-    std::pair<bool, std::string> LiteralTo<std::string>(const mson::Literal& literal)
-    {
-        return std::make_pair(!literal.empty(), literal);
-    }
-};
+template <>
+std::pair<bool, dsd::String> drafter::LiteralTo<dsd::String>(const mson::Literal& literal)
+{
+    return std::make_pair(!literal.empty(), dsd::String{ literal });
+}

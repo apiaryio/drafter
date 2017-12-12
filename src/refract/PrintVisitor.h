@@ -12,6 +12,7 @@
 #include <ostream>
 
 #include "ElementFwd.h"
+#include "ElementIfc.h"
 
 namespace refract
 {
@@ -31,9 +32,11 @@ namespace refract
         void printValues(const T& e, const char* name)
         {
             indented() << "- " << name << "Element\n";
-            for (const auto& v : e.value) {
-                PrintVisitor{ indent + 1, os, ommitSourceMap }(*v);
-            }
+
+            if (!e.empty())
+                for (const auto& v : e.get()) {
+                    PrintVisitor{ indent + 1, os, ommitSourceMap }(*v);
+                }
         }
 
     public:
@@ -57,6 +60,14 @@ namespace refract
 
         static void Visit(const IElement& e);
     };
+
+    ///
+    /// Applies PrintVisitor on given element and dumps the output to a new file
+    /// on each encounter.
+    ///
+    /// @return index of the file logged to
+    ///
+    int log_to_files(const IElement& e, const std::string& prefix = "print");
 }
 
 #endif

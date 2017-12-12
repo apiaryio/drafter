@@ -267,19 +267,21 @@ namespace snowcrash
             const SourceMap<Elements>& elements() const;
 
             /** Constructor */
-            Content();
+            Content() = default;
 
             /** Copy constructor */
-            Content(const SourceMap<Element>::Content& rhs);
+            Content(const SourceMap<Element>::Content& rhs) = default;
+            Content(SourceMap<Element>::Content&& rhs) = default;
 
             /** Assignment operator */
-            SourceMap<Element>::Content& operator=(const SourceMap<Element>::Content& rhs);
+            SourceMap<Element>::Content& operator=(const SourceMap<Element>::Content& rhs) = default;
+            SourceMap<Element>::Content& operator=(SourceMap<Element>::Content&& rhs) = default;
 
             /** Destructor */
-            ~Content();
+            ~Content() = default;
 
         private:
-            std::unique_ptr<SourceMap<Elements> > m_elements;
+            SourceMap<Elements> m_elements;
         };
 
         /** Class of the Element (to be used internally only) */
@@ -295,16 +297,18 @@ namespace snowcrash
         Element::Category category;
 
         /** Constructor */
-        SourceMap(const Element::Class& element_ = Element::UndefinedElement);
+        explicit SourceMap(const Element::Class& element_ = Element::UndefinedElement);
 
         /** Copy constructor */
-        SourceMap(const SourceMap<Element>& rhs);
+        SourceMap(const SourceMap<Element>& rhs) = default;
+        SourceMap(SourceMap<Element>&& rhs) = default;
 
         /** Assignment operator */
-        SourceMap<Element>& operator=(const SourceMap<Element>& rhs);
+        SourceMap<Element>& operator=(const SourceMap<Element>& rhs) = default;
+        SourceMap<Element>& operator=(SourceMap<Element>&& rhs) = default;
 
         /** Destructor */
-        ~SourceMap();
+        ~SourceMap() = default;
     };
 
     /**

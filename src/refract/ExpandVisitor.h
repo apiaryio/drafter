@@ -10,6 +10,8 @@
 #define REFRACT_EXPANDVISITOR_H
 
 #include "ElementFwd.h"
+#include "ElementIfc.h"
+#include <memory>
 
 namespace refract
 {
@@ -48,10 +50,10 @@ namespace refract
 
         // return expanded elemnt or NULL if expansion is not needed
         // caller responsibility is to delete returned Element
-        IElement* get() const;
+        std::unique_ptr<IElement> get();
 
     private:
-        IElement* result;
+        std::unique_ptr<IElement> result;
         Context* context;
     };
 

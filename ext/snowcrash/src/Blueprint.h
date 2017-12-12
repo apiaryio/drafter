@@ -163,15 +163,16 @@ namespace snowcrash
         };
 
         /** Identifier */
-        Identifier id;
+        Identifier id = {};
 
         /** Type */
-        ReferenceType type;
+        ReferenceType type = {};
 
         struct ReferenceMetadata {
 
             /** Constructor */
-            ReferenceMetadata(State state_ = StateUnresolved) : state(state_) {}
+            explicit ReferenceMetadata(State state_) : node(), state(state_) {}
+            ReferenceMetadata() : ReferenceMetadata(StateUnresolved) {}
 
             /** Markdown AST reference source node (for source map) */
             mdp::MarkdownNodeIterator node;
@@ -181,7 +182,7 @@ namespace snowcrash
         };
 
         /** Metadata for the reference */
-        ReferenceMetadata meta;
+        ReferenceMetadata meta = {};
     };
 
     /**
@@ -413,19 +414,21 @@ namespace snowcrash
             const Elements& elements() const;
 
             /** Constructor */
-            Content();
+            Content() = default;
 
             /** Copy constructor */
-            Content(const Element::Content& rhs);
+            Content(const Element::Content& rhs) = default;
+            Content(Element::Content&& rhs) = default;
 
             /** Assignment operator */
-            Content& operator=(const Element::Content& rhs);
+            Content& operator=(const Element::Content& rhs) = default;
+            Content& operator=(Element::Content&& rhs) = default;
 
             /** Destructor */
-            ~Content();
+            ~Content() = default;
 
         private:
-            std::unique_ptr<Elements> m_elements;
+            Elements m_elements;
         };
 
         /** Type of Category element (parser internal flag) */
@@ -449,16 +452,18 @@ namespace snowcrash
         Element::Category category;
 
         /** Constructor */
-        Element(const Element::Class& element_ = Element::UndefinedElement);
+        explicit Element(const Element::Class& element_ = Element::UndefinedElement);
 
         /** Copy constructor */
-        Element(const Element& rhs);
+        Element(const Element& rhs) = default;
+        Element(Element&& rhs) = default;
 
         /** Assignment operator */
-        Element& operator=(const Element& rhs);
+        Element& operator=(const Element& rhs) = default;
+        Element& operator=(Element&& rhs) = default;
 
         /** Destructor */
-        ~Element();
+        ~Element() = default;
     };
 
     /**

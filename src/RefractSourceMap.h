@@ -14,45 +14,28 @@
 namespace drafter
 {
 
-    refract::IElement* SourceMapToRefract(const mdp::CharactersRangeSet& sourceMap);
+    std::unique_ptr<refract::IElement> SourceMapToRefract(const mdp::CharactersRangeSet& sourceMap);
 
     template <typename T>
-    void AttachSourceMap(refract::IElement* element, const T& nodeInfo)
+    void AttachSourceMap(refract::IElement& element, const T& nodeInfo)
     {
         if (!nodeInfo.sourceMap->sourceMap.empty()) {
-            element->attributes[SerializeKey::SourceMap] = SourceMapToRefract(nodeInfo.sourceMap->sourceMap);
+            element.attributes().set(SerializeKey::SourceMap, SourceMapToRefract(nodeInfo.sourceMap->sourceMap));
         }
     }
 
     template <typename T>
-    refract::IElement* PrimitiveToRefract(const NodeInfo<T>& primitive)
+    auto PrimitiveToRefract(const NodeInfo<T>& primitive)
     {
-        typedef typename refract::ElementTypeSelector<T>::ElementType ElementType;
-
-        ElementType* element = refract::IElement::Create(*primitive.node);
-
-        AttachSourceMap(element, primitive);
-
-        return element;
+        auto element = refract::from_primitive(*primitive.node);
+        AttachSourceMap(*element, primitive);
+        return std::move(element);
     }
 
     class ConversionContext;
 
-    template <typename T>
-    refract::IElement* LiteralToRefract(const NodeInfo<std::string>& literal, ConversionContext& context)
-    {
-        std::pair<bool, T> parsed = LiteralTo<T>(*literal.node);
-
-        typename refract::ElementTypeSelector<T>::ElementType* element
-            = new typename refract::ElementTypeSelector<T>::ElementType;
-        if (parsed.first) {
-            element->set(parsed.second);
-        }
-
-        AttachSourceMap(element, literal);
-
-        return element;
-    }
+    std::unique_ptr<refract::StringElement> LiteralToRefract(
+        const NodeInfo<std::string>& literal, ConversionContext& context);
 }
 
 #endif // #ifndef DRAFTER_REFRACTSOURCEMAP_H

@@ -11,33 +11,9 @@
 using namespace mdp;
 
 MarkdownNode::MarkdownNode(MarkdownNodeType type_, MarkdownNode* parent_, const ByteBuffer& text_, const Data& data_)
-    : type(type_), text(text_), data(data_), m_parent(parent_)
+    : type(type_), text(text_), data(data_), m_parent(parent_), m_children()
 {
-    m_children.reset(::new MarkdownNodes);
 }
-
-MarkdownNode::MarkdownNode(const MarkdownNode& rhs)
-{
-    this->type = rhs.type;
-    this->text = rhs.text;
-    this->data = rhs.data;
-    this->sourceMap = rhs.sourceMap;
-    this->m_children.reset(::new MarkdownNodes(*rhs.m_children.get()));
-    this->m_parent = rhs.m_parent;
-}
-
-MarkdownNode& MarkdownNode::operator=(const MarkdownNode& rhs)
-{
-    this->type = rhs.type;
-    this->text = rhs.text;
-    this->data = rhs.data;
-    this->sourceMap = rhs.sourceMap;
-    this->m_children.reset(::new MarkdownNodes(*rhs.m_children.get()));
-    this->m_parent = rhs.m_parent;
-    return *this;
-}
-
-MarkdownNode::~MarkdownNode() {}
 
 MarkdownNode& MarkdownNode::parent()
 {
@@ -58,25 +34,19 @@ void MarkdownNode::setParent(MarkdownNode* parent)
     m_parent = parent;
 }
 
-bool MarkdownNode::hasParent() const
+bool MarkdownNode::hasParent() const noexcept
 {
-    return (m_parent != NULL);
+    return (m_parent != nullptr);
 }
 
-MarkdownNodes& MarkdownNode::children()
+MarkdownNode::child_container& MarkdownNode::children() noexcept
 {
-    if (!m_children.get())
-        throw "no children set";
-
-    return *m_children;
+    return m_children;
 }
 
-const MarkdownNodes& MarkdownNode::children() const
+const MarkdownNode::child_container& MarkdownNode::children() const noexcept
 {
-    if (!m_children.get())
-        throw "no children set";
-
-    return *m_children;
+    return m_children;
 }
 
 void MarkdownNode::printNode(size_t level) const
@@ -136,8 +106,8 @@ void MarkdownNode::printNode(size_t level) const
 
     cout << std::endl;
 
-    for (MarkdownNodeIterator it = m_children->begin(); it != m_children->end(); ++it) {
-        it->printNode(level + 1);
+    for (const auto& child : m_children) {
+        child.printNode(level + 1);
     }
 
     if (level == 0)

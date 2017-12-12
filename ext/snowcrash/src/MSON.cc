@@ -8,6 +8,8 @@
 
 #include "MSON.h"
 
+#include "MarkdownNode.h"
+
 using namespace mson;
 
 bool Value::empty() const
@@ -42,43 +44,18 @@ bool ValueDefinition::empty() const
 
 Elements& TypeSection::Content::elements()
 {
-    if (!m_elements.get())
-        throw ELEMENTS_NOT_SET_ERR;
-
-    return *m_elements;
+    return m_elements;
 }
 
 const Elements& TypeSection::Content::elements() const
 {
-    if (!m_elements.get())
-        throw ELEMENTS_NOT_SET_ERR;
-
-    return *m_elements;
+    return m_elements;
 }
 
 TypeSection::Content::Content(const Markdown& description_, const Literal& value_)
-    : description(description_), value(value_)
+    : description(description_), value(value_), m_elements()
 {
-    m_elements.reset(::new Elements);
 }
-
-TypeSection::Content::Content(const TypeSection::Content& rhs)
-{
-    this->description = rhs.description;
-    this->value = rhs.value;
-    m_elements.reset(::new Elements(*rhs.m_elements.get()));
-}
-
-TypeSection::Content& TypeSection::Content::operator=(const TypeSection::Content& rhs)
-{
-    this->description = rhs.description;
-    this->value = rhs.value;
-    m_elements.reset(::new Elements(*rhs.m_elements.get()));
-
-    return *this;
-}
-
-TypeSection::Content::~Content() {}
 
 bool TypeSection::empty() const
 {
@@ -108,85 +85,31 @@ bool PropertyMember::empty() const
 
 OneOf& Element::Content::oneOf()
 {
-    if (!m_elements.get())
-        throw ELEMENTS_NOT_SET_ERR;
-
-    return *m_elements;
+    return m_elements;
 }
 
 const OneOf& Element::Content::oneOf() const
 {
-    if (!m_elements.get())
-        throw ELEMENTS_NOT_SET_ERR;
-
-    return *m_elements;
+    return m_elements;
 }
 
 Elements& Element::Content::elements()
 {
-    if (!m_elements.get())
-        throw ELEMENTS_NOT_SET_ERR;
-
-    return *m_elements;
+    return m_elements;
 }
 
 const Elements& Element::Content::elements() const
 {
-    if (!m_elements.get())
-        throw ELEMENTS_NOT_SET_ERR;
-
-    return *m_elements;
+    return m_elements;
 }
 
 Element::Content& Element::Content::operator=(const Elements& rhs)
 {
-    m_elements.reset(::new Elements(rhs));
-
+    m_elements = rhs;
     return *this;
 }
-
-Element::Content::Content()
-{
-    m_elements.reset(::new Elements);
-}
-
-Element::Content::Content(const Element::Content& rhs)
-{
-    this->property = rhs.property;
-    this->value = rhs.value;
-    this->mixin = rhs.mixin;
-    m_elements.reset(::new Elements(*rhs.m_elements.get()));
-}
-
-Element::Content& Element::Content::operator=(const Element::Content& rhs)
-{
-    this->property = rhs.property;
-    this->value = rhs.value;
-    this->mixin = rhs.mixin;
-    m_elements.reset(::new Elements(*rhs.m_elements.get()));
-
-    return *this;
-}
-
-Element::Content::~Content() {}
 
 Element::Element(const Element::Class& klass_) : klass(klass_) {}
-
-Element::Element(const Element& rhs)
-{
-    this->klass = rhs.klass;
-    this->content = rhs.content;
-}
-
-Element& Element::operator=(const Element& rhs)
-{
-    this->klass = rhs.klass;
-    this->content = rhs.content;
-
-    return *this;
-}
-
-Element::~Element() {}
 
 /**
  * \brief Build Element from property member

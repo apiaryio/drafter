@@ -51,19 +51,19 @@ namespace drafter
         NodeInfo(const NodeType* node, const SourceMapType* sourceMap) : node(node), sourceMap(sourceMap), empty(false)
         {
         }
-        NodeInfo(const NodeInfoByValue<T>& node)
+
+        explicit NodeInfo(const NodeInfoByValue<T>& node)
             : node(&node.first), sourceMap(node.second ? node.second : NodeInfo<T>::NullSourceMap()), empty(false)
         {
         }
+
         NodeInfo() : node(Type::NullNode()), sourceMap(Type::NullSourceMap()), empty(true) {}
 
-        NodeInfo<T>& operator=(const NodeInfo<T>& other)
-        {
-            node = other.node;
-            sourceMap = other.sourceMap;
-            empty = other.empty;
-            return *this;
-        }
+        NodeInfo<T>(const NodeInfo<T>& other) = default;
+        NodeInfo<T>(NodeInfo<T>&& other) = default;
+
+        NodeInfo<T>& operator=(const NodeInfo<T>& other) = default;
+        NodeInfo<T>& operator=(NodeInfo<T>&& other) = default;
 
         static const NodeType* NullNode()
         {

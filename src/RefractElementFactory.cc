@@ -7,84 +7,90 @@
 
 namespace drafter
 {
+    using namespace refract;
 
-    template <typename E, typename IsPrimitive = typename IsPrimitive<E>::type>
+    template <typename E, bool IsPrimitive = is_primitive<E>()>
     struct RefractElementFactoryImpl;
 
     template <typename E>
-    struct RefractElementFactoryImpl<E, std::true_type> : RefractElementFactory {
+    struct RefractElementFactoryImpl<E, true> : RefractElementFactory {
 
         typedef typename E::ValueType ValueType;
 
         RefractElementFactoryImpl() {}
 
-        virtual refract::IElement* Create(const std::string& literal, FactoryCreateMethod method) const
+        virtual std::unique_ptr<IElement> Create(const std::string& literal, FactoryCreateMethod method) const
         {
-            E* element = new E;
+            using namespace refract;
 
             if (literal.empty()) {
-                return element;
+                return make_empty<E>();
             }
 
             switch (method) {
                 case eSample: {
-                    refract::ArrayElement* samples = new refract::ArrayElement;
                     std::pair<bool, ValueType> value = LiteralTo<ValueType>(literal);
-                    if (value.first) {
-                        samples->push_back(refract::IElement::Create(value.second));
-                    }
-                    element->attributes[SerializeKey::Samples] = samples;
-                } break;
+
+                    auto element = make_empty<E>();
+
+                    element->attributes().set(SerializeKey::Samples,
+                        value.first ? make_element<ArrayElement>(make_element<E>(value.second)) :
+                                      make_empty<ArrayElement>());
+
+                    return std::move(element);
+                }
 
                 case eValue: {
                     std::pair<bool, ValueType> value = LiteralTo<ValueType>(literal);
-                    if (value.first) {
-                        element->set(value.second);
-                    }
-                } break;
+                    return value.first ? //
+                        make_element<E>(value.second) :
+                        make_empty<E>();
+                }
 
-                case eElement:
+                case eElement: {
+                    auto element = make_empty<E>();
                     element->element(literal);
-                    break;
+                    return std::move(element);
+                }
+                default:
+                    assert(false);
+                    return nullptr;
             }
-
-            return element;
         }
     };
 
     template <typename E>
-    struct RefractElementFactoryImpl<E, std::false_type> : RefractElementFactory {
+    struct RefractElementFactoryImpl<E, false> : RefractElementFactory {
 
         RefractElementFactoryImpl() {}
 
-        virtual refract::IElement* Create(const std::string& literal, FactoryCreateMethod method) const
+        virtual std::unique_ptr<IElement> Create(const std::string& literal, FactoryCreateMethod method) const
         {
             if (method == eSample) {
-                refract::StringElement* element = new refract::StringElement;
+                auto element = make_element<StringElement>(literal);
                 element->element(SerializeKey::Generic);
-                element->set(literal);
-                return element;
+                return std::move(element);
             }
 
-            E* element = new E;
+            auto element = make_empty<E>();
 
             if (!literal.empty()) {
                 element->element(literal);
             }
 
-            return element;
+            return std::move(element);
         }
     };
 
     const RefractElementFactory& FactoryFromType(const mson::BaseTypeName typeName)
     {
 
-        static const RefractElementFactoryImpl<refract::BooleanElement> boolFactory;
-        static const RefractElementFactoryImpl<refract::NumberElement> numberFactory;
-        static const RefractElementFactoryImpl<refract::StringElement> stringFactory;
-        static const RefractElementFactoryImpl<refract::EnumElement> enumFactory;
-        static const RefractElementFactoryImpl<refract::ArrayElement> arrayFactory;
-        static const RefractElementFactoryImpl<refract::ObjectElement> objectFactory;
+        static const RefractElementFactoryImpl<BooleanElement> boolFactory;
+        static const RefractElementFactoryImpl<NumberElement> numberFactory;
+        static const RefractElementFactoryImpl<StringElement> stringFactory;
+        static const RefractElementFactoryImpl<EnumElement> enumFactory;
+        static const RefractElementFactoryImpl<ArrayElement> arrayFactory;
+        static const RefractElementFactoryImpl<ObjectElement> objectFactory;
 
         switch (typeName) {
             case mson::BooleanTypeName:

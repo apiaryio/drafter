@@ -9,6 +9,7 @@
 #define REFRACT_VISITOR_H
 
 #include "ElementFwd.h"
+#include "ElementIfc.h"
 
 namespace refract
 {
