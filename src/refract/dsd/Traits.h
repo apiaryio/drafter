@@ -136,7 +136,6 @@ namespace refract
             ///
             /// @return iterator following the member removed
             ///
-            template <typename = typename std::enable_if<dsd::supports_erase<Child>::value> >
             auto erase(const_iterator it)
             {
                 return self().erase(it, std::next(it));
@@ -151,7 +150,6 @@ namespace refract
             ///
             /// @return size of collection
             ///
-            template <typename = typename std::enable_if<dsd::supports_size<Child>::value> >
             size_type size() const noexcept
             {
                 return self().end() - self().begin();
@@ -166,7 +164,6 @@ namespace refract
             ///
             /// @return true iff the collection doesn't have children
             ///
-            template <typename = typename std::enable_if<dsd::supports_empty<Child>::value> >
             bool empty() const noexcept
             {
                 return size() == 0;
@@ -180,7 +177,6 @@ namespace refract
             ///     `end() const`, and
             ///     `erase(const_iterator, const_iterator)`,
             ///
-            template <typename = typename std::enable_if<dsd::supports_clear<Child>::value> >
             void clear()
             {
                 auto e = self().erase(self().begin(), self().end());
@@ -196,7 +192,6 @@ namespace refract
             ///
             /// @param el    value to be consumed
             ///
-            template <typename = typename std::enable_if<dsd::supports_push_back<Child>::value> >
             void push_back(value_type el)
             {
                 auto it = self().insert(self().end(), std::move(el));
