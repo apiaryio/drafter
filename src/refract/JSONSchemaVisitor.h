@@ -19,6 +19,19 @@
 
 namespace refract
 {
+
+    template <typename T>
+    constexpr const char* json_schema_type;
+
+    template <>
+    constexpr const char* json_schema_type<BooleanElement> = "boolean";
+
+    template <>
+    constexpr const char* json_schema_type<StringElement> = "string";
+
+    template <>
+    constexpr const char* json_schema_type<NumberElement> = "number";
+
     class JSONSchemaVisitor final
     {
         std::unique_ptr<ObjectElement> pObj;
@@ -38,16 +51,20 @@ namespace refract
         std::unique_ptr<ArrayElement> arrayFromProps(std::vector<const MemberElement*>& props);
 
         template <typename T>
-        void setPrimitiveType(const T& e)
+        void primitiveType(const T& e)
         {
-            // FIXME: static_assert is missing in our code base
-            // static_assert(sizeof(T) == 0, "Only String, Number, Boolean types allowed");
+            if (auto value = GetValue<T>{}(e)) {
+                setSchemaType(json_schema_type<T>);
 
-            throw std::runtime_error("Only String, Number, Boolean types allowed");
-        };
-
-        template <typename T>
-        void primitiveType(const T& e);
+                if (fixed) {
+                    auto a = make_element<ArrayElement>();
+                    a->get().push_back(value->empty() ? //
+                            make_element<T>() :
+                            make_element<T>(value->get()));
+                    addMember("enum", std::move(a));
+                }
+            }
+        }
 
         void processMember(const IElement& member,
             std::vector<const MemberElement*>& varProps,

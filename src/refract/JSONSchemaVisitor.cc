@@ -88,24 +88,6 @@ void JSONSchemaVisitor::setFixedType(bool _fixedType)
     fixedType = _fixedType;
 }
 
-template <>
-void JSONSchemaVisitor::setPrimitiveType(const BooleanElement& e)
-{
-    setSchemaType("boolean");
-}
-
-template <>
-void JSONSchemaVisitor::setPrimitiveType(const StringElement& e)
-{
-    setSchemaType("string");
-}
-
-template <>
-void JSONSchemaVisitor::setPrimitiveType(const NumberElement& e)
-{
-    setSchemaType("number");
-}
-
 void JSONSchemaVisitor::setSchemaType(const std::string& type)
 {
     addMember("type", from_primitive(type));
@@ -146,22 +128,6 @@ void JSONSchemaVisitor::addNullToEnum()
 void JSONSchemaVisitor::addMember(const std::string& key, std::unique_ptr<IElement> val)
 {
     pObj->get().addMember(key, std::move(val));
-}
-
-template <typename T>
-void JSONSchemaVisitor::primitiveType(const T& e)
-{
-    if (auto value = GetValue<T>{}(e)) {
-        setPrimitiveType(e);
-
-        if (fixed) {
-            auto a = make_element<ArrayElement>();
-            a->get().push_back(value->empty() ? //
-                    make_element<T>() :
-                    make_element<T>(value->get()));
-            addMember("enum", std::move(a));
-        }
-    }
 }
 
 void JSONSchemaVisitor::operator()(const IElement& e)
