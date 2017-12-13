@@ -314,9 +314,6 @@
         "src/refract/Registry.h",
         "src/refract/Registry.cc",
 
-        "src/refract/Build.h",
-
-        "src/refract/AppendDecorator.h",
         "src/refract/ElementInserter.h",
         "src/refract/Query.h",
         "src/refract/Query.cc",
