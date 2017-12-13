@@ -164,7 +164,7 @@ namespace refract
         template <typename V>
         V ExpandValue(const V& v)
         {
-            auto expandOrClone = [this](const auto& el) { return ExpandOrClone(el); };
+            auto expandOrClone = [this](const auto& el) { return this->ExpandOrClone(el); };
 
             return ExpandValueImpl<V>()(v, expandOrClone);
         }
