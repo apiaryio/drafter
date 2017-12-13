@@ -15,12 +15,12 @@ checkout:
 
 dependencies:
   pre:
-    - sudo add-apt-repository 'deb http://llvm.org/apt/trusty/ llvm-toolchain-trusty-5.0 main'
-    - sudo apt-get update && sudo apt-get install valgrind clang-format-5.0
+    - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+    - sudo apt-get update && sudo apt-get install valgrind && sudo apt-get install g++-6 -y
 
 test:
   pre:
-    - ./configure -i
+    - env CXX="/usr/bin/g++-6" LINK="/usr/bin/g++-6" ./configure -i
   override:
     - ./tools/clang-format-check.sh
     - env CXXFLAGS="-Werror" make test
