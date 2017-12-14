@@ -234,7 +234,7 @@ namespace
         mson::BaseTypeName elementTypeName;
         mson::BaseTypeName defaultNestedType;
 
-        template <typename U, bool IsPrimitive = is_primitive<U> >
+        template <typename U, bool IsPrimitive = is_primitive<U>()>
         struct Fetch;
 
         template <typename U>
@@ -265,7 +265,7 @@ namespace
             }
         };
 
-        template <typename U, bool IsPrimitive = is_primitive<U>, bool dummy = false>
+        template <typename U, bool IsPrimitive = is_primitive<U>(), bool dummy = false>
         struct Store;
 
         template <typename U, bool dummy>
@@ -425,7 +425,7 @@ namespace
         ElementData<T>& data;
         const ConversionContext& context;
 
-        template <typename E, bool IsPrimitive = is_primitive<E> >
+        template <typename E, bool IsPrimitive = is_primitive<E>()>
         struct Fetch;
 
         template <typename E>
@@ -451,7 +451,7 @@ namespace
             }
         };
 
-        template <typename E, bool IsPrimitive = is_primitive<E>, bool dummy = true>
+        template <typename E, bool IsPrimitive = is_primitive<E>(), bool dummy = true>
         struct Store;
 
         template <typename E, bool dummy>
@@ -497,7 +497,7 @@ namespace
         ElementData<T>& data;
         ConversionContext& context;
 
-        template <typename U, bool IsPrimitive = is_primitive<U>, bool dummy = true>
+        template <typename U, bool IsPrimitive = is_primitive<U>(), bool dummy = true>
         struct Fetch;
 
         template <typename U, bool dummy>
@@ -674,7 +674,7 @@ namespace
         }
     };
 
-    template <typename T, bool IsPrimitive = is_primitive<T> >
+    template <typename T, bool IsPrimitive = is_primitive<T>()>
     struct Merge;
 
     template <typename T>
@@ -717,7 +717,7 @@ namespace
         }
     };
 
-    template <typename E, bool IsPrimitive = is_primitive<E>, bool dummy = true>
+    template <typename E, bool IsPrimitive = is_primitive<E>(), bool dummy = true>
     struct ElementInfoToElement;
 
     template <typename E, bool dummy>
@@ -762,7 +762,7 @@ namespace
         }
     };
 
-    template <typename T, bool IsPrimitive = is_primitive<T> >
+    template <typename T, bool IsPrimitive = is_primitive<T>()>
     struct SaveValue;
 
     template <typename T>

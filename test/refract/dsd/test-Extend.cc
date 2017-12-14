@@ -13,6 +13,8 @@
 #include "refract/PrintVisitor.h"
 #include "ElementMock.h"
 
+#include <array>
+
 using namespace refract;
 using namespace dsd;
 
@@ -233,7 +235,7 @@ SCENARIO("`Extend` is inserted to and erased from", "[ElementData][Extend]")
 
                 THEN("it is iterable")
                 {
-                    auto mocks = std::array<IElement*, 2>{ { mock1ptr, mock2ptr } };
+                    auto mocks = std::array<IElement*, 2>{ mock1ptr, mock2ptr };
                     auto mocks_it = mocks.begin();
                     int ctx = 0;
                     for (const auto& el : extend) {
@@ -284,7 +286,7 @@ SCENARIO("`Extend` is move-constructed from elements", "[ElementData][Extend]")
             }
             THEN("it is iterable")
             {
-                auto mock_ptrs = std::array<const IElement*, 3>{ { mock1ptr, mock2ptr, mock3ptr } };
+                auto mock_ptrs = std::array<const IElement*, 3>{ mock1ptr, mock2ptr, mock3ptr };
                 auto mock_ptrs_it = mock_ptrs.begin();
                 int ctx = 0;
                 for (const auto& el : extend) {
@@ -337,7 +339,7 @@ SCENARIO("`Extend` is move-constructed from elements", "[ElementData][Extend]")
                 }
                 THEN("it is iterable")
                 {
-                    auto mocks = std::array<IElement*, 3>{ { mock1ptr, mock2ptr, mock3ptr } };
+                    auto mocks = std::array<IElement*, 3>{ mock1ptr, mock2ptr, mock3ptr };
                     auto mocks_it = mocks.begin();
                     int ctx = 0;
                     for (const auto& el : extend) {
@@ -400,7 +402,7 @@ SCENARIO("`Extend` is move-constructed from elements", "[ElementData][Extend]")
                     }
                     THEN("it is iterable")
                     {
-                        auto mocks = std::array<IElement*, 3>{ { mock1clone, mock2clone, mock3clone } };
+                        auto mocks = std::array<IElement*, 3>{ mock1clone, mock2clone, mock3clone };
                         auto mocks_it = mocks.begin();
                         int ctx = 0;
                         for (const auto& el : extend2) {
@@ -467,7 +469,7 @@ SCENARIO("`Extend` is move-constructed from elements", "[ElementData][Extend]")
                         }
                         THEN("it is iterable")
                         {
-                            auto mocks = std::array<IElement*, 3>{ { mock1ptr, mock2ptr, mock3ptr } };
+                            auto mocks = std::array<IElement*, 3>{ mock1ptr, mock2ptr, mock3ptr };
                             auto mocks_it = mocks.begin();
                             int ctx = 0;
                             for (const auto& el : extend2) {

@@ -14,19 +14,28 @@
 namespace drafter
 {
     template <typename ElementT, typename = std::enable_if<std::is_base_of<refract::IElement, ElementT>::value> >
-    constexpr bool is_primitive = false;
+    constexpr bool is_primitive()
+    {
+        return false;
+    }
 
     template <>
-    constexpr bool is_primitive<refract::BooleanElement> = true;
+    constexpr bool is_primitive<refract::BooleanElement>()
+    {
+        return true;
+    }
 
     template <>
-    constexpr bool is_primitive<refract::NumberElement> = true;
+    constexpr bool is_primitive<refract::NumberElement>()
+    {
+        return true;
+    }
 
     template <>
-    constexpr bool is_primitive<refract::StringElement> = true;
-
-    // template <>
-    // constexpr bool is_primitive<refract::NullElement> = true;
+    constexpr bool is_primitive<refract::StringElement>()
+    {
+        return true;
+    }
 
     template <typename ElementT>
     struct content_source_map_type {
@@ -35,7 +44,7 @@ namespace drafter
 
     template <typename T>
     struct stored_type {
-        using type = typename std::conditional<is_primitive<T>,
+        using type = typename std::conditional<is_primitive<T>(),
             std::string,                                    // for primitive values, we will hold data as string
             std::deque<std::unique_ptr<refract::IElement> > // for complex types, we will hold elements
             >::type;

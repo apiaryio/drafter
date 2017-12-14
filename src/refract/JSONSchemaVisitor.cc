@@ -602,6 +602,21 @@ void JSONSchemaVisitor::processMember(const IElement& member,
     }
 }
 
+std::string refract::json_schema_type(const BooleanElement&) noexcept
+{
+    return "boolean";
+}
+
+std::string refract::json_schema_type(const StringElement&) noexcept
+{
+    return "string";
+}
+
+std::string refract::json_schema_type(const NumberElement&) noexcept
+{
+    return "number";
+}
+
 std::string refract::renderJsonSchema(const IElement& e)
 {
     auto pDefs = make_element<ObjectElement>();

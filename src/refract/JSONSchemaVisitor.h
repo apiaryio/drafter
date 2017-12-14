@@ -19,21 +19,13 @@
 
 namespace refract
 {
-
-    template <typename T>
-    constexpr const char* json_schema_type;
-
-    template <>
-    constexpr const char* json_schema_type<BooleanElement> = "boolean";
-
-    template <>
-    constexpr const char* json_schema_type<StringElement> = "string";
-
-    template <>
-    constexpr const char* json_schema_type<NumberElement> = "number";
+    std::string json_schema_type(const BooleanElement&) noexcept;
+    std::string json_schema_type(const StringElement&) noexcept;
+    std::string json_schema_type(const NumberElement&) noexcept;
 
     class JSONSchemaVisitor final
     {
+
         std::unique_ptr<ObjectElement> pObj;
         ObjectElement& pDefs;
 
@@ -54,7 +46,7 @@ namespace refract
         void primitiveType(const T& e)
         {
             if (auto value = GetValue<T>{}(e)) {
-                setSchemaType(json_schema_type<T>);
+                setSchemaType(json_schema_type(e));
 
                 if (fixed) {
                     auto a = make_element<ArrayElement>();

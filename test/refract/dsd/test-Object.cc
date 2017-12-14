@@ -9,9 +9,10 @@
 #include "catch.hpp"
 
 #include "refract/dsd/Object.h"
-
 #include "refract/Element.h"
 #include "ElementMock.h"
+
+#include <array>
 
 using namespace refract;
 using namespace dsd;
@@ -233,7 +234,7 @@ SCENARIO("`Object` is inserted to and erased from", "[ElementData][Object]")
 
                 THEN("it is iterable")
                 {
-                    auto mocks = std::array<IElement*, 2>{ { mock1ptr, mock2ptr } };
+                    auto mocks = std::array<IElement*, 2>{ mock1ptr, mock2ptr };
                     auto mocks_it = mocks.begin();
                     int ctx = 0;
                     for (const auto& el : object) {
@@ -284,7 +285,7 @@ SCENARIO("`Object` is move-constructed from elements", "[ElementData][Object]")
             }
             THEN("it is iterable")
             {
-                auto mock_ptrs = std::array<const IElement*, 3>{ { mock1ptr, mock2ptr, mock3ptr } };
+                auto mock_ptrs = std::array<const IElement*, 3>{ mock1ptr, mock2ptr, mock3ptr };
                 auto mock_ptrs_it = mock_ptrs.begin();
                 int ctx = 0;
                 for (const auto& el : object) {
@@ -337,7 +338,7 @@ SCENARIO("`Object` is move-constructed from elements", "[ElementData][Object]")
                 }
                 THEN("it is iterable")
                 {
-                    auto mocks = std::array<IElement*, 3>{ { mock1ptr, mock2ptr, mock3ptr } };
+                    auto mocks = std::array<IElement*, 3>{ mock1ptr, mock2ptr, mock3ptr };
                     auto mocks_it = mocks.begin();
                     int ctx = 0;
                     for (const auto& el : object) {
@@ -400,7 +401,7 @@ SCENARIO("`Object` is move-constructed from elements", "[ElementData][Object]")
                     }
                     THEN("it is iterable")
                     {
-                        auto mocks = std::array<IElement*, 3>{ { mock1clone, mock2clone, mock3clone } };
+                        auto mocks = std::array<IElement*, 3>{ mock1clone, mock2clone, mock3clone };
                         auto mocks_it = mocks.begin();
                         int ctx = 0;
                         for (const auto& el : object2) {
@@ -467,7 +468,7 @@ SCENARIO("`Object` is move-constructed from elements", "[ElementData][Object]")
                         }
                         THEN("it is iterable")
                         {
-                            auto mocks = std::array<IElement*, 3>{ { mock1ptr, mock2ptr, mock3ptr } };
+                            auto mocks = std::array<IElement*, 3>{ mock1ptr, mock2ptr, mock3ptr };
                             auto mocks_it = mocks.begin();
                             int ctx = 0;
                             for (const auto& el : object2) {

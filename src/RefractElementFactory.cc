@@ -9,7 +9,7 @@ namespace drafter
 {
     using namespace refract;
 
-    template <typename E, bool IsPrimitive = is_primitive<E> >
+    template <typename E, bool IsPrimitive = is_primitive<E>()>
     struct RefractElementFactoryImpl;
 
     template <typename E>

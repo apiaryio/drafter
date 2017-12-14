@@ -12,6 +12,7 @@
 #include <map>
 #include <string>
 #include <cstring>
+#include <array>
 
 #include "ComparableVisitor.h"
 #include "TypeQueryVisitor.h"
@@ -20,7 +21,7 @@ using namespace refract;
 
 namespace
 {
-    constexpr std::array<const char*, 13> reserved_ = { {
+    constexpr std::array<const char*, 13> reserved_ = {
         "array",   //
         "boolean", //
         "enum",    //
@@ -34,7 +35,7 @@ namespace
         "ref",     //
         "select",  //
         "string",  //
-    } };
+    };
 }
 
 bool refract::isReserved(const char* w) noexcept

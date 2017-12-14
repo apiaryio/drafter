@@ -7,12 +7,12 @@
 //
 
 #include "catch.hpp"
-
 #include "ElementMock.h"
 
 #include "refract/dsd/Select.h"
-
 #include "refract/Element.h"
+
+#include <array>
 
 using namespace refract;
 using namespace dsd;
@@ -239,10 +239,10 @@ SCENARIO("`Select` is inserted to and erased from", "[ElementData][Select]")
 
                 THEN("it is iterable")
                 {
-                    auto mocks = std::array<const OptionElement*, 2>{ {
+                    auto mocks = std::array<const OptionElement*, 2>{
                         mock1OptionPtr, //
                         mock2OptionPtr  //
-                    } };
+                    };
 
                     auto mocks_it = mocks.begin();
                     int ctx = 0;
@@ -305,10 +305,11 @@ SCENARIO("`Select` is move-constructed from elements", "[ElementData][Select]")
             }
             THEN("it is iterable")
             {
-                auto mocks = std::array<const OptionElement*, 3>{ { //
+                auto mocks = std::array<const OptionElement*, 3>{ //
                     mock1OptionPtr,
                     mock2OptionPtr,
-                    mock3OptionPtr } };
+                    mock3OptionPtr
+                };
                 auto mocks_it = mocks.begin();
 
                 int ctx = 0;
@@ -362,10 +363,11 @@ SCENARIO("`Select` is move-constructed from elements", "[ElementData][Select]")
                 }
                 THEN("it is iterable")
                 {
-                    auto mocks = std::array<const OptionElement*, 3>{ { //
+                    auto mocks = std::array<const OptionElement*, 3>{ //
                         mock1OptionPtr,
                         mock2OptionPtr,
-                        mock3OptionPtr } };
+                        mock3OptionPtr
+                    };
                     auto mocks_it = mocks.begin();
 
                     int ctx = 0;
@@ -430,7 +432,7 @@ SCENARIO("`Select` is move-constructed from elements", "[ElementData][Select]")
 
                     THEN("it is iterable")
                     {
-                        auto mocks = std::array<IElement*, 3>{ { mock1clone, mock2clone, mock3clone } };
+                        auto mocks = std::array<IElement*, 3>{ mock1clone, mock2clone, mock3clone };
                         auto mocks_it = mocks.begin();
                         int ctx = 0;
                         for (const auto& el : select2) {
@@ -499,10 +501,11 @@ SCENARIO("`Select` is move-constructed from elements", "[ElementData][Select]")
                         }
                         THEN("it is iterable")
                         {
-                            auto mocks = std::array<const OptionElement*, 3>{ { //
+                            auto mocks = std::array<const OptionElement*, 3>{ //
                                 mock1OptionPtr,
                                 mock2OptionPtr,
-                                mock3OptionPtr } };
+                                mock3OptionPtr
+                            };
                             auto mocks_it = mocks.begin();
 
                             int ctx = 0;
