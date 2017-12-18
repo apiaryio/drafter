@@ -27,9 +27,7 @@ namespace
 {
     std::ostream& operator<<(std::ostream& out, const dsd::String& obj)
     {
-        out << '"';
         out << obj.get();
-        out << '"';
         return out;
     }
 
