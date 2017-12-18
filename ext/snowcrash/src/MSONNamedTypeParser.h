@@ -17,7 +17,7 @@ namespace snowcrash
 {
 
     /** MSON reserved characters matching regex */
-    const char* const MSONReservedCharsRegex = "[]:\()<>\{}[_*+`-]+";
+    const char* const MSONReservedCharsRegex = "[]:\\()<>\\{}[_*+`-]+";
 
     /**
      * MSON Named Type Section Processor

@@ -52,9 +52,10 @@ namespace drafter
                     element->element(literal);
                     return std::move(element);
                 }
+                default:
+                    assert(false);
+                    return nullptr;
             }
-
-            assert(false);
         }
     };
 
