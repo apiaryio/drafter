@@ -640,7 +640,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "C: 'A', E: ['D','E'], S: {E: ['F','G']}, D: 'H'"
+                        "content": "C: 'A', E: ['D','E'], S: [E: 'F', E: 'G', E: 'H', E: 'I'], D: 'K'"
                       }
                     },
                     "content": {
@@ -669,20 +669,30 @@
                             "content": [
                               {
                                 "element": "enum",
-                                "attributes": {
-                                  "enumerations": {
-                                    "element": "array",
-                                    "content": [
-                                      {
-                                        "element": "string",
-                                        "content": "F"
-                                      },
-                                      {
-                                        "element": "string",
-                                        "content": "G"
-                                      }
-                                    ]
-                                  }
+                                "content": {
+                                  "element": "string",
+                                  "content": "F"
+                                }
+                              },
+                              {
+                                "element": "enum",
+                                "content": {
+                                  "element": "string",
+                                  "content": "G"
+                                }
+                              },
+                              {
+                                "element": "enum",
+                                "content": {
+                                  "element": "string",
+                                  "content": "H"
+                                }
+                              },
+                              {
+                                "element": "enum",
+                                "content": {
+                                  "element": "string",
+                                  "content": "I"
                                 }
                               }
                             ]
@@ -691,7 +701,7 @@
                             "element": "enum",
                             "content": {
                               "element": "string",
-                              "content": "H"
+                              "content": "K"
                             }
                           }
                         },

@@ -20,6 +20,8 @@
 
 #include "ElementData.h"
 
+#include <assert.h>
+
 namespace drafter
 {
 
@@ -873,27 +875,93 @@ namespace drafter
             }
         };
 
+        template <>
+        struct AllElementsToAtribute<refract::EnumElement> {
+            using T = refract::EnumElement;
+
+            template <typename U>
+            void operator()(const U& values, const std::string& key, refract::IElement* element)
+            {
+
+                auto merged = Merge<T>()(values);
+                auto const& items = std::get<0>(merged);
+
+                if (items.empty()) {
+                    return;
+                }
+
+                refract::ArrayElement* a = new refract::ArrayElement;
+                for (auto const& item: items) {
+                    refract::EnumElement* e = new refract::EnumElement;
+                    e->set(item);
+                    a->push_back(e);
+                }
+
+                element->attributes[key] = a;
+            }
+        };
+
         template <typename T>
         struct LastElementToAttribute {
 
             template <typename U>
-            void operator()(const U& values, const std::string& key, refract::IElement* element)
+            void operator()(const U& values, const std::string& key, refract::IElement* element, ConversionContext& /* context */)
             {
 
                 if (values.empty()) {
                     return;
                 }
 
-                ElementInfoToElement<T> fetch;
-                refract::IElement* value = fetch(*values.rbegin());
+                auto rbegin = values.rbegin();
 
-                if (values.size() > 1) {
-                    auto begin = values.rbegin();
-                    begin++; // avoid last one
-                    ReleaseStoredData<T>()(begin, values.rend());
-                }
+                // pick last one
+                ElementInfoToElement<T> fetch;
+                refract::IElement* value = fetch(*rbegin);
+
+                // and release rest of them
+                rbegin++; 
+                ReleaseStoredData<T>()(rbegin, values.rend());
 
                 element->attributes[key] = value;
+            }
+        };
+
+        template <>
+        struct LastElementToAttribute<refract::EnumElement> {
+            using T = refract::EnumElement;
+
+            template <typename U>
+            void operator()(const U& values, const std::string& key, refract::IElement* element, ConversionContext& context)
+            {
+
+                auto merged = Merge<T>()(values);
+                auto const& items = std::get<0>(merged);
+
+                if (items.empty()) {
+
+                    // empty value for default enum
+                    // see test/fixtures/mson/enum-empty-default.apib
+                    if (!values.empty()) {
+                        element->attributes[key] = new refract::EnumElement;
+                    }
+                    return;
+                }
+
+                // pick last one value and use as default value
+                auto rbegin = items.rbegin();
+
+                assert(*rbegin);
+                refract::EnumElement* e = new refract::EnumElement;
+                e->set(*rbegin);
+                element->attributes[key] = e;
+
+                // move to previous
+                // we can do it, because we know there is at least one element
+                rbegin++;
+
+                // release rest of them
+                for_each(rbegin, items.rend(), [](const refract::IElement* e) { delete e; });
+
             }
         };
 
@@ -909,7 +977,7 @@ namespace drafter
 
             SaveValue<T>()(data, element);
             AllElementsToAtribute<T>()(data.samples, SerializeKey::Samples, element);
-            LastElementToAttribute<T>()(data.defaults, SerializeKey::Default, element);
+            LastElementToAttribute<T>()(data.defaults, SerializeKey::Default, element, context);
         }
     }
 
