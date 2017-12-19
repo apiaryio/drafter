@@ -891,7 +891,7 @@ namespace drafter
                 }
 
                 refract::ArrayElement* a = new refract::ArrayElement;
-                for (auto const& item: items) {
+                for (auto const& item : items) {
                     refract::EnumElement* e = new refract::EnumElement;
                     e->set(item);
                     a->push_back(e);
@@ -905,7 +905,8 @@ namespace drafter
         struct LastElementToAttribute {
 
             template <typename U>
-            void operator()(const U& values, const std::string& key, refract::IElement* element, ConversionContext& /* context */)
+            void operator()(
+                const U& values, const std::string& key, refract::IElement* element, ConversionContext& /* context */)
             {
 
                 if (values.empty()) {
@@ -919,7 +920,7 @@ namespace drafter
                 refract::IElement* value = fetch(*rbegin);
 
                 // and release rest of them
-                rbegin++; 
+                rbegin++;
                 ReleaseStoredData<T>()(rbegin, values.rend());
 
                 element->attributes[key] = value;
@@ -931,7 +932,8 @@ namespace drafter
             using T = refract::EnumElement;
 
             template <typename U>
-            void operator()(const U& values, const std::string& key, refract::IElement* element, ConversionContext& context)
+            void operator()(
+                const U& values, const std::string& key, refract::IElement* element, ConversionContext& context)
             {
 
                 auto merged = Merge<T>()(values);
@@ -961,7 +963,6 @@ namespace drafter
 
                 // release rest of them
                 for_each(rbegin, items.rend(), [](const refract::IElement* e) { delete e; });
-
             }
         };
 
