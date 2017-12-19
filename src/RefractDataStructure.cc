@@ -841,6 +841,27 @@ namespace
         element.attributes().set(key, std::move(a));
     }
 
+    template <>
+    void AllElementsToAtribute<refract::EnumElement, ElementInfoContainer<refract::EnumElement> >(
+        ElementInfoContainer<refract::EnumElement> values, const std::string& key, IElement& element)
+    {
+        using T = refract::EnumElement;
+
+        auto info = Merge<T>()(std::move(values));
+        auto a = make_element<ArrayElement>();
+
+        if (info.value.empty()) {
+            return;
+        }
+
+        std::transform(std::make_move_iterator(info.value.begin()),
+            std::make_move_iterator(info.value.end()),
+            std::back_inserter(a->get()),
+            [](auto node) { return make_element<EnumElement>(dsd::Enum{ std::move(node) }); });
+
+        element.attributes().set(key, std::move(a));
+    }
+
     template <typename T, typename U>
     void LastElementToAttribute(U values, const std::string& key, IElement& element)
     {
@@ -851,6 +872,26 @@ namespace
 
         ElementInfoToElement<T> fetch;
         element.attributes().set(key, fetch(std::move(values.back())));
+    }
+
+    template <>
+    void LastElementToAttribute<refract::EnumElement, ElementInfoContainer<refract::EnumElement> >(
+        ElementInfoContainer<refract::EnumElement> values, const std::string& key, IElement& element)
+    {
+        using T = refract::EnumElement;
+
+        if (values.empty()) {
+            return;
+        }
+
+        auto info = Merge<T>()(std::move(values));
+
+        if (info.value.empty()) {
+            element.attributes().set(key, make_empty<EnumElement>());
+            return;
+        }
+
+        element.attributes().set(key, make_element<EnumElement>(dsd::Enum{ std::move(info.value.back()) }));
     }
 
     template <typename T>
