@@ -670,7 +670,9 @@ namespace drafter
     {
         struct Join {
             std::string& base;
-            Join(std::string& str) : base(str) {}
+            Join(std::string& str) : base(str)
+            {
+            }
 
             void operator()(const std::string& append, const std::string separator = "\n")
             {
@@ -927,6 +929,28 @@ namespace drafter
             }
         };
 
+        template <typename T>
+        void CheckForMultipleDefaultDefinitions(const T& values, ConversionContext& context)
+        {
+            if (values.empty()) {
+                return;
+            }
+
+            auto const& first = std::get<0>(*values.begin());
+            // we are sure `first` is valid because precondition check `values.empty()`
+            if ((values.size() > 1) || (first.size() > 1)) { 
+
+                mdp::CharactersRangeSet location;
+                for (auto const& item : values) {
+                    auto const& sourceMap = std::get<1>(item);
+                    location.append(sourceMap.sourceMap);
+                }
+
+                context.warn(
+                    snowcrash::Warning("multiple definitions of 'default' value", snowcrash::MSONError, location));
+            }
+        }
+
         template <>
         struct LastElementToAttribute<refract::EnumElement> {
             using T = refract::EnumElement;
@@ -935,6 +959,8 @@ namespace drafter
             void operator()(
                 const U& values, const std::string& key, refract::IElement* element, ConversionContext& context)
             {
+
+                // CheckForMultipleDefaultDefinitions<U>(values, context);
 
                 auto merged = Merge<T>()(values);
                 auto const& items = std::get<0>(merged);
