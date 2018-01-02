@@ -863,7 +863,7 @@ namespace
     }
 
     template <typename T, typename U>
-    void LastElementToAttribute(U values, const std::string& key, IElement& element)
+    void LastElementToAttribute(U values, const std::string& key, IElement& element, ConversionContext& /* dummy */)
     {
 
         if (values.empty()) {
@@ -874,11 +874,30 @@ namespace
         element.attributes().set(key, fetch(std::move(values.back())));
     }
 
+    void CheckForMultipleDefaultDefinitions(const ElementInfoContainer<refract::EnumElement>& values, ConversionContext& context)
+    {
+        if (values.empty()) {
+            return;
+        }
+
+        if ((values.size() > 1) || (values.front().value.size() > 1)) {
+
+            mdp::CharactersRangeSet location;
+            for (auto const& item : values) {
+                location.append(item.sourceMap.sourceMap);
+            }
+
+            context.warn(snowcrash::Warning("multiple definitions of 'default' value", snowcrash::MSONError, location));
+        }
+    }
+
     template <>
     void LastElementToAttribute<refract::EnumElement, ElementInfoContainer<refract::EnumElement> >(
-        ElementInfoContainer<refract::EnumElement> values, const std::string& key, IElement& element)
+        ElementInfoContainer<refract::EnumElement> values, const std::string& key, IElement& element, ConversionContext& context)
     {
         using T = refract::EnumElement;
+
+        //CheckForMultipleDefaultDefinitions(values, context);
 
         if (values.empty()) {
             return;
@@ -909,7 +928,7 @@ namespace
 
         SaveValue<T>()(std::move(data.values), std::move(data.enumerations), element);
         AllElementsToAtribute<T>(std::move(data.samples), SerializeKey::Samples, element);
-        LastElementToAttribute<T>(std::move(data.defaults), SerializeKey::Default, element);
+        LastElementToAttribute<T>(std::move(data.defaults), SerializeKey::Default, element, context);
     }
 
     template <typename T>
