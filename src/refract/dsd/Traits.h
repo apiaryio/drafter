@@ -136,7 +136,7 @@ namespace refract
             ///
             /// @return iterator following the member removed
             ///
-            auto erase(const_iterator it)
+            const_iterator erase(const_iterator it)
             {
                 return self().erase(it, std::next(it));
             }
