@@ -960,7 +960,7 @@ namespace drafter
                 const U& values, const std::string& key, refract::IElement* element, ConversionContext& context)
             {
 
-                // CheckForMultipleDefaultDefinitions<U>(values, context);
+                CheckForMultipleDefaultDefinitions<U>(values, context);
 
                 auto merged = Merge<T>()(values);
                 auto const& items = std::get<0>(merged);
