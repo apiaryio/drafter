@@ -897,7 +897,7 @@ namespace
     {
         using T = refract::EnumElement;
 
-        //CheckForMultipleDefaultDefinitions(values, context);
+        CheckForMultipleDefaultDefinitions(values, context);
 
         if (values.empty()) {
             return;

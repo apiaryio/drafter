@@ -150,7 +150,8 @@ namespace snowcrash
                     }
                 }
             } else if (typeSpecification.name.base == mson::UndefinedTypeName
-                && !typeSpecification.name.symbol.literal.empty() && !typeSpecification.name.symbol.variable) {
+                && !typeSpecification.name.symbol.literal.empty()
+                && !typeSpecification.name.symbol.variable) {
 
                 mson::addDependency(node, pd, typeSpecification.name.symbol.literal, pd.namedTypeContext, report);
             }
@@ -309,6 +310,12 @@ namespace snowcrash
                     sections.node.push_back(typeSection.node);
 
                     if (pd.exportSourceMap()) {
+                        if (typeSection.sourceMap.value.sourceMap.empty()) {
+                            std::copy(node->sourceMap.begin(),
+                                node->sourceMap.end(),
+                                std::back_inserter(typeSection.sourceMap.value.sourceMap));
+                        }
+
                         sections.sourceMap.collection.push_back(typeSection.sourceMap);
                     }
                 }
