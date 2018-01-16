@@ -874,7 +874,8 @@ namespace
         element.attributes().set(key, fetch(std::move(values.back())));
     }
 
-    void CheckForMultipleDefaultDefinitions(const ElementInfoContainer<refract::EnumElement>& values, ConversionContext& context)
+    void CheckForMultipleDefaultDefinitions(
+        const ElementInfoContainer<refract::EnumElement>& values, ConversionContext& context)
     {
         if (values.empty()) {
             return;
@@ -893,7 +894,10 @@ namespace
 
     template <>
     void LastElementToAttribute<refract::EnumElement, ElementInfoContainer<refract::EnumElement> >(
-        ElementInfoContainer<refract::EnumElement> values, const std::string& key, IElement& element, ConversionContext& context)
+        ElementInfoContainer<refract::EnumElement> values,
+        const std::string& key,
+        IElement& element,
+        ConversionContext& context)
     {
         using T = refract::EnumElement;
 

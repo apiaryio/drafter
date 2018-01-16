@@ -13,6 +13,8 @@
 #include "MSONUtility.h"
 #include "MSONTypeSectionParser.h"
 
+#include <iterator>
+
 using namespace scpl;
 
 namespace snowcrash
@@ -150,8 +152,7 @@ namespace snowcrash
                     }
                 }
             } else if (typeSpecification.name.base == mson::UndefinedTypeName
-                && !typeSpecification.name.symbol.literal.empty()
-                && !typeSpecification.name.symbol.variable) {
+                && !typeSpecification.name.symbol.literal.empty() && !typeSpecification.name.symbol.variable) {
 
                 mson::addDependency(node, pd, typeSpecification.name.symbol.literal, pd.namedTypeContext, report);
             }
