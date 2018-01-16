@@ -670,9 +670,7 @@ namespace drafter
     {
         struct Join {
             std::string& base;
-            Join(std::string& str) : base(str)
-            {
-            }
+            Join(std::string& str) : base(str) {}
 
             void operator()(const std::string& append, const std::string separator = "\n")
             {
@@ -938,7 +936,7 @@ namespace drafter
 
             auto const& first = std::get<0>(*values.begin());
             // we are sure `first` is valid because precondition check `values.empty()`
-            if ((values.size() > 1) || (first.size() > 1)) { 
+            if ((values.size() > 1) || (first.size() > 1)) {
 
                 mdp::CharactersRangeSet location;
                 for (auto const& item : values) {
