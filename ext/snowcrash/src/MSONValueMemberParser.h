@@ -13,6 +13,8 @@
 #include "MSONUtility.h"
 #include "MSONTypeSectionParser.h"
 
+#include <iterator>
+
 using namespace scpl;
 
 namespace snowcrash
@@ -309,6 +311,12 @@ namespace snowcrash
                     sections.node.push_back(typeSection.node);
 
                     if (pd.exportSourceMap()) {
+                        if (typeSection.sourceMap.value.sourceMap.empty()) {
+                            std::copy(node->sourceMap.begin(),
+                                node->sourceMap.end(),
+                                std::back_inserter(typeSection.sourceMap.value.sourceMap));
+                        }
+
                         sections.sourceMap.collection.push_back(typeSection.sourceMap);
                     }
                 }

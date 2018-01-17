@@ -212,7 +212,7 @@ TEST_CASE("Parse named type without type specification", "[mson][named_type]")
     SourceMapHelper::check(namedType.sourceMap.name.sourceMap, 0, 7);
     REQUIRE(namedType.sourceMap.typeDefinition.sourceMap.empty());
     REQUIRE(namedType.sourceMap.sections.collection.size() == 1);
-    REQUIRE(namedType.sourceMap.sections.collection[0].value.sourceMap.empty());
+    REQUIRE(namedType.sourceMap.sections.collection[0].value.sourceMap.size() == 1);
 }
 
 TEST_CASE("Parse type attributes on named type", "[mson][named_type]")

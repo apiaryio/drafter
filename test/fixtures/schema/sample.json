@@ -121,20 +121,16 @@
                                             "content": [
                                               {
                                                 "element": "enum",
-                                                "attributes": {
-                                                  "enumerations": {
-                                                    "element": "array",
-                                                    "content": [
-                                                      {
-                                                        "element": "string",
-                                                        "content": "3"
-                                                      },
-                                                      {
-                                                        "element": "string",
-                                                        "content": "4"
-                                                      }
-                                                    ]
-                                                  }
+                                                "content": {
+                                                  "element": "string",
+                                                  "content": "3"
+                                                }
+                                              },
+                                              {
+                                                "element": "enum",
+                                                "content": {
+                                                  "element": "string",
+                                                  "content": "4"
                                                 }
                                               }
                                             ]

@@ -20,11 +20,13 @@
 
 #include "ElementData.h"
 
+#include <assert.h>
+
 namespace drafter
 {
 
-    auto const PrimitiveType = std::true_type::value;
-    auto const ComplexType = std::false_type::value;
+    const auto PrimitiveType = std::true_type::value;
+    const auto ComplexType = std::false_type::value;
 
     template <typename U>
     struct FetchSourceMap {
@@ -733,7 +735,7 @@ namespace drafter
 
         template <typename E>
         struct ElementInfoToElement<E, PrimitiveType> {
-            E* operator()(const typename ElementData<E>::ElementInfo& value)
+            E* operator()(const typename ElementData<E>::ElementInfo& value) const
             {
                 std::pair<bool, typename E::ValueType> result = LiteralTo<typename E::ValueType>(std::get<0>(value));
                 return result.first ? new E(std::get<1>(result)) : new E;
@@ -742,7 +744,7 @@ namespace drafter
 
         template <typename E>
         struct ElementInfoToElement<E, ComplexType> {
-            E* operator()(const typename ElementData<E>::ElementInfo& value)
+            E* operator()(const typename ElementData<E>::ElementInfo& value) const
             {
                 return new E(std::get<0>(value));
             }
@@ -750,7 +752,7 @@ namespace drafter
 
         template <>
         struct ElementInfoToElement<refract::EnumElement, IsPrimitive<refract::EnumElement>::type::value> {
-            refract::EnumElement* operator()(const typename ElementData<refract::EnumElement>::ElementInfo& value)
+            refract::EnumElement* operator()(const typename ElementData<refract::EnumElement>::ElementInfo& value) const
             {
 
                 auto v = std::get<0>(value);
@@ -775,7 +777,7 @@ namespace drafter
             using ElementInfo = typename ElementData<T>::ElementInfo;
             using ValueType = typename T::ValueType;
 
-            void operator()(const ElementData<T>& data, T* element)
+            void operator()(const ElementData<T>& data, T* element) const
             {
                 if (data.values.empty()) {
                     return;
@@ -795,7 +797,7 @@ namespace drafter
         struct SaveValue<T, ComplexType> {
             using ElementInfo = typename ElementData<T>::ElementInfo;
 
-            void operator()(const ElementData<T>& data, T* element)
+            void operator()(const ElementData<T>& data, T* element) const
             {
                 ElementInfo value = Merge<T>()(data.values);
 
@@ -809,7 +811,7 @@ namespace drafter
         struct SaveValue<refract::EnumElement, IsPrimitive<refract::EnumElement>::type::value> {
             using ElementInfo = typename ElementData<refract::EnumElement>::ElementInfo;
 
-            void operator()(const ElementData<refract::EnumElement>& data, refract::EnumElement* element)
+            void operator()(const ElementData<refract::EnumElement>& data, refract::EnumElement* element) const
             {
                 ElementInfo values = Merge<refract::EnumElement>()(data.values);
                 ElementInfo enumerations = Merge<refract::EnumElement>()(data.enumerations);
@@ -833,7 +835,7 @@ namespace drafter
         template <typename T>
         struct ReleaseStoredData<T, PrimitiveType> {
             template <typename I1, typename I2>
-            void operator()(const I1& begin, const I2& end)
+            void operator()(const I1& begin, const I2& end) const
             {
                 // do nothing
             }
@@ -842,7 +844,7 @@ namespace drafter
         template <typename T>
         struct ReleaseStoredData<T, ComplexType> {
             template <typename I1, typename I2>
-            void operator()(const I1& begin, const I2& end)
+            void operator()(const I1& begin, const I2& end) const
             {
                 std::for_each(begin, end, [](const typename ElementData<T>::ElementInfo& info) {
                     const auto& elements = std::get<0>(info);
@@ -855,7 +857,7 @@ namespace drafter
         struct AllElementsToAtribute {
 
             template <typename U>
-            void operator()(const U& values, const std::string& key, refract::IElement* element)
+            void operator()(const U& values, const std::string& key, refract::IElement* element) const
             {
                 if (values.empty()) {
                     return;
@@ -865,8 +867,34 @@ namespace drafter
 
                 ElementInfoToElement<T> fetch;
 
-                for (auto const& value : values) {
+                for (const auto& value : values) {
                     a->push_back(fetch(value));
+                }
+
+                element->attributes[key] = a;
+            }
+        };
+
+        template <>
+        struct AllElementsToAtribute<refract::EnumElement> {
+            using T = refract::EnumElement;
+
+            template <typename U>
+            void operator()(const U& values, const std::string& key, refract::IElement* element) const
+            {
+
+                auto merged = Merge<T>()(values);
+                const auto& items = std::get<0>(merged);
+
+                if (items.empty()) {
+                    return;
+                }
+
+                refract::ArrayElement* a = new refract::ArrayElement;
+                for (const auto& item : items) {
+                    refract::EnumElement* e = new refract::EnumElement;
+                    e->set(item);
+                    a->push_back(e);
                 }
 
                 element->attributes[key] = a;
@@ -877,23 +905,90 @@ namespace drafter
         struct LastElementToAttribute {
 
             template <typename U>
-            void operator()(const U& values, const std::string& key, refract::IElement* element)
+            void operator()(const U& values,
+                const std::string& key,
+                refract::IElement* element,
+                ConversionContext& /* context */) const
             {
 
                 if (values.empty()) {
                     return;
                 }
 
-                ElementInfoToElement<T> fetch;
-                refract::IElement* value = fetch(*values.rbegin());
+                auto rbegin = values.rbegin();
 
-                if (values.size() > 1) {
-                    auto begin = values.rbegin();
-                    begin++; // avoid last one
-                    ReleaseStoredData<T>()(begin, values.rend());
-                }
+                // pick last one
+                ElementInfoToElement<T> fetch;
+                refract::IElement* value = fetch(*rbegin);
+
+                // and release rest of them
+                rbegin++;
+                ReleaseStoredData<T>()(rbegin, values.rend());
 
                 element->attributes[key] = value;
+            }
+        };
+
+        template <typename T>
+        void CheckForMultipleDefaultDefinitions(const T& values, ConversionContext& context)
+        {
+            if (values.empty()) {
+                return;
+            }
+
+            const auto& first = std::get<0>(*values.begin());
+            // we are sure `first` is valid because precondition check `values.empty()`
+            if ((values.size() > 1) || (first.size() > 1)) {
+
+                mdp::CharactersRangeSet location;
+                for (const auto& item : values) {
+                    const auto& sourceMap = std::get<1>(item);
+                    location.append(sourceMap.sourceMap);
+                }
+
+                context.warn(
+                    snowcrash::Warning("multiple definitions of 'default' value", snowcrash::MSONError, location));
+            }
+        }
+
+        template <>
+        struct LastElementToAttribute<refract::EnumElement> {
+            using T = refract::EnumElement;
+
+            template <typename U>
+            void operator()(
+                const U& values, const std::string& key, refract::IElement* element, ConversionContext& context) const
+            {
+
+                CheckForMultipleDefaultDefinitions<U>(values, context);
+
+                auto merged = Merge<T>()(values);
+                const auto& items = std::get<0>(merged);
+
+                if (items.empty()) {
+
+                    // empty value for default enum
+                    // see test/fixtures/mson/enum-empty-default.apib
+                    if (!values.empty()) {
+                        element->attributes[key] = new refract::EnumElement;
+                    }
+                    return;
+                }
+
+                // pick last one value and use as default value
+                auto rbegin = items.rbegin();
+
+                assert(*rbegin);
+                refract::EnumElement* e = new refract::EnumElement;
+                e->set(*rbegin);
+                element->attributes[key] = e;
+
+                // move to previous
+                // we can do it, because we know there is at least one element
+                rbegin++;
+
+                // release rest of them
+                for_each(rbegin, items.rend(), [](const refract::IElement* e) { delete e; });
             }
         };
 
@@ -909,7 +1004,7 @@ namespace drafter
 
             SaveValue<T>()(data, element);
             AllElementsToAtribute<T>()(data.samples, SerializeKey::Samples, element);
-            LastElementToAttribute<T>()(data.defaults, SerializeKey::Default, element);
+            LastElementToAttribute<T>()(data.defaults, SerializeKey::Default, element, context);
         }
     }
 
