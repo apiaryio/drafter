@@ -278,6 +278,14 @@
         "src/ConversionContext.cc",
         "src/ConversionContext.h",
 
+        "src/utils/Variant.h",
+        "src/utils/Utils.h",
+        "src/utils/so/Value.h",
+        "src/utils/so/JsonValue.h",
+        "src/utils/so/YamlValue.h",
+        "src/utils/so/ValueIo.h",
+        "src/utils/so/ValueIo.cc",
+
         # librefract parts - will be separated into other project
         "src/refract/Utils.h",
         "src/refract/Utils.cc",
@@ -378,6 +386,8 @@
         "test/test-OneOfTest.cc",
         "test/test-SyntaxIssuesTest.cc",
         "test/test-ElementDataTest.cc",
+        "test/utils/test-Variant.cc",
+        "test/utils/so/test-ValueIo.cc",
 
         "test/refract/test-Utils.cc",
 
