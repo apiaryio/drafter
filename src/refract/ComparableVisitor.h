@@ -8,13 +8,12 @@
 #ifndef REFRACT_COMPARABLEVISITOR_H
 #define REFRACT_COMPARABLEVISITOR_H
 
+#include "ElementFwd.h"
+#include "ElementIfc.h"
+#include <string>
+
 namespace refract
 {
-
-    // Forward declarations of Elements
-    struct IElement;
-    struct MemberElement;
-
     class ComparableVisitor
     {
         std::string compare_to;
@@ -46,7 +45,7 @@ namespace refract
         void operator()(const E& e)
         {
             if (compare == value) {
-                result = IsEqual(compare_to, e.value);
+                result = IsEqual(compare_to, e.get());
             }
         }
 

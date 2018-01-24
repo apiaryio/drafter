@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 #include "Element.h"
+#include "Exception.h"
 #include "ComparableVisitor.h"
 
 namespace refract
@@ -18,16 +19,17 @@ namespace refract
 
     void ComparableVisitor::operator()(const MemberElement& e)
     {
-        ComparableVisitor v(compare_to);
-        Visitor visitor(v);
+        ComparableVisitor cv(compare_to); // OPTIM: reuse current visitor
+        Visitor visitor(cv);
 
-        if (compare == key && e.value.first) {
-            e.value.first->content(visitor);
-        } else if (e.value.second) {
-            e.value.second->content(visitor);
+        if (compare == key) {
+            if (const IElement* k = e.get().key())
+                k->content(visitor);
+        } else if (const IElement* v = e.get().value()) {
+            v->content(visitor);
         }
 
-        result = v.get();
+        result = cv.get();
     }
 
     void ComparableVisitor::operator()(const IElement& e)
@@ -40,4 +42,4 @@ namespace refract
         return result;
     }
 
-}; // namespace refract
+} // namespace refract

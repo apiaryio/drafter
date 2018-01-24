@@ -28,6 +28,7 @@ namespace drafter
         {
             return registry;
         }
+
         inline const refract::Registry& GetNamedTypesRegistry() const
         {
             return registry;

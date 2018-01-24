@@ -1,27 +1,26 @@
 #include "NamedTypesRegistry.h"
 
-#include <string>
+#include <algorithm>
 #include <map>
 #include <set>
+#include <string>
 
-#include "MSON.h"
 #include "Blueprint.h"
-
+#include "ConversionContext.h"
+#include "MSON.h"
 #include "NodeInfo.h"
-
-#include "refract/Registry.h"
-#include <algorithm>
-
 #include "RefractDataStructure.h"
 #include "RefractElementFactory.h"
-
-#include "ConversionContext.h"
+#include "refract/Exception.h"
+#include "refract/Registry.h"
 
 #undef DEBUG_DEPENDENCIES
 
 #ifdef DEBUG_DEPENDENCIES
 #include <iostream>
 #endif /* DEBUG_DEPENDENCIES */
+
+using namespace refract;
 
 namespace drafter
 {
@@ -372,12 +371,12 @@ namespace drafter
             const std::string& name = i->node->name.symbol.literal;
 
             const RefractElementFactory& factory = FactoryFromType(typeInfo.ResolveType(i->node));
-            refract::IElement* element = factory.Create(std::string(), eValue);
-            element->meta["id"] = refract::IElement::Create(name);
+            auto element = factory.Create(std::string(), eValue);
+            element->meta().set("id", from_primitive(name));
 
             try {
-                context.GetNamedTypesRegistry().add(element);
-            } catch (refract::LogicError& e) {
+                context.GetNamedTypesRegistry().add(std::move(element));
+            } catch (LogicError& e) {
                 std::ostringstream out;
                 out << name << " is a reserved keyword and cannot be used.";
                 throw snowcrash::Error(out.str(), snowcrash::MSONError, i->sourceMap->name.sourceMap);
@@ -389,22 +388,20 @@ namespace drafter
             if (!i->node->name.symbol.literal.empty()) {
 
                 const std::string& name = i->node->name.symbol.literal;
-                refract::IElement* element = MSONToRefract(*i, context);
+                auto element = MSONToRefract(*i, context);
 
 #ifdef DEBUG_DEPENDENCIES
-                refract::TypeQueryVisitor v;
+                TypeQueryVisitor v;
                 v.visit(*element);
                 std::cout << name << " [" << v.get() << "]" << std::endl;
 #endif /* DEBUG_DEPENDENCIES */
 
                 // remove preregistrated element
-                refract::IElement* pre = context.GetNamedTypesRegistry().find(name);
                 context.GetNamedTypesRegistry().remove(name);
-                delete pre;
 
                 try {
-                    context.GetNamedTypesRegistry().add(element);
-                } catch (refract::LogicError& e) {
+                    context.GetNamedTypesRegistry().add(std::move(element));
+                } catch (LogicError& e) {
                     std::ostringstream out;
                     out << name << " is a reserved keyword and cannot be used.";
                     throw snowcrash::Error(out.str(), snowcrash::MSONError, i->sourceMap->name.sourceMap);

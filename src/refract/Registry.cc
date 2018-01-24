@@ -7,110 +7,100 @@
 //
 
 #include "Registry.h"
+
 #include "Element.h"
+#include "Exception.h"
 #include "SerializeCompactVisitor.h"
 #include "TypeQueryVisitor.h"
-
 #include <algorithm>
 
-namespace refract
+using namespace refract;
+
+const IElement* refract::FindRootAncestor(const std::string& name, const Registry& registry)
 {
+    const IElement* parent = registry.find(name);
 
-    IElement* FindRootAncestor(const std::string& name, const Registry& registry)
-    {
-        IElement* parent = registry.find(name);
+    while (parent && !isReserved(parent->element())) {
+        const IElement* next = registry.find(parent->element());
 
-        while (parent && !isReserved(parent->element())) {
-            IElement* next = registry.find(parent->element());
-
-            if (!next || (next == parent)) {
-                return parent;
-            }
-
-            parent = next;
+        if (!next || (next == parent)) {
+            return parent;
         }
 
-        return parent;
+        parent = next;
     }
 
-    std::string Registry::getElementId(IElement* element)
-    {
-        IElement::MemberElementCollection::const_iterator it = element->meta.find("id");
+    return parent;
+}
 
-        if (it == element->meta.end()) {
-            throw LogicError("Element has no ID");
-        }
+std::string Registry::getElementId(IElement& element)
+{
+    auto it = element.meta().find("id");
 
-        // FIXME: remove dependecy on SosSerializeCompactVisitor
-        SosSerializeCompactVisitor v;
-        VisitBy(*(*it)->value.second, v);
-
-        if (StringElement* s = TypeQueryVisitor::as<StringElement>((*it)->value.second)) {
-            return s->value;
-        }
-
-        throw LogicError("Value of element meta 'id' is not StringElement");
+    if (it == element.meta().end()) {
+        throw LogicError("Element has no ID");
     }
 
-    IElement* Registry::find(const std::string& name) const
-    {
-        Map::const_iterator i = registrated.find(name);
+    // FIXME: remove dependecy on SosSerializeCompactVisitor
+    SosSerializeCompactVisitor v;
+    VisitBy(*it->second, v);
 
-        if (i == registrated.end()) {
-            return NULL;
-        }
-
-        return i->second;
+    if (const StringElement* s = TypeQueryVisitor::as<const StringElement>(it->second.get())) {
+        return s->get();
     }
 
-    bool Registry::add(IElement* element)
-    {
-        IElement::MemberElementCollection::const_iterator it = element->meta.find("id");
+    throw LogicError("Value of element meta 'id' is not StringElement");
+}
 
-        if (it == element->meta.end()) {
-            throw LogicError("Element has no ID");
-        }
+const IElement* Registry::find(const std::string& name) const
+{
+    auto i = registrated.find(name);
 
-        std::string id = getElementId(element);
-
-        if (isReserved(id)) {
-            throw LogicError("You can not register a basic element");
-        }
-
-        if (find(id)) {
-            // there is already already element with given name
-            return false;
-        }
-
-        registrated[id] = element;
-        return true;
+    if (i == registrated.end()) {
+        return nullptr;
     }
 
-    bool Registry::remove(const std::string& name)
-    {
-        Map::iterator i = registrated.find(name);
+    return i->second.get();
+}
 
-        if (i == registrated.end()) {
-            return false;
-        }
+bool Registry::add(std::unique_ptr<IElement> element)
+{
+    assert(element);
 
-        registrated.erase(i);
-        return true;
+    auto it = element->meta().find("id");
+
+    if (it == element->meta().end()) {
+        throw LogicError("Element has no ID");
     }
 
-    template <typename T>
-    static void DeleteSecond(T& pair)
-    {
-        delete pair.second;
+    std::string id = getElementId(*element);
+
+    if (isReserved(id)) {
+        throw LogicError("You can not register a basic element");
     }
 
-    void Registry::clearAll(bool releaseElements)
-    {
-        if (releaseElements) {
-            std::for_each(registrated.begin(), registrated.end(), DeleteSecond<Map::value_type>);
-        }
-
-        registrated.clear();
+    if (find(id)) {
+        // there is already already element with given name
+        return false;
     }
 
-}; // namespace refract
+    registrated[id] = std::move(element);
+    return true;
+}
+
+bool Registry::remove(const std::string& name)
+{
+    auto i = registrated.find(name);
+
+    if (i == registrated.end()) {
+        return false;
+    }
+
+    registrated.erase(i);
+    return true;
+}
+
+void Registry::clearAll(bool releaseElements)
+{
+    registrated.clear();
+}

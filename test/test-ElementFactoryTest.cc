@@ -11,107 +11,93 @@ using namespace drafter;
 TEST_CASE("Create empty primitive element", "[ElementFactory]")
 {
     const RefractElementFactory& factory = FactoryFromType(mson::StringTypeName);
-    IElement* e = factory.Create(std::string(), eValue);
+    auto e = factory.Create(std::string(), eValue);
 
-    StringElement* str = TypeQueryVisitor::as<StringElement>(e);
+    StringElement* str = TypeQueryVisitor::as<StringElement>(e.get());
     REQUIRE(str != NULL);
     REQUIRE(str->empty());
-    REQUIRE(str->meta.empty());
-    REQUIRE(str->attributes.empty());
-    REQUIRE(str->element() == StringElement::TraitType::element());
-
-    delete e;
+    REQUIRE(str->meta().empty());
+    REQUIRE(str->attributes().empty());
+    REQUIRE(str->element() == StringElement::ValueType::name);
 }
 
 TEST_CASE("Create primitive element w/ value", "[ElementFactory]")
 {
     const RefractElementFactory& factory = FactoryFromType(mson::NumberTypeName);
-    IElement* e = factory.Create("42", eValue);
+    auto e = factory.Create("42", eValue);
 
-    NumberElement* number = TypeQueryVisitor::as<NumberElement>(e);
+    NumberElement* number = TypeQueryVisitor::as<NumberElement>(e.get());
     REQUIRE(number != NULL);
     REQUIRE(!number->empty());
-    REQUIRE(number->meta.empty());
-    REQUIRE(number->attributes.empty());
-    REQUIRE(number->value == 42);
-
-    delete e;
+    REQUIRE(number->meta().empty());
+    REQUIRE(number->attributes().empty());
+    REQUIRE(number->get() == 42.0);
 }
 
 TEST_CASE("Create primitive element w/ sample", "[ElementFactory]")
 {
     const RefractElementFactory& factory = FactoryFromType(mson::NumberTypeName);
-    IElement* e = factory.Create("42", eSample);
+    auto e = factory.Create("42", eSample);
 
-    NumberElement* number = TypeQueryVisitor::as<NumberElement>(e);
+    NumberElement* number = TypeQueryVisitor::as<NumberElement>(e.get());
     REQUIRE(number != NULL);
     REQUIRE(number->empty());
-    REQUIRE(number->meta.empty());
+    REQUIRE(number->meta().empty());
 
-    REQUIRE(number->attributes.size() == 1); // sample attr
-    IElement::MemberElementCollection::const_iterator it = number->attributes.find("samples");
-    REQUIRE((it != number->attributes.end()));
-
-    delete e;
+    REQUIRE(number->attributes().size() == 1); // sample attr
+    auto it = number->attributes().find("samples");
+    REQUIRE((it != number->attributes().end()));
 }
 
 TEST_CASE("Create primitive element w/ element", "[ElementFactory]")
 {
     const RefractElementFactory& factory = FactoryFromType(mson::NumberTypeName);
-    IElement* e = factory.Create("NAMED", eElement);
+    auto e = factory.Create("NAMED", eElement);
 
-    NumberElement* number = TypeQueryVisitor::as<NumberElement>(e);
+    NumberElement* number = TypeQueryVisitor::as<NumberElement>(e.get());
     REQUIRE(number != NULL);
     REQUIRE(number->empty());
-    REQUIRE(number->meta.empty());
-    REQUIRE(number->attributes.empty());
+    REQUIRE(number->meta().empty());
+    REQUIRE(number->attributes().empty());
     REQUIRE(number->element() == "NAMED");
-
-    delete e;
 }
 
 TEST_CASE("Create empty complex element", "[ElementFactory]")
 {
     const RefractElementFactory& factory = FactoryFromType(mson::EnumTypeName);
-    IElement* e = factory.Create(std::string(), eValue);
+    auto e = factory.Create(std::string(), eValue);
 
-    EnumElement* enm = TypeQueryVisitor::as<EnumElement>(e);
+    EnumElement* enm = TypeQueryVisitor::as<EnumElement>(e.get());
     REQUIRE(enm != NULL);
     REQUIRE(enm->empty());
-    REQUIRE(enm->meta.empty());
-    REQUIRE(enm->attributes.empty());
-    REQUIRE(enm->element() == EnumElement::TraitType::element());
-
-    delete e;
+    REQUIRE(enm->meta().empty());
+    REQUIRE(enm->attributes().empty());
+    REQUIRE(enm->element() == EnumElement::ValueType::name);
 }
 
 TEST_CASE("Create complex named element", "[ElementFactory]")
 {
     const RefractElementFactory& factory = FactoryFromType(mson::ObjectTypeName);
-    IElement* e = factory.Create("NAMED", eElement);
+    auto e = factory.Create("NAMED", eElement);
 
-    ObjectElement* enm = TypeQueryVisitor::as<ObjectElement>(e);
+    ObjectElement* enm = TypeQueryVisitor::as<ObjectElement>(e.get());
     REQUIRE(enm != NULL);
     REQUIRE(enm->empty());
-    REQUIRE(enm->meta.empty());
-    REQUIRE(enm->attributes.empty());
+    REQUIRE(enm->meta().empty());
+    REQUIRE(enm->attributes().empty());
     REQUIRE(enm->element() == "NAMED");
-
-    delete e;
 }
 
 TEST_CASE("Create element as generic", "[ElementFactory]")
 {
     const RefractElementFactory& factory = FactoryFromType(mson::EnumTypeName);
-    IElement* e = factory.Create("Enumerator", eSample);
+    auto e = factory.Create("Enumerator", eSample);
 
-    StringElement* generic = TypeQueryVisitor::as<StringElement>(e);
+    StringElement* generic = TypeQueryVisitor::as<StringElement>(e.get());
     REQUIRE(generic != NULL);
     REQUIRE(!generic->empty());
-    REQUIRE(generic->meta.empty());
-    REQUIRE(generic->attributes.empty());
+    REQUIRE(generic->meta().empty());
+    REQUIRE(generic->attributes().empty());
     REQUIRE(generic->element() == "generic");
-    REQUIRE(generic->value == "Enumerator");
-
-    delete e;
+    REQUIRE(generic->get() == "Enumerator");
 }

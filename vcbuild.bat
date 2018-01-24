@@ -66,12 +66,9 @@ SETLOCAL
   echo Project files generated.
 ENDLOCAL
 
-@rem Skip to the end for now
-@rem goto exit
-
 :msbuild
 @rem Skip project generation if requested.
-if defined nobuild goto exit
+if defined nobuild goto success
 if "%GYP_MSVS_VERSION%"=="2015" goto vc-set-2015
 if "%GYP_MSVS_VERSION%"=="2013" goto vc-set-2013
 if "%GYP_MSVS_VERSION%"=="2012" goto vc-set-2012
@@ -116,14 +113,14 @@ goto msbuild-found
 
 :msbuild-not-found
 echo Build skipped. To build, this file needs to run from VS cmd prompt.
-goto exit
+goto fail
 
 :msbuild-found
 @rem Build the sln with msbuild.
 @rem Refer to http://msdn.microsoft.com/en-us/library/ms164311.aspx
 echo Building Snow Crash...
 msbuild build/drafter.sln /m /clp:NoSummary;NoItemAndPropertyList;Verbosity=normal /nologo /property:Configuration=%config%
-if errorlevel 1 goto exit
+if errorlevel 1 goto fail
 
 :run
 @rem Run tests if requested.
@@ -138,7 +135,7 @@ echo Running tests...
 if defined inttest goto run-integration-test
 
 @rem All Done
-goto exit
+goto success
 
 :run-integration-test
 if "%config%"=="Debug" (
@@ -172,7 +169,7 @@ ECHO !line! >>"%file%"
 ENDLOCAL
 
 bundle exec cucumber
-goto exit
+goto success
 
 :env-exist
 SET /a Line#ToSearch=7
@@ -186,11 +183,11 @@ SET /a Line#ToSearch=7
 MOVE "%file%.new" "%file%" >nul
 
 bundle exec cucumber
-goto exit
+goto success
 
 :create-msvs-files-failed
 echo Failed to create vc project files. 
-goto exit
+goto fail
 
 :help
 echo vcbuild.bat [debug/release] [test] [clean] [noprojgen] [nobuild] [x86/x64] [inttest] [MSVC2012/MSVC2013]
@@ -201,7 +198,10 @@ echo   vcbuild.bat debug          : builds debug build
 echo   vcbuild.bat test           : builds debug build and runs tests
 echo   vcbuild.bat inttest        : include integration tests
 echo   vcbuild.bat MSVC2013       : indicate target solution's version, could also define as MSVC2012, MSVC2013
-goto exit
+goto success
 
-:exit
-goto :EOF
+:fail
+EXIT /B 1
+
+:success
+EXIT /B 0

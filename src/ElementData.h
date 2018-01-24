@@ -9,25 +9,78 @@
 #define DRAFTER_ELEMENTDATA_H
 
 #include "RefractSourceMap.h"
+#include <deque>
 
 namespace drafter
 {
+    template <typename ElementT, typename = std::enable_if<std::is_base_of<refract::IElement, ElementT>::value> >
+    constexpr bool is_primitive()
+    {
+        return false;
+    }
 
-    template <typename T>
-    struct IsPrimitive {
-        using ValueType = typename T::ValueType;
-        using type = std::integral_constant<bool,
-            !std::is_same<ValueType, refract::RefractElements>::value
-                && !std::is_same<ValueType, refract::IElement*>::value>;
+    template <>
+    constexpr bool is_primitive<refract::BooleanElement>()
+    {
+        return true;
+    }
+
+    template <>
+    constexpr bool is_primitive<refract::NumberElement>()
+    {
+        return true;
+    }
+
+    template <>
+    constexpr bool is_primitive<refract::StringElement>()
+    {
+        return true;
+    }
+
+    template <typename ElementT>
+    struct content_source_map_type {
+        using type = snowcrash::SourceMap<typename ElementT::ValueType>;
     };
 
     template <typename T>
+    struct stored_type {
+        using type = typename std::conditional<is_primitive<T>(),
+            std::string,                                    // for primitive values, we will hold data as string
+            std::deque<std::unique_ptr<refract::IElement> > // for complex types, we will hold elements
+            >::type;
+    };
+
+    template <typename ElementT,
+        typename StoredT = typename stored_type<ElementT>::type,
+        typename SourceMapT = typename content_source_map_type<ElementT>::type>
+    struct ElementInfo final {
+        StoredT value;
+        SourceMapT sourceMap;
+
+        ElementInfo() = default;
+        ElementInfo(StoredT v, SourceMapT m) : value(std::move(v)), sourceMap(std::move(m)) {}
+
+        ElementInfo(const ElementInfo&) = delete;
+        ElementInfo(ElementInfo&&) = default;
+
+        ElementInfo& operator=(const ElementInfo&) = delete;
+        ElementInfo& operator=(ElementInfo&&) = default;
+
+        ~ElementInfo() = default;
+    };
+
+    struct DescriptionInfo {
+        std::string description;
+        snowcrash::SourceMap<std::string> sourceMap;
+    };
+
+    template <typename T>
+    using ElementInfoContainer = std::deque<ElementInfo<T> >;
+
+    using DescriptionInfoContainer = std::deque<DescriptionInfo>;
+
+    template <typename T>
     struct ElementData {
-        using ElementType = T;
-
-        using ValueType = typename ElementType::ValueType;
-        using ValueSourceMapType = snowcrash::SourceMap<ValueType>;
-
         // typedef typename std::conditional<std::is_same<ValueType, refract::RefractElements>::value
         //        || std::is_same<ValueType, refract::IElement*>::value, // check for primitive values
         //    std::false_type,
@@ -37,21 +90,10 @@ namespace drafter
         // for primitive types as "string" for complex types as "element array"
         // it will be converted into apropriated element type once all required data are colected
 
-        using StoredType = typename std::conditional<IsPrimitive<T>::type::value,
-            std::string,             // for primitive values, we will hold data as string
-            refract::RefractElements // for complex types, we will hold elements
-            >::type;
-
-        using ElementInfo = std::tuple<StoredType, ValueSourceMapType>;                      // [value, sourceMap]
-        using DescriptionInfo = std::tuple<std::string, snowcrash::SourceMap<std::string> >; // [description, sourceMap]
-
-        using ElementInfoContainer = std::vector<ElementInfo>;
-        using DescriptionInfoContainer = std::vector<DescriptionInfo>;
-
-        ElementInfoContainer values;
-        ElementInfoContainer defaults;
-        ElementInfoContainer samples;
-        ElementInfoContainer enumerations;
+        ElementInfoContainer<T> values;
+        ElementInfoContainer<T> defaults;
+        ElementInfoContainer<T> samples;
+        ElementInfoContainer<T> enumerations;
 
         DescriptionInfoContainer descriptions;
     };

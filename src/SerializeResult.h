@@ -27,7 +27,8 @@ namespace drafter
 
     class ConversionContext;
 
-    refract::IElement* WrapRefract(snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, ConversionContext& context);
+    std::unique_ptr<refract::IElement> WrapRefract(
+        snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, ConversionContext& context);
 }
 
 #endif // #ifndef DRAFTER_SERIALIZERESULT_H
