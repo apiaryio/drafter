@@ -9,7 +9,7 @@
 #ifndef MARKDOWNPARSER_NODE_H
 #define MARKDOWNPARSER_NODE_H
 
-#include <vector>
+#include <deque>
 #include <memory>
 #include <iostream>
 #include "ByteBuffer.h"
@@ -39,6 +39,9 @@ namespace mdp
     /* Forward declaration of AST Node */
     class MarkdownNode;
 
+    /** Markdown AST nodes collection */
+    typedef std::deque<MarkdownNode> MarkdownNodes;
+
     /**
      *  AST node
      */
@@ -46,9 +49,6 @@ namespace mdp
     {
     public:
         typedef int Data;
-
-        /** Markdown AST nodes collection */
-        typedef std::vector<MarkdownNode> child_container;
 
         /** Node type */
         MarkdownNodeType type;
@@ -70,37 +70,34 @@ namespace mdp
         void setParent(MarkdownNode* parent);
 
         /** True if section's parent is specified, false otherwise */
-        bool hasParent() const noexcept;
+        bool hasParent() const;
 
         /** Children nodes */
-        child_container& children() noexcept;
-        const child_container& children() const noexcept;
+        MarkdownNodes& children();
+        const MarkdownNodes& children() const;
 
         /** Constructor */
         MarkdownNode(MarkdownNodeType type_ = UndefinedMarkdownNodeType,
-            MarkdownNode* parent_ = nullptr,
+            MarkdownNode* parent_ = NULL,
             const ByteBuffer& text_ = ByteBuffer(),
             const Data& data_ = Data());
 
         /** Copy constructor */
-        MarkdownNode(const MarkdownNode& rhs) = default;
+        MarkdownNode(const MarkdownNode& rhs);
 
         /** Assignment operator */
-        MarkdownNode& operator=(const MarkdownNode& rhs) = default;
-        MarkdownNode& operator=(MarkdownNode&& rhs) = default;
+        MarkdownNode& operator=(const MarkdownNode& rhs);
 
-        ~MarkdownNode() = default;
+        /** Destructor */
+        ~MarkdownNode();
 
         /** Prints the node to the stdout */
         void printNode(size_t level = 0) const;
 
     private:
         MarkdownNode* m_parent;
-        child_container m_children;
+        std::unique_ptr<MarkdownNodes> m_children;
     };
-
-    /** Markdown AST nodes collection */
-    typedef MarkdownNode::child_container MarkdownNodes;
 
     /** Markdown AST nodes collection iterator */
     typedef MarkdownNodes::iterator MarkdownNodeIterator;

@@ -72,22 +72,20 @@ namespace snowcrash
         const SourceMap<mson::Elements>& elements() const;
 
         /** Constructor */
-        explicit SourceMap(const SourceMap<mson::Markdown>& description_ = SourceMap<mson::Markdown>(),
+        SourceMap(const SourceMap<mson::Markdown>& description_ = SourceMap<mson::Markdown>(),
             const SourceMap<mson::Literal>& value_ = SourceMap<mson::Literal>());
 
         /** Copy constructor */
-        SourceMap(const SourceMap<mson::TypeSection>& rhs) = default;
-        SourceMap(SourceMap<mson::TypeSection>&& rhs) = default;
+        SourceMap(const SourceMap<mson::TypeSection>& rhs);
 
         /** Assignment operator */
-        SourceMap<mson::TypeSection>& operator=(const SourceMap<mson::TypeSection>& rhs) = default;
-        SourceMap<mson::TypeSection>& operator=(SourceMap<mson::TypeSection>&& rhs) = default;
+        SourceMap<mson::TypeSection>& operator=(const SourceMap<mson::TypeSection>& rhs);
 
         /** Desctructor */
-        ~SourceMap() = default;
+        ~SourceMap();
 
     private:
-        SourceMap<mson::Elements> m_elements;
+        std::unique_ptr<SourceMap<mson::Elements> > m_elements;
     };
 
     /** Source Map of Collection of Type Sections */
@@ -166,21 +164,19 @@ namespace snowcrash
         SourceMap<mson::Element>& operator=(const SourceMap<mson::Elements>& rhs);
 
         /** Constructor */
-        SourceMap() = default;
+        SourceMap();
 
         /** Copy constructor */
-        SourceMap(const SourceMap<mson::Element>& rhs) = default;
-        SourceMap(SourceMap<mson::Element>&& rhs) = default;
+        SourceMap(const SourceMap<mson::Element>& rhs);
 
         /** Assignment operator */
-        SourceMap<mson::Element>& operator=(const SourceMap<mson::Element>& rhs) = default;
-        SourceMap<mson::Element>& operator=(SourceMap<mson::Element>&& rhs) = default;
+        SourceMap<mson::Element>& operator=(const SourceMap<mson::Element>& rhs);
 
         /** Destructor */
-        ~SourceMap() = default;
+        ~SourceMap();
 
     private:
-        SourceMap<mson::Elements> m_elements;
+        std::unique_ptr<SourceMap<mson::Elements> > m_elements;
     };
 }
 

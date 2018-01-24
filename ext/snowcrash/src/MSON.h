@@ -18,6 +18,8 @@
 #include "Platform.h"
 #include "MarkdownParser.h"
 
+#define ELEMENTS_NOT_SET_ERR std::logic_error("no elements set")
+
 /**
  * MSON Abstract Syntax Tree
  * -------------------------
@@ -224,21 +226,19 @@ namespace mson
             const Elements& elements() const;
 
             /** Constructor */
-            explicit Content(const Markdown& description_ = Markdown(), const Literal& value_ = Literal());
+            Content(const Markdown& description_ = Markdown(), const Literal& value_ = Literal());
 
             /** Copy constructor */
-            Content(const Content& rhs) = default;
-            Content(Content&& rhs) = default;
+            Content(const TypeSection::Content& rhs);
 
             /** Assignment operator */
-            Content& operator=(const Content& rhs) = default;
-            Content& operator=(Content&& rhs) = default;
+            TypeSection::Content& operator=(const TypeSection::Content& rhs);
 
             /** Desctructor */
-            ~Content() = default;
+            ~Content();
 
         private:
-            Elements m_elements;
+            std::unique_ptr<Elements> m_elements;
         };
 
         /** Constructor */
@@ -359,24 +359,22 @@ namespace mson
             const Elements& elements() const;
 
             /** Builds the structure from group of elements */
-            Content& operator=(const Elements& rhs);
+            Element::Content& operator=(const Elements& rhs);
 
             /** Constructor */
-            Content() = default;
+            Content();
 
             /** Copy constructor */
-            Content(const Content& rhs) = default;
-            Content(Content&& rhs) = default;
+            Content(const Element::Content& rhs);
 
             /** Assignment operator */
-            Content& operator=(const Content& rhs) = default;
-            Content& operator=(Content&& rhs) = default;
+            Content& operator=(const Element::Content& rhs);
 
             /** Destructor */
-            ~Content() = default;
+            ~Content();
 
         private:
-            Elements m_elements;
+            std::unique_ptr<Elements> m_elements;
         };
 
         /** Class of the element */
@@ -386,15 +384,13 @@ namespace mson
         Element::Content content;
 
         /** Constructor */
-        explicit Element(const Element::Class& klass_ = Element::UndefinedClass);
+        Element(const Element::Class& klass_ = Element::UndefinedClass);
 
         /** Copy constructor */
-        Element(const Element& rhs) = default;
-        Element(Element&& rhs) = default;
+        Element(const Element& rhs);
 
         /** Assignment operator */
-        Element& operator=(const Element& rhs) = default;
-        Element& operator=(Element&& rhs) = default;
+        Element& operator=(const Element& rhs);
 
         /** Functions which allow the building of member type */
         void build(const PropertyMember& propertyMember);
@@ -406,7 +402,7 @@ namespace mson
         void buildFromElements(const Elements& elements);
 
         /** Destructor */
-        ~Element() = default;
+        ~Element();
     };
 }
 

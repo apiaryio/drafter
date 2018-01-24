@@ -28,42 +28,105 @@ bool SourceMap<mson::PropertyMember>::empty() const
 
 SourceMap<mson::Elements>& SourceMap<mson::TypeSection>::elements()
 {
-    return m_elements;
+    if (!m_elements.get())
+        throw ELEMENTS_NOT_SET_ERR;
+
+    return *m_elements;
 }
 
 const SourceMap<mson::Elements>& SourceMap<mson::TypeSection>::elements() const
 {
-    return m_elements;
+    if (!m_elements.get())
+        throw ELEMENTS_NOT_SET_ERR;
+
+    return *m_elements;
 }
 
 SourceMap<mson::TypeSection>::SourceMap(
     const SourceMap<mson::Markdown>& description_, const SourceMap<mson::Literal>& value_)
-    : description(description_), value(value_), m_elements()
+    : description(description_), value(value_)
 {
+    m_elements.reset(::new SourceMap<mson::Elements>);
 }
+
+SourceMap<mson::TypeSection>::SourceMap(const SourceMap<mson::TypeSection>& rhs)
+{
+    this->description = rhs.description;
+    this->value = rhs.value;
+    m_elements.reset(::new SourceMap<mson::Elements>(*rhs.m_elements.get()));
+}
+
+SourceMap<mson::TypeSection>& SourceMap<mson::TypeSection>::operator=(const SourceMap<mson::TypeSection>& rhs)
+{
+    this->description = rhs.description;
+    this->value = rhs.value;
+    m_elements.reset(::new SourceMap<mson::Elements>(*rhs.m_elements.get()));
+
+    return *this;
+}
+
+SourceMap<mson::TypeSection>::~SourceMap() {}
 
 SourceMap<mson::OneOf>& SourceMap<mson::Element>::oneOf()
 {
-    return m_elements;
+    if (!m_elements.get())
+        throw ELEMENTS_NOT_SET_ERR;
+
+    return *m_elements;
 }
 
 const SourceMap<mson::OneOf>& SourceMap<mson::Element>::oneOf() const
 {
-    return m_elements;
+    if (!m_elements.get())
+        throw ELEMENTS_NOT_SET_ERR;
+
+    return *m_elements;
 }
 
 SourceMap<mson::Elements>& SourceMap<mson::Element>::elements()
 {
-    return m_elements;
+    if (!m_elements.get())
+        throw ELEMENTS_NOT_SET_ERR;
+
+    return *m_elements;
 }
 
 const SourceMap<mson::Elements>& SourceMap<mson::Element>::elements() const
 {
-    return m_elements;
+    if (!m_elements.get())
+        throw ELEMENTS_NOT_SET_ERR;
+
+    return *m_elements;
 }
 
 SourceMap<mson::Element>& SourceMap<mson::Element>::operator=(const SourceMap<mson::Elements>& rhs)
 {
-    m_elements = rhs;
+    m_elements.reset(::new SourceMap<mson::Elements>(rhs));
+
     return *this;
 }
+
+SourceMap<mson::Element>::SourceMap()
+{
+    m_elements.reset(::new SourceMap<mson::Elements>);
+}
+
+SourceMap<mson::Element>::SourceMap(const SourceMap<mson::Element>& rhs)
+{
+    this->property = rhs.property;
+    this->value = rhs.value;
+    this->mixin = rhs.mixin;
+    m_elements.reset(::new SourceMap<mson::Elements>(*rhs.m_elements.get()));
+}
+
+SourceMap<mson::Element>& SourceMap<mson::Element>::operator=(const SourceMap<mson::Element>& rhs)
+{
+    this->property = rhs.property;
+    this->value = rhs.value;
+    this->mixin = rhs.mixin;
+    m_elements.reset(::new SourceMap<mson::Elements>(*rhs.m_elements.get()));
+
+    return *this;
+}
+
+SourceMap<mson::Element>::~SourceMap() {}

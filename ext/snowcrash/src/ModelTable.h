@@ -14,7 +14,7 @@
 #include "ByteBuffer.h"
 #include "RegexMatch.h"
 
-#ifdef DEBUG_MODEL
+#ifdef DEBUG
 #include <iostream>
 #endif
 
@@ -52,7 +52,7 @@ namespace snowcrash
         return false;
     }
 
-#ifdef DEBUG_MODEL
+#ifdef DEBUG
     // Escape new lines
     inline std::string EscapeNewlines(const std::string& input)
     {
