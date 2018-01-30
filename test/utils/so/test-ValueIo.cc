@@ -82,12 +82,7 @@ SCENARIO("Serialize a utils::so::Value into json", "[simple-object]")
 
     GIVEN("an in place constructed Array{`Hello world!`}")
     {
-        Value value(in_place_type<Array>{}, []() -> std::vector<Value> {
-            std::vector<Value> data;
-            data.push_back(String{ "Hello world!" });
-            data.push_back(Number{ 5 });
-            return data;
-        }());
+        Value value(in_place_type<Array>{}, String{ "Hello world!" }, Number{ 5 });
 
         WHEN("it is serialized into stringstream as JSON")
         {

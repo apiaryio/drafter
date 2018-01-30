@@ -12,6 +12,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <boost/container/vector.hpp>
 
 #include "../Variant.h"
 
@@ -41,7 +42,8 @@ namespace drafter
             };
 
             struct Object {
-                std::map<std::string, Value> data;
+                using container_type = boost::container::vector<std::pair<std::string, Value> >;
+                container_type data;
 
                 Object() = default;
                 Object(const Object&) = default;
@@ -50,11 +52,17 @@ namespace drafter
                 Object& operator=(Object&&) = default;
                 ~Object() = default;
 
-                explicit Object(std::map<std::string, Value> d) : data(std::move(d)) {}
+                template <typename... Values>
+                explicit Object(Values&&... values) : data({ std::forward<Values>(values)... })
+                {
+                    using namespace drafter::utils;
+                    static_assert(all_of(!std::is_same<drafter::utils::bare<Values>, Object>::value...), "");
+                }
             };
 
             struct Array {
-                std::vector<Value> data;
+                using container_type = boost::container::vector<Value>;
+                container_type data;
 
                 Array() = default;
                 Array(const Array&) = default;
@@ -63,7 +71,12 @@ namespace drafter
                 Array& operator=(Array&&) = default;
                 ~Array() = default;
 
-                explicit Array(std::vector<Value> d) : data(std::move(d)) {}
+                template <typename... Values>
+                explicit Array(Values&&... values) : data({ std::forward<Values>(values)... })
+                {
+                    using namespace drafter::utils;
+                    static_assert(all_of(!std::is_same<drafter::utils::bare<Values>, Array>::value...), "");
+                }
             };
 
             struct String {
