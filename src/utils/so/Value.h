@@ -56,7 +56,7 @@ namespace drafter
                 explicit Object(Values&&... values) : data({ std::forward<Values>(values)... })
                 {
                     using namespace drafter::utils;
-                    static_assert(all_of(!std::is_same<drafter::utils::bare<Values>, Object>::value...), "");
+                    static_assert(all_of<!std::is_same<drafter::utils::bare<Values>, Object>::value...>::value, "");
                 }
             };
 
@@ -75,7 +75,7 @@ namespace drafter
                 explicit Array(Values&&... values) : data({ std::forward<Values>(values)... })
                 {
                     using namespace drafter::utils;
-                    static_assert(all_of(!std::is_same<drafter::utils::bare<Values>, Array>::value...), "");
+                    static_assert(all_of<!std::is_same<drafter::utils::bare<Values>, Array>::value...>::value, "");
                 }
             };
 
