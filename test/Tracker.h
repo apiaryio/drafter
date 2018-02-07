@@ -16,48 +16,85 @@ template <typename ChildT>
 class tracked
 {
 public:
-    using objects_t = std::vector<ChildT*>;
+    using objects_type = std::vector<ChildT*>;
+    struct record_type {
+        int default_constructor = 0;
+        int copy_constructor = 0;
+        int move_constructor = 0;
+        int copy_assignment = 0;
+        int move_assignment = 0;
+        int destructor = 0;
+    };
 
 private:
-    static objects_t& objects()
+    static objects_type& objects_()
     {
-        static objects_t objects_;
-        return objects_;
+        static objects_type objects{};
+        return objects;
+    }
+
+    static record_type& record_()
+    {
+        static record_type record{};
+        return record;
     }
 
 public:
     static const ChildT& last_instance()
     {
-        return *objects().back();
+        return *objects_().back();
     }
-    static objects_t& instances()
+    static const objects_type& instances()
     {
-        return objects();
+        return objects_();
+    }
+
+    static const record_type& record()
+    {
+        return record_();
+    }
+
+    static void reset_record()
+    {
+        record_() = record_type{};
     }
 
 public:
     tracked()
     {
-        objects().push_back(static_cast<ChildT*>(this));
+        ++record_().default_constructor;
+        objects_().push_back(static_cast<ChildT*>(this));
     }
 
     tracked(const tracked&)
     {
-        objects().push_back(static_cast<ChildT*>(this));
+        ++record_().copy_constructor;
+        objects_().push_back(static_cast<ChildT*>(this));
     }
 
     tracked(tracked&&)
     {
-        objects().push_back(static_cast<ChildT*>(this));
+        ++record_().move_constructor;
+        objects_().push_back(static_cast<ChildT*>(this));
     }
 
-    tracked& operator=(const tracked&) = default;
-    tracked& operator=(tracked&&) = default;
+    tracked& operator=(const tracked&)
+    {
+        ++record_().copy_assignment;
+        return *this;
+    }
+
+    tracked& operator=(tracked&&)
+    {
+        ++record_().move_assignment;
+        return *this;
+    }
 
     ~tracked()
     {
-        auto& objects_ = objects();
-        objects_.erase(std::remove(objects_.begin(), objects_.end(), static_cast<ChildT*>(this)), objects_.end());
+        ++record_().destructor;
+        auto& objects = objects_();
+        objects.erase(std::remove(objects.begin(), objects.end(), static_cast<ChildT*>(this)), objects.end());
     }
 };
 

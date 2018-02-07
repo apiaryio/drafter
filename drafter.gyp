@@ -246,8 +246,12 @@
       'direct_dependent_settings' : {
         'include_dirs': [
           'src',
+          'ext/boost_1_66_0',
         ],
       },
+      'include_dirs' : [
+        'ext/boost_1_66_0',
+      ],
       'export_dependent_settings': [
         'libsos',
         'libsnowcrash',
@@ -277,6 +281,14 @@
         "src/RefractElementFactory.cc",
         "src/ConversionContext.cc",
         "src/ConversionContext.h",
+
+        "src/utils/Variant.h",
+        "src/utils/Utils.h",
+        "src/utils/so/Value.h",
+        "src/utils/so/JsonValue.h",
+        "src/utils/so/YamlValue.h",
+        "src/utils/so/ValueIo.h",
+        "src/utils/so/ValueIo.cc",
 
         # librefract parts - will be separated into other project
         "src/refract/Utils.h",
@@ -378,6 +390,8 @@
         "test/test-OneOfTest.cc",
         "test/test-SyntaxIssuesTest.cc",
         "test/test-ElementDataTest.cc",
+        "test/utils/test-Variant.cc",
+        "test/utils/so/test-ValueIo.cc",
 
         "test/refract/test-Utils.cc",
 
