@@ -285,10 +285,10 @@
         "src/utils/Variant.h",
         "src/utils/Utils.h",
         "src/utils/so/Value.h",
-        "src/utils/so/JsonValue.h",
-        "src/utils/so/YamlValue.h",
-        "src/utils/so/ValueIo.h",
-        "src/utils/so/ValueIo.cc",
+        "src/utils/so/JsonIo.h",
+        "src/utils/so/JsonIo.cc",
+        "src/utils/so/YamlIo.h",
+        "src/utils/so/YamlIo.cc",
 
         # librefract parts - will be separated into other project
         "src/refract/Utils.h",
@@ -390,8 +390,9 @@
         "test/test-OneOfTest.cc",
         "test/test-SyntaxIssuesTest.cc",
         "test/test-ElementDataTest.cc",
+
         "test/utils/test-Variant.cc",
-        "test/utils/so/test-ValueIo.cc",
+        "test/utils/so/test-JsonIo.cc",
 
         "test/refract/test-Utils.cc",
 
