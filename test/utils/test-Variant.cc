@@ -89,8 +89,6 @@ SCENARIO("variant construction", "[variant][init]")
             THEN("it was default constructed")
             {
                 REQUIRE(Foo::record().default_constructor == 1);
-                REQUIRE(Foo::record().copy_constructor == 0);
-                REQUIRE(Foo::record().move_constructor == 0);
             }
 
             THEN("it was not copied")
@@ -101,8 +99,8 @@ SCENARIO("variant construction", "[variant][init]")
 
             THEN("it was not moved")
             {
-                REQUIRE(Foo::record().copy_constructor == 0);
-                REQUIRE(Foo::record().copy_assignment == 0);
+                REQUIRE(Foo::record().move_constructor == 0);
+                REQUIRE(Foo::record().move_assignment == 0);
             }
 
             THEN("no other variants were constructed")
@@ -187,8 +185,18 @@ SCENARIO("variant construction", "[variant][init]")
         THEN("a Bar was default constructed")
         {
             REQUIRE(Bar::record().default_constructor == 1);
+        }
+
+        THEN("it was not copied")
+        {
             REQUIRE(Bar::record().copy_constructor == 0);
+            REQUIRE(Bar::record().copy_assignment == 0);
+        }
+
+        THEN("it was not moved")
+        {
             REQUIRE(Bar::record().move_constructor == 0);
+            REQUIRE(Bar::record().move_assignment == 0);
         }
 
         THEN("no Foo, Baz were constructed")
@@ -273,10 +281,25 @@ SCENARIO("variant construction", "[variant][init]")
 
         THEN("a Bar was copy constructed")
         {
-            REQUIRE(Bar::record().default_constructor == 0);
             REQUIRE(Bar::record().copy_constructor == 1);
-            REQUIRE(Bar::record().move_constructor == 0);
         }
+
+        THEN("it was not default constructed")
+        {
+            REQUIRE(Bar::record().default_constructor == 0);
+        }
+
+        THEN("it was not copy assigned")
+        {
+            REQUIRE(Bar::record().copy_assignment == 0);
+        }
+
+        THEN("it was not moved")
+        {
+            REQUIRE(Bar::record().move_constructor == 0);
+            REQUIRE(Bar::record().move_assignment == 0);
+        }
+
 
         THEN("no Foo, Baz were constructed")
         {
@@ -362,9 +385,23 @@ SCENARIO("variant construction", "[variant][init]")
 
         THEN("a Bar was move constructed")
         {
-            REQUIRE(Bar::record().default_constructor == 0);
-            REQUIRE(Bar::record().copy_constructor == 0);
             REQUIRE(Bar::record().move_constructor == 1);
+        }
+
+        THEN("it was not default constructed")
+        {
+            REQUIRE(Bar::record().default_constructor == 0);
+        }
+
+        THEN("it was not copied")
+        {
+            REQUIRE(Bar::record().copy_constructor == 0);
+            REQUIRE(Bar::record().copy_assignment == 0);
+        }
+
+        THEN("it was not move assigned")
+        {
+            REQUIRE(Bar::record().move_assignment == 0);
         }
 
         THEN("no Foo, Baz were constructed")
@@ -427,7 +464,7 @@ SCENARIO("variant construction", "[variant][init]")
 
         tested v(std::move(bar));
 
-        THEN("one Bar and one Foo exist")
+        THEN("two Bar exist")
         {
             REQUIRE(Foo::instances().size() == 0);
             REQUIRE(Bar::instances().size() == 2);
@@ -469,7 +506,7 @@ SCENARIO("variant construction", "[variant][init]")
             REQUIRE(Baz::record().move_constructor == 0);
         }
 
-        THEN("a Foo was default constructed")
+        THEN("no Foo was constructed")
         {
             REQUIRE(Foo::record().default_constructor == 0);
             REQUIRE(Foo::record().copy_constructor == 0);
