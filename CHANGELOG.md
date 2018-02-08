@@ -1,5 +1,13 @@
 # Drafter Changelog
 
+## master
+
+### Breaking
+
+* changes in Enumeration implemetation 
+    * samples are now collected as collection of individual elements
+    * warning on multiple default definitions
+
 ## 4.0.0-pre0
 
 ### Breaking
