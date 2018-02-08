@@ -767,13 +767,13 @@ namespace
 
     template <typename T>
     struct SaveValue<T, true> {
-        void operator()(std::deque<ElementInfo<T> > values, std::deque<ElementInfo<T> > /* enumerations*/, T& element) const
+        void operator()(ElementData<T>& data, T& element) const
         {
-            if (values.empty()) {
+            if (data.values.empty()) {
                 return;
             }
 
-            auto info = Merge<T>()(std::move(values));
+            auto info = Merge<T>()(std::move(data.values));
 
             auto result = LiteralTo<typename T::ValueType>(info.value);
 
@@ -787,9 +787,9 @@ namespace
 
     template <typename T>
     struct SaveValue<T, false> {
-        void operator()(std::deque<ElementInfo<T> > values, std::deque<ElementInfo<T> > /* enumerations*/, T& element) const
+        void operator()(ElementData<T>& data, T& element) const
         {
-            auto info = Merge<T>()(std::move(values));
+            auto info = Merge<T>()(std::move(data.values));
 
             if (!info.value.empty()) {
                 if (element.empty())
@@ -799,15 +799,33 @@ namespace
         }
     };
 
+    template<typename T>
+    ElementInfoContainer<T> CloneElementInfoContainer(const ElementInfoContainer<T>& infoContainer) {
+        ElementInfoContainer<T> copy;
+        std::transform(infoContainer.begin(), infoContainer.end(),
+                std::back_inserter(copy),
+                [](const auto& info) { 
+                ElementInfo<T> cloned;
+                cloned.sourceMap = info.sourceMap;
+                std::transform(info.value.begin(), info.value.end(),
+                        std::back_inserter(cloned.value),
+                        [](const auto& element) { return element->clone(); });
+                return std::move(cloned);
+                });
+        return std::move(copy);
+    }
+
     template <>
     struct SaveValue<EnumElement, false> {
+        using T = EnumElement;
 
-        void operator()(std::deque<ElementInfo<EnumElement> > values,
-            std::deque<ElementInfo<EnumElement> > enumerations,
-            EnumElement& element) const
+        void operator()(ElementData<T>& data, T& element) const
         {
-            auto valuesInfo = Merge<EnumElement>()(std::move(values));
-            auto enumInfo = Merge<EnumElement>()(std::move(enumerations));
+            auto valuesInfo = Merge<EnumElement>()(std::move(data.values));
+            auto enumInfo = Merge<EnumElement>()(std::move(data.enumerations));
+
+            auto samplesInfo = Merge<EnumElement>()(std::move(CloneElementInfoContainer<T>(data.samples)));
+            auto defaultInfo = Merge<EnumElement>()(std::move(CloneElementInfoContainer<T>(data.defaults)));
 
             if (!valuesInfo.value.empty()) {
                 auto content = std::move(valuesInfo.value.front());
@@ -815,9 +833,13 @@ namespace
                 element.set(dsd::Enum{ std::move(content) });
             }
 
-            if (!enumInfo.value.empty()) {
+            if (!enumInfo.value.empty() || !samplesInfo.value.empty() || !defaultInfo.value.empty()) {
                 auto enumsElement = make_element<ArrayElement>();
+
                 std::move(enumInfo.value.begin(), enumInfo.value.end(), std::back_inserter(enumsElement->get()));
+                std::move(samplesInfo.value.begin(), samplesInfo.value.end(), std::back_inserter(enumsElement->get()));
+                std::move(defaultInfo.value.begin(), defaultInfo.value.end(), std::back_inserter(enumsElement->get()));
+
                 element.attributes().set(SerializeKey::Enumerations, std::move(enumsElement));
             }
         }
@@ -930,7 +952,7 @@ namespace
         std::for_each(data.defaults.begin(), data.defaults.end(), validate);
         std::for_each(data.enumerations.begin(), data.enumerations.end(), validate);
 
-        SaveValue<T>()(std::move(data.values), std::move(data.enumerations), element);
+        SaveValue<T>()(data, element);
         AllElementsToAtribute<T>(std::move(data.samples), SerializeKey::Samples, element);
         LastElementToAttribute<T>(std::move(data.defaults), SerializeKey::Default, element, context);
     }
