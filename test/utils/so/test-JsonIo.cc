@@ -128,7 +128,7 @@ namespace
     };
 }
 
-SCENARIO("Serialize strings from utf-8 fixtures as JSON", "[siple-object][json][utf-8]")
+SCENARIO("Serialize strings from utf-8 fixtures as JSON", "[simple-object][json][utf-8]")
 {
     GIVEN("a String constructed in place from fixtures/utf-8/")
     {
@@ -452,7 +452,7 @@ SCENARIO("Serialize a utils::so::Value holding numbers json", "[simple-object][j
             std::stringstream ss;
             serialize_json(ss, value);
 
-            THEN("thie stringstream contains: 0")
+            THEN("the stringstream contains: 0")
             {
                 REQUIRE("0" == ss.str());
             }
@@ -468,7 +468,7 @@ SCENARIO("Serialize a utils::so::Value holding numbers json", "[simple-object][j
             std::stringstream ss;
             serialize_json(ss, value);
 
-            THEN("thie stringstream contains: null")
+            THEN("the stringstream contains: null")
             {
                 REQUIRE("null" == ss.str());
             }
@@ -486,7 +486,7 @@ SCENARIO("Serialize a utils::so::Value holding numbers json", "[simple-object][j
             std::stringstream ss;
             serialize_json(ss, value);
 
-            THEN("thie stringstream contains: 1e+9999")
+            THEN("the stringstream contains: 1e+9999")
             {
                 REQUIRE("1e+9999" == ss.str());
             }
@@ -504,7 +504,7 @@ SCENARIO("Serialize a utils::so::Value holding numbers json", "[simple-object][j
             std::stringstream ss;
             serialize_json(ss, value);
 
-            THEN("thie stringstream contains: -1e+9999")
+            THEN("the stringstream contains: -1e+9999")
             {
                 REQUIRE("-1e+9999" == ss.str());
             }

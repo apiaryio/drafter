@@ -35,7 +35,7 @@ namespace
     }
 
     template <typename ItI, typename ItO>
-    ItO escape_json(ItI b, ItI e, ItO out)
+    ItO escape_json_string(ItI b, ItI e, ItO out)
     {
         for (; b != e; ++b) {
 
@@ -126,7 +126,7 @@ namespace
         void operator()(const String& value, std::ostream& out, int indent = 0) const
         {
             out << '"';
-            escape_json( //
+            escape_json_string( //
                 value.data.begin(),
                 value.data.end(),
                 std::ostream_iterator<char>(out));
