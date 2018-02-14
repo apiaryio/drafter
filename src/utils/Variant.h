@@ -289,8 +289,21 @@ namespace drafter
             return v.template get<I>();
         }
 
+        template <size_t I, typename... Variants>
+        const auto& get(const variant<Variants...>& v)
+        {
+            return v.template get<I>();
+        }
+
         template <typename Which, typename... Variants>
         auto& get(variant<Variants...>& v)
+        {
+            constexpr size_t I = index_of<Which, Variants...>::value;
+            return v.template get<I>();
+        }
+
+        template <typename Which, typename... Variants>
+        const auto& get(const variant<Variants...>& v)
         {
             constexpr size_t I = index_of<Which, Variants...>::value;
             return v.template get<I>();
@@ -314,8 +327,20 @@ namespace drafter
             return holds_alternative<I>(v) ? &get<I>(v) : nullptr;
         }
 
+        template <size_t I, typename... Variants>
+        auto get_if(const variant<Variants...>& v) -> decltype(&get<I>(v))
+        {
+            return holds_alternative<I>(v) ? &get<I>(v) : nullptr;
+        }
+
         template <typename Which, typename... Variants>
         Which* get_if(variant<Variants...>& v)
+        {
+            return holds_alternative<Which>(v) ? (&get<Which>(v)) : nullptr;
+        }
+
+        template <typename Which, typename... Variants>
+        const Which* get_if(const variant<Variants...>& v)
         {
             return holds_alternative<Which>(v) ? (&get<Which>(v)) : nullptr;
         }
