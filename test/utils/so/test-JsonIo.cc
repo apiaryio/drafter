@@ -132,22 +132,22 @@ SCENARIO("Serialize strings from utf-8 fixtures as JSON", "[simple-object][json]
 {
     GIVEN("a String constructed in place from fixtures/utf-8/")
     {
-        for (const auto& file_name : utf8fixtures) {
+        WHEN("it is serialized into JSON")
+        {
+            for (const auto& file_name : utf8fixtures) {
 
-            std::ifstream input_is{ //
-                std::string("test/fixtures/utf-8/") + file_name,
-                std::ios_base::binary
-            };
-            REQUIRE(input_is);
+                std::ifstream input_is{ //
+                    std::string("test/fixtures/utf-8/") + file_name,
+                    std::ios_base::binary
+                };
+                REQUIRE(input_is);
 
-            const Value value( //
-                in_place_type<String>{},
-                std::string( //
-                    (std::istreambuf_iterator<char>(input_is)),
-                    std::istreambuf_iterator<char>()));
+                const Value value( //
+                    in_place_type<String>{},
+                    std::string( //
+                        (std::istreambuf_iterator<char>(input_is)),
+                        std::istreambuf_iterator<char>()));
 
-            WHEN("it is serialized into JSON")
-            {
                 std::ostringstream ss{};
                 serialize_json(ss, value, packed{});
                 const std::string actual = ss.str();
