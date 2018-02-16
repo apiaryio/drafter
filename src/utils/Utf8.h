@@ -12,6 +12,7 @@
 #include <cstdint>
 #include <cassert>
 #include <iterator>
+#include "Utils.h"
 
 namespace drafter
 {
@@ -22,9 +23,9 @@ namespace drafter
             using codepoint = std::uint32_t;
 
             template <typename It>
-            It serialize(codepoint c, It out)
+            typename std::enable_if<is_iterator<It>::value, It>::type //
+            serialize(codepoint c, It out)
             {
-                using test_whether_iterator = typename It::iterator_category;
                 using byte = const std::uint8_t;
 
                 if (c < 0x80) { // single byte

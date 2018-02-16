@@ -10,6 +10,7 @@
 #define DRAFTER_UTILS_H
 
 #include <type_traits>
+#include <iterator>
 #include <tuple>
 
 namespace drafter
@@ -83,6 +84,17 @@ namespace drafter
 
         template <size_t I, typename... Args>
         using type_at = typename std::tuple_element<I, std::tuple<Args...> >;
+
+        template <typename T, typename = void>
+        struct is_iterator {
+            static constexpr bool value = false;
+        };
+
+        template <typename T>
+        struct is_iterator<T,
+            typename std::enable_if<!std::is_same<typename std::iterator_traits<T>::iterator_category, void>::value>::type> {
+            static constexpr bool value = true;
+        };
     }
 }
 
