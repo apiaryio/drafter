@@ -86,20 +86,16 @@
                             "content": [
                               {
                                 "element": "enum",
-                                "attributes": {
-                                  "enumerations": {
-                                    "element": "array",
-                                    "content": [
-                                      {
-                                        "element": "string",
-                                        "content": "3"
-                                      },
-                                      {
-                                        "element": "string",
-                                        "content": "4"
-                                      }
-                                    ]
-                                  }
+                                "content": {
+                                  "element": "string",
+                                  "content": "3"
+                                }
+                              },
+                              {
+                                "element": "enum",
+                                "content": {
+                                  "element": "string",
+                                  "content": "4"
                                 }
                               }
                             ]
@@ -162,20 +158,16 @@
                             "content": [
                               {
                                 "element": "enum",
-                                "attributes": {
-                                  "enumerations": {
-                                    "element": "array",
-                                    "content": [
-                                      {
-                                        "element": "string",
-                                        "content": "3"
-                                      },
-                                      {
-                                        "element": "string",
-                                        "content": "4"
-                                      }
-                                    ]
-                                  }
+                                "content": {
+                                  "element": "string",
+                                  "content": "3"
+                                }
+                              },
+                              {
+                                "element": "enum",
+                                "content": {
+                                  "element": "string",
+                                  "content": "4"
                                 }
                               }
                             ]
@@ -213,38 +205,30 @@
                             "content": [
                               {
                                 "element": "enum",
-                                "attributes": {
-                                  "enumerations": {
-                                    "element": "array",
-                                    "content": [
-                                      {
-                                        "element": "number",
-                                        "content": 3
-                                      },
-                                      {
-                                        "element": "number",
-                                        "content": 4
-                                      }
-                                    ]
-                                  }
+                                "content": {
+                                  "element": "number",
+                                  "content": 3
                                 }
                               },
                               {
                                 "element": "enum",
-                                "attributes": {
-                                  "enumerations": {
-                                    "element": "array",
-                                    "content": [
-                                      {
-                                        "element": "number",
-                                        "content": 5
-                                      },
-                                      {
-                                        "element": "number",
-                                        "content": 6
-                                      }
-                                    ]
-                                  }
+                                "content": {
+                                  "element": "number",
+                                  "content": 4
+                                }
+                              },
+                              {
+                                "element": "enum",
+                                "content": {
+                                  "element": "number",
+                                  "content": 5
+                                }
+                              },
+                              {
+                                "element": "enum",
+                                "content": {
+                                  "element": "number",
+                                  "content": 6
                                 }
                               }
                             ]

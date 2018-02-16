@@ -63,6 +63,7 @@ TEST_REFRACT("mson", "check-sample-without-value");
 TEST_REFRACT("mson", "fixed-type-array-primitive-nested");
 
 TEST_MSON_SUCCESS("enum-empty-default");
+TEST_MSON_SUCCESS("enum-multiple-default");
 
 #undef TEST_MSON_SUCCESS
 #undef TEST_MSON

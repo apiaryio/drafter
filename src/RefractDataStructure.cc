@@ -29,20 +29,20 @@ using namespace drafter;
 namespace
 {
 
-    // auto const PrimitiveType = std::true_type::value;
-    auto const ComplexType = std::false_type::value;
+    // const auto PrimitiveType = std::true_type::value;
+    const auto ComplexType = std::false_type::value;
 
     template <typename U>
     struct FetchSourceMap {
 
-        snowcrash::SourceMap<U> operator()(const NodeInfo<mson::ValueMember>& valueMember)
+        snowcrash::SourceMap<U> operator()(const NodeInfo<mson::ValueMember>& valueMember) const
         {
             snowcrash::SourceMap<U> sourceMap = *NodeInfo<U>::NullSourceMap();
             sourceMap.sourceMap = valueMember.sourceMap->valueDefinition.sourceMap;
             return sourceMap;
         }
 
-        snowcrash::SourceMap<U> operator()(const NodeInfo<mson::TypeSection>& typeSection)
+        snowcrash::SourceMap<U> operator()(const NodeInfo<mson::TypeSection>& typeSection) const
         {
             snowcrash::SourceMap<U> sourceMap = *NodeInfo<U>::NullSourceMap();
             sourceMap.sourceMap = typeSection.sourceMap->value.sourceMap;
@@ -241,7 +241,7 @@ namespace
         struct Fetch<U, true> {
             ElementInfo<T> operator()(const NodeInfo<mson::TypeSection>& typeSection,
                 ConversionContext& context,
-                const mson::BaseTypeName& defaultNestedType)
+                const mson::BaseTypeName& defaultNestedType) const
             {
 
                 snowcrash::SourceMap<ValueType> sourceMap = FetchSourceMap<ValueType>()(typeSection);
@@ -253,7 +253,7 @@ namespace
         struct Fetch<U, false> {
             ElementInfo<T> operator()(const NodeInfo<mson::TypeSection>& typeSection,
                 ConversionContext& context,
-                const mson::BaseTypeName& defaultNestedType)
+                const mson::BaseTypeName& defaultNestedType) const
             {
                 std::deque<std::unique_ptr<IElement> > values;
                 MsonElementsToRefract(
@@ -273,7 +273,7 @@ namespace
             void operator()(ElementData<U>& data,
                 const NodeInfo<mson::TypeSection>& typeSection,
                 ConversionContext& context,
-                const mson::BaseTypeName& defaultNestedType)
+                const mson::BaseTypeName& defaultNestedType) const
             {
                 // do nothing
 
@@ -288,7 +288,7 @@ namespace
             void operator()(ElementData<U>& data,
                 const NodeInfo<mson::TypeSection>& typeSection,
                 ConversionContext& context,
-                const mson::BaseTypeName& defaultNestedType)
+                const mson::BaseTypeName& defaultNestedType) const
             {
 
                 data.values.push_back(Fetch<U>()(typeSection, context, defaultNestedType));
@@ -300,7 +300,7 @@ namespace
             void operator()(ElementData<EnumElement>& data,
                 const NodeInfo<mson::TypeSection>& typeSection,
                 ConversionContext& context,
-                const mson::BaseTypeName& defaultNestedType)
+                const mson::BaseTypeName& defaultNestedType) const
             {
 
                 data.enumerations.push_back(Fetch<EnumElement>()(typeSection, context, defaultNestedType));
@@ -312,7 +312,7 @@ namespace
 
         template <bool dummy>
         struct TypeDefinition<snowcrash::DataStructure, dummy> {
-            const mson::TypeDefinition& operator()(const snowcrash::DataStructure& dataStructure)
+            const mson::TypeDefinition& operator()(const snowcrash::DataStructure& dataStructure) const
             {
                 return dataStructure.typeDefinition;
             }
@@ -320,7 +320,7 @@ namespace
 
         template <bool dummy>
         struct TypeDefinition<mson::ValueMember, dummy> {
-            const mson::TypeDefinition& operator()(const mson::ValueMember& valueMember)
+            const mson::TypeDefinition& operator()(const mson::ValueMember& valueMember) const
             {
                 return valueMember.valueDefinition.typeDefinition;
             }
@@ -337,7 +337,7 @@ namespace
         {
         }
 
-        void operator()(const NodeInfo<mson::TypeSection>& typeSection)
+        void operator()(const NodeInfo<mson::TypeSection>& typeSection) const
         {
             Fetch<ElementType> fetch;
 
@@ -430,7 +430,7 @@ namespace
 
         template <typename E>
         struct Fetch<E, ComplexType> {
-            ElementInfo<T> operator()(const mson::TypeNames& typeNames, const ConversionContext& context)
+            ElementInfo<T> operator()(const mson::TypeNames& typeNames, const ConversionContext& context) const
             {
                 std::deque<std::unique_ptr<IElement> > types;
 
@@ -456,7 +456,7 @@ namespace
 
         template <typename E, bool dummy>
         struct Store<E, true, dummy> {
-            void operator()(ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context)
+            void operator()(ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context) const
             {
                 // do nothing - Primitive types does not contain TypeDefinitions
             }
@@ -464,7 +464,7 @@ namespace
 
         template <typename E, bool dummy>
         struct Store<E, false, dummy> {
-            void operator()(ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context)
+            void operator()(ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context) const
             {
                 data.values.push_back(Fetch<E>()(typeNames, context));
             }
@@ -473,7 +473,7 @@ namespace
         template <bool dummy>
         struct Store<EnumElement, false, dummy> {
             using E = EnumElement;
-            void operator()(ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context)
+            void operator()(ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context) const
             {
                 data.enumerations.push_back(Fetch<E>()(typeNames, context));
             }
@@ -481,7 +481,7 @@ namespace
 
         ExtractTypeDefinition(ElementData<T>& data, const ConversionContext& context) : data(data), context(context) {}
 
-        void operator()(const NodeInfo<mson::TypeDefinition>& typeDefinition)
+        void operator()(const NodeInfo<mson::TypeDefinition>& typeDefinition) const
         {
             Store<T>()(data, typeDefinition.node->typeSpecification.nestedTypes, context);
         }
@@ -503,7 +503,7 @@ namespace
         template <typename U, bool dummy>
         struct Fetch<U, true, dummy> { // primitive values
 
-            ElementInfo<T> operator()(const NodeInfo<mson::ValueMember>& valueMember, ConversionContext& context)
+            ElementInfo<T> operator()(const NodeInfo<mson::ValueMember>& valueMember, ConversionContext& context) const
             {
                 if (valueMember.node->valueDefinition.values.size() > 1) {
                     throw snowcrash::Error("only one value is supported for primitive types",
@@ -521,7 +521,7 @@ namespace
         template <typename U, bool dummy>
         struct Fetch<U, false, dummy> { // Array|Object
 
-            ElementInfo<T> operator()(const NodeInfo<mson::ValueMember>& valueMember, ConversionContext& context)
+            ElementInfo<T> operator()(const NodeInfo<mson::ValueMember>& valueMember, ConversionContext& context) const
             {
 
                 const mson::BaseTypeName type = SelectNestedTypeSpecification(
@@ -544,7 +544,7 @@ namespace
         template <bool dummy>
         struct Fetch<EnumElement, false, dummy> { // Enum
 
-            ElementInfo<T> operator()(const NodeInfo<mson::ValueMember>& valueMember, ConversionContext& context)
+            ElementInfo<T> operator()(const NodeInfo<mson::ValueMember>& valueMember, ConversionContext& context) const
             {
 
                 const mson::BaseTypeName type = SelectNestedTypeSpecification(
@@ -565,7 +565,7 @@ namespace
 
         template <typename Y, bool IsIterable = dsd::is_iterable<Y>::value>
         struct IsValueVariable {
-            bool operator()(const mson::Value& value)
+            bool operator()(const mson::Value& value) const
             {
                 return value.variable;
             }
@@ -573,7 +573,7 @@ namespace
 
         template <typename Y>
         struct IsValueVariable<Y, true> {
-            bool operator()(const mson::Value&)
+            bool operator()(const mson::Value&) const
             {
                 return false;
             }
@@ -581,7 +581,7 @@ namespace
 
         template <typename E, bool dummy = true>
         struct Store {
-            void operator()(ElementData<E>& data, ElementInfo<E> info)
+            void operator()(ElementData<E>& data, ElementInfo<E> info) const
             {
                 data.values.push_back(std::move(info));
             }
@@ -589,7 +589,7 @@ namespace
 
         template <bool dummy>
         struct Store<EnumElement, dummy> {
-            void operator()(ElementData<EnumElement>& data, ElementInfo<EnumElement> info)
+            void operator()(ElementData<EnumElement>& data, ElementInfo<EnumElement> info) const
             {
                 if (info.value.size() == 1) {
                     data.values.push_back(std::move(info));
@@ -604,7 +604,7 @@ namespace
         {
         }
 
-        void operator()(const NodeInfo<mson::ValueMember>& valueMember)
+        void operator()(const NodeInfo<mson::ValueMember>& valueMember) const
         {
             // silently ignore "value" for ObjectElement e.g.
             // # A (array)
@@ -660,7 +660,7 @@ namespace
         std::string& base;
         Join(std::string& str) : base(str) {}
 
-        void operator()(const std::string& append, const std::string separator = "\n")
+        void operator()(const std::string& append, const std::string separator = "\n") const
         {
             if (append.empty()) {
                 return;
@@ -722,7 +722,7 @@ namespace
 
     template <typename E, bool dummy>
     struct ElementInfoToElement<E, true, dummy> {
-        std::unique_ptr<E> operator()(ElementInfo<E>&& info)
+        std::unique_ptr<E> operator()(ElementInfo<E>&& info) const
         {
             auto result = LiteralTo<typename E::ValueType>(info.value);
             return result.first ? make_element<E>(result.second) : make_empty<E>();
@@ -731,7 +731,7 @@ namespace
 
     template <typename E, bool dummy>
     struct ElementInfoToElement<E, false, dummy> {
-        std::unique_ptr<E> operator()(ElementInfo<E>&& info)
+        std::unique_ptr<E> operator()(ElementInfo<E>&& info) const
         {
             auto result = make_element<E>();
             std::move(info.value.begin(), info.value.end(), std::back_inserter(result->get()));
@@ -741,7 +741,7 @@ namespace
 
     template <bool dummy>
     struct ElementInfoToElement<EnumElement, false, dummy> {
-        std::unique_ptr<EnumElement> operator()(ElementInfo<EnumElement>&& info)
+        std::unique_ptr<EnumElement> operator()(ElementInfo<EnumElement>&& info) const
         {
 
             auto& v = info.value;
@@ -767,7 +767,7 @@ namespace
 
     template <typename T>
     struct SaveValue<T, true> {
-        void operator()(std::deque<ElementInfo<T> > values, std::deque<ElementInfo<T> > /* enumerations*/, T& element)
+        void operator()(std::deque<ElementInfo<T> > values, std::deque<ElementInfo<T> > /* enumerations*/, T& element) const
         {
             if (values.empty()) {
                 return;
@@ -787,7 +787,7 @@ namespace
 
     template <typename T>
     struct SaveValue<T, false> {
-        void operator()(std::deque<ElementInfo<T> > values, std::deque<ElementInfo<T> > /* enumerations*/, T& element)
+        void operator()(std::deque<ElementInfo<T> > values, std::deque<ElementInfo<T> > /* enumerations*/, T& element) const
         {
             auto info = Merge<T>()(std::move(values));
 
@@ -804,7 +804,7 @@ namespace
 
         void operator()(std::deque<ElementInfo<EnumElement> > values,
             std::deque<ElementInfo<EnumElement> > enumerations,
-            EnumElement& element)
+            EnumElement& element) const
         {
             auto valuesInfo = Merge<EnumElement>()(std::move(values));
             auto enumInfo = Merge<EnumElement>()(std::move(enumerations));
@@ -841,8 +841,29 @@ namespace
         element.attributes().set(key, std::move(a));
     }
 
+    template <>
+    void AllElementsToAtribute<refract::EnumElement, ElementInfoContainer<refract::EnumElement> >(
+        ElementInfoContainer<refract::EnumElement> values, const std::string& key, IElement& element)
+    {
+        using T = refract::EnumElement;
+
+        auto info = Merge<T>()(std::move(values));
+        auto a = make_element<ArrayElement>();
+
+        if (info.value.empty()) {
+            return;
+        }
+
+        std::transform(std::make_move_iterator(info.value.begin()),
+            std::make_move_iterator(info.value.end()),
+            std::back_inserter(a->get()),
+            [](auto node) { return make_element<EnumElement>(dsd::Enum{ std::move(node) }); });
+
+        element.attributes().set(key, std::move(a));
+    }
+
     template <typename T, typename U>
-    void LastElementToAttribute(U values, const std::string& key, IElement& element)
+    void LastElementToAttribute(U values, const std::string& key, IElement& element, ConversionContext& /* dummy */)
     {
 
         if (values.empty()) {
@@ -851,6 +872,49 @@ namespace
 
         ElementInfoToElement<T> fetch;
         element.attributes().set(key, fetch(std::move(values.back())));
+    }
+
+    void CheckForMultipleDefaultDefinitions(
+        const ElementInfoContainer<refract::EnumElement>& values, ConversionContext& context)
+    {
+        if (values.empty()) {
+            return;
+        }
+
+        if ((values.size() > 1) || (values.front().value.size() > 1)) {
+
+            mdp::CharactersRangeSet location;
+            for (const auto& item : values) {
+                location.append(item.sourceMap.sourceMap);
+            }
+
+            context.warn(snowcrash::Warning("multiple definitions of 'default' value", snowcrash::MSONError, location));
+        }
+    }
+
+    template <>
+    void LastElementToAttribute<refract::EnumElement, ElementInfoContainer<refract::EnumElement> >(
+        ElementInfoContainer<refract::EnumElement> values,
+        const std::string& key,
+        IElement& element,
+        ConversionContext& context)
+    {
+        using T = refract::EnumElement;
+
+        CheckForMultipleDefaultDefinitions(values, context);
+
+        if (values.empty()) {
+            return;
+        }
+
+        auto info = Merge<T>()(std::move(values));
+
+        if (info.value.empty()) {
+            element.attributes().set(key, make_empty<EnumElement>());
+            return;
+        }
+
+        element.attributes().set(key, make_element<EnumElement>(dsd::Enum{ std::move(info.value.back()) }));
     }
 
     template <typename T>
@@ -868,7 +932,7 @@ namespace
 
         SaveValue<T>()(std::move(data.values), std::move(data.enumerations), element);
         AllElementsToAtribute<T>(std::move(data.samples), SerializeKey::Samples, element);
-        LastElementToAttribute<T>(std::move(data.defaults), SerializeKey::Default, element);
+        LastElementToAttribute<T>(std::move(data.defaults), SerializeKey::Default, element, context);
     }
 
     template <typename T>
