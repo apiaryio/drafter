@@ -12,6 +12,8 @@
 
 #include <string>
 #include <fstream>
+#include <array>
+#include <utility>
 
 using namespace drafter;
 using namespace utils;
