@@ -157,7 +157,8 @@ namespace drafter
             {
                 if (which_ == other.which_) {
                     do_visit(
-                        [](auto& lhs, auto& rhs) { //
+                        [](auto& lhs, auto& rhs) {
+                            using std::swap;
                             swap(lhs, rhs.template get<detail::index<decltype(lhs), Variants...>::value>());
                         },
                         other);
