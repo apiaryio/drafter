@@ -24,6 +24,7 @@ namespace config
     static const std::string Validate = "validate";
     static const std::string Version = "version";
     static const std::string UseLineNumbers = "use-line-num";
+    static const std::string EnableLog = "enable-log";
 };
 
 void PrepareCommanLineParser(cmdline::parser& parser)
@@ -43,6 +44,7 @@ void PrepareCommanLineParser(cmdline::parser& parser)
     parser.add(config::Validate, 'l', "validate input only, do not output Parse Result");
     parser.add(
         config::UseLineNumbers, 'u', "use line and row number instead of character index when printing annotation");
+    parser.add(config::EnableLog, 'L', "enable logging");
 
     std::stringstream ss;
 
@@ -88,6 +90,7 @@ void ParseCommadLineOptions(int argc, const char* argv[], /* out */ Config& conf
     conf.format = parser.get<std::string>(config::Format) == "json" ? drafter::JSONFormat : drafter::YAMLFormat;
     conf.output = parser.get<std::string>(config::Output);
     conf.sourceMap = parser.exist(config::Sourcemap);
+    conf.enableLog = parser.exist(config::EnableLog);
 
     ValidateParsedCommandLine(parser, conf);
 }
