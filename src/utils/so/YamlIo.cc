@@ -198,7 +198,7 @@ namespace
             if (indent > 0)
                 out << ' ';
 
-            out << value.data; // TODO @tjanc@ probably not correct
+            out << value.data;
         }
 
         void operator()(const Object& value, std::ostream& out, int indent = 0) const
