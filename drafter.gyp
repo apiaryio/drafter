@@ -283,6 +283,7 @@
         "src/ConversionContext.h",
 
         "src/utils/Variant.h",
+        "src/utils/Utf8.h",
         "src/utils/Utils.h",
         "src/utils/so/Value.h",
         "src/utils/so/JsonIo.h",
@@ -392,7 +393,9 @@
         "test/test-ElementDataTest.cc",
 
         "test/utils/test-Variant.cc",
+        "test/utils/test-Utf8.cc",
         "test/utils/so/test-JsonIo.cc",
+        "test/utils/so/test-YamlIo.cc",
 
         "test/refract/test-Utils.cc",
 

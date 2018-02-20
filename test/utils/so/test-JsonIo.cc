@@ -128,26 +128,26 @@ namespace
     };
 }
 
-SCENARIO("Serialize strings from utf-8 fixtures as JSON", "[siple-object][json][utf-8]")
+SCENARIO("Serialize strings from utf-8 fixtures as JSON", "[simple-object][json][utf-8]")
 {
     GIVEN("a String constructed in place from fixtures/utf-8/")
     {
-        for (const auto& file_name : utf8fixtures) {
+        WHEN("it is serialized into JSON")
+        {
+            for (const auto& file_name : utf8fixtures) {
 
-            std::ifstream input_is{ //
-                std::string("test/fixtures/utf-8/") + file_name,
-                std::ios_base::binary
-            };
-            REQUIRE(input_is);
+                std::ifstream input_is{ //
+                    std::string("test/fixtures/utf-8/") + file_name,
+                    std::ios_base::binary
+                };
+                REQUIRE(input_is);
 
-            const Value value( //
-                in_place_type<String>{},
-                std::string( //
-                    (std::istreambuf_iterator<char>(input_is)),
-                    std::istreambuf_iterator<char>()));
+                const Value value( //
+                    in_place_type<String>{},
+                    std::string( //
+                        (std::istreambuf_iterator<char>(input_is)),
+                        std::istreambuf_iterator<char>()));
 
-            WHEN("it is serialized into JSON")
-            {
                 std::ostringstream ss{};
                 serialize_json(ss, value, packed{});
                 const std::string actual = ss.str();
@@ -452,7 +452,7 @@ SCENARIO("Serialize a utils::so::Value holding numbers json", "[simple-object][j
             std::stringstream ss;
             serialize_json(ss, value);
 
-            THEN("thie stringstream contains: 0")
+            THEN("the stringstream contains: 0")
             {
                 REQUIRE("0" == ss.str());
             }
@@ -468,7 +468,7 @@ SCENARIO("Serialize a utils::so::Value holding numbers json", "[simple-object][j
             std::stringstream ss;
             serialize_json(ss, value);
 
-            THEN("thie stringstream contains: null")
+            THEN("the stringstream contains: null")
             {
                 REQUIRE("null" == ss.str());
             }
@@ -486,7 +486,7 @@ SCENARIO("Serialize a utils::so::Value holding numbers json", "[simple-object][j
             std::stringstream ss;
             serialize_json(ss, value);
 
-            THEN("thie stringstream contains: 1e+9999")
+            THEN("the stringstream contains: 1e+9999")
             {
                 REQUIRE("1e+9999" == ss.str());
             }
@@ -504,7 +504,7 @@ SCENARIO("Serialize a utils::so::Value holding numbers json", "[simple-object][j
             std::stringstream ss;
             serialize_json(ss, value);
 
-            THEN("thie stringstream contains: -1e+9999")
+            THEN("the stringstream contains: -1e+9999")
             {
                 REQUIRE("-1e+9999" == ss.str());
             }
