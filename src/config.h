@@ -20,6 +20,7 @@ struct Config {
     drafter::SerializeFormat format;
     bool sourceMap;
     std::string output;
+    bool enableLog;
 };
 
 /**

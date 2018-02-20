@@ -23,6 +23,8 @@
 
 #include "ConversionContext.h"
 
+#include "utils/log/Trivial.h"
+
 namespace sc = snowcrash;
 
 /**
@@ -51,6 +53,9 @@ void Serialization(std::ostream* stream, const sos::Object& object, sos::Seriali
 
 int ProcessRefract(const Config& config, std::unique_ptr<std::istream>& in, std::unique_ptr<std::ostream>& out)
 {
+    if(config.enableLog)
+        ENABLE_LOGGING;
+
     std::stringstream inputStream;
     inputStream << in->rdbuf();
 

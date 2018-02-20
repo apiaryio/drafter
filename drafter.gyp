@@ -290,6 +290,8 @@
         "src/utils/so/JsonIo.cc",
         "src/utils/so/YamlIo.h",
         "src/utils/so/YamlIo.cc",
+        "src/utils/log/Trivial.h",
+        "src/utils/log/Trivial.cc",
 
         # librefract parts - will be separated into other project
         "src/refract/Utils.h",
