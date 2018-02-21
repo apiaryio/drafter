@@ -30,72 +30,72 @@ namespace drafter
             ///
             /// Decode utf8 codepoint from octet sequence
             ///
-            /// @param  b   iterator to begin of octet sequence to be decoded from
-            /// @param  e   iterator to end of octet sequence to be decoded from
+            /// @param  first   iterator to begin of octet sequence to be decoded from
+            /// @param  last    iterator to end of octet sequence to be decoded from
             ///
-            /// @returns    iff b equals e, then (0xFFFFFFFF, e) ; else
+            /// @returns    iff first equals last, then (0xFFFFFFFF, last) ; else
             ///             iff invalid utf8 sequence, then (0xFFFD, iterator to begin of next Utf8 character)
             ///             otherwise (codepoint, iterator to begin of next Utf8 character)
             ///
             template <typename It>
             typename std::enable_if<is_iterator<It>::value, std::pair<codepoint, It> >::type //
-            decode_one(It b, It e)
+            decode_one(It first, It last)
             {
-                if (b == e)
-                    return { invalid, e };
+                if (first == last)
+                    return { invalid, last };
 
                 codepoint cp = 0;
-                cp |= reinterpret_cast<const unsigned char&>(*b);
+                cp |= reinterpret_cast<const unsigned char&>(*first);
 
                 if (cp < 0x80) { // single byte
-                    std::advance(b, 1);
+                    std::advance(first, 1);
 
-                    return { cp, b };
+                    return { cp, first };
                 } else if (cp < 0xE0) { // two bytes
-                    if (e - b < 2) {
-                        return { replacement, e }; // expected more!
+                    if (last - first < 2) {
+                        return { replacement, last }; // expected more!
                     }
 
                     codepoint result = ((cp & 0x1F) << 6) //
-                        | (static_cast<unsigned char>(b[1]) & 0x3F);
-                    std::advance(b, 2);
+                        | (static_cast<unsigned char>(first[1]) & 0x3F);
+                    std::advance(first, 2);
 
-                    return { result < 0x80 ? replacement : result, b }; // check for oversized
+                    return { result < 0x80 ? replacement : result, first }; // check for oversized
 
                 } else if (cp < 0xF0) { // three bytes
-                    if (e - b < 3) {
-                        return { replacement, e }; // expected more!
+                    if (last - first < 3) {
+                        return { replacement, last }; // expected more!
                     }
 
-                    codepoint result = ((cp & 0x0F) << 12)                 //
-                        | ((static_cast<unsigned char>(b[1]) & 0x3F) << 6) //
-                        | (static_cast<unsigned char>(b[2]) & 0x3F);
-                    std::advance(b, 3);
+                    codepoint result = ((cp & 0x0F) << 12)                     //
+                        | ((static_cast<unsigned char>(first[1]) & 0x3F) << 6) //
+                        | (static_cast<unsigned char>(first[2]) & 0x3F);
+                    std::advance(first, 3);
 
                     if (result >= 0xD800 && result <= 0xDFFF) // surrogates not codepoints
-                        return { replacement, b };
+                        return { replacement, first };
 
-                    return { result < 0x800 ? replacement : result, b }; // check for oversized
+                    return { result < 0x800 ? replacement : result, first }; // check for oversized
 
                 } else { // four bytes
-                    if (e - b < 4)
-                        return { replacement, e }; // expected more!
+                    if (last - first < 4)
+                        return { replacement, last }; // expected more!
 
-                    codepoint result = ((cp & 0x07) << 18)                  //
-                        | ((static_cast<unsigned char>(b[1]) & 0x3F) << 12) //
-                        | ((static_cast<unsigned char>(b[2]) & 0x3F) << 6)  //
-                        | (static_cast<unsigned char>(b[3]) & 0x3F);
-                    std::advance(b, 4);
+                    codepoint result = ((cp & 0x07) << 18)                      //
+                        | ((static_cast<unsigned char>(first[1]) & 0x3F) << 12) //
+                        | ((static_cast<unsigned char>(first[2]) & 0x3F) << 6)  //
+                        | (static_cast<unsigned char>(first[3]) & 0x3F);
+                    std::advance(first, 4);
 
                     // check for oversized
                     if (result < 0x10000)
-                        return { replacement, b };
+                        return { replacement, first };
 
                     // check for overlong sequences
                     if (result > 0x10FFFF)
-                        return { replacement, b };
+                        return { replacement, first };
 
-                    return { result, b };
+                    return { result, first };
                 }
             }
 
@@ -205,15 +205,15 @@ namespace drafter
 
             public:
                 template <typename ItT>
-                constexpr input_iterator(ItT&& b, ItT&& e) noexcept //
-                    : e_(std::forward<ItT>(e)),
-                      cp_and_next_(decode_one(b, e))
+                constexpr input_iterator(ItT&& first, ItT&& last) noexcept //
+                    : e_(std::forward<ItT>(last)),
+                      cp_and_next_(decode_one(first, last))
                 {
                 }
 
                 template <typename Container>
-                explicit constexpr input_iterator(const Container& e) noexcept //
-                    : input_iterator(e.begin(), e.end())
+                explicit constexpr input_iterator(const Container& last) noexcept //
+                    : input_iterator(last.begin(), last.end())
                 {
                 }
 
