@@ -21,6 +21,7 @@ using namespace utf8;
 
 namespace
 {
+    // character size of documents obtained via: wc -m $fixture
     // clang-format off
     const std::array<std::pair<int, const char*>, 30>  utf8fixtures = {
         std::make_pair(  235188, "utf8_sequence_0-0x10ffff_assigned_including-unprintable-asis_unseparated.txt"),
@@ -74,7 +75,7 @@ SCENARIO("iteration over ASCII strings", "[utf8]")
         }
     }
 
-    GIVEN("A std::string{\"Foo\\n\"} and utf8 iterators to its begin & end")
+    GIVEN("A std::string{\"Fo\\n\"} and utf8 iterators to its begin & end")
     {
         std::string str{ "Fo\n" };
 
@@ -154,7 +155,7 @@ SCENARIO("iteration over utf-8 fixtures", "[utf8]")
                 }
             }
 
-            WHEN("serialize(codepoint) is used on deref'd iterator")
+            WHEN("encode(codepoint) is used on deref'd iterator")
             {
                 THEN("the result is the same as the original input")
                 {
@@ -162,8 +163,7 @@ SCENARIO("iteration over utf-8 fixtures", "[utf8]")
                     for (; b != e; ++b) {
                         std::vector<char> cs;
 
-                        // TODO @tjanc@ also test return value
-                        serialize(*b, std::back_insert_iterator<std::vector<char> >(cs));
+                        encode(*b, std::back_insert_iterator<std::vector<char> >(cs));
 
                         for (const char& c : cs) {
                             if (c != *p_exp) // Catch REQUIRE not used; would clutter
@@ -184,7 +184,7 @@ SCENARIO("iteration over non utf-8 strings", "[utf8]")
 {
     using tested = input_iterator<std::string::const_iterator>;
 
-    GIVEN("a string ending prematurely; and an utf8 iterator to it")
+    GIVEN("a string ending prematurely, expected 2 bytes got only 1; and an utf8 iterator to it")
     {
         std::string str{ "ab\xC2" };
 
@@ -213,10 +213,293 @@ SCENARIO("iteration over non utf-8 strings", "[utf8]")
         }
     }
 
-    // TODO @tjanc@ test ending prematurely 3-byte
-    // TODO @tjanc@ test ending prematurely 4-byte
-    // TODO @tjanc@ test oversized 2-byte
-    // TODO @tjanc@ test oversized 3-byte
-    // TODO @tjanc@ test oversized 4-byte
-    // TODO @tjanc@ test surrogates as codepoints (3-byte)
+    GIVEN("a string ending prematurely, expected 3 bytes got only 2; and an utf8 iterator to it")
+    {
+        std::string str{ "ab\xED\x9F" };
+
+        tested b{ str.begin(), str.end() };
+
+        WHEN("the iterator is advanced two times")
+        {
+            using std::advance;
+            advance(b, 2);
+
+            THEN("it dereferences to the replacement character, 0xFFFD")
+            {
+                REQUIRE(0xFFFD == *b);
+            }
+
+            WHEN("incremented")
+            {
+                ++b;
+
+                THEN("it is equal to an utf8 iterator to the end of the string")
+                {
+                    tested end{ str.end(), str.end() };
+                    REQUIRE(b == end);
+                }
+            }
+        }
+    }
+
+    GIVEN("a string ending prematurely, expected 3 bytes got only 1; and an utf8 iterator to it")
+    {
+        std::string str{ "ab\xED" };
+
+        tested b{ str.begin(), str.end() };
+
+        WHEN("the iterator is advanced two times")
+        {
+            using std::advance;
+            advance(b, 2);
+
+            THEN("it dereferences to the replacement character, 0xFFFD")
+            {
+                REQUIRE(0xFFFD == *b);
+            }
+
+            WHEN("incremented")
+            {
+                ++b;
+
+                THEN("it is equal to an utf8 iterator to the end of the string")
+                {
+                    tested end{ str.end(), str.end() };
+                    REQUIRE(b == end);
+                }
+            }
+        }
+    }
+
+    GIVEN("a string ending prematurely, expected 4 bytes got only 3; and an utf8 iterator to it")
+    {
+        std::string str{ "ab\xF0\x90\x82" };
+
+        tested b{ str.begin(), str.end() };
+
+        WHEN("the iterator is advanced two times")
+        {
+            using std::advance;
+            advance(b, 2);
+
+            THEN("it dereferences to the replacement character, 0xFFFD")
+            {
+                REQUIRE(0xFFFD == *b);
+            }
+
+            WHEN("incremented")
+            {
+                ++b;
+
+                THEN("it is equal to an utf8 iterator to the end of the string")
+                {
+                    tested end{ str.end(), str.end() };
+                    REQUIRE(b == end);
+                }
+            }
+        }
+    }
+
+    GIVEN("a string ending prematurely, expected 4 bytes got only 2; and an utf8 iterator to it")
+    {
+        std::string str{ "ab\xF0\x90" };
+
+        tested b{ str.begin(), str.end() };
+
+        WHEN("the iterator is advanced two times")
+        {
+            using std::advance;
+            advance(b, 2);
+
+            THEN("it dereferences to the replacement character, 0xFFFD")
+            {
+                REQUIRE(0xFFFD == *b);
+            }
+
+            WHEN("incremented")
+            {
+                ++b;
+
+                THEN("it is equal to an utf8 iterator to the end of the string")
+                {
+                    tested end{ str.end(), str.end() };
+                    REQUIRE(b == end);
+                }
+            }
+        }
+    }
+
+    GIVEN("a string ending prematurely, expected 4 bytes got only 1; and an utf8 iterator to it")
+    {
+        std::string str{ "ab\xF0" };
+
+        tested b{ str.begin(), str.end() };
+
+        WHEN("the iterator is advanced two times")
+        {
+            using std::advance;
+            advance(b, 2);
+
+            THEN("it dereferences to the replacement character, 0xFFFD")
+            {
+                REQUIRE(0xFFFD == *b);
+            }
+
+            WHEN("incremented")
+            {
+                ++b;
+
+                THEN("it is equal to an utf8 iterator to the end of the string")
+                {
+                    tested end{ str.end(), str.end() };
+                    REQUIRE(b == end);
+                }
+            }
+        }
+    }
+
+    GIVEN("a string containing a oversized sequence in 2 bytes; and an utf8 iterator to it")
+    {
+        std::string str{ "ab\xC0\x21\x61" };
+
+        tested b{ str.begin(), str.end() };
+
+        WHEN("the iterator is advanced two times")
+        {
+            using std::advance;
+            advance(b, 2);
+
+            THEN("it dereferences to the replacement character, 0xFFFD")
+            {
+                REQUIRE(0xFFFD == *b);
+            }
+
+            WHEN("the iterator is advanced two times again")
+            {
+                advance(b, 2);
+
+                THEN("it is equal to an utf8 iterator to the end of the string")
+                {
+                    tested end{ str.end(), str.end() };
+                    REQUIRE(b == end);
+                }
+            }
+        }
+    }
+
+    GIVEN("a string containing a oversized sequence in 3 bytes; and an utf8 iterator to it")
+    {
+        std::string str{ "ab\xE0\x81\x01\x61" };
+
+        tested b{ str.begin(), str.end() };
+
+        WHEN("the iterator is advanced two times")
+        {
+            using std::advance;
+            advance(b, 2);
+
+            THEN("it dereferences to the replacement character, 0xFFFD")
+            {
+                REQUIRE(0xFFFD == *b);
+            }
+
+            WHEN("the iterator is advanced two times again")
+            {
+                advance(b, 2);
+
+                THEN("it is equal to an utf8 iterator to the end of the string")
+                {
+                    tested end{ str.end(), str.end() };
+                    REQUIRE(b == end);
+                }
+            }
+        }
+    }
+
+    GIVEN("a string containing a oversized sequence in 4 bytes; and an utf8 iterator to it")
+    {
+        std::string str{ "ab\xF0\x81\x80\x81\x61" };
+
+        tested b{ str.begin(), str.end() };
+
+        WHEN("the iterator is advanced two times")
+        {
+            using std::advance;
+            advance(b, 2);
+
+            THEN("it dereferences to the replacement character, 0xFFFD")
+            {
+                REQUIRE(0xFFFD == *b);
+            }
+
+            WHEN("the iterator is advanced two times again")
+            {
+                advance(b, 2);
+
+                THEN("it is equal to an utf8 iterator to the end of the string")
+                {
+                    tested end{ str.end(), str.end() };
+                    REQUIRE(b == end);
+                }
+            }
+        }
+    }
+
+    GIVEN("a string containing a UTF-16 surrogate; and an utf8 iterator to it")
+    {
+        std::string str{ "ab\xED\xAB\x8C\x61" };
+
+        tested b{ str.begin(), str.end() };
+
+        WHEN("the iterator is advanced two times")
+        {
+            using std::advance;
+            advance(b, 2);
+
+            THEN("it dereferences to the replacement character, 0xFFFD")
+            {
+                REQUIRE(0xFFFD == *b);
+            }
+
+            WHEN("the iterator is advanced two times again")
+            {
+                advance(b, 2);
+
+                THEN("it is equal to an utf8 iterator to the end of the string")
+                {
+                    tested end{ str.end(), str.end() };
+                    REQUIRE(b == end);
+                }
+            }
+        }
+    }
+
+    GIVEN("a string containing a sequence too large for UTF-16; and an utf8 iterator to it")
+    {
+        std::string str{ "ab\xF6\xBF\xBF\xBD\x61" };
+
+        tested b{ str.begin(), str.end() };
+
+        WHEN("the iterator is advanced two times")
+        {
+            using std::advance;
+            advance(b, 2);
+
+            THEN("it dereferences to the replacement character, 0xFFFD")
+            {
+                REQUIRE(0xFFFD == *b);
+            }
+
+            WHEN("the iterator is advanced two times again")
+            {
+                advance(b, 2);
+
+                THEN("it is equal to an utf8 iterator to the end of the string")
+                {
+                    tested end{ str.end(), str.end() };
+                    REQUIRE(b == end);
+                }
+            }
+        }
+    }
 }

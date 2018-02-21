@@ -12,6 +12,7 @@
 #include <cstdint>
 #include <cassert>
 #include <iterator>
+#include <utility>
 #include "Utils.h"
 
 namespace drafter
@@ -20,11 +21,95 @@ namespace drafter
     {
         namespace utf8
         {
+
             using codepoint = std::uint32_t;
 
+            constexpr codepoint replacement = 0xFFFD;
+            constexpr codepoint invalid = 0xFFFFFFFF;
+
+            ///
+            /// Decode utf8 codepoint from octet sequence
+            ///
+            /// @param  b   iterator to begin of octet sequence to be decoded from
+            /// @param  e   iterator to end of octet sequence to be decoded from
+            ///
+            /// @returns    iff b equals e, then (0xFFFFFFFF, e) ; else
+            ///             iff invalid utf8 sequence, then (0xFFFD, iterator to begin of next Utf8 character)
+            ///             otherwise (codepoint, iterator to begin of next Utf8 character)
+            ///
+            template <typename It>
+            typename std::enable_if<is_iterator<It>::value, std::pair<codepoint, It> >::type //
+            decode_one(It b, It e)
+            {
+                if (b == e)
+                    return { invalid, e };
+
+                codepoint cp = 0;
+                cp |= reinterpret_cast<const unsigned char&>(*b);
+
+                if (cp < 0x80) { // single byte
+                    std::advance(b, 1);
+
+                    return { cp, b };
+                } else if (cp < 0xE0) { // two bytes
+                    if (e - b < 2) {
+                        return { replacement, e }; // expected more!
+                    }
+
+                    codepoint result = ((cp & 0x1F) << 6) //
+                        | (static_cast<unsigned char>(b[1]) & 0x3F);
+                    std::advance(b, 2);
+
+                    return { result < 0x80 ? replacement : result, b }; // check for oversized
+
+                } else if (cp < 0xF0) { // three bytes
+                    if (e - b < 3) {
+                        return { replacement, e }; // expected more!
+                    }
+
+                    codepoint result = ((cp & 0x0F) << 12)                 //
+                        | ((static_cast<unsigned char>(b[1]) & 0x3F) << 6) //
+                        | (static_cast<unsigned char>(b[2]) & 0x3F);
+                    std::advance(b, 3);
+
+                    if (result >= 0xD800 && result <= 0xDFFF) // surrogates not codepoints
+                        return { replacement, b };
+
+                    return { result < 0x800 ? replacement : result, b }; // check for oversized
+
+                } else { // four bytes
+                    if (e - b < 4)
+                        return { replacement, e }; // expected more!
+
+                    codepoint result = ((cp & 0x07) << 18)                  //
+                        | ((static_cast<unsigned char>(b[1]) & 0x3F) << 12) //
+                        | ((static_cast<unsigned char>(b[2]) & 0x3F) << 6)  //
+                        | (static_cast<unsigned char>(b[3]) & 0x3F);
+                    std::advance(b, 4);
+
+                    // check for oversized
+                    if (result < 0x10000)
+                        return { replacement, b };
+
+                    // check for overlong sequences
+                    if (result > 0x10FFFF)
+                        return { replacement, b };
+
+                    return { result, b };
+                }
+            }
+
+            ///
+            /// Encode utf8 codepoint to octet sequence
+            ///
+            /// @param  c   utf8 codepoint to be serialized
+            /// @param  out iterator to start of output sequence
+            ///
+            /// @returns    iterator to after where last octet was written to
+            ///
             template <typename It>
             typename std::enable_if<is_iterator<It>::value, It>::type //
-            serialize(codepoint c, It out)
+            encode(codepoint c, It out)
             {
                 using byte = const std::uint8_t;
 
@@ -96,14 +181,20 @@ namespace drafter
                 return out;
             }
 
+            ///
+            /// Validating utf8 input iterator defined above
+            ///     a octet sequence with iterator It
+            ///
+            /// OPTIM: naively buffers current codepoint; benchmark a version
+            ///     without buffering
+            ///
             template <typename It>
             class input_iterator
             {
-                It p_;
-                It e_;
 
-            public:
-                constexpr static codepoint replacement = 0xFFFD;
+            private:
+                It e_;
+                std::pair<codepoint, It> cp_and_next_;
 
             public:
                 using value_type = codepoint;
@@ -114,12 +205,15 @@ namespace drafter
 
             public:
                 template <typename ItT>
-                constexpr input_iterator(ItT&& b, ItT&& e) noexcept : p_(std::forward<ItT>(b)), e_(std::forward<ItT>(e))
+                constexpr input_iterator(ItT&& b, ItT&& e) noexcept //
+                    : e_(std::forward<ItT>(e)),
+                      cp_and_next_(decode_one(b, e))
                 {
                 }
 
                 template <typename Container>
-                explicit constexpr input_iterator(const Container& e) noexcept : p_(e.begin()), e_(e.end())
+                explicit constexpr input_iterator(const Container& e) noexcept //
+                    : input_iterator(e.begin(), e.end())
                 {
                 }
 
@@ -133,13 +227,13 @@ namespace drafter
                 friend void swap(input_iterator& lhs, input_iterator& rhs)
                 {
                     using std::swap;
-                    swap(lhs.p_, rhs.p_);
                     swap(lhs.e_, rhs.e_);
+                    swap(lhs.cp_and_next_, rhs.cp_and_next_);
                 }
 
                 friend bool operator==(const input_iterator& lhs, const input_iterator& rhs)
                 {
-                    return lhs.p_ == rhs.p_;
+                    return lhs.cp_and_next_ == rhs.cp_and_next_;
                 }
 
                 friend bool operator!=(const input_iterator& lhs, const input_iterator& rhs)
@@ -150,31 +244,7 @@ namespace drafter
             public:
                 input_iterator& operator++()
                 {
-                    assert(p_ != e_);
-                    codepoint first_byte = static_cast<unsigned char>(*p_);
-
-                    if (first_byte < 0x80) {
-                        ++p_;
-                    } else if (first_byte < 0xE0) {
-                        ++p_;
-                        ++p_;
-                    } else if (first_byte < 0xF0) {
-                        ++p_;
-                        ++p_;
-                        ++p_;
-                    } else if (first_byte < 0xF8) {
-                        ++p_;
-                        ++p_;
-                        ++p_;
-                        ++p_;
-                    } else {
-                        // invalid utf-8, increment just a byte (dereference yields replacement)
-                        ++p_;
-                    }
-
-                    if (e_ < p_)
-                        p_ = e_;
-
+                    cp_and_next_ = decode_one(cp_and_next_.second, e_);
                     return *this;
                 }
 
@@ -185,57 +255,14 @@ namespace drafter
                     return result;
                 }
 
-                value_type operator*() const
+                reference operator*() const noexcept
                 {
-                    assert(p_ != e_);
-
-                    codepoint first_byte = 0;
-                    first_byte |= reinterpret_cast<const unsigned char&>(*p_);
-
-                    if (first_byte < 0x80) // single byte
-                        return first_byte;
-
-                    else if (first_byte < 0xE0) { // two bytes
-                        if (e_ - p_ < 2)
-                            return replacement; // expected more!
-
-                        codepoint result = ((first_byte & 0x1F) << 6) //
-                            | (static_cast<unsigned char>(p_[1]) & 0x3F);
-
-                        return result < 0x80 ? replacement : result; // check for oversized
-
-                    } else if (first_byte < 0xF0) { // three bytes
-                        if (e_ - p_ < 3)
-                            return replacement; // expected more!
-
-                        codepoint result = ((first_byte & 0x0F) << 12)          //
-                            | ((static_cast<unsigned char>(p_[1]) & 0x3F) << 6) //
-                            | (static_cast<unsigned char>(p_[2]) & 0x3F);
-
-                        if (result >= 0xD800 && result <= 0xDFFF) // surrogates not codepoints
-                            return replacement;
-
-                        return result < 0x800 ? replacement : result; // check for oversized
-
-                    } else if (first_byte < 0xF8) { // four bytes
-                        if (e_ - p_ < 4)
-                            return replacement; // expected more!
-
-                        codepoint result = ((first_byte & 0x07) << 18)           //
-                            | ((static_cast<unsigned char>(p_[1]) & 0x3F) << 12) //
-                            | ((static_cast<unsigned char>(p_[2]) & 0x3F) << 6)  //
-                            | (static_cast<unsigned char>(p_[3]) & 0x3F);
-
-                        return result < 0x1000 ? replacement : result; // check for oversized
-                    }
-
-                    // else invalid utf-8
-                    return replacement;
+                    return cp_and_next_.first;
                 }
 
                 pointer operator->() const
                 {
-                    return &**this;
+                    return &cp_and_next_.first;
                 }
             };
         }
