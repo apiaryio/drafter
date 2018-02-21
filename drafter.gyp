@@ -325,6 +325,8 @@
         "src/refract/JSONSchemaVisitor.h",
         "src/refract/JSONSchemaVisitor.cc",
         "src/refract/FilterVisitor.h",
+        "src/refract/JsonSchema.h",
+        "src/refract/JsonSchema.cc",
 
         "src/refract/Registry.h",
         "src/refract/Registry.cc",
@@ -400,6 +402,7 @@
         "test/utils/so/test-YamlIo.cc",
 
         "test/refract/test-Utils.cc",
+        "test/refract/test-JsonSchema.cc",
 
         "test/refract/dsd/test-Array.cc",
         "test/refract/dsd/test-Bool.cc",
