@@ -128,6 +128,12 @@ namespace snowcrash
                  it != blueprint.content.elements().end();
                  ++it) {
 
+                if (it->element == Element::ResourceElement
+                    && it->content.resource.attributes.name.symbol.literal == name) {
+
+                    return true;
+                }
+
                 if (it->element == Element::CategoryElement) {
 
                     for (Elements::const_iterator subIt = it->content.elements().begin();

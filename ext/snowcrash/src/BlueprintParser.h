@@ -101,7 +101,7 @@ namespace snowcrash
 
             MarkdownNodeIterator cur = node;
 
-            if (pd.sectionContext() == ResourceGroupSectionType || pd.sectionContext() == ResourceSectionType) {
+            if (pd.sectionContext() == ResourceGroupSectionType) {
 
                 IntermediateParseResult<ResourceGroup> resourceGroup(out.report);
                 cur = ResourceGroupParser::parse(node, siblings, pd, resourceGroup);
@@ -128,6 +128,20 @@ namespace snowcrash
 
                 if (pd.exportSourceMap()) {
                     out.sourceMap.content.elements().collection.push_back(resourceGroup.sourceMap);
+                }
+            } else if (pd.sectionContext() == ResourceSectionType) {
+
+                IntermediateParseResult<ResourceGroup> resourceGroup(out.report);
+                cur = ResourceGroupParser::parse(node, siblings, pd, resourceGroup);
+
+                for (auto it : resourceGroup.node.content.elements()) {
+                    out.node.content.elements().push_back(it);
+                }
+
+                if (pd.exportSourceMap()) {
+                    for (auto it : resourceGroup.sourceMap.content.elements().collection) {
+                        out.sourceMap.content.elements().collection.push_back(it);
+                    }
                 }
             } else if (pd.sectionContext() == DataStructureGroupSectionType) {
 
@@ -635,6 +649,14 @@ namespace snowcrash
 
                 if (elementIt->element == Element::CategoryElement) {
                     checkResourceLazyReferencing(*elementIt, elementSourceMapIt, pd, out);
+                } else if (elementIt->element == Element::ResourceElement) {
+                    if (pd.exportSourceMap()) {
+                        checkActionLazyReferencing(
+                            elementIt->content.resource, elementSourceMapIt->content.resource, pd, out);
+                    } else {
+                        SourceMap<Resource> tempSourceMap;
+                        checkActionLazyReferencing(elementIt->content.resource, tempSourceMap, pd, out);
+                    }
                 }
 
                 if (pd.exportSourceMap()) {

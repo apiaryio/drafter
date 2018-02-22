@@ -582,13 +582,16 @@ TEST_CASE("Named Endpoints Edge Cases", "[named_endpoint]")
     REQUIRE(blueprint.report.warnings.at(0).code == DuplicateWarning);
     REQUIRE(blueprint.report.warnings.at(1).code == DuplicateWarning);
 
-    REQUIRE(blueprint.node.content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 3);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().size() == 3);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
+    REQUIRE(blueprint.node.content.elements().at(1).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(1).content.elements().size() == 0);
+    REQUIRE(blueprint.node.content.elements().at(2).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(2).content.elements().size() == 0);
 
     {
-        Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+        Resource resource = blueprint.node.content.elements().at(0).content.resource;
         REQUIRE(resource.name == "Endpoint 1");
         REQUIRE(resource.uriTemplate == "/e1");
         REQUIRE(resource.actions.size() == 1);
@@ -598,7 +601,7 @@ TEST_CASE("Named Endpoints Edge Cases", "[named_endpoint]")
     }
 
     {
-        Resource resource = blueprint.node.content.elements().at(0).content.elements().at(1).content.resource;
+        Resource resource = blueprint.node.content.elements().at(1).content.resource;
         REQUIRE(resource.name == "Endpoint 2");
         REQUIRE(resource.uriTemplate == "/e1");
         REQUIRE(resource.actions.size() == 1);
@@ -608,7 +611,7 @@ TEST_CASE("Named Endpoints Edge Cases", "[named_endpoint]")
     }
 
     {
-        Resource resource = blueprint.node.content.elements().at(0).content.elements().at(2).content.resource;
+        Resource resource = blueprint.node.content.elements().at(2).content.resource;
         REQUIRE(resource.name == "Endpoint 3");
         REQUIRE(resource.uriTemplate == "/e1");
         REQUIRE(resource.actions.size() == 1);

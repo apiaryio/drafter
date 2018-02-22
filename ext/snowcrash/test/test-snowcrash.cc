@@ -51,11 +51,10 @@ TEST_CASE("Parse simple blueprint", "[parser]")
 
     REQUIRE(blueprint.node.content.elements().size() == 1);
     REQUIRE(blueprint.node.content.elements().at(0).attributes.name.empty());
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.uriTemplate == "/resource");
     REQUIRE(resource.actions.size() == 1);
 
@@ -118,11 +117,10 @@ TEST_CASE("Support description ending with an list item", "[parser][8]")
     REQUIRE(blueprint.report.warnings.empty());
 
     REQUIRE(blueprint.node.content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].description == "+ a description item");
     REQUIRE(resource.actions[0].examples.size() == 1);
@@ -144,11 +142,10 @@ TEST_CASE("Invalid ‘warning: empty body asset’ for certain status codes", "[
     REQUIRE(blueprint.report.warnings.empty());
 
     REQUIRE(blueprint.node.content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].description.empty());
     REQUIRE(resource.actions[0].examples.size() == 1);
@@ -204,11 +201,10 @@ TEST_CASE("Parse adjacent asset blocks", "[parser][9]")
     REQUIRE(blueprint.report.warnings.size() == 2);
 
     REQUIRE(blueprint.node.content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].description.empty());
     REQUIRE(resource.actions[0].examples.size() == 1);
@@ -234,11 +230,10 @@ TEST_CASE("Parse adjacent asset list blocks", "[parser][9]")
     REQUIRE(blueprint.report.warnings[0].code == IgnoringWarning);
 
     REQUIRE(blueprint.node.content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].description.empty());
     REQUIRE(resource.actions[0].examples[0].responses.size() == 1);
@@ -267,11 +262,10 @@ TEST_CASE("Parse adjacent nested asset blocks", "[parser][9]")
     REQUIRE(blueprint.report.warnings[1].code == IndentationWarning);
 
     REQUIRE(blueprint.node.content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].description.empty());
     REQUIRE(resource.actions[0].examples[0].responses.size() == 1);
@@ -394,11 +388,10 @@ TEST_CASE("Dangling block not recognized", "[parser][regression][186]")
     REQUIRE(blueprint.node.description.empty());
 
     REQUIRE(blueprint.node.content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.name == "A");
     REQUIRE(resource.uriTemplate == "/a");
     REQUIRE(resource.model.body == "    { ... }\n\n");
@@ -425,11 +418,10 @@ TEST_CASE("Ignoring block recovery", "[parser][regression][188]")
     REQUIRE(blueprint.report.warnings[1].code == EmptyDefinitionWarning);
 
     REQUIRE(blueprint.node.content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.name == "Note");
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].name == "Remove a Note");
@@ -456,13 +448,13 @@ TEST_CASE("Ignoring dangling model assets", "[parser][regression][196]")
     REQUIRE(blueprint.report.warnings.size() == 1);
     REQUIRE(blueprint.report.warnings[0].code == IndentationWarning);
 
-    REQUIRE(blueprint.node.content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 2);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(1).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().size() == 2);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
+    REQUIRE(blueprint.node.content.elements().at(1).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(1).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(1).content.resource;
+    Resource resource = blueprint.node.content.elements().at(1).content.resource;
     REQUIRE(resource.name.empty());
     REQUIRE(resource.uriTemplate == "/B");
     REQUIRE(resource.actions.size() == 1);
@@ -494,11 +486,10 @@ TEST_CASE("Ignoring local media type", "[parser][regression][195]")
     REQUIRE(blueprint.report.warnings[0].code == IgnoringWarning);
 
     REQUIRE(blueprint.node.content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].examples.size() == 1);
     REQUIRE(resource.actions[0].examples[0].responses.size() == 1);
@@ -508,10 +499,9 @@ TEST_CASE("Ignoring local media type", "[parser][regression][195]")
     REQUIRE(resource.actions[0].examples[0].responses[0].headers[0].second == "Y");
 
     REQUIRE(blueprint.sourceMap.content.elements().collection.size() == 1);
-    REQUIRE(blueprint.sourceMap.content.elements().collection[0].content.elements().collection.size() == 1);
 
     SourceMap<Resource> resourceSM
-        = blueprint.sourceMap.content.elements().collection[0].content.elements().collection[0].content.resource;
+        = blueprint.sourceMap.content.elements().collection[0].content.resource;
     REQUIRE(resourceSM.actions.collection.size() == 1);
     REQUIRE(resourceSM.actions.collection[0].examples.collection.size() == 1);
     REQUIRE(resourceSM.actions.collection[0].examples.collection[0].responses.collection.size() == 1);
@@ -543,11 +533,10 @@ TEST_CASE("Using local media type", "[parser][regression][195]")
     REQUIRE(blueprint.report.warnings.empty());
 
     REQUIRE(blueprint.node.content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].examples.size() == 1);
     REQUIRE(resource.actions[0].examples[0].responses.size() == 1);
@@ -557,10 +546,9 @@ TEST_CASE("Using local media type", "[parser][regression][195]")
     REQUIRE(resource.actions[0].examples[0].responses[0].headers[0].second == "X");
 
     REQUIRE(blueprint.sourceMap.content.elements().collection.size() == 1);
-    REQUIRE(blueprint.sourceMap.content.elements().collection[0].content.elements().collection.size() == 1);
 
     SourceMap<Resource> resourceSM
-        = blueprint.sourceMap.content.elements().collection[0].content.elements().collection[0].content.resource;
+        = blueprint.sourceMap.content.elements().collection[0].content.resource;
     REQUIRE(resourceSM.actions.collection.size() == 1);
     REQUIRE(resourceSM.actions.collection[0].examples.collection.size() == 1);
     REQUIRE(resourceSM.actions.collection[0].examples.collection[0].responses.collection.size() == 1);
@@ -588,11 +576,10 @@ TEST_CASE("Parse ill-formatted header", "[parser][198][regression]")
     REQUIRE(blueprint.report.warnings[0].code == IndentationWarning);
 
     REQUIRE(blueprint.node.content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].examples.size() == 1);
     REQUIRE(resource.actions[0].examples[0].responses.size() == 1);
@@ -626,11 +613,10 @@ TEST_CASE("Overshadow parameters", "[parser][201][regression][parameters]")
     REQUIRE(blueprint.report.warnings[0].code == RedefinitionWarning);
 
     REQUIRE(blueprint.node.content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].parameters.size() == 3);
 
@@ -713,10 +699,9 @@ TEST_CASE("Don't mess up sourcemaps when there are references", "[parser][213]")
     REQUIRE(blueprint.report.warnings[0].code == EmptyDefinitionWarning);
 
     REQUIRE(blueprint.sourceMap.content.elements().collection.size() == 1);
-    REQUIRE(blueprint.sourceMap.content.elements().collection[0].content.elements().collection.size() == 1);
 
     SourceMap<Resource> resourceSM
-        = blueprint.sourceMap.content.elements().collection[0].content.elements().collection[0].content.resource;
+        = blueprint.sourceMap.content.elements().collection[0].content.resource;
     REQUIRE(resourceSM.actions.collection.size() == 1);
     SourceMapHelper::check(resourceSM.actions.collection[0].method.sourceMap, 111, 8);
 }
@@ -737,7 +722,7 @@ TEST_CASE("doesn't crash while parsing response followed by a block quote and he
     REQUIRE(blueprint.report.error.code == Error::OK);
 
     SourceMap<Resource> resourceSM
-        = blueprint.sourceMap.content.elements().collection[0].content.elements().collection[0].content.resource;
+        = blueprint.sourceMap.content.elements().collection[0].content.resource;
     SourceMap<Action> actionSM = resourceSM.actions.collection[0];
     SourceMap<Payload> payloadSM = actionSM.examples.collection[0].responses.collection[0];
     SourceMapHelper::check(payloadSM.body.sourceMap, 30, 22);
@@ -760,7 +745,7 @@ TEST_CASE("doesn't crash while parsing response followed by a block quote settex
     REQUIRE(blueprint.report.error.code == Error::OK);
 
     SourceMap<Resource> resourceSM
-        = blueprint.sourceMap.content.elements().collection[0].content.elements().collection[0].content.resource;
+        = blueprint.sourceMap.content.elements().collection[0].content.resource;
     SourceMap<Action> actionSM = resourceSM.actions.collection[0];
     SourceMap<Payload> payloadSM = actionSM.examples.collection[0].responses.collection[0];
     SourceMapHelper::check(payloadSM.body.sourceMap, 30, 22, 1);
