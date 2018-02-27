@@ -49,7 +49,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "C: 'L'"
+                        "content": "C: 'L', E: ['L']"
                       }
                     },
                     "content": {
@@ -59,6 +59,17 @@
                       },
                       "value": {
                         "element": "enum",
+                        "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "L"
+                              }
+                            ]
+                          }
+                        },
                         "content": {
                           "element": "string",
                           "content": "L"
@@ -112,7 +123,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "C: 'L', E: ['S','M','L','XL']"
+                        "content": "C: 'L', E: ['L','S','M','XL'] - first 'L' it in value"
                       }
                     },
                     "content": {
@@ -128,6 +139,10 @@
                             "content": [
                               {
                                 "element": "string",
+                                "content": "L"
+                              },
+                              {
+                                "element": "string",
                                 "content": "S"
                               },
                               {
@@ -136,18 +151,10 @@
                               },
                               {
                                 "element": "string",
-                                "content": "L"
-                              },
-                              {
-                                "element": "string",
                                 "content": "XL"
                               }
                             ]
                           }
-                        },
-                        "content": {
-                          "element": "string",
-                          "content": "L"
                         }
                       }
                     }
@@ -157,7 +164,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "C: 'L', E: [ 'S, M, L, XL' ] - FIXME: from snowcrash we receive \"enum of strings\" should be string \"S, M, L, XL\""
+                        "content": "C: 'L', E: ['L' , [ 'S, M, L, XL' ]] - FIXME: from snowcrash we receive \"array of strings\" should be string \"S, M, L, XL\""
                       }
                     },
                     "content": {
@@ -171,6 +178,10 @@
                           "enumerations": {
                             "element": "array",
                             "content": [
+                              {
+                                "element": "string",
+                                "content": "L"
+                              },
                               {
                                 "element": "array",
                                 "content": [
@@ -194,10 +205,6 @@
                               }
                             ]
                           }
-                        },
-                        "content": {
-                          "element": "string",
-                          "content": "L"
                         }
                       }
                     }
@@ -207,7 +214,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "S: [C:'L']"
+                        "content": "S: ['L'], E: ['L']"
                       }
                     },
                     "content": {
@@ -218,6 +225,15 @@
                       "value": {
                         "element": "enum",
                         "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "L"
+                              }
+                            ]
+                          },
                           "samples": {
                             "element": "array",
                             "content": [
@@ -239,7 +255,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "S: [C:'L']"
+                        "content": "S: ['L'], E: ['L']"
                       }
                     },
                     "content": {
@@ -250,6 +266,15 @@
                       "value": {
                         "element": "enum",
                         "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "L"
+                              }
+                            ]
+                          },
                           "samples": {
                             "element": "array",
                             "content": [
@@ -320,7 +345,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "C: 'S', E: ['T'] S: [C:'U']"
+                        "content": "C: 'S', E: ['S', 'T', 'U'] S: ['U']"
                       }
                     },
                     "content": {
@@ -336,7 +361,15 @@
                             "content": [
                               {
                                 "element": "string",
+                                "content": "S"
+                              },
+                              {
+                                "element": "string",
                                 "content": "T"
+                              },
+                              {
+                                "element": "string",
+                                "content": "U"
                               }
                             ]
                           },
@@ -352,10 +385,6 @@
                               }
                             ]
                           }
-                        },
-                        "content": {
-                          "element": "string",
-                          "content": "S"
                         }
                       }
                     }
@@ -365,7 +394,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "E: ['M','N'], S: [C:'L']"
+                        "content": "E: ['M','N','L'], S: ['L']"
                       }
                     },
                     "content": {
@@ -386,6 +415,10 @@
                               {
                                 "element": "string",
                                 "content": "N"
+                              },
+                              {
+                                "element": "string",
+                                "content": "L"
                               }
                             ]
                           },
@@ -410,7 +443,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "E: ['M','N'], S: [C:'L']"
+                        "content": "E: ['M','N','L'], S: ['L']"
                       }
                     },
                     "content": {
@@ -430,7 +463,11 @@
                               },
                               {
                                 "element": "string",
-                                "content": "M"
+                                "content": "N"
+                              },
+                              {
+                                "element": "string",
+                                "content": "L"
                               }
                             ]
                           },
@@ -494,7 +531,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "D: {C:'L'}, E: ['M','N']"
+                        "content": "D: 'L', E: ['M','N','L']"
                       }
                     },
                     "content": {
@@ -515,6 +552,10 @@
                               {
                                 "element": "string",
                                 "content": "N"
+                              },
+                              {
+                                "element": "string",
+                                "content": "L"
                               }
                             ]
                           },
@@ -534,7 +575,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "D: {C:'L'}, E: ['M','N']"
+                        "content": "D: 'L', E: ['M','N','L']"
                       }
                     },
                     "content": {
@@ -555,6 +596,10 @@
                               {
                                 "element": "string",
                                 "content": "N"
+                              },
+                              {
+                                "element": "string",
+                                "content": "L"
                               }
                             ]
                           },
@@ -640,7 +685,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "C: 'A', E: ['D','E'], S: [E: 'F', E: 'G', E: 'H', E: 'I'], D: 'K'"
+                        "content": "C: 'A', E: ['A','D','E','F','G','H','I','J','K'], S: ['F','G','H','I'], D: 'K'"
                       }
                     },
                     "content": {
@@ -656,11 +701,39 @@
                             "content": [
                               {
                                 "element": "string",
+                                "content": "A"
+                              },
+                              {
+                                "element": "string",
                                 "content": "D"
                               },
                               {
                                 "element": "string",
                                 "content": "E"
+                              },
+                              {
+                                "element": "string",
+                                "content": "F"
+                              },
+                              {
+                                "element": "string",
+                                "content": "G"
+                              },
+                              {
+                                "element": "string",
+                                "content": "H"
+                              },
+                              {
+                                "element": "string",
+                                "content": "I"
+                              },
+                              {
+                                "element": "string",
+                                "content": "J"
+                              },
+                              {
+                                "element": "string",
+                                "content": "K"
                               }
                             ]
                           },
@@ -704,10 +777,6 @@
                               "content": "K"
                             }
                           }
-                        },
-                        "content": {
-                          "element": "string",
-                          "content": "A"
                         }
                       }
                     }
@@ -797,7 +866,51 @@
                   "content": [
                     {
                       "element": "number",
-                      "content": 1062
+                      "content": 145
+                    },
+                    {
+                      "element": "number",
+                      "content": 72
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "content": "duplicit value in enumeration"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
+      },
+      "attributes": {
+        "code": {
+          "element": "number",
+          "content": 4
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 1133
                     },
                     {
                       "element": "number",
@@ -841,7 +954,7 @@
                   "content": [
                     {
                       "element": "number",
-                      "content": 1117
+                      "content": 1188
                     },
                     {
                       "element": "number",
@@ -885,7 +998,7 @@
                   "content": [
                     {
                       "element": "number",
-                      "content": 1356
+                      "content": 1440
                     },
                     {
                       "element": "number",
@@ -898,7 +1011,7 @@
                   "content": [
                     {
                       "element": "number",
-                      "content": 1370
+                      "content": 1454
                     },
                     {
                       "element": "number",
@@ -911,7 +1024,7 @@
                   "content": [
                     {
                       "element": "number",
-                      "content": 1382
+                      "content": 1466
                     },
                     {
                       "element": "number",

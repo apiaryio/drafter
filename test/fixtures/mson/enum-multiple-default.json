@@ -54,6 +54,19 @@
                       "value": {
                         "element": "enum",
                         "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "J"
+                              },
+                              {
+                                "element": "string",
+                                "content": "K"
+                              }
+                            ]
+                          },
                           "default": {
                             "element": "enum",
                             "content": {
@@ -75,6 +88,19 @@
                       "value": {
                         "element": "enum",
                         "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "J"
+                              },
+                              {
+                                "element": "string",
+                                "content": "K"
+                              }
+                            ]
+                          },
                           "default": {
                             "element": "enum",
                             "content": {
@@ -96,6 +122,23 @@
                       "value": {
                         "element": "enum",
                         "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "content": "a"
+                              },
+                              {
+                                "element": "string",
+                                "content": "b"
+                              },
+                              {
+                                "element": "string",
+                                "content": "c"
+                              }
+                            ]
+                          },
                           "default": {
                             "element": "enum",
                             "content": {

@@ -116,6 +116,19 @@
                                       "value": {
                                         "element": "enum",
                                         "attributes": {
+                                          "enumerations": {
+                                            "element": "array",
+                                            "content": [
+                                              {
+                                                "element": "string",
+                                                "content": "3"
+                                              },
+                                              {
+                                                "element": "string",
+                                                "content": "4"
+                                              }
+                                            ]
+                                          },
                                           "samples": {
                                             "element": "array",
                                             "content": [
@@ -182,7 +195,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"list\": {}\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"list\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"3\",\n        \"4\"\n      ]\n    }\n  }\n}"
                             }
                           ]
                         }
