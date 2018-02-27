@@ -2,22 +2,22 @@
 # Data Structures       
 
 # Enum behavior (object)
-- size1: L (enum) - C: 'L'
+- size1: L (enum) - C: 'L', E: ['L']
 
 - size2: S, M, L, XL (enum) - E: ['S','M','L','XL']
 
-- size3: L (enum) - C: 'L', E: ['S','M','L','XL']
+- size3: L (enum) - C: 'L', E: ['L','S','M','XL'] - first 'L' it in value
     - S
     - M
     - L
     - XL
 
-- size4: L (enum) - C: 'L', E: [ 'S, M, L, XL' ] - FIXME: from snowcrash we receive "enum of strings" should be string "S, M, L, XL"
+- size4: L (enum) - C: 'L', E: ['L' , [ 'S, M, L, XL' ]] - FIXME: from snowcrash we receive "array of strings" should be string "S, M, L, XL"
     - S, M, L, XL
 
-- size5: *L* (enum) - S: [C:'L']
+- size5: *L* (enum) - S: ['L'], E: ['L']
 
-- size6: L (enum, sample) - S: [C:'L']
+- size6: L (enum, sample) - S: ['L'], E: ['L']
 
 - size7 (enum) - E: ['S','M','L','XL','XXL','XXXL']
     - S
@@ -29,30 +29,30 @@
         - XXL
         - XXXL
 
-- size8: S (enum) - C: 'S', E: ['T'] S: [C:'U']
+- size8: S (enum) - C: 'S', E: ['S', 'T', 'U'] S: ['U']
     - T
 
     - sample
         - U
 
-- size9: L (enum, sample) - E: ['M','N'], S: [C:'L'] 
+- size9: L (enum, sample) - E: ['M','N','L'], S: ['L'] 
     - M
     - N
 
-- size10: L (enum, sample) - E: ['M','N'], S: [C:'L'] 
+- size10: L (enum, sample) - E: ['M','N','L'], S: ['L'] 
     - items
         - M
-        - M
+        - N
 
 - size11 (enum[string, number]) - E:[<string>,<number>,'M','N']
     - M
     - N
 
-- size12: L (enum,default) - D: {C:'L'}, E: ['M','N']
+- size12: L (enum,default) - D: 'L', E: ['M','N','L']
     - M
     - N
 
-- size13: L (enum,default) - D: {C:'L'}, E: ['M','N']
+- size13: L (enum,default) - D: 'L', E: ['M','N','L']
     - items
         - M
         - N
@@ -65,7 +65,7 @@
     - M
     - N
 
-- size16: A (enum) - C: 'A', E: ['D','E'], S: [E: 'F', E: 'G', E: 'H', E: 'I'], D: 'K'
+- size16: A (enum) - C: 'A', E: ['A','D','E','F','G','H','I','J','K'], S: ['F','G','H','I'], D: 'K'
     - D
     - E
 

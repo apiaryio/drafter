@@ -116,6 +116,23 @@
                                       "value": {
                                         "element": "enum",
                                         "attributes": {
+                                          "enumerations": {
+                                            "element": "array",
+                                            "content": [
+                                              {
+                                                "element": "string",
+                                                "content": "e"
+                                              },
+                                              {
+                                                "element": "string",
+                                                "content": "f"
+                                              },
+                                              {
+                                                "element": "string",
+                                                "content": "g"
+                                              }
+                                            ]
+                                          },
                                           "default": {
                                             "element": "enum",
                                             "content": {
@@ -170,7 +187,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"enumField\": {}\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"enumField\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"e\",\n        \"f\",\n        \"g\"\n      ],\n      \"default\": \"g\"\n    }\n  }\n}"
                             }
                           ]
                         }

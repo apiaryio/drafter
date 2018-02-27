@@ -93,7 +93,6 @@ namespace drafter
         ElementInfoContainer<T> values;
         ElementInfoContainer<T> defaults;
         ElementInfoContainer<T> samples;
-        ElementInfoContainer<T> enumerations;
 
         DescriptionInfoContainer descriptions;
     };

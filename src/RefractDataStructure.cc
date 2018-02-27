@@ -20,8 +20,10 @@
 #include "ConversionContext.h"
 
 #include "ElementData.h"
+#include "MergeElementInfo.h"
 
 #include <fstream>
+#include <functional>
 
 using namespace refract;
 using namespace drafter;
@@ -295,18 +297,6 @@ namespace
             }
         };
 
-        template <bool dummy>
-        struct Store<EnumElement, false, dummy> {
-            void operator()(ElementData<EnumElement>& data,
-                const NodeInfo<mson::TypeSection>& typeSection,
-                ConversionContext& context,
-                const mson::BaseTypeName& defaultNestedType) const
-            {
-
-                data.enumerations.push_back(Fetch<EnumElement>()(typeSection, context, defaultNestedType));
-            }
-        };
-
         template <typename U, bool dummy = true>
         struct TypeDefinition;
 
@@ -470,15 +460,6 @@ namespace
             }
         };
 
-        template <bool dummy>
-        struct Store<EnumElement, false, dummy> {
-            using E = EnumElement;
-            void operator()(ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context) const
-            {
-                data.enumerations.push_back(Fetch<E>()(typeNames, context));
-            }
-        };
-
         ExtractTypeDefinition(ElementData<T>& data, const ConversionContext& context) : data(data), context(context) {}
 
         void operator()(const NodeInfo<mson::TypeDefinition>& typeDefinition) const
@@ -584,18 +565,6 @@ namespace
             void operator()(ElementData<E>& data, ElementInfo<E> info) const
             {
                 data.values.push_back(std::move(info));
-            }
-        };
-
-        template <bool dummy>
-        struct Store<EnumElement, dummy> {
-            void operator()(ElementData<EnumElement>& data, ElementInfo<EnumElement> info) const
-            {
-                if (info.value.size() == 1) {
-                    data.values.push_back(std::move(info));
-                } else {
-                    data.enumerations.push_back(std::move(info));
-                }
             }
         };
 
@@ -767,7 +736,7 @@ namespace
 
     template <typename T>
     struct SaveValue<T, true> {
-        void operator()(ElementData<T>& data, T& element) const
+        void operator()(ElementData<T>& data, T& element, ConversionContext& /* context */) const
         {
             if (data.values.empty()) {
                 return;
@@ -787,7 +756,7 @@ namespace
 
     template <typename T>
     struct SaveValue<T, false> {
-        void operator()(ElementData<T>& data, T& element) const
+        void operator()(ElementData<T>& data, T& element, ConversionContext& /* context */) const
         {
             auto info = Merge<T>()(std::move(data.values));
 
@@ -815,33 +784,113 @@ namespace
         return std::move(copy);
     }
 
+    struct InfoElementsComparator {
+        bool operator()(const InfoElements& rhs, const InfoElements& lhs) {
+            std::set<std::string> keys;
+            std::set<std::string> ignore = { "sourceMap" };
+
+            if (std::find_if(lhs.begin(), lhs.end(),
+                    [&keys, &rhs, &ignore](const auto& info) {
+                      auto key = info.first;
+                      if (ignore.find(key) != ignore.end()) {
+                        return false;
+                      }
+                      keys.insert(key);
+
+                      auto rInfo = rhs.find(key);
+                      if (rInfo == rhs.end()) {
+                        return true;
+                      }
+
+                      return !(*rInfo->second == *info.second);
+                    }) != lhs.end()) {
+                return false;
+            }
+
+            if (std::find_if(rhs.begin(), rhs.end(),
+                    [&keys, &lhs, &ignore](const auto& info) {
+                      auto key = info.first;
+                      if (ignore.find(key) != ignore.end()) {
+                        return false;
+                      }
+
+                      if (keys.find(key) != ignore.end()) {
+                        return false;
+                      }
+
+                      return true;
+                    }) != rhs.end()) {
+                return false;
+            }
+
+            return true;
+        }
+
+    };
+
+
+    struct ElementComparator {
+        const IElement& rhs;
+
+        template <typename ElementT>
+        bool operator()(const ElementT& lhs)
+        {
+            if (auto rhsptr = dynamic_cast<const ElementT*>(&rhs)) {
+                return                                             //
+                    (lhs.empty() == rhs.empty()) &&                //
+                    (InfoElementsComparator{}( rhs.attributes(), lhs.attributes())) &&
+                    (InfoElementsComparator{}( rhs.meta(), lhs.meta())) &&
+                    (lhs.empty() || (lhs.get() == rhsptr->get())); //
+            } else
+                return false;
+        }
+    };
+
     template <>
     struct SaveValue<EnumElement, false> {
         using T = EnumElement;
 
-        void operator()(ElementData<T>& data, T& element) const
+        void operator()(ElementData<T>& data, T& element, ConversionContext& context) const
         {
-            auto valuesInfo = Merge<EnumElement>()(std::move(data.values));
-            auto enumInfo = Merge<EnumElement>()(std::move(data.enumerations));
 
-            auto samplesInfo = Merge<EnumElement>()(std::move(CloneElementInfoContainer<T>(data.samples)));
-            auto defaultInfo = Merge<EnumElement>()(std::move(CloneElementInfoContainer<T>(data.defaults)));
-
-            if (!valuesInfo.value.empty()) {
-                auto content = std::move(valuesInfo.value.front());
-                valuesInfo.value.pop_front();
+            if ((data.values.size() == 1) && 
+                (data.values.front().value.size() == 1) &&
+                !data.values.front().value.front()->empty()) {
+                auto content = data.values.front().value.front()->clone();
                 element.set(dsd::Enum{ std::move(content) });
             }
 
-            if (!enumInfo.value.empty() || !samplesInfo.value.empty() || !defaultInfo.value.empty()) {
-                auto enumsElement = make_element<ArrayElement>();
+            auto valuesInfo = Merge<EnumElement>()(std::move(data.values));
+            auto samplesInfo = Merge<EnumElement>()(std::move(CloneElementInfoContainer<T>(data.samples)));
+            auto defaultInfo = Merge<EnumElement>()(std::move(CloneElementInfoContainer<T>(data.defaults)));
 
-                std::move(enumInfo.value.begin(), enumInfo.value.end(), std::back_inserter(enumsElement->get()));
-                std::move(samplesInfo.value.begin(), samplesInfo.value.end(), std::back_inserter(enumsElement->get()));
-                std::move(defaultInfo.value.begin(), defaultInfo.value.end(), std::back_inserter(enumsElement->get()));
 
+            dsd::Array enums;
+
+            auto addToEnumerations = [&enums, &context](auto& info, const auto& sourceMap, const bool reportDuplicity){
+                if (std::find_if(enums.begin(), enums.end(),
+                            [&info](auto& enm){ 
+                               return visit(*info, ElementComparator{ *enm }); 
+                            }
+                            ) == enums.end()) {
+                    enums.push_back(std::move(info));
+                } else if (reportDuplicity) {
+                    context.warn(snowcrash::Warning("duplicit value in enumeration", snowcrash::MSONError, sourceMap.sourceMap));
+                }
+            };
+
+            std::for_each(valuesInfo.value.begin(), valuesInfo.value.end(), 
+                         std::bind(addToEnumerations, std::placeholders::_1, valuesInfo.sourceMap, true));
+            std::for_each(samplesInfo.value.begin(), samplesInfo.value.end(),
+                          std::bind(addToEnumerations, std::placeholders::_1, samplesInfo.sourceMap, false));
+            std::for_each(defaultInfo.value.begin(), defaultInfo.value.end(),
+                          std::bind(addToEnumerations, std::placeholders::_1, defaultInfo.sourceMap, false));
+
+            if (!enums.empty()) {
+                auto enumsElement = make_element<ArrayElement>(enums);
                 element.attributes().set(SerializeKey::Enumerations, std::move(enumsElement));
             }
+
         }
     };
 
@@ -950,9 +999,8 @@ namespace
         std::for_each(data.values.begin(), data.values.end(), validate);
         std::for_each(data.samples.begin(), data.samples.end(), validate);
         std::for_each(data.defaults.begin(), data.defaults.end(), validate);
-        std::for_each(data.enumerations.begin(), data.enumerations.end(), validate);
 
-        SaveValue<T>()(data, element);
+        SaveValue<T>()(data, element, context);
         AllElementsToAtribute<T>(std::move(data.samples), SerializeKey::Samples, element);
         LastElementToAttribute<T>(std::move(data.defaults), SerializeKey::Default, element, context);
     }
