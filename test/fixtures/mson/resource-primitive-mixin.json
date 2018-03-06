@@ -33,7 +33,7 @@
             },
             "title": {
               "element": "string",
-              "content": ""
+              "content": "Polls"
             }
           },
           "content": [
@@ -99,7 +99,7 @@
                   "content": [
                     {
                       "element": "number",
-                      "content": 31
+                      "content": 45
                     },
                     {
                       "element": "number",
@@ -143,7 +143,7 @@
                   "content": [
                     {
                       "element": "number",
-                      "content": 29
+                      "content": 43
                     },
                     {
                       "element": "number",

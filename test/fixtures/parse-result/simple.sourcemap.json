@@ -20,142 +20,98 @@
       },
       "content": [
         {
-          "element": "category",
+          "element": "resource",
           "meta": {
-            "classes": {
-              "element": "array",
-              "content": [
-                {
-                  "element": "string",
-                  "content": "resourceGroup"
-                }
-              ]
-            },
             "title": {
               "element": "string",
               "content": ""
             }
           },
+          "attributes": {
+            "href": {
+              "element": "string",
+              "attributes": {
+                "sourceMap": {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "sourceMap",
+                      "content": [
+                        {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "number",
+                              "content": 0
+                            },
+                            {
+                              "element": "number",
+                              "content": 8
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "content": "/"
+            }
+          },
           "content": [
             {
-              "element": "resource",
+              "element": "transition",
               "meta": {
                 "title": {
                   "element": "string",
                   "content": ""
                 }
               },
-              "attributes": {
-                "href": {
-                  "element": "string",
-                  "attributes": {
-                    "sourceMap": {
-                      "element": "array",
-                      "content": [
-                        {
-                          "element": "sourceMap",
-                          "content": [
-                            {
+              "content": [
+                {
+                  "element": "httpTransaction",
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "attributes": {
+                        "method": {
+                          "element": "string",
+                          "attributes": {
+                            "sourceMap": {
                               "element": "array",
                               "content": [
                                 {
-                                  "element": "number",
-                                  "content": 0
-                                },
-                                {
-                                  "element": "number",
-                                  "content": 8
+                                  "element": "sourceMap",
+                                  "content": [
+                                    {
+                                      "element": "array",
+                                      "content": [
+                                        {
+                                          "element": "number",
+                                          "content": 0
+                                        },
+                                        {
+                                          "element": "number",
+                                          "content": 8
+                                        }
+                                      ]
+                                    }
+                                  ]
                                 }
                               ]
                             }
-                          ]
-                        }
-                      ]
-                    }
-                  },
-                  "content": "/"
-                }
-              },
-              "content": [
-                {
-                  "element": "transition",
-                  "meta": {
-                    "title": {
-                      "element": "string",
-                      "content": ""
-                    }
-                  },
-                  "content": [
-                    {
-                      "element": "httpTransaction",
-                      "content": [
-                        {
-                          "element": "httpRequest",
-                          "attributes": {
-                            "method": {
-                              "element": "string",
-                              "attributes": {
-                                "sourceMap": {
-                                  "element": "array",
-                                  "content": [
-                                    {
-                                      "element": "sourceMap",
-                                      "content": [
-                                        {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "number",
-                                              "content": 0
-                                            },
-                                            {
-                                              "element": "number",
-                                              "content": 8
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                }
-                              },
-                              "content": "GET"
-                            }
                           },
-                          "content": []
-                        },
-                        {
-                          "element": "httpResponse",
+                          "content": "GET"
+                        }
+                      },
+                      "content": []
+                    },
+                    {
+                      "element": "httpResponse",
+                      "attributes": {
+                        "statusCode": {
+                          "element": "string",
                           "attributes": {
-                            "statusCode": {
-                              "element": "string",
-                              "attributes": {
-                                "sourceMap": {
-                                  "element": "array",
-                                  "content": [
-                                    {
-                                      "element": "sourceMap",
-                                      "content": [
-                                        {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "number",
-                                              "content": 10
-                                            },
-                                            {
-                                              "element": "number",
-                                              "content": 13
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                }
-                              },
-                              "content": "204"
-                            },
                             "sourceMap": {
                               "element": "array",
                               "content": [
@@ -180,9 +136,33 @@
                               ]
                             }
                           },
-                          "content": []
+                          "content": "204"
+                        },
+                        "sourceMap": {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "sourceMap",
+                              "content": [
+                                {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "number",
+                                      "content": 10
+                                    },
+                                    {
+                                      "element": "number",
+                                      "content": 13
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
                         }
-                      ]
+                      },
+                      "content": []
                     }
                   ]
                 }

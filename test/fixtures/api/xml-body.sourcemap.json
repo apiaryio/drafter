@@ -33,7 +33,32 @@
             },
             "title": {
               "element": "string",
-              "content": ""
+              "attributes": {
+                "sourceMap": {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "sourceMap",
+                      "content": [
+                        {
+                          "element": "array",
+                          "content": [
+                            {
+                              "element": "number",
+                              "content": 0
+                            },
+                            {
+                              "element": "number",
+                              "content": 16
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "content": "Example"
             }
           },
           "content": [
@@ -60,7 +85,7 @@
                               "content": [
                                 {
                                   "element": "number",
-                                  "content": 0
+                                  "content": 16
                                 },
                                 {
                                   "element": "number",
@@ -106,7 +131,7 @@
                                           "content": [
                                             {
                                               "element": "number",
-                                              "content": 0
+                                              "content": 16
                                             },
                                             {
                                               "element": "number",
@@ -141,7 +166,7 @@
                                           "content": [
                                             {
                                               "element": "number",
-                                              "content": 11
+                                              "content": 27
                                             },
                                             {
                                               "element": "number",
@@ -167,7 +192,7 @@
                                       "content": [
                                         {
                                           "element": "number",
-                                          "content": 11
+                                          "content": 27
                                         },
                                         {
                                           "element": "number",
@@ -196,7 +221,7 @@
                                               "content": [
                                                 {
                                                   "element": "number",
-                                                  "content": 11
+                                                  "content": 27
                                                 },
                                                 {
                                                   "element": "number",
@@ -240,7 +265,7 @@
                                             "content": [
                                               {
                                                 "element": "number",
-                                                "content": 48
+                                                "content": 64
                                               },
                                               {
                                                 "element": "number",
@@ -271,7 +296,7 @@
                                                     "content": [
                                                       {
                                                         "element": "number",
-                                                        "content": 69
+                                                        "content": 85
                                                       },
                                                       {
                                                         "element": "number",
@@ -300,7 +325,7 @@
                                                     "content": [
                                                       {
                                                         "element": "number",
-                                                        "content": 69
+                                                        "content": 85
                                                       },
                                                       {
                                                         "element": "number",
