@@ -32,7 +32,7 @@ SCENARIO("Compare equality of elements", "[Element][comparate][equal]")
 
         WHEN("it is compared")
         {
-            THEN("it is recognized as equal")
+            THEN("it is recognized as non-equal")
             {
                 REQUIRE(false == visit(*first, ElementComparator{ *second }));
             }
