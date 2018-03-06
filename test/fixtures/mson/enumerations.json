@@ -357,6 +357,10 @@
                               }
                             ]
                           }
+                        },
+                        "content": {
+                          "element": "string",
+                          "content": "1"
                         }
                       }
                     }
