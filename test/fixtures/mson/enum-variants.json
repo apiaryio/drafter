@@ -155,6 +155,10 @@
                               }
                             ]
                           }
+                        },
+                        "content": {
+                          "element": "string",
+                          "content": "L"
                         }
                       }
                     }
@@ -205,6 +209,10 @@
                               }
                             ]
                           }
+                        },
+                        "content": {
+                          "element": "string",
+                          "content": "L"
                         }
                       }
                     }
@@ -385,6 +393,10 @@
                               }
                             ]
                           }
+                        },
+                        "content": {
+                          "element": "string",
+                          "content": "S"
                         }
                       }
                     }
@@ -777,6 +789,10 @@
                               "content": "K"
                             }
                           }
+                        },
+                        "content": {
+                          "element": "string",
+                          "content": "A"
                         }
                       }
                     }

@@ -735,7 +735,7 @@ namespace
         void operator()(ElementData<T>& data, T& element, ConversionContext& context) const
         {
 
-            if ((data.values.size() == 1) && (data.values.front().value.size() == 1)
+            if ((data.values.size() >= 1) && (data.values.front().value.size() == 1)
                 && !data.values.front().value.front()->empty()) {
                 auto content = data.values.front().value.front()->clone();
                 element.set(dsd::Enum{ std::move(content) });
