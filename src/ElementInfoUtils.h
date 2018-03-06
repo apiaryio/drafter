@@ -11,7 +11,8 @@
 #ifndef DRAFTER_MERGEELEMENTINFO_H
 #define DRAFTER_MERGEELEMENTINFO_H
 
-namespace drafter {
+namespace drafter
+{
 
     template <typename T, bool IsPrimitive = is_primitive<T>()>
     struct Merge;
@@ -53,22 +54,21 @@ namespace drafter {
         }
     };
 
-    template<typename T>
-    ElementInfoContainer<T> CloneElementInfoContainer(const ElementInfoContainer<T>& infoContainer) {
+    template <typename T>
+    ElementInfoContainer<T> CloneElementInfoContainer(const ElementInfoContainer<T>& infoContainer)
+    {
         ElementInfoContainer<T> copy;
-        std::transform(infoContainer.begin(), infoContainer.end(),
-                std::back_inserter(copy),
-                [](const auto& info) { 
-                ElementInfo<T> cloned;
-                cloned.sourceMap = info.sourceMap;
-                std::transform(info.value.begin(), info.value.end(),
-                        std::back_inserter(cloned.value),
-                        [](const auto& element) { return element->clone(); });
-                return std::move(cloned);
+        std::transform(infoContainer.begin(), infoContainer.end(), std::back_inserter(copy), [](const auto& info) {
+            ElementInfo<T> cloned;
+            cloned.sourceMap = info.sourceMap;
+            std::transform(
+                info.value.begin(), info.value.end(), std::back_inserter(cloned.value), [](const auto& element) {
+                    return element->clone();
                 });
+            return std::move(cloned);
+        });
         return std::move(copy);
     }
-
 }
 
 #endif //#ifndef DRAFTER_MERGEELEMENTINFO_H

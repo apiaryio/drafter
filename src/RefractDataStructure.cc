@@ -447,7 +447,8 @@ namespace
 
         template <typename E, bool dummy>
         struct Store<E, true, dummy> {
-            void operator()(ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context) const
+            void operator()(
+                ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context) const
             {
                 // do nothing - Primitive types does not contain TypeDefinitions
             }
@@ -455,7 +456,8 @@ namespace
 
         template <typename E, bool dummy>
         struct Store<E, false, dummy> {
-            void operator()(ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context) const
+            void operator()(
+                ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context) const
             {
                 data.values.push_back(Fetch<E>()(typeNames, context));
             }
@@ -644,7 +646,6 @@ namespace
         }
     };
 
-
     template <typename E, bool IsPrimitive = is_primitive<E>(), bool dummy = true>
     struct ElementInfoToElement;
 
@@ -734,9 +735,8 @@ namespace
         void operator()(ElementData<T>& data, T& element, ConversionContext& context) const
         {
 
-            if ((data.values.size() == 1) && 
-                (data.values.front().value.size() == 1) &&
-                !data.values.front().value.front()->empty()) {
+            if ((data.values.size() == 1) && (data.values.front().value.size() == 1)
+                && !data.values.front().value.front()->empty()) {
                 auto content = data.values.front().value.front()->clone();
                 element.set(dsd::Enum{ std::move(content) });
             }
@@ -747,30 +747,32 @@ namespace
 
             dsd::Array enums;
 
-            auto addToEnumerations = [&enums, &context](auto& info, const auto& sourceMap, const bool reportDuplicity){
-                if (std::find_if(enums.begin(), enums.end(),
-                            [&info](auto& enm){ 
-                               return visit(*info, ElementComparator{ *enm }); 
-                            }
-                            ) == enums.end()) {
+            auto addToEnumerations = [&enums, &context](auto& info, const auto& sourceMap, const bool reportDuplicity) {
+                if (std::find_if(enums.begin(),
+                        enums.end(),
+                        [&info](auto& enm) { return visit(*info, ElementComparator{ *enm }); })
+                    == enums.end()) {
                     enums.push_back(std::move(info));
                 } else if (reportDuplicity) {
-                    context.warn(snowcrash::Warning("duplicit value in enumeration", snowcrash::MSONError, sourceMap.sourceMap));
+                    context.warn(
+                        snowcrash::Warning("duplicit value in enumeration", snowcrash::MSONError, sourceMap.sourceMap));
                 }
             };
 
-            std::for_each(valuesInfo.value.begin(), valuesInfo.value.end(), 
-                         std::bind(addToEnumerations, std::placeholders::_1, valuesInfo.sourceMap, true));
-            std::for_each(samplesInfo.value.begin(), samplesInfo.value.end(),
-                          std::bind(addToEnumerations, std::placeholders::_1, samplesInfo.sourceMap, false));
-            std::for_each(defaultInfo.value.begin(), defaultInfo.value.end(),
-                          std::bind(addToEnumerations, std::placeholders::_1, defaultInfo.sourceMap, false));
+            std::for_each(valuesInfo.value.begin(),
+                valuesInfo.value.end(),
+                std::bind(addToEnumerations, std::placeholders::_1, valuesInfo.sourceMap, true));
+            std::for_each(samplesInfo.value.begin(),
+                samplesInfo.value.end(),
+                std::bind(addToEnumerations, std::placeholders::_1, samplesInfo.sourceMap, false));
+            std::for_each(defaultInfo.value.begin(),
+                defaultInfo.value.end(),
+                std::bind(addToEnumerations, std::placeholders::_1, defaultInfo.sourceMap, false));
 
             if (!enums.empty()) {
                 auto enumsElement = make_element<ArrayElement>(enums);
                 element.attributes().set(SerializeKey::Enumerations, std::move(enumsElement));
             }
-
         }
     };
 

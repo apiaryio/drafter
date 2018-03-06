@@ -1,15 +1,13 @@
 #include "ElementInfoUtils.h"
 #include "catch.hpp"
 
-
-    template <typename ElementT>
-    snowcrash::SourceMap<typename ElementT::ValueType> make_sourcemap(std::vector<mdp::Range>&& locations)
-    {
-        snowcrash::SourceMap<typename ElementT::ValueType> res;
-        std::move(locations.begin(), locations.end(), std::back_inserter(res.sourceMap));
-        return std::move(res);
-    }
-
+template <typename ElementT>
+snowcrash::SourceMap<typename ElementT::ValueType> make_sourcemap(std::vector<mdp::Range>&& locations)
+{
+    snowcrash::SourceMap<typename ElementT::ValueType> res;
+    std::move(locations.begin(), locations.end(), std::back_inserter(res.sourceMap));
+    return std::move(res);
+}
 
 SCENARIO("Merging primitive ElementInfo", "[ElementInfo][merge]")
 {
@@ -19,7 +17,7 @@ SCENARIO("Merging primitive ElementInfo", "[ElementInfo][merge]")
     using Info = ElementInfo<E>;
     using Container = std::deque<Info>;
 
-    GIVEN("Empty Container for primitive type") 
+    GIVEN("Empty Container for primitive type")
     {
 
         Container c;
@@ -42,7 +40,7 @@ SCENARIO("Merging primitive ElementInfo", "[ElementInfo][merge]")
     GIVEN("Container has one primitive type")
     {
         Container c;
-        c.emplace_back(Info("str", make_sourcemap<E>({{1,2}, {4,2}})));
+        c.emplace_back(Info("str", make_sourcemap<E>({ { 1, 2 }, { 4, 2 } })));
 
         WHEN("it is merged")
         {
@@ -80,8 +78,8 @@ SCENARIO("Merging primitive ElementInfo", "[ElementInfo][merge]")
     GIVEN("Container has more primitive types")
     {
         Container c;
-        c.emplace_back(Info("s1", make_sourcemap<E>({{1,2}})));
-        c.emplace_back(Info("s2", make_sourcemap<E>({{2,1}})));
+        c.emplace_back(Info("s1", make_sourcemap<E>({ { 1, 2 } })));
+        c.emplace_back(Info("s2", make_sourcemap<E>({ { 2, 1 } })));
 
         WHEN("it is merged")
         {
@@ -105,12 +103,9 @@ SCENARIO("Merging primitive ElementInfo", "[ElementInfo][merge]")
                 const auto& r = merged.sourceMap.sourceMap.front();
                 REQUIRE(r.location == 1);
                 REQUIRE(r.length == 2);
-
             }
         }
     }
-
-
 }
 
 SCENARIO("Merging complex ElementInfo", "[ElementInfo][merge]")
@@ -121,7 +116,7 @@ SCENARIO("Merging complex ElementInfo", "[ElementInfo][merge]")
     using Info = ElementInfo<E>;
     using Container = std::deque<Info>;
 
-    GIVEN("Empty Container for complex type") 
+    GIVEN("Empty Container for complex type")
     {
 
         Container c;
@@ -146,7 +141,7 @@ SCENARIO("Merging complex ElementInfo", "[ElementInfo][merge]")
         Container c;
         Info i;
         i.value.emplace_back(refract::make_element<refract::StringElement>("test"));
-        i.sourceMap = std::move(make_sourcemap<E>({{4,2}}));
+        i.sourceMap = std::move(make_sourcemap<E>({ { 4, 2 } }));
         c.emplace_back(std::move(i));
 
         WHEN("it is merged")
@@ -176,19 +171,21 @@ SCENARIO("Merging complex ElementInfo", "[ElementInfo][merge]")
         }
     }
 
-    GIVEN("Container contains two ElementInfo. First with one StringElement and Second with StringElement and NumberElement")
+    GIVEN(
+        "Container contains two ElementInfo. First with one StringElement and Second with StringElement and "
+        "NumberElement")
     {
         Container c;
 
         Info i1;
         i1.value.emplace_back(refract::make_element<refract::StringElement>("test"));
-        i1.sourceMap = std::move(make_sourcemap<E>({{4,2}}));
+        i1.sourceMap = std::move(make_sourcemap<E>({ { 4, 2 } }));
         c.emplace_back(std::move(i1));
 
         Info i2;
         i2.value.emplace_back(refract::make_element<refract::NumberElement>(2.0));
         i2.value.emplace_back(refract::make_element<refract::StringElement>("computadora"));
-        i2.sourceMap = std::move(make_sourcemap<E>({{10,20}}));
+        i2.sourceMap = std::move(make_sourcemap<E>({ { 10, 20 } }));
         c.emplace_back(std::move(i2));
 
         WHEN("it is merged")
@@ -217,7 +214,6 @@ SCENARIO("Merging complex ElementInfo", "[ElementInfo][merge]")
             {
                 REQUIRE(*(*r) == *refract::make_element<refract::NumberElement>(2.0));
             }
-
 
             r++;
             THEN("Thrird element is string with value 'computadora'")
@@ -277,12 +273,12 @@ SCENARIO("Cloning InfoElementsContainer")
 
         Info i1;
         i1.value.emplace_back(refract::make_element<refract::StringElement>("test"));
-        i1.sourceMap = std::move(make_sourcemap<E>({{4,2}}));
+        i1.sourceMap = std::move(make_sourcemap<E>({ { 4, 2 } }));
         c.emplace_back(std::move(i1));
 
         Info i2;
         i2.value.emplace_back(refract::make_element<refract::NumberElement>(2.0));
-        i2.sourceMap = std::move(make_sourcemap<E>({{10,20}}));
+        i2.sourceMap = std::move(make_sourcemap<E>({ { 10, 20 } }));
         c.emplace_back(std::move(i2));
 
         WHEN("It is cloned")
@@ -338,7 +334,6 @@ SCENARIO("Cloning InfoElementsContainer")
                 }
             }
 
-
             WHEN("remove element form front of origin")
             {
                 size_t s = c.size();
@@ -346,7 +341,7 @@ SCENARIO("Cloning InfoElementsContainer")
 
                 THEN("size of orging is changed")
                 {
-                    REQUIRE(c.size() == (s-1));
+                    REQUIRE(c.size() == (s - 1));
                 }
 
                 THEN("size of clone is unchanged")
@@ -355,7 +350,5 @@ SCENARIO("Cloning InfoElementsContainer")
                 }
             }
         }
-
-
     }
 }
