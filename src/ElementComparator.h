@@ -16,50 +16,53 @@ namespace drafter
 {
     using namespace refract;
     struct InfoElementsComparator {
-        bool operator()(const InfoElements& rhs, const InfoElements& lhs) {
+        bool operator()(const InfoElements& rhs, const InfoElements& lhs)
+        {
 
             const std::set<std::string> ignore = { "sourceMap" };
             std::set<std::string> keys;
 
-            if (std::find_if(lhs.begin(), lhs.end(),
+            if (std::find_if(lhs.begin(),
+                    lhs.end(),
                     [&keys, &rhs, &ignore](const auto& info) {
-                      auto key = info.first;
-                      if (ignore.find(key) != ignore.end()) {
-                        return false;
-                      }
-                      keys.insert(key);
+                        auto key = info.first;
+                        if (ignore.find(key) != ignore.end()) {
+                            return false;
+                        }
+                        keys.insert(key);
 
-                      auto rInfo = rhs.find(key);
-                      if (rInfo == rhs.end()) {
-                        return true;
-                      }
+                        auto rInfo = rhs.find(key);
+                        if (rInfo == rhs.end()) {
+                            return true;
+                        }
 
-                      return !(*rInfo->second == *info.second);
-                    }) != lhs.end()) {
+                        return !(*rInfo->second == *info.second);
+                    })
+                != lhs.end()) {
                 return false;
             }
 
-            if (std::find_if(rhs.begin(), rhs.end(),
+            if (std::find_if(rhs.begin(),
+                    rhs.end(),
                     [&keys, &lhs, &ignore](const auto& info) {
-                      auto key = info.first;
-                      if (ignore.find(key) != ignore.end()) {
-                        return false;
-                      }
+                        auto key = info.first;
+                        if (ignore.find(key) != ignore.end()) {
+                            return false;
+                        }
 
-                      if (keys.find(key) != ignore.end()) {
-                        return false;
-                      }
+                        if (keys.find(key) != ignore.end()) {
+                            return false;
+                        }
 
-                      return true;
-                    }) != rhs.end()) {
+                        return true;
+                    })
+                != rhs.end()) {
                 return false;
             }
 
             return true;
         }
-
     };
-
 
     struct ElementComparator {
         const IElement& rhs;
@@ -68,12 +71,10 @@ namespace drafter
         bool operator()(const ElementT& lhs)
         {
             if (auto rhsptr = dynamic_cast<const ElementT*>(&rhs)) {
-                return
-                    (lhs.empty() == rhs.empty()) && 
-                    (lhs.element() == rhs.element()) && 
-                    (InfoElementsComparator{}( rhs.attributes(), lhs.attributes())) &&
-                    (InfoElementsComparator{}( rhs.meta(), lhs.meta())) &&
-                    (lhs.empty() || (lhs.get() == rhsptr->get()));
+                return (lhs.empty() == rhs.empty()) && (lhs.element() == rhs.element())
+                    && (InfoElementsComparator{}(rhs.attributes(), lhs.attributes()))
+                    && (InfoElementsComparator{}(rhs.meta(), lhs.meta()))
+                    && (lhs.empty() || (lhs.get() == rhsptr->get()));
             } else
                 return false;
         }

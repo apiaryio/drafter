@@ -9,7 +9,7 @@ using N = refract::NumberElement;
 SCENARIO("Compare equality of elements", "[Element][comparate][equal]")
 {
 
-    GIVEN("Two empty primitive elements of same type") 
+    GIVEN("Two empty primitive elements of same type")
     {
 
         auto first = make_empty<S>();
@@ -19,12 +19,12 @@ SCENARIO("Compare equality of elements", "[Element][comparate][equal]")
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator{ *second })); 
+                REQUIRE(true == visit(*first, ElementComparator{ *second }));
             }
         }
     }
 
-    GIVEN("Two empty primitive elements of diferent type") 
+    GIVEN("Two empty primitive elements of diferent type")
     {
 
         auto first = make_empty<S>();
@@ -34,12 +34,12 @@ SCENARIO("Compare equality of elements", "[Element][comparate][equal]")
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(false == visit(*first, ElementComparator{ *second })); 
+                REQUIRE(false == visit(*first, ElementComparator{ *second }));
             }
         }
     }
 
-    GIVEN("Two primitive elements of same type with same value") 
+    GIVEN("Two primitive elements of same type with same value")
     {
 
         auto first = make_element<S>("a");
@@ -49,12 +49,12 @@ SCENARIO("Compare equality of elements", "[Element][comparate][equal]")
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator{ *second })); 
+                REQUIRE(true == visit(*first, ElementComparator{ *second }));
             }
         }
     }
 
-    GIVEN("Two primitive elements of same type with different value") 
+    GIVEN("Two primitive elements of same type with different value")
     {
 
         auto first = make_element<S>("a");
@@ -64,12 +64,12 @@ SCENARIO("Compare equality of elements", "[Element][comparate][equal]")
         {
             THEN("it is recognized as non-equal")
             {
-                REQUIRE(false == visit(*first, ElementComparator{ *second })); 
+                REQUIRE(false == visit(*first, ElementComparator{ *second }));
             }
         }
     }
 
-    GIVEN("Two empty primitive elements of same type with different element name") 
+    GIVEN("Two empty primitive elements of same type with different element name")
     {
 
         auto first = make_element<S>();
@@ -80,12 +80,12 @@ SCENARIO("Compare equality of elements", "[Element][comparate][equal]")
         {
             THEN("it is recognized as non-equal")
             {
-                REQUIRE(false == visit(*first, ElementComparator{ *second })); 
+                REQUIRE(false == visit(*first, ElementComparator{ *second }));
             }
         }
     }
 
-    GIVEN("Two empty primitive different InfoElements") 
+    GIVEN("Two empty primitive different InfoElements")
     {
 
         auto first = make_element<S>();
@@ -97,12 +97,12 @@ SCENARIO("Compare equality of elements", "[Element][comparate][equal]")
         {
             THEN("it is recognized as non-equal")
             {
-                REQUIRE(false == visit(*first, ElementComparator{ *second })); 
+                REQUIRE(false == visit(*first, ElementComparator{ *second }));
             }
         }
     }
 
-    GIVEN("Two empty primitive elements with same InfoElements") 
+    GIVEN("Two empty primitive elements with same InfoElements")
     {
 
         auto first = make_element<S>();
@@ -115,12 +115,12 @@ SCENARIO("Compare equality of elements", "[Element][comparate][equal]")
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator{ *second })); 
+                REQUIRE(true == visit(*first, ElementComparator{ *second }));
             }
         }
     }
 
-    GIVEN("Two empty primitive elements with different InfoElements value") 
+    GIVEN("Two empty primitive elements with different InfoElements value")
     {
 
         auto first = make_element<S>();
@@ -133,7 +133,7 @@ SCENARIO("Compare equality of elements", "[Element][comparate][equal]")
         {
             THEN("it is recognized as non-equal")
             {
-                REQUIRE(false == visit(*first, ElementComparator{ *second })); 
+                REQUIRE(false == visit(*first, ElementComparator{ *second }));
             }
         }
     }
@@ -141,7 +141,7 @@ SCENARIO("Compare equality of elements", "[Element][comparate][equal]")
 
 SCENARIO("Compare equality of elements with sourceMaps", "[Element][comparate][equal]")
 {
-    GIVEN("Two empty primitive elements with different sourceMap value") 
+    GIVEN("Two empty primitive elements with different sourceMap value")
     {
 
         auto first = make_element<S>();
@@ -154,12 +154,12 @@ SCENARIO("Compare equality of elements with sourceMaps", "[Element][comparate][e
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator{ *second })); 
+                REQUIRE(true == visit(*first, ElementComparator{ *second }));
             }
         }
     }
 
-    GIVEN("Two empty primitive elements first with sourceMap") 
+    GIVEN("Two empty primitive elements first with sourceMap")
     {
 
         auto first = make_element<S>();
@@ -171,12 +171,12 @@ SCENARIO("Compare equality of elements with sourceMaps", "[Element][comparate][e
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator{ *second })); 
+                REQUIRE(true == visit(*first, ElementComparator{ *second }));
             }
         }
     }
 
-    GIVEN("Two empty primitive elements second with sourceMap") 
+    GIVEN("Two empty primitive elements second with sourceMap")
     {
 
         auto first = make_element<S>();
@@ -188,7 +188,7 @@ SCENARIO("Compare equality of elements with sourceMaps", "[Element][comparate][e
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator{ *second })); 
+                REQUIRE(true == visit(*first, ElementComparator{ *second }));
             }
         }
     }
