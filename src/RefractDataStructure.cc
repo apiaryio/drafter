@@ -20,7 +20,8 @@
 #include "ConversionContext.h"
 
 #include "ElementData.h"
-#include "MergeElementInfo.h"
+#include "ElementInfoUtils.h"
+#include "ElementComparator.h"
 
 #include <fstream>
 #include <functional>
@@ -643,48 +644,6 @@ namespace
         }
     };
 
-    template <typename T, bool IsPrimitive = is_primitive<T>()>
-    struct Merge;
-
-    template <typename T>
-    struct Merge<T, true> {
-        using Info = ElementInfo<T>;
-        using Container = std::deque<Info>;
-
-        ElementInfo<T> operator()(Container container) const
-        {
-            if (container.empty()) {
-                return ElementInfo<T>();
-            } else {
-                auto result = std::move(container.front());
-                container.pop_front();
-                return std::move(result);
-            }
-        }
-    };
-
-    template <typename T>
-    struct Merge<T, false> {
-        using Info = ElementInfo<T>;
-        using Container = std::deque<Info>;
-        using StoredType = typename stored_type<T>::type;
-        using SourceMap = typename content_source_map_type<T>::type;
-
-        Info operator()(Container container) const
-        {
-            Info result{};
-
-            for (auto& info : container) {
-                std::move(info.value.begin(), info.value.end(), std::back_inserter(result.value));
-
-                // FIXME: merge source map?
-                // it is not used later,
-                // every element in vector has it own map
-            }
-
-            return std::move(result);
-        }
-    };
 
     template <typename E, bool IsPrimitive = is_primitive<E>(), bool dummy = true>
     struct ElementInfoToElement;
@@ -768,84 +727,6 @@ namespace
         }
     };
 
-    template<typename T>
-    ElementInfoContainer<T> CloneElementInfoContainer(const ElementInfoContainer<T>& infoContainer) {
-        ElementInfoContainer<T> copy;
-        std::transform(infoContainer.begin(), infoContainer.end(),
-                std::back_inserter(copy),
-                [](const auto& info) { 
-                ElementInfo<T> cloned;
-                cloned.sourceMap = info.sourceMap;
-                std::transform(info.value.begin(), info.value.end(),
-                        std::back_inserter(cloned.value),
-                        [](const auto& element) { return element->clone(); });
-                return std::move(cloned);
-                });
-        return std::move(copy);
-    }
-
-    struct InfoElementsComparator {
-        bool operator()(const InfoElements& rhs, const InfoElements& lhs) {
-            std::set<std::string> keys;
-            std::set<std::string> ignore = { "sourceMap" };
-
-            if (std::find_if(lhs.begin(), lhs.end(),
-                    [&keys, &rhs, &ignore](const auto& info) {
-                      auto key = info.first;
-                      if (ignore.find(key) != ignore.end()) {
-                        return false;
-                      }
-                      keys.insert(key);
-
-                      auto rInfo = rhs.find(key);
-                      if (rInfo == rhs.end()) {
-                        return true;
-                      }
-
-                      return !(*rInfo->second == *info.second);
-                    }) != lhs.end()) {
-                return false;
-            }
-
-            if (std::find_if(rhs.begin(), rhs.end(),
-                    [&keys, &lhs, &ignore](const auto& info) {
-                      auto key = info.first;
-                      if (ignore.find(key) != ignore.end()) {
-                        return false;
-                      }
-
-                      if (keys.find(key) != ignore.end()) {
-                        return false;
-                      }
-
-                      return true;
-                    }) != rhs.end()) {
-                return false;
-            }
-
-            return true;
-        }
-
-    };
-
-
-    struct ElementComparator {
-        const IElement& rhs;
-
-        template <typename ElementT>
-        bool operator()(const ElementT& lhs)
-        {
-            if (auto rhsptr = dynamic_cast<const ElementT*>(&rhs)) {
-                return                                             //
-                    (lhs.empty() == rhs.empty()) &&                //
-                    (InfoElementsComparator{}( rhs.attributes(), lhs.attributes())) &&
-                    (InfoElementsComparator{}( rhs.meta(), lhs.meta())) &&
-                    (lhs.empty() || (lhs.get() == rhsptr->get())); //
-            } else
-                return false;
-        }
-    };
-
     template <>
     struct SaveValue<EnumElement, false> {
         using T = EnumElement;
@@ -863,7 +744,6 @@ namespace
             auto valuesInfo = Merge<EnumElement>()(std::move(data.values));
             auto samplesInfo = Merge<EnumElement>()(std::move(CloneElementInfoContainer<T>(data.samples)));
             auto defaultInfo = Merge<EnumElement>()(std::move(CloneElementInfoContainer<T>(data.defaults)));
-
 
             dsd::Array enums;
 
