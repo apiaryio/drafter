@@ -250,7 +250,11 @@
                             ]
                           },
                           "default": {
-                            "element": "enum"
+                            "element": "enum",
+                            "content": {
+                              "element": "string",
+                              "content": "1"
+                            }
                           }
                         }
                       }
