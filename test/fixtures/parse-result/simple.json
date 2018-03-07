@@ -20,71 +20,51 @@
       },
       "content": [
         {
-          "element": "category",
+          "element": "resource",
           "meta": {
-            "classes": {
-              "element": "array",
-              "content": [
-                {
-                  "element": "string",
-                  "content": "resourceGroup"
-                }
-              ]
-            },
             "title": {
               "element": "string",
               "content": ""
             }
           },
+          "attributes": {
+            "href": {
+              "element": "string",
+              "content": "/"
+            }
+          },
           "content": [
             {
-              "element": "resource",
+              "element": "transition",
               "meta": {
                 "title": {
                   "element": "string",
                   "content": ""
                 }
               },
-              "attributes": {
-                "href": {
-                  "element": "string",
-                  "content": "/"
-                }
-              },
               "content": [
                 {
-                  "element": "transition",
-                  "meta": {
-                    "title": {
-                      "element": "string",
-                      "content": ""
-                    }
-                  },
+                  "element": "httpTransaction",
                   "content": [
                     {
-                      "element": "httpTransaction",
-                      "content": [
-                        {
-                          "element": "httpRequest",
-                          "attributes": {
-                            "method": {
-                              "element": "string",
-                              "content": "GET"
-                            }
-                          },
-                          "content": []
-                        },
-                        {
-                          "element": "httpResponse",
-                          "attributes": {
-                            "statusCode": {
-                              "element": "string",
-                              "content": "204"
-                            }
-                          },
-                          "content": []
+                      "element": "httpRequest",
+                      "attributes": {
+                        "method": {
+                          "element": "string",
+                          "content": "GET"
                         }
-                      ]
+                      },
+                      "content": []
+                    },
+                    {
+                      "element": "httpResponse",
+                      "attributes": {
+                        "statusCode": {
+                          "element": "string",
+                          "content": "204"
+                        }
+                      },
+                      "content": []
                     }
                   ]
                 }

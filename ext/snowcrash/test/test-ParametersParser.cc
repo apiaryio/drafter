@@ -288,11 +288,10 @@ TEST_CASE("Percentage encoded characters in parameter name ", "[parameters][perc
     REQUIRE(blueprint.report.warnings.empty());
 
     REQUIRE(blueprint.node.content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].description.empty());
     REQUIRE(resource.actions[0].parameters.size() == 1);

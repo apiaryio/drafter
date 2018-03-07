@@ -149,11 +149,10 @@ TEST_CASE("Parse API with Name and abbreviated resource", "[blueprint]")
     REQUIRE(blueprint.node.content.elements().size() == 1);
 
     REQUIRE(blueprint.node.content.elements().at(0).attributes.name.empty());
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.uriTemplate == "/resource");
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions.front().examples.size() == 1);
@@ -358,9 +357,9 @@ TEST_CASE("Blueprint starting with Resource should be parsed", "[blueprint]")
     REQUIRE(blueprint.node.description.empty());
     REQUIRE(blueprint.node.content.elements().size() == 1);
     REQUIRE(blueprint.node.content.elements().at(0).attributes.name.empty());
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).content.resource.uriTemplate == "/posts");
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
+    REQUIRE(blueprint.node.content.elements().at(0).content.resource.uriTemplate == "/posts");
 
     REQUIRE(blueprint.sourceMap.name.sourceMap.empty());
     REQUIRE(blueprint.sourceMap.description.sourceMap.empty());
@@ -389,10 +388,10 @@ TEST_CASE("Checking a resource with global resources for duplicates", "[blueprin
     REQUIRE(blueprint.node.content.elements().size() == 2);
 
     REQUIRE(blueprint.node.content.elements().at(0).attributes.name.empty());
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).content.resource.uriTemplate == "/posts");
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).content.resource.actions.empty());
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
+    REQUIRE(blueprint.node.content.elements().at(0).content.resource.uriTemplate == "/posts");
+    REQUIRE(blueprint.node.content.elements().at(0).content.resource.actions.empty());
 
     REQUIRE(blueprint.node.content.elements().at(1).attributes.name == "Posts");
     REQUIRE(blueprint.node.content.elements().at(1).element == Element::CategoryElement);
@@ -404,7 +403,7 @@ TEST_CASE("Checking a resource with global resources for duplicates", "[blueprin
     REQUIRE(blueprint.sourceMap.description.sourceMap.empty());
     REQUIRE(blueprint.sourceMap.metadata.collection.size() == 0);
     REQUIRE(blueprint.sourceMap.content.elements().collection.size() == 2);
-    REQUIRE(blueprint.sourceMap.content.elements().collection[0].content.elements().collection.size() == 1);
+    REQUIRE(blueprint.sourceMap.content.elements().collection[0].content.elements().collection.size() == 0);
     REQUIRE(blueprint.sourceMap.content.elements().collection[1].content.elements().collection.size() == 1);
 }
 
@@ -440,10 +439,10 @@ TEST_CASE("Parsing unexpected blocks", "[blueprint]")
 
     REQUIRE(blueprint.node.content.elements().size() == 1);
     REQUIRE(blueprint.node.content.elements().at(0).attributes.name.empty());
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.uriTemplate == "/");
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].method == "GET");
@@ -565,8 +564,8 @@ TEST_CASE("Parsing blueprint with mson data structures", "[blueprint]")
     REQUIRE(inheritanceIt->second.first == "Plan Base");
 
     REQUIRE(blueprint.node.content.elements().size() == 3);
-    REQUIRE(blueprint.node.content.elements().at(2).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(2).content.elements().size() == 1);
+    REQUIRE(blueprint.node.content.elements().at(2).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(2).content.elements().size() == 0);
     REQUIRE(blueprint.node.content.elements().at(1).content.elements().size() == 2);
     REQUIRE(blueprint.node.content.elements().at(1).content.elements().at(0).content.dataStructure.name.symbol.literal
         == "Plan Base");
@@ -594,10 +593,9 @@ TEST_CASE("Parse blueprint with two named types having the same name", "[bluepri
     REQUIRE(blueprint.report.warnings[0].code == DuplicateWarning);
 
     REQUIRE(blueprint.node.content.elements().size() == 2);
-    REQUIRE(blueprint.node.content.elements().at(1).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(1).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(1).content.elements().at(0).element == Element::ResourceElement);
-    REQUIRE(blueprint.node.content.elements().at(1).content.elements().at(0).content.resource.attributes.empty());
+    REQUIRE(blueprint.node.content.elements().at(1).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(1).content.elements().size() == 0);
+    REQUIRE(blueprint.node.content.elements().at(1).content.resource.attributes.empty());
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
 }
@@ -630,10 +628,9 @@ TEST_CASE("Parser blueprint correctly when having a big chain of inheritance in 
 
     REQUIRE(blueprint.node.content.elements().size() == 2);
     REQUIRE(blueprint.node.content.elements().size() == 2);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).content.resource.attributes.empty());
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
+    REQUIRE(blueprint.node.content.elements().at(0).content.resource.attributes.empty());
     REQUIRE(blueprint.node.content.elements().at(1).element == Element::CategoryElement);
     REQUIRE(blueprint.node.content.elements().at(1).content.elements().size() == 3);
     REQUIRE(blueprint.node.content.elements().at(1).content.elements().at(0).element == Element::DataStructureElement);
@@ -902,11 +899,10 @@ TEST_CASE(
     REQUIRE(blueprint.report.error.code == Error::OK);
     REQUIRE(blueprint.report.warnings.empty());
     REQUIRE(blueprint.node.content.elements().size() == 2);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource r = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource r = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(r.name == "Post");
     REQUIRE(r.attributes.typeDefinition.baseType == mson::ImplicitObjectBaseType);
     REQUIRE(r.attributes.typeDefinition.typeSpecification.name.symbol.literal == "B");
@@ -1295,13 +1291,10 @@ TEST_CASE("Any named type data structure should be able to be overridden when re
     REQUIRE(blueprint.report.warnings.empty());
 
     REQUIRE(blueprint.node.content.elements().size() == 2);
-    REQUIRE(blueprint.node.content.elements().at(1).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(1).category == Element::ResourceGroupCategory);
-    REQUIRE(blueprint.node.content.elements().at(1).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(1).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(1).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(1).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(1).content.elements().at(0).content.resource;
-
+    Resource resource = blueprint.node.content.elements().at(1).content.resource;
     REQUIRE(resource.uriTemplate == "/sample");
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions.at(0).method == "GET");
@@ -1446,10 +1439,9 @@ TEST_CASE("Parse blueprint with escaped data structure", "[blueprint]")
     REQUIRE(blueprint.report.warnings.size() == 0);
 
     REQUIRE(blueprint.node.content.elements().size() == 2);
-    REQUIRE(blueprint.node.content.elements().at(1).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(1).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(1).content.elements().at(0).element == Element::ResourceElement);
-    REQUIRE(blueprint.node.content.elements().at(1).content.elements().at(0).content.resource.attributes.empty());
+    REQUIRE(blueprint.node.content.elements().at(1).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(1).content.elements().size() == 0);
+    REQUIRE(blueprint.node.content.elements().at(1).content.resource.attributes.empty());
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
 }
@@ -1473,10 +1465,9 @@ TEST_CASE("Parse blueprint with escaped data structure reference", "[blueprint]"
     REQUIRE(blueprint.report.warnings.size() == 0);
 
     REQUIRE(blueprint.node.content.elements().size() == 2);
-    REQUIRE(blueprint.node.content.elements().at(1).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(1).content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(1).content.elements().at(0).element == Element::ResourceElement);
-    REQUIRE(blueprint.node.content.elements().at(1).content.elements().at(0).content.resource.attributes.empty());
+    REQUIRE(blueprint.node.content.elements().at(1).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(1).content.elements().size() == 0);
+    REQUIRE(blueprint.node.content.elements().at(1).content.resource.attributes.empty());
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
 }

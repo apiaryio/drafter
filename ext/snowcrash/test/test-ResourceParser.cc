@@ -488,7 +488,7 @@ TEST_CASE("Parse model with unrecognised resource", "[resource][model]")
     REQUIRE(resource.node.actions[0].examples[0].responses[0].description == "");
 }
 
-TEST_CASE("Parse named resource with lazy referencing", "[resource][model][issue][84]")
+TEST_CASE("Parse named resource with lazy referencing", "[resource][model][issue][84][now]")
 {
     mdp::ByteBuffer source
         = "#api name\n\n"
@@ -509,12 +509,11 @@ TEST_CASE("Parse named resource with lazy referencing", "[resource][model][issue
     REQUIRE(blueprint.node.name == "api name");
     REQUIRE(blueprint.node.description == "");
 
-    REQUIRE(blueprint.node.content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 2);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().size() == 2);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.uriTemplate == "/1");
     REQUIRE(resource.name == "Resource 1");
 
@@ -536,14 +535,11 @@ TEST_CASE("Parse named resource with lazy referencing", "[resource][model][issue
 
     SourceMap<TransactionExamples> examplesSourceMap = blueprint.sourceMap.content.elements()
                                                            .collection[0]
-                                                           .content.elements()
-                                                           .collection[0]
                                                            .content.resource.actions.collection[0]
                                                            .examples;
 
     SourceMapHelper::check(
         examplesSourceMap.collection[0].responses.collection[0].headers.collection[0].sourceMap, 104, 20);
-
     SourceMapHelper::check(examplesSourceMap.collection[0].responses.collection[0].reference.sourceMap, 68, 15);
 }
 
@@ -580,12 +576,11 @@ TEST_CASE("Parse named resource with lazy referencing with both response and req
     REQUIRE(blueprint.node.name == "API");
     REQUIRE(blueprint.node.description == "");
 
-    REQUIRE(blueprint.node.content.elements().size() == 1);
-    REQUIRE(blueprint.node.content.elements().at(0).element == Element::CategoryElement);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 2);
-    REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().size() == 2);
+    REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
+    REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    Resource resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.uriTemplate == "/items");
     REQUIRE(resource.name == "Collection of Items");
 

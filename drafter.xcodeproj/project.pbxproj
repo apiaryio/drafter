@@ -60,7 +60,6 @@
 		400F53C71C5989C7004EA235 /* NamedTypesRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = 400F53981C5989C7004EA235 /* NamedTypesRegistry.h */; };
 		400F53FD1C5989F1004EA235 /* Build.h in Headers */ = {isa = PBXBuildFile; fileRef = 400F53F61C5989F1004EA235 /* Build.h */; };
 		400F53FE1C5989F1004EA235 /* ElementFwd.h in Headers */ = {isa = PBXBuildFile; fileRef = 400F53F71C5989F1004EA235 /* ElementFwd.h */; };
-		400F53FF1C5989F1004EA235 /* ElementInserter.h in Headers */ = {isa = PBXBuildFile; fileRef = 400F53F81C5989F1004EA235 /* ElementInserter.h */; };
 		400F54001C5989F1004EA235 /* Iterate.h in Headers */ = {isa = PBXBuildFile; fileRef = 400F53F91C5989F1004EA235 /* Iterate.h */; };
 		400F54011C5989F1004EA235 /* Query.h in Headers */ = {isa = PBXBuildFile; fileRef = 400F53FA1C5989F1004EA235 /* Query.h */; };
 		400F54051C598A35004EA235 /* test-CircularReferenceTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 400F54031C598A35004EA235 /* test-CircularReferenceTest.cc */; };
@@ -74,6 +73,49 @@
 		4038935E1CBFC1D400D01E17 /* ConversionContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 4038935D1CBFC1D400D01E17 /* ConversionContext.h */; };
 		4041F8D61DB66CEE005A4A40 /* test-SyntaxIssuesTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4041F8D51DB66CEE005A4A40 /* test-SyntaxIssuesTest.cc */; };
 		408560761CBB983100932414 /* test-ExtendElementTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40AEF8201CB80C4F000A0DEE /* test-ExtendElementTest.cc */; };
+		408E5B62203B2DEC0031DEDB /* InfoElements.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5B5D203B2DEC0031DEDB /* InfoElements.cc */; };
+		408E5B63203B2DEC0031DEDB /* Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B5E203B2DEC0031DEDB /* Utils.h */; };
+		408E5B64203B2DEC0031DEDB /* InfoElements.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B5F203B2DEC0031DEDB /* InfoElements.h */; };
+		408E5B65203B2DEC0031DEDB /* ElementIfc.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B60203B2DEC0031DEDB /* ElementIfc.h */; };
+		408E5B66203B2DEC0031DEDB /* Utils.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5B61203B2DEC0031DEDB /* Utils.cc */; };
+		408E5B86203B2E600031DEDB /* Array.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5B69203B2E600031DEDB /* Array.cc */; };
+		408E5B87203B2E600031DEDB /* Array.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B6A203B2E600031DEDB /* Array.h */; };
+		408E5B88203B2E600031DEDB /* Bool.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5B6B203B2E600031DEDB /* Bool.cc */; };
+		408E5B89203B2E600031DEDB /* Bool.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B6C203B2E600031DEDB /* Bool.h */; };
+		408E5B8A203B2E600031DEDB /* ElementData.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B6D203B2E600031DEDB /* ElementData.h */; };
+		408E5B8B203B2E600031DEDB /* Enum.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5B6E203B2E600031DEDB /* Enum.cc */; };
+		408E5B8C203B2E600031DEDB /* Enum.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B6F203B2E600031DEDB /* Enum.h */; };
+		408E5B8D203B2E600031DEDB /* Extend.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5B70203B2E600031DEDB /* Extend.cc */; };
+		408E5B8E203B2E600031DEDB /* Extend.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B71203B2E600031DEDB /* Extend.h */; };
+		408E5B8F203B2E600031DEDB /* Holder.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5B72203B2E600031DEDB /* Holder.cc */; };
+		408E5B90203B2E600031DEDB /* Holder.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B73203B2E600031DEDB /* Holder.h */; };
+		408E5B91203B2E600031DEDB /* Member.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5B74203B2E600031DEDB /* Member.cc */; };
+		408E5B92203B2E600031DEDB /* Member.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B75203B2E600031DEDB /* Member.h */; };
+		408E5B93203B2E600031DEDB /* Null.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5B76203B2E600031DEDB /* Null.cc */; };
+		408E5B94203B2E600031DEDB /* Null.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B77203B2E600031DEDB /* Null.h */; };
+		408E5B95203B2E600031DEDB /* Number.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5B78203B2E600031DEDB /* Number.cc */; };
+		408E5B96203B2E600031DEDB /* Number.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B79203B2E600031DEDB /* Number.h */; };
+		408E5B97203B2E600031DEDB /* Object.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5B7A203B2E600031DEDB /* Object.cc */; };
+		408E5B98203B2E600031DEDB /* Object.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B7B203B2E600031DEDB /* Object.h */; };
+		408E5B99203B2E600031DEDB /* Option.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5B7C203B2E600031DEDB /* Option.cc */; };
+		408E5B9A203B2E600031DEDB /* Option.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B7D203B2E600031DEDB /* Option.h */; };
+		408E5B9B203B2E600031DEDB /* Ref.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5B7E203B2E600031DEDB /* Ref.cc */; };
+		408E5B9C203B2E600031DEDB /* Ref.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B7F203B2E600031DEDB /* Ref.h */; };
+		408E5B9D203B2E600031DEDB /* Select.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5B80203B2E600031DEDB /* Select.cc */; };
+		408E5B9E203B2E600031DEDB /* Select.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B81203B2E600031DEDB /* Select.h */; };
+		408E5B9F203B2E600031DEDB /* String.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5B82203B2E600031DEDB /* String.cc */; };
+		408E5BA0203B2E600031DEDB /* String.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B83203B2E600031DEDB /* String.h */; };
+		408E5BA1203B2E600031DEDB /* Traits.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B84203B2E600031DEDB /* Traits.h */; };
+		408E5BA2203B2E600031DEDB /* Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5B85203B2E600031DEDB /* Utils.h */; };
+		408E5BAC203B2E970031DEDB /* JsonIo.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5BA5203B2E970031DEDB /* JsonIo.cc */; };
+		408E5BAD203B2E970031DEDB /* JsonIo.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5BA6203B2E970031DEDB /* JsonIo.h */; };
+		408E5BAE203B2E970031DEDB /* Value.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5BA7203B2E970031DEDB /* Value.h */; };
+		408E5BAF203B2E970031DEDB /* YamlIo.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5BA8203B2E970031DEDB /* YamlIo.cc */; };
+		408E5BB0203B2E970031DEDB /* YamlIo.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5BA9203B2E970031DEDB /* YamlIo.h */; };
+		408E5BB1203B2E970031DEDB /* Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5BAA203B2E970031DEDB /* Utils.h */; };
+		408E5BB2203B2E970031DEDB /* Variant.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5BAB203B2E970031DEDB /* Variant.h */; };
+		408E5BB4203B2EB40031DEDB /* test-ElementDataTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 408E5BB3203B2EB40031DEDB /* test-ElementDataTest.cc */; };
+		408E5BB6203C5E4A0031DEDB /* Utf8.h in Headers */ = {isa = PBXBuildFile; fileRef = 408E5BB5203C5E4A0031DEDB /* Utf8.h */; };
 		4093675E1CBB90DE0065A78A /* test-ApplyVisitorTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4093675C1CBB90DE0065A78A /* test-ApplyVisitorTest.cc */; };
 		4093675F1CBB90DE0065A78A /* test-ElementFactoryTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4093675D1CBB90DE0065A78A /* test-ElementFactoryTest.cc */; };
 		40AEEC3D1BB60CB6005866DD /* test-RefractParseResultTest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 40AEEC3C1BB60CB6005866DD /* test-RefractParseResultTest.cc */; };
@@ -180,7 +222,6 @@
 		400F53981C5989C7004EA235 /* NamedTypesRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NamedTypesRegistry.h; path = src/NamedTypesRegistry.h; sourceTree = SOURCE_ROOT; };
 		400F53F61C5989F1004EA235 /* Build.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Build.h; path = src/refract/Build.h; sourceTree = SOURCE_ROOT; };
 		400F53F71C5989F1004EA235 /* ElementFwd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ElementFwd.h; path = src/refract/ElementFwd.h; sourceTree = SOURCE_ROOT; };
-		400F53F81C5989F1004EA235 /* ElementInserter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ElementInserter.h; path = src/refract/ElementInserter.h; sourceTree = SOURCE_ROOT; };
 		400F53F91C5989F1004EA235 /* Iterate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Iterate.h; path = src/refract/Iterate.h; sourceTree = SOURCE_ROOT; };
 		400F53FA1C5989F1004EA235 /* Query.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Query.h; path = src/refract/Query.h; sourceTree = SOURCE_ROOT; };
 		400F54031C598A35004EA235 /* test-CircularReferenceTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-CircularReferenceTest.cc"; path = "test/test-CircularReferenceTest.cc"; sourceTree = "<group>"; };
@@ -193,6 +234,49 @@
 		401CEE981F8E42FD00371DA1 /* ElementData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ElementData.h; path = src/ElementData.h; sourceTree = SOURCE_ROOT; };
 		4038935D1CBFC1D400D01E17 /* ConversionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConversionContext.h; path = src/ConversionContext.h; sourceTree = SOURCE_ROOT; };
 		4041F8D51DB66CEE005A4A40 /* test-SyntaxIssuesTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-SyntaxIssuesTest.cc"; path = "test/test-SyntaxIssuesTest.cc"; sourceTree = "<group>"; };
+		408E5B5D203B2DEC0031DEDB /* InfoElements.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InfoElements.cc; path = src/refract/InfoElements.cc; sourceTree = SOURCE_ROOT; };
+		408E5B5E203B2DEC0031DEDB /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = src/refract/Utils.h; sourceTree = SOURCE_ROOT; };
+		408E5B5F203B2DEC0031DEDB /* InfoElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InfoElements.h; path = src/refract/InfoElements.h; sourceTree = SOURCE_ROOT; };
+		408E5B60203B2DEC0031DEDB /* ElementIfc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ElementIfc.h; path = src/refract/ElementIfc.h; sourceTree = SOURCE_ROOT; };
+		408E5B61203B2DEC0031DEDB /* Utils.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Utils.cc; path = src/refract/Utils.cc; sourceTree = SOURCE_ROOT; };
+		408E5B69203B2E600031DEDB /* Array.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Array.cc; sourceTree = "<group>"; };
+		408E5B6A203B2E600031DEDB /* Array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
+		408E5B6B203B2E600031DEDB /* Bool.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bool.cc; sourceTree = "<group>"; };
+		408E5B6C203B2E600031DEDB /* Bool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bool.h; sourceTree = "<group>"; };
+		408E5B6D203B2E600031DEDB /* ElementData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElementData.h; sourceTree = "<group>"; };
+		408E5B6E203B2E600031DEDB /* Enum.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Enum.cc; sourceTree = "<group>"; };
+		408E5B6F203B2E600031DEDB /* Enum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enum.h; sourceTree = "<group>"; };
+		408E5B70203B2E600031DEDB /* Extend.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Extend.cc; sourceTree = "<group>"; };
+		408E5B71203B2E600031DEDB /* Extend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Extend.h; sourceTree = "<group>"; };
+		408E5B72203B2E600031DEDB /* Holder.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Holder.cc; sourceTree = "<group>"; };
+		408E5B73203B2E600031DEDB /* Holder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Holder.h; sourceTree = "<group>"; };
+		408E5B74203B2E600031DEDB /* Member.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Member.cc; sourceTree = "<group>"; };
+		408E5B75203B2E600031DEDB /* Member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Member.h; sourceTree = "<group>"; };
+		408E5B76203B2E600031DEDB /* Null.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Null.cc; sourceTree = "<group>"; };
+		408E5B77203B2E600031DEDB /* Null.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Null.h; sourceTree = "<group>"; };
+		408E5B78203B2E600031DEDB /* Number.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Number.cc; sourceTree = "<group>"; };
+		408E5B79203B2E600031DEDB /* Number.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Number.h; sourceTree = "<group>"; };
+		408E5B7A203B2E600031DEDB /* Object.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Object.cc; sourceTree = "<group>"; };
+		408E5B7B203B2E600031DEDB /* Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Object.h; sourceTree = "<group>"; };
+		408E5B7C203B2E600031DEDB /* Option.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Option.cc; sourceTree = "<group>"; };
+		408E5B7D203B2E600031DEDB /* Option.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Option.h; sourceTree = "<group>"; };
+		408E5B7E203B2E600031DEDB /* Ref.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ref.cc; sourceTree = "<group>"; };
+		408E5B7F203B2E600031DEDB /* Ref.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ref.h; sourceTree = "<group>"; };
+		408E5B80203B2E600031DEDB /* Select.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Select.cc; sourceTree = "<group>"; };
+		408E5B81203B2E600031DEDB /* Select.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Select.h; sourceTree = "<group>"; };
+		408E5B82203B2E600031DEDB /* String.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = String.cc; sourceTree = "<group>"; };
+		408E5B83203B2E600031DEDB /* String.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = String.h; sourceTree = "<group>"; };
+		408E5B84203B2E600031DEDB /* Traits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Traits.h; sourceTree = "<group>"; };
+		408E5B85203B2E600031DEDB /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		408E5BA5203B2E970031DEDB /* JsonIo.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JsonIo.cc; sourceTree = "<group>"; };
+		408E5BA6203B2E970031DEDB /* JsonIo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonIo.h; sourceTree = "<group>"; };
+		408E5BA7203B2E970031DEDB /* Value.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Value.h; sourceTree = "<group>"; };
+		408E5BA8203B2E970031DEDB /* YamlIo.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = YamlIo.cc; sourceTree = "<group>"; };
+		408E5BA9203B2E970031DEDB /* YamlIo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YamlIo.h; sourceTree = "<group>"; };
+		408E5BAA203B2E970031DEDB /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		408E5BAB203B2E970031DEDB /* Variant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Variant.h; sourceTree = "<group>"; };
+		408E5BB3203B2EB40031DEDB /* test-ElementDataTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-ElementDataTest.cc"; path = "test/test-ElementDataTest.cc"; sourceTree = "<group>"; };
+		408E5BB5203C5E4A0031DEDB /* Utf8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utf8.h; sourceTree = "<group>"; };
 		4093675C1CBB90DE0065A78A /* test-ApplyVisitorTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-ApplyVisitorTest.cc"; path = "test/test-ApplyVisitorTest.cc"; sourceTree = "<group>"; };
 		4093675D1CBB90DE0065A78A /* test-ElementFactoryTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-ElementFactoryTest.cc"; path = "test/test-ElementFactoryTest.cc"; sourceTree = "<group>"; };
 		40AEEC3C1BB60CB6005866DD /* test-RefractParseResultTest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "test-RefractParseResultTest.cc"; path = "test/test-RefractParseResultTest.cc"; sourceTree = "<group>"; };
@@ -271,9 +355,10 @@
 			isa = PBXGroup;
 			children = (
 				19A129C81B70ADC300366AA7 /* draftertest.h */,
-				19A129CA1B70ADC300366AA7 /* test-drafter.cc */,
 				4093675C1CBB90DE0065A78A /* test-ApplyVisitorTest.cc */,
 				400F54031C598A35004EA235 /* test-CircularReferenceTest.cc */,
+				19A129CA1B70ADC300366AA7 /* test-drafter.cc */,
+				408E5BB3203B2EB40031DEDB /* test-ElementDataTest.cc */,
 				4093675D1CBB90DE0065A78A /* test-ElementFactoryTest.cc */,
 				40AEF8201CB80C4F000A0DEE /* test-ExtendElementTest.cc */,
 				40E6DFA01CF494FE009B3FF3 /* test-OneOfTest.cc */,
@@ -291,17 +376,20 @@
 		19A129961B70AC7B00366AA7 /* refract */ = {
 			isa = PBXGroup;
 			children = (
+				408E5B68203B2E600031DEDB /* dsd */,
 				400F53F61C5989F1004EA235 /* Build.h */,
 				19A129981B70AC9A00366AA7 /* ComparableVisitor.cc */,
 				19A129991B70AC9A00366AA7 /* ComparableVisitor.h */,
 				19A1299A1B70AC9A00366AA7 /* Element.cc */,
 				19A1299B1B70AC9A00366AA7 /* Element.h */,
 				400F53F71C5989F1004EA235 /* ElementFwd.h */,
-				400F53F81C5989F1004EA235 /* ElementInserter.h */,
+				408E5B60203B2DEC0031DEDB /* ElementIfc.h */,
 				19A1299C1B70AC9A00366AA7 /* Exception.h */,
 				19A1299D1B70AC9A00366AA7 /* ExpandVisitor.cc */,
 				19A1299E1B70AC9A00366AA7 /* ExpandVisitor.h */,
 				2769EFF21D1C438D00907A4B /* FilterVisitor.h */,
+				408E5B5D203B2DEC0031DEDB /* InfoElements.cc */,
+				408E5B5F203B2DEC0031DEDB /* InfoElements.h */,
 				19A1299F1B70AC9A00366AA7 /* IsExpandableVisitor.cc */,
 				19A129A01B70AC9A00366AA7 /* IsExpandableVisitor.h */,
 				400F53F91C5989F1004EA235 /* Iterate.h */,
@@ -321,6 +409,8 @@
 				19A129A81B70AC9A00366AA7 /* SerializeVisitor.h */,
 				19A129AA1B70AC9A00366AA7 /* TypeQueryVisitor.cc */,
 				19A129AB1B70AC9A00366AA7 /* TypeQueryVisitor.h */,
+				408E5B61203B2DEC0031DEDB /* Utils.cc */,
+				408E5B5E203B2DEC0031DEDB /* Utils.h */,
 				19A129AD1B70AC9A00366AA7 /* Visitor.h */,
 				400FFA071C1B0DBB006A4CE0 /* VisitorUtils.cc */,
 				40D03D4C1C182FBD008AD2EF /* VisitorUtils.h */,
@@ -368,6 +458,7 @@
 		19BD7B991B70AAAF00A11E83 /* libdrafter */ = {
 			isa = PBXGroup;
 			children = (
+				408E5BA3203B2E970031DEDB /* utils */,
 				19A129961B70AC7B00366AA7 /* refract */,
 				19A1296C1B70ABE100366AA7 /* drafter.cc */,
 				19A1296D1B70ABE100366AA7 /* drafter.h */,
@@ -397,6 +488,67 @@
 			path = libdrafter;
 			sourceTree = "<group>";
 		};
+		408E5B68203B2E600031DEDB /* dsd */ = {
+			isa = PBXGroup;
+			children = (
+				408E5B69203B2E600031DEDB /* Array.cc */,
+				408E5B6A203B2E600031DEDB /* Array.h */,
+				408E5B6B203B2E600031DEDB /* Bool.cc */,
+				408E5B6C203B2E600031DEDB /* Bool.h */,
+				408E5B6D203B2E600031DEDB /* ElementData.h */,
+				408E5B6E203B2E600031DEDB /* Enum.cc */,
+				408E5B6F203B2E600031DEDB /* Enum.h */,
+				408E5B70203B2E600031DEDB /* Extend.cc */,
+				408E5B71203B2E600031DEDB /* Extend.h */,
+				408E5B72203B2E600031DEDB /* Holder.cc */,
+				408E5B73203B2E600031DEDB /* Holder.h */,
+				408E5B74203B2E600031DEDB /* Member.cc */,
+				408E5B75203B2E600031DEDB /* Member.h */,
+				408E5B76203B2E600031DEDB /* Null.cc */,
+				408E5B77203B2E600031DEDB /* Null.h */,
+				408E5B78203B2E600031DEDB /* Number.cc */,
+				408E5B79203B2E600031DEDB /* Number.h */,
+				408E5B7A203B2E600031DEDB /* Object.cc */,
+				408E5B7B203B2E600031DEDB /* Object.h */,
+				408E5B7C203B2E600031DEDB /* Option.cc */,
+				408E5B7D203B2E600031DEDB /* Option.h */,
+				408E5B7E203B2E600031DEDB /* Ref.cc */,
+				408E5B7F203B2E600031DEDB /* Ref.h */,
+				408E5B80203B2E600031DEDB /* Select.cc */,
+				408E5B81203B2E600031DEDB /* Select.h */,
+				408E5B82203B2E600031DEDB /* String.cc */,
+				408E5B83203B2E600031DEDB /* String.h */,
+				408E5B84203B2E600031DEDB /* Traits.h */,
+				408E5B85203B2E600031DEDB /* Utils.h */,
+			);
+			name = dsd;
+			path = src/refract/dsd;
+			sourceTree = SOURCE_ROOT;
+		};
+		408E5BA3203B2E970031DEDB /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				408E5BA4203B2E970031DEDB /* so */,
+				408E5BB5203C5E4A0031DEDB /* Utf8.h */,
+				408E5BAA203B2E970031DEDB /* Utils.h */,
+				408E5BAB203B2E970031DEDB /* Variant.h */,
+			);
+			name = utils;
+			path = src/utils;
+			sourceTree = SOURCE_ROOT;
+		};
+		408E5BA4203B2E970031DEDB /* so */ = {
+			isa = PBXGroup;
+			children = (
+				408E5BA5203B2E970031DEDB /* JsonIo.cc */,
+				408E5BA6203B2E970031DEDB /* JsonIo.h */,
+				408E5BA7203B2E970031DEDB /* Value.h */,
+				408E5BA8203B2E970031DEDB /* YamlIo.cc */,
+				408E5BA9203B2E970031DEDB /* YamlIo.h */,
+			);
+			path = so;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -415,31 +567,55 @@
 			buildActionMask = 2147483647;
 			files = (
 				19A129C01B70AC9A00366AA7 /* SerializeVisitor.h in Headers */,
+				408E5BB0203B2E970031DEDB /* YamlIo.h in Headers */,
+				408E5B64203B2DEC0031DEDB /* InfoElements.h in Headers */,
+				408E5B92203B2E600031DEDB /* Member.h in Headers */,
+				408E5B8E203B2E600031DEDB /* Extend.h in Headers */,
 				400F53C71C5989C7004EA235 /* NamedTypesRegistry.h in Headers */,
 				19A129B41B70AC9A00366AA7 /* Exception.h in Headers */,
+				408E5BB6203C5E4A0031DEDB /* Utf8.h in Headers */,
 				19A1298B1B70ABE100366AA7 /* Serialize.h in Headers */,
 				19A129B61B70AC9A00366AA7 /* ExpandVisitor.h in Headers */,
+				408E5BAD203B2E970031DEDB /* JsonIo.h in Headers */,
+				408E5B87203B2E600031DEDB /* Array.h in Headers */,
 				400F53FE1C5989F1004EA235 /* ElementFwd.h in Headers */,
+				408E5BB1203B2E970031DEDB /* Utils.h in Headers */,
 				19A129891B70ABE100366AA7 /* reporting.h in Headers */,
 				400F53FD1C5989F1004EA235 /* Build.h in Headers */,
 				40D03D4F1C182FBD008AD2EF /* VisitorUtils.h in Headers */,
+				408E5B8C203B2E600031DEDB /* Enum.h in Headers */,
 				19A129B81B70AC9A00366AA7 /* IsExpandableVisitor.h in Headers */,
 				401CEE991F8E42FD00371DA1 /* ElementData.h in Headers */,
+				408E5B90203B2E600031DEDB /* Holder.h in Headers */,
+				408E5BA0203B2E600031DEDB /* String.h in Headers */,
+				408E5B98203B2E600031DEDB /* Object.h in Headers */,
 				40DDBDD81BE14EA700B10819 /* RefractSourceMap.h in Headers */,
 				19A129931B70ABE100366AA7 /* Version.h in Headers */,
+				408E5B8A203B2E600031DEDB /* ElementData.h in Headers */,
+				408E5BAE203B2E970031DEDB /* Value.h in Headers */,
 				19A129921B70ABE100366AA7 /* stream.h in Headers */,
 				40EF03DA1B72134000865990 /* RefractAPI.h in Headers */,
+				408E5B9A203B2E600031DEDB /* Option.h in Headers */,
 				19A129831B70ABE100366AA7 /* drafter.h in Headers */,
 				40DDBDD61BE14EA700B10819 /* NodeInfo.h in Headers */,
 				400F54001C5989F1004EA235 /* Iterate.h in Headers */,
-				400F53FF1C5989F1004EA235 /* ElementInserter.h in Headers */,
+				408E5B65203B2DEC0031DEDB /* ElementIfc.h in Headers */,
+				408E5B9E203B2E600031DEDB /* Select.h in Headers */,
+				408E5B63203B2DEC0031DEDB /* Utils.h in Headers */,
 				19A129BA1B70AC9A00366AA7 /* Registry.h in Headers */,
 				400F54011C5989F1004EA235 /* Query.h in Headers */,
 				40D03D4E1C182FBD008AD2EF /* PrintVisitor.h in Headers */,
 				40EF03D61B7210F300865990 /* RefractDataStructure.h in Headers */,
+				408E5B89203B2E600031DEDB /* Bool.h in Headers */,
+				408E5BB2203B2E970031DEDB /* Variant.h in Headers */,
 				19A129C31B70AC9A00366AA7 /* TypeQueryVisitor.h in Headers */,
+				408E5BA1203B2E600031DEDB /* Traits.h in Headers */,
+				408E5B96203B2E600031DEDB /* Number.h in Headers */,
+				408E5BA2203B2E600031DEDB /* Utils.h in Headers */,
 				19A129C51B70AC9A00366AA7 /* Visitor.h in Headers */,
+				408E5B9C203B2E600031DEDB /* Ref.h in Headers */,
 				19A129871B70ABE100366AA7 /* Render.h in Headers */,
+				408E5B94203B2E600031DEDB /* Null.h in Headers */,
 				19A129B31B70AC9A00366AA7 /* Element.h in Headers */,
 				19A129BE1B70AC9A00366AA7 /* SerializeCompactVisitor.h in Headers */,
 				400FFA091C1B0DBB006A4CE0 /* JSONSchemaVisitor.h in Headers */,
@@ -530,7 +706,7 @@
 		19BD7B8F1B70AAAF00A11E83 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = Apiary;
 				TargetAttributes = {
 					19A129D71B70AE1900366AA7 = {
@@ -600,30 +776,48 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				408E5B93203B2E600031DEDB /* Null.cc in Sources */,
 				19A129C21B70AC9A00366AA7 /* TypeQueryVisitor.cc in Sources */,
 				19A129B71B70AC9A00366AA7 /* IsExpandableVisitor.cc in Sources */,
 				19A129BF1B70AC9A00366AA7 /* SerializeVisitor.cc in Sources */,
+				408E5B66203B2DEC0031DEDB /* Utils.cc in Sources */,
+				408E5B9F203B2E600031DEDB /* String.cc in Sources */,
 				19A129BD1B70AC9A00366AA7 /* SerializeCompactVisitor.cc in Sources */,
 				19A129881B70ABE100366AA7 /* reporting.cc in Sources */,
 				19A129BB1B70AC9A00366AA7 /* RenderJSONVisitor.cc in Sources */,
 				40D03D4D1C182FBD008AD2EF /* PrintVisitor.cc in Sources */,
+				408E5BB4203B2EB40031DEDB /* test-ElementDataTest.cc in Sources */,
 				40EF03D51B7210F300865990 /* RefractDataStructure.cc in Sources */,
 				19A129B91B70AC9A00366AA7 /* Registry.cc in Sources */,
+				408E5B97203B2E600031DEDB /* Object.cc in Sources */,
 				40DDBDD71BE14EA700B10819 /* RefractSourceMap.cc in Sources */,
+				408E5B8D203B2E600031DEDB /* Extend.cc in Sources */,
+				408E5B99203B2E600031DEDB /* Option.cc in Sources */,
 				19A129B21B70AC9A00366AA7 /* Element.cc in Sources */,
+				408E5B95203B2E600031DEDB /* Number.cc in Sources */,
+				408E5B9B203B2E600031DEDB /* Ref.cc in Sources */,
 				40EF03D91B72134000865990 /* RefractAPI.cc in Sources */,
 				401A61C11D65D28900B0CC17 /* ConversionContext.cc in Sources */,
+				408E5B8F203B2E600031DEDB /* Holder.cc in Sources */,
+				408E5B8B203B2E600031DEDB /* Enum.cc in Sources */,
 				40AEF81D1CB80C32000A0DEE /* RefractElementFactory.cc in Sources */,
+				408E5BAF203B2E970031DEDB /* YamlIo.cc in Sources */,
 				19A129B51B70AC9A00366AA7 /* ExpandVisitor.cc in Sources */,
 				19A129821B70ABE100366AA7 /* drafter.cc in Sources */,
+				408E5B86203B2E600031DEDB /* Array.cc in Sources */,
+				408E5B91203B2E600031DEDB /* Member.cc in Sources */,
 				400FFA081C1B0DBB006A4CE0 /* JSONSchemaVisitor.cc in Sources */,
 				401074A31B833A1000B66442 /* Render.cc in Sources */,
 				19A1298E1B70ABE100366AA7 /* SerializeResult.cc in Sources */,
 				400F53C61C5989C7004EA235 /* NamedTypesRegistry.cc in Sources */,
 				400FFA0A1C1B0DBB006A4CE0 /* VisitorUtils.cc in Sources */,
+				408E5B88203B2E600031DEDB /* Bool.cc in Sources */,
+				408E5B9D203B2E600031DEDB /* Select.cc in Sources */,
 				2769EFF61D1C43B700907A4B /* Query.cc in Sources */,
 				19A129B01B70AC9A00366AA7 /* ComparableVisitor.cc in Sources */,
+				408E5B62203B2DEC0031DEDB /* InfoElements.cc in Sources */,
 				19A1298A1B70ABE100366AA7 /* Serialize.cc in Sources */,
+				408E5BAC203B2E970031DEDB /* JsonIo.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -709,18 +903,27 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -752,13 +955,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;

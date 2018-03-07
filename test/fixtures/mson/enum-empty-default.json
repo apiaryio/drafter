@@ -33,7 +33,7 @@
             },
             "title": {
               "element": "string",
-              "content": ""
+              "content": "Example"
             }
           },
           "content": [
@@ -288,7 +288,7 @@
                   "content": [
                     {
                       "element": "number",
-                      "content": 99
+                      "content": 115
                     },
                     {
                       "element": "number",

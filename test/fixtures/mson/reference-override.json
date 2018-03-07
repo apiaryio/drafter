@@ -76,7 +76,7 @@
             },
             "title": {
               "element": "string",
-              "content": ""
+              "content": "Example"
             }
           },
           "content": [

@@ -85,7 +85,7 @@ namespace
                     break;
                 default: {
                     // unsigned int representation
-                    std::uint8_t c = byte < 0x80 ? byte : byte + 0x80;
+                    std::uint8_t c = static_cast<std::uint8_t>(byte);
                     if (c > 0x1f) { // non-control
                         *out = byte;
                         ++out;

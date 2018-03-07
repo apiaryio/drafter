@@ -248,6 +248,9 @@ namespace snowcrash
          */
         static bool isResourceDuplicate(const Blueprint& blueprint, const URITemplate& uri)
         {
+            if (SectionProcessor<Resource>::isResourceDuplicate(blueprint.content.elements(), uri)) {
+                return true;
+            }
 
             for (Elements::const_iterator it = blueprint.content.elements().begin();
                  it != blueprint.content.elements().end();
