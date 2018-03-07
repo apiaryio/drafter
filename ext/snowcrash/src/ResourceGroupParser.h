@@ -252,12 +252,9 @@ namespace snowcrash
                 return true;
             }
 
-            for (Elements::const_iterator it = blueprint.content.elements().begin();
-                 it != blueprint.content.elements().end();
-                 ++it) {
-
-                if (it->element == Element::CategoryElement
-                    && SectionProcessor<Resource>::isResourceDuplicate(it->content.elements(), uri)) {
+            for (const auto& element : blueprint.content.elements()) {
+                if (element.element == Element::CategoryElement
+                    && SectionProcessor<Resource>::isResourceDuplicate(element.content.elements(), uri)) {
 
                     return true;
                 }
@@ -273,10 +270,8 @@ namespace snowcrash
          */
         static bool isResourcePresent(const Elements& elements)
         {
-
-            for (Elements::const_iterator it = elements.begin(); it != elements.end(); ++it) {
-
-                if (it->element == Element::ResourceElement) {
+            for (const auto& element : elements) {
+                if (element.element == Element::ResourceElement) {
                     return false;
                 }
             }
@@ -291,13 +286,11 @@ namespace snowcrash
          */
         static Resource lastResource(const Elements& elements)
         {
-
             Resource last;
 
-            for (Elements::const_iterator it = elements.begin(); it != elements.end(); ++it) {
-
-                if (it->element == Element::ResourceElement) {
-                    last = it->content.resource;
+            for (const auto& element : elements) {
+                if (element.element == Element::ResourceElement) {
+                    last = element.content.resource;
                 }
             }
 

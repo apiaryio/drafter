@@ -378,12 +378,9 @@ namespace snowcrash
                 // Add nested types as dependents
                 if (baseTypeName == mson::ArrayTypeName || baseTypeName == mson::EnumTypeName) {
 
-                    for (mson::TypeNames::iterator it = typeDefinition.typeSpecification.nestedTypes.begin();
-                         it != typeDefinition.typeSpecification.nestedTypes.end();
-                         ++it) {
-
-                        if (!it->symbol.literal.empty() && !it->symbol.variable) {
-                            pd.namedTypeDependencyTable[identifier].insert(it->symbol.literal);
+                    for (const auto& nestedType : typeDefinition.typeSpecification.nestedTypes) {
+                        if (!nestedType.symbol.literal.empty() && !nestedType.symbol.variable) {
+                            pd.namedTypeDependencyTable[identifier].insert(nestedType.symbol.literal);
                         }
                     }
                 }
@@ -410,19 +407,13 @@ namespace snowcrash
          */
         static void resolveNamedTypeTables(SectionParserData& pd, Report& report)
         {
-
-            mson::NamedTypeInheritanceTable::iterator it;
-            mson::NamedTypeDependencyTable::iterator depIt;
-
             // First resolve dependency tables
-            for (depIt = pd.namedTypeDependencyTable.begin(); depIt != pd.namedTypeDependencyTable.end(); depIt++) {
-
-                resolveNamedTypeDependencyTableEntry(pd, depIt->first, report);
+            for (const auto& dependency : pd.namedTypeDependencyTable) {
+                resolveNamedTypeDependencyTableEntry(pd, dependency.first, report);
             }
 
-            for (it = pd.namedTypeInheritanceTable.begin(); it != pd.namedTypeInheritanceTable.end(); it++) {
-
-                resolveNamedTypeBaseTableEntry(pd, it->first, it->second.first, it->second.second, report);
+            for (const auto& base : pd.namedTypeInheritanceTable) {
+                resolveNamedTypeBaseTableEntry(pd, base.first, base.second.first, base.second.second, report);
 
                 if (report.error.code != Error::OK) {
                     return;
@@ -614,12 +605,9 @@ namespace snowcrash
         static bool isResourceGroupDuplicate(const Blueprint& blueprint, mdp::ByteBuffer& name)
         {
 
-            for (Elements::const_iterator it = blueprint.content.elements().begin();
-                 it != blueprint.content.elements().end();
-                 ++it) {
-
-                if (it->element == Element::CategoryElement && it->category == Element::ResourceGroupCategory
-                    && it->attributes.name == name) {
+            for (const auto& element : blueprint.content.elements()) {
+                if (element.element == Element::CategoryElement && element.category == Element::ResourceGroupCategory
+                    && element.attributes.name == name) {
 
                     return true;
                 }
@@ -678,17 +666,14 @@ namespace snowcrash
                 resourceElementSourceMapIt = elementSourceMap->content.elements().collection.begin();
             }
 
-            for (Elements::iterator resourceElementIt = element.content.elements().begin();
-                 resourceElementIt != element.content.elements().end();
-                 ++resourceElementIt) {
-
-                if (resourceElementIt->element == Element::ResourceElement) {
+            for (auto& resourceElement : element.content.elements()) {
+                if (resourceElement.element == Element::ResourceElement) {
                     if (pd.exportSourceMap()) {
                         checkActionLazyReferencing(
-                            resourceElementIt->content.resource, resourceElementSourceMapIt->content.resource, pd, out);
+                            resourceElement.content.resource, resourceElementSourceMapIt->content.resource, pd, out);
                     } else {
                         SourceMap<Resource> tempSourceMap;
-                        checkActionLazyReferencing(resourceElementIt->content.resource, tempSourceMap, pd, out);
+                        checkActionLazyReferencing(resourceElement.content.resource, tempSourceMap, pd, out);
                     }
                 }
 
