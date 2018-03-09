@@ -516,11 +516,8 @@ namespace snowcrash
          */
         static bool isResourceDuplicate(const Elements& elements, const URITemplate& uri)
         {
-
-            for (Elements::const_iterator it = elements.begin(); it != elements.end(); ++it) {
-
-                if (it->element == Element::ResourceElement && it->content.resource.uriTemplate == uri) {
-
+            for (const auto& element : elements) {
+                if (element.element == Element::ResourceElement && element.content.resource.uriTemplate == uri) {
                     return true;
                 }
             }

@@ -623,7 +623,7 @@ TEST_CASE("Parse mson property containing list of value with string type specifi
     SourceMapHelper::check(propertyMember.sourceMap.valueDefinition.sourceMap, 2, 22);
 }
 
-TEST_CASE("Parse fixed type attribute on array with primitive nested type", "[mson][property_member][now]")
+TEST_CASE("Parse fixed type attribute on array with primitive nested type", "[mson][property_member]")
 {
     mdp::ByteBuffer source = "+ s (array[string], fixed-type)";
 
