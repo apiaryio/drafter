@@ -21,6 +21,10 @@
 #include <set>
 #include <sstream>
 
+#include "PrintVisitor.h"
+
+#include "../ElementComparator.h"
+
 using namespace refract;
 
 namespace
@@ -443,10 +447,22 @@ void JSONSchemaVisitor::operator()(const EnumElement& e)
         return;
     }
 
+    // due to inheritance there can be duplicit elements colected
+    // make it unique
+    std::vector<const IElement*> uniqueElements;
+    std::copy_if(std::make_move_iterator(elms.begin()), std::make_move_iterator(elms.end()),
+            std::back_inserter(uniqueElements),
+            [&uniqueElements](auto el){
+                return std::find_if(uniqueElements.begin(), uniqueElements.end(),
+                        [&el](auto& un){ return visit(*un, drafter::ElementComparator{ *el }); }
+                        ) == uniqueElements.end();
+            });
+    elms.clear();
+    
     std::map<std::string, std::vector<const IElement*> > types;
     std::vector<std::string> typesOrder;
 
-    for (const auto& enumeration : elms) {
+    for (const auto& enumeration : uniqueElements) {
 
         if (enumeration) {
             auto& items = types[enumeration->element()];
@@ -463,9 +479,9 @@ void JSONSchemaVisitor::operator()(const EnumElement& e)
         anyOf(types, typesOrder);
     } else {
         const EnumElement* def = GetDefault(e);
-        if (!elms.empty() || (def && !def->empty())) {
+        if (!uniqueElements.empty() || (def && !def->empty())) {
             auto a = make_element<ArrayElement>();
-            CloneMembers(a->get(), elms);
+            CloneMembers(a->get(), uniqueElements);
             setSchemaType(types.begin()->first);
             addMember("enum", std::move(a));
         }
