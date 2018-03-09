@@ -1,5 +1,5 @@
 //
-//  MergeElementInfo.h
+//  ElementInfoUtils.h
 //  drafter
 //
 //  Created by Jiri Kratochvil on  20/02/2018
@@ -58,15 +58,7 @@ namespace drafter
     ElementInfoContainer<T> CloneElementInfoContainer(const ElementInfoContainer<T>& infoContainer)
     {
         ElementInfoContainer<T> copy;
-        std::transform(infoContainer.begin(), infoContainer.end(), std::back_inserter(copy), [](const auto& info) {
-            ElementInfo<T> cloned;
-            cloned.sourceMap = info.sourceMap;
-            std::transform(
-                info.value.begin(), info.value.end(), std::back_inserter(cloned.value), [](const auto& element) {
-                    return element->clone();
-                });
-            return std::move(cloned);
-        });
+        std::copy(infoContainer.begin(), infoContainer.end(), std::back_inserter(copy));
         return std::move(copy);
     }
 }
