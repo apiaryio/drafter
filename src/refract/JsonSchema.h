@@ -17,17 +17,7 @@ namespace refract
 {
     namespace schema
     {
-
-        using PassSchema = drafter::utils::so::True;
-        using FailSchema = drafter::utils::so::False;
-
-        using Boolean = drafter::utils::variant< //
-            drafter::utils::so::True,
-            drafter::utils::so::False>;
-
-        using Schema = drafter::utils::so::Value;
-
-        Schema generateJsonSchema(const IElement& el);
+        drafter::utils::so::Object generateJsonSchema(const IElement& el);
     }
 }
 

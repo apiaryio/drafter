@@ -25,7 +25,7 @@ using namespace refract;
 
 namespace
 {
-    std::string to_string(const so::Value& v)
+    std::string to_string(const so::Object& v)
     {
         std::ostringstream ss{};
         so::serialize_json(ss, v, so::packed{});
@@ -61,6 +61,22 @@ SCENARIO("JSON Schema serialization of NullElement", "[json-schema]")
             THEN("the schema matches (any) null value")
             {
                 REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"null"})");
+            }
+        }
+    }
+
+    GIVEN("A named NullElement with content")
+    {
+        auto el = make_element<NullElement>();
+        el->element("Foo");
+
+        WHEN("a JSON Schema is generated from it")
+        {
+            auto result = schema::generateJsonSchema(*el);
+
+            THEN("the schema matches null")
+            {
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","definitions":{"Foo":{"type":"null"}},"$ref":"#/definitions/Foo"})");
             }
         }
     }
@@ -129,6 +145,23 @@ SCENARIO("JSON Schema serialization of BooleanElement", "[json-schema]")
             }
         }
     }
+
+    GIVEN("A named BooleanElement with content and fixed attribute true")
+    {
+        auto el = from_primitive(true);
+        el->element("Bar");
+        el->attributes().set("fixed", from_primitive(true));
+
+        WHEN("a JSON Schema is generated from it")
+        {
+            auto result = schema::generateJsonSchema(*el);
+
+            THEN("the schema matches the boolean true")
+            {
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","definitions":{"Bar":{"type":"boolean","enum":[true]}},"$ref":"#/definitions/Bar"})");
+            }
+        }
+    }
 }
 
 SCENARIO("JSON Schema serialization of NumberElement", "[json-schema]")
@@ -194,6 +227,23 @@ SCENARIO("JSON Schema serialization of NumberElement", "[json-schema]")
             }
         }
     }
+
+    GIVEN("A named NumberElement with content and fixed attribute true")
+    {
+        auto el = from_primitive(42.0);
+        el->element("Baz");
+        el->attributes().set("fixed", from_primitive(true));
+
+        WHEN("a JSON Schema is generated from it")
+        {
+            auto result = schema::generateJsonSchema(*el);
+
+            THEN("the schema matches the number 42")
+            {
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","definitions":{"Baz":{"type":"number","enum":[42]}},"$ref":"#/definitions/Baz"})");
+            }
+        }
+    }
 }
 
 SCENARIO("JSON Schema serialization of StringElement", "[json-schema]")
@@ -256,6 +306,23 @@ SCENARIO("JSON Schema serialization of StringElement", "[json-schema]")
             THEN("the schema matches the string \"foo\"")
             {
                 REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"string","enum":["foo"]})");
+            }
+        }
+    }
+
+    GIVEN("A named StringElement with content and fixed attribute true")
+    {
+        auto el = from_primitive("foo");
+        el->element("Flip");
+        el->attributes().set("fixed", from_primitive(true));
+
+        WHEN("a JSON Schema is generated from it")
+        {
+            auto result = schema::generateJsonSchema(*el);
+
+            THEN("the schema matches the string \"foo\"")
+            {
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","definitions":{"Flip":{"type":"string","enum":["foo"]}},"$ref":"#/definitions/Flip"})");
             }
         }
     }
@@ -336,12 +403,12 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
 
             THEN("the schema matches arrays of a single entry that is a string")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","items":[{"type":"string"}]})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","minItems":1,"items":[{"type":"string"}],"additionalItems":false})");
             }
         }
     }
 
-    GIVEN("A ArrayElement with empty string as content and fixedType attribute true")
+    GIVEN("An ArrayElement with empty string as content and fixedType attribute true")
     {
         auto el = make_element<ArrayElement>(make_empty<StringElement>());
         el->attributes().set("fixedType", from_primitive(true));
@@ -383,12 +450,12 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
 
             THEN("the schema matches [\"Hello world!\"] literals")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","items":[{"type":"string","enum":["Hello world!"]}]})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","minItems":1,"items":[{"type":"string","enum":["Hello world!"]}],"additionalItems":false})");
             }
         }
     }
 
-    GIVEN("A ArrayElement with fixed string as content and fixedType attribute true")
+    GIVEN("An ArrayElement with fixed string as content and fixedType attribute true")
     {
         auto el = make_element<ArrayElement>(from_primitive("Hello world!"));
         el->attributes().set("fixedType", from_primitive(true));
@@ -443,12 +510,12 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
                 "the schema matches arrays of size 3 containing \"Hello world!\", a number and arrays of size 2 "
                 "containing a string and true")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","items":[{"type":"string","enum":["Hello world!"]},{"type":"number"},{"type":"array","items":[{"type":"string"},{"type":"boolean","enum":[true]}]}]})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","minItems":3,"items":[{"type":"string","enum":["Hello world!"]},{"type":"number"},{"type":"array","minItems":2,"items":[{"type":"string"},{"type":"boolean","enum":[true]}],"additionalItems":false}],"additionalItems":false})");
             }
         }
     }
 
-    GIVEN("A ArrayElement with some content and fixedType attribute true")
+    GIVEN("An ArrayElement with some content and fixedType attribute true")
     {
         auto el = make_element<ArrayElement>(   //
             from_primitive("Hello world!"),     //
@@ -466,6 +533,34 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
             THEN("the schema matches arrays of any size where elements match any of types string, number, array")
             {
                 REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","items":{"anyOf":[{"type":"string"},{"type":"number"},{"type":"array"}]}})");
+            }
+        }
+    }
+
+    GIVEN("A named ArrayElement with some content and fixed attribute true")
+    {
+        auto flap = make_element<ArrayElement>( //
+            make_empty<StringElement>(),        //
+            from_primitive(true));
+        flap->element("Flap");
+
+        auto el = make_element<ArrayElement>( //
+            from_primitive("Hello world!"),   //
+            make_empty<NumberElement>(),      //
+            std::move(flap));
+
+        el->element("Flop");
+        el->attributes().set("fixed", from_primitive(true));
+
+        WHEN("a JSON Schema is generated from it")
+        {
+            auto result = schema::generateJsonSchema(*el);
+
+            THEN(
+                "the schema matches arrays of size 3 containing \"Hello world!\", a number and arrays of size 2 "
+                "containing a string and true")
+            {
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","definitions":{"Flap":{"type":"array","minItems":2,"items":[{"type":"string"},{"type":"boolean","enum":[true]}],"additionalItems":false},"Flop":{"type":"array","minItems":3,"items":[{"type":"string","enum":["Hello world!"]},{"type":"number"},{"$ref":"#/definitions/Flap"}],"additionalItems":false}},"$ref":"#/definitions/Flop"})");
             }
         }
     }
@@ -546,7 +641,36 @@ SCENARIO("JSON Schema serialization of EnumElement", "[json-schema]")
 
             THEN("the schema matches \"Hello world!\", a number and arrays of size 2 containing a string and true")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","anyOf":[{"type":"string","enum":["Hello world!"]},{"type":"number"},{"type":"array","items":[{"type":"string"},{"type":"boolean","enum":[true]}]}]})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","anyOf":[{"type":"string","enum":["Hello world!"]},{"type":"number"},{"type":"array","minItems":2,"items":[{"type":"string"},{"type":"boolean","enum":[true]}],"additionalItems":false}]})");
+            }
+        }
+    }
+
+    GIVEN("An empty, named EnumElement with non-empty enumerations and fixed attribute true")
+    {
+        auto el = make_empty<EnumElement>();
+        el->element("Flap");
+        {
+            auto a = make_element<ArrayElement>( //
+                make_empty<StringElement>(),     //
+                from_primitive(true));
+            a->element("Flop");
+
+            el->attributes().set("enumerations",
+                make_element<ArrayElement>(         //
+                    from_primitive("Hello world!"), //
+                    make_empty<NumberElement>(),    //
+                    std::move(a)));
+        }
+        el->attributes().set("fixed", from_primitive(true));
+
+        WHEN("a JSON Schema is generated from it")
+        {
+            auto result = schema::generateJsonSchema(*el);
+
+            THEN("the schema matches \"Hello world!\", a number and arrays of size 2 containing a string and true")
+            {
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","definitions":{"Flop":{"type":"array","minItems":2,"items":[{"type":"string"},{"type":"boolean","enum":[true]}],"additionalItems":false},"Flap":{"anyOf":[{"type":"string","enum":["Hello world!"]},{"type":"number"},{"$ref":"#/definitions/Flop"}]}},"$ref":"#/definitions/Flap"})");
             }
         }
     }
