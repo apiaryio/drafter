@@ -43,14 +43,14 @@ SCENARIO("JSON Schema serialization of NullElement", "[json-schema]")
         {
             auto result = schema::generateJsonSchema(*el);
 
-            THEN("the schema matches any boolean")
+            THEN("the schema matches (any) null value")
             {
                 REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"null"})");
             }
         }
     }
 
-    GIVEN("A BooleanElement with content")
+    GIVEN("A NullElement with content")
     {
         auto el = make_element<NullElement>();
 
@@ -58,7 +58,7 @@ SCENARIO("JSON Schema serialization of NullElement", "[json-schema]")
         {
             auto result = schema::generateJsonSchema(*el);
 
-            THEN("the schema matches any number")
+            THEN("the schema matches (any) null value")
             {
                 REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"null"})");
             }
@@ -92,7 +92,7 @@ SCENARIO("JSON Schema serialization of BooleanElement", "[json-schema]")
         {
             auto result = schema::generateJsonSchema(*el);
 
-            THEN("the schema matches any number")
+            THEN("the schema matches any boolean")
             {
                 REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"boolean"})");
             }
@@ -107,7 +107,7 @@ SCENARIO("JSON Schema serialization of BooleanElement", "[json-schema]")
         {
             auto result = schema::generateJsonSchema(*el);
 
-            THEN("the schema matches any number")
+            THEN("the schema matches any boolean")
             {
                 REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"boolean"})");
             }
@@ -123,7 +123,7 @@ SCENARIO("JSON Schema serialization of BooleanElement", "[json-schema]")
         {
             auto result = schema::generateJsonSchema(*el);
 
-            THEN("the schema matches the number 42")
+            THEN("the schema matches true")
             {
                 REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"boolean","enum":[true]})");
             }
@@ -357,7 +357,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
         }
     }
 
-    GIVEN("An ArrayElement with fixed string as content")
+    GIVEN("An ArrayElement with string as content")
     {
         auto el = make_element<ArrayElement>(from_primitive("Hello world!"));
 
