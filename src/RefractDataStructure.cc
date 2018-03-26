@@ -729,7 +729,7 @@ namespace
     };
 
     template <>
-    struct SaveValue<EnumElement, false> {
+    struct SaveValue<EnumElement> {
         using T = EnumElement;
 
         void operator()(ElementData<T>& data, T& element, ConversionContext& context) const
@@ -747,7 +747,11 @@ namespace
 
             dsd::Array enums;
 
-            auto addToEnumerations = [&enums, &context](auto& info, const auto& sourceMap, const bool reportDuplicity) {
+            auto addToEnumerations = [](auto& info,
+                                         dsd::Array& enums,
+                                         ConversionContext& context,
+                                         const auto& sourceMap,
+                                         const bool reportDuplicity) {
                 if (std::find_if(enums.begin(),
                         enums.end(),
                         [&info](auto& enm) { return visit(*info, ElementComparator{ *enm }); })
@@ -761,13 +765,16 @@ namespace
 
             std::for_each(valuesInfo.value.begin(),
                 valuesInfo.value.end(),
-                std::bind(addToEnumerations, std::placeholders::_1, valuesInfo.sourceMap, true));
+                [&valuesInfo, &addToEnumerations, &enums, &context](
+                    auto& info) { addToEnumerations(info, enums, context, valuesInfo.sourceMap, true); });
             std::for_each(samplesInfo.value.begin(),
                 samplesInfo.value.end(),
-                std::bind(addToEnumerations, std::placeholders::_1, samplesInfo.sourceMap, false));
+                [&samplesInfo, &addToEnumerations, &enums, &context](
+                    auto& info) { addToEnumerations(info, enums, context, samplesInfo.sourceMap, false); });
             std::for_each(defaultInfo.value.begin(),
                 defaultInfo.value.end(),
-                std::bind(addToEnumerations, std::placeholders::_1, defaultInfo.sourceMap, false));
+                [&defaultInfo, &addToEnumerations, &enums, &context](
+                    auto& info) { addToEnumerations(info, enums, context, defaultInfo.sourceMap, false); });
 
             if (!enums.empty()) {
                 auto enumsElement = make_element<ArrayElement>(enums);
