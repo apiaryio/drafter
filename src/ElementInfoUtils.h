@@ -29,7 +29,7 @@ namespace drafter
             } else {
                 auto result = std::move(container.front());
                 container.pop_front();
-                return std::move(result);
+                return result;
             }
         }
     };
@@ -50,7 +50,7 @@ namespace drafter
                 result.sourceMap.sourceMap.append(info.sourceMap.sourceMap);
             }
 
-            return std::move(result);
+            return result;
         }
     };
 
