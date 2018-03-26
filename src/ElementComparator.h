@@ -11,6 +11,7 @@
 #include "refract/InfoElements.h"
 #include <set>
 #include <algorithm>
+#include <iterator>
 
 namespace drafter
 {
