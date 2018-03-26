@@ -31,7 +31,7 @@ namespace
         so::serialize_json(ss, v, so::packed{});
         return ss.str();
     }
-}
+} // namespace
 
 SCENARIO("JSON Schema serialization of NullElement", "[json-schema]")
 {
@@ -102,7 +102,7 @@ SCENARIO("JSON Schema serialization of BooleanElement", "[json-schema]")
     GIVEN("An empty BooleanElement with fixed attribute true")
     {
         auto el = make_empty<BooleanElement>();
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -133,7 +133,7 @@ SCENARIO("JSON Schema serialization of BooleanElement", "[json-schema]")
     GIVEN("A BooleanElement with content and fixed attribute true")
     {
         auto el = from_primitive(true);
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -150,7 +150,7 @@ SCENARIO("JSON Schema serialization of BooleanElement", "[json-schema]")
     {
         auto el = from_primitive(true);
         el->element("Bar");
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -184,7 +184,7 @@ SCENARIO("JSON Schema serialization of NumberElement", "[json-schema]")
     GIVEN("An empty NumberElement with fixed attribute true")
     {
         auto el = make_empty<NumberElement>();
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -215,7 +215,7 @@ SCENARIO("JSON Schema serialization of NumberElement", "[json-schema]")
     GIVEN("A NumberElement with content and fixed attribute true")
     {
         auto el = from_primitive(42.0);
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -232,7 +232,7 @@ SCENARIO("JSON Schema serialization of NumberElement", "[json-schema]")
     {
         auto el = from_primitive(42.0);
         el->element("Baz");
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -266,7 +266,7 @@ SCENARIO("JSON Schema serialization of StringElement", "[json-schema]")
     GIVEN("An empty StringElement with fixed attribute true")
     {
         auto el = make_empty<StringElement>();
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -297,7 +297,7 @@ SCENARIO("JSON Schema serialization of StringElement", "[json-schema]")
     GIVEN("A StringElement with content and fixed attribute true")
     {
         auto el = from_primitive("foo");
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -314,7 +314,7 @@ SCENARIO("JSON Schema serialization of StringElement", "[json-schema]")
     {
         auto el = from_primitive("foo");
         el->element("Flip");
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -348,7 +348,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
     GIVEN("An empty ArrayElement with fixed attribute true")
     {
         auto el = make_empty<ArrayElement>();
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -364,7 +364,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
     GIVEN("An empty ArrayElement with fixedType attribute true")
     {
         auto el = make_empty<ArrayElement>();
-        el->attributes().set("fixedType", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixedType")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -395,7 +395,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
     GIVEN("An ArrayElement with empty string as content and fixed attribute true")
     {
         auto el = make_element<ArrayElement>(make_empty<StringElement>());
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -411,7 +411,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
     GIVEN("An ArrayElement with empty string as content and fixedType attribute true")
     {
         auto el = make_element<ArrayElement>(make_empty<StringElement>());
-        el->attributes().set("fixedType", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixedType")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -442,7 +442,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
     GIVEN("An ArrayElement with fixed string as content and fixed attribute true")
     {
         auto el = make_element<ArrayElement>(from_primitive("Hello world!"));
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -458,7 +458,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
     GIVEN("An ArrayElement with fixed string as content and fixedType attribute true")
     {
         auto el = make_element<ArrayElement>(from_primitive("Hello world!"));
-        el->attributes().set("fixedType", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixedType")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -500,7 +500,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
                 make_empty<StringElement>(),  //
                 from_primitive(true)));
 
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -524,7 +524,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
                 from_primitive("short string"), //
                 from_primitive(true)));
 
-        el->attributes().set("fixedType", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixedType")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -550,7 +550,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
             std::move(flap));
 
         el->element("Flop");
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -588,7 +588,7 @@ SCENARIO("JSON Schema serialization of EnumElement", "[json-schema]")
     {
         auto el = make_empty<EnumElement>();
         el->attributes().set("enumerations", make_element<ArrayElement>());
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -633,7 +633,7 @@ SCENARIO("JSON Schema serialization of EnumElement", "[json-schema]")
                 make_element<ArrayElement>(      //
                     make_empty<StringElement>(), //
                     from_primitive(true))));
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -662,7 +662,7 @@ SCENARIO("JSON Schema serialization of EnumElement", "[json-schema]")
                     make_empty<NumberElement>(),    //
                     std::move(a)));
         }
-        el->attributes().set("fixed", from_primitive(true));
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         WHEN("a JSON Schema is generated from it")
         {
@@ -728,7 +728,7 @@ namespace
         LOG(warning) << renderJsonSchema(el);
         return result;
     }
-}
+} // namespace
 
 SCENARIO("Test JSON Schema generation performance", "[json-schema-perf][.]")
 {

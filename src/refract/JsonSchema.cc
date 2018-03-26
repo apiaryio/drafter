@@ -15,6 +15,7 @@
 #include "Element.h"
 #include <bitset>
 #include <cassert>
+#include <algorithm>
 
 using namespace refract;
 using namespace schema;
@@ -43,14 +44,30 @@ namespace
             so::Value{ in_place_type<so::False>{} };
     }
 
+    bool hasTypeAttr(const IElement& e, const char* name)
+    {
+        auto typeAttrIt = e.attributes().find("typeAttributes");
+
+        if (typeAttrIt != e.attributes().end())
+            if (const auto* typeAttrs = TypeQueryVisitor::as<const ArrayElement>(typeAttrIt->second.get())) {
+                const auto b = typeAttrs->get().begin();
+                const auto e = typeAttrs->get().end();
+                return e != std::find_if(b, e, [&name](const auto& el) { //
+                    const auto* entry = TypeQueryVisitor::as<const StringElement>(el.get());
+                    return entry && !entry->empty() && (entry->get().get() == name);
+                });
+            }
+        return false;
+    }
+
     bool hasFixedAttr(const IElement& e)
     {
-        return e.attributes().end() != e.attributes().find("fixed");
+        return hasTypeAttr(e, "fixed");
     }
 
     bool hasFixedTypeAttr(const IElement& e)
     {
-        return e.attributes().end() != e.attributes().find("fixedType");
+        return hasTypeAttr(e, "fixedType");
     }
 
     const dsd::Array& getEnumerations(const EnumElement& e)
