@@ -6,7 +6,7 @@ using namespace drafter;
 using S = refract::StringElement;
 using N = refract::NumberElement;
 
-SCENARIO("Compare equality of elements", "[Element][comparate][equal]")
+SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
 {
 
     GIVEN("Two empty primitive elements of same type")
@@ -139,7 +139,7 @@ SCENARIO("Compare equality of elements", "[Element][comparate][equal]")
     }
 }
 
-SCENARIO("Compare equality of elements with sourceMaps", "[Element][comparate][equal]")
+SCENARIO("Compare equality of elements with sourceMaps", "[Element][comparator][equal]")
 {
     GIVEN("Two empty primitive elements with different sourceMap value")
     {
