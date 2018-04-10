@@ -244,6 +244,8 @@ namespace refract
     std::string GetKeyAsString(const MemberElement& e);
 
     const StringElement* GetDescription(const IElement& e);
+
+    bool IsLiteral(const IElement& e);
 }
 
 #endif /* REFRACT_VISITORUTILS_H */

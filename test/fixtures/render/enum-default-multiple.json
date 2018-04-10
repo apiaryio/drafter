@@ -121,14 +121,47 @@
                                             "content": [
                                               {
                                                 "element": "string",
+                                                "attributes": {
+                                                  "typeAttributes": {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "string",
+                                                        "content": "fixed"
+                                                      }
+                                                    ]
+                                                  }
+                                                },
                                                 "content": "e"
                                               },
                                               {
                                                 "element": "string",
+                                                "attributes": {
+                                                  "typeAttributes": {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "string",
+                                                        "content": "fixed"
+                                                      }
+                                                    ]
+                                                  }
+                                                },
                                                 "content": "f"
                                               },
                                               {
                                                 "element": "string",
+                                                "attributes": {
+                                                  "typeAttributes": {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "string",
+                                                        "content": "fixed"
+                                                      }
+                                                    ]
+                                                  }
+                                                },
                                                 "content": "g"
                                               }
                                             ]

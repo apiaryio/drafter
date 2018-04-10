@@ -66,3 +66,21 @@ MemberElement* refract::FindMemberByKey(const ObjectElement& e, const std::strin
 
     return static_cast<MemberElement*>(it->get());
 }
+
+bool refract::IsLiteral(const IElement& e) {
+    TypeQueryVisitor query;
+    VisitBy(e, query);
+    auto elementType = query.get();
+
+    switch (elementType) {
+        case TypeQueryVisitor::String:
+        case TypeQueryVisitor::Number:
+        case TypeQueryVisitor::Boolean:
+            if (!e.empty())
+                return true;
+        default:
+            return HasTypeAttribute(e, "fixed");
+            ;
+    };
+    return false;
+}

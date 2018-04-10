@@ -121,6 +121,17 @@
                                             "content": [
                                               {
                                                 "element": "string",
+                                                "attributes": {
+                                                  "typeAttributes": {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "string",
+                                                        "content": "fixed"
+                                                      }
+                                                    ]
+                                                  }
+                                                },
                                                 "content": "green"
                                               },
                                               {
