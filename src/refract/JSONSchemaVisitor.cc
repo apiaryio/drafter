@@ -423,6 +423,14 @@ void JSONSchemaVisitor::operator()(const ArrayElement& e)
     }
 }
 
+namespace {
+    struct IgnoredAtributes {
+        const std::set<std::string> operator()() const noexcept {
+            return { "sourceMap", "typeAttributes" };
+        }
+    };
+};
+
 void JSONSchemaVisitor::operator()(const EnumElement& e)
 {
 
@@ -438,31 +446,27 @@ void JSONSchemaVisitor::operator()(const EnumElement& e)
         }
     }
 
-    if (!e.empty())
+    if (!e.empty()) {
         if (auto v = e.get().value()) {
-            elms.push_back(v);
+                if(std::find_if(elms.begin(), elms.end(),
+                        // NOTE: this ignore full set of 'typeAttributes' while compare attributes
+                        // instead ingnore only `typeAttribute.fixed`
+                        // it is not exactly what should happen, but i is "good enough" solution
+                        [&v](auto& el){ return visit(*el, drafter::ElementComparator<IgnoredAtributes>{ *v }); }
+                        ) == elms.end()) {
+                    elms.push_back(v);
+                }
         }
+    }
 
     if (elms.empty()) {
         return;
     }
 
-    // due to inheritance there can be duplicit elements colected
-    // make it unique
-    std::vector<const IElement*> uniqueElements;
-    std::copy_if(std::make_move_iterator(elms.begin()), std::make_move_iterator(elms.end()),
-            std::back_inserter(uniqueElements),
-            [&uniqueElements](auto el){
-                return std::find_if(uniqueElements.begin(), uniqueElements.end(),
-                        [&el](auto& un){ return visit(*un, drafter::ElementComparator{ *el }); }
-                        ) == uniqueElements.end();
-            });
-    elms.clear();
-    
     std::map<std::string, std::vector<const IElement*> > types;
     std::vector<std::string> typesOrder;
 
-    for (const auto& enumeration : uniqueElements) {
+    for (const auto& enumeration : elms) {
 
         if (enumeration) {
             auto& items = types[enumeration->element()];
@@ -479,9 +483,9 @@ void JSONSchemaVisitor::operator()(const EnumElement& e)
         anyOf(types, typesOrder);
     } else {
         const EnumElement* def = GetDefault(e);
-        if (!uniqueElements.empty() || (def && !def->empty())) {
+        if (!elms.empty() || (def && !def->empty())) {
             auto a = make_element<ArrayElement>();
-            CloneMembers(a->get(), uniqueElements);
+            CloneMembers(a->get(), elms);
             setSchemaType(types.begin()->first);
             addMember("enum", std::move(a));
         }

@@ -127,18 +127,62 @@
                                                     "content": [
                                                       {
                                                         "element": "number",
+                                                        "attributes": {
+                                                          "typeAttributes": {
+                                                            "element": "array",
+                                                            "content": [
+                                                              {
+                                                                "element": "string",
+                                                                "content": "fixed"
+                                                              }
+                                                            ]
+                                                          }
+                                                        },
                                                         "content": 1
                                                       },
                                                       {
                                                         "element": "number",
+                                                        "attributes": {
+                                                          "typeAttributes": {
+                                                            "element": "array",
+                                                            "content": [
+                                                              {
+                                                                "element": "string",
+                                                                "content": "fixed"
+                                                              }
+                                                            ]
+                                                          }
+                                                        },
                                                         "content": 2
                                                       },
                                                       {
                                                         "element": "number",
+                                                        "attributes": {
+                                                          "typeAttributes": {
+                                                            "element": "array",
+                                                            "content": [
+                                                              {
+                                                                "element": "string",
+                                                                "content": "fixed"
+                                                              }
+                                                            ]
+                                                          }
+                                                        },
                                                         "content": 3
                                                       },
                                                       {
                                                         "element": "number",
+                                                        "attributes": {
+                                                          "typeAttributes": {
+                                                            "element": "array",
+                                                            "content": [
+                                                              {
+                                                                "element": "string",
+                                                                "content": "fixed"
+                                                              }
+                                                            ]
+                                                          }
+                                                        },
                                                         "content": 4
                                                       }
                                                     ]
@@ -147,10 +191,32 @@
                                               },
                                               {
                                                 "element": "string",
+                                                "attributes": {
+                                                  "typeAttributes": {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "string",
+                                                        "content": "fixed"
+                                                      }
+                                                    ]
+                                                  }
+                                                },
                                                 "content": "something"
                                               },
                                               {
                                                 "element": "string",
+                                                "attributes": {
+                                                  "typeAttributes": {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "string",
+                                                        "content": "fixed"
+                                                      }
+                                                    ]
+                                                  }
+                                                },
                                                 "content": "anything"
                                               }
                                             ]

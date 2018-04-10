@@ -43,11 +43,25 @@ namespace drafter
     };
 
     using namespace refract;
+
+    struct EmptyKeySet {
+        const std::set<std::string> operator()() const noexcept {
+            return {};
+        }
+    };
+
+    struct DefaultKeySet {
+        const std::set<std::string> operator()() const noexcept {
+            return { "sourceMap" };
+        }
+    };
+
+    template <class IgnoreKeys = EmptyKeySet>
     struct InfoElementsComparator {
         bool operator()(const InfoElements& rhs, const InfoElements& lhs) const
         {
-            const auto l = detail::SortedRef()(lhs, { "sourceMap" });
-            const auto r = detail::SortedRef()(rhs, { "sourceMap" });
+            const auto l = detail::SortedRef()(lhs, IgnoreKeys()());
+            const auto r = detail::SortedRef()(rhs, IgnoreKeys()());
 
             return std::equal(l.begin(), l.end(), r.begin(), r.end(), [](const auto& l, const auto& r) {
                 return l.get().first == r.get().first && *l.get().second.get() == *r.get().second.get();
@@ -55,6 +69,7 @@ namespace drafter
         }
     };
 
+    template <class IgnoreAttrs = DefaultKeySet, class IgnoreMeta = EmptyKeySet>
     struct ElementComparator {
         const IElement& rhs;
 
@@ -62,8 +77,8 @@ namespace drafter
         bool operator()(const ElementT& lhs) const
         {
             return (lhs.empty() == rhs.empty()) && (lhs.element() == rhs.element())
-                && (InfoElementsComparator{}(rhs.attributes(), lhs.attributes()))
-                && (InfoElementsComparator{}(rhs.meta(), lhs.meta()))
+                && (InfoElementsComparator<IgnoreAttrs>{}(rhs.attributes(), lhs.attributes()))
+                && (InfoElementsComparator<IgnoreMeta>{}(rhs.meta(), lhs.meta()))
                 && (lhs.empty() || (lhs.get() == dynamic_cast<const ElementT*>(&rhs)->get()));
         }
     };

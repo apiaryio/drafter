@@ -422,6 +422,7 @@
 
         "test/test-ElementInfoUtils.cc",
         "test/test-ElementComparator.cc",
+        "test/test-VisitorUtils.cc",
 
       ],
       'dependencies': [

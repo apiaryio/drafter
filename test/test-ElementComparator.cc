@@ -19,7 +19,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator{ *second }));
+                REQUIRE(true == visit(*first, ElementComparator<>{ *second }));
             }
         }
     }
@@ -34,7 +34,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         {
             THEN("it is recognized as non-equal")
             {
-                REQUIRE(false == visit(*first, ElementComparator{ *second }));
+                REQUIRE(false == visit(*first, ElementComparator<>{ *second }));
             }
         }
     }
@@ -49,7 +49,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator{ *second }));
+                REQUIRE(true == visit(*first, ElementComparator<>{ *second }));
             }
         }
     }
@@ -64,7 +64,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         {
             THEN("it is recognized as non-equal")
             {
-                REQUIRE(false == visit(*first, ElementComparator{ *second }));
+                REQUIRE(false == visit(*first, ElementComparator<>{ *second }));
             }
         }
     }
@@ -80,7 +80,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         {
             THEN("it is recognized as non-equal")
             {
-                REQUIRE(false == visit(*first, ElementComparator{ *second }));
+                REQUIRE(false == visit(*first, ElementComparator<>{ *second }));
             }
         }
     }
@@ -97,7 +97,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         {
             THEN("it is recognized as non-equal")
             {
-                REQUIRE(false == visit(*first, ElementComparator{ *second }));
+                REQUIRE(false == visit(*first, ElementComparator<>{ *second }));
             }
         }
     }
@@ -115,7 +115,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator{ *second }));
+                REQUIRE(true == visit(*first, ElementComparator<>{ *second }));
             }
         }
     }
@@ -133,7 +133,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         {
             THEN("it is recognized as non-equal")
             {
-                REQUIRE(false == visit(*first, ElementComparator{ *second }));
+                REQUIRE(false == visit(*first, ElementComparator<>{ *second }));
             }
         }
     }
@@ -154,7 +154,7 @@ SCENARIO("Compare equality of elements with sourceMaps", "[Element][comparator][
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator{ *second }));
+                REQUIRE(true == visit(*first, ElementComparator<>{ *second }));
             }
         }
     }
@@ -171,7 +171,7 @@ SCENARIO("Compare equality of elements with sourceMaps", "[Element][comparator][
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator{ *second }));
+                REQUIRE(true == visit(*first, ElementComparator<>{ *second }));
             }
         }
     }
@@ -188,7 +188,108 @@ SCENARIO("Compare equality of elements with sourceMaps", "[Element][comparator][
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator{ *second }));
+                REQUIRE(true == visit(*first, ElementComparator<>{ *second }));
+            }
+        }
+    }
+}
+
+SCENARIO("Compare equality of elements with custom keywordlist", "[Element][comparator][equal]")
+{
+    struct IgnoreFooAndBarAttribute {
+        const std::set<std::string> operator()() const noexcept {
+            return { "foo", "bar" };
+        }
+    };
+
+    GIVEN("two empty elements with same foo attributes")
+    {
+
+        auto first = make_element<S>();
+        first->attributes().set("foo", from_primitive("baz"));
+
+        auto second = make_element<S>();
+        second->attributes().set("foo", from_primitive("baz"));
+
+        WHEN("it is compared")
+        {
+            THEN("it is recognized as equal")
+            {
+                REQUIRE(true == visit(*first, ElementComparator<IgnoreFooAndBarAttribute>{ *second }));
+            }
+        }
+    }
+
+    GIVEN("two empty elements with different foo attributes")
+    {
+
+        auto first = make_element<S>();
+        first->attributes().set("foo", from_primitive("baz"));
+
+        auto second = make_element<S>();
+        second->attributes().set("foo", from_primitive("beer"));
+
+        WHEN("it is compared")
+        {
+            THEN("it is recognized as equal")
+            {
+                REQUIRE(true == visit(*first, ElementComparator<IgnoreFooAndBarAttribute>{ *second }));
+            }
+        }
+    }
+
+    GIVEN("two empty elements with different foo and bar attributes")
+    {
+
+        auto first = make_element<S>();
+        first->attributes().set("foo", from_primitive("baz"));
+
+        auto second = make_element<S>();
+        second->attributes().set("bar", from_primitive("baz"));
+
+        WHEN("it is compared")
+        {
+            THEN("it is recognized as equal")
+            {
+                REQUIRE(true == visit(*first, ElementComparator<IgnoreFooAndBarAttribute>{ *second }));
+            }
+        }
+    }
+
+    GIVEN("two empty elements with same baz and different foo attributes")
+    {
+
+        auto first = make_element<S>();
+        first->attributes().set("baz", from_primitive("x"));
+
+        auto second = make_element<S>();
+        second->attributes().set("baz", from_primitive("x"));
+        second->attributes().set("bar", from_primitive("y"));
+
+        WHEN("it is compared")
+        {
+            THEN("it is recognized as equal")
+            {
+                REQUIRE(true == visit(*first, ElementComparator<IgnoreFooAndBarAttribute>{ *second }));
+            }
+        }
+    }
+
+    GIVEN("two empty elements with different baz and same foo attributes")
+    {
+
+        auto first = make_element<S>();
+        first->attributes().set("baz", from_primitive("x"));
+
+        auto second = make_element<S>();
+        second->attributes().set("baz", from_primitive("y"));
+        second->attributes().set("bar", from_primitive("y"));
+
+        WHEN("it is compared")
+        {
+            THEN("it is recognized as non equal")
+            {
+                REQUIRE(false == visit(*first, ElementComparator<IgnoreFooAndBarAttribute>{ *second }));
             }
         }
     }
