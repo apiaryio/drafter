@@ -300,6 +300,7 @@
         "src/refract/Utils.cc",
         "src/refract/InfoElements.h",
         "src/refract/InfoElements.cc",
+        "src/refract/InfoElementsUtils.h",
         "src/refract/ElementFwd.h",
         "src/refract/ElementIfc.h",
         "src/refract/Element.h",
@@ -422,6 +423,7 @@
 
         "test/refract/dsd/test-Element.cc",
         "test/refract/dsd/test-InfoElements.cc",
+        "test/refract/test-InfoElementsUtils.cc",
 
         "test/test-ElementInfoUtils.cc",
         "test/test-ElementComparator.cc",
