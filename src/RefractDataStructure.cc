@@ -14,6 +14,7 @@
 #include "refract/ExpandVisitor.h"
 #include "refract/SerializeVisitor.h"
 #include "refract/PrintVisitor.h"
+#include "refract/InfoElementsUtils.h"
 
 #include "NamedTypesRegistry.h"
 #include "RefractElementFactory.h"
@@ -730,32 +731,6 @@ namespace
         }
     };
 
-    template <typename ValueElementType, typename DSDType>
-    void AppendInfo(InfoElements& ie, const std::string& key, DSDType&& value)
-    {
-        auto ta = ie.find(key);
-        if (ta == ie.end()) { // there is not still attr.typeAttributes
-            ie.set(key, make_element<ValueElementType>(from_primitive("fixed")));
-        } else { // there is already attr.typeAttributes
-            auto arr = TypeQueryVisitor::as<ValueElementType>(ta->second.get());
-
-            // not appropriate type of value
-            assert(arr);
-
-            const auto e = arr->get().end();
-            if (e == std::find_if(arr->get().begin(), e, [&value](const auto& attr) {
-                    if (const auto& str = TypeQueryVisitor::as<Element<DSDType> >(attr.get())) {
-                        if (str->get() == value.get())
-                            return true;
-                    }
-
-                    return false;
-                })) { // there is no fixed
-                arr->get().insert(arr->get().end(), make_element<Element<DSDType> >(std::move(value)));
-            }
-        }
-    }
-
     template <>
     struct SaveValue<EnumElement> {
         using T = EnumElement;
@@ -809,7 +784,7 @@ namespace
 
                 std::for_each(enums.begin(), enums.end(), [](auto& info) {
                     if (IsLiteral(*info.get())) {
-                        AppendInfo<ArrayElement>(info->attributes(), "typeAttributes", dsd::String{ "fixed" });
+                        AppendInfoElement<ArrayElement>(info->attributes(), "typeAttributes", dsd::String{ "fixed" });
                     }
 
                 });
