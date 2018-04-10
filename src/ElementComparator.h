@@ -45,13 +45,15 @@ namespace drafter
     using namespace refract;
 
     struct EmptyKeySet {
-        const std::set<std::string> operator()() const noexcept {
+        const std::set<std::string> operator()() const noexcept
+        {
             return {};
         }
     };
 
     struct DefaultKeySet {
-        const std::set<std::string> operator()() const noexcept {
+        const std::set<std::string> operator()() const noexcept
+        {
             return { "sourceMap" };
         }
     };

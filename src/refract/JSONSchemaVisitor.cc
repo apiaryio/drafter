@@ -423,9 +423,11 @@ void JSONSchemaVisitor::operator()(const ArrayElement& e)
     }
 }
 
-namespace {
+namespace
+{
     struct IgnoredAtributes {
-        const std::set<std::string> operator()() const noexcept {
+        const std::set<std::string> operator()() const noexcept
+        {
             return { "sourceMap", "typeAttributes" };
         }
     };
@@ -448,14 +450,15 @@ void JSONSchemaVisitor::operator()(const EnumElement& e)
 
     if (!e.empty()) {
         if (auto v = e.get().value()) {
-                if(std::find_if(elms.begin(), elms.end(),
-                        // NOTE: this ignore full set of 'typeAttributes' while compare attributes
-                        // instead ingnore only `typeAttribute.fixed`
-                        // it is not exactly what should happen, but i is "good enough" solution
-                        [&v](auto& el){ return visit(*el, drafter::ElementComparator<IgnoredAtributes>{ *v }); }
-                        ) == elms.end()) {
-                    elms.push_back(v);
-                }
+            if (std::find_if(elms.begin(),
+                    elms.end(),
+                    // NOTE: this ignore full set of 'typeAttributes' while compare attributes
+                    // instead ingnore only `typeAttribute.fixed`
+                    // it is not exactly what should happen, but i is "good enough" solution
+                    [&v](auto& el) { return visit(*el, drafter::ElementComparator<IgnoredAtributes>{ *v }); })
+                == elms.end()) {
+                elms.push_back(v);
+            }
         }
     }
 
