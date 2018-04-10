@@ -20,9 +20,9 @@ namespace refract
     void AppendInfoElement(InfoElements& ie, const std::string& key, DSDType&& value)
     {
         auto ta = ie.find(key);
-        if (ta == ie.end()) { 
+        if (ta == ie.end()) {
             ie.set(key, make_element<ValueElementType>(from_primitive("fixed")));
-        } else { 
+        } else {
             auto arr = TypeQueryVisitor::as<ValueElementType>(ta->second.get());
 
             // not appropriate type of value
@@ -46,7 +46,6 @@ namespace refract
             }
         }
     }
-
 }
 
 #endif // #ifndef REFRACT_INFO_ELEMENTS_UTILS_H
