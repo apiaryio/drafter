@@ -75,7 +75,7 @@ namespace
             return el->empty();
         });
     }
-}
+} // namespace
 
 JSONSchemaVisitor::JSONSchemaVisitor(ObjectElement& pDefinitions, bool _fixed /*= false*/, bool _fixedType /*= false*/)
     : pObj(make_element<ObjectElement>()), pDefs(pDefinitions), fixed(_fixed), fixedType(_fixedType)
@@ -425,13 +425,14 @@ void JSONSchemaVisitor::operator()(const ArrayElement& e)
 
 namespace
 {
-    struct IgnoredAtributes {
-        const std::set<std::string> operator()() const noexcept
+    struct IsIgnoredAttribute {
+        bool operator()(const std::string& key) const noexcept
         {
-            return { "sourceMap", "typeAttributes" };
+            return key == "sourceMap" //
+                || key == "typeAttributes";
         }
     };
-};
+}; // namespace
 
 void JSONSchemaVisitor::operator()(const EnumElement& e)
 {
@@ -455,7 +456,7 @@ void JSONSchemaVisitor::operator()(const EnumElement& e)
                     // NOTE: this ignore full set of 'typeAttributes' while compare attributes
                     // instead ingnore only `typeAttribute.fixed`
                     // it is not exactly what should happen, but i is "good enough" solution
-                    [&v](auto& el) { return visit(*el, drafter::ElementComparator<IgnoredAtributes>{ *v }); })
+                    [&v](auto& el) { return drafter::Equal<IsIgnoredAttribute>(*el, *v); })
                 == elms.end()) {
                 elms.push_back(v);
             }

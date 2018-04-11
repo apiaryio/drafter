@@ -755,9 +755,7 @@ namespace
                                          ConversionContext& context,
                                          const auto& sourceMap,
                                          const bool reportDuplicity) {
-                if (std::find_if(enums.begin(),
-                        enums.end(),
-                        [&info](auto& enm) { return visit(*info, ElementComparator<>{ *enm }); })
+                if (std::find_if(enums.begin(), enums.end(), [&info](auto& enm) { return Equal(*info, *enm); })
                     == enums.end()) {
 
                     enums.push_back(std::move(info));
@@ -786,7 +784,6 @@ namespace
                     if (IsLiteral(*info.get())) {
                         AppendInfoElement<ArrayElement>(info->attributes(), "typeAttributes", dsd::String{ "fixed" });
                     }
-
                 });
                 auto enumsElement = make_element<ArrayElement>(enums);
                 element.attributes().set(SerializeKey::Enumerations, std::move(enumsElement));
@@ -1303,7 +1300,7 @@ namespace
 
         return std::move(element);
     }
-}
+} // namespace
 
 std::unique_ptr<IElement> drafter::MSONToRefract(
     const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context)

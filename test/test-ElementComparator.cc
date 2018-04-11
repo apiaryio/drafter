@@ -3,6 +3,7 @@
 #include "refract/Element.h"
 
 using namespace drafter;
+using namespace refract;
 using S = refract::StringElement;
 using N = refract::NumberElement;
 
@@ -19,7 +20,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator<>{ *second }));
+                REQUIRE(true == Equal(*first, *second));
             }
         }
     }
@@ -34,7 +35,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         {
             THEN("it is recognized as non-equal")
             {
-                REQUIRE(false == visit(*first, ElementComparator<>{ *second }));
+                REQUIRE(false == Equal(*first, *second));
             }
         }
     }
@@ -49,7 +50,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator<>{ *second }));
+                REQUIRE(true == Equal(*first, *second));
             }
         }
     }
@@ -64,7 +65,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         {
             THEN("it is recognized as non-equal")
             {
-                REQUIRE(false == visit(*first, ElementComparator<>{ *second }));
+                REQUIRE(false == Equal(*first, *second));
             }
         }
     }
@@ -80,7 +81,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         {
             THEN("it is recognized as non-equal")
             {
-                REQUIRE(false == visit(*first, ElementComparator<>{ *second }));
+                REQUIRE(false == Equal(*first, *second));
             }
         }
     }
@@ -97,7 +98,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         {
             THEN("it is recognized as non-equal")
             {
-                REQUIRE(false == visit(*first, ElementComparator<>{ *second }));
+                REQUIRE(false == Equal(*first, *second));
             }
         }
     }
@@ -115,7 +116,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator<>{ *second }));
+                REQUIRE(true == Equal(*first, *second));
             }
         }
     }
@@ -133,7 +134,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         {
             THEN("it is recognized as non-equal")
             {
-                REQUIRE(false == visit(*first, ElementComparator<>{ *second }));
+                REQUIRE(false == Equal(*first, *second));
             }
         }
     }
@@ -154,7 +155,7 @@ SCENARIO("Compare equality of elements with sourceMaps", "[Element][comparator][
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator<>{ *second }));
+                REQUIRE(true == Equal(*first, *second));
             }
         }
     }
@@ -171,7 +172,7 @@ SCENARIO("Compare equality of elements with sourceMaps", "[Element][comparator][
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator<>{ *second }));
+                REQUIRE(true == Equal(*first, *second));
             }
         }
     }
@@ -188,7 +189,7 @@ SCENARIO("Compare equality of elements with sourceMaps", "[Element][comparator][
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator<>{ *second }));
+                REQUIRE(true == Equal(*first, *second));
             }
         }
     }
@@ -197,8 +198,10 @@ SCENARIO("Compare equality of elements with sourceMaps", "[Element][comparator][
 SCENARIO("Compare equality of elements with custom keywordlist", "[Element][comparator][equal]")
 {
     struct IgnoreFooAndBarAttribute {
-        const std::set<std::string> operator()() const noexcept {
-            return { "foo", "bar" };
+        bool operator()(const std::string& key) const noexcept
+        {
+            return key == "foo" //
+                || key == "bar";
         }
     };
 
@@ -215,7 +218,7 @@ SCENARIO("Compare equality of elements with custom keywordlist", "[Element][comp
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator<IgnoreFooAndBarAttribute>{ *second }));
+                REQUIRE(true == Equal<IgnoreFooAndBarAttribute>(*first, *second));
             }
         }
     }
@@ -233,7 +236,7 @@ SCENARIO("Compare equality of elements with custom keywordlist", "[Element][comp
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator<IgnoreFooAndBarAttribute>{ *second }));
+                REQUIRE(true == Equal<IgnoreFooAndBarAttribute>(*first, *second));
             }
         }
     }
@@ -251,7 +254,7 @@ SCENARIO("Compare equality of elements with custom keywordlist", "[Element][comp
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator<IgnoreFooAndBarAttribute>{ *second }));
+                REQUIRE(true == Equal<IgnoreFooAndBarAttribute>(*first, *second));
             }
         }
     }
@@ -270,7 +273,7 @@ SCENARIO("Compare equality of elements with custom keywordlist", "[Element][comp
         {
             THEN("it is recognized as equal")
             {
-                REQUIRE(true == visit(*first, ElementComparator<IgnoreFooAndBarAttribute>{ *second }));
+                REQUIRE(true == Equal<IgnoreFooAndBarAttribute>(*first, *second));
             }
         }
     }
@@ -289,7 +292,7 @@ SCENARIO("Compare equality of elements with custom keywordlist", "[Element][comp
         {
             THEN("it is recognized as non equal")
             {
-                REQUIRE(false == visit(*first, ElementComparator<IgnoreFooAndBarAttribute>{ *second }));
+                REQUIRE(false == Equal<IgnoreFooAndBarAttribute>(*first, *second));
             }
         }
     }
