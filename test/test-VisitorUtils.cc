@@ -4,7 +4,7 @@
 
 using namespace refract;
 
-SCENARIO("IsLiteral identify valid 'literal' elements","[utils]") {
+SCENARIO("IsLiteral identifies valid 'literal' elements","[utils]") {
 
     WHEN("have empty string") {
         std::unique_ptr<IElement> e = make_empty<StringElement>();
@@ -63,12 +63,29 @@ SCENARIO("IsLiteral identify valid 'literal' elements","[utils]") {
         }
     }
 
-    WHEN("have array with value and feixed typeAttribute") {
+    WHEN("have array with value and fixed typeAttribute") {
         std::unique_ptr<IElement> e = make_element<ArrayElement>(from_primitive("abc"), from_primitive(3.1415927));
         e->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         THEN("It is identified as literal") {
             REQUIRE(IsLiteral(*e.get()));
+        }
+    }
+
+    WHEN("have NullElement") {
+        std::unique_ptr<IElement> e = make_empty<NullElement>();
+
+        THEN("It is not identified as literal") {
+            REQUIRE(!IsLiteral(*e.get()));
+        }
+    }
+
+    WHEN("have NullElement with fixed typeAttribute") {
+        std::unique_ptr<IElement> e = make_empty<NullElement>();
+        e->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
+
+        THEN("It is not identified as literal") {
+            REQUIRE(!IsLiteral(*e.get()));
         }
     }
 }

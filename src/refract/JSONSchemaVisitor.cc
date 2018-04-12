@@ -453,9 +453,9 @@ void JSONSchemaVisitor::operator()(const EnumElement& e)
         if (auto v = e.get().value()) {
             if (std::find_if(elms.begin(),
                     elms.end(),
-                    // NOTE: this ignore full set of 'typeAttributes' while compare attributes
-                    // instead ingnore only `typeAttribute.fixed`
-                    // it is not exactly what should happen, but i is "good enough" solution
+                    // NOTE: implementation ignore full set of 'typeAttributes' while comparing attributes
+                    // instead ingnore only 'typeAttribute.fixed'
+                    // it is not exactly what should happen, but it is 'good enough' solution
                     [&v](auto& el) { return drafter::Equal<IsIgnoredAttribute>(*el, *v); })
                 == elms.end()) {
                 elms.push_back(v);

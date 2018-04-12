@@ -25,7 +25,7 @@ SCENARIO("Compare equality of elements", "[Element][comparator][equal]")
         }
     }
 
-    GIVEN("Two empty primitive elements of diferent type")
+    GIVEN("Two empty primitive elements of different type")
     {
 
         auto first = make_empty<S>();

@@ -73,15 +73,14 @@ bool refract::IsLiteral(const IElement& e)
     VisitBy(e, query);
     auto elementType = query.get();
 
-    switch (elementType) {
-        case TypeQueryVisitor::String:
-        case TypeQueryVisitor::Number:
-        case TypeQueryVisitor::Boolean:
-            if (!e.empty())
-                return true;
-        default:
-            return HasTypeAttribute(e, "fixed");
-            ;
-    };
-    return false;
+    if (elementType == TypeQueryVisitor::Null)
+        return false;
+
+    if (!e.empty()
+        && (elementType == TypeQueryVisitor::String || elementType == TypeQueryVisitor::Number
+               || elementType == TypeQueryVisitor::Boolean)) {
+        return true;
+    }
+
+    return HasTypeAttribute(e, "fixed");
 }

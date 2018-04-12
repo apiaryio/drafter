@@ -16,6 +16,34 @@
 namespace refract
 {
 
+    /**
+     * Helper function to add value into InfoElements
+     *
+     * You need no to check if there already exists InfoElement.key nor InfoElement.key.value
+     *
+     * @params:
+     * - <ValueElementType> - type of InfoElement /see InfoElements::Container::value_type.second
+     * - <DSDType> - dsd type of added element
+     *
+     * - ie - InfoElements, usually `element.attributes()` or `element.meta()`
+     * - key - key of appended InfoElement /see InfoElements::Container::value_type.first
+     * - value - dsd value of appended InfoElement /see InfoElements::Container::value_type.second
+     *
+     * Typically used for attributes[typeAttributes]. But it is generalized.
+     * e.g.:
+     * ```
+     * AppendInfoElement<refract::ArrayElement>(e.attributes(), "typeAttributes", dsd::String{ "fixed" });
+     * ```
+     *
+     * It will add `fixed' attribute into `typeAttributes` it works in following way
+     * - if `key` does not exists, create new one typed as `ValueElementType`
+     * - if `key` exists but has different type than `ValueElementType` it will end with `assert`
+     * in next step
+     * - look for existence of `Element<DSDType>` with value equal to `value`
+     *   - if found, leave `attributes[key]` untouched
+     *   - if not found add new one with `Element<DSDType>(value)`
+     */
+
     template <typename ValueElementType, typename DSDType>
     void AppendInfoElement(InfoElements& ie, const std::string& key, DSDType&& value)
     {
