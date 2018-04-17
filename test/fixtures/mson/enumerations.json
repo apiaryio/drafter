@@ -40,16 +40,22 @@
                 "meta": {
                   "id": {
                     "element": "string",
-                    "content": "User"
+                    "content": "Enums"
                   }
                 },
                 "content": [
                   {
                     "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "C: 1, E: [1]"
+                      }
+                    },
                     "content": {
                       "key": {
                         "element": "string",
-                        "content": "e1"
+                        "content": "e1.1"
                       },
                       "value": {
                         "element": "enum",
@@ -70,8 +76,37 @@
                                     ]
                                   }
                                 },
-                                "content": "3"
-                              },
+                                "content": "1"
+                              }
+                            ]
+                          }
+                        },
+                        "content": {
+                          "element": "string",
+                          "content": "1"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "E: [1]"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "e1.2"
+                      },
+                      "value": {
+                        "element": "enum",
+                        "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
                               {
                                 "element": "string",
                                 "attributes": {
@@ -85,7 +120,7 @@
                                     ]
                                   }
                                 },
-                                "content": "4"
+                                "content": "1"
                               }
                             ]
                           }
@@ -95,10 +130,16 @@
                   },
                   {
                     "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "S: [1], E: [1]"
+                      }
+                    },
                     "content": {
                       "key": {
                         "element": "string",
-                        "content": "e2"
+                        "content": "e1.3"
                       },
                       "value": {
                         "element": "enum",
@@ -119,22 +160,7 @@
                                     ]
                                   }
                                 },
-                                "content": "3"
-                              },
-                              {
-                                "element": "string",
-                                "attributes": {
-                                  "typeAttributes": {
-                                    "element": "array",
-                                    "content": [
-                                      {
-                                        "element": "string",
-                                        "content": "fixed"
-                                      }
-                                    ]
-                                  }
-                                },
-                                "content": "4"
+                                "content": "1"
                               }
                             ]
                           },
@@ -145,14 +171,7 @@
                                 "element": "enum",
                                 "content": {
                                   "element": "string",
-                                  "content": "3"
-                                }
-                              },
-                              {
-                                "element": "enum",
-                                "content": {
-                                  "element": "string",
-                                  "content": "4"
+                                  "content": "1"
                                 }
                               }
                             ]
@@ -166,13 +185,13 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "FIXME: must be handled by different way in snowcrash"
+                        "content": "D: 1, E[1]"
                       }
                     },
                     "content": {
                       "key": {
                         "element": "string",
-                        "content": "e3"
+                        "content": "e1.4"
                       },
                       "value": {
                         "element": "enum",
@@ -193,240 +212,15 @@
                                     ]
                                   }
                                 },
-                                "content": "*3"
-                              },
-                              {
-                                "element": "string",
-                                "attributes": {
-                                  "typeAttributes": {
-                                    "element": "array",
-                                    "content": [
-                                      {
-                                        "element": "string",
-                                        "content": "fixed"
-                                      }
-                                    ]
-                                  }
-                                },
-                                "content": "4*"
-                              }
-                            ]
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "element": "member",
-                    "meta": {
-                      "description": {
-                        "element": "string",
-                        "content": "nontyped enum, samples should be by default string"
-                      }
-                    },
-                    "content": {
-                      "key": {
-                        "element": "string",
-                        "content": "e4"
-                      },
-                      "value": {
-                        "element": "enum",
-                        "attributes": {
-                          "enumerations": {
-                            "element": "array",
-                            "content": [
-                              {
-                                "element": "string",
-                                "attributes": {
-                                  "typeAttributes": {
-                                    "element": "array",
-                                    "content": [
-                                      {
-                                        "element": "string",
-                                        "content": "fixed"
-                                      }
-                                    ]
-                                  }
-                                },
-                                "content": "3"
-                              },
-                              {
-                                "element": "string",
-                                "attributes": {
-                                  "typeAttributes": {
-                                    "element": "array",
-                                    "content": [
-                                      {
-                                        "element": "string",
-                                        "content": "fixed"
-                                      }
-                                    ]
-                                  }
-                                },
-                                "content": "4"
-                              }
-                            ]
-                          },
-                          "samples": {
-                            "element": "array",
-                            "content": [
-                              {
-                                "element": "enum",
-                                "content": {
-                                  "element": "string",
-                                  "content": "3"
-                                }
-                              },
-                              {
-                                "element": "enum",
-                                "content": {
-                                  "element": "string",
-                                  "content": "4"
-                                }
-                              }
-                            ]
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "element": "member",
-                    "meta": {
-                      "description": {
-                        "element": "string",
-                        "content": "typed enum -> samples && default should be numbers"
-                      }
-                    },
-                    "content": {
-                      "key": {
-                        "element": "string",
-                        "content": "e5"
-                      },
-                      "value": {
-                        "element": "enum",
-                        "attributes": {
-                          "enumerations": {
-                            "element": "array",
-                            "content": [
-                              {
-                                "element": "number"
-                              },
-                              {
-                                "element": "number",
-                                "attributes": {
-                                  "typeAttributes": {
-                                    "element": "array",
-                                    "content": [
-                                      {
-                                        "element": "string",
-                                        "content": "fixed"
-                                      }
-                                    ]
-                                  }
-                                },
-                                "content": 3
-                              },
-                              {
-                                "element": "number",
-                                "attributes": {
-                                  "typeAttributes": {
-                                    "element": "array",
-                                    "content": [
-                                      {
-                                        "element": "string",
-                                        "content": "fixed"
-                                      }
-                                    ]
-                                  }
-                                },
-                                "content": 4
-                              },
-                              {
-                                "element": "number",
-                                "attributes": {
-                                  "typeAttributes": {
-                                    "element": "array",
-                                    "content": [
-                                      {
-                                        "element": "string",
-                                        "content": "fixed"
-                                      }
-                                    ]
-                                  }
-                                },
-                                "content": 5
-                              },
-                              {
-                                "element": "number",
-                                "attributes": {
-                                  "typeAttributes": {
-                                    "element": "array",
-                                    "content": [
-                                      {
-                                        "element": "string",
-                                        "content": "fixed"
-                                      }
-                                    ]
-                                  }
-                                },
-                                "content": 6
-                              },
-                              {
-                                "element": "number",
-                                "attributes": {
-                                  "typeAttributes": {
-                                    "element": "array",
-                                    "content": [
-                                      {
-                                        "element": "string",
-                                        "content": "fixed"
-                                      }
-                                    ]
-                                  }
-                                },
-                                "content": 1
-                              }
-                            ]
-                          },
-                          "samples": {
-                            "element": "array",
-                            "content": [
-                              {
-                                "element": "enum",
-                                "content": {
-                                  "element": "number",
-                                  "content": 3
-                                }
-                              },
-                              {
-                                "element": "enum",
-                                "content": {
-                                  "element": "number",
-                                  "content": 4
-                                }
-                              },
-                              {
-                                "element": "enum",
-                                "content": {
-                                  "element": "number",
-                                  "content": 5
-                                }
-                              },
-                              {
-                                "element": "enum",
-                                "content": {
-                                  "element": "number",
-                                  "content": 6
-                                }
+                                "content": "1"
                               }
                             ]
                           },
                           "default": {
                             "element": "enum",
                             "content": {
-                              "element": "number",
-                              "content": 1
+                              "element": "string",
+                              "content": "1"
                             }
                           }
                         }
@@ -438,13 +232,13 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "nontyped enum, by default string, but overided by type specification on content members"
+                        "content": "E: [1], S:[1]"
                       }
                     },
                     "content": {
                       "key": {
                         "element": "string",
-                        "content": "e6"
+                        "content": "e1.5"
                       },
                       "value": {
                         "element": "enum",
@@ -465,22 +259,19 @@
                                     ]
                                   }
                                 },
-                                "content": "pavan"
-                              },
+                                "content": "1"
+                              }
+                            ]
+                          },
+                          "samples": {
+                            "element": "array",
+                            "content": [
                               {
-                                "element": "number",
-                                "attributes": {
-                                  "typeAttributes": {
-                                    "element": "array",
-                                    "content": [
-                                      {
-                                        "element": "string",
-                                        "content": "fixed"
-                                      }
-                                    ]
-                                  }
-                                },
-                                "content": 4
+                                "element": "enum",
+                                "content": {
+                                  "element": "string",
+                                  "content": "1"
+                                }
                               }
                             ]
                           }
@@ -493,13 +284,13 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "nontyped enum, by default string, but overided by type specification on content members"
+                        "content": "E: [1], D: 1"
                       }
                     },
                     "content": {
                       "key": {
                         "element": "string",
-                        "content": "e7"
+                        "content": "e1.6"
                       },
                       "value": {
                         "element": "enum",
@@ -520,24 +311,225 @@
                                     ]
                                   }
                                 },
-                                "content": "pavan"
-                              },
+                                "content": "1"
+                              }
+                            ]
+                          },
+                          "default": {
+                            "element": "enum",
+                            "content": {
+                              "element": "string",
+                              "content": "1"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "E:[1,2,3]"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "e2.1"
+                      },
+                      "value": {
+                        "element": "enum",
+                        "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
                               {
-                                "element": "number",
+                                "element": "string",
                                 "attributes": {
-                                  "samples": {
+                                  "typeAttributes": {
                                     "element": "array",
                                     "content": [
                                       {
-                                        "element": "number",
-                                        "content": 4
+                                        "element": "string",
+                                        "content": "fixed"
                                       }
                                     ]
                                   }
-                                }
+                                },
+                                "content": "1"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "2"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "3"
                               }
                             ]
                           }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "E: [1,2,3]"
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "e2.2"
+                      },
+                      "value": {
+                        "element": "enum",
+                        "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "1"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "2"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "3"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "e2.3"
+                      },
+                      "value": {
+                        "element": "enum",
+                        "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "1"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "2"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "3"
+                              }
+                            ]
+                          }
+                        },
+                        "content": {
+                          "element": "string",
+                          "content": "1"
                         }
                       }
                     }

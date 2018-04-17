@@ -14,14 +14,20 @@
 #include "refract/ExpandVisitor.h"
 #include "refract/SerializeVisitor.h"
 #include "refract/PrintVisitor.h"
+#include "refract/InfoElementsUtils.h"
 
 #include "NamedTypesRegistry.h"
 #include "RefractElementFactory.h"
 #include "ConversionContext.h"
 
 #include "ElementData.h"
+#include "ElementInfoUtils.h"
+#include "ElementComparator.h"
+
+#include "refract/VisitorUtils.h"
 
 #include <fstream>
+#include <functional>
 
 using namespace refract;
 using namespace drafter;
@@ -295,18 +301,6 @@ namespace
             }
         };
 
-        template <bool dummy>
-        struct Store<EnumElement, false, dummy> {
-            void operator()(ElementData<EnumElement>& data,
-                const NodeInfo<mson::TypeSection>& typeSection,
-                ConversionContext& context,
-                const mson::BaseTypeName& defaultNestedType) const
-            {
-
-                data.enumerations.push_back(Fetch<EnumElement>()(typeSection, context, defaultNestedType));
-            }
-        };
-
         template <typename U, bool dummy = true>
         struct TypeDefinition;
 
@@ -456,7 +450,8 @@ namespace
 
         template <typename E, bool dummy>
         struct Store<E, true, dummy> {
-            void operator()(ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context) const
+            void operator()(
+                ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context) const
             {
                 // do nothing - Primitive types does not contain TypeDefinitions
             }
@@ -464,18 +459,10 @@ namespace
 
         template <typename E, bool dummy>
         struct Store<E, false, dummy> {
-            void operator()(ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context) const
+            void operator()(
+                ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context) const
             {
                 data.values.push_back(Fetch<E>()(typeNames, context));
-            }
-        };
-
-        template <bool dummy>
-        struct Store<EnumElement, false, dummy> {
-            using E = EnumElement;
-            void operator()(ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context) const
-            {
-                data.enumerations.push_back(Fetch<E>()(typeNames, context));
             }
         };
 
@@ -587,18 +574,6 @@ namespace
             }
         };
 
-        template <bool dummy>
-        struct Store<EnumElement, dummy> {
-            void operator()(ElementData<EnumElement>& data, ElementInfo<EnumElement> info) const
-            {
-                if (info.value.size() == 1) {
-                    data.values.push_back(std::move(info));
-                } else {
-                    data.enumerations.push_back(std::move(info));
-                }
-            }
-        };
-
         ExtractValueMember(ElementData<T>& data, ConversionContext& context, const mson::BaseTypeName)
             : data(data), context(context)
         {
@@ -674,49 +649,6 @@ namespace
         }
     };
 
-    template <typename T, bool IsPrimitive = is_primitive<T>()>
-    struct Merge;
-
-    template <typename T>
-    struct Merge<T, true> {
-        using Info = ElementInfo<T>;
-        using Container = std::deque<Info>;
-
-        ElementInfo<T> operator()(Container container) const
-        {
-            if (container.empty()) {
-                return ElementInfo<T>();
-            } else {
-                auto result = std::move(container.front());
-                container.pop_front();
-                return std::move(result);
-            }
-        }
-    };
-
-    template <typename T>
-    struct Merge<T, false> {
-        using Info = ElementInfo<T>;
-        using Container = std::deque<Info>;
-        using StoredType = typename stored_type<T>::type;
-        using SourceMap = typename content_source_map_type<T>::type;
-
-        Info operator()(Container container) const
-        {
-            Info result{};
-
-            for (auto& info : container) {
-                std::move(info.value.begin(), info.value.end(), std::back_inserter(result.value));
-
-                // FIXME: merge source map?
-                // it is not used later,
-                // every element in vector has it own map
-            }
-
-            return std::move(result);
-        }
-    };
-
     template <typename E, bool IsPrimitive = is_primitive<E>(), bool dummy = true>
     struct ElementInfoToElement;
 
@@ -767,13 +699,13 @@ namespace
 
     template <typename T>
     struct SaveValue<T, true> {
-        void operator()(std::deque<ElementInfo<T> > values, std::deque<ElementInfo<T> > /* enumerations*/, T& element) const
+        void operator()(ElementData<T>& data, T& element, ConversionContext& /* context */) const
         {
-            if (values.empty()) {
+            if (data.values.empty()) {
                 return;
             }
 
-            auto info = Merge<T>()(std::move(values));
+            auto info = Merge<T>()(std::move(data.values));
 
             auto result = LiteralTo<typename T::ValueType>(info.value);
 
@@ -787,9 +719,9 @@ namespace
 
     template <typename T>
     struct SaveValue<T, false> {
-        void operator()(std::deque<ElementInfo<T> > values, std::deque<ElementInfo<T> > /* enumerations*/, T& element) const
+        void operator()(ElementData<T>& data, T& element, ConversionContext& /* context */) const
         {
-            auto info = Merge<T>()(std::move(values));
+            auto info = Merge<T>()(std::move(data.values));
 
             if (!info.value.empty()) {
                 if (element.empty())
@@ -800,24 +732,60 @@ namespace
     };
 
     template <>
-    struct SaveValue<EnumElement, false> {
+    struct SaveValue<EnumElement> {
+        using T = EnumElement;
 
-        void operator()(std::deque<ElementInfo<EnumElement> > values,
-            std::deque<ElementInfo<EnumElement> > enumerations,
-            EnumElement& element) const
+        void operator()(ElementData<T>& data, T& element, ConversionContext& context) const
         {
-            auto valuesInfo = Merge<EnumElement>()(std::move(values));
-            auto enumInfo = Merge<EnumElement>()(std::move(enumerations));
 
-            if (!valuesInfo.value.empty()) {
-                auto content = std::move(valuesInfo.value.front());
-                valuesInfo.value.pop_front();
+            if ((data.values.size() >= 1) && (data.values.front().value.size() == 1)
+                && !data.values.front().value.front()->empty()) {
+                auto content = data.values.front().value.front()->clone();
                 element.set(dsd::Enum{ std::move(content) });
             }
 
-            if (!enumInfo.value.empty()) {
-                auto enumsElement = make_element<ArrayElement>();
-                std::move(enumInfo.value.begin(), enumInfo.value.end(), std::back_inserter(enumsElement->get()));
+            auto valuesInfo = Merge<EnumElement>()(std::move(data.values));
+            auto samplesInfo = Merge<EnumElement>()(std::move(CloneElementInfoContainer<T>(data.samples)));
+            auto defaultInfo = Merge<EnumElement>()(std::move(CloneElementInfoContainer<T>(data.defaults)));
+
+            dsd::Array enums;
+
+            auto addToEnumerations = [](auto& info,
+                                         dsd::Array& enums,
+                                         ConversionContext& context,
+                                         const auto& sourceMap,
+                                         const bool reportDuplicity) {
+                if (std::find_if(enums.begin(), enums.end(), [&info](auto& enm) { return Equal(*info, *enm); })
+                    == enums.end()) {
+
+                    enums.push_back(std::move(info));
+                } else if (reportDuplicity) {
+                    context.warn(
+                        snowcrash::Warning("duplicit value in enumeration", snowcrash::MSONError, sourceMap.sourceMap));
+                }
+            };
+
+            std::for_each(valuesInfo.value.begin(),
+                valuesInfo.value.end(),
+                [&valuesInfo, &addToEnumerations, &enums, &context](
+                    auto& info) { addToEnumerations(info, enums, context, valuesInfo.sourceMap, true); });
+            std::for_each(samplesInfo.value.begin(),
+                samplesInfo.value.end(),
+                [&samplesInfo, &addToEnumerations, &enums, &context](
+                    auto& info) { addToEnumerations(info, enums, context, samplesInfo.sourceMap, false); });
+            std::for_each(defaultInfo.value.begin(),
+                defaultInfo.value.end(),
+                [&defaultInfo, &addToEnumerations, &enums, &context](
+                    auto& info) { addToEnumerations(info, enums, context, defaultInfo.sourceMap, false); });
+
+            if (!enums.empty()) {
+
+                std::for_each(enums.begin(), enums.end(), [](auto& info) {
+                    if (IsLiteral(*info.get())) {
+                        AppendInfoElement<ArrayElement>(info->attributes(), "typeAttributes", dsd::String{ "fixed" });
+                    }
+                });
+                auto enumsElement = make_element<ArrayElement>(enums);
                 element.attributes().set(SerializeKey::Enumerations, std::move(enumsElement));
             }
         }
@@ -928,9 +896,8 @@ namespace
         std::for_each(data.values.begin(), data.values.end(), validate);
         std::for_each(data.samples.begin(), data.samples.end(), validate);
         std::for_each(data.defaults.begin(), data.defaults.end(), validate);
-        std::for_each(data.enumerations.begin(), data.enumerations.end(), validate);
 
-        SaveValue<T>()(std::move(data.values), std::move(data.enumerations), element);
+        SaveValue<T>()(data, element, context);
         AllElementsToAtribute<T>(std::move(data.samples), SerializeKey::Samples, element);
         LastElementToAttribute<T>(std::move(data.defaults), SerializeKey::Default, element, context);
     }
@@ -1333,7 +1300,7 @@ namespace
 
         return std::move(element);
     }
-}
+} // namespace
 
 std::unique_ptr<IElement> drafter::MSONToRefract(
     const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context)

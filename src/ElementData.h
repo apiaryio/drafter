@@ -42,6 +42,9 @@ namespace drafter
         using type = snowcrash::SourceMap<typename ElementT::ValueType>;
     };
 
+    // This is required because snowcrash internal stuctures holds data
+    // for primitive types as "string" for complex types as "element array"
+    // it will be converted into apropriated element type once all required data are colected
     template <typename T>
     struct stored_type {
         using type = typename std::conditional<is_primitive<T>(),
@@ -60,7 +63,13 @@ namespace drafter
         ElementInfo() = default;
         ElementInfo(StoredT v, SourceMapT m) : value(std::move(v)), sourceMap(std::move(m)) {}
 
-        ElementInfo(const ElementInfo&) = delete;
+        ElementInfo(const ElementInfo& other) {
+            sourceMap = other.sourceMap;
+            std::transform(other.value.begin(), other.value.end(),
+                    std::back_inserter(value),
+                    [](const auto& element){ return element->clone(); });
+        }
+
         ElementInfo(ElementInfo&&) = default;
 
         ElementInfo& operator=(const ElementInfo&) = delete;
@@ -81,19 +90,10 @@ namespace drafter
 
     template <typename T>
     struct ElementData {
-        // typedef typename std::conditional<std::is_same<ValueType, refract::RefractElements>::value
-        //        || std::is_same<ValueType, refract::IElement*>::value, // check for primitive values
-        //    std::false_type,
-        //    std::true_type>::type IsPrimitive;
-
-        // This is required because snowcrash internal stuctures holds data
-        // for primitive types as "string" for complex types as "element array"
-        // it will be converted into apropriated element type once all required data are colected
 
         ElementInfoContainer<T> values;
         ElementInfoContainer<T> defaults;
         ElementInfoContainer<T> samples;
-        ElementInfoContainer<T> enumerations;
 
         DescriptionInfoContainer descriptions;
     };

@@ -21,6 +21,10 @@
 #include <set>
 #include <sstream>
 
+#include "PrintVisitor.h"
+
+#include "../ElementComparator.h"
+
 using namespace refract;
 
 namespace
@@ -71,7 +75,7 @@ namespace
             return el->empty();
         });
     }
-}
+} // namespace
 
 JSONSchemaVisitor::JSONSchemaVisitor(ObjectElement& pDefinitions, bool _fixed /*= false*/, bool _fixedType /*= false*/)
     : pObj(make_element<ObjectElement>()), pDefs(pDefinitions), fixed(_fixed), fixedType(_fixedType)
@@ -419,6 +423,17 @@ void JSONSchemaVisitor::operator()(const ArrayElement& e)
     }
 }
 
+namespace
+{
+    struct IsIgnoredAttribute {
+        bool operator()(const std::string& key) const noexcept
+        {
+            return key == "sourceMap" //
+                || key == "typeAttributes";
+        }
+    };
+}; // namespace
+
 void JSONSchemaVisitor::operator()(const EnumElement& e)
 {
 
@@ -434,10 +449,19 @@ void JSONSchemaVisitor::operator()(const EnumElement& e)
         }
     }
 
-    if (!e.empty())
+    if (!e.empty()) {
         if (auto v = e.get().value()) {
-            elms.push_back(v);
+            if (std::find_if(elms.begin(),
+                    elms.end(),
+                    // NOTE: implementation ignore full set of 'typeAttributes' while comparing attributes
+                    // instead ingnore only 'typeAttribute.fixed'
+                    // it is not exactly what should happen, but it is 'good enough' solution
+                    [&v](auto& el) { return drafter::Equal<IsIgnoredAttribute>(*el, *v); })
+                == elms.end()) {
+                elms.push_back(v);
+            }
         }
+    }
 
     if (elms.empty()) {
         return;

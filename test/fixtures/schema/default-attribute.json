@@ -121,10 +121,32 @@
                                             "content": [
                                               {
                                                 "element": "string",
+                                                "attributes": {
+                                                  "typeAttributes": {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "string",
+                                                        "content": "fixed"
+                                                      }
+                                                    ]
+                                                  }
+                                                },
                                                 "content": "3"
                                               },
                                               {
                                                 "element": "string",
+                                                "attributes": {
+                                                  "typeAttributes": {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "string",
+                                                        "content": "fixed"
+                                                      }
+                                                    ]
+                                                  }
+                                                },
                                                 "content": "4"
                                               }
                                             ]

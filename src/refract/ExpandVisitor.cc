@@ -68,7 +68,7 @@ namespace refract
         };
 
         template <>
-        struct ExpandValueImpl<dsd::Enum, false> {
+        struct ExpandValueImpl<dsd::Enum> {
 
             template <typename Functor>
             dsd::Enum operator()(const dsd::Enum& v, Functor& expand)
@@ -78,7 +78,7 @@ namespace refract
         };
 
         template <>
-        struct ExpandValueImpl<dsd::Holder, false> {
+        struct ExpandValueImpl<dsd::Holder> {
 
             template <typename Functor>
             dsd::Holder operator()(const dsd::Holder& v, Functor& expand)
@@ -305,6 +305,9 @@ namespace refract
             } else { // walk throught members and expand them
                 return context->ExpandMembers(e);
             }
+
+            // it should never happen
+            assert(0);
         }
     };
 

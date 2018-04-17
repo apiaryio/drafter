@@ -71,6 +71,17 @@
                                     "content": "red"
                                   }
                                 },
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "#ff0000"
                               },
                               {
@@ -81,6 +92,17 @@
                                     "content": "green"
                                   }
                                 },
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "#00ff00"
                               },
                               {
@@ -89,6 +111,17 @@
                                   "description": {
                                     "element": "string",
                                     "content": "blue"
+                                  }
+                                },
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
                                   }
                                 },
                                 "content": "#0000ff"

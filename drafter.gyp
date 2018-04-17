@@ -281,6 +281,8 @@
         "src/RefractElementFactory.cc",
         "src/ConversionContext.cc",
         "src/ConversionContext.h",
+        "src/ElementInfoUtils.h"
+        "src/ElementComparator.h"
 
         "src/utils/Variant.h",
         "src/utils/Utf8.h",
@@ -298,6 +300,7 @@
         "src/refract/Utils.cc",
         "src/refract/InfoElements.h",
         "src/refract/InfoElements.cc",
+        "src/refract/InfoElementsUtils.h",
         "src/refract/ElementFwd.h",
         "src/refract/ElementIfc.h",
         "src/refract/Element.h",
@@ -420,6 +423,12 @@
 
         "test/refract/dsd/test-Element.cc",
         "test/refract/dsd/test-InfoElements.cc",
+        "test/refract/test-InfoElementsUtils.cc",
+
+        "test/test-ElementInfoUtils.cc",
+        "test/test-ElementComparator.cc",
+        "test/test-VisitorUtils.cc",
+
       ],
       'dependencies': [
         "libdrafter",

@@ -25,6 +25,7 @@ namespace refract
     public:
         using iterator = typename Container::iterator;
         using const_iterator = typename Container::const_iterator;
+        using value_type = typename Container::value_type;
 
     public:
         InfoElements();

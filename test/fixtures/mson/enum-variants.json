@@ -49,7 +49,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "C: 'L'"
+                        "content": "C: 'L', E: ['L']"
                       }
                     },
                     "content": {
@@ -59,6 +59,28 @@
                       },
                       "value": {
                         "element": "enum",
+                        "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "L"
+                              }
+                            ]
+                          }
+                        },
                         "content": {
                           "element": "string",
                           "content": "L"
@@ -87,18 +109,62 @@
                             "content": [
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "S"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "M"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "L"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "XL"
                               }
                             ]
@@ -112,7 +178,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "C: 'L', E: ['S','M','L','XL']"
+                        "content": "C: 'L', E: ['L','S','M','XL'] - first 'L' it in value"
                       }
                     },
                     "content": {
@@ -128,18 +194,62 @@
                             "content": [
                               {
                                 "element": "string",
-                                "content": "S"
-                              },
-                              {
-                                "element": "string",
-                                "content": "M"
-                              },
-                              {
-                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "L"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "S"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "M"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "XL"
                               }
                             ]
@@ -157,7 +267,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "C: 'L', E: [ 'S, M, L, XL' ] - FIXME: from snowcrash we receive \"enum of strings\" should be string \"S, M, L, XL\""
+                        "content": "C: 'L', E: ['L' , [ 'S, M, L, XL' ]] - FIXME: from snowcrash we receive \"array of strings\" should be string \"S, M, L, XL\""
                       }
                     },
                     "content": {
@@ -171,6 +281,21 @@
                           "enumerations": {
                             "element": "array",
                             "content": [
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "L"
+                              },
                               {
                                 "element": "array",
                                 "content": [
@@ -207,7 +332,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "S: [C:'L']"
+                        "content": "S: ['L'], E: ['L']"
                       }
                     },
                     "content": {
@@ -218,6 +343,26 @@
                       "value": {
                         "element": "enum",
                         "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "L"
+                              }
+                            ]
+                          },
                           "samples": {
                             "element": "array",
                             "content": [
@@ -239,7 +384,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "S: [C:'L']"
+                        "content": "S: ['L'], E: ['L']"
                       }
                     },
                     "content": {
@@ -250,6 +395,26 @@
                       "value": {
                         "element": "enum",
                         "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "L"
+                              }
+                            ]
+                          },
                           "samples": {
                             "element": "array",
                             "content": [
@@ -287,26 +452,92 @@
                             "content": [
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "S"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "M"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "L"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "XL"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "XXL"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "XXXL"
                               }
                             ]
@@ -320,7 +551,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "C: 'S', E: ['T'] S: [C:'U']"
+                        "content": "C: 'S', E: ['S', 'T', 'U'] S: ['U']"
                       }
                     },
                     "content": {
@@ -336,7 +567,48 @@
                             "content": [
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "S"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "T"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "U"
                               }
                             ]
                           },
@@ -365,7 +637,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "E: ['M','N'], S: [C:'L']"
+                        "content": "E: ['M','N','L'], S: ['L']"
                       }
                     },
                     "content": {
@@ -381,11 +653,48 @@
                             "content": [
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "M"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "N"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "L"
                               }
                             ]
                           },
@@ -410,7 +719,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "E: ['M','N'], S: [C:'L']"
+                        "content": "E: ['M','N','L'], S: ['L']"
                       }
                     },
                     "content": {
@@ -426,11 +735,48 @@
                             "content": [
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "M"
                               },
                               {
                                 "element": "string",
-                                "content": "M"
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "N"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "L"
                               }
                             ]
                           },
@@ -477,10 +823,32 @@
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "M"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "N"
                               }
                             ]
@@ -494,7 +862,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "D: {C:'L'}, E: ['M','N']"
+                        "content": "D: 'L', E: ['M','N','L']"
                       }
                     },
                     "content": {
@@ -510,11 +878,48 @@
                             "content": [
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "M"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "N"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "L"
                               }
                             ]
                           },
@@ -534,7 +939,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "D: {C:'L'}, E: ['M','N']"
+                        "content": "D: 'L', E: ['M','N','L']"
                       }
                     },
                     "content": {
@@ -550,11 +955,48 @@
                             "content": [
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "M"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "N"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "L"
                               }
                             ]
                           },
@@ -590,10 +1032,32 @@
                             "content": [
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "M"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "N"
                               }
                             ]
@@ -623,10 +1087,32 @@
                             "content": [
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "M"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "N"
                               }
                             ]
@@ -640,7 +1126,7 @@
                     "meta": {
                       "description": {
                         "element": "string",
-                        "content": "C: 'A', E: ['D','E'], S: [E: 'F', E: 'G', E: 'H', E: 'I'], D: 'K'"
+                        "content": "C: 'A', E: ['A','D','E','F','G','H','I','J','K'], S: ['F','G','H','I'], D: 'K'"
                       }
                     },
                     "content": {
@@ -656,11 +1142,138 @@
                             "content": [
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "A"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "D"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "E"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "F"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "G"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "H"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "I"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "J"
+                              },
+                              {
+                                "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "K"
                               }
                             ]
                           },
@@ -733,26 +1346,92 @@
                             "content": [
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "A"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "B"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "C"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "D"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "E"
                               },
                               {
                                 "element": "string",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
                                 "content": "F"
                               }
                             ]
@@ -797,7 +1476,51 @@
                   "content": [
                     {
                       "element": "number",
-                      "content": 1062
+                      "content": 145
+                    },
+                    {
+                      "element": "number",
+                      "content": 72
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "content": "duplicit value in enumeration"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
+      },
+      "attributes": {
+        "code": {
+          "element": "number",
+          "content": 4
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 1133
                     },
                     {
                       "element": "number",
@@ -841,7 +1564,7 @@
                   "content": [
                     {
                       "element": "number",
-                      "content": 1117
+                      "content": 1188
                     },
                     {
                       "element": "number",
@@ -885,7 +1608,7 @@
                   "content": [
                     {
                       "element": "number",
-                      "content": 1356
+                      "content": 1440
                     },
                     {
                       "element": "number",
@@ -898,7 +1621,7 @@
                   "content": [
                     {
                       "element": "number",
-                      "content": 1370
+                      "content": 1454
                     },
                     {
                       "element": "number",
@@ -911,7 +1634,7 @@
                   "content": [
                     {
                       "element": "number",
-                      "content": 1382
+                      "content": 1466
                     },
                     {
                       "element": "number",
