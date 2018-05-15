@@ -222,8 +222,6 @@ namespace drafter
                 input_iterator& operator=(const input_iterator& other) = default;
                 input_iterator& operator=(input_iterator&& other) = default;
 
-                input_iterator() noexcept = default;
-
                 friend void swap(input_iterator& lhs, input_iterator& rhs)
                 {
                     using std::swap;
