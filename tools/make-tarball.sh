@@ -29,11 +29,11 @@ $(pwd)/tools/make-tarball.sh checkout $TMPDIR/$DIR/
 (
   # Remove unnessecery files
   cd $TMPDIR/$DIR
-  rm -fr appveyor.yml circle.yml .npmignore tools/ package.json emcc/
+  rm -fr appveyor.yml circle.yml .npmignore tools/*.{sh,py} tools/homebrew package.json emcc/
 )
 
 (
   cd $TMPDIR
-  echo "Creating tarball"
+  echo "Creating tarball $TARBALL"
   env GZIP=-9 tar -czf $TARBALL $DIR
 )
