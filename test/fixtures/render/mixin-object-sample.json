@@ -194,7 +194,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"i1\": {\n      \"type\": \"string\"\n    },\n    \"r1\": {\n      \"type\": \"string\"\n    },\n    \"r2\": {\n      \"type\": \"string\"\n    },\n    \"r3\": {\n      \"type\": \"string\",\n      \"default\": \"v3\"\n    },\n    \"i2\": {\n      \"type\": \"string\"\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"i1\": {\n      \"type\": \"string\"\n    },\n    \"r1\": {\n      \"type\": \"string\"\n    },\n    \"r2\": {\n      \"type\": \"string\"\n    },\n    \"r3\": {\n      \"type\": \"string\"\n    },\n    \"i2\": {\n      \"type\": \"string\"\n    }\n  }\n}"
                             }
                           ]
                         }

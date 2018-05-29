@@ -33,7 +33,7 @@
             },
             "title": {
               "element": "string",
-              "content": ""
+              "content": "Example"
             }
           },
           "content": [
@@ -135,6 +135,17 @@
                                               },
                                               {
                                                 "element": "number",
+                                                "attributes": {
+                                                  "typeAttributes": {
+                                                    "element": "array",
+                                                    "content": [
+                                                      {
+                                                        "element": "string",
+                                                        "content": "fixed"
+                                                      }
+                                                    ]
+                                                  }
+                                                },
                                                 "content": 4
                                               }
                                             ]
@@ -186,7 +197,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"address\": {\n      \"type\": [\n        \"number\",\n        \"null\"\n      ],\n      \"enum\": [\n        4,\n        null\n      ]\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"address\": {\n      \"anyOf\": [\n        {\n          \"type\": \"null\"\n        },\n        {\n          \"type\": \"number\"\n        },\n        {\n          \"type\": \"number\",\n          \"enum\": [\n            4\n          ]\n        }\n      ]\n    }\n  }\n}"
                             }
                           ]
                         }

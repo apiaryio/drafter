@@ -182,7 +182,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"tags\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"hello\"\n          ]\n        },\n        {\n          \"type\": \"number\",\n          \"enum\": [\n            42\n          ]\n        }\n      ]\n    }\n  },\n  \"required\": [\n    \"tags\"\n  ]\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"tags\": {\n      \"type\": \"array\",\n      \"minItems\": 2,\n      \"items\": [\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"hello\"\n          ]\n        },\n        {\n          \"type\": \"number\",\n          \"enum\": [\n            42\n          ]\n        }\n      ],\n      \"additionalItems\": false\n    }\n  }\n}"
                             }
                           ]
                         }

@@ -135,15 +135,15 @@
                           },
                           {
                             "element": "member",
+                            "attributes": {
+                              "variable": {
+                                "element": "boolean",
+                                "content": true
+                              }
+                            },
                             "content": {
                               "key": {
                                 "element": "string",
-                                "attributes": {
-                                  "variable": {
-                                    "element": "boolean",
-                                    "content": true
-                                  }
-                                },
                                 "content": "variable"
                               },
                               "value": {

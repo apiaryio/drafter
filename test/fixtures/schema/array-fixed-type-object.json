@@ -255,7 +255,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"number\"\n    },\n    \"name\": {\n      \"type\": \"string\",\n      \"description\": \"List description\"\n    },\n    \"medias\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"mediaId\": {\n            \"type\": \"number\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"mediaId\",\n          \"name\"\n        ]\n      },\n      \"description\": \"References to the medias in the list\"\n    }\n  },\n  \"required\": [\n    \"name\"\n  ]\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"number\"\n    },\n    \"name\": {\n      \"type\": \"string\"\n    },\n    \"medias\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"mediaId\": {\n            \"type\": \"number\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"mediaId\",\n          \"name\"\n        ]\n      }\n    }\n  },\n  \"required\": [\n    \"name\"\n  ]\n}"
                             }
                           ]
                         }

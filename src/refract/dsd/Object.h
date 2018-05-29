@@ -135,6 +135,16 @@ namespace refract
             /// @return iterator to member element representing this property
             ///
             iterator addMember(std::string name, std::unique_ptr<IElement> value);
+
+            ///
+            /// Find a property held by this DSD by key
+            ///
+            /// @param name   name of the property to be found
+            /// @return       iterator to the found property; end() if not found
+            ///
+            iterator find(const std::string& name);
+
+            void push_back(std::unique_ptr<IElement> el);
         };
 
         bool operator==(const Object&, const Object&) noexcept;

@@ -260,7 +260,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"a\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"valueB\",\n        \"valueA\"\n      ]\n    }\n  },\n  \"required\": [\n    \"a\"\n  ]\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"a\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"valueB\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"valueA\"\n          ]\n        }\n      ]\n    }\n  },\n  \"required\": [\n    \"a\"\n  ]\n}"
                             }
                           ]
                         }

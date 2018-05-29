@@ -10,15 +10,12 @@
 
 #include "refract/JsonSchema.h"
 #include "refract/Element.h"
-#include "refract/JSONSchemaVisitor.h"
 #include "utils/so/JsonIo.h"
-#include "utils/log/Trivial.h"
 
 #include <chrono>
 #include <sstream>
 
 using namespace drafter::utils;
-using namespace drafter::utils::log;
 using namespace so;
 using namespace std::chrono;
 using namespace refract;
@@ -61,22 +58,6 @@ SCENARIO("JSON Schema serialization of NullElement", "[json-schema]")
             THEN("the schema matches (any) null value")
             {
                 REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"null"})");
-            }
-        }
-    }
-
-    GIVEN("A named NullElement with content")
-    {
-        auto el = make_element<NullElement>();
-        el->element("Foo");
-
-        WHEN("a JSON Schema is generated from it")
-        {
-            auto result = schema::generateJsonSchema(*el);
-
-            THEN("the schema matches null")
-            {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","definitions":{"Foo":{"type":"null"}},"$ref":"#/definitions/Foo"})");
             }
         }
     }
@@ -145,23 +126,6 @@ SCENARIO("JSON Schema serialization of BooleanElement", "[json-schema]")
             }
         }
     }
-
-    GIVEN("A named BooleanElement with content and fixed attribute true")
-    {
-        auto el = from_primitive(true);
-        el->element("Bar");
-        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
-
-        WHEN("a JSON Schema is generated from it")
-        {
-            auto result = schema::generateJsonSchema(*el);
-
-            THEN("the schema matches the boolean true")
-            {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","definitions":{"Bar":{"type":"boolean","enum":[true]}},"$ref":"#/definitions/Bar"})");
-            }
-        }
-    }
 }
 
 SCENARIO("JSON Schema serialization of NumberElement", "[json-schema]")
@@ -227,23 +191,6 @@ SCENARIO("JSON Schema serialization of NumberElement", "[json-schema]")
             }
         }
     }
-
-    GIVEN("A named NumberElement with content and fixed attribute true")
-    {
-        auto el = from_primitive(42.0);
-        el->element("Baz");
-        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
-
-        WHEN("a JSON Schema is generated from it")
-        {
-            auto result = schema::generateJsonSchema(*el);
-
-            THEN("the schema matches the number 42")
-            {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","definitions":{"Baz":{"type":"number","enum":[42]}},"$ref":"#/definitions/Baz"})");
-            }
-        }
-    }
 }
 
 SCENARIO("JSON Schema serialization of StringElement", "[json-schema]")
@@ -306,23 +253,6 @@ SCENARIO("JSON Schema serialization of StringElement", "[json-schema]")
             THEN("the schema matches the string \"foo\"")
             {
                 REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"string","enum":["foo"]})");
-            }
-        }
-    }
-
-    GIVEN("A named StringElement with content and fixed attribute true")
-    {
-        auto el = from_primitive("foo");
-        el->element("Flip");
-        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
-
-        WHEN("a JSON Schema is generated from it")
-        {
-            auto result = schema::generateJsonSchema(*el);
-
-            THEN("the schema matches the string \"foo\"")
-            {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","definitions":{"Flip":{"type":"string","enum":["foo"]}},"$ref":"#/definitions/Flip"})");
             }
         }
     }
@@ -536,34 +466,6 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
             }
         }
     }
-
-    GIVEN("A named ArrayElement with some content and fixed attribute true")
-    {
-        auto flap = make_element<ArrayElement>( //
-            make_empty<StringElement>(),        //
-            from_primitive(true));
-        flap->element("Flap");
-
-        auto el = make_element<ArrayElement>( //
-            from_primitive("Hello world!"),   //
-            make_empty<NumberElement>(),      //
-            std::move(flap));
-
-        el->element("Flop");
-        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
-
-        WHEN("a JSON Schema is generated from it")
-        {
-            auto result = schema::generateJsonSchema(*el);
-
-            THEN(
-                "the schema matches arrays of size 3 containing \"Hello world!\", a number and arrays of size 2 "
-                "containing a string and true")
-            {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","definitions":{"Flap":{"type":"array","minItems":2,"items":[{"type":"string"},{"type":"boolean","enum":[true]}],"additionalItems":false},"Flop":{"type":"array","minItems":3,"items":[{"type":"string","enum":["Hello world!"]},{"type":"number"},{"$ref":"#/definitions/Flap"}],"additionalItems":false}},"$ref":"#/definitions/Flop"})");
-            }
-        }
-    }
 }
 
 SCENARIO("JSON Schema serialization of EnumElement", "[json-schema]")
@@ -645,186 +547,142 @@ SCENARIO("JSON Schema serialization of EnumElement", "[json-schema]")
             }
         }
     }
+}
 
-    GIVEN("An empty, named EnumElement with non-empty enumerations and fixed attribute true")
+SCENARIO("JSON Schema serialization of ObjectElement", "[json-schema]")
+{
+    GIVEN("An empty ObjectElement")
     {
-        auto el = make_empty<EnumElement>();
-        el->element("Flap");
-        {
-            auto a = make_element<ArrayElement>( //
-                make_empty<StringElement>(),     //
-                from_primitive(true));
-            a->element("Flop");
-
-            el->attributes().set("enumerations",
-                make_element<ArrayElement>(         //
-                    from_primitive("Hello world!"), //
-                    make_empty<NumberElement>(),    //
-                    std::move(a)));
-        }
-        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
+        auto el = make_empty<ObjectElement>();
 
         WHEN("a JSON Schema is generated from it")
         {
             auto result = schema::generateJsonSchema(*el);
 
-            THEN("the schema matches \"Hello world!\", a number and arrays of size 2 containing a string and true")
+            THEN("the schema matches objects")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","definitions":{"Flop":{"type":"array","minItems":2,"items":[{"type":"string"},{"type":"boolean","enum":[true]}],"additionalItems":false},"Flap":{"anyOf":[{"type":"string","enum":["Hello world!"]},{"type":"number"},{"$ref":"#/definitions/Flop"}]}},"$ref":"#/definitions/Flap"})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"object"})");
             }
         }
     }
-}
 
-namespace
-{
-    constexpr int run_count = 100000;
-
-    std::string to_long_string(const so::Value& v)
+    GIVEN("An ObjectElement holding three MemberElements")
     {
-        std::ostringstream ss{};
-        so::serialize_json(ss, v);
-        return ss.str();
-    }
-
-    decltype(auto) run_json_schema(const IElement& el)
-    {
-        using namespace std::literals;
-
-        using clock = std::chrono::steady_clock;
-        using result_type = clock::duration;
-
-        result_type result = 0s;
-
-        std::ostringstream ss;
-        for (int i = run_count; i > 0; --i) {
-            const auto start = clock::now();
-            serialize_json(ss, schema::generateJsonSchema(el));
-            const auto end = clock::now();
-            REQUIRE(!ss.str().empty());
-            ss.str("");
-            result += end - start;
-        }
-        LOG(warning) << to_long_string(schema::generateJsonSchema(el));
-        return result;
-    }
-
-    decltype(auto) run_json_schema_legacy(const IElement& el)
-    {
-        using namespace std::literals;
-
-        using clock = std::chrono::steady_clock;
-        using result_type = clock::duration;
-
-        result_type result = 0s;
-
-        for (int i = run_count; i > 0; --i) {
-            const auto start = clock::now();
-            auto str = renderJsonSchema(el);
-            const auto end = clock::now();
-            REQUIRE(!str.empty());
-            result += end - start;
-        }
-        LOG(warning) << renderJsonSchema(el);
-        return result;
-    }
-} // namespace
-
-SCENARIO("Test JSON Schema generation performance", "[json-schema-perf][.]")
-{
-    ENABLE_LOGGING;
-
-    GIVEN("A StringElement")
-    {
-        StringElement el{ dsd::String{
-            "something never printed, yet not easily copied because it is too long for SSO!" } };
+        auto el = make_element<ObjectElement>(                                             //
+            make_element<MemberElement>(from_primitive("first"), from_primitive(42.0)),    //
+            make_element<MemberElement>(from_primitive("second"), from_primitive(true)),   //
+            make_element<MemberElement>(from_primitive("third"), from_primitive("foobar")) //
+        );
 
         WHEN("a JSON Schema is generated from it")
         {
-            auto result = run_json_schema(el);
-            WARN("rendering time (us): " << duration_cast<microseconds>(result).count());
-        }
+            auto result = schema::generateJsonSchema(*el);
 
-        WHEN("a JSON Schema is generated from it (legacy)")
-        {
-            auto result = run_json_schema_legacy(el);
-            WARN("rendering time (us): " << duration_cast<microseconds>(result).count());
+            THEN("the schema matches objects")
+            {
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"object","properties":{"first":{"type":"number"},"second":{"type":"boolean"},"third":{"type":"string"}}})");
+            }
         }
     }
 
-    GIVEN("A StringElement; explicitely fixed; value in content")
+    GIVEN("An ObjectElement holding three MemberElements, two of which are required")
     {
-        StringElement el{ dsd::String{ "foo-bar" } };
-        el.attributes().set("fixed", from_primitive(true));
+        auto first = make_element<MemberElement>(from_primitive("first"), from_primitive(42.0));
+        auto second = make_element<MemberElement>(from_primitive("second"), from_primitive(true));
+        second->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("required")));
+        auto third = make_element<MemberElement>(from_primitive("third"), from_primitive("foobar"));
+        third->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("required")));
+        auto el = make_element<ObjectElement>(std::move(first), std::move(second), std::move(third));
 
         WHEN("a JSON Schema is generated from it")
         {
-            auto result = run_json_schema(el);
-            WARN("rendering time (us): " << duration_cast<microseconds>(result).count());
-        }
+            auto result = schema::generateJsonSchema(*el);
 
-        WHEN("a JSON Schema is generated from it (legacy)")
-        {
-            auto result = run_json_schema_legacy(el);
-            WARN("rendering time (us): " << duration_cast<microseconds>(result).count());
+            THEN("the schema matches objects")
+            {
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"object","properties":{"first":{"type":"number"},"second":{"type":"boolean"},"third":{"type":"string"}},"required":["second","third"]})");
+            }
         }
     }
 
-    GIVEN("A BooleanElement")
+    GIVEN(
+        "An ObjectElement holding three SelectElements with one OptionElement, two OptionElements and three "
+        "OptionElements respectively")
     {
-        BooleanElement el{ dsd::Boolean{ true } };
+        auto el = make_element<ObjectElement>(                                                 //
+            make_element<SelectElement>(                                                       //
+                make_element<OptionElement>(                                                   //
+                    make_element<MemberElement>(from_primitive("a"), from_primitive(42.0)),    //
+                    make_element<MemberElement>(from_primitive("b"), from_primitive("foobar")) //
+                    )                                                                          //
+                ),                                                                             //
+            make_element<SelectElement>(                                                       //
+                make_element<OptionElement>(                                                   //
+                    make_element<MemberElement>(from_primitive("c"), from_primitive(false))    //
+                    ),                                                                         //
+                make_element<OptionElement>(                                                   //
+                    make_element<MemberElement>(from_primitive("d"), from_primitive("abc"))    //
+                    )                                                                          //
+                ),                                                                             //
+            make_element<SelectElement>(                                                       //
+                make_element<OptionElement>(                                                   //
+                    make_element<MemberElement>(from_primitive("e"), from_primitive(42.0)),    //
+                    make_element<MemberElement>(from_primitive("f"), from_primitive(true)),    //
+                    make_element<MemberElement>(from_primitive("g"), from_primitive("abc"))    //
+                    ),                                                                         //
+                make_element<OptionElement>(                                                   //
+                    make_element<MemberElement>(from_primitive("h"), from_primitive(42.0)),    //
+                    make_element<MemberElement>(from_primitive("i"), from_primitive("foobar")) //
+                    ),                                                                         //
+                make_element<OptionElement>(                                                   //
+                    make_element<MemberElement>(from_primitive("j"), from_primitive(42.0)),    //
+                    make_element<MemberElement>(from_primitive("k"), from_primitive("foobar")) //
+                    )                                                                          //
+                ));
 
         WHEN("a JSON Schema is generated from it")
         {
-            auto result = run_json_schema(el);
-            WARN("rendering time (us): " << duration_cast<microseconds>(result).count());
-        }
+            auto result = schema::generateJsonSchema(*el);
 
-        WHEN("a JSON Schema is generated from it (legacy)")
-        {
-            auto result = run_json_schema_legacy(el);
-            WARN("rendering time (us): " << duration_cast<microseconds>(result).count());
+            THEN("the schema matches objects")
+            {
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"object","allOf":[{"oneOf":[{"properties":{"a":{"type":"number"},"b":{"type":"string"}}}]},{"oneOf":[{"properties":{"c":{"type":"boolean"}}},{"properties":{"d":{"type":"string"}}}]},{"oneOf":[{"properties":{"e":{"type":"number"},"f":{"type":"boolean"},"g":{"type":"string"}}},{"properties":{"h":{"type":"number"},"i":{"type":"string"}}},{"properties":{"j":{"type":"number"},"k":{"type":"string"}}}]}]})");
+            }
         }
     }
 
-    GIVEN("A NumberElement")
+    GIVEN(
+        "An ObjectElement holding a SelectElement in turn holding, through OptionElements, a MemberElement and another "
+        "SelectElement")
     {
-        NumberElement el{ dsd::Number{ 42 } };
+        // clang-format off
+        constexpr const char* expected = R"()";
+        // clang-format on
 
+        auto el = make_element<ObjectElement>(                                                         //
+            make_element<SelectElement>(                                                               //
+                make_element<OptionElement>(                                                           //
+                    make_element<MemberElement>(from_primitive("a"), from_primitive(42.0))             //
+                    ),                                                                                 //
+                make_element<OptionElement>(                                                           //
+                    make_element<SelectElement>(                                                       //
+                        make_element<OptionElement>(                                                   //
+                            make_element<MemberElement>(from_primitive("c"), from_primitive(42.0)),    //
+                            make_element<MemberElement>(from_primitive("d"), from_primitive("foobar")) //
+                            ),                                                                         //
+                        make_element<OptionElement>(                                                   //
+                            make_element<MemberElement>(from_primitive("f"), from_primitive("foobar")) //
+                            )                                                                          //
+                        ))                                                                             //
+                ));
         WHEN("a JSON Schema is generated from it")
         {
-            auto result = run_json_schema(el);
-            WARN("rendering time (us): " << duration_cast<microseconds>(result).count());
-        }
+            auto result = schema::generateJsonSchema(*el);
 
-        WHEN("a JSON Schema is generated from it (legacy)")
-        {
-            auto result = run_json_schema_legacy(el);
-            WARN("rendering time (us): " << duration_cast<microseconds>(result).count());
-        }
-    }
-
-    GIVEN("An ArrayElement")
-    {
-        ArrayElement el{ dsd::Array{ //
-            from_primitive("Hello you uncomfortable world with strings easily exceeding 40 characters"),
-            from_primitive(42.0),
-            make_element<ArrayElement>( //
-                from_primitive("short string"),
-                from_primitive(true)) } };
-
-        el.attributes().set("fixed", from_primitive(true));
-
-        WHEN("a JSON Schema is generated from it")
-        {
-            auto result = run_json_schema(el);
-            WARN("rendering time (us): " << duration_cast<microseconds>(result).count());
-        }
-
-        WHEN("a JSON Schema is generated from it (legacy)")
-        {
-            auto result = run_json_schema_legacy(el);
-            WARN("rendering time (us): " << duration_cast<microseconds>(result).count());
+            THEN("the schema matches objects")
+            {
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"object","allOf":[{"oneOf":[{"properties":{"a":{"type":"number"}}},{"allOf":[{"oneOf":[{"properties":{"c":{"type":"number"},"d":{"type":"string"}}},{"properties":{"f":{"type":"string"}}}]}]}]}]})");
+            }
         }
     }
 }

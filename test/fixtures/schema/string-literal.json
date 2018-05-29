@@ -185,7 +185,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"street\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"bye bye\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"san francisco\"\n          ]\n        }\n      ]\n    }\n  },\n  \"required\": [\n    \"street\"\n  ]\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"street\": {\n      \"type\": \"array\",\n      \"minItems\": 3,\n      \"items\": [\n        {\n          \"type\": \"string\"\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"bye bye\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"san francisco\"\n          ]\n        }\n      ],\n      \"additionalItems\": false\n    }\n  }\n}"
                             }
                           ]
                         }

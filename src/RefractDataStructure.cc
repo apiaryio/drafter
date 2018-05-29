@@ -995,8 +995,6 @@ namespace
                 SetElementType(*key, property.node->name.variable.typeDefinition);
             }
 
-            key->attributes().set(SerializeKey::Variable, from_primitive(true));
-
             if (!property.node->name.variable.values.empty()) {
                 key->set(property.node->name.variable.values.begin()->literal);
             }
@@ -1023,6 +1021,10 @@ namespace
         auto element = make_element<MemberElement>(GetPropertyKey(property, context),
             RefractElementFromValue<T>(
                 NodeInfo<mson::ValueMember>(property.node, property.sourceMap), context, defaultNestedType, dummy));
+
+        if (!property.node->name.variable.empty()) {
+            element->attributes().set("variable", from_primitive(true));
+        }
 
         mson::TypeAttributes attrs = property.node->valueDefinition.typeDefinition.attributes;
 

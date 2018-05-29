@@ -109,6 +109,10 @@
                                   {
                                     "element": "member",
                                     "attributes": {
+                                      "variable": {
+                                        "element": "boolean",
+                                        "content": true
+                                      },
                                       "typeAttributes": {
                                         "element": "array",
                                         "content": [
@@ -122,12 +126,6 @@
                                     "content": {
                                       "key": {
                                         "element": "string",
-                                        "attributes": {
-                                          "variable": {
-                                            "element": "boolean",
-                                            "content": true
-                                          }
-                                        },
                                         "content": "y"
                                       },
                                       "value": {
@@ -220,7 +218,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"allOf\": [\n    {\n      \"$ref\": \"#/definitions/y\"\n    },\n    {\n      \"properties\": {\n        \"test\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  ],\n  \"definitions\": {\n    \"y\": {\n      \"type\": \"object\",\n      \"patternProperties\": {\n        \"\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"name\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"name\"\n            ]\n          }\n        }\n      }\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"test\": {\n      \"type\": \"string\"\n    }\n  },\n  \"patternProperties\": {\n    \"(?:)\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"name\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"name\"\n        ]\n      }\n    }\n  }\n}"
                             }
                           ]
                         }

@@ -33,7 +33,7 @@
             },
             "title": {
               "element": "string",
-              "content": ""
+              "content": "Example"
             }
           },
           "content": [
@@ -342,7 +342,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"s1\": {\n      \"type\": \"string\"\n    },\n    \"s2\": {\n      \"type\": \"string\"\n    },\n    \"s3\": {\n      \"type\": \"string\"\n    },\n    \"s4\": {\n      \"type\": [\n        \"string\",\n        \"null\"\n      ]\n    },\n    \"s5\": {\n      \"type\": [\n        \"string\",\n        \"null\"\n      ]\n    },\n    \"s6\": {\n      \"type\": [\n        \"string\",\n        \"null\"\n      ]\n    },\n    \"s7\": {\n      \"type\": [\n        \"string\",\n        \"null\"\n      ]\n    },\n    \"s8\": {\n      \"type\": [\n        \"string\",\n        \"null\"\n      ]\n    }\n  },\n  \"required\": [\n    \"s2\",\n    \"s5\",\n    \"s7\"\n  ]\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"s1\": {\n      \"type\": \"string\"\n    },\n    \"s2\": {\n      \"type\": \"string\"\n    },\n    \"s3\": {\n      \"type\": \"string\"\n    },\n    \"s4\": {\n      \"anyOf\": [\n        {\n          \"type\": \"null\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"s5\": {\n      \"anyOf\": [\n        {\n          \"type\": \"null\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"s6\": {\n      \"anyOf\": [\n        {\n          \"type\": \"null\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"s7\": {\n      \"anyOf\": [\n        {\n          \"type\": \"null\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    },\n    \"s8\": {\n      \"anyOf\": [\n        {\n          \"type\": \"null\"\n        },\n        {\n          \"type\": \"string\"\n        }\n      ]\n    }\n  },\n  \"required\": [\n    \"s2\",\n    \"s5\",\n    \"s7\"\n  ]\n}"
                             }
                           ]
                         }

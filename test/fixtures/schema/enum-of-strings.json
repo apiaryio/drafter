@@ -198,7 +198,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"gender\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"male\",\n        \"female\"\n      ]\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"gender\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"male\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"female\"\n          ]\n        }\n      ]\n    }\n  }\n}"
                             }
                           ]
                         }

@@ -97,15 +97,15 @@
                         "content": "this one is"
                       }
                     },
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
                     "content": {
                       "key": {
                         "element": "string",
-                        "attributes": {
-                          "variable": {
-                            "element": "boolean",
-                            "content": true
-                          }
-                        },
                         "content": "c2"
                       },
                       "value": {
@@ -121,15 +121,15 @@
                         "content": "var w/ value"
                       }
                     },
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
                     "content": {
                       "key": {
                         "element": "string",
-                        "attributes": {
-                          "variable": {
-                            "element": "boolean",
-                            "content": true
-                          }
-                        },
                         "content": "c3"
                       },
                       "value": {
@@ -146,15 +146,15 @@
                         "content": "var w/ type"
                       }
                     },
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
                     "content": {
                       "key": {
                         "element": "string",
-                        "attributes": {
-                          "variable": {
-                            "element": "boolean",
-                            "content": true
-                          }
-                        },
                         "content": "c4"
                       },
                       "value": {
@@ -170,15 +170,15 @@
                         "content": "var w/ type and value"
                       }
                     },
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
                     "content": {
                       "key": {
                         "element": "string",
-                        "attributes": {
-                          "variable": {
-                            "element": "boolean",
-                            "content": true
-                          }
-                        },
                         "content": "c5"
                       },
                       "value": {
@@ -195,15 +195,15 @@
                         "content": "var w/ sample"
                       }
                     },
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
                     "content": {
                       "key": {
                         "element": "string",
-                        "attributes": {
-                          "variable": {
-                            "element": "boolean",
-                            "content": true
-                          }
-                        },
                         "content": "c6"
                       },
                       "value": {
@@ -230,15 +230,15 @@
                         "content": "var w/ type and value and sample"
                       }
                     },
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
                     "content": {
                       "key": {
                         "element": "string",
-                        "attributes": {
-                          "variable": {
-                            "element": "boolean",
-                            "content": true
-                          }
-                        },
                         "content": "c7"
                       },
                       "value": {
@@ -263,6 +263,12 @@
                       "description": {
                         "element": "string",
                         "content": "var w/ variable type"
+                      }
+                    },
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
                       }
                     },
                     "content": {
@@ -291,12 +297,6 @@
                           },
                           {
                             "element": "string",
-                            "attributes": {
-                              "variable": {
-                                "element": "boolean",
-                                "content": true
-                              }
-                            },
                             "content": "c8"
                           }
                         ]

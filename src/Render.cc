@@ -16,7 +16,8 @@
 #include "ConversionContext.h"
 
 #include "refract/RenderJSONVisitor.h"
-#include "refract/JSONSchemaVisitor.h"
+#include "refract/JsonSchema.h"
+#include "utils/so/JsonIo.h"
 
 using namespace snowcrash;
 
@@ -95,7 +96,10 @@ namespace drafter
             }
 
             case JSONSchemaRenderFormat: {
-                return std::make_pair(renderJsonSchema(*expanded), NodeInfo<Asset>::NullSourceMap());
+
+                std::stringstream ss{};
+                utils::so::serialize_json(ss, refract::schema::generateJsonSchema(*expanded));
+                return std::make_pair(ss.str(), NodeInfo<Asset>::NullSourceMap());
             }
 
             case UndefinedRenderFormat:
@@ -142,6 +146,9 @@ namespace drafter
             return schema;
         }
 
-        return std::make_pair(renderJsonSchema(*expanded), NodeInfo<Asset>::NullSourceMap());
+        std::stringstream ss{};
+        utils::so::serialize_json(ss, refract::schema::generateJsonSchema(*expanded));
+
+        return std::make_pair(ss.str(), NodeInfo<Asset>::NullSourceMap());
     }
-}
+} // namespace drafter

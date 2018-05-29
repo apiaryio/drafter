@@ -641,7 +641,7 @@ content:
                               contentType:
                                 element: "string"
                                 content: "application/schema+json"
-                            content: "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"<data structure property name>\": {\n      \"type\": \"string\",\n      \"description\": \"<data structure property description>\"\n    }\n  }\n}"
+                            content: "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"<data structure property name>\": {\n      \"type\": \"string\"\n    }\n  }\n}"
       -
         element: "category"
         meta:

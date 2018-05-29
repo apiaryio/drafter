@@ -214,7 +214,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"person\": {\n      \"type\": \"object\",\n      \"properties\": {},\n      \"oneOf\": [\n        {\n          \"properties\": {\n            \"first_name\": {\n              \"type\": \"string\"\n            },\n            \"last_name\": {\n              \"type\": \"string\"\n            }\n          }\n        },\n        {\n          \"properties\": {\n            \"full_name\": {\n              \"type\": \"string\"\n            }\n          }\n        }\n      ]\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"person\": {\n      \"type\": \"object\",\n      \"allOf\": [\n        {\n          \"oneOf\": [\n            {\n              \"properties\": {\n                \"first_name\": {\n                  \"type\": \"string\"\n                },\n                \"last_name\": {\n                  \"type\": \"string\"\n                }\n              }\n            },\n            {\n              \"properties\": {\n                \"full_name\": {\n                  \"type\": \"string\"\n                }\n              }\n            }\n          ]\n        }\n      ]\n    }\n  }\n}"
                             }
                           ]
                         }

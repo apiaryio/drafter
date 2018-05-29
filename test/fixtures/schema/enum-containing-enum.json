@@ -268,7 +268,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"enum\": {\n      \"anyOf\": [\n        {\n          \"type\": \"number\",\n          \"enum\": [\n            1,\n            2,\n            3,\n            4\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"something\",\n            \"anything\"\n          ]\n        }\n      ]\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"enum\": {\n      \"anyOf\": [\n        {\n          \"anyOf\": [\n            {\n              \"type\": \"number\",\n              \"enum\": [\n                1\n              ]\n            },\n            {\n              \"type\": \"number\",\n              \"enum\": [\n                2\n              ]\n            },\n            {\n              \"type\": \"number\",\n              \"enum\": [\n                3\n              ]\n            },\n            {\n              \"type\": \"number\",\n              \"enum\": [\n                4\n              ]\n            }\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"something\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"anything\"\n          ]\n        }\n      ]\n    }\n  }\n}"
                             }
                           ]
                         }

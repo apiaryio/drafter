@@ -14,8 +14,10 @@
 #include <thread>
 
 #define ENABLE_LOGGING (drafter::utils::log::trivial_log::instance().enable())
-#define LOG(s)                                                                                                         \
-    (drafter::utils::log::trivial_entry<s>{ drafter::utils::log::trivial_log::instance(), __LINE__, __FILE__ })
+
+// clang-format off
+#define LOG(svrty) (drafter::utils::log::trivial_entry<drafter::utils::log::svrty>{ drafter::utils::log::trivial_log::instance(), __LINE__, __FILE__ })
+// clang-format on
 
 namespace drafter
 {
@@ -113,7 +115,7 @@ namespace drafter
                 constexpr trivial_entry(trivial_log& log, size_t line, const char* file) noexcept {}
 
                 template <typename T>
-                constexpr trivial_entry<debug>& operator<<(T&& obj) noexcept
+                const trivial_entry<debug>& operator<<(T&& obj) const noexcept
                 {
                     return *this;
                 }

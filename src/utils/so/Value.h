@@ -10,8 +10,8 @@
 #define DRAFTER_UTILS_SO_VALUE_H
 
 #include <vector>
-#include <map>
 #include <string>
+#include <algorithm>
 #include <boost/container/vector.hpp>
 
 #include "../Variant.h"
@@ -104,8 +104,22 @@ namespace drafter
 
                 explicit Number(double d) : data(std::move(d)) {}
             };
-        }
-    }
-}
+        } // namespace so
+
+        namespace so
+        {
+            template <typename ValueType>
+            void emplace_unique(so::Object& c, std::string key, ValueType&& value)
+            {
+                auto it = std::find_if(
+                    c.data.begin(), c.data.end(), [&key](const auto& entry) { return entry.first == key; });
+                if (it == c.data.end())
+                    c.data.emplace_back(key, std::forward<ValueType>(value));
+                else
+                    it->second = std::forward<ValueType>(value);
+            }
+        } // namespace so
+    }     // namespace utils
+} // namespace drafter
 
 #endif
