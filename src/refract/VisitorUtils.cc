@@ -26,6 +26,10 @@ std::string refract::GetKeyAsString(const MemberElement& e)
 
     auto element = e.get().key();
 
+    if (!element || element->empty()) {
+        return {};
+    }
+
     if (auto str = TypeQueryVisitor::as<const StringElement>(element)) {
         return str->get();
     }
