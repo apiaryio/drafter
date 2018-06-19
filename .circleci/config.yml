@@ -33,6 +33,8 @@ workflows:
       - test-gcc6
       - test-gcc7
       #- test-gcc8
+      - test-clang4
+      - test-clang5
       - test-clang6
       - test-xcode9
       - test-integration
@@ -43,6 +45,8 @@ workflows:
             - test-gcc6
             - test-gcc7
             #- test-gcc8
+            - test-clang4
+            - test-clang5
             - test-clang6
             - test-xcode9
             - test-integration
@@ -82,6 +86,16 @@ jobs:
     <<: *test-base
     docker:
       - image: gcc:8
+
+  test-clang4:
+    <<: *test-clang-base
+    docker:
+      - image: apiaryio/clang:4
+
+  test-clang5:
+    <<: *test-clang-base
+    docker:
+      - image: apiaryio/clang:5
 
   test-clang6:
     <<: *test-clang-base
