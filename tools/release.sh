@@ -22,6 +22,37 @@ create_tarball() {
   ./tools/make-tarball.sh $TAG
 }
 
+update_homebrew_formula() {
+  # Updates the Homebrew formula via a pull request to the repo
+  HASH="$(openssl sha256 "$TARBALL" | awk '{print $2}')"
+  BRANCH="drafter-$TAG"
+
+  CREDENTIALS="ApiaryBot:$GITHUB_TOKEN"
+
+  git clone "https://$CREDENTIALS@github.com/apiaryio/homebrew-formulae.git"
+
+  # Update URL and HASH of tarball
+  sed -i -e "s/v.*\.tar\.gz/$TAG\/$TARBALL/" homebrew-formulae/Formula/drafter.rb
+  sed -i -e "s/sha256 '.*'/sha256 '$HASH'/" homebrew-formulae/Formula/drafter.rb
+
+  # Print diff to stdout and commit
+  cd homebrew-formulae
+  git config user.name "Apiary Bot"
+  git config user.email "support@apiary.io"
+
+  git checkout -b "$BRANCH"
+  git diff
+  git add Formula/drafter.rb
+  git commit -m "feat: Update drafter to $TAG"
+  git push origin "$BRANCH"
+
+  curl -s -u "$CREDENTIALS" \
+      -H 'Content-Type: application/json' \
+      -X POST -d "{\"title\": \"Update drafter to $TAG\", \"head\": \"$BRANCH\", \"base\": \"master\"}" \
+      "https://api.github.com/repos/apiaryio/homebrew-formulae/pulls"
+}
+
 download_gh_release
 create_tarball
 create_release
+update_homebrew_formula
