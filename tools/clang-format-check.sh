@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 clang-format -style=file -output-replacements-xml $(git ls-files | grep '\.cc\|\.h$') | grep -c "<replacement "
 
 if [ $? -ne 1 ]
