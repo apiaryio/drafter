@@ -1,0 +1,162 @@
+version: 2
+
+aliases:
+  - &test-base
+    working_directory: /tmp/drafter
+    environment:
+      CXXFLAGS: '-Werror -Wno-error=unused-function'
+
+    steps:
+      - checkout
+      - run: git submodule update --init --recursive
+      - run:
+          name: Build
+          command: |
+            ./configure
+            make
+      - run:
+          name: Test
+          command: make test
+
+  - &test-clang-base
+    <<: *test-base
+    environment:
+      CXXFLAGS: '-Werror -Wno-error=unused-function -Wno-error=pessimizing-move -Wno-error=missing-braces'
+
+workflows:
+  version: 2
+
+  drafter:
+    jobs:
+      - lint
+      - test-gcc5.4
+      - test-gcc6
+      - test-gcc7
+      #- test-gcc8
+      - test-clang4
+      - test-clang5
+      - test-clang6
+      - test-xcode9
+      - test-integration
+      - test-valgrind
+      - release:
+          requires:
+            - test-gcc5.4
+            - test-gcc6
+            - test-gcc7
+            #- test-gcc8
+            - test-clang4
+            - test-clang5
+            - test-clang6
+            - test-xcode9
+            - test-integration
+            - test-valgrind
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+
+jobs:
+  lint:
+    docker:
+      - image: apiaryio/clang:5
+
+    steps:
+      - checkout
+      - run: git submodule update --init --recursive
+      - run: ./tools/clang-format-check.sh
+
+  test-gcc5.4:
+    <<: *test-base
+    docker:
+      - image: gcc:5.4
+
+  test-gcc6:
+    <<: *test-base
+    docker:
+      - image: gcc:6
+
+  test-gcc7:
+    <<: *test-base
+    docker:
+      - image: gcc:7
+
+  test-gcc8:
+    <<: *test-base
+    docker:
+      - image: gcc:8
+
+  test-clang4:
+    <<: *test-clang-base
+    docker:
+      - image: apiaryio/clang:4
+
+  test-clang5:
+    <<: *test-clang-base
+    docker:
+      - image: apiaryio/clang:5
+
+  test-clang6:
+    <<: *test-clang-base
+    docker:
+      - image: apiaryio/clang:6
+
+  test-xcode9:
+    <<: *test-clang-base
+    macos:
+      xcode: "9.4.0"
+
+  test-integration:
+    docker:
+      - image: circleci/ruby:2.5.1
+    working_directory: /tmp/drafter
+
+    steps:
+      - checkout
+      - run: git submodule update --init --recursive
+
+      - run:
+          name: Build
+          command: ./configure && make
+
+      - run:
+          name: Integration Test
+          command: bundle install && bundle exec cucumber
+
+  test-valgrind:
+    <<: *test-base
+    docker:
+      - image: gcc:7
+
+    steps:
+      - checkout
+      - run: git submodule update --init --recursive
+      - run: apt-get update && apt-get install -y valgrind
+
+      - run:
+          name: Build
+          command: |
+            ./configure
+            make
+            make test
+
+      - run:
+          name: Memory Test
+          command: |
+            mkdir artifacts
+            valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --error-exitcode=1 ./bin/test-libdrafter 2> artifacts/memcheck.log
+            valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --error-exitcode=1 ./bin/test-capi 2> artifacts/memcheck-capi.log
+
+      - store_artifacts:
+          path: artifacts
+
+  release:
+    docker:
+      - image: circleci/ruby:2.5.1
+    working_directory: /tmp/drafter
+
+    steps:
+      - checkout
+      - run: git submodule update --init --recursive
+      - run: ./tools/release.sh
