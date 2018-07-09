@@ -14,6 +14,10 @@
 #include "ByteBuffer.h"
 #include "RegexMatch.h"
 
+#ifdef DEBUG
+#include <iostream>
+#endif
+
 #include "BlueprintSourcemap.h"
 #include "StringUtility.h"
 
@@ -47,6 +51,37 @@ namespace snowcrash
 
         return false;
     }
+
+#ifdef DEBUG
+    // Escape new lines
+    inline std::string EscapeNewlines(const std::string& input)
+    {
+
+        size_t pos = 0;
+        std::string target(input);
+
+        while ((pos = target.find("\n", pos)) != std::string::npos) {
+            target.replace(pos, 1, "\\n");
+            pos += 2;
+        }
+
+        return target;
+    }
+
+    // Prints markdown block recursively to stdout
+    inline void PrintModelTable(const ModelTable& modelTable)
+    {
+
+        std::cout << "Resource Model Symbols:\n";
+
+        for (ModelTable::const_iterator it = modelTable.begin(); it != modelTable.end(); ++it) {
+
+            std::cout << "- " << it->first << " - body: '" << EscapeNewlines(it->second.body) << "'\n";
+        }
+
+        std::cout << std::endl;
+    }
+#endif
 }
 
 #endif

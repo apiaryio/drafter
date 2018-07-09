@@ -57,6 +57,10 @@ void MarkdownParser::parse(const ByteBuffer& source, MarkdownNode& ast)
     m_source = NULL;
     m_sourceLength = 0;
     m_listBlockContext = false;
+
+#ifdef DEBUG
+    ast.printNode();
+#endif
 }
 
 MarkdownParser::RenderCallbacks MarkdownParser::renderCallbacks()

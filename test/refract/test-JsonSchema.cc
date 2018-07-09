@@ -286,7 +286,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
 
             THEN("the schema matches an empty array")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","enum":[[]]})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","minItems":0,"items":[],"additionalItems":false})");
             }
         }
     }
@@ -302,7 +302,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
 
             THEN("the schema matches an empty array")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","enum":[[]]})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","items":{"anyOf":[]}})");
             }
         }
     }
@@ -349,7 +349,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
 
             THEN("the schema matches arrays of strings")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","items":{"type":"string"}})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","items":{"anyOf":[{"type":"string"}]}})");
             }
         }
     }
@@ -396,7 +396,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
 
             THEN("the schema matches arrays of strings")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","items":{"type":"string"}})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","items":{"anyOf":[{"type":"string"}]}})");
             }
         }
     }

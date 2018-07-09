@@ -328,6 +328,8 @@
         "src/refract/FilterVisitor.h",
         "src/refract/JsonSchema.h",
         "src/refract/JsonSchema.cc",
+        "src/refract/ElementUtils.h",
+        "src/refract/ElementUtils.cc",
 
         "src/refract/Registry.h",
         "src/refract/Registry.cc",

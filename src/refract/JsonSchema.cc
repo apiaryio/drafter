@@ -12,6 +12,7 @@
 #include "../utils/log/Trivial.h"
 #include "../utils/so/JsonIo.h"
 #include "Element.h"
+#include "ElementUtils.h"
 #include "Utils.h"
 #include <algorithm>
 #include <bitset>
@@ -25,17 +26,37 @@ using namespace drafter::utils::log;
 
 namespace
 { // API Elements tools
-    template <typename Element>
-    Element* get(IElement* e)
-    {
-        return dynamic_cast<Element*>(e);
-    }
+    // template <typename Element>
+    // const Element* find_value_in_attributes(const Element& e)
+    //{
+    //    {
+    //        auto it = e.attributes().find("default");
+    //        if (it != e.attributes().end()) {
+    //            if (auto result = get<const Element>(it->second.get()))
+    //                return result;
+    //        }
+    //    }
 
-    template <typename Element>
-    Element* get(const IElement* e)
-    {
-        return dynamic_cast<Element*>(e);
-    }
+    //    {
+    //        auto it = e.attributes().find("sample");
+    //        if (it != e.attributes().end()) {
+    //            if (auto result = get<const Element>(it->second.get()))
+    //                return result;
+    //        }
+    //    }
+
+    //    {
+    //        auto it = e.attributes().find("samples");
+    //        if (it != e.attributes().end()) {
+    //            if (auto array = get<const ArrayElement>(it->second.get()))
+    //                if (!array->empty() && !array->get().empty())
+    //                    if (auto result = get<const Element>(array->get().begin()[0].get())
+    //                        return result;
+    //        }
+    //    }
+
+    //    return nullptr;
+    //}
 
     so::String instantiate(const StringElement& e)
     {
@@ -56,99 +77,29 @@ namespace
             so::Value{ in_place_type<so::True>{} } :
             so::Value{ in_place_type<so::False>{} };
     }
-
-    bool hasTypeAttr(const IElement& e, const char* name)
-    {
-        auto typeAttrIt = e.attributes().find("typeAttributes");
-
-        if (typeAttrIt != e.attributes().end())
-            if (const auto* typeAttrs = get<const ArrayElement>(typeAttrIt->second.get())) {
-                const auto b = typeAttrs->get().begin();
-                const auto e = typeAttrs->get().end();
-                return e != std::find_if(b, e, [&name](const auto& el) { //
-                    const auto* entry = get<const StringElement>(el.get());
-                    return entry && !entry->empty() && (entry->get().get() == name);
-                });
-            }
-        return false;
-    }
-
-    bool hasFixedAttr(const IElement& e)
-    {
-        return hasTypeAttr(e, "fixed");
-    }
-
-    bool hasFixedTypeAttr(const IElement& e)
-    {
-        return hasTypeAttr(e, "fixedType");
-    }
-
-    bool hasRequiredTypeAttr(const IElement& e)
-    {
-        return hasTypeAttr(e, "required");
-    }
-
-    bool hasOptionalTypeAttr(const IElement& e)
-    {
-        return hasTypeAttr(e, "optional");
-    }
-
-    bool hasNullableTypeAttr(const IElement& e)
-    {
-        return hasTypeAttr(e, "nullable");
-    }
-
-    bool isVariable(const IElement& e)
-    {
-        const auto it = e.attributes().find("variable");
-        if (it == e.attributes().end())
-            return false;
-
-        assert(it->second);
-        if (auto value = get<const BooleanElement>(it->second.get())) {
-            if (value->empty()) {
-                LOG(warning) << "empty data structure element in backend";
-                return false;
-            }
-
-            return value->get().get();
-        } else {
-            LOG(warning) << "variable attribute must hold Boolean Element; encountered " << it->second->element();
-            return false;
-        }
-        return false;
-    }
-
-    std::string key(const MemberElement& m)
-    {
-        if (const auto& strKey = get<const StringElement>(m.get().key())) {
-            if (strKey->empty())
-                return "";
-            return strKey->get().get();
-        } else {
-            LOG(error) << "Non-string key in Member Element: " << m.get().key()->element();
-            assert(false);
-        }
-    }
 } // namespace
 
 namespace
 {
-    using TypeAttributes = std::bitset<3>;
+    using TypeAttributes = std::bitset<4>;
     constexpr std::size_t FIXED_FLAG = 0;
     constexpr std::size_t FIXED_TYPE_FLAG = 1;
     constexpr std::size_t NULLABLE_FLAG = 2;
+    constexpr std::size_t REQUIRED_FLAG = 3;
 
     TypeAttributes updateTypeAttributes(const IElement& e, TypeAttributes options) noexcept
     {
-        if (hasFixedAttr(e))
+        if (hasFixedTypeAttr(e))
             options.set(FIXED_FLAG);
 
-        if (hasFixedTypeAttr(e))
+        if (hasFixedTypeTypeAttr(e))
             options.set(FIXED_TYPE_FLAG);
 
         if (hasNullableTypeAttr(e))
             options.set(NULLABLE_FLAG);
+
+        if (hasRequiredTypeAttr(e))
+            options.set(REQUIRED_FLAG);
 
         return options;
     }
@@ -162,9 +113,19 @@ namespace
     {
         options.reset(FIXED_TYPE_FLAG);
         options.reset(NULLABLE_FLAG);
+        options.reset(REQUIRED_FLAG);
         return options;
     }
 
+    TypeAttributes inherit_or_pass_flags(TypeAttributes options, const IElement& e)
+    {
+        auto result = inherit_flags(options);
+        if (inheritsFixed(e)) {
+            LOG(debug) << "\"" << e.element() << "\"-Element inherits fixed";
+            return result;
+        }
+        return result.reset(FIXED_FLAG);
+    }
 } // namespace
 
 namespace
@@ -272,7 +233,7 @@ namespace
     std::string renderPattern(const StringElement& e, TypeAttributes options)
     {
         // clang-format off
-        if (options.test(FIXED_FLAG) || hasFixedAttr(e)) {
+        if (options.test(FIXED_FLAG) || hasFixedTypeAttr(e)) {
             if(e.empty()) {
                 return R"(^(?![\s\S]))";
             } else {
@@ -398,23 +359,16 @@ namespace
         else
             for (const auto& item : e.get()) {
                 assert(item);
-                renderProperty(result, *item, inherit_flags(options));
+                if (options.test(FIXED_TYPE_FLAG) || options.test(FIXED_FLAG))
+                    renderProperty(result, *item, inherit_or_pass_flags(options, *item) | TypeAttributes{}.set(REQUIRED_FLAG));
+                else
+                    renderProperty(result, *item, inherit_or_pass_flags(options, *item));
             }
-
-        // every property is required iff fixed or fixedType
-        if (options.test(FIXED_TYPE_FLAG) || options.test(FIXED_FLAG)) {
-            result.required.data.clear();
-            std::transform(result.properties.data.begin(), //
-                result.properties.data.end(),              //
-                std::back_inserter(result.required.data),  //
-                [](const auto& property) { return so::String{ property.first }; });
-        }
 
         materialize(schema, std::move(result));
 
-        if (options.test(FIXED_TYPE_FLAG) || options.test(FIXED_FLAG)) {
+        if (options.test(FIXED_TYPE_FLAG) || options.test(FIXED_FLAG))
             addAdditionalProperties(schema, so::False{});
-        }
 
         return schema;
     }
@@ -429,44 +383,32 @@ namespace
 
         if (options.test(FIXED_TYPE_FLAG)) { // array of any of types
 
-            if (e.empty() || e.get().empty()) {
-                auto& schema = wrapNullable(s, options);
-                addType(schema, TYPE_NAME);
-                addEnum(schema, so::Array{});
+            so::Array items{};
+            if (!e.empty())
+                for (const auto& entry : e.get()) {
+                    assert(entry);
+                    items.data.emplace_back(makeSchema(*entry, inherit_or_pass_flags(options, *entry)));
+                }
 
-            } else if (e.get().size() == 1) {
-                auto item_schema = makeSchema(*e.get().begin()[0], inherit_flags(options));
-                auto& schema = wrapNullable(s, options);
-                addType(schema, TYPE_NAME);
-                addItems(schema, std::move(item_schema));
-
-            } else {
-                so::Array items{};
-                for (const auto& entry : e.get())
-                    items.data.emplace_back(makeSchema(*entry, inherit_flags(options)));
-                auto& schema = wrapNullable(s, options);
-                addType(schema, TYPE_NAME);
-                addItems(schema, so::Object{ std::make_pair("anyOf", std::move(items)) });
-            }
+            auto& schema = wrapNullable(s, options);
+            addType(schema, TYPE_NAME);
+            addItems(schema, so::Object{ std::make_pair("anyOf", std::move(items)) });
 
         } else if (options.test(FIXED_FLAG)) { // tuple of N constants/types
 
-            if (e.empty() || e.get().empty()) {
-                auto& schema = wrapNullable(s, options);
-                addType(schema, TYPE_NAME);
-                addEnum(schema, so::Array{});
+            so::Array items{};
+            if (!e.empty())
+                for (const auto& item : e.get()) {
+                    assert(item);
+                    items.data.emplace_back(makeSchema(*item, inherit_or_pass_flags(options, *item)));
+                }
 
-            } else {
-                so::Array items{};
-                for (const auto& item : e.get())
-                    items.data.emplace_back(makeSchema(*item, inherit_flags(options)));
+            auto& schema = wrapNullable(s, options);
+            addType(schema, TYPE_NAME);
+            addMinItems(schema, items.data.size());  // minimum of N entries
+            addItems(schema, std::move(items));      // schemas of tuple entries
+            addAdditionalItems(schema, so::False{}); // no more entries
 
-                auto& schema = wrapNullable(s, options);
-                addType(schema, TYPE_NAME);
-                addMinItems(schema, items.data.size());  // minimum of N entries
-                addItems(schema, std::move(items));      // schemas of tuple entries
-                addAdditionalItems(schema, so::False{}); // no more entries
-            }
         } else {
             auto& schema = wrapNullable(s, options);
             addType(schema, TYPE_NAME);
@@ -493,8 +435,10 @@ namespace
             assert(enums);
             assert(!enums->empty());
 
-            for (const auto& enumEntry : enums->get())
+            for (const auto& enumEntry : enums->get()) {
+                assert(enumEntry);
                 anyOf.data.emplace_back(makeSchema(*enumEntry, inherit_flags(options)));
+            }
         } else {
             LOG(warning) << "Enum Element SHALL hold enumerations attribute; interpreting as empty";
         }
@@ -578,11 +522,17 @@ namespace
     {
         LOG(debug) << "rendering property MemberElement as JSON Schema";
 
-        if (hasFixedAttr(e))
+        if (hasFixedTypeAttr(e))
             options.set(FIXED_FLAG);
 
-        options.set(FIXED_TYPE_FLAG, hasFixedTypeAttr(e));
+        options.set(FIXED_TYPE_FLAG, hasFixedTypeTypeAttr(e));
         options.set(NULLABLE_FLAG, hasNullableTypeAttr(e));
+
+        if (hasRequiredTypeAttr(e))
+            options.set(REQUIRED_FLAG);
+
+        if (hasOptionalTypeAttr(e))
+            options.reset(REQUIRED_FLAG);
 
         const auto k = e.get().key();
         const auto v = e.get().value();
@@ -620,7 +570,7 @@ namespace
 
             s.properties.data.emplace_back(strKey, makeSchema(*v, pass_flags(options)));
 
-            if (hasRequiredTypeAttr(e) && !hasOptionalTypeAttr(e))
+            if (options.test(REQUIRED_FLAG))
                 s.required.data.emplace_back(so::String{ strKey });
         }
     }
@@ -636,7 +586,7 @@ namespace
         }
 
         assert(resolvedEntry->second);
-        renderProperty(s, *resolvedEntry->second, options);
+        renderProperty(s, *resolvedEntry->second, pass_flags(options));
     }
 
     void renderProperty(ObjectSchema& s, const SelectElement& e, TypeAttributes options)
@@ -671,7 +621,7 @@ namespace
     {
         LOG(debug) << "rendering property ObjectElement as JSON Schema";
 
-        if (hasFixedAttr(e))
+        if (hasFixedTypeAttr(e))
             options.set(FIXED_FLAG);
 
         if (e.empty())
@@ -691,7 +641,7 @@ namespace
             LOG(warning) << "empty data structure element in backend";
 
         auto merged = e.get().merge();
-        renderProperty(s, *merged, inherit_flags(options));
+        renderProperty(s, *merged, pass_flags(options));
     }
 
     void renderProperty(ObjectSchema& s, const IElement& e, TypeAttributes options)
