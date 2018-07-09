@@ -211,6 +211,9 @@ namespace refract
 
             auto origin = ExpandMembers(e);
             origin->meta().erase("id");
+
+            if(extend->empty())
+                extend->set();
             extend->get().push_back(std::move(origin));
 
             return std::move(extend);
