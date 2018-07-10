@@ -261,7 +261,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"number\",\n      \"description\": \"The unique identifier for a product\"\n    },\n    \"name\": {\n      \"type\": \"string\",\n      \"description\": \"Name of the product\"\n    },\n    \"price\": {\n      \"type\": \"number\"\n    },\n    \"tags\": {\n      \"type\": \"array\",\n      \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\\n\\nSed sed lacus a arcu vehicula ultricies sed vel nibh. Mauris id cursus felis.\\n\\nInterdum et malesuada fames ac ante ipsum primis in faucibus.\\n\\n- unus\\n\\n- duo\\n\\n- tres\\n\\n- quattuor\"\n    }\n  },\n  \"required\": [\n    \"id\",\n    \"name\",\n    \"price\"\n  ]\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"number\"\n    },\n    \"name\": {\n      \"type\": \"string\"\n    },\n    \"price\": {\n      \"type\": \"number\"\n    },\n    \"tags\": {\n      \"type\": \"array\"\n    }\n  },\n  \"required\": [\n    \"id\",\n    \"name\",\n    \"price\"\n  ]\n}"
                             }
                           ]
                         }

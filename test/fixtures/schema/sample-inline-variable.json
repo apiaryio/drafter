@@ -198,7 +198,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"list\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"*3\",\n        \"4*\"\n      ]\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"list\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"*3\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"4*\"\n          ]\n        }\n      ]\n    }\n  }\n}"
                             }
                           ]
                         }

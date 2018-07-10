@@ -206,7 +206,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"listing\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"description\": {\n          \"type\": \"string\"\n        },\n        \"date_listed\": {\n          \"type\": \"string\"\n        },\n        \"some:location\": {\n          \"type\": \"string\"\n        }\n      },\n      \"description\": \"Our real estate listing has different properties available.\\n\\n- `Properties`\\n    - This one.\\n    - That one.\"\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"listing\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"description\": {\n          \"type\": \"string\"\n        },\n        \"date_listed\": {\n          \"type\": \"string\"\n        },\n        \"some:location\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}"
                             }
                           ]
                         }

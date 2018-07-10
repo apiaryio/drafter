@@ -202,7 +202,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\",\n  \"items\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"msg\": {\n        \"type\": \"string\"\n      },\n      \"id\": {\n        \"type\": \"number\"\n      }\n    },\n    \"required\": [\n      \"msg\"\n    ]\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"array\",\n  \"items\": {\n    \"anyOf\": [\n      {\n        \"type\": \"object\",\n        \"properties\": {\n          \"msg\": {\n            \"type\": \"string\"\n          },\n          \"id\": {\n            \"type\": \"number\"\n          }\n        },\n        \"required\": [\n          \"msg\"\n        ]\n      }\n    ]\n  }\n}"
                             }
                           ]
                         }

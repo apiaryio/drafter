@@ -118,15 +118,15 @@
                                         "content": [
                                           {
                                             "element": "member",
+                                            "attributes": {
+                                              "variable": {
+                                                "element": "boolean",
+                                                "content": true
+                                              }
+                                            },
                                             "content": {
                                               "key": {
                                                 "element": "string",
-                                                "attributes": {
-                                                  "variable": {
-                                                    "element": "boolean",
-                                                    "content": true
-                                                  }
-                                                },
                                                 "content": "link"
                                               },
                                               "value": {
@@ -234,7 +234,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"item\": {\n      \"allOf\": [\n        {\n          \"$ref\": \"#/definitions/link\"\n        },\n        {\n          \"properties\": {\n            \"id\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"name\": {\n                  \"type\": \"string\"\n                },\n                \"email\": {\n                  \"type\": \"string\"\n                }\n              }\n            }\n          }\n        }\n      ]\n    }\n  },\n  \"definitions\": {\n    \"link\": {\n      \"type\": \"object\",\n      \"patternProperties\": {\n        \"\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"href\": {\n              \"type\": \"string\"\n            }\n          }\n        }\n      }\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"item\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"name\": {\n              \"type\": \"string\"\n            },\n            \"email\": {\n              \"type\": \"string\"\n            }\n          }\n        }\n      },\n      \"patternProperties\": {\n        \"(?:)\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"href\": {\n              \"type\": \"string\"\n            }\n          }\n        }\n      }\n    }\n  }\n}"
                             }
                           ]
                         }

@@ -118,15 +118,15 @@
                                         "content": [
                                           {
                                             "element": "member",
+                                            "attributes": {
+                                              "variable": {
+                                                "element": "boolean",
+                                                "content": true
+                                              }
+                                            },
                                             "content": {
                                               "key": {
                                                 "element": "string",
-                                                "attributes": {
-                                                  "variable": {
-                                                    "element": "boolean",
-                                                    "content": true
-                                                  }
-                                                },
                                                 "content": "self"
                                               },
                                               "value": {
@@ -196,7 +196,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"_links\": {\n      \"$ref\": \"#/definitions/self\"\n    }\n  },\n  \"definitions\": {\n    \"self\": {\n      \"type\": \"object\",\n      \"patternProperties\": {\n        \"\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"href\": {\n              \"type\": \"string\"\n            }\n          }\n        }\n      }\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"_links\": {\n      \"type\": \"object\",\n      \"patternProperties\": {\n        \"(?:)\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"href\": {\n              \"type\": \"string\"\n            }\n          }\n        }\n      }\n    }\n  }\n}"
                             }
                           ]
                         }

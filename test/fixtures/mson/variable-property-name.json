@@ -147,7 +147,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"allOf\": [\n    {\n      \"$ref\": \"#/definitions/direct\"\n    },\n    {\n      \"$ref\": \"#/definitions/str\"\n    },\n    {\n      \"properties\": {\n        \"s\": {\n          \"type\": \"string\"\n        },\n        \"ss\": {\n          \"type\": \"string\"\n        },\n        \"sd\": {\n          \"type\": \"string\"\n        },\n        \"\": {\n          \"type\": \"string\"\n        },\n        \"se\": {\n          \"type\": \"string\"\n        },\n        \"e\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  ],\n  \"definitions\": {\n    \"direct\": {\n      \"type\": \"object\",\n      \"patternProperties\": {\n        \"\": {\n          \"type\": \"string\"\n        }\n      }\n    },\n    \"str\": {\n      \"type\": \"object\",\n      \"patternProperties\": {\n        \"\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"s\": {\n      \"type\": \"string\"\n    },\n    \"e\": {\n      \"type\": \"string\"\n    }\n  },\n  \"patternProperties\": {\n    \"(?:)\": {\n      \"type\": \"string\"\n    }\n  }\n}"
                             }
                           ]
                         }
@@ -264,15 +264,15 @@
                   },
                   {
                     "element": "member",
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
                     "content": {
                       "key": {
                         "element": "string",
-                        "attributes": {
-                          "variable": {
-                            "element": "boolean",
-                            "content": true
-                          }
-                        },
                         "content": "direct"
                       },
                       "value": {
@@ -283,15 +283,15 @@
                   },
                   {
                     "element": "member",
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
                     "content": {
                       "key": {
                         "element": "string",
-                        "attributes": {
-                          "variable": {
-                            "element": "boolean",
-                            "content": true
-                          }
-                        },
                         "content": "str"
                       },
                       "value": {
@@ -302,15 +302,15 @@
                   },
                   {
                     "element": "member",
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
                     "content": {
                       "key": {
-                        "element": "StrSample",
-                        "attributes": {
-                          "variable": {
-                            "element": "boolean",
-                            "content": true
-                          }
-                        }
+                        "element": "StrSample"
                       },
                       "value": {
                         "element": "string",
@@ -320,15 +320,15 @@
                   },
                   {
                     "element": "member",
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
                     "content": {
                       "key": {
                         "element": "StrSample",
-                        "attributes": {
-                          "variable": {
-                            "element": "boolean",
-                            "content": true
-                          }
-                        },
                         "content": "ss"
                       },
                       "value": {
@@ -339,15 +339,15 @@
                   },
                   {
                     "element": "member",
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
                     "content": {
                       "key": {
-                        "element": "StrDefault",
-                        "attributes": {
-                          "variable": {
-                            "element": "boolean",
-                            "content": true
-                          }
-                        }
+                        "element": "StrDefault"
                       },
                       "value": {
                         "element": "string",
@@ -357,15 +357,15 @@
                   },
                   {
                     "element": "member",
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
                     "content": {
                       "key": {
                         "element": "StrDefault",
-                        "attributes": {
-                          "variable": {
-                            "element": "boolean",
-                            "content": true
-                          }
-                        },
                         "content": "sd"
                       },
                       "value": {
@@ -376,15 +376,15 @@
                   },
                   {
                     "element": "member",
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
                     "content": {
                       "key": {
-                        "element": "StrEmpty",
-                        "attributes": {
-                          "variable": {
-                            "element": "boolean",
-                            "content": true
-                          }
-                        }
+                        "element": "StrEmpty"
                       },
                       "value": {
                         "element": "string",
@@ -394,15 +394,15 @@
                   },
                   {
                     "element": "member",
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
                     "content": {
                       "key": {
                         "element": "StrEmpty",
-                        "attributes": {
-                          "variable": {
-                            "element": "boolean",
-                            "content": true
-                          }
-                        },
                         "content": "se"
                       },
                       "value": {

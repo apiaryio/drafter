@@ -221,10 +221,11 @@ SCENARIO("`Object` is inserted to and erased from", "[ElementData][Object]")
                     REQUIRE(object.begin()[1].get() == mock2ptr);
                 }
 
-                THEN("there were no method calls to the mocks")
+                THEN("the second mock was visited to check whether it is a property equal to the first")
                 {
                     REQUIRE(mock1ptr->_total_ctx == 0);
-                    REQUIRE(mock2ptr->_total_ctx == 0);
+                    REQUIRE(mock2ptr->_total_ctx == 1);
+                    REQUIRE(mock2ptr->content_ctx == 1);
                 }
 
                 THEN("there still are just two mock instances")

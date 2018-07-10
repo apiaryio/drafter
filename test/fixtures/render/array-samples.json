@@ -281,7 +281,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"a1\": {\n      \"type\": \"array\",\n      \"default\": [\n        \"d\",\n        \"f\",\n        \"l\",\n        \"t\"\n      ]\n    },\n    \"a2\": {\n      \"type\": \"array\"\n    },\n    \"a3\": {\n      \"type\": \"array\"\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"a1\": {\n      \"type\": \"array\"\n    },\n    \"a2\": {\n      \"type\": \"array\"\n    },\n    \"a3\": {\n      \"type\": \"array\"\n    }\n  }\n}"
                             }
                           ]
                         }

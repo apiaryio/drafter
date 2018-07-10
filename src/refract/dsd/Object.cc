@@ -12,6 +12,7 @@
 #include "Traits.h"
 #include "../Element.h"
 #include "../Utils.h"
+#include "../VisitorUtils.h"
 
 using namespace refract;
 using namespace dsd;
@@ -58,6 +59,23 @@ Object& Object::operator=(Object rhs)
     return *this;
 }
 
+void Object::push_back(std::unique_ptr<IElement> el)
+{
+    assert(el);
+
+    if (!empty())
+        if (auto mbr = TypeQueryVisitor::as<const MemberElement>(el.get()))
+            if (!mbr->empty() && mbr->get().key())
+                if (auto str = TypeQueryVisitor::as<const StringElement>(mbr->get().key()))
+                    if (!str->empty()) {
+                        auto it = find(str->get().get());
+                        if (it != end())
+                            erase(it);
+                    }
+
+    elements_.emplace_back(std::move(el));
+}
+
 Object::iterator Object::insert(Object::const_iterator it, std::unique_ptr<IElement> el)
 {
     assert(it >= begin());
@@ -72,8 +90,24 @@ Object::iterator Object::erase(Object::const_iterator b, Object::const_iterator 
     return elements_.erase(b, e);
 }
 
+Object::iterator Object::find(const std::string& name)
+{
+    return std::find_if(begin(), end(), [&name](const auto& entry) {
+        if (auto mbr = TypeQueryVisitor::as<const MemberElement>(entry.get())) {
+            if (mbr->empty())
+                return false;
+            if (auto key = TypeQueryVisitor::as<const StringElement>(mbr->get().key()))
+                return !key->empty() && (key->get().get() == name);
+        }
+        return false;
+    });
+}
+
 Object::iterator Object::addMember(std::string name, std::unique_ptr<IElement> value)
 {
+    auto it = find(name);
+    if (it != end())
+        erase(it);
     return insert(end(), make_element<MemberElement>(name, std::move(value)));
 }
 

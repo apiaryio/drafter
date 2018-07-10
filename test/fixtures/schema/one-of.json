@@ -212,7 +212,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"city\": {\n      \"type\": \"string\"\n    },\n    \"country\": {\n      \"type\": \"string\"\n    }\n  },\n  \"oneOf\": [\n    {\n      \"properties\": {\n        \"state\": {\n          \"type\": \"string\"\n        }\n      }\n    },\n    {\n      \"properties\": {\n        \"province\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  ]\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"city\": {\n      \"type\": \"string\"\n    },\n    \"country\": {\n      \"type\": \"string\"\n    }\n  },\n  \"allOf\": [\n    {\n      \"oneOf\": [\n        {\n          \"properties\": {\n            \"state\": {\n              \"type\": \"string\"\n            }\n          }\n        },\n        {\n          \"properties\": {\n            \"province\": {\n              \"type\": \"string\"\n            }\n          }\n        }\n      ]\n    }\n  ]\n}"
                             }
                           ]
                         }

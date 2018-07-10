@@ -186,7 +186,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"address\": {\n      \"type\": \"array\",\n      \"items\": [\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"street\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"city\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"state\"\n          ]\n        }\n      ]\n    }\n  },\n  \"required\": [\n    \"address\"\n  ]\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"address\": {\n      \"type\": \"array\",\n      \"minItems\": 3,\n      \"items\": [\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"street\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"city\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"state\"\n          ]\n        }\n      ],\n      \"additionalItems\": false\n    }\n  }\n}"
                             }
                           ]
                         }

@@ -147,7 +147,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"string\"\n    },\n    \"device_type\": {\n      \"type\": \"string\",\n      \"description\": \"The platform. Should be `ios` or `gcm`.\"\n    },\n    \"token\": {\n      \"type\": \"string\",\n      \"description\": \"The token given by the platform.\"\n    },\n    \"links\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"user\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"string\"\n    },\n    \"device_type\": {\n      \"type\": \"string\"\n    },\n    \"token\": {\n      \"type\": \"string\"\n    },\n    \"links\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"user\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}"
                             }
                           ]
                         }

@@ -220,7 +220,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"enumField\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"a\",\n        \"b\",\n        \"c\"\n      ],\n      \"default\": \"c\"\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"enumField\": {\n      \"anyOf\": [\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"a\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"b\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"enum\": [\n            \"c\"\n          ]\n        }\n      ]\n    }\n  }\n}"
                             }
                           ]
                         }
