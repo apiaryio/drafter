@@ -109,6 +109,6 @@ namespace snowcrash
         SectionParserData(const SectionParserData&);
         SectionParserData& operator=(const SectionParserData&);
     };
-}
+} // namespace snowcrash
 
 #endif

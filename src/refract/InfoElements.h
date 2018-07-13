@@ -73,6 +73,6 @@ namespace refract
 
         Container::size_type size() const noexcept;
     };
-}
+} // namespace refract
 
 #endif

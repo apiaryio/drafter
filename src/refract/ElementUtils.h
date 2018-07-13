@@ -39,7 +39,7 @@ namespace refract
     {
         return dynamic_cast<Element*>(e);
     }
-}
+} // namespace refract
 
 namespace refract
 {
@@ -60,8 +60,11 @@ namespace refract
     bool inheritsFixed(const ExtendElement& e);
     bool inheritsFixed(const IElement& e);
 
-    template<typename T>
-    bool inheritsFixed(const T& e) { return true; }
+    template <typename T>
+    bool inheritsFixed(const T& e)
+    {
+        return true;
+    }
 } // namespace refract
 
 namespace refract

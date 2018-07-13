@@ -19,6 +19,6 @@ namespace drafter
         {
             std::ostream& serialize_yaml(std::ostream& out, const Value& obj);
         }
-    }
-}
+    } // namespace utils
+} // namespace drafter
 #endif

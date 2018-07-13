@@ -111,4 +111,4 @@ namespace drafter
 
         throw snowcrash::Error("unknown mson type", snowcrash::ApplicationError);
     }
-}
+} // namespace drafter

@@ -153,6 +153,6 @@ namespace drafter
             }
         }
     };
-}
+} // namespace drafter
 
 #endif // #ifndef DRAFTER_NODEINFO_H

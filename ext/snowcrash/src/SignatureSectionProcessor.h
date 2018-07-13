@@ -440,6 +440,6 @@ namespace scpl
             return returnString;
         }
     };
-}
+} // namespace scpl
 
 #endif

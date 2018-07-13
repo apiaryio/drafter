@@ -188,6 +188,6 @@ namespace refract
 
     bool isReserved(const char* w) noexcept;
     bool isReserved(const std::string& w) noexcept;
-}
+} // namespace refract
 
 #endif

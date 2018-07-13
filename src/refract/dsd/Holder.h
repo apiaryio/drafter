@@ -95,7 +95,7 @@ namespace refract
         };
 
         bool operator==(const Holder&, const Holder&) noexcept;
-    }
-}
+    } // namespace dsd
+} // namespace refract
 
 #endif

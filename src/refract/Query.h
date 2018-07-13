@@ -30,7 +30,7 @@ namespace refract
 
             bool operator()(const IElement& e);
         };
-    };
+    }; // namespace query
 
 }; // namespace refract
 

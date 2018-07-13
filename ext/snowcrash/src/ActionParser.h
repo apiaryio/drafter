@@ -548,6 +548,6 @@ namespace snowcrash
 
     /** Action Section Parser */
     typedef SectionParser<Action, HeaderSectionAdapter> ActionParser;
-}
+} // namespace snowcrash
 
 #endif

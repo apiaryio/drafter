@@ -477,6 +477,6 @@ namespace mson
 
         return false;
     }
-}
+} // namespace mson
 
 #endif

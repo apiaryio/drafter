@@ -126,7 +126,7 @@ namespace
             return e;
         return it;
     };
-}
+} // namespace
 
 SCENARIO("Serialize strings from utf-8 fixtures as JSON", "[simple-object][json][utf-8]")
 {

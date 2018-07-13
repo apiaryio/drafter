@@ -123,6 +123,6 @@ namespace snowcrash
 
     /** Asset Section Parser */
     typedef SectionParser<Asset, ListSectionAdapter> AssetParser;
-}
+} // namespace snowcrash
 
 #endif

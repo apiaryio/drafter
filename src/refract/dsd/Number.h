@@ -61,7 +61,7 @@ namespace refract
         };
 
         bool operator==(const Number&, const Number&) noexcept;
-    }
-}
+    } // namespace dsd
+} // namespace refract
 
 #endif

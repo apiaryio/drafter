@@ -201,4 +201,4 @@ namespace snowcrash
 
         return MSONSectionType;
     }
-}
+} // namespace snowcrash

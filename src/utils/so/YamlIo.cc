@@ -256,7 +256,7 @@ namespace
             }
         }
     };
-}
+} // namespace
 
 std::ostream& so::serialize_yaml(std::ostream& out, const Value& obj)
 {

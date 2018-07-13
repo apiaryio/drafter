@@ -124,7 +124,7 @@ namespace refract
 
         bool operator==(const Option&, const Option&) noexcept;
         bool operator!=(const Option&, const Option&) noexcept;
-    }
-}
+    } // namespace dsd
+} // namespace refract
 
 #endif

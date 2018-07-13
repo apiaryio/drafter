@@ -239,7 +239,7 @@ namespace refract
                 f(e);
             }
         };
-    }
+    } // namespace impl
 
     template <typename How>
     auto visit(IElement& ifc, How&& f)
@@ -268,6 +268,6 @@ namespace refract
 
     bool operator==(const InfoElements& lhs, const InfoElements& rhs) noexcept;
     bool operator!=(const InfoElements& lhs, const InfoElements& rhs) noexcept;
-}
+} // namespace refract
 
 #endif

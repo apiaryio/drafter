@@ -64,6 +64,6 @@ namespace drafter
      * it is due to thread safety
      */
     const RefractElementFactory& FactoryFromType(const mson::BaseTypeName typeName);
-}
+} // namespace drafter
 
 #endif /* #ifndef DRAFTER_REFRACTELEMENTFACTORY_H */

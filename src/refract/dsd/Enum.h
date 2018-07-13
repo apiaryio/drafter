@@ -96,7 +96,7 @@ namespace refract
         };
 
         bool operator==(const Enum&, const Enum&) noexcept;
-    }
-}
+    } // namespace dsd
+} // namespace refract
 
 #endif

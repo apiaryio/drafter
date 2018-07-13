@@ -61,7 +61,7 @@ namespace refract
                     members.push_back(std::move(e));
                 }
         }
-    }
+    } // namespace
 
     void RenderJSONVisitor::operator()(const IElement& e)
     {
@@ -199,4 +199,4 @@ namespace refract
 
         return out;
     }
-}
+} // namespace refract

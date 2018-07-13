@@ -263,7 +263,7 @@ namespace drafter
                     return &cp_and_next_.first;
                 }
             };
-        }
-    }
-}
+        } // namespace utf8
+    }     // namespace utils
+} // namespace drafter
 #endif

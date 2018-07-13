@@ -82,6 +82,6 @@ namespace snowcrash
         std::cout << std::endl;
     }
 #endif
-}
+} // namespace snowcrash
 
 #endif

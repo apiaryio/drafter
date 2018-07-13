@@ -106,6 +106,6 @@ namespace snowcrash
 
     /** Parameter Section Parser */
     typedef SectionParser<Values, ListSectionAdapter> ValuesParser;
-}
+} // namespace snowcrash
 
 #endif

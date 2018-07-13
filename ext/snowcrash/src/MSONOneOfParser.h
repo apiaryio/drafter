@@ -75,6 +75,6 @@ namespace snowcrash
 
     /** MSON One Of Section Parser */
     typedef SectionParser<mson::OneOf, ListSectionAdapter> MSONOneOfParser;
-}
+} // namespace snowcrash
 
 #endif

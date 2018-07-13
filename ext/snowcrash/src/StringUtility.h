@@ -333,6 +333,6 @@ namespace snowcrash
 
         return subject;
     }
-}
+} // namespace snowcrash
 
 #endif

@@ -278,6 +278,6 @@ namespace drafter
             return array;
         }
     };
-}
+} // namespace drafter
 
 #endif

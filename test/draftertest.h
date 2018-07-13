@@ -45,7 +45,7 @@ namespace draftertest
         const std::string apib = ".apib";
         const std::string json = ".json";
         const std::string sourceMapJson = ".sourcemap.json";
-    }
+    } // namespace ext
 
     class ITFixtureFiles
     {
@@ -201,6 +201,6 @@ namespace draftertest
             return actual == expected;
         }
     };
-}
+} // namespace draftertest
 
 #endif // #ifndef DRAFTER_DRAFTERTEST_H

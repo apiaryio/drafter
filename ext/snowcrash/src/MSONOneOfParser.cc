@@ -128,4 +128,4 @@ namespace snowcrash
 
         return UndefinedSectionType;
     }
-}
+} // namespace snowcrash

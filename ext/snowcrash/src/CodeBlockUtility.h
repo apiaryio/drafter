@@ -260,6 +260,6 @@ namespace snowcrash
             return false;
         }
     };
-}
+} // namespace snowcrash
 
 #endif

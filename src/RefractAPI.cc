@@ -73,7 +73,7 @@ namespace
 
         return std::move(element);
     }
-}
+} // namespace
 
 std::unique_ptr<IElement> drafter::DataStructureToRefract(
     const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context)

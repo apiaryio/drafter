@@ -103,6 +103,6 @@ namespace snowcrash
      *  \return A %StatusCodeTraits for given code.
      */
     extern StatusCodeTraits GetStatusCodeTrait(HTTPStatusCode code);
-}
+} // namespace snowcrash
 
 #endif

@@ -533,10 +533,8 @@ TEST_CASE("Parse named resource with lazy referencing", "[resource][model][issue
     REQUIRE(resource.actions[0].examples[0].responses[0].reference.type == Reference::ModelReference);
     REQUIRE(resource.actions[0].examples[0].responses[0].reference.meta.state == Reference::StateResolved);
 
-    SourceMap<TransactionExamples> examplesSourceMap = blueprint.sourceMap.content.elements()
-                                                           .collection[0]
-                                                           .content.resource.actions.collection[0]
-                                                           .examples;
+    SourceMap<TransactionExamples> examplesSourceMap
+        = blueprint.sourceMap.content.elements().collection[0].content.resource.actions.collection[0].examples;
 
     SourceMapHelper::check(
         examplesSourceMap.collection[0].responses.collection[0].headers.collection[0].sourceMap, 104, 20);

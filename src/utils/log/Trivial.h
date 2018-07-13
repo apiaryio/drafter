@@ -121,8 +121,8 @@ namespace drafter
                 }
             };
 #endif
-        }
-    }
-}
+        } // namespace log
+    }     // namespace utils
+} // namespace drafter
 
 #endif

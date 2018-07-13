@@ -27,7 +27,7 @@ namespace refract
             c.emplace_back(std::forward<Arg>(arg));
             move_back(c, std::forward<Args>(args)...);
         }
-    }
-}
+    } // namespace utils
+} // namespace refract
 
 #endif

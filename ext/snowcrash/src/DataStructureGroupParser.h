@@ -161,6 +161,6 @@ namespace snowcrash
 
     /** Data Structures Parser */
     typedef SectionParser<DataStructureGroup, HeaderSectionAdapter> DataStructureGroupParser;
-}
+} // namespace snowcrash
 
 #endif

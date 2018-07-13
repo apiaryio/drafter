@@ -528,6 +528,6 @@ namespace snowcrash
 
     /** Resource Section Parser */
     typedef SectionParser<Resource, HeaderSectionAdapter> ResourceParser;
-}
+} // namespace snowcrash
 
 #endif
