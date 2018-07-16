@@ -169,7 +169,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"colors\": []\n}"
+                              "content": "{\n  \"colors\": [\n    \"red\"\n  ]\n}"
                             },
                             {
                               "element": "asset",
