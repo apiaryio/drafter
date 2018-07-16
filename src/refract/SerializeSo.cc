@@ -34,7 +34,7 @@ namespace
     so::Object serializeContent(const dsd::Member& e, bool renderSourceMaps);
     so::String serializeContent(const dsd::Ref& e, bool renderSourceMaps);
 
-    so::Value serializeAny(const IElement& e, bool renderSourceMaps)
+    so::Object serializeAny(const IElement& e, bool renderSourceMaps)
     {
         so::Object result;
 
@@ -178,7 +178,7 @@ namespace
         result.data.emplace_back("key", serializeAny(*value.key(), renderSourceMaps));
 
         if (const auto v = value.value())
-            result.data.emplace_back("value", serializeAny(*value.value(), renderSourceMaps));
+            result.data.emplace_back("value", serializeAny(*v, renderSourceMaps));
         return result;
     }
 
