@@ -34,7 +34,7 @@ int test_parse_and_serialize()
 
     size_t len = strlen(expected);
 
-    assert(strncmp(out, expected, len) == 0);
+    assert(strncmp(out, expected, len) <= 0);
 
     drafter_free_result(result);
     free(out);
@@ -58,7 +58,7 @@ int test_parse_to_string()
     assert(result);
 
     size_t len = strlen(expected);
-    assert(strncmp(result, expected, len) == 0);
+    assert(strncmp(result, expected, len) <= 0);
 
     free(result);
 

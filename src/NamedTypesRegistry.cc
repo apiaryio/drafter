@@ -13,6 +13,8 @@
 #include "RefractElementFactory.h"
 #include "refract/Exception.h"
 #include "refract/Registry.h"
+#include "refract/InfoElements.h"
+#include "refract/Element.h"
 
 #undef DEBUG_DEPENDENCIES
 

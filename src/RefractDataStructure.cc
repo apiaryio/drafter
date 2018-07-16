@@ -12,7 +12,6 @@
 #include "RefractSourceMap.h"
 #include "refract/VisitorUtils.h"
 #include "refract/ExpandVisitor.h"
-#include "refract/SerializeVisitor.h"
 #include "refract/PrintVisitor.h"
 #include "refract/InfoElementsUtils.h"
 
@@ -1346,16 +1345,4 @@ std::unique_ptr<IElement> drafter::ExpandRefract(std::unique_ptr<IElement> eleme
     }
 
     return element;
-}
-
-sos::Object drafter::SerializeRefract(const IElement* element, ConversionContext& context)
-{
-    if (!element) {
-        return sos::Object();
-    }
-
-    SosSerializeVisitor serializer(context.options.generateSourceMap);
-    Visit(serializer, *element);
-
-    return serializer.get();
 }
