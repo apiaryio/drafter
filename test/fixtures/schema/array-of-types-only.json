@@ -148,7 +148,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"tags\": []\n}"
+                              "content": "{\n  \"tags\": [\n    \"\",\n    0\n  ]\n}"
                             },
                             {
                               "element": "asset",

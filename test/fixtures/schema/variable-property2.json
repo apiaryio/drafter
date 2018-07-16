@@ -213,7 +213,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"item\": {\n    \"link\": {\n      \"href\": \"a URI\"\n    },\n    \"id\": {\n      \"name\": \"\",\n      \"email\": \"\"\n    }\n  }\n}"
+                              "content": "{\n  \"item\": {\n    \"id\": {\n      \"name\": \"\",\n      \"email\": \"\"\n    }\n  }\n}"
                             },
                             {
                               "element": "asset",

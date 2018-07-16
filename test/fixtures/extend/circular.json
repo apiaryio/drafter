@@ -134,7 +134,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "[\n  [],\n  []\n]"
+                              "content": "[\n  null,\n  null\n]"
                             },
                             {
                               "element": "asset",

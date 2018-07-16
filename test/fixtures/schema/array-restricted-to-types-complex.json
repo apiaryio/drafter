@@ -180,7 +180,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"tags\": [\n    42\n  ]\n}"
+                              "content": "{\n  \"tags\": [\n    \"hello\",\n    42\n  ]\n}"
                             },
                             {
                               "element": "asset",

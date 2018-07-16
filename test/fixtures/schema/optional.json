@@ -151,7 +151,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{}"
+                              "content": "{\n  \"street\": \"\"\n}"
                             },
                             {
                               "element": "asset",

@@ -156,7 +156,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"digits\": []\n}"
+                              "content": "{\n  \"digits\": [\n    0\n  ]\n}"
                             },
                             {
                               "element": "asset",

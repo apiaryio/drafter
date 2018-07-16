@@ -146,7 +146,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "[\n  \"x\",\n  \"a\",\n  \"b\",\n  \"y\"\n]"
+                              "content": "[\n  \"x\",\n  \"y\"\n]"
                             },
                             {
                               "element": "asset",

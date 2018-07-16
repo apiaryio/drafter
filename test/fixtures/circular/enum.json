@@ -126,7 +126,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"id\": \"1\",\n  \"data\": []\n}"
+                              "content": "{\n  \"id\": \"1\",\n  \"data\": {}\n}"
                             },
                             {
                               "element": "asset",

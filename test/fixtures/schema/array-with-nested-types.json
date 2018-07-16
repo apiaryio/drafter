@@ -164,7 +164,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"address\": [\n    \"4\",\n    \"2\",\n    \"hello\",\n    \"42\"\n  ]\n}"
+                              "content": "{\n  \"address\": [\n    0,\n    \"\",\n    \"4\",\n    \"2\",\n    \"hello\",\n    \"42\"\n  ]\n}"
                             },
                             {
                               "element": "asset",
