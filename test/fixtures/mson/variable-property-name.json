@@ -126,7 +126,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"s\": \"start\",\n  \"e\": \"end\"\n}"
+                              "content": "{\n  \"s\": \"start\",\n  \"direct\": \"v1\",\n  \"str\": \"v2\",\n  \"ss\": \"s2\",\n  \"sd\": \"d2\",\n  \"se\": \"e2\",\n  \"e\": \"end\"\n}"
                             },
                             {
                               "element": "asset",

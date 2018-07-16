@@ -188,7 +188,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"person\": {\n    \"first_name\": \"\",\n    \"last_name\": \"\"\n  }\n}"
+                              "content": "{\n  \"person\": {\n    \"first_name\": \"\"\n  }\n}"
                             },
                             {
                               "element": "asset",

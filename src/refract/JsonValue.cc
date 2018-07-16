@@ -328,20 +328,51 @@ namespace
         if (hasOptionalTypeAttr(e))
             options.reset(REQUIRED_FLAG);
 
-        const auto k = e.get().key();
-        const auto v = e.get().value();
+        const auto* k = e.get().key();
+        const auto* v = e.get().value();
 
         assert(k);
-        // if (hasOptionalTypeAttr(e))
-        //    LOG(debug) << "omitting optional property while rendering value";
-        // else
+
+        if (hasOptionalTypeAttr(e))
+            if (!definesValue(*v)) {
+                LOG(debug) << "omitting optional property while rendering value";
+                return;
+            }
+
         if (isVariable(e)) {
-            LOG(warning) << "omitting variable property while rendering value";
+            if (const auto* strKeyEl = get<const StringElement>(k)) {
+                if (!strKeyEl->empty()) {
+                    LOG(warning) << "improvised variable key; sample shall be used as key sample";
+                    const auto& strKey = strKeyEl->get().get();
+                    emplace_unique(obj, strKey, renderValue(*v, pass_flags(options)));
+                    return;
+                }
+
+            } else if (const auto* extend = get<const ExtendElement>(k)) {
+                if (!extend->empty()) {
+                    auto merged = extend->get().merge();
+                    if (const auto* strKeyEl = get<const StringElement>(merged.get())) {
+                        if (!strKeyEl->empty()) {
+                            LOG(warning) << "improvised variable key; sample shall be used as key sample";
+                            const auto& strKey = strKeyEl->get().get();
+                            emplace_unique(obj, strKey, renderValue(*v, pass_flags(options)));
+                            return;
+                        }
+                    } else {
+                        LOG(warning) << "variable property key does not resolve to String Element";
+                        assert(false);
+                    }
+                }
+            }
+
+            LOG(info) << "omitting variable property while rendering value";
+
         } else {
             auto strKey = key(e);
             emplace_unique(obj, strKey, renderValue(*v, pass_flags(options)));
         }
     }
+
     void renderProperty(so::Object& obj, const RefElement& e, TypeAttributes options)
     {
         LOG(debug) << "rendering property RefElement as JSON Value";
