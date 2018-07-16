@@ -84,7 +84,7 @@ namespace
     void renderItem(so::Array& obj, const RefElement& e, TypeAttributes options);
     void renderItem(so::Array& obj, const IElement& e, TypeAttributes options);
 
-    so::Value renderValue(const ObjectElement& e, TypeAttributes options);
+    so::Object renderValue(const ObjectElement& e, TypeAttributes options);
     so::Array renderValue(const ArrayElement& e, TypeAttributes options);
     so::Value renderValue(const EnumElement& e, TypeAttributes options);
     so::Value renderValue(const NullElement& e, TypeAttributes options);
@@ -132,13 +132,13 @@ so::Value refract::generateJsonValue(const IElement& el)
 namespace
 {
 
-    so::Value renderValue(const ObjectElement& e, TypeAttributes options)
+    so::Object renderValue(const ObjectElement& e, TypeAttributes options)
     {
         LOG(debug) << "rendering ObjectElement to JSON Value";
+        so::Object result{};
 
         options = updateTypeAttributes(e, options);
 
-        so::Object result{};
         if (e.empty()) {
             if (const auto* smple = findSample(e)) {
                 if (!smple->empty())
