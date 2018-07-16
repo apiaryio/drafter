@@ -35,11 +35,11 @@ namespace refract
     ///             otherwise given Element cast to given type
     ///
     template <typename Element>
-    Element* get(const IElement* e)
+    const Element* get(const IElement* e)
     {
-        return dynamic_cast<Element*>(e);
+        return dynamic_cast<const Element*>(e);
     }
-}
+} // namespace refract
 
 namespace refract
 {
@@ -109,15 +109,43 @@ namespace refract
     /// Find a default value for an Element
     ///
     /// @returns    an Element typing a single value representing the default;
-    ///             nullptr iff default is not defined
+    ///             nullptr iff default is not found
     ///
     template <typename Element>
     const Element* findDefault(const Element& e)
     {
         auto it = e.attributes().find("default");
         if (it != e.attributes().end()) {
-            if (auto result = get<const Element>(it->second.get()))
+            if (const auto& result = get<const Element>(it->second.get()))
                 return result;
+        }
+        return nullptr;
+    }
+
+    ///
+    /// Find a sample value for an Element
+    ///
+    /// @returns    an Element typing a single value representing the sample;
+    ///             nullptr iff sample is not found
+    ///
+    template <typename Element>
+    const Element* findSample(const Element& e)
+    {
+        {
+            auto it = e.attributes().find("sample");
+            if (it != e.attributes().end()) {
+                if (auto result = get<const Element>(it->second.get()))
+                    return result;
+            }
+        }
+        {
+            auto it = e.attributes().find("samples");
+            if (it != e.attributes().end()) {
+                if (const auto& samples = get<const ArrayElement>(it->second.get()))
+                    if (!samples->empty() && !samples->get().empty())
+                        if (const auto& result = get<const Element>(samples->get().begin()[0].get()))
+                            return result;
+            }
         }
         return nullptr;
     }
