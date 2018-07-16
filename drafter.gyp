@@ -219,23 +219,6 @@
       ]
     },
 
-# LIBSOS
-    {
-      'target_name': 'libsos',
-      'type': 'static_library',
-      'direct_dependent_settings' : {
-        'include_dirs': [
-          'ext/sos/src'
-        ],
-      },
-      'sources': [
-        'ext/sos/src/sos.cc',
-        'ext/sos/src/sos.h',
-        'ext/sos/src/sosJSON.h',
-        'ext/sos/src/sosYAML.h'
-      ]
-    },
-
 # LIBDRAFTER
     {
       "target_name": "libdrafter",
@@ -253,7 +236,6 @@
         'ext/boost_1_66_0',
       ],
       'export_dependent_settings': [
-        'libsos',
         'libsnowcrash',
       ],
       "sources": [
@@ -367,7 +349,6 @@
         "src/refract/dsd/String.cc",
       ],
       "dependencies": [
-        "libsos",
         "libsnowcrash",
       ],
     },
