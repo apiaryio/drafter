@@ -185,7 +185,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{}"
+                              "content": "{\n  \"y\": [\n    {\n      \"name\": \"\"\n    }\n  ]\n}"
                             },
                             {
                               "element": "asset",

@@ -149,6 +149,13 @@ namespace refract
         }
         return nullptr;
     }
+
+    template <typename Element>
+    bool definesValue(const Element& e)
+    {
+        return !e.empty() || findSample(e) || findDefault(e);
+    }
+
 } // namespace refract
 
 #endif
