@@ -185,7 +185,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"address\": [\n    \"city\"\n  ]\n}"
+                              "content": "{\n  \"address\": [\n    \"street\",\n    \"city\",\n    \"state\"\n  ]\n}"
                             },
                             {
                               "element": "asset",

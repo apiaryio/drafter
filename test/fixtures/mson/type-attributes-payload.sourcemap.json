@@ -378,7 +378,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{}"
+                              "content": "{\n  \"a\": \"\"\n}"
                             },
                             {
                               "element": "asset",

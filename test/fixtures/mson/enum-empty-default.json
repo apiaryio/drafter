@@ -179,7 +179,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"type\": \"\"\n}"
+                              "content": "{\n  \"type\": \"regular\"\n}"
                             },
                             {
                               "element": "asset",

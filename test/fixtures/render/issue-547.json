@@ -131,7 +131,7 @@
                               "content": "application/json"
                             }
                           },
-                          "content": "{}"
+                          "content": "{\n  \"\": [\n    \"foo\",\n    \"bar\"\n  ]\n}"
                         },
                         {
                           "element": "asset",

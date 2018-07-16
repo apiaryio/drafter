@@ -321,7 +321,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"s1\": \"abc\",\n  \"s2\": \"def\",\n  \"s4\": null,\n  \"s5\": null,\n  \"s6\": null,\n  \"s7\": \"xyz\",\n  \"s8\": \"xyz\"\n}"
+                              "content": "{\n  \"s1\": \"abc\",\n  \"s2\": \"def\",\n  \"s3\": \"\",\n  \"s4\": null,\n  \"s5\": null,\n  \"s6\": null,\n  \"s7\": \"xyz\",\n  \"s8\": \"xyz\"\n}"
                             },
                             {
                               "element": "asset",

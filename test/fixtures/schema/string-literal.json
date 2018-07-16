@@ -164,7 +164,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"street\": [\n    \"bye bye\",\n    \"san francisco\"\n  ]\n}"
+                              "content": "{\n  \"street\": [\n    \"\",\n    \"bye bye\",\n    \"san francisco\"\n  ]\n}"
                             },
                             {
                               "element": "asset",

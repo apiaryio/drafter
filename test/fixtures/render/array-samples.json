@@ -260,7 +260,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"a1\": [\n    \"d\",\n    \"f\",\n    \"l\",\n    \"t\"\n  ],\n  \"a2\": [\n    \"s\",\n    \"m\",\n    \"p\",\n    \"l\"\n  ],\n  \"a3\": [\n    \"1\",\n    \"2\",\n    \"3\"\n  ]\n}"
+                              "content": "{\n  \"a1\": [],\n  \"a2\": [],\n  \"a3\": []\n}"
                             },
                             {
                               "element": "asset",

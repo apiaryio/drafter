@@ -168,7 +168,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"street\": [\n    0,\n    1.5,\n    340\n  ]\n}"
+                              "content": "{\n  \"street\": [\n    0,\n    0,\n    1.5,\n    340\n  ]\n}"
                             },
                             {
                               "element": "asset",

@@ -175,7 +175,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"a URI\"\n    }\n  }\n}"
+                              "content": "{\n  \"_links\": {}\n}"
                             },
                             {
                               "element": "asset",

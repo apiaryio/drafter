@@ -184,7 +184,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"a\": [\n    \"b\",\n    \"c\"\n  ]\n}"
+                              "content": "{\n  \"a\": [\n    \"\",\n    \"b\",\n    \"c\"\n  ]\n}"
                             },
                             {
                               "element": "asset",
