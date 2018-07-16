@@ -139,7 +139,21 @@ namespace
         options = updateTypeAttributes(e, options);
 
         so::Object result{};
-        if (!e.empty())
+        if (e.empty()) {
+            if (const auto* smple = findSample(e)) {
+                if (!smple->empty())
+                    for (const auto& item : smple->get()) {
+                        assert(item);
+                        renderProperty(result, *item, inherit_or_pass_flags(options, *item));
+                    }
+            } else if (const auto* deflt = findDefault(e)) {
+                if (!deflt->empty())
+                    for (const auto& item : deflt->get()) {
+                        assert(item);
+                        renderProperty(result, *item, inherit_or_pass_flags(options, *item));
+                    }
+            }
+        } else
             for (const auto& item : e.get()) {
                 assert(item);
                 if (options.test(FIXED_TYPE_FLAG) || options.test(FIXED_FLAG))
@@ -148,8 +162,6 @@ namespace
                 else
                     renderProperty(result, *item, inherit_or_pass_flags(options, *item));
             }
-
-        // TODO handle nullable?
 
         return result;
     }
@@ -173,7 +185,21 @@ namespace
         options = updateTypeAttributes(e, options);
 
         so::Array result{};
-        if (!e.empty())
+        if (e.empty()) {
+            if (const auto* smple = findSample(e)) {
+                if (!smple->empty())
+                    for (const auto& entry : smple->get()) {
+                        assert(entry);
+                        renderItem(result, *entry, inherit_or_pass_flags(options, *entry));
+                    }
+            } else if (const auto* deflt = findDefault(e)) {
+                if (!deflt->empty())
+                    for (const auto& entry : deflt->get()) {
+                        assert(entry);
+                        renderItem(result, *entry, inherit_or_pass_flags(options, *entry));
+                    }
+            }
+        } else
             for (const auto& entry : e.get()) {
                 assert(entry);
                 renderItem(result, *entry, inherit_or_pass_flags(options, *entry));
