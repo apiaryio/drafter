@@ -136,7 +136,6 @@ namespace
         void operator()(const Number& value, std::ostream& out, int indent = 0) const
         {
             if (std::isfinite(value.data)) {     // Finite
-                out.precision(17);               //
                 out << value.data;               //
             } else if (std::isnan(value.data)) { // NaN
                 out << "null";                   //
