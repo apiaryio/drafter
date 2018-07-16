@@ -10,7 +10,6 @@
 
 #include "Element.h"
 #include "Exception.h"
-#include "SerializeCompactVisitor.h"
 #include "TypeQueryVisitor.h"
 #include <algorithm>
 
@@ -40,10 +39,6 @@ std::string Registry::getElementId(IElement& element)
     if (it == element.meta().end()) {
         throw LogicError("Element has no ID");
     }
-
-    // FIXME: remove dependecy on SosSerializeCompactVisitor
-    SosSerializeCompactVisitor v;
-    VisitBy(*it->second, v);
 
     if (const StringElement* s = TypeQueryVisitor::as<const StringElement>(it->second.get())) {
         return s->get();

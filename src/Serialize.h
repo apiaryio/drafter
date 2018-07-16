@@ -11,7 +11,6 @@
 
 #include <string>
 #include "BlueprintSourcemap.h"
-#include "sos.h"
 
 #include "NodeInfo.h"
 
@@ -185,99 +184,6 @@ namespace drafter
     std::pair<bool, refract::dsd::Number> LiteralTo<refract::dsd::Number>(const mson::Literal& literal);
     template <>
     std::pair<bool, refract::dsd::String> LiteralTo<refract::dsd::String>(const mson::Literal& literal);
-
-    /**
-     * \brief functor pattern to translate _collection_ into sos::Array on serialization
-     * \requests for collection - must define typedef member ::const_iterator
-     *
-     * usage:
-     *
-     * sos::Array elements = WrapCollection<mson::Element>()(getSomeListOfElements(), WrapMSONElement));
-     *
-     * operator()(const T& collection, Functor &wrapper)
-     * \param collection - it come typicaly from snowcrash
-     * \param wrapper - adaptee element before push to collection
-     *        you have to write your own, for example \see SeriallizeAST.cc
-     *
-     */
-    template <typename T, typename R = sos::Array>
-    struct WrapCollection {
-
-        typedef T value_type;
-
-        template <typename Collection, typename Functor>
-        R operator()(const Collection& collection, Functor& wrapper) const
-        {
-            typedef typename Collection::const_iterator iterator_type;
-            R array;
-
-            for (iterator_type it = collection.begin(); it != collection.end(); ++it) {
-                array.push(wrapper(*it));
-            }
-
-            return array;
-        }
-
-        template <typename Collection, typename Functor, typename Arg1>
-        R operator()(const Collection& collection, Functor& wrapper, Arg1 arg1) const
-        {
-            typedef typename Collection::const_iterator iterator_type;
-            R array;
-
-            for (iterator_type it = collection.begin(); it != collection.end(); ++it) {
-                array.push(wrapper(*it, arg1));
-            }
-
-            return array;
-        }
-
-        template <typename Collection, typename Functor, typename Arg1, typename Arg2>
-        R operator()(const Collection& collection, Functor& wrapper, Arg1 arg1, Arg2 arg2) const
-        {
-            typedef typename Collection::const_iterator iterator_type;
-            R array;
-
-            for (iterator_type it = collection.begin(); it != collection.end(); ++it) {
-                array.push(wrapper(*it, arg1, arg2));
-            }
-
-            return array;
-        }
-    };
-
-    template <typename T, typename R = sos::Array>
-    struct WrapCollectionIf {
-        // When we want to use predicate, let's use a dummy argument to distinguish it
-        template <typename Collection, typename Functor, typename Predicate>
-        R operator()(const Collection& collection, Functor& wrapper, Predicate& predicate) const
-        {
-            typedef typename Collection::const_iterator iterator_type;
-            R array;
-
-            for (iterator_type it = collection.begin(); it != collection.end(); ++it) {
-                if (predicate(*it)) {
-                    array.push(wrapper(*it));
-                }
-            }
-
-            return array;
-        }
-
-        template <typename Collection, typename Functor, typename Predicate, typename Arg1>
-        R operator()(const Collection& collection, Functor& wrapper, Predicate& predicate, Arg1& arg1) const
-        {
-            typedef typename Collection::const_iterator iterator_type;
-            R array;
-
-            for (iterator_type it = collection.begin(); it != collection.end(); ++it) {
-                if (predicate(*it)) {
-                    array.push(wrapper(*it, arg1));
-                }
-            }
-
-            return array;
-        }
-    };
 }
 
 #endif

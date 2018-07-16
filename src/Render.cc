@@ -15,8 +15,9 @@
 
 #include "ConversionContext.h"
 
-#include "refract/RenderJSONVisitor.h"
 #include "refract/JsonSchema.h"
+#include "refract/JsonValue.h"
+#include "refract/SerializeSo.h"
 #include "utils/so/JsonIo.h"
 
 using namespace snowcrash;
@@ -90,13 +91,12 @@ namespace drafter
         // One of this will always execute since we have a catch above for not having render format
         switch (renderFormat) {
             case JSONRenderFormat: {
-                refract::RenderJSONVisitor renderer;
-                refract::Visit(renderer, *expanded);
-                return std::make_pair(renderer.getString(), NodeInfo<Asset>::NullSourceMap());
+                std::stringstream ss{};
+                utils::so::serialize_json(ss, refract::generateJsonValue(*expanded));
+                return std::make_pair(ss.str(), NodeInfo<Asset>::NullSourceMap());
             }
 
             case JSONSchemaRenderFormat: {
-
                 std::stringstream ss{};
                 utils::so::serialize_json(ss, refract::schema::generateJsonSchema(*expanded));
                 return std::make_pair(ss.str(), NodeInfo<Asset>::NullSourceMap());

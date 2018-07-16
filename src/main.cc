@@ -11,10 +11,6 @@
 #include "snowcrash.h"
 #include "SectionParserData.h" // snowcrash::BlueprintParserOptions
 
-#include "sos.h"
-#include "sosJSON.h"
-#include "sosYAML.h"
-
 #include "SerializeResult.h"
 
 #include "reporting.h"
@@ -26,30 +22,6 @@
 #include "utils/log/Trivial.h"
 
 namespace sc = snowcrash;
-
-/**
- *  \brief  return instance sos::Serializer based on \param `format`
- *
- *  \param format - output format for serialization
- */
-sos::Serialize* CreateSerializer(const drafter::SerializeFormat& format)
-{
-    if (format == drafter::JSONFormat) {
-        return new sos::SerializeJSON;
-    }
-
-    return new sos::SerializeYAML;
-}
-
-/**
- * \brief Serialize sos::Object into stream
- */
-void Serialization(std::ostream* stream, const sos::Object& object, sos::Serialize* serializer)
-{
-    serializer->process(object, *stream);
-    *stream << "\n";
-    *stream << std::flush;
-}
 
 int ProcessRefract(const Config& config, std::unique_ptr<std::istream>& in, std::unique_ptr<std::ostream>& out)
 {
