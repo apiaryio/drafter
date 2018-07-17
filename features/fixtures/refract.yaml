@@ -1,767 +1,766 @@
-element: "parseResult"
-content:
+"element": "parseResult"
+"content":
   -
-    element: "category"
-    meta:
-      classes:
-        element: "array"
-        content:
+    "element": "category"
+    "meta":
+      "classes":
+        "element": "array"
+        "content":
           -
-            element: "string"
-            content: "api"
-      title:
-        element: "string"
-        content: "<API name>"
-    attributes:
-      metadata:
-        element: "array"
-        content:
+            "element": "string"
+            "content": "api"
+      "title":
+        "element": "string"
+        "content": "<API name>"
+    "attributes":
+      "metadata":
+        "element": "array"
+        "content":
           -
-            element: "member"
-            meta:
-              classes:
-                element: "array"
-                content:
+            "element": "member"
+            "meta":
+              "classes":
+                "element": "array"
+                "content":
                   -
-                    element: "string"
-                    content: "user"
-            content:
-              key:
-                element: "string"
-                content: "Format"
-              value:
-                element: "string"
-                content: "1A"
-    content:
+                    "element": "string"
+                    "content": "user"
+            "content":
+              "key":
+                "element": "string"
+                "content": "Format"
+              "value":
+                "element": "string"
+                "content": "1A"
+    "content":
       -
-        element: "copy"
-        content: "<API description>"
+        "element": "copy"
+        "content": "<API description>"
       -
-        element: "category"
-        meta:
-          classes:
-            element: "array"
-            content:
+        "element": "category"
+        "meta":
+          "classes":
+            "element": "array"
+            "content":
               -
-                element: "string"
-                content: "resourceGroup"
-          title:
-            element: "string"
-            content: "<resource group name>"
-        content:
+                "element": "string"
+                "content": "resourceGroup"
+          "title":
+            "element": "string"
+            "content": "<resource group name>"
+        "content":
           -
-            element: "copy"
-            content: "<resource group description>"
+            "element": "copy"
+            "content": "<resource group description>"
           -
-            element: "resource"
-            meta:
-              title:
-                element: "string"
-                content: "<resource name>"
-            attributes:
-              href:
-                element: "string"
-                content: "/resource/{parameter}"
-              hrefVariables:
-                element: "hrefVariables"
-                content:
+            "element": "resource"
+            "meta":
+              "title":
+                "element": "string"
+                "content": "<resource name>"
+            "attributes":
+              "href":
+                "element": "string"
+                "content": "/resource/{parameter}"
+              "hrefVariables":
+                "element": "hrefVariables"
+                "content":
                   -
-                    element: "member"
-                    meta:
-                      description:
-                        element: "string"
-                        content: "<description>"
-                      title:
-                        element: "string"
-                        content: "<type>"
-                    attributes:
-                      typeAttributes:
-                        element: "array"
-                        content:
+                    "element": "member"
+                    "meta":
+                      "description":
+                        "element": "string"
+                        "content": "<description>"
+                      "title":
+                        "element": "string"
+                        "content": "<type>"
+                    "attributes":
+                      "typeAttributes":
+                        "element": "array"
+                        "content":
                           -
-                            element: "string"
-                            content: "optional"
-                    content:
-                      key:
-                        element: "string"
-                        content: "parameter"
-                      value:
-                        element: "enum"
-                        attributes:
-                          default:
-                            element: "string"
-                            content: "<default value>"
-                          enumerations:
-                            element: "array"
-                            content:
+                            "element": "string"
+                            "content": "optional"
+                    "content":
+                      "key":
+                        "element": "string"
+                        "content": "parameter"
+                      "value":
+                        "element": "enum"
+                        "attributes":
+                          "default":
+                            "element": "string"
+                            "content": "<default value>"
+                          "enumerations":
+                            "element": "array"
+                            "content":
                               -
-                                element: "string"
-                                content: "<default value>"
+                                "element": "string"
+                                "content": "<default value>"
                               -
-                                element: "string"
-                                content: "<example value>"
-                        content:
-                          element: "string"
-                          content: "<example value>"
-            content:
+                                "element": "string"
+                                "content": "<example value>"
+                        "content":
+                          "element": "string"
+                          "content": "<example value>"
+            "content":
               -
-                element: "copy"
-                content: "<resource description>"
+                "element": "copy"
+                "content": "<resource description>"
               -
-                element: "dataStructure"
-                content:
-                  element: "object"
-                  meta:
-                    id:
-                      element: "string"
-                      content: "<resource name>"
-                  content:
+                "element": "dataStructure"
+                "content":
+                  "element": "object"
+                  "meta":
+                    "id":
+                      "element": "string"
+                      "content": "<resource name>"
+                  "content":
                     -
-                      element: "member"
-                      meta:
-                        description:
-                          element: "string"
-                          content: "<attribute property description>"
-                      content:
-                        key:
-                          element: "string"
-                          content: "<attribute property name>"
-                        value:
-                          element: "number"
-                          content: 0
+                      "element": "member"
+                      "meta":
+                        "description":
+                          "element": "string"
+                          "content": "<attribute property description>"
+                      "content":
+                        "key":
+                          "element": "string"
+                          "content": "<attribute property name>"
+                        "value":
+                          "element": "number"
+                          "content": 0
               -
-                element: "transition"
-                meta:
-                  title:
-                    element: "string"
-                    content: "<action name>"
-                attributes:
-                  relation:
-                    element: "string"
-                    content: "relation-name"
-                  hrefVariables:
-                    element: "hrefVariables"
-                    content:
+                "element": "transition"
+                "meta":
+                  "title":
+                    "element": "string"
+                    "content": "<action name>"
+                "attributes":
+                  "relation":
+                    "element": "string"
+                    "content": "relation-name"
+                  "hrefVariables":
+                    "element": "hrefVariables"
+                    "content":
                       -
-                        element: "member"
-                        meta:
-                          description:
-                            element: "string"
-                            content: "<description>"
-                          title:
-                            element: "string"
-                            content: "<type>"
-                        attributes:
-                          typeAttributes:
-                            element: "array"
-                            content:
+                        "element": "member"
+                        "meta":
+                          "description":
+                            "element": "string"
+                            "content": "<description>"
+                          "title":
+                            "element": "string"
+                            "content": "<type>"
+                        "attributes":
+                          "typeAttributes":
+                            "element": "array"
+                            "content":
                               -
-                                element: "string"
-                                content: "optional"
-                        content:
-                          key:
-                            element: "string"
-                            content: "parameter"
-                          value:
-                            element: "enum"
-                            attributes:
-                              default:
-                                element: "string"
-                                content: "<default value>"
-                              enumerations:
-                                element: "array"
-                                content:
+                                "element": "string"
+                                "content": "optional"
+                        "content":
+                          "key":
+                            "element": "string"
+                            "content": "parameter"
+                          "value":
+                            "element": "enum"
+                            "attributes":
+                              "default":
+                                "element": "string"
+                                "content": "<default value>"
+                              "enumerations":
+                                "element": "array"
+                                "content":
                                   -
-                                    element: "string"
-                                    content: "<default value>"
+                                    "element": "string"
+                                    "content": "<default value>"
                                   -
-                                    element: "string"
-                                    content: "<example value>"
-                            content:
-                              element: "string"
-                              content: "<example value>"
-                content:
+                                    "element": "string"
+                                    "content": "<example value>"
+                            "content":
+                              "element": "string"
+                              "content": "<example value>"
+                "content":
                   -
-                    element: "copy"
-                    content: "<action description>"
+                    "element": "copy"
+                    "content": "<action description>"
                   -
-                    element: "httpTransaction"
-                    content:
+                    "element": "httpTransaction"
+                    "content":
                       -
-                        element: "httpRequest"
-                        meta:
-                          title:
-                            element: "string"
-                            content: "<request name>"
-                        attributes:
-                          method:
-                            element: "string"
-                            content: "POST"
-                          headers:
-                            element: "httpHeaders"
-                            content:
+                        "element": "httpRequest"
+                        "meta":
+                          "title":
+                            "element": "string"
+                            "content": "<request name>"
+                        "attributes":
+                          "method":
+                            "element": "string"
+                            "content": "POST"
+                          "headers":
+                            "element": "httpHeaders"
+                            "content":
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header2"
-                                  value:
-                                    element: "string"
-                                    content: "<header2 value>"
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header2"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header2 value>"
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header3"
-                                  value:
-                                    element: "string"
-                                    content: "<header3 value>"
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header3"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header3 value>"
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "Content-Type"
-                                  value:
-                                    element: "string"
-                                    content: "text/plain"
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "Content-Type"
+                                  "value":
+                                    "element": "string"
+                                    "content": "text/plain"
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header4"
-                                  value:
-                                    element: "string"
-                                    content: "<header4 value>"
-                        content:
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header4"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header4 value>"
+                        "content":
                           -
-                            element: "copy"
-                            content: "<request description>"
+                            "element": "copy"
+                            "content": "<request description>"
                           -
-                            element: "asset"
-                            meta:
-                              classes:
-                                element: "array"
-                                content:
+                            "element": "asset"
+                            "meta":
+                              "classes":
+                                "element": "array"
+                                "content":
                                   -
-                                    element: "string"
-                                    content: "messageBody"
-                            attributes:
-                              contentType:
-                                element: "string"
-                                content: "text/plain"
-                            content: "<request body>\n"
+                                    "element": "string"
+                                    "content": "messageBody"
+                            "attributes":
+                              "contentType":
+                                "element": "string"
+                                "content": "text/plain"
+                            "content": "<request body>\n"
                           -
-                            element: "asset"
-                            meta:
-                              classes:
-                                element: "array"
-                                content:
+                            "element": "asset"
+                            "meta":
+                              "classes":
+                                "element": "array"
+                                "content":
                                   -
-                                    element: "string"
-                                    content: "messageBodySchema"
-                            attributes:
-                              contentType:
-                                element: "string"
-                                content: "text/plain"
-                            content: "<request schema>\n"
+                                    "element": "string"
+                                    "content": "messageBodySchema"
+                            "attributes":
+                              "contentType":
+                                "element": "string"
+                                "content": "text/plain"
+                            "content": "<request schema>\n"
                       -
-                        element: "httpResponse"
-                        attributes:
-                          statusCode:
-                            element: "string"
-                            content: "200"
-                          headers:
-                            element: "httpHeaders"
-                            content:
+                        "element": "httpResponse"
+                        "attributes":
+                          "statusCode":
+                            "element": "string"
+                            "content": "200"
+                          "headers":
+                            "element": "httpHeaders"
+                            "content":
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header2"
-                                  value:
-                                    element: "string"
-                                    content: "<header2 value>"
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header2"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header2 value>"
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header3"
-                                  value:
-                                    element: "string"
-                                    content: "<header3 value>"
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header3"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header3 value>"
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "Content-Type"
-                                  value:
-                                    element: "string"
-                                    content: "text/plain"
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "Content-Type"
+                                  "value":
+                                    "element": "string"
+                                    "content": "text/plain"
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header5"
-                                  value:
-                                    element: "string"
-                                    content: "<header5 value>"
-                        content:
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header5"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header5 value>"
+                        "content":
                           -
-                            element: "copy"
-                            content: "<response description>"
+                            "element": "copy"
+                            "content": "<response description>"
                           -
-                            element: "asset"
-                            meta:
-                              classes:
-                                element: "array"
-                                content:
+                            "element": "asset"
+                            "meta":
+                              "classes":
+                                "element": "array"
+                                "content":
                                   -
-                                    element: "string"
-                                    content: "messageBody"
-                            attributes:
-                              contentType:
-                                element: "string"
-                                content: "text/plain"
-                            content: "<response body>\n"
+                                    "element": "string"
+                                    "content": "messageBody"
+                            "attributes":
+                              "contentType":
+                                "element": "string"
+                                "content": "text/plain"
+                            "content": "<response body>\n"
                           -
-                            element: "asset"
-                            meta:
-                              classes:
-                                element: "array"
-                                content:
+                            "element": "asset"
+                            "meta":
+                              "classes":
+                                "element": "array"
+                                "content":
                                   -
-                                    element: "string"
-                                    content: "messageBodySchema"
-                            attributes:
-                              contentType:
-                                element: "string"
-                                content: "text/plain"
-                            content: "<response schema>\n"
+                                    "element": "string"
+                                    "content": "messageBodySchema"
+                            "attributes":
+                              "contentType":
+                                "element": "string"
+                                "content": "text/plain"
+                            "content": "<response schema>\n"
                   -
-                    element: "httpTransaction"
-                    content:
+                    "element": "httpTransaction"
+                    "content":
                       -
-                        element: "httpRequest"
-                        meta:
-                          title:
-                            element: "string"
-                            content: "<request name>"
-                        attributes:
-                          method:
-                            element: "string"
-                            content: "POST"
-                          headers:
-                            element: "httpHeaders"
-                            content:
+                        "element": "httpRequest"
+                        "meta":
+                          "title":
+                            "element": "string"
+                            "content": "<request name>"
+                        "attributes":
+                          "method":
+                            "element": "string"
+                            "content": "POST"
+                          "headers":
+                            "element": "httpHeaders"
+                            "content":
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header2"
-                                  value:
-                                    element: "string"
-                                    content: "<header2 value>"
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header2"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header2 value>"
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header3"
-                                  value:
-                                    element: "string"
-                                    content: "<header3 value>"
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header3"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header3 value>"
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "Content-Type"
-                                  value:
-                                    element: "string"
-                                    content: "text/plain"
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "Content-Type"
+                                  "value":
+                                    "element": "string"
+                                    "content": "text/plain"
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header4"
-                                  value:
-                                    element: "string"
-                                    content: "<header4 value>"
-                        content:
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header4"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header4 value>"
+                        "content":
                           -
-                            element: "copy"
-                            content: "<request description>"
+                            "element": "copy"
+                            "content": "<request description>"
                           -
-                            element: "asset"
-                            meta:
-                              classes:
-                                element: "array"
-                                content:
+                            "element": "asset"
+                            "meta":
+                              "classes":
+                                "element": "array"
+                                "content":
                                   -
-                                    element: "string"
-                                    content: "messageBody"
-                            attributes:
-                              contentType:
-                                element: "string"
-                                content: "text/plain"
-                            content: "<request body>\n"
+                                    "element": "string"
+                                    "content": "messageBody"
+                            "attributes":
+                              "contentType":
+                                "element": "string"
+                                "content": "text/plain"
+                            "content": "<request body>\n"
                           -
-                            element: "asset"
-                            meta:
-                              classes:
-                                element: "array"
-                                content:
+                            "element": "asset"
+                            "meta":
+                              "classes":
+                                "element": "array"
+                                "content":
                                   -
-                                    element: "string"
-                                    content: "messageBodySchema"
-                            attributes:
-                              contentType:
-                                element: "string"
-                                content: "text/plain"
-                            content: "<request schema>\n"
+                                    "element": "string"
+                                    "content": "messageBodySchema"
+                            "attributes":
+                              "contentType":
+                                "element": "string"
+                                "content": "text/plain"
+                            "content": "<request schema>\n"
                       -
-                        element: "httpResponse"
-                        attributes:
-                          statusCode:
-                            element: "string"
-                            content: "201"
-                          headers:
-                            element: "httpHeaders"
-                            content:
+                        "element": "httpResponse"
+                        "attributes":
+                          "statusCode":
+                            "element": "string"
+                            "content": "201"
+                          "headers":
+                            "element": "httpHeaders"
+                            "content":
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header2"
-                                  value:
-                                    element: "string"
-                                    content: "<header2 value>"
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header2"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header2 value>"
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header3"
-                                  value:
-                                    element: "string"
-                                    content: "<header3 value>"
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header3"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header3 value>"
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header1"
-                                  value:
-                                    element: "string"
-                                    content: "<header1 value>"
-                        content:
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header1"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header1 value>"
+                        "content":
                           -
-                            element: "copy"
-                            content: "<resource model description>"
+                            "element": "copy"
+                            "content": "<resource model description>"
                           -
-                            element: "asset"
-                            meta:
-                              classes:
-                                element: "array"
-                                content:
+                            "element": "asset"
+                            "meta":
+                              "classes":
+                                "element": "array"
+                                "content":
                                   -
-                                    element: "string"
-                                    content: "messageBody"
-                            content: "<resource model body>\n"
+                                    "element": "string"
+                                    "content": "messageBody"
+                            "content": "<resource model body>\n"
                           -
-                            element: "asset"
-                            meta:
-                              classes:
-                                element: "array"
-                                content:
+                            "element": "asset"
+                            "meta":
+                              "classes":
+                                "element": "array"
+                                "content":
                                   -
-                                    element: "string"
-                                    content: "messageBodySchema"
-                            content: "<resource model schema>\n"
+                                    "element": "string"
+                                    "content": "messageBodySchema"
+                            "content": "<resource model schema>\n"
                   -
-                    element: "httpTransaction"
-                    content:
+                    "element": "httpTransaction"
+                    "content":
                       -
-                        element: "httpRequest"
-                        meta:
-                          title:
-                            element: "string"
-                            content: "<request name>"
-                        attributes:
-                          method:
-                            element: "string"
-                            content: "POST"
-                          headers:
-                            element: "httpHeaders"
-                            content:
+                        "element": "httpRequest"
+                        "meta":
+                          "title":
+                            "element": "string"
+                            "content": "<request name>"
+                        "attributes":
+                          "method":
+                            "element": "string"
+                            "content": "POST"
+                          "headers":
+                            "element": "httpHeaders"
+                            "content":
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header2"
-                                  value:
-                                    element: "string"
-                                    content: "<header2 value>"
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header2"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header2 value>"
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header3"
-                                  value:
-                                    element: "string"
-                                    content: "<header3 value>"
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header3"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header3 value>"
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "Content-Type"
-                                  value:
-                                    element: "string"
-                                    content: "text/plain"
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "Content-Type"
+                                  "value":
+                                    "element": "string"
+                                    "content": "text/plain"
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header4"
-                                  value:
-                                    element: "string"
-                                    content: "<header4 value>"
-                        content:
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header4"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header4 value>"
+                        "content":
                           -
-                            element: "copy"
-                            content: "<request description>"
+                            "element": "copy"
+                            "content": "<request description>"
                           -
-                            element: "asset"
-                            meta:
-                              classes:
-                                element: "array"
-                                content:
+                            "element": "asset"
+                            "meta":
+                              "classes":
+                                "element": "array"
+                                "content":
                                   -
-                                    element: "string"
-                                    content: "messageBody"
-                            attributes:
-                              contentType:
-                                element: "string"
-                                content: "text/plain"
-                            content: "<request body>\n"
+                                    "element": "string"
+                                    "content": "messageBody"
+                            "attributes":
+                              "contentType":
+                                "element": "string"
+                                "content": "text/plain"
+                            "content": "<request body>\n"
                           -
-                            element: "asset"
-                            meta:
-                              classes:
-                                element: "array"
-                                content:
+                            "element": "asset"
+                            "meta":
+                              "classes":
+                                "element": "array"
+                                "content":
                                   -
-                                    element: "string"
-                                    content: "messageBodySchema"
-                            attributes:
-                              contentType:
-                                element: "string"
-                                content: "text/plain"
-                            content: "<request schema>\n"
+                                    "element": "string"
+                                    "content": "messageBodySchema"
+                            "attributes":
+                              "contentType":
+                                "element": "string"
+                                "content": "text/plain"
+                            "content": "<request schema>\n"
                       -
-                        element: "httpResponse"
-                        attributes:
-                          statusCode:
-                            element: "string"
-                            content: "201"
-                          headers:
-                            element: "httpHeaders"
-                            content:
+                        "element": "httpResponse"
+                        "attributes":
+                          "statusCode":
+                            "element": "string"
+                            "content": "201"
+                          "headers":
+                            "element": "httpHeaders"
+                            "content":
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header2"
-                                  value:
-                                    element: "string"
-                                    content: "<header2 value>"
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header2"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header2 value>"
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "header3"
-                                  value:
-                                    element: "string"
-                                    content: "<header3 value>"
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "header3"
+                                  "value":
+                                    "element": "string"
+                                    "content": "<header3 value>"
                               -
-                                element: "member"
-                                content:
-                                  key:
-                                    element: "string"
-                                    content: "Content-Type"
-                                  value:
-                                    element: "string"
-                                    content: "application/json"
-                        content:
+                                "element": "member"
+                                "content":
+                                  "key":
+                                    "element": "string"
+                                    "content": "Content-Type"
+                                  "value":
+                                    "element": "string"
+                                    "content": "application/json"
+                        "content":
                           -
-                            element: "dataStructure"
-                            content:
-                              element: "<data structure name>"
+                            "element": "dataStructure"
+                            "content":
+                              "element": "<data structure name>"
                           -
-                            element: "asset"
-                            meta:
-                              classes:
-                                element: "array"
-                                content:
+                            "element": "asset"
+                            "meta":
+                              "classes":
+                                "element": "array"
+                                "content":
                                   -
-                                    element: "string"
-                                    content: "messageBody"
-                            attributes:
-                              contentType:
-                                element: "string"
-                                content: "application/json"
-                            content: "{\n  \"<data structure property name>\": \"<data structure property value>\"\n}"
+                                    "element": "string"
+                                    "content": "messageBody"
+                            "attributes":
+                              "contentType":
+                                "element": "string"
+                                "content": "application/json"
+                            "content": "{\n  \"<data structure property name>\": \"<data structure property value>\"\n}"
                           -
-                            element: "asset"
-                            meta:
-                              classes:
-                                element: "array"
-                                content:
+                            "element": "asset"
+                            "meta":
+                              "classes":
+                                "element": "array"
+                                "content":
                                   -
-                                    element: "string"
-                                    content: "messageBodySchema"
-                            attributes:
-                              contentType:
-                                element: "string"
-                                content: "application/schema+json"
-                            content: "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"<data structure property name>\": {\n      \"type\": \"string\"\n    }\n  }\n}"
+                                    "element": "string"
+                                    "content": "messageBodySchema"
+                            "attributes":
+                              "contentType":
+                                "element": "string"
+                                "content": "application/schema+json"
+                            "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"<data structure property name>\": {\n      \"type\": \"string\"\n    }\n  }\n}"
       -
-        element: "category"
-        meta:
-          classes:
-            element: "array"
-            content:
+        "element": "category"
+        "meta":
+          "classes":
+            "element": "array"
+            "content":
               -
-                element: "string"
-                content: "dataStructures"
-        content:
+                "element": "string"
+                "content": "dataStructures"
+        "content":
           -
-            element: "dataStructure"
-            content:
-              element: "object"
-              meta:
-                id:
-                  element: "string"
-                  content: "<data structure name>"
-                description:
-                  element: "string"
-                  content: "<data structure description>"
-              content:
+            "element": "dataStructure"
+            "content":
+              "element": "object"
+              "meta":
+                "id":
+                  "element": "string"
+                  "content": "<data structure name>"
+                "description":
+                  "element": "string"
+                  "content": "<data structure description>"
+              "content":
                 -
-                  element: "member"
-                  meta:
-                    description:
-                      element: "string"
-                      content: "<data structure property description>"
-                  content:
-                    key:
-                      element: "string"
-                      content: "<data structure property name>"
-                    value:
-                      element: "string"
-                      content: "<data structure property value>"
+                  "element": "member"
+                  "meta":
+                    "description":
+                      "element": "string"
+                      "content": "<data structure property description>"
+                  "content":
+                    "key":
+                      "element": "string"
+                      "content": "<data structure property name>"
+                    "value":
+                      "element": "string"
+                      "content": "<data structure property value>"
   -
-    element: "annotation"
-    meta:
-      classes:
-        element: "array"
-        content:
+    "element": "annotation"
+    "meta":
+      "classes":
+        "element": "array"
+        "content":
           -
-            element: "string"
-            content: "warning"
-    attributes:
-      code:
-        element: "number"
-        content: 9
-      sourceMap:
-        element: "array"
-        content:
+            "element": "string"
+            "content": "warning"
+    "attributes":
+      "code":
+        "element": "number"
+        "content": 9
+      "sourceMap":
+        "element": "array"
+        "content":
           -
-            element: "sourceMap"
-            content:
+            "element": "sourceMap"
+            "content":
               -
-                element: "array"
-                content:
+                "element": "array"
+                "content":
                   -
-                    element: "number"
-                    content: 685
+                    "element": "number"
+                    "content": 685
                   -
-                    element: "number"
-                    content: 45
-    content: "the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead"
+                    "element": "number"
+                    "content": 45
+    "content": "the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead"
   -
-    element: "annotation"
-    meta:
-      classes:
-        element: "array"
-        content:
+    "element": "annotation"
+    "meta":
+      "classes":
+        "element": "array"
+        "content":
           -
-            element: "string"
-            content: "warning"
-    attributes:
-      code:
-        element: "number"
-        content: 9
-      sourceMap:
-        element: "array"
-        content:
+            "element": "string"
+            "content": "warning"
+    "attributes":
+      "code":
+        "element": "number"
+        "content": 9
+      "sourceMap":
+        "element": "array"
+        "content":
           -
-            element: "sourceMap"
-            content:
+            "element": "sourceMap"
+            "content":
               -
-                element: "array"
-                content:
+                "element": "array"
+                "content":
                   -
-                    element: "number"
-                    content: 992
+                    "element": "number"
+                    "content": 992
                   -
-                    element: "number"
-                    content: 45
-    content: "the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead"
+                    "element": "number"
+                    "content": 45
+    "content": "the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead"
   -
-    element: "annotation"
-    meta:
-      classes:
-        element: "array"
-        content:
+    "element": "annotation"
+    "meta":
+      "classes":
+        "element": "array"
+        "content":
           -
-            element: "string"
-            content: "warning"
-    attributes:
-      code:
-        element: "number"
-        content: 4
-      sourceMap:
-        element: "array"
-        content:
+            "element": "string"
+            "content": "warning"
+    "attributes":
+      "code":
+        "element": "number"
+        "content": 4
+      "sourceMap":
+        "element": "array"
+        "content":
           -
-            element: "sourceMap"
-            content:
+            "element": "sourceMap"
+            "content":
               -
-                element: "array"
-                content:
+                "element": "array"
+                "content":
                   -
-                    element: "number"
-                    content: 200
+                    "element": "number"
+                    "content": 200
                   -
-                    element: "number"
-                    content: 102
-    content: "invalid value format for 'number' type. please check mson specification for valid format"
-
+                    "element": "number"
+                    "content": 102
+    "content": "invalid value format for 'number' type. please check mson specification for valid format"
