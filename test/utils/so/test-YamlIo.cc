@@ -12,8 +12,7 @@
 #include <fstream>
 #include <array>
 #include <string>
-#include <limits>
-
+#include <limits> 
 #include "utils/so/YamlIo.h"
 
 using namespace drafter;
@@ -66,18 +65,18 @@ R"YAML(- "Hello world!"
 - 5)YAML"};
 
 const std::string shallow_object = {
-R"YAML("foo": "Hello world!"
-"bar": 5)YAML"};
+R"YAML(foo: "Hello world!"
+bar: 5)YAML"};
 
 const std::string deep_object {
-R"YAML("foo": "Hello world!"
-"empty": {}
-"bar":
-  "id": 5
-  "data":
+R"YAML(foo: "Hello world!"
+empty: {}
+bar:
+  id: 5
+  data:
     - "Here comes the sun"
     -
-      "type": "blob")YAML"};
+      type: "blob")YAML"};
 }
 // clang-format on
 
@@ -300,7 +299,7 @@ SCENARIO("Serialize a utils::so::Value into YAML", "[simple-object][yaml]")
             std::stringstream ss;
             serialize_yaml(ss, value);
 
-            THEN("the stringstream contains: {\\n  \"foo\": \"Hello world!\",\\n  \"bar\": 5\\n}")
+            THEN("the stringstream contains: {\\n  foo: \"Hello world!\",\\n  bar: 5\\n}")
             {
                 REQUIRE(ss.str() == shallow_object);
             }
