@@ -199,7 +199,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"enumField\": \"e\"\n}"
+                              "content": "{\n  \"enumField\": \"g\"\n}"
                             },
                             {
                               "element": "asset",
