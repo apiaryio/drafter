@@ -129,6 +129,47 @@ so::Value refract::generateJsonValue(const IElement& el)
     return renderValue(el, TypeAttributes{});
 }
 
+namespace {
+    ///
+    /// Searches for a sample or default, in that order, and renders it into
+    ///     the given simple object value
+    ///
+    /// @tparam SoType  type of simple object to be rendered to
+    /// @tparam Element type of Element sample or default shall be searched on
+    ///
+    /// @param e        element sample/default to be searched on
+    /// @param options  type attributes to be inherited
+    ///
+    /// @return         whether a sample or default was found and rendered
+    ///
+    template <typename Element>
+    std::pair<bool, so::Value> renderSampleOrDefault(const Element& e, TypeAttributes options)
+    {
+        if (const auto& sampleValue = findFirstSample(e)) {
+            return { true, renderValue(*sampleValue, options) };
+        }
+
+        if (const auto& defaultValue = findDefault(e)) {
+            return { true, renderValue(*defaultValue, options) };
+        }
+
+        return { false, so::Null{} };
+    }
+
+    const IElement& resolve(const RefElement& e)
+    {
+        const auto& resolvedEntry = e.attributes().find("resolved");
+        if (resolvedEntry == e.attributes().end()) {
+            LOG(error) << "expected all references to be resolved in backend";
+            assert(false);
+        }
+
+        assert(resolvedEntry->second);
+        return *resolvedEntry->second;
+    }
+
+}
+
 namespace
 {
 
@@ -140,9 +181,9 @@ namespace
         options = updateTypeAttributes(e, options);
 
         if (e.empty()) {
-            if (const auto* smple = findSample(e)) {
-                if (!smple->empty())
-                    for (const auto& item : smple->get()) {
+            if (const auto* sample = findFirstSample(e)) {
+                if (!sample->empty())
+                    for (const auto& item : sample->get()) {
                         assert(item);
                         renderProperty(result, *item, inherit_or_pass_flags(options, *item));
                     }
@@ -166,18 +207,6 @@ namespace
         return result;
     }
 
-    const IElement& resolve(const RefElement& e)
-    {
-        const auto& resolvedEntry = e.attributes().find("resolved");
-        if (resolvedEntry == e.attributes().end()) {
-            LOG(error) << "expected all references to be resolved in backend";
-            assert(false);
-        }
-
-        assert(resolvedEntry->second);
-        return *resolvedEntry->second;
-    }
-
     so::Array renderValue(const ArrayElement& e, TypeAttributes options)
     {
         LOG(debug) << "rendering ArrayElement to JSON Value";
@@ -186,9 +215,9 @@ namespace
 
         so::Array result{};
         if (e.empty()) {
-            if (const auto* smple = findSample(e)) {
-                if (!smple->empty())
-                    for (const auto& entry : smple->get()) {
+            if (const auto* sample = findFirstSample(e)) {
+                if (!sample->empty())
+                    for (const auto& entry : sample->get()) {
                         assert(entry);
                         renderItem(result, *entry, inherit_or_pass_flags(options, *entry));
                     }
@@ -217,6 +246,10 @@ namespace
         options = updateTypeAttributes(e, options);
 
         if (e.empty()) {
+            auto alt = renderSampleOrDefault(e, inherit_flags(options));
+            if (alt.first)
+                return std::move(alt.second);
+
             auto enumerationsIt = e.attributes().find("enumerations");
             if (e.attributes().end() != enumerationsIt) {
                 const auto enums = get<const ArrayElement>(enumerationsIt->second.get());
@@ -257,13 +290,9 @@ namespace
             if (options.test(NULLABLE_FLAG))
                 return so::Null{};
 
-            if (const auto& sampleValue = findSample(e)) {
-                return renderValue(*sampleValue, options);
-            }
-
-            if (const auto& defaultValue = findDefault(e)) {
-                return renderValue(*defaultValue, options);
-            }
+            auto alt = renderSampleOrDefault(e, pass_flags(options));
+            if (alt.first)
+                return std::move(alt.second);
 
             LOG(warning) << "no value for non-nullable empty StringElement; using `\"\"`";
             return so::String{};
@@ -282,13 +311,9 @@ namespace
             if (options.test(NULLABLE_FLAG))
                 return so::Null{};
 
-            if (const auto& sampleValue = findSample(e)) {
-                return renderValue(*sampleValue, options);
-            }
-
-            if (const auto& defaultValue = findDefault(e)) {
-                return renderValue(*defaultValue, options);
-            }
+            auto alt = renderSampleOrDefault(e, pass_flags(options));
+            if (alt.first)
+                return std::move(alt.second);
 
             LOG(warning) << "no value for non-nullable empty NumberElement; using `0`";
             return so::Number{};
@@ -307,13 +332,9 @@ namespace
             if (options.test(NULLABLE_FLAG))
                 return so::Null{};
 
-            if (const auto& sampleValue = findSample(e)) {
-                return renderValue(*sampleValue, options);
-            }
-
-            if (const auto& defaultValue = findDefault(e)) {
-                return renderValue(*defaultValue, options);
-            }
+            auto alt = renderSampleOrDefault(e, pass_flags(options));
+            if (alt.first)
+                return std::move(alt.second);
 
             LOG(warning) << "no value for non-nullable empty NumberElement; using `false`";
             return so::False{};

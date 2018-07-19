@@ -123,29 +123,20 @@ namespace refract
     }
 
     ///
-    /// Find a sample value for an Element
+    /// Find the first sample value for an Element
     ///
     /// @returns    an Element typing a single value representing the sample;
     ///             nullptr iff sample is not found
     ///
     template <typename Element>
-    const Element* findSample(const Element& e)
+    const Element* findFirstSample(const Element& e)
     {
-        {
-            auto it = e.attributes().find("sample");
-            if (it != e.attributes().end()) {
-                if (auto result = get<const Element>(it->second.get()))
-                    return result;
-            }
-        }
-        {
-            auto it = e.attributes().find("samples");
-            if (it != e.attributes().end()) {
-                if (const auto& samples = get<const ArrayElement>(it->second.get()))
-                    if (!samples->empty() && !samples->get().empty())
-                        if (const auto& result = get<const Element>(samples->get().begin()[0].get()))
-                            return result;
-            }
+        auto it = e.attributes().find("samples");
+        if (it != e.attributes().end()) {
+            if (const auto& samples = get<const ArrayElement>(it->second.get()))
+                if (!samples->empty() && !samples->get().empty())
+                    if (const auto& result = get<const Element>(samples->get().begin()[0].get()))
+                        return result;
         }
         return nullptr;
     }
@@ -153,7 +144,7 @@ namespace refract
     template <typename Element>
     bool definesValue(const Element& e)
     {
-        return !e.empty() || findSample(e) || findDefault(e);
+        return !e.empty() || findFirstSample(e) || findDefault(e);
     }
 
 } // namespace refract
