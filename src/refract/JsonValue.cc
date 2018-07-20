@@ -85,7 +85,7 @@ namespace
     void renderItem(so::Array& obj, const IElement& e, TypeAttributes options);
 
     so::Object renderValue(const ObjectElement& e, TypeAttributes options);
-    so::Array renderValue(const ArrayElement& e, TypeAttributes options);
+    so::Value renderValue(const ArrayElement& e, TypeAttributes options);
     so::Value renderValue(const EnumElement& e, TypeAttributes options);
     so::Value renderValue(const NullElement& e, TypeAttributes options);
     so::Value renderValue(const StringElement& e, TypeAttributes options);
@@ -129,7 +129,8 @@ so::Value refract::generateJsonValue(const IElement& el)
     return renderValue(el, TypeAttributes{});
 }
 
-namespace {
+namespace
+{
     ///
     /// Searches for a sample or default, in that order, and renders it into
     ///     the given simple object value
@@ -168,7 +169,7 @@ namespace {
         return *resolvedEntry->second;
     }
 
-}
+} // namespace
 
 namespace
 {
@@ -207,7 +208,7 @@ namespace
         return result;
     }
 
-    so::Array renderValue(const ArrayElement& e, TypeAttributes options)
+    so::Value renderValue(const ArrayElement& e, TypeAttributes options)
     {
         LOG(debug) << "rendering ArrayElement to JSON Value";
 
@@ -215,19 +216,9 @@ namespace
 
         so::Array result{};
         if (e.empty()) {
-            if (const auto* sample = findFirstSample(e)) {
-                if (!sample->empty())
-                    for (const auto& entry : sample->get()) {
-                        assert(entry);
-                        renderItem(result, *entry, inherit_or_pass_flags(options, *entry));
-                    }
-            } else if (const auto* deflt = findDefault(e)) {
-                if (!deflt->empty())
-                    for (const auto& entry : deflt->get()) {
-                        assert(entry);
-                        renderItem(result, *entry, inherit_or_pass_flags(options, *entry));
-                    }
-            }
+            auto alt = renderSampleOrDefault(e, inherit_flags(options));
+            if (alt.first)
+                return std::move(alt.second);
         } else
             for (const auto& entry : e.get()) {
                 assert(entry);
