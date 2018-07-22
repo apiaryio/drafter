@@ -35,6 +35,7 @@ build/
 vendor/
 .vagrant/
 tmp/
+compile_commands.json
 
 # OS X and Xcode specific
 .DS_Store
