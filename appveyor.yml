@@ -10,7 +10,7 @@ environment:
 build_script:
   - git submodule update --init --recursive
   - ruby --version
-  - bundle install
+  - bundle install --verbose
   - vcbuild.bat %VS_VERSION%
 
 test_script:
