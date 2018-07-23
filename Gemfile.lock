@@ -8,7 +8,7 @@ GIT
       rspec-expectations (>= 2.7.0)
 
 GEM
-  remote: https://rubygems.org/
+  remote: http://rubygems.org/
   specs:
     builder (3.2.2)
     childprocess (0.5.3)
