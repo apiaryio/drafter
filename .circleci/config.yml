@@ -13,10 +13,10 @@ aliases:
           name: Build
           command: |
             ./configure
-            make
+            make -j4
       - run:
           name: Test
-          command: make test
+          command: make test -j4
 
   - &test-clang-base
     <<: *test-base
@@ -118,7 +118,7 @@ jobs:
 
       - run:
           name: Build
-          command: ./configure && make
+          command: ./configure && make -j4
 
       - run:
           name: Integration Test
@@ -138,8 +138,8 @@ jobs:
           name: Build
           command: |
             ./configure
-            make
-            make test
+            make -j4
+            make test -j4
 
       - run:
           name: Memory Test
