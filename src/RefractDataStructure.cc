@@ -25,11 +25,14 @@
 
 #include "refract/VisitorUtils.h"
 
+#include "utils/log/Trivial.h"
+
 #include <fstream>
 #include <functional>
 
 using namespace refract;
 using namespace drafter;
+using namespace drafter::utils::log;
 
 namespace
 {

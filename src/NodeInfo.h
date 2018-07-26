@@ -28,14 +28,9 @@ namespace drafter
      * There is NodeInfo<> constructor accepting directly NodeInfoByValue<> for simplified conversion
      */
     template <typename T>
-    struct NodeInfoByValue : public std::pair<T, const snowcrash::SourceMap<T>*> {
-        typedef std::pair<T, const snowcrash::SourceMap<T>*> BaseType;
-
-        NodeInfoByValue(const BaseType& info)
-        {
-            BaseType::first = info.first;
-            BaseType::second = info.second;
-        }
+    struct NodeInfoByValue {
+        T first;
+        const snowcrash::SourceMap<T>* second;
     };
 
     template <typename T>
