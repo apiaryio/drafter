@@ -310,6 +310,8 @@
         "src/refract/ElementUtils.cc",
         "src/refract/SerializeSo.h",
         "src/refract/SerializeSo.cc",
+        "src/refract/Asset.h",
+        "src/refract/Asset.cc",
 
         "src/refract/Registry.h",
         "src/refract/Registry.cc",
