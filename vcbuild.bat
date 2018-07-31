@@ -23,6 +23,7 @@ set target_arch=ia32
 set noprojgen=
 set nobuild=
 set test=
+set work_dir=%~dp0
 
 :next-arg
 if "%1"=="" goto args-done
@@ -138,6 +139,7 @@ if defined inttest goto run-integration-test
 goto success
 
 :run-integration-test
+copy %work_dir%\build\%config%\drafter.exe .
 if "%config%"=="Debug" (
 SET "Replacement=      ENV['PATH'] = "../../build/Debug""
 goto :run-cucumber
