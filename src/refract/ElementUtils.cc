@@ -109,7 +109,6 @@ bool refract::inheritsFixed(const ExtendElement& e)
     return inheritsFixed(*merged);
 }
 
-
 bool refract::hasTypeAttr(const IElement& e, const char* name)
 {
     auto typeAttrIt = e.attributes().find("typeAttributes");
@@ -172,7 +171,8 @@ bool refract::isVariable(const IElement& e)
     return false;
 }
 
-bool refract::hasDefault(const IElement& e) {
+bool refract::hasDefault(const IElement& e)
+{
     return findDefault(e) != nullptr;
 }
 
