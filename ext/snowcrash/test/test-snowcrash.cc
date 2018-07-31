@@ -500,8 +500,7 @@ TEST_CASE("Ignoring local media type", "[parser][regression][195]")
 
     REQUIRE(blueprint.sourceMap.content.elements().collection.size() == 1);
 
-    SourceMap<Resource> resourceSM
-        = blueprint.sourceMap.content.elements().collection[0].content.resource;
+    SourceMap<Resource> resourceSM = blueprint.sourceMap.content.elements().collection[0].content.resource;
     REQUIRE(resourceSM.actions.collection.size() == 1);
     REQUIRE(resourceSM.actions.collection[0].examples.collection.size() == 1);
     REQUIRE(resourceSM.actions.collection[0].examples.collection[0].responses.collection.size() == 1);
@@ -547,8 +546,7 @@ TEST_CASE("Using local media type", "[parser][regression][195]")
 
     REQUIRE(blueprint.sourceMap.content.elements().collection.size() == 1);
 
-    SourceMap<Resource> resourceSM
-        = blueprint.sourceMap.content.elements().collection[0].content.resource;
+    SourceMap<Resource> resourceSM = blueprint.sourceMap.content.elements().collection[0].content.resource;
     REQUIRE(resourceSM.actions.collection.size() == 1);
     REQUIRE(resourceSM.actions.collection[0].examples.collection.size() == 1);
     REQUIRE(resourceSM.actions.collection[0].examples.collection[0].responses.collection.size() == 1);
@@ -700,8 +698,7 @@ TEST_CASE("Don't mess up sourcemaps when there are references", "[parser][213]")
 
     REQUIRE(blueprint.sourceMap.content.elements().collection.size() == 1);
 
-    SourceMap<Resource> resourceSM
-        = blueprint.sourceMap.content.elements().collection[0].content.resource;
+    SourceMap<Resource> resourceSM = blueprint.sourceMap.content.elements().collection[0].content.resource;
     REQUIRE(resourceSM.actions.collection.size() == 1);
     SourceMapHelper::check(resourceSM.actions.collection[0].method.sourceMap, 111, 8);
 }
@@ -721,8 +718,7 @@ TEST_CASE("doesn't crash while parsing response followed by a block quote and he
 
     REQUIRE(blueprint.report.error.code == Error::OK);
 
-    SourceMap<Resource> resourceSM
-        = blueprint.sourceMap.content.elements().collection[0].content.resource;
+    SourceMap<Resource> resourceSM = blueprint.sourceMap.content.elements().collection[0].content.resource;
     SourceMap<Action> actionSM = resourceSM.actions.collection[0];
     SourceMap<Payload> payloadSM = actionSM.examples.collection[0].responses.collection[0];
     SourceMapHelper::check(payloadSM.body.sourceMap, 30, 22);
@@ -744,8 +740,7 @@ TEST_CASE("doesn't crash while parsing response followed by a block quote settex
 
     REQUIRE(blueprint.report.error.code == Error::OK);
 
-    SourceMap<Resource> resourceSM
-        = blueprint.sourceMap.content.elements().collection[0].content.resource;
+    SourceMap<Resource> resourceSM = blueprint.sourceMap.content.elements().collection[0].content.resource;
     SourceMap<Action> actionSM = resourceSM.actions.collection[0];
     SourceMap<Payload> payloadSM = actionSM.examples.collection[0].responses.collection[0];
     SourceMapHelper::check(payloadSM.body.sourceMap, 30, 22, 1);

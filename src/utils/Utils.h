@@ -92,7 +92,8 @@ namespace drafter
 
         template <typename T>
         struct is_iterator<T,
-            typename std::enable_if<!std::is_same<typename std::iterator_traits<T>::iterator_category, void>::value>::type> {
+            typename std::enable_if<
+                !std::is_same<typename std::iterator_traits<T>::iterator_category, void>::value>::type> {
             static constexpr bool value = true;
         };
     }
