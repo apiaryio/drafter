@@ -21,7 +21,7 @@ aliases:
   - &test-clang-base
     <<: *test-base
     environment:
-      CXXFLAGS: '-Werror -Wno-error=unused-function -Wno-error=pessimizing-move -Wno-error=missing-braces'
+      CXXFLAGS: '-Werror -Wno-error=unused-function -Wno-error=missing-braces'
 
 workflows:
   version: 2
