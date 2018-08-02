@@ -841,6 +841,6 @@ namespace snowcrash
 
     /** Blueprint Parser */
     typedef SectionParser<Blueprint, BlueprintSectionAdapter> BlueprintParser;
-}
+} // namespace snowcrash
 
 #endif

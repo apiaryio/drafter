@@ -10,7 +10,7 @@ namespace
             from_primitive(static_cast<double>(sourceMap.location)),
             from_primitive(static_cast<double>(sourceMap.length)));
     }
-}
+} // namespace
 
 std::unique_ptr<IElement> drafter::SourceMapToRefract(const mdp::CharactersRangeSet& sourceMap)
 {

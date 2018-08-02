@@ -112,7 +112,7 @@ namespace
         *stream << "\n";
         *stream << std::flush;
     }
-}
+} // namespace
 
 /* Serialize result to given format*/
 DRAFTER_API char* drafter_serialize(drafter_result* res, const drafter_serialize_options serialize_opts)

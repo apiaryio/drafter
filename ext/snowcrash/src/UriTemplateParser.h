@@ -276,6 +276,6 @@ namespace snowcrash
         static void parse(
             const URITemplate& uri, const mdp::CharactersRangeSet& sourceBlock, ParsedURITemplate& result);
     };
-}
+} // namespace snowcrash
 
 #endif

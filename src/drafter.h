@@ -61,7 +61,11 @@ typedef refract::IElement drafter_result;
 #endif
 
 /* Serialization formats, currently only YAML or JSON */
-typedef enum { DRAFTER_SERIALIZE_YAML = 0, DRAFTER_SERIALIZE_JSON } drafter_format;
+typedef enum
+{
+    DRAFTER_SERIALIZE_YAML = 0,
+    DRAFTER_SERIALIZE_JSON
+} drafter_format;
 
 /* Parsing options
  * - requireBlueprintName : API has to have a name, if not it is a parsing error
@@ -79,7 +83,8 @@ typedef struct {
     drafter_format format;
 } drafter_serialize_options;
 
-typedef enum {
+typedef enum
+{
     DRAFTER_OK = 0,
     DRAFTER_EUNKNOWN = -1,
     DRAFTER_EINVALID_INPUT = -2,

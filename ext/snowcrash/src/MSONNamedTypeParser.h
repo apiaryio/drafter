@@ -137,6 +137,6 @@ namespace snowcrash
 
     /** MSON Named Type Section Parser */
     typedef SectionParser<mson::NamedType, HeaderSectionAdapter> MSONNamedTypeParser;
-}
+} // namespace snowcrash
 
 #endif

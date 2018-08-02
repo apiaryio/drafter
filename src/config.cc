@@ -25,7 +25,7 @@ namespace config
     static const std::string Version = "version";
     static const std::string UseLineNumbers = "use-line-num";
     static const std::string EnableLog = "enable-log";
-};
+}; // namespace config
 
 void PrepareCommanLineParser(cmdline::parser& parser)
 {

@@ -83,6 +83,6 @@ namespace mdp
 
     /** Maps bytes range set to byte buffer */
     ByteBuffer MapBytesRangeSet(const BytesRangeSet& rangeSet, const ByteBuffer& byteBuffer);
-}
+} // namespace mdp
 
 #endif

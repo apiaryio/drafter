@@ -38,6 +38,6 @@ namespace snowcrash
      *  \return Error status code. Zero represents success, non-zero a failure.
      */
     int parse(const mdp::ByteBuffer& source, BlueprintParserOptions options, const ParseResultRef<Blueprint>& out);
-}
+} // namespace snowcrash
 
 #endif

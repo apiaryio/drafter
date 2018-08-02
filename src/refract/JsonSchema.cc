@@ -360,7 +360,8 @@ namespace
             for (const auto& item : e.get()) {
                 assert(item);
                 if (options.test(FIXED_TYPE_FLAG) || options.test(FIXED_FLAG))
-                    renderProperty(result, *item, inherit_or_pass_flags(options, *item) | TypeAttributes{}.set(REQUIRED_FLAG));
+                    renderProperty(
+                        result, *item, inherit_or_pass_flags(options, *item) | TypeAttributes{}.set(REQUIRED_FLAG));
                 else
                     renderProperty(result, *item, inherit_or_pass_flags(options, *item));
             }

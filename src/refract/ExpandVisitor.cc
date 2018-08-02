@@ -108,7 +108,7 @@ namespace refract
 
             // FIXME: add check against recursive inheritance
             // walk recursive in registry and expand inheritance tree
-            for (const IElement *parent = registry.find(en); parent && !isReserved(en);
+            for (const IElement* parent = registry.find(en); parent && !isReserved(en);
                  en = parent->element(), parent = registry.find(en)) {
 
                 inheritance.push(clone(*parent, ((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId)));
@@ -212,7 +212,7 @@ namespace refract
             auto origin = ExpandMembers(e);
             origin->meta().erase("id");
 
-            if(extend->empty())
+            if (extend->empty())
                 extend->set();
             extend->get().push_back(std::move(origin));
 

@@ -14,12 +14,11 @@ using namespace log;
 
 trivial_log& trivial_log::instance()
 {
-    static trivial_log instance_{"drafter.log"};
+    static trivial_log instance_{ "drafter.log" };
     return instance_;
 }
 
-trivial_log::trivial_log(const char* file) : out_(file), enabled_(false) {
-}
+trivial_log::trivial_log(const char* file) : out_(file), enabled_(false) {}
 
 const char* log::severity_to_str(severity s)
 {

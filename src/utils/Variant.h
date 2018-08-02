@@ -59,7 +59,7 @@ namespace drafter
 
             template <typename Which, typename... Variants>
             using index = index_of<typename bare<Which>::type, Variants...>;
-        }
+        } // namespace detail
 
         template <typename... Variants>
         class variant
@@ -143,7 +143,7 @@ namespace drafter
             }
 
             template <size_t I>
-            const auto& get() const &
+            const auto& get() const&
             {
                 static_assert(I >= 0 && I < sizeof...(Variants), "invalid index");
                 using Which = typename type_at<I, Variants...>::type;
@@ -351,7 +351,7 @@ namespace drafter
         {
             return v.do_visit(std::forward<Visitor>(visitor), std::forward<Args>(args)...);
         }
-    }
-}
+    } // namespace utils
+} // namespace drafter
 
 #endif

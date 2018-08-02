@@ -198,7 +198,7 @@ namespace refract
                 assert(std::next(it) == self().end());
             }
         };
-    }
-}
+    } // namespace dsd
+} // namespace refract
 
 #endif

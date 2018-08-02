@@ -375,6 +375,6 @@ namespace snowcrash
 
     /** Headers Section Parser */
     typedef SectionParser<Headers, ListSectionAdapter> HeadersParser;
-}
+} // namespace snowcrash
 
 #endif

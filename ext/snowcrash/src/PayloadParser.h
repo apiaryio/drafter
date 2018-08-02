@@ -723,6 +723,6 @@ namespace snowcrash
 
     /** Payload Section Parser */
     typedef SectionParser<Payload, ListSectionAdapter> PayloadParser;
-}
+} // namespace snowcrash
 
 #endif

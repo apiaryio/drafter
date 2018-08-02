@@ -57,7 +57,7 @@ namespace refract
 
             return out;
         }
-    }
+    } // namespace
 
     PrintVisitor::PrintVisitor() : indent(0), os(std::cerr), ommitSourceMap(false) {}
 

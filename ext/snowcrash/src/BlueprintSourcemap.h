@@ -339,7 +339,7 @@ namespace snowcrash
         /** Source Map of an API Overview description */
         SourceMap<Description> description;
     };
-}
+} // namespace snowcrash
 
 #undef SOURCE_MAP_COLLECTION
 

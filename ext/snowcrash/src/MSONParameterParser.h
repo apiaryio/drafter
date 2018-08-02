@@ -161,6 +161,6 @@ namespace snowcrash
 
     /** MSON Parameter Section Parser */
     typedef SectionParser<MSONParameter, ListSectionAdapter> MSONParameterParser;
-}
+} // namespace snowcrash
 
 #endif

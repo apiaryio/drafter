@@ -404,6 +404,6 @@ namespace mson
         /** Destructor */
         ~Element();
     };
-}
+} // namespace mson
 
 #endif

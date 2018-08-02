@@ -56,7 +56,7 @@ namespace refract
                 array.push(s.value());
             }
         }
-    }
+    } // namespace
 
     void SosSerializeCompactVisitor::operator()(const EnumElement& e)
     {

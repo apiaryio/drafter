@@ -37,6 +37,6 @@ namespace drafter
     NodeInfoByValue<snowcrash::Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload,
         const NodeInfo<snowcrash::Action>& action,
         ConversionContext& context);
-}
+} // namespace drafter
 
 #endif

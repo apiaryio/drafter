@@ -140,4 +140,4 @@ namespace refract
         return std::find_if(
             elements.begin(), elements.end(), [&name](const auto& keyValue) { return keyValue.first == name; });
     }
-}
+} // namespace refract

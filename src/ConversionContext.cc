@@ -36,4 +36,4 @@ namespace drafter
 
         warnings.push_back(warning);
     }
-}
+} // namespace drafter

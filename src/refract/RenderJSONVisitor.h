@@ -46,6 +46,6 @@ namespace refract
         std::string getString() const;
         std::unique_ptr<IElement> getOwnership();
     };
-}
+} // namespace refract
 
 #endif

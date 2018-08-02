@@ -167,6 +167,6 @@ namespace snowcrash
         /** Result warning source annotations */
         Warnings warnings;
     };
-}
+} // namespace snowcrash
 
 #endif

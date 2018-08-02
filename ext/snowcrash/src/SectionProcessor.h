@@ -306,6 +306,6 @@ namespace snowcrash
     template <typename T>
     struct SectionProcessor : public SectionProcessorBase<T> {
     };
-}
+} // namespace snowcrash
 
 #endif

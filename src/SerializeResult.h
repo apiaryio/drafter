@@ -29,6 +29,6 @@ namespace drafter
 
     std::unique_ptr<refract::IElement> WrapRefract(
         snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, ConversionContext& context);
-}
+} // namespace drafter
 
 #endif // #ifndef DRAFTER_SERIALIZERESULT_H

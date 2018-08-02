@@ -86,6 +86,6 @@ namespace snowcrash
 
     /** Relation Section Parser */
     typedef SectionParser<Relation, ListSectionAdapter> RelationParser;
-}
+} // namespace snowcrash
 
 #endif

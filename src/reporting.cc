@@ -233,7 +233,7 @@ namespace
             return output.str();
         }
     };
-}
+} // namespace
 
 /**
  *  \brief Print parser report to stderr.

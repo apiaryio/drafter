@@ -29,6 +29,6 @@ namespace snowcrash
     // returns true if target string matches given expression, false otherwise
     bool RegexCapture(
         const std::string& target, const std::string& expression, CaptureGroups& captureGroups, size_t groupSize = 8);
-}
+} // namespace snowcrash
 
 #endif

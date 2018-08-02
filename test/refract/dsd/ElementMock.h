@@ -119,7 +119,7 @@ namespace refract
                 return empty_out;
             }
         };
-    }
-}
+    } // namespace test
+} // namespace refract
 
 #endif

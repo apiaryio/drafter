@@ -191,7 +191,7 @@ namespace
             out << ']';
         }
     };
-}
+} // namespace
 
 std::ostream& so::serialize_json(std::ostream& out, const Value& obj)
 {

@@ -246,6 +246,6 @@ namespace snowcrash
 
         static const bool nextSkipsUnexpected = false;
     };
-}
+} // namespace snowcrash
 
 #endif

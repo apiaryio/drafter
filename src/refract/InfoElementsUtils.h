@@ -74,6 +74,6 @@ namespace refract
             }
         }
     }
-}
+} // namespace refract
 
 #endif // #ifndef REFRACT_INFO_ELEMENTS_UTILS_H

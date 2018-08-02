@@ -22,6 +22,6 @@ namespace drafter
         std::unique_ptr<refract::IElement> element, ConversionContext& context);
 
     sos::Object SerializeRefract(const refract::IElement*, ConversionContext& context);
-}
+} // namespace drafter
 
 #endif // #ifndef DRAFTER_REFRACTDATASTRUCTURE_H

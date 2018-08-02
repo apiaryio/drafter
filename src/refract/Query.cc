@@ -11,5 +11,5 @@ namespace refract
         {
             return e.element() == name;
         }
-    }
-}
+    } // namespace query
+} // namespace refract
