@@ -84,14 +84,14 @@ namespace
     void renderItem(so::Array& obj, const RefElement& e, TypeAttributes options);
     void renderItem(so::Array& obj, const IElement& e, TypeAttributes options);
 
-    so::Object renderValue(const ObjectElement& e, TypeAttributes options);
-    so::Value renderValue(const ArrayElement& e, TypeAttributes options);
-    so::Value renderValue(const EnumElement& e, TypeAttributes options);
-    so::Value renderValue(const NullElement& e, TypeAttributes options);
-    so::Value renderValue(const StringElement& e, TypeAttributes options);
-    so::Value renderValue(const NumberElement& e, TypeAttributes options);
-    so::Value renderValue(const BooleanElement& e, TypeAttributes options);
-    so::Value renderValue(const ExtendElement& e, TypeAttributes options);
+    so::Object renderValueSpecific(const ObjectElement& e, TypeAttributes options);
+    so::Value renderValueSpecific(const ArrayElement& e, TypeAttributes options);
+    so::Value renderValueSpecific(const EnumElement& e, TypeAttributes options);
+    so::Value renderValueSpecific(const NullElement& e, TypeAttributes options);
+    so::Value renderValueSpecific(const StringElement& e, TypeAttributes options);
+    so::Value renderValueSpecific(const NumberElement& e, TypeAttributes options);
+    so::Value renderValueSpecific(const BooleanElement& e, TypeAttributes options);
+    so::Value renderValueSpecific(const ExtendElement& e, TypeAttributes options);
     so::Value renderValue(const IElement& e, TypeAttributes options);
 
     template <typename T>
@@ -109,7 +109,7 @@ namespace
     }
 
     template <typename T>
-    so::Value renderValue(const T& e, TypeAttributes)
+    so::Value renderValueSpecific(const T& e, TypeAttributes)
     {
         LOG(error) << "invalid top level element: " << e.element();
         assert(false);
@@ -119,7 +119,7 @@ namespace
     so::Value renderValue(const IElement& e, TypeAttributes options)
     {
         return refract::visit(e, [options](const auto& el) { //
-            return renderValue(el, options);
+            return renderValueSpecific(el, options);
         });
     }
 } // namespace
@@ -147,11 +147,11 @@ namespace
     std::pair<bool, so::Value> renderSampleOrDefault(const Element& e, TypeAttributes options)
     {
         if (const auto& sampleValue = findFirstSample(e)) {
-            return { true, renderValue(*sampleValue, options) };
+            return { true, renderValueSpecific(*sampleValue, options) };
         }
 
         if (const auto& defaultValue = findDefault(e)) {
-            return { true, renderValue(*defaultValue, options) };
+            return { true, renderValueSpecific(*defaultValue, options) };
         }
 
         return { false, so::Null{} };
@@ -174,7 +174,7 @@ namespace
 namespace
 {
 
-    so::Object renderValue(const ObjectElement& e, TypeAttributes options)
+    so::Object renderValueSpecific(const ObjectElement& e, TypeAttributes options)
     {
         LOG(debug) << "rendering ObjectElement to JSON Value";
         so::Object result{};
@@ -208,7 +208,7 @@ namespace
         return result;
     }
 
-    so::Value renderValue(const ArrayElement& e, TypeAttributes options)
+    so::Value renderValueSpecific(const ArrayElement& e, TypeAttributes options)
     {
         LOG(debug) << "rendering ArrayElement to JSON Value";
 
@@ -227,10 +227,10 @@ namespace
                     break;
             }
 
-        return result;
+        return so::Value{ result };
     }
 
-    so::Value renderValue(const EnumElement& e, TypeAttributes options)
+    so::Value renderValueSpecific(const EnumElement& e, TypeAttributes options)
     {
         LOG(debug) << "rendering EnumElement to JSON Value";
 
@@ -264,14 +264,14 @@ namespace
         return renderValue(*e.get().value(), inherit_flags(options));
     } // namespace
 
-    so::Value renderValue(const NullElement& e, TypeAttributes options)
+    so::Value renderValueSpecific(const NullElement& e, TypeAttributes options)
     {
         LOG(debug) << "rendering NullElement to JSON Value";
 
         return so::Null{};
     }
 
-    so::Value renderValue(const StringElement& e, TypeAttributes options)
+    so::Value renderValueSpecific(const StringElement& e, TypeAttributes options)
     {
         LOG(debug) << "rendering StringElement to JSON Value";
 
@@ -292,7 +292,7 @@ namespace
         return so::String{ e.get().get() };
     }
 
-    so::Value renderValue(const NumberElement& e, TypeAttributes options)
+    so::Value renderValueSpecific(const NumberElement& e, TypeAttributes options)
     {
         LOG(debug) << "rendering NumberElement to JSON Value";
 
@@ -313,7 +313,7 @@ namespace
         return so::Number{ e.get().get() };
     }
 
-    so::Value renderValue(const BooleanElement& e, TypeAttributes options)
+    so::Value renderValueSpecific(const BooleanElement& e, TypeAttributes options)
     {
         LOG(debug) << "rendering BooleanElement to JSON Value";
 
@@ -336,7 +336,7 @@ namespace
         return so::False{};
     }
 
-    so::Value renderValue(const ExtendElement& e, TypeAttributes options)
+    so::Value renderValueSpecific(const ExtendElement& e, TypeAttributes options)
     {
         LOG(debug) << "rendering ExtendElement to JSON Value";
 

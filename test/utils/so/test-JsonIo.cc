@@ -126,7 +126,7 @@ namespace
             return e;
         return it;
     };
-}
+} // namespace
 
 SCENARIO("Serialize strings from utf-8 fixtures as JSON", "[simple-object][json][utf-8]")
 {
@@ -384,9 +384,9 @@ SCENARIO("Serialize a utils::so::Value into indented and/or packed JSON", "[simp
         }
     }
 
-    GIVEN("an in place constructed Array{String{`Hello world!`}, Number{5}}")
+    GIVEN("an in place constructed Array{from_list{}, String{`Hello world!`}, Number{5}}")
     {
-        Value value(in_place_type<Array>{}, String{ "Hello world!" }, Number{ 5 });
+        Value value(in_place_type<Array>{}, from_list{}, String{ "Hello world!" }, Number{ 5 });
 
         WHEN("it is serialized into stringstream as indented JSON")
         {
@@ -414,6 +414,7 @@ SCENARIO("Serialize a utils::so::Value into indented and/or packed JSON", "[simp
     GIVEN("an in place constructed Object{`foo` -> String{`Hello world!`}, `bar` -> Number{5}}")
     {
         Value value(in_place_type<Object>{}, //
+            from_list{},
             std::make_pair("foo", String{ "Hello world!" }),
             std::make_pair("bar", Number{ 5 }));
 
@@ -517,15 +518,17 @@ SCENARIO("Serialize a utils::so::Value holding deep objects into indented json",
     GIVEN("a deep object")
     {
         Value value(in_place_type<Object>{}, //
+            from_list{},
             std::make_pair("foo", String{ "Hello world!" }),
             std::make_pair("empty", Object{}),
             std::make_pair("bar",
-                Object{ //
-                    std::make_pair("id", Number{ 5 }),
+                Object{ from_list{}, //
+                    std::make_pair("id", so::Number{ 5 }),
                     std::make_pair("data",
-                        Array{ //
+                        Array{ from_list{}, //
                             String{ "Here comes the sun" },
                             Object{
+                                from_list{},
                                 std::make_pair("type", String{ "blob" }),
                             } }) }));
 
