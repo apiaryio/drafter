@@ -187,7 +187,7 @@ namespace
     template <typename... Args>
     so::Object& addEnum(so::Object& schema, Args&&... args)
     {
-        schema.data.emplace_back("enum", so::Array{ so::Value{ std::forward<Args>(args) }... });
+        schema.data.emplace_back("enum", so::Array{ so::from_list{}, so::Value{ std::forward<Args>(args) }... });
         return schema;
     }
 
@@ -211,13 +211,13 @@ namespace
 
     so::Object nullSchema()
     {
-        return so::Object{ std::make_pair("type", so::String{ "null" }) };
+        return so::Object{ so::from_list{}, std::make_pair("type", so::String{ "null" }) };
     }
 
     so::Object& wrapNullable(so::Object& s, TypeAttributes options)
     {
         if (options.test(NULLABLE_FLAG)) {
-            addAnyOf(s, so::Array{ nullSchema(), so::Object{} });
+            addAnyOf(s, so::Array{ so::from_list{}, nullSchema(), so::Object{} });
             return get<so::Object>(get<so::Array>(s.data.back().second).data.at(1));
         }
         return s;
@@ -393,7 +393,7 @@ namespace
 
             auto& schema = wrapNullable(s, options);
             addType(schema, TYPE_NAME);
-            addItems(schema, so::Object{ std::make_pair("anyOf", std::move(items)) });
+            addItems(schema, so::Object{ so::from_list{}, std::make_pair("anyOf", std::move(items)) });
 
         } else if (options.test(FIXED_FLAG)) { // tuple of N constants/types
 
