@@ -144,9 +144,6 @@
                                                     "content": "regular"
                                                   }
                                                 ]
-                                              },
-                                              "default": {
-                                                "element": "enum"
                                               }
                                             }
                                           }
@@ -179,7 +176,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"type\": null\n}"
+                              "content": "{\n  \"type\": \"regular\"\n}"
                             },
                             {
                               "element": "asset",
@@ -266,9 +263,6 @@
                                 "content": "regular"
                               }
                             ]
-                          },
-                          "default": {
-                            "element": "enum"
                           }
                         }
                       }
