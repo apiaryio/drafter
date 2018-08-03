@@ -344,11 +344,13 @@ namespace
                     break;
 
                 case mson::TypeSection::SampleClass:
-                    data.samples.push_back(fetch(typeSection, context, defaultNestedType));
+                    if (!typeSection.node->content.value.empty() || !typeSection.node->content.elements().empty())
+                        data.samples.push_back(fetch(typeSection, context, defaultNestedType));
                     break;
 
                 case mson::TypeSection::DefaultClass:
-                    data.defaults.push_back(fetch(typeSection, context, defaultNestedType));
+                    if (!typeSection.node->content.value.empty() || !typeSection.node->content.elements().empty())
+                        data.defaults.push_back(fetch(typeSection, context, defaultNestedType));
                     break;
 
                 case mson::TypeSection::BlockDescriptionClass:
