@@ -148,6 +148,21 @@
                                               "default": {
                                                 "element": "enum"
                                               }
+                                            },
+                                            "content": {
+                                              "element": "string",
+                                              "attributes": {
+                                                "typeAttributes": {
+                                                  "element": "array",
+                                                  "content": [
+                                                    {
+                                                      "element": "string",
+                                                      "content": "fixed"
+                                                    }
+                                                  ]
+                                                }
+                                              },
+                                              "content": "regular"
                                             }
                                           }
                                         }
@@ -179,7 +194,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"type\": null\n}"
+                              "content": "{\n  \"type\": \"regular\"\n}"
                             },
                             {
                               "element": "asset",
@@ -270,6 +285,21 @@
                           "default": {
                             "element": "enum"
                           }
+                        },
+                        "content": {
+                          "element": "string",
+                          "attributes": {
+                            "typeAttributes": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "fixed"
+                                }
+                              ]
+                            }
+                          },
+                          "content": "regular"
                         }
                       }
                     }

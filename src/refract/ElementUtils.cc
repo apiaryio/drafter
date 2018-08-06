@@ -187,3 +187,22 @@ std::string refract::key(const MemberElement& m)
         assert(false);
     }
 }
+
+void refract::setFixedTypeAttribute(IElement& e)
+{
+    auto typeAttrIt = e.attributes().find("typeAttributes");
+    if (e.attributes().end() == typeAttrIt) {
+        e.attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
+    } else {
+        if (auto* typeAttrs = get<ArrayElement>(typeAttrIt->second.get())) {
+            const auto b = typeAttrs->get().begin();
+            const auto e = typeAttrs->get().end();
+            if (e == std::find_if(b, e, [](const auto& el) { //
+                    const auto* entry = get<const StringElement>(el.get());
+                    return entry && !entry->empty() && (entry->get().get() == "fixed");
+                })) {
+                typeAttrs->get().push_back(from_primitive("fixed"));
+            }
+        }
+    }
+}

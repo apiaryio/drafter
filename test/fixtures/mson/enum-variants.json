@@ -83,6 +83,17 @@
                         },
                         "content": {
                           "element": "string",
+                          "attributes": {
+                            "typeAttributes": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "fixed"
+                                }
+                              ]
+                            }
+                          },
                           "content": "L"
                         }
                       }
@@ -257,6 +268,17 @@
                         },
                         "content": {
                           "element": "string",
+                          "attributes": {
+                            "typeAttributes": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "fixed"
+                                }
+                              ]
+                            }
+                          },
                           "content": "L"
                         }
                       }
@@ -322,6 +344,17 @@
                         },
                         "content": {
                           "element": "string",
+                          "attributes": {
+                            "typeAttributes": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "fixed"
+                                }
+                              ]
+                            }
+                          },
                           "content": "L"
                         }
                       }
@@ -370,6 +403,17 @@
                                 "element": "enum",
                                 "content": {
                                   "element": "string",
+                                  "attributes": {
+                                    "typeAttributes": {
+                                      "element": "array",
+                                      "content": [
+                                        {
+                                          "element": "string",
+                                          "content": "fixed"
+                                        }
+                                      ]
+                                    }
+                                  },
                                   "content": "L"
                                 }
                               }
@@ -422,6 +466,17 @@
                                 "element": "enum",
                                 "content": {
                                   "element": "string",
+                                  "attributes": {
+                                    "typeAttributes": {
+                                      "element": "array",
+                                      "content": [
+                                        {
+                                          "element": "string",
+                                          "content": "fixed"
+                                        }
+                                      ]
+                                    }
+                                  },
                                   "content": "L"
                                 }
                               }
@@ -619,6 +674,17 @@
                                 "element": "enum",
                                 "content": {
                                   "element": "string",
+                                  "attributes": {
+                                    "typeAttributes": {
+                                      "element": "array",
+                                      "content": [
+                                        {
+                                          "element": "string",
+                                          "content": "fixed"
+                                        }
+                                      ]
+                                    }
+                                  },
                                   "content": "U"
                                 }
                               }
@@ -627,6 +693,17 @@
                         },
                         "content": {
                           "element": "string",
+                          "attributes": {
+                            "typeAttributes": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "fixed"
+                                }
+                              ]
+                            }
+                          },
                           "content": "S"
                         }
                       }
@@ -705,6 +782,17 @@
                                 "element": "enum",
                                 "content": {
                                   "element": "string",
+                                  "attributes": {
+                                    "typeAttributes": {
+                                      "element": "array",
+                                      "content": [
+                                        {
+                                          "element": "string",
+                                          "content": "fixed"
+                                        }
+                                      ]
+                                    }
+                                  },
                                   "content": "L"
                                 }
                               }
@@ -787,6 +875,17 @@
                                 "element": "enum",
                                 "content": {
                                   "element": "string",
+                                  "attributes": {
+                                    "typeAttributes": {
+                                      "element": "array",
+                                      "content": [
+                                        {
+                                          "element": "string",
+                                          "content": "fixed"
+                                        }
+                                      ]
+                                    }
+                                  },
                                   "content": "L"
                                 }
                               }
@@ -927,6 +1026,17 @@
                             "element": "enum",
                             "content": {
                               "element": "string",
+                              "attributes": {
+                                "typeAttributes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "fixed"
+                                    }
+                                  ]
+                                }
+                              },
                               "content": "L"
                             }
                           }
@@ -1004,6 +1114,17 @@
                             "element": "enum",
                             "content": {
                               "element": "string",
+                              "attributes": {
+                                "typeAttributes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "fixed"
+                                    }
+                                  ]
+                                }
+                              },
                               "content": "L"
                             }
                           }
@@ -1284,6 +1405,17 @@
                                 "element": "enum",
                                 "content": {
                                   "element": "string",
+                                  "attributes": {
+                                    "typeAttributes": {
+                                      "element": "array",
+                                      "content": [
+                                        {
+                                          "element": "string",
+                                          "content": "fixed"
+                                        }
+                                      ]
+                                    }
+                                  },
                                   "content": "F"
                                 }
                               },
@@ -1291,6 +1423,17 @@
                                 "element": "enum",
                                 "content": {
                                   "element": "string",
+                                  "attributes": {
+                                    "typeAttributes": {
+                                      "element": "array",
+                                      "content": [
+                                        {
+                                          "element": "string",
+                                          "content": "fixed"
+                                        }
+                                      ]
+                                    }
+                                  },
                                   "content": "G"
                                 }
                               },
@@ -1298,6 +1441,17 @@
                                 "element": "enum",
                                 "content": {
                                   "element": "string",
+                                  "attributes": {
+                                    "typeAttributes": {
+                                      "element": "array",
+                                      "content": [
+                                        {
+                                          "element": "string",
+                                          "content": "fixed"
+                                        }
+                                      ]
+                                    }
+                                  },
                                   "content": "H"
                                 }
                               },
@@ -1305,6 +1459,17 @@
                                 "element": "enum",
                                 "content": {
                                   "element": "string",
+                                  "attributes": {
+                                    "typeAttributes": {
+                                      "element": "array",
+                                      "content": [
+                                        {
+                                          "element": "string",
+                                          "content": "fixed"
+                                        }
+                                      ]
+                                    }
+                                  },
                                   "content": "I"
                                 }
                               }
@@ -1314,12 +1479,34 @@
                             "element": "enum",
                             "content": {
                               "element": "string",
+                              "attributes": {
+                                "typeAttributes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "fixed"
+                                    }
+                                  ]
+                                }
+                              },
                               "content": "K"
                             }
                           }
                         },
                         "content": {
                           "element": "string",
+                          "attributes": {
+                            "typeAttributes": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "fixed"
+                                }
+                              ]
+                            }
+                          },
                           "content": "A"
                         }
                       }

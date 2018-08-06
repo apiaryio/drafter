@@ -67,6 +67,10 @@ namespace refract
     }
 } // namespace refract
 
+namespace refract {
+    void setFixedTypeAttribute(IElement& e);
+}
+
 namespace refract
 {
 

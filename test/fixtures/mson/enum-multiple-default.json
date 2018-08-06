@@ -93,6 +93,17 @@
                             "element": "enum",
                             "content": {
                               "element": "string",
+                              "attributes": {
+                                "typeAttributes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "fixed"
+                                    }
+                                  ]
+                                }
+                              },
                               "content": "K"
                             }
                           }
@@ -149,6 +160,17 @@
                             "element": "enum",
                             "content": {
                               "element": "string",
+                              "attributes": {
+                                "typeAttributes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "fixed"
+                                    }
+                                  ]
+                                }
+                              },
                               "content": "K"
                             }
                           }
@@ -220,6 +242,17 @@
                             "element": "enum",
                             "content": {
                               "element": "string",
+                              "attributes": {
+                                "typeAttributes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "fixed"
+                                    }
+                                  ]
+                                }
+                              },
                               "content": "c"
                             }
                           }

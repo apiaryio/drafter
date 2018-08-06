@@ -20,6 +20,7 @@
 #include "ConversionContext.h"
 
 #include "ElementData.h"
+#include "refract/ElementUtils.h"
 #include "ElementInfoUtils.h"
 #include "ElementComparator.h"
 
@@ -242,11 +243,11 @@ namespace
         mson::BaseTypeName elementTypeName;
         mson::BaseTypeName defaultNestedType;
 
-        template <typename U, bool IsPrimitive = is_primitive<U>()>
+        template <typename U, bool IsPrimitive = is_primitive<U>(), bool dummy = false>
         struct Fetch;
 
-        template <typename U>
-        struct Fetch<U, true> {
+        template <typename U, bool dummy>
+        struct Fetch<U, true, dummy> {
             ElementInfo<T> operator()(const NodeInfo<mson::TypeSection>& typeSection,
                 ConversionContext& context,
                 const mson::BaseTypeName& defaultNestedType) const
@@ -257,8 +258,8 @@ namespace
             }
         };
 
-        template <typename U>
-        struct Fetch<U, false> {
+        template <typename U, bool dummy>
+        struct Fetch<U, false, dummy> {
             ElementInfo<T> operator()(const NodeInfo<mson::TypeSection>& typeSection,
                 ConversionContext& context,
                 const mson::BaseTypeName& defaultNestedType) const
@@ -269,6 +270,27 @@ namespace
                     std::back_inserter(values),
                     context,
                     defaultNestedType);
+                return ElementInfo<T>{ std::move(values), FetchSourceMap<ValueType>()(typeSection) };
+            }
+        };
+
+        template <bool dummy>
+        struct Fetch<EnumElement, false, dummy> {
+            ElementInfo<T> operator()(const NodeInfo<mson::TypeSection>& typeSection,
+                ConversionContext& context,
+                const mson::BaseTypeName& defaultNestedType) const
+            {
+                std::deque<std::unique_ptr<IElement> > values;
+                MsonElementsToRefract(
+                    MakeNodeInfo(typeSection.node->content.elements(), typeSection.sourceMap->elements()),
+                    std::back_inserter(values),
+                    context,
+                    defaultNestedType);
+
+                for (auto& e : values)
+                    if (IsLiteral(*e))
+                        setFixedTypeAttribute(*e);
+
                 return ElementInfo<T>{ std::move(values), FetchSourceMap<ValueType>()(typeSection) };
             }
         };
@@ -464,7 +486,7 @@ namespace
             void operator()(
                 ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context) const
             {
-                data.values.push_back(Fetch<E>()(typeNames, context));
+                data.hints.push_back(Fetch<E>()(typeNames, context));
             }
         };
 
@@ -545,7 +567,10 @@ namespace
                 std::deque<std::unique_ptr<IElement> > elements;
 
                 for (const auto& value : values) {
-                    elements.push_back(f.Create(value.literal, eValue));
+                    auto entry = f.Create(value.literal, eValue);
+                    if (IsLiteral(*entry))
+                        setFixedTypeAttribute(*entry);
+                    elements.push_back(std::move(entry));
                 }
 
                 return ElementInfo<T>{ std::move(elements), FetchSourceMap<V>()(valueMember) };
@@ -724,6 +749,13 @@ namespace
         void operator()(ElementData<T>& data, T& element, ConversionContext& /* context */) const
         {
             auto info = Merge<T>()(std::move(data.values));
+            auto hint = Merge<T>()(std::move(data.hints));
+
+            if (!hint.value.empty()) {
+                if (element.empty())
+                    element.set();
+                std::move(hint.value.begin(), hint.value.end(), std::back_inserter(element.get()));
+            }
 
             if (!info.value.empty()) {
                 if (element.empty())
@@ -747,6 +779,7 @@ namespace
             }
 
             auto valuesInfo = Merge<EnumElement>()(std::move(data.values));
+            auto hintsInfo = Merge<EnumElement>()(std::move(data.hints));
             auto samplesInfo = Merge<EnumElement>()(std::move(CloneElementInfoContainer<T>(data.samples)));
             auto defaultInfo = Merge<EnumElement>()(std::move(CloneElementInfoContainer<T>(data.defaults)));
 
@@ -767,6 +800,10 @@ namespace
                 }
             };
 
+            std::for_each(hintsInfo.value.begin(),
+                hintsInfo.value.end(),
+                [&hintsInfo, &addToEnumerations, &enums, &context](
+                    auto& info) { addToEnumerations(info, enums, context, hintsInfo.sourceMap, true); });
             std::for_each(valuesInfo.value.begin(),
                 valuesInfo.value.end(),
                 [&valuesInfo, &addToEnumerations, &enums, &context](
@@ -898,6 +935,7 @@ namespace
         std::for_each(data.values.begin(), data.values.end(), validate);
         std::for_each(data.samples.begin(), data.samples.end(), validate);
         std::for_each(data.defaults.begin(), data.defaults.end(), validate);
+        std::for_each(data.hints.begin(), data.hints.end(), validate);
 
         SaveValue<T>()(data, element, context);
         AllElementsToAtribute<T>(std::move(data.samples), SerializeKey::Samples, element);
