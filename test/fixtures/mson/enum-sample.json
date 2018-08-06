@@ -354,9 +354,6 @@
                             "element": "array",
                             "content": [
                               {
-                                "element": "number"
-                              },
-                              {
                                 "element": "number",
                                 "attributes": {
                                   "typeAttributes": {
@@ -430,6 +427,9 @@
                                   }
                                 },
                                 "content": 1
+                              },
+                              {
+                                "element": "number"
                               }
                             ]
                           },

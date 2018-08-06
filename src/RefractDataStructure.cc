@@ -800,10 +800,6 @@ namespace
                 }
             };
 
-            std::for_each(hintsInfo.value.begin(),
-                hintsInfo.value.end(),
-                [&hintsInfo, &addToEnumerations, &enums, &context](
-                    auto& info) { addToEnumerations(info, enums, context, hintsInfo.sourceMap, true); });
             std::for_each(valuesInfo.value.begin(),
                 valuesInfo.value.end(),
                 [&valuesInfo, &addToEnumerations, &enums, &context](
@@ -816,6 +812,10 @@ namespace
                 defaultInfo.value.end(),
                 [&defaultInfo, &addToEnumerations, &enums, &context](
                     auto& info) { addToEnumerations(info, enums, context, defaultInfo.sourceMap, false); });
+            std::for_each(hintsInfo.value.begin(),
+                hintsInfo.value.end(),
+                [&hintsInfo, &addToEnumerations, &enums, &context](
+                    auto& info) { addToEnumerations(info, enums, context, hintsInfo.sourceMap, true); });
 
             if (!enums.empty()) {
 

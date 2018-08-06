@@ -221,7 +221,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"tasks\": [\n    {\n      \"status\": \"\",\n      \"name\": \"one\"\n    },\n    {\n      \"status\": \"\",\n      \"name\": \"two\"\n    }\n  ]\n}"
+                              "content": "{\n  \"tasks\": [\n    {\n      \"status\": \"CREATED\",\n      \"name\": \"one\"\n    },\n    {\n      \"status\": \"CREATED\",\n      \"name\": \"two\"\n    }\n  ]\n}"
                             },
                             {
                               "element": "asset",
@@ -292,9 +292,6 @@
                           "enumerations": {
                             "element": "array",
                             "content": [
-                              {
-                                "element": "string"
-                              },
                               {
                                 "element": "string",
                                 "attributes": {
@@ -369,6 +366,9 @@
                                   }
                                 },
                                 "content": "ERROR"
+                              },
+                              {
+                                "element": "string"
                               }
                             ]
                           }
