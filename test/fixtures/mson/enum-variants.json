@@ -915,12 +915,6 @@
                             "element": "array",
                             "content": [
                               {
-                                "element": "string"
-                              },
-                              {
-                                "element": "number"
-                              },
-                              {
                                 "element": "string",
                                 "attributes": {
                                   "typeAttributes": {
@@ -949,6 +943,12 @@
                                   }
                                 },
                                 "content": "N"
+                              },
+                              {
+                                "element": "string"
+                              },
+                              {
+                                "element": "number"
                               }
                             ]
                           }

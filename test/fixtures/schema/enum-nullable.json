@@ -131,9 +131,6 @@
                                             "element": "array",
                                             "content": [
                                               {
-                                                "element": "number"
-                                              },
-                                              {
                                                 "element": "number",
                                                 "attributes": {
                                                   "typeAttributes": {
@@ -147,6 +144,9 @@
                                                   }
                                                 },
                                                 "content": 4
+                                              },
+                                              {
+                                                "element": "number"
                                               }
                                             ]
                                           }
@@ -212,7 +212,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"address\": {\n      \"anyOf\": [\n        {\n          \"type\": \"null\"\n        },\n        {\n          \"type\": \"number\"\n        },\n        {\n          \"type\": \"number\",\n          \"enum\": [\n            4\n          ]\n        }\n      ]\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"address\": {\n      \"anyOf\": [\n        {\n          \"type\": \"null\"\n        },\n        {\n          \"type\": \"number\",\n          \"enum\": [\n            4\n          ]\n        },\n        {\n          \"type\": \"number\"\n        }\n      ]\n    }\n  }\n}"
                             }
                           ]
                         }
