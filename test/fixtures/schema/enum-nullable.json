@@ -150,6 +150,21 @@
                                               }
                                             ]
                                           }
+                                        },
+                                        "content": {
+                                          "element": "number",
+                                          "attributes": {
+                                            "typeAttributes": {
+                                              "element": "array",
+                                              "content": [
+                                                {
+                                                  "element": "string",
+                                                  "content": "fixed"
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          "content": 4
                                         }
                                       }
                                     }
@@ -176,7 +191,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"address\": 0\n}"
+                              "content": "{\n  \"address\": 4\n}"
                             },
                             {
                               "element": "asset",
