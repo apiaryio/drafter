@@ -14,7 +14,6 @@
 #include "RefractSourceMap.h"
 
 #include "refract/Exception.h"
-#include "refract/Asset.h"
 #include "refract/JsonValue.h"
 #include "refract/JsonSchema.h"
 

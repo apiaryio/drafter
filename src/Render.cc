@@ -54,40 +54,4 @@ namespace drafter
 
         return "";
     }
-
-    NodeInfoByValue<Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload,
-        const NodeInfo<snowcrash::Action>& action,
-        ConversionContext& context)
-    {
-        LOG(debug) << "renderPayloadSchema";
-
-        auto schema = NodeInfoByValue<Asset>{ payload.node->schema, &payload.sourceMap->schema };
-
-        NodeInfo<Attributes> payloadAttributes = MAKE_NODE_INFO(payload, attributes);
-        NodeInfo<Attributes> actionAttributes = MAKE_NODE_INFO(action, attributes);
-
-        // hold attributes via pointer - because problems with assignment in NodeInfo<>
-        NodeInfo<Attributes>* attributes = &payloadAttributes;
-
-        if (payload.node->attributes.empty() && !action.isNull() && !action.node->attributes.empty()) {
-            attributes = &actionAttributes;
-        }
-
-        // Generate Schema only if Body content type is JSON
-        if (payload.node->schema.empty() && !payload.node->attributes.empty()
-            && findRenderFormat(getContentTypeFromHeaders(payload.node->headers)) == JSONRenderFormat) {
-
-            if (auto element = MSONToRefract(*attributes, context)) {
-
-                if (auto expanded = ExpandRefract(std::move(element), context)) {
-                    std::stringstream ss{};
-                    utils::so::serialize_json(ss, refract::schema::generateJsonSchema(*expanded));
-
-                    schema = NodeInfoByValue<Asset>{ ss.str(), NodeInfo<Asset>::NullSourceMap() };
-                }
-            }
-        }
-
-        return schema;
-    }
 } // namespace drafter
