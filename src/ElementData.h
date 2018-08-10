@@ -63,11 +63,12 @@ namespace drafter
         ElementInfo() = default;
         ElementInfo(StoredT v, SourceMapT m) : value(std::move(v)), sourceMap(std::move(m)) {}
 
-        ElementInfo(const ElementInfo& other) {
+        ElementInfo(const ElementInfo& other)
+        {
             sourceMap = other.sourceMap;
-            std::transform(other.value.begin(), other.value.end(),
-                    std::back_inserter(value),
-                    [](const auto& element){ return element->clone(); });
+            std::transform(other.value.begin(), other.value.end(), std::back_inserter(value), [](const auto& element) {
+                return element->clone();
+            });
         }
 
         ElementInfo(ElementInfo&&) = default;
