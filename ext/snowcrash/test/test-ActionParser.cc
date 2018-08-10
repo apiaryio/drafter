@@ -554,7 +554,7 @@ TEST_CASE("Named Endpoint", "[named_endpoint]")
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 1);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(0).element == Element::ResourceElement);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.elements().at(0).content.resource;
     REQUIRE(resource.name == "My Named Endpoint");
     REQUIRE(resource.uriTemplate == "/test/endpoint");
     REQUIRE(resource.actions.size() == 1);
@@ -591,7 +591,7 @@ TEST_CASE("Named Endpoints Edge Cases", "[named_endpoint]")
     REQUIRE(blueprint.node.content.elements().at(2).content.elements().size() == 0);
 
     {
-        Resource resource = blueprint.node.content.elements().at(0).content.resource;
+        const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
         REQUIRE(resource.name == "Endpoint 1");
         REQUIRE(resource.uriTemplate == "/e1");
         REQUIRE(resource.actions.size() == 1);
@@ -601,7 +601,7 @@ TEST_CASE("Named Endpoints Edge Cases", "[named_endpoint]")
     }
 
     {
-        Resource resource = blueprint.node.content.elements().at(1).content.resource;
+        const Resource& resource = blueprint.node.content.elements().at(1).content.resource;
         REQUIRE(resource.name == "Endpoint 2");
         REQUIRE(resource.uriTemplate == "/e1");
         REQUIRE(resource.actions.size() == 1);
@@ -611,7 +611,7 @@ TEST_CASE("Named Endpoints Edge Cases", "[named_endpoint]")
     }
 
     {
-        Resource resource = blueprint.node.content.elements().at(2).content.resource;
+        const Resource& resource = blueprint.node.content.elements().at(2).content.resource;
         REQUIRE(resource.name == "Endpoint 3");
         REQUIRE(resource.uriTemplate == "/e1");
         REQUIRE(resource.actions.size() == 1);

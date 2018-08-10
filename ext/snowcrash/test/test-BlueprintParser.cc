@@ -152,7 +152,7 @@ TEST_CASE("Parse API with Name and abbreviated resource", "[blueprint]")
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.uriTemplate == "/resource");
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions.front().examples.size() == 1);
@@ -442,7 +442,7 @@ TEST_CASE("Parsing unexpected blocks", "[blueprint]")
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.uriTemplate == "/");
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].method == "GET");
@@ -902,7 +902,7 @@ TEST_CASE(
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource r = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& r = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(r.name == "Post");
     REQUIRE(r.attributes.typeDefinition.baseType == mson::ImplicitObjectBaseType);
     REQUIRE(r.attributes.typeDefinition.typeSpecification.name.symbol.literal == "B");
@@ -1294,7 +1294,7 @@ TEST_CASE("Any named type data structure should be able to be overridden when re
     REQUIRE(blueprint.node.content.elements().at(1).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(1).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(1).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(1).content.resource;
     REQUIRE(resource.uriTemplate == "/sample");
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions.at(0).method == "GET");

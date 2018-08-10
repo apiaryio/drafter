@@ -54,18 +54,18 @@ TEST_CASE("Parse simple blueprint", "[parser]")
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.uriTemplate == "/resource");
     REQUIRE(resource.actions.size() == 1);
 
-    Action& action = resource.actions[0];
+    const Action& action = resource.actions.at(0);
     REQUIRE(action.method == "GET");
     REQUIRE(action.description == "Resource **description**");
     REQUIRE(action.examples.size() == 1);
     REQUIRE(action.examples.front().requests.empty());
     REQUIRE(action.examples.front().responses.size() == 1);
 
-    Response& response = action.examples.front().responses[0];
+    const Response& response = action.examples.front().responses.at(0);
     REQUIRE(response.name == "200");
     REQUIRE(response.body == "Text\n\n{ ... }\n");
 }
@@ -120,7 +120,7 @@ TEST_CASE("Support description ending with an list item", "[parser][8]")
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].description == "+ a description item");
     REQUIRE(resource.actions[0].examples.size() == 1);
@@ -145,7 +145,7 @@ TEST_CASE("Invalid ‘warning: empty body asset’ for certain status codes", "[
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].description.empty());
     REQUIRE(resource.actions[0].examples.size() == 1);
@@ -204,7 +204,7 @@ TEST_CASE("Parse adjacent asset blocks", "[parser][9]")
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].description.empty());
     REQUIRE(resource.actions[0].examples.size() == 1);
@@ -233,7 +233,7 @@ TEST_CASE("Parse adjacent asset list blocks", "[parser][9]")
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].description.empty());
     REQUIRE(resource.actions[0].examples[0].responses.size() == 1);
@@ -265,7 +265,7 @@ TEST_CASE("Parse adjacent nested asset blocks", "[parser][9]")
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].description.empty());
     REQUIRE(resource.actions[0].examples[0].responses.size() == 1);
@@ -391,7 +391,7 @@ TEST_CASE("Dangling block not recognized", "[parser][regression][186]")
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.name == "A");
     REQUIRE(resource.uriTemplate == "/a");
     REQUIRE(resource.model.body == "    { ... }\n\n");
@@ -421,7 +421,7 @@ TEST_CASE("Ignoring block recovery", "[parser][regression][188]")
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.name == "Note");
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].name == "Remove a Note");
@@ -454,7 +454,7 @@ TEST_CASE("Ignoring dangling model assets", "[parser][regression][196]")
     REQUIRE(blueprint.node.content.elements().at(1).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(1).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(1).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(1).content.resource;
     REQUIRE(resource.name.empty());
     REQUIRE(resource.uriTemplate == "/B");
     REQUIRE(resource.actions.size() == 1);
@@ -489,7 +489,7 @@ TEST_CASE("Ignoring local media type", "[parser][regression][195]")
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].examples.size() == 1);
     REQUIRE(resource.actions[0].examples[0].responses.size() == 1);
@@ -536,7 +536,7 @@ TEST_CASE("Using local media type", "[parser][regression][195]")
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].examples.size() == 1);
     REQUIRE(resource.actions[0].examples[0].responses.size() == 1);
@@ -579,7 +579,7 @@ TEST_CASE("Parse ill-formatted header", "[parser][198][regression]")
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].examples.size() == 1);
     REQUIRE(resource.actions[0].examples[0].responses.size() == 1);
@@ -616,7 +616,7 @@ TEST_CASE("Overshadow parameters", "[parser][201][regression][parameters]")
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].parameters.size() == 3);
 
@@ -676,7 +676,7 @@ TEST_CASE("Don't remove link references", "[parser][213]")
         == "This is [second example][id]\n\n[id]: http://b.com");
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().at(1).element == Element::ResourceElement);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.elements().at(1).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.elements().at(1).content.resource;
     REQUIRE(resource.uriTemplate == "/a");
     REQUIRE(resource.description == "This is [third example][id]\n\n[id]: http://c.com");
 }

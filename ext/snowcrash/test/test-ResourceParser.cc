@@ -513,7 +513,7 @@ TEST_CASE("Parse named resource with lazy referencing", "[resource][model][issue
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.uriTemplate == "/1");
     REQUIRE(resource.name == "Resource 1");
 
@@ -580,7 +580,7 @@ TEST_CASE("Parse named resource with lazy referencing with both response and req
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.uriTemplate == "/items");
     REQUIRE(resource.name == "Collection of Items");
 
