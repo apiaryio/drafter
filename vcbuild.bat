@@ -127,10 +127,10 @@ if errorlevel 1 goto fail
 @rem Run tests if requested.
 if "%test%"=="" goto intigration-test
 echo Running tests...
-.\build\%config%\test-libmarkdownparser.exe
-.\build\%config%\test-libsnowcrash.exe
-.\build\%config%\test-libdrafter.exe
-.\build\%config%\test-capi.exe
+.\build\%config%\test-libmarkdownparser.exe || goto fail
+.\build\%config%\test-libsnowcrash.exe || goto fail
+.\build\%config%\test-libdrafter.exe || goto fail
+.\build\%config%\test-capi.exe || goto fail
 
 :intigration-test
 if defined inttest goto run-integration-test
