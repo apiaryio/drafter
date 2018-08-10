@@ -81,7 +81,10 @@ namespace
     void renderProperty(so::Object& obj, const ExtendElement& e, TypeAttributes options);
     void renderProperty(so::Object& obj, const IElement& e, TypeAttributes options);
 
-    void renderItem(so::Array& obj, const RefElement& e, TypeAttributes options);
+    void renderItemSpecific(so::Array& obj, const RefElement& e, TypeAttributes options);
+    void renderItemSpecific(so::Array& obj, const NumberElement& e, TypeAttributes options);
+    void renderItemSpecific(so::Array& obj, const StringElement& e, TypeAttributes options);
+    void renderItemSpecific(so::Array& obj, const BooleanElement& e, TypeAttributes options);
     void renderItem(so::Array& obj, const IElement& e, TypeAttributes options);
 
     so::Object renderValueSpecific(const ObjectElement& e, TypeAttributes options);
@@ -102,7 +105,7 @@ namespace
     }
 
     template <typename T>
-    void renderItem(so::Array& a, const T& e, TypeAttributes options)
+    void renderItemSpecific(so::Array& a, const T& e, TypeAttributes options)
     {
         LOG(debug) << "rendering item " << e.element() << "Element as JSON Value";
         a.data.emplace_back(renderValue(e, inherit_or_pass_flags(options, e)));
@@ -487,7 +490,7 @@ namespace
         });
     }
 
-    void renderItem(so::Array& a, const RefElement& e, TypeAttributes options)
+    void renderItemSpecific(so::Array& a, const RefElement& e, TypeAttributes options)
     {
         LOG(debug) << "rendering item RefElement as JSON Value";
 
@@ -501,11 +504,47 @@ namespace
         }
     }
 
+    void renderItemSpecific(so::Array& a, const NumberElement& e, TypeAttributes options)
+    {
+        LOG(debug) << "rendering item " << e.element() << "Element as JSON Value";
+
+        options = updateTypeAttributes(e, options);
+
+        if ((options.test(FIXED_FLAG) || definesValue(e)))
+            a.data.emplace_back(renderValue(e, inherit_or_pass_flags(options, e)));
+        else
+            LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
+    }
+
+    void renderItemSpecific(so::Array& a, const StringElement& e, TypeAttributes options)
+    {
+        LOG(debug) << "rendering item " << e.element() << "Element as JSON Value";
+
+        options = updateTypeAttributes(e, options);
+
+        if ((options.test(FIXED_FLAG) || definesValue(e)))
+            a.data.emplace_back(renderValue(e, inherit_or_pass_flags(options, e)));
+        else
+            LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
+    }
+
+    void renderItemSpecific(so::Array& a, const BooleanElement& e, TypeAttributes options)
+    {
+        LOG(debug) << "rendering item " << e.element() << "Element as JSON Value";
+
+        options = updateTypeAttributes(e, options);
+
+        if ((options.test(FIXED_FLAG) || definesValue(e)))
+            a.data.emplace_back(renderValue(e, inherit_or_pass_flags(options, e)));
+        else
+            LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
+    }
+
     void renderItem(so::Array& a, const IElement& e, TypeAttributes options)
     {
         auto aPtr = &a;
         refract::visit(e, [aPtr, options](const auto& el) { //
-            renderItem(*aPtr, el, options);
+            renderItemSpecific(*aPtr, el, options);
         });
     }
 } // namespace
