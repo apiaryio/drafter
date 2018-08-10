@@ -26,7 +26,7 @@ TEST_CASE("Punctuation in identifiers", "[symbol_identifier]")
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.name == "Parcel's sticker @#!$%^&*=-?><,.~`\"'");
     REQUIRE(resource.uriTemplate == "/");
     REQUIRE(resource.actions.empty());
@@ -52,7 +52,7 @@ TEST_CASE("Non ASCII characters in identifiers", "[symbol_identifier]")
     REQUIRE(blueprint.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(blueprint.node.content.elements().at(0).content.elements().size() == 0);
 
-    Resource resource = blueprint.node.content.elements().at(0).content.resource;
+    const Resource& resource = blueprint.node.content.elements().at(0).content.resource;
     REQUIRE(resource.name == "\xD0\x9A\xD0\xB0\xD1\x82\xD0\xB5\xD0\xB3\xD0\xBE\xD1\x80\xD0\xB8\xD0\xB8");
     REQUIRE(resource.uriTemplate == "/");
     REQUIRE(resource.actions.empty());

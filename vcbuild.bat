@@ -203,6 +203,8 @@ echo   vcbuild.bat MSVC2013       : indicate target solution's version, could al
 goto success
 
 :fail
+REM print log if found
+if exist "drafter.log" tail.exe -n 100 "drafter.log"
 EXIT /B 1
 
 :success

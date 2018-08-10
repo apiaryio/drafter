@@ -155,7 +155,7 @@ TEST_CASE("Parse multiple resources with payloads", "[resource_group]")
     REQUIRE(resourceGroup.node.content.elements().size() == 2);
 
     REQUIRE(resourceGroup.node.content.elements().at(0).element == Element::ResourceElement);
-    Resource resource1 = resourceGroup.node.content.elements().at(0).content.resource;
+    const Resource& resource1 = resourceGroup.node.content.elements().at(0).content.resource;
 
     REQUIRE(resource1.uriTemplate == "/1");
     REQUIRE(resource1.description.empty());
@@ -169,7 +169,7 @@ TEST_CASE("Parse multiple resources with payloads", "[resource_group]")
     REQUIRE(resource1.actions[0].examples[0].requests[0].body.empty());
     REQUIRE(resource1.actions[0].examples[0].responses.empty());
 
-    Resource resource2 = resourceGroup.node.content.elements().at(1).content.resource;
+    const Resource& resource2 = resourceGroup.node.content.elements().at(1).content.resource;
     REQUIRE(resource2.uriTemplate == "/2");
     REQUIRE(resource2.description.empty());
     REQUIRE(resource2.actions.size() == 1);
@@ -230,7 +230,7 @@ TEST_CASE("Parse resource with list in its description", "[resource_group]")
     REQUIRE(resourceGroup.node.content.elements().size() == 1);
     REQUIRE(resourceGroup.node.content.elements().at(0).element == Element::ResourceElement);
 
-    Resource resource = resourceGroup.node.content.elements().at(0).content.resource;
+    const Resource& resource = resourceGroup.node.content.elements().at(0).content.resource;
     REQUIRE(resource.uriTemplate == "/1");
     REQUIRE(resource.description.empty());
     REQUIRE(resource.actions.size() == 1);
@@ -286,7 +286,7 @@ TEST_CASE("Make sure method followed by a group does not eat the group", "[resou
     REQUIRE(resourceGroup.node.content.elements().size() == 1);
     REQUIRE(resourceGroup.node.content.elements().at(0).element == Element::ResourceElement);
 
-    Resource resource = resourceGroup.node.content.elements().at(0).content.resource;
+    const Resource& resource = resourceGroup.node.content.elements().at(0).content.resource;
     REQUIRE(resource.uriTemplate == "/1");
     REQUIRE(resource.actions.size() == 1);
     REQUIRE(resource.actions[0].method == "POST");
@@ -316,7 +316,7 @@ TEST_CASE("Parse resource method abbreviation followed by a foreign method", "[r
     REQUIRE(resourceGroup.node.content.elements().size() == 1);
     REQUIRE(resourceGroup.node.content.elements().at(0).element == Element::ResourceElement);
 
-    Resource resource = resourceGroup.node.content.elements().at(0).content.resource;
+    const Resource& resource = resourceGroup.node.content.elements().at(0).content.resource;
     REQUIRE(resource.name.empty());
     REQUIRE(resource.uriTemplate == "/resource");
     REQUIRE(resource.model.name.empty());
@@ -349,21 +349,25 @@ TEST_CASE("Parse resource method abbreviation followed by another", "[resource_g
     REQUIRE(resourceGroup.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(resourceGroup.node.content.elements().at(1).element == Element::ResourceElement);
 
-    Resource resource = resourceGroup.node.content.elements().at(0).content.resource;
-    REQUIRE(resource.name.empty());
-    REQUIRE(resource.uriTemplate == "/resource");
-    REQUIRE(resource.model.name.empty());
-    REQUIRE(resource.model.body.empty());
-    REQUIRE(resource.actions.size() == 1);
-    REQUIRE(resource.actions[0].method == "GET");
+    {
+        const Resource& resource = resourceGroup.node.content.elements().at(0).content.resource;
+        REQUIRE(resource.name.empty());
+        REQUIRE(resource.uriTemplate == "/resource");
+        REQUIRE(resource.model.name.empty());
+        REQUIRE(resource.model.body.empty());
+        REQUIRE(resource.actions.size() == 1);
+        REQUIRE(resource.actions[0].method == "GET");
+    }
 
-    resource = resourceGroup.node.content.elements().at(1).content.resource;
-    REQUIRE(resource.name.empty());
-    REQUIRE(resource.uriTemplate == "/2");
-    REQUIRE(resource.model.name.empty());
-    REQUIRE(resource.model.body.empty());
-    REQUIRE(resource.actions.size() == 1);
-    REQUIRE(resource.actions[0].method == "POST");
+    {
+        const Resource& resource = resourceGroup.node.content.elements().at(1).content.resource;
+        REQUIRE(resource.name.empty());
+        REQUIRE(resource.uriTemplate == "/2");
+        REQUIRE(resource.model.name.empty());
+        REQUIRE(resource.model.body.empty());
+        REQUIRE(resource.actions.size() == 1);
+        REQUIRE(resource.actions[0].method == "POST");
+    }
 
     REQUIRE(resourceGroup.sourceMap.attributes.name.sourceMap.empty());
     REQUIRE(resourceGroup.sourceMap.content.elements().collection.size() == 2);
@@ -389,15 +393,19 @@ TEST_CASE("Resource followed by a complete action", "[resource_group][regression
     REQUIRE(resourceGroup.node.content.elements().at(0).element == Element::ResourceElement);
     REQUIRE(resourceGroup.node.content.elements().at(1).element == Element::ResourceElement);
 
-    Resource resource = resourceGroup.node.content.elements().at(0).content.resource;
-    REQUIRE(resource.name == "Resource");
-    REQUIRE(resource.uriTemplate == "/A");
+    {
+        const Resource& resource = resourceGroup.node.content.elements().at(0).content.resource;
+        REQUIRE(resource.name == "Resource");
+        REQUIRE(resource.uriTemplate == "/A");
+    }
 
-    resource = resourceGroup.node.content.elements().at(1).content.resource;
-    REQUIRE(resource.name.empty());
-    REQUIRE(resource.uriTemplate == "/B");
-    REQUIRE(resource.actions.size() == 1);
-    REQUIRE(resource.actions[0].method == "POST");
+    {
+        const Resource& resource = resourceGroup.node.content.elements().at(1).content.resource;
+        REQUIRE(resource.name.empty());
+        REQUIRE(resource.uriTemplate == "/B");
+        REQUIRE(resource.actions.size() == 1);
+        REQUIRE(resource.actions[0].method == "POST");
+    }
 
     SourceMap<Resource> resourceSM = resourceGroup.sourceMap.content.elements().collection[0].content.resource;
     SourceMapHelper::check(resourceSM.name.sourceMap, 0, 16);

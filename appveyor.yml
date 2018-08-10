@@ -2,6 +2,11 @@ image:
   - Visual Studio 2015
   - Visual Studio 2017
 
+environment:
+  matrix:
+    - VS_VERSION: 
+    - VS_VERSION: debug
+
 install:
   - set PATH=C:\Ruby25\bin;%PATH%
 

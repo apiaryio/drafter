@@ -385,7 +385,9 @@ SCENARIO("variant construction", "[variant][init]")
 
         THEN("a Bar was move constructed")
         {
-            REQUIRE(Bar::record().move_constructor == 1);
+            // @tjanc@ we cannot guarantee move-ellision will work with the observed move constructor; there will be
+            // either one or two invocations based on that
+            REQUIRE((Bar::record().move_constructor == 1 || Bar::record().move_constructor == 2));
         }
 
         THEN("it was not default constructed")
