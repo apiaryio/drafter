@@ -27,8 +27,7 @@ Both the types of Parse Results are available in two different serialization for
 OS X using Homebrew:
 
 ```sh
-$ brew install --HEAD \
-  https://raw.github.com/apiaryio/drafter/master/tools/homebrew/drafter.rb
+$ brew install drafter
 ```
 
 [AUR package](https://aur.archlinux.org/packages/drafter/) for Arch Linux.
