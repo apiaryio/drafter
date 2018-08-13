@@ -219,16 +219,26 @@ namespace
 
         so::Array result{};
         if (e.empty()) {
+            if (options.test(FIXED_TYPE_FLAG))
+                LOG(warning) << "empty fixedType ArrayElement in backend";
+
             auto alt = renderSampleOrDefault(e, inherit_flags(options));
             if (alt.first)
                 return std::move(alt.second);
-        } else
+        } else {
+            if (options.test(FIXED_TYPE_FLAG)) {
+                auto alt = renderSampleOrDefault(e, inherit_flags(options));
+                if (alt.first)
+                    return std::move(alt.second);
+            }
+
             for (const auto& entry : e.get()) {
                 assert(entry);
                 renderItem(result, *entry, inherit_or_pass_flags(options, *entry));
                 if (options.test(FIXED_TYPE_FLAG))
                     break;
             }
+        }
 
         return so::Value{ result };
     }
