@@ -46,6 +46,7 @@ TEST_REFRACT("render", "issue-312");
 TEST_REFRACT("render", "issue-328-1");
 TEST_REFRACT("render", "issue-328-2");
 
+TEST_REFRACT("render", "issue-443");
 TEST_REFRACT("render", "issue-556");
 
 TEST_REFRACT("render", "fixed-attributes-section");
