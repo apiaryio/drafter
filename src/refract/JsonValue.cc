@@ -48,12 +48,12 @@ namespace
         return options;
     }
 
-    TypeAttributes pass_flags(TypeAttributes options) noexcept
+    TypeAttributes passFlags(TypeAttributes options) noexcept
     {
         return options;
     }
 
-    TypeAttributes inherit_flags(TypeAttributes options) noexcept
+    TypeAttributes inheritFlags(TypeAttributes options) noexcept
     {
         options.reset(FIXED_TYPE_FLAG);
         options.reset(NULLABLE_FLAG);
@@ -61,9 +61,9 @@ namespace
         return options;
     }
 
-    TypeAttributes inherit_or_pass_flags(TypeAttributes options, const IElement& e)
+    TypeAttributes inheritOrPassFlags(TypeAttributes options, const IElement& e)
     {
-        auto result = inherit_flags(options);
+        auto result = inheritFlags(options);
         if (inheritsFixed(e)) {
             LOG(debug) << "\"" << e.element() << "\"-Element inherits fixed";
             return result;
@@ -87,7 +87,7 @@ namespace
     void renderItemSpecific(so::Array& obj, const BooleanElement& e, TypeAttributes options);
     void renderItem(so::Array& obj, const IElement& e, TypeAttributes options);
 
-    so::Object renderValueSpecific(const ObjectElement& e, TypeAttributes options);
+    so::Value renderValueSpecific(const ObjectElement& e, TypeAttributes options);
     so::Value renderValueSpecific(const ArrayElement& e, TypeAttributes options);
     so::Value renderValueSpecific(const EnumElement& e, TypeAttributes options);
     so::Value renderValueSpecific(const NullElement& e, TypeAttributes options);
@@ -108,7 +108,7 @@ namespace
     void renderItemSpecific(so::Array& a, const T& e, TypeAttributes options)
     {
         LOG(debug) << "rendering item " << e.element() << "Element as JSON Value";
-        a.data.emplace_back(renderValue(e, inherit_or_pass_flags(options, e)));
+        a.data.emplace_back(renderValue(e, inheritOrPassFlags(options, e)));
     }
 
     template <typename T>
@@ -177,7 +177,7 @@ namespace
 namespace
 {
 
-    so::Object renderValueSpecific(const ObjectElement& e, TypeAttributes options)
+    so::Value renderValueSpecific(const ObjectElement& e, TypeAttributes options)
     {
         LOG(debug) << "rendering ObjectElement to JSON Value";
         so::Object result{};
@@ -185,27 +185,17 @@ namespace
         options = updateTypeAttributes(e, options);
 
         if (e.empty()) {
-            if (const auto* sample = findFirstSample(e)) {
-                if (!sample->empty())
-                    for (const auto& item : sample->get()) {
-                        assert(item);
-                        renderProperty(result, *item, inherit_or_pass_flags(options, *item));
-                    }
-            } else if (const auto* deflt = findDefault(e)) {
-                if (!deflt->empty())
-                    for (const auto& item : deflt->get()) {
-                        assert(item);
-                        renderProperty(result, *item, inherit_or_pass_flags(options, *item));
-                    }
-            }
+            auto alt = renderSampleOrDefault(e, inheritFlags(options));
+            if (alt.first)
+                return std::move(alt.second);
         } else
             for (const auto& item : e.get()) {
                 assert(item);
                 if (options.test(FIXED_TYPE_FLAG) || options.test(FIXED_FLAG))
                     renderProperty(
-                        result, *item, inherit_or_pass_flags(options, *item) | TypeAttributes{}.set(REQUIRED_FLAG));
+                        result, *item, inheritOrPassFlags(options, *item) | TypeAttributes{}.set(REQUIRED_FLAG));
                 else
-                    renderProperty(result, *item, inherit_or_pass_flags(options, *item));
+                    renderProperty(result, *item, inheritOrPassFlags(options, *item));
             }
 
         return result;
@@ -219,13 +209,13 @@ namespace
 
         so::Array result{};
         if (e.empty()) {
-            auto alt = renderSampleOrDefault(e, inherit_flags(options));
+            auto alt = renderSampleOrDefault(e, inheritFlags(options));
             if (alt.first)
                 return std::move(alt.second);
         } else
             for (const auto& entry : e.get()) {
                 assert(entry);
-                renderItem(result, *entry, inherit_or_pass_flags(options, *entry));
+                renderItem(result, *entry, inheritOrPassFlags(options, *entry));
                 if (options.test(FIXED_TYPE_FLAG))
                     break;
             }
@@ -240,7 +230,7 @@ namespace
         options = updateTypeAttributes(e, options);
 
         if (e.empty()) {
-            auto alt = renderSampleOrDefault(e, inherit_flags(options));
+            auto alt = renderSampleOrDefault(e, inheritFlags(options));
             if (alt.first)
                 return std::move(alt.second);
 
@@ -251,7 +241,7 @@ namespace
                 if (!enums->empty())
                     for (const auto& enumEntry : enums->get()) {
                         assert(enumEntry);
-                        return renderValue(*enumEntry, inherit_flags(options));
+                        return renderValue(*enumEntry, inheritFlags(options));
                     }
             }
 
@@ -264,7 +254,7 @@ namespace
         }
 
         assert(e.get().value());
-        return renderValue(*e.get().value(), inherit_flags(options));
+        return renderValue(*e.get().value(), inheritFlags(options));
     } // namespace
 
     so::Value renderValueSpecific(const NullElement& e, TypeAttributes options)
@@ -284,7 +274,7 @@ namespace
             if (options.test(NULLABLE_FLAG))
                 return so::Null{};
 
-            auto alt = renderSampleOrDefault(e, pass_flags(options));
+            auto alt = renderSampleOrDefault(e, passFlags(options));
             if (alt.first)
                 return std::move(alt.second);
 
@@ -305,7 +295,7 @@ namespace
             if (options.test(NULLABLE_FLAG))
                 return so::Null{};
 
-            auto alt = renderSampleOrDefault(e, pass_flags(options));
+            auto alt = renderSampleOrDefault(e, passFlags(options));
             if (alt.first)
                 return std::move(alt.second);
 
@@ -326,7 +316,7 @@ namespace
             if (options.test(NULLABLE_FLAG))
                 return so::Null{};
 
-            auto alt = renderSampleOrDefault(e, pass_flags(options));
+            auto alt = renderSampleOrDefault(e, passFlags(options));
             if (alt.first)
                 return std::move(alt.second);
 
@@ -385,7 +375,7 @@ namespace
                 if (!strKeyEl->empty()) {
                     LOG(warning) << "improvised variable key; sample shall be used as key sample";
                     const auto& strKey = strKeyEl->get().get();
-                    emplace_unique(obj, strKey, renderValue(*v, pass_flags(options)));
+                    emplace_unique(obj, strKey, renderValue(*v, passFlags(options)));
                     return;
                 }
 
@@ -396,7 +386,7 @@ namespace
                         if (!strKeyEl->empty()) {
                             LOG(warning) << "improvised variable key; sample shall be used as key sample";
                             const auto& strKey = strKeyEl->get().get();
-                            emplace_unique(obj, strKey, renderValue(*v, pass_flags(options)));
+                            emplace_unique(obj, strKey, renderValue(*v, passFlags(options)));
                             return;
                         }
                     } else {
@@ -410,7 +400,7 @@ namespace
 
         } else {
             auto strKey = key(e);
-            emplace_unique(obj, strKey, renderValue(*v, pass_flags(options)));
+            emplace_unique(obj, strKey, renderValue(*v, passFlags(options)));
         }
     }
 
@@ -425,7 +415,7 @@ namespace
         }
 
         assert(resolvedEntry->second);
-        renderProperty(obj, *resolvedEntry->second, pass_flags(options));
+        renderProperty(obj, *resolvedEntry->second, passFlags(options));
     }
 
     void renderProperty(so::Object& s, const SelectElement& e, TypeAttributes options)
@@ -447,7 +437,7 @@ namespace
 
             for (const auto& optionEntry : option->get()) {
                 assert(optionEntry);
-                renderProperty(s, *optionEntry, pass_flags(options));
+                renderProperty(s, *optionEntry, passFlags(options));
             }
 
             return;
@@ -466,7 +456,7 @@ namespace
         if (!e.empty())
             for (const auto& item : e.get()) {
                 assert(item);
-                renderProperty(s, *item, inherit_flags(options));
+                renderProperty(s, *item, inheritFlags(options));
             }
     }
 
@@ -479,7 +469,7 @@ namespace
 
         auto merged = e.get().merge();
         assert(merged);
-        renderProperty(s, *merged, pass_flags(options));
+        renderProperty(s, *merged, passFlags(options));
     }
 
     void renderProperty(so::Object& s, const IElement& e, TypeAttributes options)
@@ -499,7 +489,7 @@ namespace
             if (!mixin->empty())
                 for (const auto& item : mixin->get()) {
                     assert(item);
-                    renderItem(a, *item, inherit_or_pass_flags(options, *item));
+                    renderItem(a, *item, inheritOrPassFlags(options, *item));
                 }
         }
     }
@@ -511,7 +501,7 @@ namespace
         options = updateTypeAttributes(e, options);
 
         if ((options.test(FIXED_FLAG) || definesValue(e)))
-            a.data.emplace_back(renderValue(e, inherit_or_pass_flags(options, e)));
+            a.data.emplace_back(renderValue(e, inheritOrPassFlags(options, e)));
         else
             LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
     }
@@ -523,7 +513,7 @@ namespace
         options = updateTypeAttributes(e, options);
 
         if ((options.test(FIXED_FLAG) || definesValue(e)))
-            a.data.emplace_back(renderValue(e, inherit_or_pass_flags(options, e)));
+            a.data.emplace_back(renderValue(e, inheritOrPassFlags(options, e)));
         else
             LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
     }
@@ -535,7 +525,7 @@ namespace
         options = updateTypeAttributes(e, options);
 
         if ((options.test(FIXED_FLAG) || definesValue(e)))
-            a.data.emplace_back(renderValue(e, inherit_or_pass_flags(options, e)));
+            a.data.emplace_back(renderValue(e, inheritOrPassFlags(options, e)));
         else
             LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
     }

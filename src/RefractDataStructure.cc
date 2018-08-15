@@ -37,6 +37,10 @@ using namespace drafter::utils::log;
 
 namespace
 {
+    bool hasContent(const NodeInfo<mson::TypeSection>& typeSection) noexcept
+    {
+        return !typeSection.node->content.value.empty() || !typeSection.node->content.elements().empty();
+    }
 
     // const auto PrimitiveType = std::true_type::value;
     const auto ComplexType = std::false_type::value;
@@ -366,12 +370,12 @@ namespace
                     break;
 
                 case mson::TypeSection::SampleClass:
-                    if (!typeSection.node->content.value.empty() || !typeSection.node->content.elements().empty())
+                    if (hasContent(typeSection))
                         data.samples.push_back(fetch(typeSection, context, defaultNestedType));
                     break;
 
                 case mson::TypeSection::DefaultClass:
-                    if (!typeSection.node->content.value.empty() || !typeSection.node->content.elements().empty())
+                    if (hasContent(typeSection))
                         data.defaults.push_back(fetch(typeSection, context, defaultNestedType));
                     break;
 

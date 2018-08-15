@@ -25,39 +25,7 @@ using namespace drafter::utils;
 using namespace drafter::utils::log;
 
 namespace
-{ // API Elements tools
-    // template <typename Element>
-    // const Element* find_value_in_attributes(const Element& e)
-    //{
-    //    {
-    //        auto it = e.attributes().find("default");
-    //        if (it != e.attributes().end()) {
-    //            if (auto result = get<const Element>(it->second.get()))
-    //                return result;
-    //        }
-    //    }
-
-    //    {
-    //        auto it = e.attributes().find("sample");
-    //        if (it != e.attributes().end()) {
-    //            if (auto result = get<const Element>(it->second.get()))
-    //                return result;
-    //        }
-    //    }
-
-    //    {
-    //        auto it = e.attributes().find("samples");
-    //        if (it != e.attributes().end()) {
-    //            if (auto array = get<const ArrayElement>(it->second.get()))
-    //                if (!array->empty() && !array->get().empty())
-    //                    if (auto result = get<const Element>(array->get().begin()[0].get())
-    //                        return result;
-    //        }
-    //    }
-
-    //    return nullptr;
-    //}
-
+{
     so::String instantiate(const StringElement& e)
     {
         assert(!e.empty());
@@ -104,12 +72,12 @@ namespace
         return options;
     }
 
-    TypeAttributes pass_flags(TypeAttributes options) noexcept
+    TypeAttributes passFlags(TypeAttributes options) noexcept
     {
         return options;
     }
 
-    TypeAttributes inherit_flags(TypeAttributes options) noexcept
+    TypeAttributes inheritFlags(TypeAttributes options) noexcept
     {
         options.reset(FIXED_TYPE_FLAG);
         options.reset(NULLABLE_FLAG);
@@ -117,9 +85,9 @@ namespace
         return options;
     }
 
-    TypeAttributes inherit_or_pass_flags(TypeAttributes options, const IElement& e)
+    TypeAttributes inheritOrPassFlags(TypeAttributes options, const IElement& e)
     {
-        auto result = inherit_flags(options);
+        auto result = inheritFlags(options);
         if (inheritsFixed(e)) {
             LOG(debug) << "\"" << e.element() << "\"-Element inherits fixed";
             return result;
@@ -361,9 +329,9 @@ namespace
                 assert(item);
                 if (options.test(FIXED_TYPE_FLAG) || options.test(FIXED_FLAG))
                     renderProperty(
-                        result, *item, inherit_or_pass_flags(options, *item) | TypeAttributes{}.set(REQUIRED_FLAG));
+                        result, *item, inheritOrPassFlags(options, *item) | TypeAttributes{}.set(REQUIRED_FLAG));
                 else
-                    renderProperty(result, *item, inherit_or_pass_flags(options, *item));
+                    renderProperty(result, *item, inheritOrPassFlags(options, *item));
             }
 
         materialize(schema, std::move(result));
@@ -388,7 +356,7 @@ namespace
             if (!e.empty())
                 for (const auto& entry : e.get()) {
                     assert(entry);
-                    items.data.emplace_back(makeSchema(*entry, inherit_or_pass_flags(options, *entry)));
+                    items.data.emplace_back(makeSchema(*entry, inheritOrPassFlags(options, *entry)));
                 }
 
             auto& schema = wrapNullable(s, options);
@@ -401,7 +369,7 @@ namespace
             if (!e.empty())
                 for (const auto& item : e.get()) {
                     assert(item);
-                    items.data.emplace_back(makeSchema(*item, inherit_or_pass_flags(options, *item)));
+                    items.data.emplace_back(makeSchema(*item, inheritOrPassFlags(options, *item)));
                 }
 
             auto& schema = wrapNullable(s, options);
@@ -438,7 +406,7 @@ namespace
 
             for (const auto& enumEntry : enums->get()) {
                 assert(enumEntry);
-                anyOf.data.emplace_back(makeSchema(*enumEntry, inherit_flags(options)));
+                anyOf.data.emplace_back(makeSchema(*enumEntry, inheritFlags(options)));
             }
         } else {
             LOG(warning) << "Enum Element SHALL hold enumerations attribute; interpreting as empty";
@@ -552,14 +520,14 @@ namespace
                 }
 
                 emplace_unique(s.patternProperties, //
-                    renderPattern(*strKey, pass_flags(options)),
-                    makeSchema(*v, pass_flags(options)));
+                    renderPattern(*strKey, passFlags(options)),
+                    makeSchema(*v, passFlags(options)));
 
             } else if (const auto& strKey = get<const StringElement>(k)) {
 
                 emplace_unique(s.patternProperties, //
-                    renderPattern(*strKey, pass_flags(options)),
-                    makeSchema(*v, pass_flags(options)));
+                    renderPattern(*strKey, passFlags(options)),
+                    makeSchema(*v, passFlags(options)));
 
             } else {
                 LOG(error) << "Unexpected element type in Member Element key: " << k->element();
@@ -569,7 +537,7 @@ namespace
         } else {
             auto strKey = key(e);
 
-            s.properties.data.emplace_back(strKey, makeSchema(*v, pass_flags(options)));
+            s.properties.data.emplace_back(strKey, makeSchema(*v, passFlags(options)));
 
             if (options.test(REQUIRED_FLAG))
                 s.required.data.emplace_back(so::String{ strKey });
@@ -587,7 +555,7 @@ namespace
         }
 
         assert(resolvedEntry->second);
-        renderProperty(s, *resolvedEntry->second, pass_flags(options));
+        renderProperty(s, *resolvedEntry->second, passFlags(options));
     }
 
     void renderProperty(ObjectSchema& s, const SelectElement& e, TypeAttributes options)
@@ -608,7 +576,7 @@ namespace
             ObjectSchema optionSchema{};
             for (const auto& optionEntry : option->get()) {
                 assert(optionEntry);
-                renderProperty(optionSchema, *optionEntry, pass_flags(options));
+                renderProperty(optionSchema, *optionEntry, passFlags(options));
             }
 
             oneOfs.data.emplace_back(materialize(std::move(optionSchema)));
@@ -630,7 +598,7 @@ namespace
         else
             for (const auto& item : e.get()) {
                 assert(item);
-                renderProperty(s, *item, inherit_flags(options));
+                renderProperty(s, *item, inheritFlags(options));
             }
     }
 
@@ -642,7 +610,7 @@ namespace
             LOG(warning) << "empty data structure element in backend";
 
         auto merged = e.get().merge();
-        renderProperty(s, *merged, pass_flags(options));
+        renderProperty(s, *merged, passFlags(options));
     }
 
     void renderProperty(ObjectSchema& s, const IElement& e, TypeAttributes options)
