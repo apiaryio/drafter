@@ -94,7 +94,7 @@ namespace drafter
             };
 
             struct Number {
-                double data = 0;
+                std::string data = "0";
 
                 Number() = default;
                 Number(const Number&) = default;
@@ -103,7 +103,12 @@ namespace drafter
                 Number& operator=(Number&&) = default;
                 ~Number() = default;
 
-                explicit Number(double d) : data(std::move(d)) {}
+                explicit Number(std::string d) : data(std::move(d)) {}
+
+                template <typename N, typename = typename std::enable_if<std::is_integral<N>::value>::type>
+                explicit Number(N v) noexcept : data(std::to_string(v))
+                {
+                }
             };
         } // namespace so
 

@@ -518,7 +518,7 @@ SCENARIO("option DSDs are tested for equality and inequality", "[Element][Option
         auto make_test_data = []() {
             return Option( //
                 from_primitive(true),
-                from_primitive(42.0));
+                from_primitive(42));
         };
 
         Option data = make_test_data();

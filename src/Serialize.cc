@@ -8,11 +8,14 @@
 
 #include "Serialize.h"
 #include "StringUtility.h"
+#include "utils/log/Trivial.h"
 
 #include <cstdlib>
+#include <regex>
 
 using namespace drafter;
 using namespace refract;
+using namespace drafter::utils::log;
 
 const std::string SerializeKey::Metadata = "metadata";
 const std::string SerializeKey::Reference = "reference";
@@ -117,23 +120,37 @@ std::pair<bool, dsd::Boolean> drafter::LiteralTo<dsd::Boolean>(const mson::Liter
     return std::make_pair(false, dsd::Boolean{});
 }
 
+namespace
+{
+    // clang-format off
+    const std::regex is_number(R"REGEX(-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)REGEX");
+    // clang-format on
+
+    template <typename It>
+    bool isValidNumber(It b, It e)
+    {
+        return std::regex_match(b, e, is_number);
+    }
+} // namespace
+
 template <>
 std::pair<bool, dsd::Number> drafter::LiteralTo<dsd::Number>(const mson::Literal& literal)
 {
-    char* pos = 0;
-    bool valid = false;
-    double value = 0;
+    using std::begin;
+    using std::end;
 
-    value = std::strtod(literal.c_str(), &pos);
-    const char* end = literal.c_str() + literal.length();
-    if (pos == end) {
-        valid = true;
-    } else {
-        // check for trailing whitespaces
-        valid = (literal.end() != std::find_if(literal.begin() + (end - pos), literal.end(), ::isspace));
+    // ignore spaces to the right
+    auto match_end = end(literal);
+    for (; match_end != begin(literal); --match_end) {
+        if (!std::isspace(*(match_end - 1)))
+            break;
     }
 
-    return std::make_pair(valid, dsd::Number{ value });
+    if (isValidNumber(begin(literal), match_end)) {
+        return { true, dsd::Number{ std::string(begin(literal), match_end) } };
+    }
+
+    return { false, dsd::Number{} };
 }
 
 template <>

@@ -175,7 +175,7 @@ namespace
                     if (useLineNumbers) {
 
                         AnnotationPosition annotationPosition;
-                        mdp::Range pos(loc->get(), len->get());
+                        mdp::Range pos(static_cast<std::int64_t>(loc->get()), static_cast<std::int64_t>(len->get()));
                         GetLineFromMap(linesEndIndex, pos, annotationPosition);
 
                         output << "; line " << annotationPosition.fromLine << ", column "
@@ -233,7 +233,7 @@ namespace
             return output.str();
         }
     };
-}
+} // namespace
 
 /**
  *  \brief Print parser report to stderr.

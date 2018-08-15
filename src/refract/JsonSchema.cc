@@ -152,7 +152,7 @@ namespace
 
     so::Object& addMinItems(so::Object& schema, unsigned value)
     {
-        schema.data.emplace_back("minItems", so::Number{ static_cast<double>(value) });
+        schema.data.emplace_back("minItems", so::Number{ value });
         return schema;
     }
 

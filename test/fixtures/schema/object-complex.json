@@ -152,7 +152,7 @@
                                       },
                                       "value": {
                                         "element": "number",
-                                        "content": 12.5
+                                        "content": 12.50
                                       }
                                     }
                                   },
@@ -250,7 +250,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"id\": \"1\",\n  \"name\": \"A green door\",\n  \"price\": 12.5,\n  \"tags\": [\n    \"home\",\n    \"green\"\n  ],\n  \"vector\": [\n    \"1\",\n    \"2\",\n    \"3\"\n  ],\n  \"available\": false\n}"
+                              "content": "{\n  \"id\": \"1\",\n  \"name\": \"A green door\",\n  \"price\": 12.50,\n  \"tags\": [\n    \"home\",\n    \"green\"\n  ],\n  \"vector\": [\n    \"1\",\n    \"2\",\n    \"3\"\n  ],\n  \"available\": false\n}"
                             },
                             {
                               "element": "asset",

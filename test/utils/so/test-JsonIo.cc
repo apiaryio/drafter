@@ -459,58 +459,6 @@ SCENARIO("Serialize a utils::so::Value holding numbers json", "[simple-object][j
             }
         }
     }
-
-    GIVEN("an in place constructed Number{NaN}")
-    {
-        Value value(in_place_type<Number>{}, std::numeric_limits<double>::quiet_NaN());
-
-        WHEN("it is serialized into stringstream as JSON")
-        {
-            std::stringstream ss;
-            serialize_json(ss, value);
-
-            THEN("the stringstream contains: null")
-            {
-                REQUIRE("null" == ss.str());
-            }
-        }
-    }
-
-    GIVEN("an in place constructed Number{+Infinity}")
-    {
-        static_assert(std::numeric_limits<double>::has_infinity, "unsupported floating point format");
-
-        Value value(in_place_type<Number>{}, std::numeric_limits<double>::infinity());
-
-        WHEN("it is serialized into stringstream as JSON")
-        {
-            std::stringstream ss;
-            serialize_json(ss, value);
-
-            THEN("the stringstream contains: 1e+9999")
-            {
-                REQUIRE("1e+9999" == ss.str());
-            }
-        }
-    }
-
-    GIVEN("an in place constructed Number{-Infinity}")
-    {
-        static_assert(std::numeric_limits<double>::has_infinity, "unsupported floating point format");
-
-        Value value(in_place_type<Number>{}, -std::numeric_limits<double>::infinity());
-
-        WHEN("it is serialized into stringstream as JSON")
-        {
-            std::stringstream ss;
-            serialize_json(ss, value);
-
-            THEN("the stringstream contains: -1e+9999")
-            {
-                REQUIRE("-1e+9999" == ss.str());
-            }
-        }
-    }
 }
 
 SCENARIO("Serialize a utils::so::Value holding deep objects into indented json", "[simple-object][json]")

@@ -26,12 +26,7 @@ SCENARIO("`Number` is default constructed and both copy- and move constructed fr
 
         THEN("its data is zero")
         {
-            REQUIRE(number.get() == 0.0);
-        }
-        THEN("its value is zero")
-        {
-            double n = number;
-            REQUIRE(n == 0.0);
+            REQUIRE(number.get() == "0");
         }
 
         WHEN("from it another Number is copy constructed")
@@ -40,7 +35,7 @@ SCENARIO("`Number` is default constructed and both copy- and move constructed fr
 
             THEN("the latter Number's data is also zero")
             {
-                REQUIRE(number2.get() == 0);
+                REQUIRE(number2.get() == "0");
             }
         }
 
@@ -50,7 +45,7 @@ SCENARIO("`Number` is default constructed and both copy- and move constructed fr
 
             THEN("the latter Number's data is also zero")
             {
-                REQUIRE(number2.get() == 0);
+                REQUIRE(number2.get() == "0");
             }
         }
     }
@@ -61,7 +56,7 @@ SCENARIO("Number is constructed from values, both copy- and move constructed fro
 {
     GIVEN("A double N = 39025.341")
     {
-        const double N = 39025.341;
+        const char* N = "39025.341";
 
         WHEN("a Number is constructed using it")
         {
@@ -72,18 +67,13 @@ SCENARIO("Number is constructed from values, both copy- and move constructed fro
                 {
                     REQUIRE(number.get() == N);
                 }
-                THEN("its value is N")
-                {
-                    const double P = number;
-                    REQUIRE(N == P);
-                }
             }
         }
     }
 
     GIVEN("A Number with value N = 34893.2539")
     {
-        const double N = 34893.2539;
+        const char* N = "34893.2539";
         Number number(N);
 
         WHEN("another Number is copy constructed from it")
@@ -93,11 +83,6 @@ SCENARIO("Number is constructed from values, both copy- and move constructed fro
             THEN("its data is N")
             {
                 REQUIRE(number2.get() == N);
-            }
-            THEN("its value is N")
-            {
-                const double P = number2;
-                REQUIRE(N == P);
             }
         }
 
@@ -109,11 +94,6 @@ SCENARIO("Number is constructed from values, both copy- and move constructed fro
             {
                 REQUIRE(number2.get() == N);
             }
-            THEN("its value is N")
-            {
-                const double P = number2;
-                REQUIRE(N == P);
-            }
         }
     }
 }
@@ -122,11 +102,11 @@ SCENARIO("number DSDs are tested for equality and inequality", "[Element][Number
 {
     GIVEN("An number DSD with 42.0 value")
     {
-        Number data(42.0);
+        Number data("42.0");
 
         GIVEN("An number element constructed equivalently")
         {
-            Number data2(42.0);
+            Number data2("42.0");
 
             THEN("they test positive for equality")
             {
@@ -141,7 +121,7 @@ SCENARIO("number DSDs are tested for equality and inequality", "[Element][Number
 
         GIVEN("An number element with different value")
         {
-            Number data2(3.14);
+            Number data2("3.14");
 
             THEN("they test negative for equality")
             {

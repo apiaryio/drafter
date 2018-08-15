@@ -20,7 +20,7 @@ namespace
     struct foo : public tracked<foo> {
         int bar_ = 42;
     };
-}
+} // namespace
 
 SCENARIO("Elements are visited by a void() visitor", "[Element][utils][visitor]")
 {
@@ -133,11 +133,11 @@ SCENARIO("Elements are tested for equality", "[Element][utils]")
     {
         auto make_test_element = []() {
             auto result = make_empty<BooleanElement>();
-            result->attributes().set("id", from_primitive(42.0));
+            result->attributes().set("id", from_primitive(42));
             result->attributes().set("ref", from_primitive("Foo"));
 
             result->meta().set("bar", make_element<ArrayElement>(from_primitive("abc")));
-            result->meta().set("pi", from_primitive(3.42));
+            result->meta().set("pi", from_primitive(3));
             return result;
         };
 
@@ -159,7 +159,7 @@ SCENARIO("Elements are tested for equality", "[Element][utils]")
 
             WHEN("the second element is reassigned an equivalent meta entry")
             {
-                el2->meta().set("pi", from_primitive(3.42));
+                el2->meta().set("pi", from_primitive(3));
 
                 THEN("they test positive for equality")
                 {
@@ -191,7 +191,7 @@ SCENARIO("Elements are tested for equality", "[Element][utils]")
         GIVEN("An element constructed equivalently with additional attributes entries")
         {
             auto el2 = make_test_element();
-            el2->attributes().set("a", from_primitive(1.0));
+            el2->attributes().set("a", from_primitive(1));
 
             THEN("they test negative for equality")
             {
@@ -207,7 +207,7 @@ SCENARIO("Elements are tested for equality", "[Element][utils]")
         GIVEN("An element constructed equivalently with a attributes entry modified")
         {
             auto el2 = make_test_element();
-            el2->attributes().set("id", from_primitive(41.0));
+            el2->attributes().set("id", from_primitive(41));
 
             THEN("they test negative for equality")
             {
@@ -224,11 +224,11 @@ SCENARIO("Elements are tested for equality", "[Element][utils]")
         {
             auto make_test_element_missing = []() {
                 auto result = make_empty<BooleanElement>();
-                result->attributes().set("id", from_primitive(42.0));
+                result->attributes().set("id", from_primitive(42));
                 // result->attributes().set("ref", from_primitive("Foo"));
 
                 result->meta().set("bar", make_element<ArrayElement>(from_primitive("abc")));
-                result->meta().set("pi", from_primitive(3.42));
+                result->meta().set("pi", from_primitive(3));
                 return result;
             };
 
@@ -248,7 +248,7 @@ SCENARIO("Elements are tested for equality", "[Element][utils]")
         GIVEN("An element constructed equivalently with additional meta entries")
         {
             auto el2 = make_test_element();
-            el2->meta().set("a", from_primitive(1.0));
+            el2->meta().set("a", from_primitive(1));
 
             THEN("they test negative for equality")
             {
@@ -281,11 +281,11 @@ SCENARIO("Elements are tested for equality", "[Element][utils]")
         {
             auto make_test_element_missing = []() {
                 auto result = make_empty<BooleanElement>();
-                result->attributes().set("id", from_primitive(42.0));
+                result->attributes().set("id", from_primitive(42));
                 result->attributes().set("ref", from_primitive("Foo"));
 
                 result->meta().set("bar", make_element<ArrayElement>(from_primitive("abc")));
-                // result->meta().set("pi", from_primitive(3.42));
+                // result->meta().set("pi", from_primitive(3));
                 return result;
             };
 

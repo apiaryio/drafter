@@ -85,7 +85,7 @@ TEST_CASE("It should invoke Functor for member of container elements", "[Visitor
 
     auto e = make_element<ArrayElement>();
     auto& content = e->get();
-    content.push_back(from_primitive(3.0));
+    content.push_back(from_primitive(3));
     content.push_back(from_primitive(false));
     content.push_back(from_primitive("Ehlo"));
 
@@ -133,7 +133,7 @@ struct Fixture {
             {
                 auto& c = arr->get();
                 c.push_back(from_primitive("m2[0]"));
-                c.push_back(from_primitive(2.1));
+                c.push_back(from_primitive(2));
             }
             content.addMember("m2", std::move(arr));
         }
@@ -143,7 +143,7 @@ struct Fixture {
             {
                 auto& c = obj->get();
                 c.addMember("m3.1", from_primitive("Str3.1"));
-                c.addMember("m3.2", from_primitive(3.2));
+                c.addMember("m3.2", from_primitive(3));
 
                 auto arr = make_element<ArrayElement>();
                 {
@@ -157,7 +157,7 @@ struct Fixture {
                 {
                     auto& subObjc = subObj->get();
                     subObjc.addMember("m3.4.1", from_primitive("Str3/4/1"));
-                    subObjc.addMember("m3.4.2", from_primitive(3.42));
+                    subObjc.addMember("m3.4.2", from_primitive(3));
                     subObjc.addMember("m3.4.2", make_empty<NullElement>());
                 }
                 c.addMember("m3.4", std::move(subObj));
@@ -175,7 +175,7 @@ struct Fixture {
 
         content.addMember("m1", from_primitive("Str1"));
         content.addMember("m2", from_primitive("Str2"));
-        content.addMember("m3", from_primitive(3.0));
+        content.addMember("m3", from_primitive(3));
 
         return std::move(result);
     }
@@ -204,7 +204,7 @@ struct Fixture {
         auto& content = result->get();
 
         content.push_back(from_primitive("1"));
-        content.push_back(from_primitive(2.0));
+        content.push_back(from_primitive(2));
         content.push_back(from_primitive("3"));
 
         return std::move(result);
@@ -220,8 +220,8 @@ struct Fixture {
         auto child = make_element<ArrayElement>();
         {
             auto& childc = child->get();
-            childc.push_back(from_primitive(1.0));
-            childc.push_back(from_primitive(2.0));
+            childc.push_back(from_primitive(1));
+            childc.push_back(from_primitive(2));
         }
         content.push_back(std::move(child));
 

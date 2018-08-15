@@ -49,12 +49,12 @@ namespace refract
         };
 
         template <>
-        struct data_of<double> {
+        struct data_of<int> {
             using type = dsd::Number;
         };
 
         template <>
-        struct data_of<int> {
+        struct data_of<size_t> {
             using type = dsd::Number;
         };
 

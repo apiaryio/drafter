@@ -135,15 +135,7 @@ namespace
 
         void operator()(const Number& value, std::ostream& out, int indent = 0) const
         {
-            if (std::isfinite(value.data)) {     // Finite
-                out << value.data;               //
-            } else if (std::isnan(value.data)) { // NaN
-                out << "null";                   //
-            } else if (value.data < 0) {         // -Infinity
-                out << "-1e+9999";               //
-            } else {                             // +Infinity
-                out << "1e+9999";                //
-            }
+            out << value.data;
         }
 
         void operator()(const Object& value, std::ostream& out, int indent = 0) const
@@ -190,7 +182,7 @@ namespace
             out << ']';
         }
     };
-}
+} // namespace
 
 std::ostream& so::serialize_json(std::ostream& out, const Value& obj)
 {
