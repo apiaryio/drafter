@@ -31,18 +31,18 @@ namespace
     constexpr std::size_t NULLABLE_FLAG = 2;
     constexpr std::size_t REQUIRED_FLAG = 3;
 
-    TypeAttributes updateTypeAttributes(const IElement& e, TypeAttributes options) noexcept
+    TypeAttributes updateTypeAttributes(const IElement& element, TypeAttributes options) noexcept
     {
-        if (hasFixedTypeAttr(e))
+        if (hasFixedTypeAttr(element))
             options.set(FIXED_FLAG);
 
-        if (hasFixedTypeTypeAttr(e))
+        if (hasFixedTypeTypeAttr(element))
             options.set(FIXED_TYPE_FLAG);
 
-        if (hasNullableTypeAttr(e))
+        if (hasNullableTypeAttr(element))
             options.set(NULLABLE_FLAG);
 
-        if (hasRequiredTypeAttr(e))
+        if (hasRequiredTypeAttr(element))
             options.set(REQUIRED_FLAG);
 
         return options;
@@ -61,11 +61,11 @@ namespace
         return options;
     }
 
-    TypeAttributes inheritOrPassFlags(TypeAttributes options, const IElement& e)
+    TypeAttributes inheritOrPassFlags(TypeAttributes options, const IElement& element)
     {
         auto result = inheritFlags(options);
-        if (inheritsFixed(e)) {
-            LOG(debug) << "\"" << e.element() << "\"-Element inherits fixed";
+        if (inheritsFixed(element)) {
+            LOG(debug) << "\"" << element.element() << "\"-Element inherits fixed";
             return result;
         }
         return result.reset(FIXED_FLAG);
@@ -74,54 +74,54 @@ namespace
 
 namespace
 {
-    void renderProperty(so::Object& obj, const MemberElement& e, TypeAttributes options);
-    void renderProperty(so::Object& obj, const RefElement& e, TypeAttributes options);
-    void renderProperty(so::Object& obj, const SelectElement& e, TypeAttributes options);
-    void renderProperty(so::Object& obj, const ObjectElement& e, TypeAttributes options);
-    void renderProperty(so::Object& obj, const ExtendElement& e, TypeAttributes options);
-    void renderProperty(so::Object& obj, const IElement& e, TypeAttributes options);
+    void renderProperty(so::Object& obj, const MemberElement& element, TypeAttributes options);
+    void renderProperty(so::Object& obj, const RefElement& element, TypeAttributes options);
+    void renderProperty(so::Object& obj, const SelectElement& element, TypeAttributes options);
+    void renderProperty(so::Object& obj, const ObjectElement& element, TypeAttributes options);
+    void renderProperty(so::Object& obj, const ExtendElement& element, TypeAttributes options);
+    void renderProperty(so::Object& obj, const IElement& element, TypeAttributes options);
 
-    void renderItemSpecific(so::Array& obj, const RefElement& e, TypeAttributes options);
-    void renderItemSpecific(so::Array& obj, const NumberElement& e, TypeAttributes options);
-    void renderItemSpecific(so::Array& obj, const StringElement& e, TypeAttributes options);
-    void renderItemSpecific(so::Array& obj, const BooleanElement& e, TypeAttributes options);
-    void renderItem(so::Array& obj, const IElement& e, TypeAttributes options);
+    void renderItemSpecific(so::Array& obj, const RefElement& element, TypeAttributes options);
+    void renderItemSpecific(so::Array& obj, const NumberElement& element, TypeAttributes options);
+    void renderItemSpecific(so::Array& obj, const StringElement& element, TypeAttributes options);
+    void renderItemSpecific(so::Array& obj, const BooleanElement& element, TypeAttributes options);
+    void renderItem(so::Array& obj, const IElement& element, TypeAttributes options);
 
-    so::Value renderValueSpecific(const ObjectElement& e, TypeAttributes options);
-    so::Value renderValueSpecific(const ArrayElement& e, TypeAttributes options);
-    so::Value renderValueSpecific(const EnumElement& e, TypeAttributes options);
-    so::Value renderValueSpecific(const NullElement& e, TypeAttributes options);
-    so::Value renderValueSpecific(const StringElement& e, TypeAttributes options);
-    so::Value renderValueSpecific(const NumberElement& e, TypeAttributes options);
-    so::Value renderValueSpecific(const BooleanElement& e, TypeAttributes options);
-    so::Value renderValueSpecific(const ExtendElement& e, TypeAttributes options);
-    so::Value renderValue(const IElement& e, TypeAttributes options);
+    so::Value renderValueSpecific(const ObjectElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const ArrayElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const EnumElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const NullElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const StringElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const NumberElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const BooleanElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const ExtendElement& element, TypeAttributes options);
+    so::Value renderValue(const IElement& element, TypeAttributes options);
 
     template <typename T>
-    void renderProperty(so::Object&, const T& e, TypeAttributes)
+    void renderProperty(so::Object&, const T& element, TypeAttributes)
     {
-        LOG(error) << "invalid property element: " << e.element();
+        LOG(error) << "invalid property element: " << element.element();
         assert(false);
     }
 
     template <typename T>
-    void renderItemSpecific(so::Array& a, const T& e, TypeAttributes options)
+    void renderItemSpecific(so::Array& a, const T& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering item " << e.element() << "Element as JSON Value";
-        a.data.emplace_back(renderValue(e, inheritOrPassFlags(options, e)));
+        LOG(debug) << "rendering item " << element.element() << "Element as JSON Value";
+        a.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
     }
 
     template <typename T>
-    so::Value renderValueSpecific(const T& e, TypeAttributes)
+    so::Value renderValueSpecific(const T& element, TypeAttributes)
     {
-        LOG(error) << "invalid top level element: " << e.element();
+        LOG(error) << "invalid top level element: " << element.element();
         assert(false);
         return so::Null{}; // unreachable
     }
 
-    so::Value renderValue(const IElement& e, TypeAttributes options)
+    so::Value renderValue(const IElement& element, TypeAttributes options)
     {
-        return refract::visit(e, [options](const auto& el) { //
+        return refract::visit(element, [options](const auto& el) { //
             return renderValueSpecific(el, options);
         });
     }
@@ -141,29 +141,29 @@ namespace
     /// @tparam SoType  type of simple object to be rendered to
     /// @tparam Element type of Element sample or default shall be searched on
     ///
-    /// @param e        element sample/default to be searched on
+    /// @param element        element sample/default to be searched on
     /// @param options  type attributes to be inherited
     ///
     /// @return         whether a sample or default was found and rendered
     ///
     template <typename Element>
-    std::pair<bool, so::Value> renderSampleOrDefault(const Element& e, TypeAttributes options)
+    std::pair<bool, so::Value> renderSampleOrDefault(const Element& element, TypeAttributes options)
     {
-        if (const auto& sampleValue = findFirstSample(e)) {
+        if (const auto& sampleValue = findFirstSample(element)) {
             return { true, renderValueSpecific(*sampleValue, options) };
         }
 
-        if (const auto& defaultValue = findDefault(e)) {
+        if (const auto& defaultValue = findDefault(element)) {
             return { true, renderValueSpecific(*defaultValue, options) };
         }
 
         return { false, so::Null{} };
     }
 
-    const IElement& resolve(const RefElement& e)
+    const IElement& resolve(const RefElement& element)
     {
-        const auto& resolvedEntry = e.attributes().find("resolved");
-        if (resolvedEntry == e.attributes().end()) {
+        const auto& resolvedEntry = element.attributes().find("resolved");
+        if (resolvedEntry == element.attributes().end()) {
             LOG(error) << "expected all references to be resolved in backend";
             assert(false);
         }
@@ -177,19 +177,19 @@ namespace
 namespace
 {
 
-    so::Value renderValueSpecific(const ObjectElement& e, TypeAttributes options)
+    so::Value renderValueSpecific(const ObjectElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering ObjectElement to JSON Value";
         so::Object result{};
 
-        options = updateTypeAttributes(e, options);
+        options = updateTypeAttributes(element, options);
 
-        if (e.empty()) {
-            auto alt = renderSampleOrDefault(e, inheritFlags(options));
+        if (element.empty()) {
+            auto alt = renderSampleOrDefault(element, inheritFlags(options));
             if (alt.first)
                 return std::move(alt.second);
         } else
-            for (const auto& item : e.get()) {
+            for (const auto& item : element.get()) {
                 assert(item);
                 if (options.test(FIXED_TYPE_FLAG) || options.test(FIXED_FLAG))
                     renderProperty(
@@ -201,19 +201,19 @@ namespace
         return result;
     }
 
-    so::Value renderValueSpecific(const ArrayElement& e, TypeAttributes options)
+    so::Value renderValueSpecific(const ArrayElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering ArrayElement to JSON Value";
 
-        options = updateTypeAttributes(e, options);
+        options = updateTypeAttributes(element, options);
 
         so::Array result{};
-        if (e.empty()) {
-            auto alt = renderSampleOrDefault(e, inheritFlags(options));
+        if (element.empty()) {
+            auto alt = renderSampleOrDefault(element, inheritFlags(options));
             if (alt.first)
                 return std::move(alt.second);
         } else
-            for (const auto& entry : e.get()) {
+            for (const auto& entry : element.get()) {
                 assert(entry);
                 renderItem(result, *entry, inheritOrPassFlags(options, *entry));
                 if (options.test(FIXED_TYPE_FLAG))
@@ -223,19 +223,19 @@ namespace
         return so::Value{ result };
     }
 
-    so::Value renderValueSpecific(const EnumElement& e, TypeAttributes options)
+    so::Value renderValueSpecific(const EnumElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering EnumElement to JSON Value";
 
-        options = updateTypeAttributes(e, options);
+        options = updateTypeAttributes(element, options);
 
-        if (e.empty()) {
-            auto alt = renderSampleOrDefault(e, inheritFlags(options));
+        if (element.empty()) {
+            auto alt = renderSampleOrDefault(element, inheritFlags(options));
             if (alt.first)
                 return std::move(alt.second);
 
-            auto enumerationsIt = e.attributes().find("enumerations");
-            if (e.attributes().end() != enumerationsIt) {
+            auto enumerationsIt = element.attributes().find("enumerations");
+            if (element.attributes().end() != enumerationsIt) {
                 const auto enums = get<const ArrayElement>(enumerationsIt->second.get());
                 assert(enums);
                 if (!enums->empty())
@@ -253,28 +253,28 @@ namespace
             return so::Null{};
         }
 
-        assert(e.get().value());
-        return renderValue(*e.get().value(), inheritFlags(options));
+        assert(element.get().value());
+        return renderValue(*element.get().value(), inheritFlags(options));
     } // namespace
 
-    so::Value renderValueSpecific(const NullElement& e, TypeAttributes options)
+    so::Value renderValueSpecific(const NullElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering NullElement to JSON Value";
 
         return so::Null{};
     }
 
-    so::Value renderValueSpecific(const StringElement& e, TypeAttributes options)
+    so::Value renderValueSpecific(const StringElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering StringElement to JSON Value";
 
-        options = updateTypeAttributes(e, options);
+        options = updateTypeAttributes(element, options);
 
-        if (e.empty()) {
+        if (element.empty()) {
             if (options.test(NULLABLE_FLAG))
                 return so::Null{};
 
-            auto alt = renderSampleOrDefault(e, passFlags(options));
+            auto alt = renderSampleOrDefault(element, passFlags(options));
             if (alt.first)
                 return std::move(alt.second);
 
@@ -282,20 +282,20 @@ namespace
             return so::String{};
         }
 
-        return so::String{ e.get().get() };
+        return so::String{ element.get().get() };
     }
 
-    so::Value renderValueSpecific(const NumberElement& e, TypeAttributes options)
+    so::Value renderValueSpecific(const NumberElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering NumberElement to JSON Value";
 
-        options = updateTypeAttributes(e, options);
+        options = updateTypeAttributes(element, options);
 
-        if (e.empty()) {
+        if (element.empty()) {
             if (options.test(NULLABLE_FLAG))
                 return so::Null{};
 
-            auto alt = renderSampleOrDefault(e, passFlags(options));
+            auto alt = renderSampleOrDefault(element, passFlags(options));
             if (alt.first)
                 return std::move(alt.second);
 
@@ -303,20 +303,20 @@ namespace
             return so::Number{};
         }
 
-        return so::Number{ e.get().get() };
+        return so::Number{ element.get().get() };
     }
 
-    so::Value renderValueSpecific(const BooleanElement& e, TypeAttributes options)
+    so::Value renderValueSpecific(const BooleanElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering BooleanElement to JSON Value";
 
-        options = updateTypeAttributes(e, options);
+        options = updateTypeAttributes(element, options);
 
-        if (e.empty()) {
+        if (element.empty()) {
             if (options.test(NULLABLE_FLAG))
                 return so::Null{};
 
-            auto alt = renderSampleOrDefault(e, passFlags(options));
+            auto alt = renderSampleOrDefault(element, passFlags(options));
             if (alt.first)
                 return std::move(alt.second);
 
@@ -324,16 +324,16 @@ namespace
             return so::False{};
         }
 
-        if (e.get().get())
+        if (element.get().get())
             return so::True{};
         return so::False{};
     }
 
-    so::Value renderValueSpecific(const ExtendElement& e, TypeAttributes options)
+    so::Value renderValueSpecific(const ExtendElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering ExtendElement to JSON Value";
 
-        auto merged = e.get().merge();
+        auto merged = element.get().merge();
         assert(merged);
         return renderValue(*merged, options);
     }
@@ -343,50 +343,50 @@ namespace
 namespace
 {
 
-    void renderProperty(so::Object& obj, const MemberElement& e, TypeAttributes options)
+    void renderProperty(so::Object& obj, const MemberElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering property MemberElement as JSON Value";
 
-        if (hasFixedTypeAttr(e))
+        if (hasFixedTypeAttr(element))
             options.set(FIXED_FLAG);
 
-        options.set(FIXED_TYPE_FLAG, hasFixedTypeTypeAttr(e));
-        options.set(NULLABLE_FLAG, hasNullableTypeAttr(e));
+        options.set(FIXED_TYPE_FLAG, hasFixedTypeTypeAttr(element));
+        options.set(NULLABLE_FLAG, hasNullableTypeAttr(element));
 
-        if (hasRequiredTypeAttr(e))
+        if (hasRequiredTypeAttr(element))
             options.set(REQUIRED_FLAG);
 
-        if (hasOptionalTypeAttr(e))
+        if (hasOptionalTypeAttr(element))
             options.reset(REQUIRED_FLAG);
 
-        const auto* k = e.get().key();
-        const auto* v = e.get().value();
+        const auto* elementKey = element.get().key();
+        const auto* elementValue = element.get().value();
 
-        assert(k);
+        assert(elementKey);
 
-        if (hasOptionalTypeAttr(e))
-            if (!definesValue(*v)) {
+        if (hasOptionalTypeAttr(element))
+            if (!definesValue(*elementValue)) {
                 LOG(debug) << "omitting optional property while rendering value";
                 return;
             }
 
-        if (isVariable(e)) {
-            if (const auto* strKeyEl = get<const StringElement>(k)) {
+        if (isVariable(element)) {
+            if (const auto* strKeyEl = get<const StringElement>(elementKey)) {
                 if (!strKeyEl->empty()) {
                     LOG(warning) << "improvised variable key; sample shall be used as key sample";
                     const auto& strKey = strKeyEl->get().get();
-                    emplace_unique(obj, strKey, renderValue(*v, passFlags(options)));
+                    emplace_unique(obj, strKey, renderValue(*elementValue, passFlags(options)));
                     return;
                 }
 
-            } else if (const auto* extend = get<const ExtendElement>(k)) {
+            } else if (const auto* extend = get<const ExtendElement>(elementKey)) {
                 if (!extend->empty()) {
                     auto merged = extend->get().merge();
                     if (const auto* strKeyEl = get<const StringElement>(merged.get())) {
                         if (!strKeyEl->empty()) {
                             LOG(warning) << "improvised variable key; sample shall be used as key sample";
                             const auto& strKey = strKeyEl->get().get();
-                            emplace_unique(obj, strKey, renderValue(*v, passFlags(options)));
+                            emplace_unique(obj, strKey, renderValue(*elementValue, passFlags(options)));
                             return;
                         }
                     } else {
@@ -399,17 +399,17 @@ namespace
             LOG(info) << "omitting variable property while rendering value";
 
         } else {
-            auto strKey = key(e);
-            emplace_unique(obj, strKey, renderValue(*v, passFlags(options)));
+            auto strKey = key(element);
+            emplace_unique(obj, strKey, renderValue(*elementValue, passFlags(options)));
         }
     }
 
-    void renderProperty(so::Object& obj, const RefElement& e, TypeAttributes options)
+    void renderProperty(so::Object& obj, const RefElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering property RefElement as JSON Value";
 
-        const auto& resolvedEntry = e.attributes().find("resolved");
-        if (resolvedEntry == e.attributes().end()) {
+        const auto& resolvedEntry = element.attributes().find("resolved");
+        if (resolvedEntry == element.attributes().end()) {
             LOG(error) << "expected all references to be resolved in backend";
             assert(false);
         }
@@ -418,12 +418,12 @@ namespace
         renderProperty(obj, *resolvedEntry->second, passFlags(options));
     }
 
-    void renderProperty(so::Object& s, const SelectElement& e, TypeAttributes options)
+    void renderProperty(so::Object& value, const SelectElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering property SelectElement as JSON Value";
 
         so::Array oneOfs{};
-        for (const auto& option : e.get()) {
+        for (const auto& option : element.get()) {
 
             if (option->empty()) {
                 LOG(error) << "unexpected empty option element in backend";
@@ -437,7 +437,7 @@ namespace
 
             for (const auto& optionEntry : option->get()) {
                 assert(optionEntry);
-                renderProperty(s, *optionEntry, passFlags(options));
+                renderProperty(value, *optionEntry, passFlags(options));
             }
 
             return;
@@ -446,45 +446,45 @@ namespace
         LOG(warning) << "no non-empty OptionElement in SelectElement; skipping property";
     }
 
-    void renderProperty(so::Object& s, const ObjectElement& e, TypeAttributes options)
+    void renderProperty(so::Object& value, const ObjectElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering property ObjectElement as JSON Value";
 
-        if (hasFixedTypeAttr(e))
+        if (hasFixedTypeAttr(element))
             options.set(FIXED_FLAG);
 
-        if (!e.empty())
-            for (const auto& item : e.get()) {
+        if (!element.empty())
+            for (const auto& item : element.get()) {
                 assert(item);
-                renderProperty(s, *item, inheritFlags(options));
+                renderProperty(value, *item, inheritFlags(options));
             }
     }
 
-    void renderProperty(so::Object& s, const ExtendElement& e, TypeAttributes options)
+    void renderProperty(so::Object& value, const ExtendElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering property ExtendElement as JSON Value";
 
-        if (e.empty())
+        if (element.empty())
             LOG(warning) << "empty data structure element in backend";
 
-        auto merged = e.get().merge();
+        auto merged = element.get().merge();
         assert(merged);
-        renderProperty(s, *merged, passFlags(options));
+        renderProperty(value, *merged, passFlags(options));
     }
 
-    void renderProperty(so::Object& s, const IElement& e, TypeAttributes options)
+    void renderProperty(so::Object& value, const IElement& element, TypeAttributes options)
     {
-        auto objPtr = &s;
-        refract::visit(e, [objPtr, options](const auto& el) { //
+        auto objPtr = &value;
+        refract::visit(element, [objPtr, options](const auto& el) { //
             renderProperty(*objPtr, el, options);
         });
     }
 
-    void renderItemSpecific(so::Array& a, const RefElement& e, TypeAttributes options)
+    void renderItemSpecific(so::Array& a, const RefElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering item RefElement as JSON Value";
 
-        const auto& resolved = resolve(e);
+        const auto& resolved = resolve(element);
         if (const auto& mixin = get<const ArrayElement>(&resolved)) {
             if (!mixin->empty())
                 for (const auto& item : mixin->get()) {
@@ -494,46 +494,46 @@ namespace
         }
     }
 
-    void renderItemSpecific(so::Array& a, const NumberElement& e, TypeAttributes options)
+    void renderItemSpecific(so::Array& a, const NumberElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering item " << e.element() << "Element as JSON Value";
+        LOG(debug) << "rendering item " << element.element() << "Element as JSON Value";
 
-        options = updateTypeAttributes(e, options);
+        options = updateTypeAttributes(element, options);
 
-        if ((options.test(FIXED_FLAG) || definesValue(e)))
-            a.data.emplace_back(renderValue(e, inheritOrPassFlags(options, e)));
+        if ((options.test(FIXED_FLAG) || definesValue(element)))
+            a.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
         else
             LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
     }
 
-    void renderItemSpecific(so::Array& a, const StringElement& e, TypeAttributes options)
+    void renderItemSpecific(so::Array& a, const StringElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering item " << e.element() << "Element as JSON Value";
+        LOG(debug) << "rendering item " << element.element() << "Element as JSON Value";
 
-        options = updateTypeAttributes(e, options);
+        options = updateTypeAttributes(element, options);
 
-        if ((options.test(FIXED_FLAG) || definesValue(e)))
-            a.data.emplace_back(renderValue(e, inheritOrPassFlags(options, e)));
+        if ((options.test(FIXED_FLAG) || definesValue(element)))
+            a.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
         else
             LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
     }
 
-    void renderItemSpecific(so::Array& a, const BooleanElement& e, TypeAttributes options)
+    void renderItemSpecific(so::Array& a, const BooleanElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering item " << e.element() << "Element as JSON Value";
+        LOG(debug) << "rendering item " << element.element() << "Element as JSON Value";
 
-        options = updateTypeAttributes(e, options);
+        options = updateTypeAttributes(element, options);
 
-        if ((options.test(FIXED_FLAG) || definesValue(e)))
-            a.data.emplace_back(renderValue(e, inheritOrPassFlags(options, e)));
+        if ((options.test(FIXED_FLAG) || definesValue(element)))
+            a.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
         else
             LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
     }
 
-    void renderItem(so::Array& a, const IElement& e, TypeAttributes options)
+    void renderItem(so::Array& a, const IElement& element, TypeAttributes options)
     {
         auto aPtr = &a;
-        refract::visit(e, [aPtr, options](const auto& el) { //
+        refract::visit(element, [aPtr, options](const auto& el) { //
             renderItemSpecific(*aPtr, el, options);
         });
     }
