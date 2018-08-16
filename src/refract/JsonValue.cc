@@ -135,19 +135,18 @@ so::Value refract::generateJsonValue(const IElement& el)
 namespace
 {
     ///
-    /// Searches for a sample or default, in that order, and renders it into
-    ///     the given simple object value
+    /// Search for sample, default or NULLABLE_FLAG, in that order, and
+    ///     generate a matching simple object value
     ///
-    /// @tparam SoType  type of simple object to be rendered to
     /// @tparam Element type of Element sample or default shall be searched on
     ///
-    /// @param element        element sample/default to be searched on
-    /// @param options  type attributes to be inherited
+    /// @param element        element to be searched on
+    /// @param options        type attributes to be applied to sample/default
     ///
     /// @return         whether a sample or default was found and rendered
     ///
     template <typename Element>
-    std::pair<bool, so::Value> renderSampleOrDefault(const Element& element, TypeAttributes options)
+    std::pair<bool, so::Value> renderSampleOrDefaultOrNull(const Element& element, TypeAttributes options)
     {
         if (const auto& sampleValue = findFirstSample(element)) {
             return { true, renderValueSpecific(*sampleValue, options) };
@@ -155,6 +154,10 @@ namespace
 
         if (const auto& defaultValue = findDefault(element)) {
             return { true, renderValueSpecific(*defaultValue, options) };
+        }
+
+        if (options.test(NULLABLE_FLAG)) {
+            return { true, so::Null{} };
         }
 
         return { false, so::Null{} };
@@ -185,7 +188,7 @@ namespace
         options = updateTypeAttributes(element, options);
 
         if (element.empty()) {
-            auto alt = renderSampleOrDefault(element, inheritFlags(options));
+            auto alt = renderSampleOrDefaultOrNull(element, passFlags(options));
             if (alt.first)
                 return std::move(alt.second);
         } else
@@ -209,7 +212,7 @@ namespace
 
         so::Array result{};
         if (element.empty()) {
-            auto alt = renderSampleOrDefault(element, inheritFlags(options));
+            auto alt = renderSampleOrDefaultOrNull(element, passFlags(options));
             if (alt.first)
                 return std::move(alt.second);
         } else
@@ -230,7 +233,7 @@ namespace
         options = updateTypeAttributes(element, options);
 
         if (element.empty()) {
-            auto alt = renderSampleOrDefault(element, inheritFlags(options));
+            auto alt = renderSampleOrDefaultOrNull(element, passFlags(options));
             if (alt.first)
                 return std::move(alt.second);
 
@@ -241,12 +244,8 @@ namespace
                 if (!enums->empty())
                     for (const auto& enumEntry : enums->get()) {
                         assert(enumEntry);
-                        return renderValue(*enumEntry, inheritFlags(options));
+                        return renderValue(*enumEntry, passFlags(options));
                     }
-            }
-
-            if (options.test(NULLABLE_FLAG)) {
-                return so::Null{};
             }
 
             LOG(warning) << "no value found for EnumElement; using `null`";
@@ -271,10 +270,7 @@ namespace
         options = updateTypeAttributes(element, options);
 
         if (element.empty()) {
-            if (options.test(NULLABLE_FLAG))
-                return so::Null{};
-
-            auto alt = renderSampleOrDefault(element, passFlags(options));
+            auto alt = renderSampleOrDefaultOrNull(element, passFlags(options));
             if (alt.first)
                 return std::move(alt.second);
 
@@ -292,10 +288,7 @@ namespace
         options = updateTypeAttributes(element, options);
 
         if (element.empty()) {
-            if (options.test(NULLABLE_FLAG))
-                return so::Null{};
-
-            auto alt = renderSampleOrDefault(element, passFlags(options));
+            auto alt = renderSampleOrDefaultOrNull(element, passFlags(options));
             if (alt.first)
                 return std::move(alt.second);
 
@@ -313,10 +306,7 @@ namespace
         options = updateTypeAttributes(element, options);
 
         if (element.empty()) {
-            if (options.test(NULLABLE_FLAG))
-                return so::Null{};
-
-            auto alt = renderSampleOrDefault(element, passFlags(options));
+            auto alt = renderSampleOrDefaultOrNull(element, passFlags(options));
             if (alt.first)
                 return std::move(alt.second);
 

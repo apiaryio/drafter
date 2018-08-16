@@ -53,3 +53,5 @@ TEST_REFRACT("render", "fixed-named-type");
 TEST_REFRACT("render", "mixin-override");
 
 TEST_REFRACT("render", "issue-547");
+
+TEST_REFRACT("render", "nullable-samples");
