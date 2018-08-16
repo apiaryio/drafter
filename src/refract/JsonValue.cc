@@ -458,11 +458,10 @@ namespace
 
         const auto& resolved = resolve(element);
         if (const auto& mixin = get<const ArrayElement>(&resolved)) {
-            if (!mixin->empty())
-                for (const auto& item : mixin->get()) {
-                    assert(item);
-                    renderItem(a, *item, inheritOrPassFlags(options, *item));
-                }
+            // OPTIM @tjanc@ avoid temporary container
+            so::Value mixinValue = renderValueSpecific(*mixin, passFlags(options));
+            if (const so::Array* mixinValueArray = get_if<so::Array>(mixinValue))
+                std::move(mixinValueArray->data.begin(), mixinValueArray->data.end(), std::back_inserter(a.data));
         }
     }
 
