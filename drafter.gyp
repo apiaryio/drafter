@@ -306,6 +306,8 @@
         "src/refract/JsonSchema.cc",
         "src/refract/JsonValue.h",
         "src/refract/JsonValue.cc",
+        "src/refract/JsonUtils.h",
+        "src/refract/JsonUtils.cc",
         "src/refract/ElementUtils.h",
         "src/refract/ElementUtils.cc",
         "src/refract/SerializeSo.h",

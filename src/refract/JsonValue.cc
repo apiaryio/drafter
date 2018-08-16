@@ -14,6 +14,7 @@
 #include "Element.h"
 #include "ElementUtils.h"
 #include "Utils.h"
+#include "JsonUtils.h"
 #include <algorithm>
 #include <bitset>
 #include <cassert>
@@ -179,6 +180,43 @@ namespace
 
 namespace
 {
+    template <typename Element>
+    so::Value renderValuePrimitive(const Element& element, TypeAttributes options)
+    {
+        options = updateTypeAttributes(element, options);
+
+        if (element.empty()) {
+            auto alt = renderSampleOrDefaultOrNull(element, passFlags(options));
+            if (alt.first)
+                return std::move(alt.second);
+
+            LOG(warning) << "no value found for element `" << element.element() << "`";
+            return utils::instantiateEmpty(element);
+        }
+
+        return utils::instantiate(element.get());
+    }
+
+    so::Value renderValueSpecific(const StringElement& element, TypeAttributes options)
+    {
+        LOG(debug) << "rendering StringElement to JSON Value";
+
+        return renderValuePrimitive(element, passFlags(options));
+    }
+
+    so::Value renderValueSpecific(const NumberElement& element, TypeAttributes options)
+    {
+        LOG(debug) << "rendering NumberElement to JSON Value";
+
+        return renderValuePrimitive(element, passFlags(options));
+    }
+
+    so::Value renderValueSpecific(const BooleanElement& element, TypeAttributes options)
+    {
+        LOG(debug) << "rendering BooleanElement to JSON Value";
+
+        return renderValuePrimitive(element, passFlags(options));
+    }
 
     so::Value renderValueSpecific(const ObjectElement& element, TypeAttributes options)
     {
@@ -261,62 +299,6 @@ namespace
         LOG(debug) << "rendering NullElement to JSON Value";
 
         return so::Null{};
-    }
-
-    so::Value renderValueSpecific(const StringElement& element, TypeAttributes options)
-    {
-        LOG(debug) << "rendering StringElement to JSON Value";
-
-        options = updateTypeAttributes(element, options);
-
-        if (element.empty()) {
-            auto alt = renderSampleOrDefaultOrNull(element, passFlags(options));
-            if (alt.first)
-                return std::move(alt.second);
-
-            LOG(warning) << "no value for non-nullable empty StringElement; using `\"\"`";
-            return so::String{};
-        }
-
-        return so::String{ element.get().get() };
-    }
-
-    so::Value renderValueSpecific(const NumberElement& element, TypeAttributes options)
-    {
-        LOG(debug) << "rendering NumberElement to JSON Value";
-
-        options = updateTypeAttributes(element, options);
-
-        if (element.empty()) {
-            auto alt = renderSampleOrDefaultOrNull(element, passFlags(options));
-            if (alt.first)
-                return std::move(alt.second);
-
-            LOG(warning) << "no value for non-nullable empty NumberElement; using `0`";
-            return so::Number{};
-        }
-
-        return so::Number{ element.get().get() };
-    }
-
-    so::Value renderValueSpecific(const BooleanElement& element, TypeAttributes options)
-    {
-        LOG(debug) << "rendering BooleanElement to JSON Value";
-
-        options = updateTypeAttributes(element, options);
-
-        if (element.empty()) {
-            auto alt = renderSampleOrDefaultOrNull(element, passFlags(options));
-            if (alt.first)
-                return std::move(alt.second);
-
-            LOG(warning) << "no value for non-nullable empty NumberElement; using `false`";
-            return so::False{};
-        }
-
-        if (element.get().get())
-            return so::True{};
-        return so::False{};
     }
 
     so::Value renderValueSpecific(const ExtendElement& element, TypeAttributes options)
