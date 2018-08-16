@@ -310,24 +310,6 @@
                     },
                     "content": {
                       "key": {
-                        "element": "StrSample"
-                      },
-                      "value": {
-                        "element": "string",
-                        "content": "s1"
-                      }
-                    }
-                  },
-                  {
-                    "element": "member",
-                    "attributes": {
-                      "variable": {
-                        "element": "boolean",
-                        "content": true
-                      }
-                    },
-                    "content": {
-                      "key": {
                         "element": "StrSample",
                         "content": "ss"
                       },
@@ -347,48 +329,12 @@
                     },
                     "content": {
                       "key": {
-                        "element": "StrDefault"
-                      },
-                      "value": {
-                        "element": "string",
-                        "content": "d1"
-                      }
-                    }
-                  },
-                  {
-                    "element": "member",
-                    "attributes": {
-                      "variable": {
-                        "element": "boolean",
-                        "content": true
-                      }
-                    },
-                    "content": {
-                      "key": {
                         "element": "StrDefault",
                         "content": "sd"
                       },
                       "value": {
                         "element": "string",
                         "content": "d2"
-                      }
-                    }
-                  },
-                  {
-                    "element": "member",
-                    "attributes": {
-                      "variable": {
-                        "element": "boolean",
-                        "content": true
-                      }
-                    },
-                    "content": {
-                      "key": {
-                        "element": "StrEmpty"
-                      },
-                      "value": {
-                        "element": "string",
-                        "content": "e1"
                       }
                     }
                   },

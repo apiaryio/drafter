@@ -209,11 +209,13 @@ namespace
     {
         NodeInfoCollection<mson::Elements> elementsNodeInfo(elements);
 
-        return std::transform(elementsNodeInfo.begin(),
-            elementsNodeInfo.end(),
-            whereTo,
-            [&context, &defaultNestedType](
-                const auto& nodeInfo) { return MsonElementToRefract(nodeInfo, context, defaultNestedType); });
+        for (const auto& nodeInfo : elementsNodeInfo)
+            if (auto apie = MsonElementToRefract(nodeInfo, context, defaultNestedType)) {
+                *whereTo = std::move(apie);
+                ++whereTo;
+            }
+
+        return whereTo;
     }
 
     mson::BaseTypeName SelectNestedTypeSpecification(
@@ -1064,7 +1066,11 @@ namespace
         DescriptionInfoContainer dummy; // we need no this
         DescriptionInfoContainer descriptions;
 
-        auto element = make_element<MemberElement>(GetPropertyKey(property, context),
+        auto key = GetPropertyKey(property, context);
+        if (!key || key->empty())
+            return nullptr;
+
+        auto element = make_element<MemberElement>(std::move(key),
             RefractElementFromValue<T>(
                 NodeInfo<mson::ValueMember>(property.node, property.sourceMap), context, defaultNestedType, dummy));
 

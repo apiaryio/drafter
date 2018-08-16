@@ -86,30 +86,7 @@
                         {
                           "element": "dataStructure",
                           "content": {
-                            "element": "object",
-                            "content": [
-                              {
-                                "element": "member",
-                                "content": {
-                                  "key": {
-                                    "element": "string"
-                                  },
-                                  "value": {
-                                    "element": "array",
-                                    "content": [
-                                      {
-                                        "element": "string",
-                                        "content": "foo"
-                                      },
-                                      {
-                                        "element": "string",
-                                        "content": "bar"
-                                      }
-                                    ]
-                                  }
-                                }
-                              }
-                            ]
+                            "element": "object"
                           }
                         },
                         {
@@ -131,7 +108,7 @@
                               "content": "application/json"
                             }
                           },
-                          "content": "{\n  \"\": [\n    \"foo\",\n    \"bar\"\n  ]\n}"
+                          "content": "{}"
                         },
                         {
                           "element": "asset",
@@ -152,7 +129,7 @@
                               "content": "application/schema+json"
                             }
                           },
-                          "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"\": {\n      \"type\": \"array\"\n    }\n  }\n}"
+                          "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\"\n}"
                         }
                       ]
                     }

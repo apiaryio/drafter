@@ -64,14 +64,6 @@ namespace refract
             /// @param key   key string to be copied
             /// @param value value Element to be consumed
             ///
-            Member(const char* key, std::unique_ptr<IElement> value);
-
-            ///
-            /// Initialize a Member DSD from a key string and value
-            ///
-            /// @param key   key string to be copied
-            /// @param value value Element to be consumed
-            ///
             Member(const std::string& key, std::unique_ptr<IElement> value);
 
             ///

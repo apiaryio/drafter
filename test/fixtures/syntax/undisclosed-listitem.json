@@ -55,20 +55,7 @@
                 {
                   "element": "dataStructure",
                   "content": {
-                    "element": "object",
-                    "content": [
-                      {
-                        "element": "member",
-                        "content": {
-                          "key": {
-                            "element": "string"
-                          },
-                          "value": {
-                            "element": "string"
-                          }
-                        }
-                      }
-                    ]
+                    "element": "object"
                   }
                 }
               ]
