@@ -13,6 +13,7 @@
 #include "../utils/so/JsonIo.h"
 #include "Element.h"
 #include "ElementUtils.h"
+#include "JsonUtils.h"
 #include "Utils.h"
 #include <algorithm>
 #include <bitset>
@@ -23,29 +24,6 @@ using namespace refract;
 using namespace schema;
 using namespace drafter::utils;
 using namespace drafter::utils::log;
-
-namespace
-{
-    so::String instantiate(const StringElement& e)
-    {
-        assert(!e.empty());
-        return so::String{ e.get().get() };
-    }
-
-    so::Number instantiate(const NumberElement& e)
-    {
-        assert(!e.empty());
-        return so::Number{ e.get().get() };
-    }
-
-    so::Value instantiate(const BooleanElement& e)
-    {
-        assert(!e.empty());
-        return e.get() ? //
-            so::Value{ in_place_type<so::True>{} } :
-            so::Value{ in_place_type<so::False>{} };
-    }
-} // namespace
 
 namespace
 {
@@ -436,7 +414,7 @@ namespace
 
         if (options.test(FIXED_FLAG))
             if (!e.empty())
-                addEnum(schema, instantiate(e));
+                addEnum(schema, utils::instantiate(e.get()));
 
         return schema;
     }
@@ -452,7 +430,7 @@ namespace
 
         if (options.test(FIXED_FLAG))
             if (!e.empty())
-                addEnum(schema, instantiate(e));
+                addEnum(schema, utils::instantiate(e.get()));
 
         return schema;
     }
@@ -468,7 +446,7 @@ namespace
 
         if (options.test(FIXED_FLAG))
             if (!e.empty())
-                addEnum(schema, instantiate(e));
+                addEnum(schema, utils::instantiate(e.get()));
 
         return schema;
     }

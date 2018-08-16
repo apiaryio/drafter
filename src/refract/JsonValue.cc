@@ -106,10 +106,10 @@ namespace
     }
 
     template <typename T>
-    void renderItemSpecific(so::Array& a, const T& element, TypeAttributes options)
+    void renderItemSpecific(so::Array& array, const T& element, TypeAttributes options)
     {
         LOG(debug) << "rendering item " << element.element() << "Element as JSON Value";
-        a.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
+        array.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
     }
 
     template <typename T>
@@ -144,22 +144,19 @@ namespace
     /// @param element        element to be searched on
     /// @param options        type attributes to be applied to sample/default
     ///
-    /// @return         whether a sample or default was found and rendered
+    /// @return         pair of [<whether successful>, <rendered so value>]
     ///
     template <typename Element>
     std::pair<bool, so::Value> renderSampleOrDefaultOrNull(const Element& element, TypeAttributes options)
     {
-        if (const auto& sampleValue = findFirstSample(element)) {
+        if (const auto& sampleValue = findFirstSample(element))
             return { true, renderValueSpecific(*sampleValue, options) };
-        }
 
-        if (const auto& defaultValue = findDefault(element)) {
+        if (const auto& defaultValue = findDefault(element))
             return { true, renderValueSpecific(*defaultValue, options) };
-        }
 
-        if (options.test(NULLABLE_FLAG)) {
+        if (options.test(NULLABLE_FLAG))
             return { true, so::Null{} };
-        }
 
         return { false, so::Null{} };
     }
@@ -452,7 +449,7 @@ namespace
         });
     }
 
-    void renderItemSpecific(so::Array& a, const RefElement& element, TypeAttributes options)
+    void renderItemSpecific(so::Array& array, const RefElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering item RefElement as JSON Value";
 
@@ -461,49 +458,49 @@ namespace
             // OPTIM @tjanc@ avoid temporary container
             so::Value mixinValue = renderValueSpecific(*mixin, passFlags(options));
             if (const so::Array* mixinValueArray = get_if<so::Array>(mixinValue))
-                std::move(mixinValueArray->data.begin(), mixinValueArray->data.end(), std::back_inserter(a.data));
+                std::move(mixinValueArray->data.begin(), mixinValueArray->data.end(), std::back_inserter(array.data));
         }
     }
 
-    void renderItemSpecific(so::Array& a, const NumberElement& element, TypeAttributes options)
+    void renderItemSpecific(so::Array& array, const NumberElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering item " << element.element() << "Element as JSON Value";
 
         options = updateTypeAttributes(element, options);
 
         if ((options.test(FIXED_FLAG) || definesValue(element)))
-            a.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
+            array.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
         else
             LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
     }
 
-    void renderItemSpecific(so::Array& a, const StringElement& element, TypeAttributes options)
+    void renderItemSpecific(so::Array& array, const StringElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering item " << element.element() << "Element as JSON Value";
 
         options = updateTypeAttributes(element, options);
 
         if ((options.test(FIXED_FLAG) || definesValue(element)))
-            a.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
+            array.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
         else
             LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
     }
 
-    void renderItemSpecific(so::Array& a, const BooleanElement& element, TypeAttributes options)
+    void renderItemSpecific(so::Array& array, const BooleanElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering item " << element.element() << "Element as JSON Value";
 
         options = updateTypeAttributes(element, options);
 
         if ((options.test(FIXED_FLAG) || definesValue(element)))
-            a.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
+            array.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
         else
             LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
     }
 
-    void renderItem(so::Array& a, const IElement& element, TypeAttributes options)
+    void renderItem(so::Array& array, const IElement& element, TypeAttributes options)
     {
-        auto aPtr = &a;
+        auto aPtr = &array;
         refract::visit(element, [aPtr, options](const auto& el) { //
             renderItemSpecific(*aPtr, el, options);
         });
