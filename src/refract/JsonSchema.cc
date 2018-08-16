@@ -260,6 +260,8 @@ namespace
 
     so::Object& renderSchema(so::Object& schema, const IElement& e, TypeAttributes options)
     {
+        LOG(debug) << "rendering `"<< e.element() <<"` element to JSON Schema";
+
         auto schemaPtr = &schema;
         refract::visit(e, [schemaPtr, options](const auto& el) { //
             renderSchema(*schemaPtr, el, options);
@@ -290,8 +292,6 @@ namespace
 
     so::Object& renderSchema(so::Object& s, const ObjectElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering ObjectElement to JSON Schema";
-
         constexpr const char* TYPE_NAME = "object";
 
         options = updateTypeAttributes(e, options);
@@ -322,8 +322,6 @@ namespace
 
     so::Object& renderSchema(so::Object& s, const ArrayElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering ArrayElement to JSON Schema";
-
         constexpr const char* TYPE_NAME = "array";
 
         options = updateTypeAttributes(e, options);
@@ -366,8 +364,6 @@ namespace
 
     so::Object& renderSchema(so::Object& schema, const EnumElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering EnumElement to JSON Schema";
-
         options = updateTypeAttributes(e, options);
 
         so::Array anyOf{};
@@ -397,16 +393,12 @@ namespace
 
     so::Object& renderSchema(so::Object& schema, const NullElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering NullElement to JSON Schema";
-
         addType(schema, "null");
         return schema;
     }
 
     so::Object& renderSchema(so::Object& s, const StringElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering StringElement to JSON Schema";
-
         options = updateTypeAttributes(e, options);
         auto& schema = wrapNullable(s, options);
 
@@ -421,8 +413,6 @@ namespace
 
     so::Object& renderSchema(so::Object& s, const NumberElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering NumberElement to JSON Schema";
-
         options = updateTypeAttributes(e, options);
         auto& schema = wrapNullable(s, options);
 
@@ -437,8 +427,6 @@ namespace
 
     so::Object& renderSchema(so::Object& s, const BooleanElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering BooleanElement to JSON Schema";
-
         options = updateTypeAttributes(e, options);
         auto& schema = wrapNullable(s, options);
 
@@ -453,8 +441,6 @@ namespace
 
     so::Object& renderSchema(so::Object& s, const ExtendElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering ExtendElement to JSON Schema";
-
         auto merged = e.get().merge();
         renderSchema(s, *merged, options);
         return s;
@@ -467,8 +453,6 @@ namespace
 
     void renderProperty(ObjectSchema& s, const MemberElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering property MemberElement as JSON Schema";
-
         if (hasFixedTypeAttr(e))
             options.set(FIXED_FLAG);
 
@@ -524,32 +508,22 @@ namespace
 
     void renderProperty(ObjectSchema& s, const RefElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering property RefElement as JSON Schema";
-
-        const auto& resolvedEntry = e.attributes().find("resolved");
-        if (resolvedEntry == e.attributes().end()) {
-            LOG(error) << "expected all references to be resolved in backend";
-            assert(false);
-        }
-
-        assert(resolvedEntry->second);
-        renderProperty(s, *resolvedEntry->second, passFlags(options));
+        const auto& resolved = utils::resolve(e);
+        renderProperty(s, resolved, passFlags(options));
     }
 
     void renderProperty(ObjectSchema& s, const SelectElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering property SelectElement as JSON Schema";
-
         so::Array oneOfs{};
         for (const auto& option : e.get()) {
 
             if (option->empty()) {
-                LOG(error) << "unexpected empty option element in backend";
+                LOG(error) << "empty option element in backend";
                 assert(false);
             }
 
             if (option->get().size() < 1)
-                LOG(warning) << "empty option element in backend";
+                LOG(warning) << "option element without children in backend";
 
             ObjectSchema optionSchema{};
             for (const auto& optionEntry : option->get()) {
@@ -566,8 +540,6 @@ namespace
 
     void renderProperty(ObjectSchema& s, const ObjectElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering property ObjectElement as JSON Schema";
-
         if (hasFixedTypeAttr(e))
             options.set(FIXED_FLAG);
 
@@ -582,10 +554,8 @@ namespace
 
     void renderProperty(ObjectSchema& s, const ExtendElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering property ExtendElement as JSON Schema";
-
         if (e.empty())
-            LOG(warning) << "empty data structure element in backend";
+            LOG(warning) << "empty extend element in backend";
 
         auto merged = e.get().merge();
         renderProperty(s, *merged, passFlags(options));
@@ -593,6 +563,8 @@ namespace
 
     void renderProperty(ObjectSchema& s, const IElement& e, TypeAttributes options)
     {
+        LOG(debug) << "rendering property `" << e.element() << "` as JSON Schema";
+
         auto schemaPtr = &s;
         refract::visit(e, [schemaPtr, options](const auto& el) { //
             renderProperty(*schemaPtr, el, options);

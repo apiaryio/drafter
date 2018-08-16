@@ -14,6 +14,8 @@
 
 namespace refract
 {
+    class IElement;
+
     namespace dsd
     {
         class String;
@@ -30,6 +32,11 @@ namespace refract
         drafter::utils::so::String instantiateEmpty(const StringElement& e);
         drafter::utils::so::Number instantiateEmpty(const NumberElement& e);
         drafter::utils::so::Value instantiateEmpty(const BooleanElement& e);
+
+        ///
+        /// Resolves a previously expanded reference
+        ///
+        const IElement& resolve(const RefElement& element);
     } // namespace utils
 } // namespace refract
 

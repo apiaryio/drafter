@@ -122,6 +122,7 @@ namespace
 
     so::Value renderValue(const IElement& element, TypeAttributes options)
     {
+        LOG(debug) << "rendering `" << element.element() << "` element to JSON Value";
         return refract::visit(element, [options](const auto& el) { //
             return renderValueSpecific(el, options);
         });
@@ -160,19 +161,6 @@ namespace
 
         return { false, so::Null{} };
     }
-
-    const IElement& resolve(const RefElement& element)
-    {
-        const auto& resolvedEntry = element.attributes().find("resolved");
-        if (resolvedEntry == element.attributes().end()) {
-            LOG(error) << "expected all references to be resolved in backend";
-            assert(false);
-        }
-
-        assert(resolvedEntry->second);
-        return *resolvedEntry->second;
-    }
-
 } // namespace
 
 namespace
@@ -196,28 +184,21 @@ namespace
 
     so::Value renderValueSpecific(const StringElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering StringElement to JSON Value";
-
         return renderValuePrimitive(element, passFlags(options));
     }
 
     so::Value renderValueSpecific(const NumberElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering NumberElement to JSON Value";
-
         return renderValuePrimitive(element, passFlags(options));
     }
 
     so::Value renderValueSpecific(const BooleanElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering BooleanElement to JSON Value";
-
         return renderValuePrimitive(element, passFlags(options));
     }
 
     so::Value renderValueSpecific(const ObjectElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering ObjectElement to JSON Value";
         so::Object result{};
 
         options = updateTypeAttributes(element, options);
@@ -241,8 +222,6 @@ namespace
 
     so::Value renderValueSpecific(const ArrayElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering ArrayElement to JSON Value";
-
         options = updateTypeAttributes(element, options);
 
         so::Array result{};
@@ -263,8 +242,6 @@ namespace
 
     so::Value renderValueSpecific(const EnumElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering EnumElement to JSON Value";
-
         options = updateTypeAttributes(element, options);
 
         if (element.empty()) {
@@ -293,15 +270,11 @@ namespace
 
     so::Value renderValueSpecific(const NullElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering NullElement to JSON Value";
-
         return so::Null{};
     }
 
     so::Value renderValueSpecific(const ExtendElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering ExtendElement to JSON Value";
-
         auto merged = element.get().merge();
         assert(merged);
         return renderValue(*merged, options);
@@ -314,8 +287,6 @@ namespace
 
     void renderProperty(so::Object& obj, const MemberElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering property MemberElement as JSON Value";
-
         if (hasFixedTypeAttr(element))
             options.set(FIXED_FLAG);
 
@@ -375,32 +346,23 @@ namespace
 
     void renderProperty(so::Object& obj, const RefElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering property RefElement as JSON Value";
-
-        const auto& resolvedEntry = element.attributes().find("resolved");
-        if (resolvedEntry == element.attributes().end()) {
-            LOG(error) << "expected all references to be resolved in backend";
-            assert(false);
-        }
-
-        assert(resolvedEntry->second);
-        renderProperty(obj, *resolvedEntry->second, passFlags(options));
+        const auto& resolved = utils::resolve(element);
+        renderProperty(obj, resolved, passFlags(options));
     }
 
     void renderProperty(so::Object& value, const SelectElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering property SelectElement as JSON Value";
-
         so::Array oneOfs{};
         for (const auto& option : element.get()) {
 
             if (option->empty()) {
                 LOG(error) << "unexpected empty option element in backend";
                 assert(false);
+                continue;
             }
 
             if (option->get().size() < 1) {
-                LOG(warning) << "empty option element in backend; skipping it";
+                LOG(warning) << "empty option element in backend; skipping";
                 continue;
             }
 
@@ -417,8 +379,6 @@ namespace
 
     void renderProperty(so::Object& value, const ObjectElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering property ObjectElement as JSON Value";
-
         if (hasFixedTypeAttr(element))
             options.set(FIXED_FLAG);
 
@@ -431,10 +391,8 @@ namespace
 
     void renderProperty(so::Object& value, const ExtendElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering property ExtendElement as JSON Value";
-
         if (element.empty())
-            LOG(warning) << "empty data structure element in backend";
+            LOG(warning) << "empty extend element in backend";
 
         auto merged = element.get().merge();
         assert(merged);
@@ -443,6 +401,8 @@ namespace
 
     void renderProperty(so::Object& value, const IElement& element, TypeAttributes options)
     {
+        LOG(debug) << "rendering property `" << element.element() << "` as JSON Value";
+
         auto objPtr = &value;
         refract::visit(element, [objPtr, options](const auto& el) { //
             renderProperty(*objPtr, el, options);
@@ -451,9 +411,7 @@ namespace
 
     void renderItemSpecific(so::Array& array, const RefElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering item RefElement as JSON Value";
-
-        const auto& resolved = resolve(element);
+        const auto& resolved = utils::resolve(element);
         if (const auto& mixin = get<const ArrayElement>(&resolved)) {
             // OPTIM @tjanc@ avoid temporary container
             so::Value mixinValue = renderValueSpecific(*mixin, passFlags(options));
@@ -464,8 +422,6 @@ namespace
 
     void renderItemSpecific(so::Array& array, const NumberElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering item " << element.element() << "Element as JSON Value";
-
         options = updateTypeAttributes(element, options);
 
         if ((options.test(FIXED_FLAG) || definesValue(element)))
@@ -476,8 +432,6 @@ namespace
 
     void renderItemSpecific(so::Array& array, const StringElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering item " << element.element() << "Element as JSON Value";
-
         options = updateTypeAttributes(element, options);
 
         if ((options.test(FIXED_FLAG) || definesValue(element)))
@@ -488,8 +442,6 @@ namespace
 
     void renderItemSpecific(so::Array& array, const BooleanElement& element, TypeAttributes options)
     {
-        LOG(debug) << "rendering item " << element.element() << "Element as JSON Value";
-
         options = updateTypeAttributes(element, options);
 
         if ((options.test(FIXED_FLAG) || definesValue(element)))
@@ -500,6 +452,7 @@ namespace
 
     void renderItem(so::Array& array, const IElement& element, TypeAttributes options)
     {
+        LOG(debug) << "rendering item `" << element.element() << "` element as JSON Value";
         auto aPtr = &array;
         refract::visit(element, [aPtr, options](const auto& el) { //
             renderItemSpecific(*aPtr, el, options);
