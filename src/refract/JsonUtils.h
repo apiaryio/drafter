@@ -14,7 +14,7 @@
 
 namespace refract
 {
-    class IElement;
+    struct IElement;
 
     namespace dsd
     {

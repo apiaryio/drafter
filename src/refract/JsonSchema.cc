@@ -12,6 +12,7 @@
 #include "../utils/log/Trivial.h"
 #include "../utils/so/JsonIo.h"
 #include "Element.h"
+#include "ElementIfc.h"
 #include "ElementUtils.h"
 #include "JsonUtils.h"
 #include "Utils.h"
