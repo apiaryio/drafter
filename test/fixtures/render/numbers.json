@@ -1,0 +1,295 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
+      },
+      "content": [
+        {
+          "element": "resource",
+          "meta": {
+            "title": {
+              "element": "string",
+              "content": ""
+            }
+          },
+          "attributes": {
+            "href": {
+              "element": "string",
+              "content": "/"
+            }
+          },
+          "content": [
+            {
+              "element": "transition",
+              "meta": {
+                "title": {
+                  "element": "string",
+                  "content": ""
+                }
+              },
+              "content": [
+                {
+                  "element": "httpTransaction",
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "attributes": {
+                        "method": {
+                          "element": "string",
+                          "content": "GET"
+                        }
+                      },
+                      "content": []
+                    },
+                    {
+                      "element": "httpResponse",
+                      "attributes": {
+                        "statusCode": {
+                          "element": "string",
+                          "content": "200"
+                        },
+                        "headers": {
+                          "element": "httpHeaders",
+                          "content": [
+                            {
+                              "element": "member",
+                              "content": {
+                                "key": {
+                                  "element": "string",
+                                  "content": "Content-Type"
+                                },
+                                "value": {
+                                  "element": "string",
+                                  "content": "application/json"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": {
+                            "element": "object",
+                            "content": [
+                              {
+                                "element": "member",
+                                "content": {
+                                  "key": {
+                                    "element": "string",
+                                    "content": "feasible_little"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": -421795144078094336
+                                  }
+                                }
+                              },
+                              {
+                                "element": "member",
+                                "content": {
+                                  "key": {
+                                    "element": "string",
+                                    "content": "feasible_lot"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": 421795144078094336
+                                  }
+                                }
+                              },
+                              {
+                                "element": "member",
+                                "content": {
+                                  "key": {
+                                    "element": "string",
+                                    "content": "almost_singularity"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": 5.3294960e23432895290452894028940264562935939533848306802
+                                  }
+                                }
+                              },
+                              {
+                                "element": "member",
+                                "content": {
+                                  "key": {
+                                    "element": "string",
+                                    "content": "far_below_planck"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": 1.111111e-9991919919199919191999191919991919199191991111
+                                  }
+                                }
+                              },
+                              {
+                                "element": "member",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": {
+                                  "key": {
+                                    "element": "string",
+                                    "content": "fixed_feasible_little"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": -421795144078094336
+                                  }
+                                }
+                              },
+                              {
+                                "element": "member",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": {
+                                  "key": {
+                                    "element": "string",
+                                    "content": "fixed_feasible_lot"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": 421795144078094336
+                                  }
+                                }
+                              },
+                              {
+                                "element": "member",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": {
+                                  "key": {
+                                    "element": "string",
+                                    "content": "fixed_almost_singularity"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": 5.3294960e23432895290452894028940264562935939533848306802
+                                  }
+                                }
+                              },
+                              {
+                                "element": "member",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": {
+                                  "key": {
+                                    "element": "string",
+                                    "content": "fixed_far_below_planck"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": 1.111111e-9991919919199919191999191919991919199191991111
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "messageBody"
+                                }
+                              ]
+                            }
+                          },
+                          "attributes": {
+                            "contentType": {
+                              "element": "string",
+                              "content": "application/json"
+                            }
+                          },
+                          "content": "{\n  \"feasible_little\": -421795144078094336,\n  \"feasible_lot\": 421795144078094336,\n  \"almost_singularity\": 5.3294960e23432895290452894028940264562935939533848306802,\n  \"far_below_planck\": 1.111111e-9991919919199919191999191919991919199191991111,\n  \"fixed_feasible_little\": -421795144078094336,\n  \"fixed_feasible_lot\": 421795144078094336,\n  \"fixed_almost_singularity\": 5.3294960e23432895290452894028940264562935939533848306802,\n  \"fixed_far_below_planck\": 1.111111e-9991919919199919191999191919991919199191991111\n}"
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "messageBodySchema"
+                                }
+                              ]
+                            }
+                          },
+                          "attributes": {
+                            "contentType": {
+                              "element": "string",
+                              "content": "application/schema+json"
+                            }
+                          },
+                          "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"feasible_little\": {\n      \"type\": \"number\"\n    },\n    \"feasible_lot\": {\n      \"type\": \"number\"\n    },\n    \"almost_singularity\": {\n      \"type\": \"number\"\n    },\n    \"far_below_planck\": {\n      \"type\": \"number\"\n    },\n    \"fixed_feasible_little\": {\n      \"type\": \"number\",\n      \"enum\": [\n        -421795144078094336\n      ]\n    },\n    \"fixed_feasible_lot\": {\n      \"type\": \"number\",\n      \"enum\": [\n        421795144078094336\n      ]\n    },\n    \"fixed_almost_singularity\": {\n      \"type\": \"number\",\n      \"enum\": [\n        5.3294960e23432895290452894028940264562935939533848306802\n      ]\n    },\n    \"fixed_far_below_planck\": {\n      \"type\": \"number\",\n      \"enum\": [\n        1.111111e-9991919919199919191999191919991919199191991111\n      ]\n    }\n  }\n}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
