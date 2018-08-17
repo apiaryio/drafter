@@ -120,14 +120,24 @@ std::pair<bool, dsd::Boolean> drafter::LiteralTo<dsd::Boolean>(const mson::Liter
 
 namespace
 {
+    ///
+    /// Regular expression matching a ECMA-404 number.
+    ///
+    /// > A number is a sequence of decimal digits with no superfluous
+    /// > leading zero. It may have a preceding minus sign (U+002D).
+    /// > It may have a fractional part prefixed by a decimal point (U+002E).
+    /// > It may have an exponent, prefixed by e (U+0065) or E (U+0045) and
+    /// > optionally + (U+002B) or – (U+002D) . The digits are the code points
+    /// > U+0030 through U+0039.
+    ///
     // clang-format off
-    const std::regex is_number(R"REGEX(-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)REGEX");
+    const std::regex json_number_expression(R"REGEX(-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)REGEX");
     // clang-format on
 
     template <typename It>
     bool isValidNumber(It b, It e)
     {
-        return std::regex_match(b, e, is_number);
+        return std::regex_match(b, e, json_number_expression);
     }
 } // namespace
 
