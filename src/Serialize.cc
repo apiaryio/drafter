@@ -8,14 +8,12 @@
 
 #include "Serialize.h"
 #include "StringUtility.h"
-#include "utils/log/Trivial.h"
 
 #include <cstdlib>
 #include <regex>
 
 using namespace drafter;
 using namespace refract;
-using namespace drafter::utils::log;
 
 const std::string SerializeKey::Metadata = "metadata";
 const std::string SerializeKey::Reference = "reference";
