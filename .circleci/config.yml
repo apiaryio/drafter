@@ -29,16 +29,34 @@ workflows:
   drafter:
     jobs:
       - lint
-      - test-gcc5.4
-      - test-gcc6
-      - test-gcc7
+      - test-gcc5.4:
+          requires:
+            - lint
+      - test-gcc6:
+          requires:
+            - lint
+      - test-gcc7:
+          requires:
+            - lint
       #- test-gcc8
-      - test-clang4
-      - test-clang5
-      - test-clang6
-      - test-xcode9
-      - test-integration
-      - test-valgrind
+      - test-clang4:
+          requires:
+            - lint
+      - test-clang5:
+          requires:
+            - lint
+      - test-clang6:
+          requires:
+            - lint
+      - test-xcode9:
+          requires:
+            - lint
+      - test-integration:
+          requires:
+            - lint
+      - test-valgrind:
+          requires:
+            - lint
       - release:
           requires:
             - test-gcc5.4
@@ -108,9 +126,9 @@ jobs:
       xcode: "9.4.0"
 
   test-integration:
+    <<: *test-base
     docker:
       - image: circleci/ruby:2.5.1
-    working_directory: /tmp/drafter
 
     steps:
       - checkout
@@ -118,7 +136,9 @@ jobs:
 
       - run:
           name: Build
-          command: ./configure && make -j4
+          command: |
+            ./configure
+            make -j4
 
       - run:
           name: Integration Test
