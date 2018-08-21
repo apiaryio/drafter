@@ -521,7 +521,7 @@ SCENARIO("extend DSDs are tested for equality and inequality", "[Element][Extend
                 make_element<ObjectElement>( //
                     make_element<MemberElement>("foo", from_primitive("bar"))),
                 make_element<ObjectElement>( //
-                    make_element<MemberElement>("answer", from_primitive(42.0))));
+                    make_element<MemberElement>("answer", from_primitive(42))));
         };
 
         Extend data = make_test_data();
@@ -669,7 +669,7 @@ SCENARIO("Extend::merge behaves as expected", "[Element][Extend][merge]")
 
         auto last = make_element<ArrayElement>();
         last->get().push_back(make_element<StringElement>("zur"));
-        last->get().push_back(make_element<NumberElement>(42.0));
+        last->get().push_back(make_element<NumberElement>(42));
         extend.insert(extend.end(), std::move(last));
 
         WHEN("it is merged")
@@ -786,9 +786,9 @@ SCENARIO("Extend::merge behaves as expected", "[Element][Extend][merge]")
     GIVEN("A Extend with three number elements")
     {
         auto extend = make_element<ExtendElement>( //
-            make_element<NumberElement>(3.42),
+            make_element<NumberElement>(3),
             make_empty<NumberElement>(),
-            make_element<NumberElement>(42.0));
+            make_element<NumberElement>(42));
 
         WHEN("it is merged")
         {
@@ -820,7 +820,7 @@ SCENARIO("Extend::merge behaves as expected", "[Element][Extend][merge]")
 
                     THEN("the result element's value is the last element's")
                     {
-                        REQUIRE(result->get() == 42.0);
+                        REQUIRE(result->get().get() == "42");
                     }
                 }
             }
@@ -964,7 +964,7 @@ SCENARIO("Extend::merge behaves as expected", "[Element][Extend][merge]")
         auto extend = make_element<ExtendElement>(               //
             make_element<ArrayElement>(                          //
                 from_primitive("abc"),                           //
-                from_primitive(5.0)),                            //
+                from_primitive(5)),                              //
             make_empty<ArrayElement>(),                          //
             make_element<ArrayElement>(from_primitive("hijklm")) //
         );
@@ -1002,7 +1002,7 @@ SCENARIO("Extend::merge behaves as expected", "[Element][Extend][merge]")
                 {
                     auto expected = make_element<ArrayElement>( //
                         from_primitive("abc"),
-                        from_primitive(5.0),
+                        from_primitive(5),
                         from_primitive("hijklm"));
 
                     REQUIRE(*merged == *expected);
@@ -1025,7 +1025,7 @@ SCENARIO("Extend::merge behaves as expected", "[Element][Extend][merge]")
                 ));
 
         auto second = make_element<EnumElement>(make_element<ObjectElement>( //
-            make_element<MemberElement>("id", from_primitive(42.0)),         //
+            make_element<MemberElement>("id", from_primitive(42)),           //
             make_element<MemberElement>("name", from_primitive("Thomas"))    //
             ));
         second->attributes().set("enumerations",                                     //
@@ -1034,10 +1034,10 @@ SCENARIO("Extend::merge behaves as expected", "[Element][Extend][merge]")
                     make_element<MemberElement>("id", make_empty<NumberElement>()),  //
                     make_element<MemberElement>("name", make_empty<StringElement>()) //
                     ),                                                               //
-                make_element<NumberElement>(42.0)                                    //
+                make_element<NumberElement>(42)                                      //
                 ));
 
-        auto third = make_element<EnumElement>(make_element<NumberElement>(3.14));
+        auto third = make_element<EnumElement>(make_element<NumberElement>(3));
 
         auto extend = make_element<ExtendElement>( //
             std::move(first),                      //
@@ -1075,7 +1075,7 @@ SCENARIO("Extend::merge behaves as expected", "[Element][Extend][merge]")
 
                     THEN("the result element's value is the last element's")
                     {
-                        REQUIRE(result->get() == Enum{ make_element<NumberElement>(3.14) });
+                        REQUIRE(result->get() == Enum{ make_element<NumberElement>(3) });
                     }
                 }
 
@@ -1093,7 +1093,7 @@ SCENARIO("Extend::merge behaves as expected", "[Element][Extend][merge]")
                                 make_element<MemberElement>("id", make_empty<NumberElement>()),  //
                                 make_element<MemberElement>("name", make_empty<StringElement>()) //
                                 ),                                                               //
-                            make_element<NumberElement>(42.0)                                    //
+                            make_element<NumberElement>(42)                                      //
                         );
 
                         REQUIRE(*it->second == *expected);
@@ -1130,7 +1130,7 @@ SCENARIO("Extend::merge behaves as expected", "[Element][Extend][merge]")
                 // members
                 make_element<MemberElement>(      //
                     "foo",                        //
-                    from_primitive(42.0)          //
+                    from_primitive(42)            //
                     ),                            //
                 make_element<MemberElement>(      //
                     "bar",                        //
@@ -1139,7 +1139,7 @@ SCENARIO("Extend::merge behaves as expected", "[Element][Extend][merge]")
                     "zoo",                        //
                     make_element<ArrayElement>(   //
                         from_primitive("lorem"),  //
-                        from_primitive(5.0))      //
+                        from_primitive(5))        //
                     )                             //
                 ),                                //
 
@@ -1270,13 +1270,13 @@ SCENARIO("Extend::merge behaves as expected", "[Element][Extend][merge]")
                     {
                         auto foo = make_element<MemberElement>(   //
                             "foo",                                //
-                            from_primitive(42.0)                  //
+                            from_primitive(42)                    //
                         );                                        //
                         auto zoo = make_element<MemberElement>(   //
                             "zoo",                                //
                             make_element<ArrayElement>(           //
                                 from_primitive("lorem"),          //
-                                from_primitive(5.0))              //
+                                from_primitive(5))                //
                         );                                        //
                         auto state = make_element<MemberElement>( //
                             "state",                              //

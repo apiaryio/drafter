@@ -518,7 +518,7 @@ SCENARIO("array DSDs are tested for equality and inequality", "[Element][Array][
         auto make_test_data = []() {
             return Array( //
                 from_primitive(true),
-                from_primitive(42.0));
+                from_primitive(42));
         };
 
         Array data = make_test_data();

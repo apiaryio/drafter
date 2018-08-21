@@ -183,7 +183,7 @@ SCENARIO("Merging complex ElementInfo", "[ElementInfo][merge]")
         c.emplace_back(std::move(i1));
 
         Info i2;
-        i2.value.emplace_back(refract::make_element<refract::NumberElement>(2.0));
+        i2.value.emplace_back(refract::make_element<refract::NumberElement>(2));
         i2.value.emplace_back(refract::make_element<refract::StringElement>("computadora"));
         i2.sourceMap = std::move(make_sourcemap<E>({ { 10, 20 } }));
         c.emplace_back(std::move(i2));
@@ -210,9 +210,9 @@ SCENARIO("Merging complex ElementInfo", "[ElementInfo][merge]")
             }
 
             r++;
-            THEN("Second element is nmumber with value '2.0'")
+            THEN("Second element is nmumber with value '2'")
             {
-                REQUIRE(*(*r) == *refract::make_element<refract::NumberElement>(2.0));
+                REQUIRE(*(*r) == *refract::make_element<refract::NumberElement>(2));
             }
 
             r++;
@@ -277,7 +277,7 @@ SCENARIO("Cloning InfoElementsContainer")
         c.emplace_back(std::move(i1));
 
         Info i2;
-        i2.value.emplace_back(refract::make_element<refract::NumberElement>(2.0));
+        i2.value.emplace_back(refract::make_element<refract::NumberElement>(2));
         i2.sourceMap = std::move(make_sourcemap<E>({ { 10, 20 } }));
         c.emplace_back(std::move(i2));
 

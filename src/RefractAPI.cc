@@ -621,7 +621,7 @@ std::unique_ptr<IElement> drafter::AnnotationToRefract(
 
     element->meta().set(SerializeKey::Classes, make_element<ArrayElement>(from_primitive(key)));
 
-    element->attributes().set(SerializeKey::AnnotationCode, from_primitive(static_cast<double>(annotation.code)));
+    element->attributes().set(SerializeKey::AnnotationCode, from_primitive(annotation.code));
     element->attributes().set(SerializeKey::SourceMap, SourceMapToRefract(annotation.location));
 
     return std::move(element);

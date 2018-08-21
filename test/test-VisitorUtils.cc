@@ -29,7 +29,7 @@ SCENARIO("IsLiteral identifies valid 'literal' elements", "[utils]")
 
     WHEN("have number with value")
     {
-        std::unique_ptr<IElement> e = from_primitive(3.13);
+        std::unique_ptr<IElement> e = from_primitive(3);
 
         THEN("It is not identified as literal")
         {
@@ -80,7 +80,7 @@ SCENARIO("IsLiteral identifies valid 'literal' elements", "[utils]")
 
     WHEN("have array with value and fixed typeAttribute")
     {
-        std::unique_ptr<IElement> e = make_element<ArrayElement>(from_primitive("abc"), from_primitive(3.1415927));
+        std::unique_ptr<IElement> e = make_element<ArrayElement>(from_primitive("abc"), from_primitive(3));
         e->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
         THEN("It is identified as literal")

@@ -183,12 +183,12 @@ SCENARIO("Elements can be cloned with refract::clone(const IElement&)", "[Elemen
     {
         auto element = make_empty<BooleanElement>();
         element->attributes().set("foo", from_primitive("bar"));
-        element->attributes().set("answer", from_primitive(42.0));
+        element->attributes().set("answer", from_primitive(42));
 
-        element->meta().set("id", from_primitive(1.0));
+        element->meta().set("id", from_primitive(1));
         element->meta().set("a",
             make_element<ObjectElement>( //
-                make_element<MemberElement>("b", from_primitive(3.0))));
+                make_element<MemberElement>("b", from_primitive(3))));
         element->meta().set("msg", from_primitive("Hello world!"));
 
         WHEN("it is cloned")

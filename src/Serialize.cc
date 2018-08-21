@@ -10,6 +10,7 @@
 #include "StringUtility.h"
 
 #include <cstdlib>
+#include <regex>
 
 using namespace drafter;
 using namespace refract;
@@ -117,23 +118,47 @@ std::pair<bool, dsd::Boolean> drafter::LiteralTo<dsd::Boolean>(const mson::Liter
     return std::make_pair(false, dsd::Boolean{});
 }
 
+namespace
+{
+    ///
+    /// Regular expression matching a ECMA-404 number.
+    ///
+    /// > A number is a sequence of decimal digits with no superfluous
+    /// > leading zero. It may have a preceding minus sign (U+002D).
+    /// > It may have a fractional part prefixed by a decimal point (U+002E).
+    /// > It may have an exponent, prefixed by e (U+0065) or E (U+0045) and
+    /// > optionally + (U+002B) or – (U+002D) . The digits are the code points
+    /// > U+0030 through U+0039.
+    ///
+    // clang-format off
+    const std::regex json_number_expression(R"REGEX(-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)REGEX");
+    // clang-format on
+
+    template <typename It>
+    bool isValidNumber(It b, It e)
+    {
+        return std::regex_match(b, e, json_number_expression);
+    }
+} // namespace
+
 template <>
 std::pair<bool, dsd::Number> drafter::LiteralTo<dsd::Number>(const mson::Literal& literal)
 {
-    char* pos = 0;
-    bool valid = false;
-    double value = 0;
+    using std::begin;
+    using std::end;
 
-    value = std::strtod(literal.c_str(), &pos);
-    const char* end = literal.c_str() + literal.length();
-    if (pos == end) {
-        valid = true;
-    } else {
-        // check for trailing whitespaces
-        valid = (literal.end() != std::find_if(literal.begin() + (end - pos), literal.end(), ::isspace));
+    // ignore spaces to the right
+    auto match_end = end(literal);
+    for (; match_end != begin(literal); --match_end) {
+        if (!std::isspace(*(match_end - 1)))
+            break;
     }
 
-    return std::make_pair(valid, dsd::Number{ value });
+    if (isValidNumber(begin(literal), match_end)) {
+        return { true, dsd::Number{ std::string(begin(literal), match_end) } };
+    }
+
+    return { false, dsd::Number{} };
 }
 
 template <>

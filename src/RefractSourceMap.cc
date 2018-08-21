@@ -7,10 +7,10 @@ namespace
     std::unique_ptr<IElement> CharacterRangeToRefract(const mdp::CharactersRange& sourceMap)
     {
         return make_element<ArrayElement>( //
-            from_primitive(static_cast<double>(sourceMap.location)),
-            from_primitive(static_cast<double>(sourceMap.length)));
+            from_primitive(sourceMap.location),
+            from_primitive(sourceMap.length));
     }
-}
+} // namespace
 
 std::unique_ptr<IElement> drafter::SourceMapToRefract(const mdp::CharactersRangeSet& sourceMap)
 {

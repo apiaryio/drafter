@@ -31,7 +31,7 @@ TEST_CASE("Create primitive element w/ value", "[ElementFactory]")
     REQUIRE(!number->empty());
     REQUIRE(number->meta().empty());
     REQUIRE(number->attributes().empty());
-    REQUIRE(number->get() == 42.0);
+    REQUIRE(number->get().get() == "42");
 }
 
 TEST_CASE("Create primitive element w/ sample", "[ElementFactory]")

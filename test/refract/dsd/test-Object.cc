@@ -520,7 +520,7 @@ SCENARIO("object DSDs are tested for equality and inequality", "[Element][Object
             return Object( //
                 make_element<MemberElement>("foo", from_primitive("bar")),
                 make_element<MemberElement>("baz", make_element<RefElement>("Boo")),
-                make_element<MemberElement>("answer", from_primitive(42.0)));
+                make_element<MemberElement>("answer", from_primitive(42)));
         };
 
         Object data = make_test_data();

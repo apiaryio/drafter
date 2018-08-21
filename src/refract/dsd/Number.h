@@ -9,6 +9,10 @@
 #ifndef REFRACT_DSD_NUMBER_H
 #define REFRACT_DSD_NUMBER_H
 
+#include <string>
+#include <cstdint>
+#include <type_traits>
+
 namespace refract
 {
     namespace dsd
@@ -21,7 +25,7 @@ namespace refract
         ///
         class Number final
         {
-            double value_ = 0; //< value
+            std::string value_ = "0"; //< value
 
         public:
             static const char* name; //< syntactical name of the DSD
@@ -37,31 +41,29 @@ namespace refract
             ///
             /// @value  value to be consumed
             ///
-            explicit Number(double v) noexcept : value_(v) {}
+            explicit Number(std::string v) noexcept;
+
+            template <typename N, typename = typename std::enable_if<std::is_integral<N>::value>::type>
+            explicit Number(N v) noexcept : value_(std::to_string(v))
+            {
+            }
 
             ///
             /// Query the value of this Number DSD
             ///
             /// @returns the value
             ///
-            double get() const noexcept
-            {
-                return value_;
-            }
+            const std::string& get() const noexcept;
 
             ///
-            /// Implicitly convert this DSD to its value
+            /// Parse this Number DSD as an integer
             ///
-            /// @returns this DSD's value
-            ///
-            operator double() const noexcept
-            {
-                return value_;
-            }
+            explicit operator std::int64_t() const noexcept;
         };
 
         bool operator==(const Number&, const Number&) noexcept;
-    }
-}
+        bool operator!=(const Number&, const Number&) noexcept;
+    } // namespace dsd
+} // namespace refract
 
 #endif

@@ -326,54 +326,18 @@ SCENARIO("Serialize a utils::so::Value holding numbers yaml", "[simple-object][y
         }
     }
 
-    GIVEN("an in place constructed Number{NaN}")
+    GIVEN("an in place constructed Number{\"3\"}")
     {
-        Value value(in_place_type<Number>{}, std::numeric_limits<double>::quiet_NaN());
+        Value value(in_place_type<Number>{}, 3);
 
         WHEN("it is serialized into stringstream as YAML")
         {
             std::stringstream ss;
             serialize_yaml(ss, value);
 
-            THEN("the stringstream contains: nan")
+            THEN("the stringstream contains: 3")
             {
-                REQUIRE("nan" == ss.str());
-            }
-        }
-    }
-
-    GIVEN("an in place constructed Number{+Infinity}")
-    {
-        static_assert(std::numeric_limits<double>::has_infinity, "unsupported floating point format");
-
-        Value value(in_place_type<Number>{}, std::numeric_limits<double>::infinity());
-
-        WHEN("it is serialized into stringstream as YAML")
-        {
-            std::stringstream ss;
-            serialize_yaml(ss, value);
-
-            THEN("the stringstream contains: inf")
-            {
-                REQUIRE("inf" == ss.str());
-            }
-        }
-    }
-
-    GIVEN("an in place constructed Number{-Infinity}")
-    {
-        static_assert(std::numeric_limits<double>::has_infinity, "unsupported floating point format");
-
-        Value value(in_place_type<Number>{}, -std::numeric_limits<double>::infinity());
-
-        WHEN("it is serialized into stringstream as YAML")
-        {
-            std::stringstream ss;
-            serialize_yaml(ss, value);
-
-            THEN("the stringstream contains: -inf")
-            {
-                REQUIRE("-inf" == ss.str());
+                REQUIRE("3" == ss.str());
             }
         }
     }
