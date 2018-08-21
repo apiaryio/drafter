@@ -94,6 +94,12 @@
                         "element": "array",
                         "content": [
                           {
+                            "element": "number"
+                          },
+                          {
+                            "element": "string"
+                          },
+                          {
                             "element": "string",
                             "content": "1"
                           },
@@ -104,12 +110,6 @@
                           {
                             "element": "string",
                             "content": "3"
-                          },
-                          {
-                            "element": "number"
-                          },
-                          {
-                            "element": "string"
                           }
                         ]
                       }

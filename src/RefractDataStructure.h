@@ -9,7 +9,9 @@
 #ifndef DRAFTER_REFRACTDATASTRUCTURE_H
 #define DRAFTER_REFRACTDATASTRUCTURE_H
 
-#include "Serialize.h"
+#include <memory>
+#include "refract/ElementIfc.h"
+#include "NodeInfo.h"
 
 namespace drafter
 {
@@ -20,8 +22,6 @@ namespace drafter
         const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context);
     std::unique_ptr<refract::IElement> ExpandRefract(
         std::unique_ptr<refract::IElement> element, ConversionContext& context);
-
-    sos::Object SerializeRefract(const refract::IElement*, ConversionContext& context);
 }
 
 #endif // #ifndef DRAFTER_REFRACTDATASTRUCTURE_H

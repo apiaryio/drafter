@@ -144,10 +144,22 @@
                                                     "content": "regular"
                                                   }
                                                 ]
-                                              },
-                                              "default": {
-                                                "element": "enum"
                                               }
+                                            },
+                                            "content": {
+                                              "element": "string",
+                                              "attributes": {
+                                                "typeAttributes": {
+                                                  "element": "array",
+                                                  "content": [
+                                                    {
+                                                      "element": "string",
+                                                      "content": "fixed"
+                                                    }
+                                                  ]
+                                                }
+                                              },
+                                              "content": "regular"
                                             }
                                           }
                                         }
@@ -179,7 +191,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"type\": \"\"\n}"
+                              "content": "{\n  \"type\": \"regular\"\n}"
                             },
                             {
                               "element": "asset",
@@ -266,10 +278,22 @@
                                 "content": "regular"
                               }
                             ]
-                          },
-                          "default": {
-                            "element": "enum"
                           }
+                        },
+                        "content": {
+                          "element": "string",
+                          "attributes": {
+                            "typeAttributes": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "fixed"
+                                }
+                              ]
+                            }
+                          },
+                          "content": "regular"
                         }
                       }
                     }

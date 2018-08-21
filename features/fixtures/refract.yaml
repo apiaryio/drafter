@@ -764,4 +764,3 @@ content:
                     element: "number"
                     content: 102
     content: "invalid value format for 'number' type. please check mson specification for valid format"
-

@@ -32,6 +32,9 @@ namespace drafter
 
             using Value = variant<Null, True, False, String, Number, Object, Array>;
 
+            struct from_list {
+            };
+
             struct Null {
             };
 
@@ -53,10 +56,8 @@ namespace drafter
                 ~Object() = default;
 
                 template <typename... Values>
-                explicit Object(Values&&... values) : data({ std::forward<Values>(values)... })
+                explicit Object(from_list, Values&&... values) : data({ std::forward<Values>(values)... })
                 {
-                    using namespace drafter::utils;
-                    static_assert(all_of<!std::is_same<drafter::utils::bare<Values>, Object>::value...>::value, "");
                 }
             };
 
@@ -72,10 +73,10 @@ namespace drafter
                 ~Array() = default;
 
                 template <typename... Values>
-                explicit Array(Values&&... values) : data({ std::forward<Values>(values)... })
+                explicit Array(from_list, Values&&... values)
+
+                    : data({ std::forward<Values>(values)... })
                 {
-                    using namespace drafter::utils;
-                    static_assert(all_of<!std::is_same<drafter::utils::bare<Values>, Array>::value...>::value, "");
                 }
             };
 

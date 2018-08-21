@@ -12,7 +12,9 @@
 #include "../utils/log/Trivial.h"
 #include "../utils/so/JsonIo.h"
 #include "Element.h"
+#include "ElementIfc.h"
 #include "ElementUtils.h"
+#include "JsonUtils.h"
 #include "Utils.h"
 #include <algorithm>
 #include <bitset>
@@ -23,61 +25,6 @@ using namespace refract;
 using namespace schema;
 using namespace drafter::utils;
 using namespace drafter::utils::log;
-
-namespace
-{ // API Elements tools
-    // template <typename Element>
-    // const Element* find_value_in_attributes(const Element& e)
-    //{
-    //    {
-    //        auto it = e.attributes().find("default");
-    //        if (it != e.attributes().end()) {
-    //            if (auto result = get<const Element>(it->second.get()))
-    //                return result;
-    //        }
-    //    }
-
-    //    {
-    //        auto it = e.attributes().find("sample");
-    //        if (it != e.attributes().end()) {
-    //            if (auto result = get<const Element>(it->second.get()))
-    //                return result;
-    //        }
-    //    }
-
-    //    {
-    //        auto it = e.attributes().find("samples");
-    //        if (it != e.attributes().end()) {
-    //            if (auto array = get<const ArrayElement>(it->second.get()))
-    //                if (!array->empty() && !array->get().empty())
-    //                    if (auto result = get<const Element>(array->get().begin()[0].get())
-    //                        return result;
-    //        }
-    //    }
-
-    //    return nullptr;
-    //}
-
-    so::String instantiate(const StringElement& e)
-    {
-        assert(!e.empty());
-        return so::String{ e.get().get() };
-    }
-
-    so::Number instantiate(const NumberElement& e)
-    {
-        assert(!e.empty());
-        return so::Number{ e.get().get() };
-    }
-
-    so::Value instantiate(const BooleanElement& e)
-    {
-        assert(!e.empty());
-        return e.get() ? //
-            so::Value{ in_place_type<so::True>{} } :
-            so::Value{ in_place_type<so::False>{} };
-    }
-} // namespace
 
 namespace
 {
@@ -104,12 +51,12 @@ namespace
         return options;
     }
 
-    TypeAttributes pass_flags(TypeAttributes options) noexcept
+    TypeAttributes passFlags(TypeAttributes options) noexcept
     {
         return options;
     }
 
-    TypeAttributes inherit_flags(TypeAttributes options) noexcept
+    TypeAttributes inheritFlags(TypeAttributes options) noexcept
     {
         options.reset(FIXED_TYPE_FLAG);
         options.reset(NULLABLE_FLAG);
@@ -117,9 +64,9 @@ namespace
         return options;
     }
 
-    TypeAttributes inherit_or_pass_flags(TypeAttributes options, const IElement& e)
+    TypeAttributes inheritOrPassFlags(TypeAttributes options, const IElement& e)
     {
-        auto result = inherit_flags(options);
+        auto result = inheritFlags(options);
         if (inheritsFixed(e)) {
             LOG(debug) << "\"" << e.element() << "\"-Element inherits fixed";
             return result;
@@ -187,7 +134,7 @@ namespace
     template <typename... Args>
     so::Object& addEnum(so::Object& schema, Args&&... args)
     {
-        schema.data.emplace_back("enum", so::Array{ so::Value{ std::forward<Args>(args) }... });
+        schema.data.emplace_back("enum", so::Array{ so::from_list{}, so::Value{ std::forward<Args>(args) }... });
         return schema;
     }
 
@@ -211,13 +158,13 @@ namespace
 
     so::Object nullSchema()
     {
-        return so::Object{ std::make_pair("type", so::String{ "null" }) };
+        return so::Object{ so::from_list{}, std::make_pair("type", so::String{ "null" }) };
     }
 
     so::Object& wrapNullable(so::Object& s, TypeAttributes options)
     {
         if (options.test(NULLABLE_FLAG)) {
-            addAnyOf(s, so::Array{ nullSchema(), so::Object{} });
+            addAnyOf(s, so::Array{ so::from_list{}, nullSchema(), so::Object{} });
             return get<so::Object>(get<so::Array>(s.data.back().second).data.at(1));
         }
         return s;
@@ -314,6 +261,8 @@ namespace
 
     so::Object& renderSchema(so::Object& schema, const IElement& e, TypeAttributes options)
     {
+        LOG(debug) << "rendering `"<< e.element() <<"` element to JSON Schema";
+
         auto schemaPtr = &schema;
         refract::visit(e, [schemaPtr, options](const auto& el) { //
             renderSchema(*schemaPtr, el, options);
@@ -344,8 +293,6 @@ namespace
 
     so::Object& renderSchema(so::Object& s, const ObjectElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering ObjectElement to JSON Schema";
-
         constexpr const char* TYPE_NAME = "object";
 
         options = updateTypeAttributes(e, options);
@@ -360,9 +307,10 @@ namespace
             for (const auto& item : e.get()) {
                 assert(item);
                 if (options.test(FIXED_TYPE_FLAG) || options.test(FIXED_FLAG))
-                    renderProperty(result, *item, inherit_or_pass_flags(options, *item) | TypeAttributes{}.set(REQUIRED_FLAG));
+                    renderProperty(
+                        result, *item, inheritOrPassFlags(options, *item) | TypeAttributes{}.set(REQUIRED_FLAG));
                 else
-                    renderProperty(result, *item, inherit_or_pass_flags(options, *item));
+                    renderProperty(result, *item, inheritOrPassFlags(options, *item));
             }
 
         materialize(schema, std::move(result));
@@ -375,8 +323,6 @@ namespace
 
     so::Object& renderSchema(so::Object& s, const ArrayElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering ArrayElement to JSON Schema";
-
         constexpr const char* TYPE_NAME = "array";
 
         options = updateTypeAttributes(e, options);
@@ -387,12 +333,12 @@ namespace
             if (!e.empty())
                 for (const auto& entry : e.get()) {
                     assert(entry);
-                    items.data.emplace_back(makeSchema(*entry, inherit_or_pass_flags(options, *entry)));
+                    items.data.emplace_back(makeSchema(*entry, inheritOrPassFlags(options, *entry)));
                 }
 
             auto& schema = wrapNullable(s, options);
             addType(schema, TYPE_NAME);
-            addItems(schema, so::Object{ std::make_pair("anyOf", std::move(items)) });
+            addItems(schema, so::Object{ so::from_list{}, std::make_pair("anyOf", std::move(items)) });
 
         } else if (options.test(FIXED_FLAG)) { // tuple of N constants/types
 
@@ -400,7 +346,7 @@ namespace
             if (!e.empty())
                 for (const auto& item : e.get()) {
                     assert(item);
-                    items.data.emplace_back(makeSchema(*item, inherit_or_pass_flags(options, *item)));
+                    items.data.emplace_back(makeSchema(*item, inheritOrPassFlags(options, *item)));
                 }
 
             auto& schema = wrapNullable(s, options);
@@ -419,8 +365,6 @@ namespace
 
     so::Object& renderSchema(so::Object& schema, const EnumElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering EnumElement to JSON Schema";
-
         options = updateTypeAttributes(e, options);
 
         so::Array anyOf{};
@@ -437,7 +381,7 @@ namespace
 
             for (const auto& enumEntry : enums->get()) {
                 assert(enumEntry);
-                anyOf.data.emplace_back(makeSchema(*enumEntry, inherit_flags(options)));
+                anyOf.data.emplace_back(makeSchema(*enumEntry, inheritFlags(options)));
             }
         } else {
             LOG(warning) << "Enum Element SHALL hold enumerations attribute; interpreting as empty";
@@ -450,16 +394,12 @@ namespace
 
     so::Object& renderSchema(so::Object& schema, const NullElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering NullElement to JSON Schema";
-
         addType(schema, "null");
         return schema;
     }
 
     so::Object& renderSchema(so::Object& s, const StringElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering StringElement to JSON Schema";
-
         options = updateTypeAttributes(e, options);
         auto& schema = wrapNullable(s, options);
 
@@ -467,15 +407,13 @@ namespace
 
         if (options.test(FIXED_FLAG))
             if (!e.empty())
-                addEnum(schema, instantiate(e));
+                addEnum(schema, utils::instantiate(e.get()));
 
         return schema;
     }
 
     so::Object& renderSchema(so::Object& s, const NumberElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering NumberElement to JSON Schema";
-
         options = updateTypeAttributes(e, options);
         auto& schema = wrapNullable(s, options);
 
@@ -483,15 +421,13 @@ namespace
 
         if (options.test(FIXED_FLAG))
             if (!e.empty())
-                addEnum(schema, instantiate(e));
+                addEnum(schema, utils::instantiate(e.get()));
 
         return schema;
     }
 
     so::Object& renderSchema(so::Object& s, const BooleanElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering BooleanElement to JSON Schema";
-
         options = updateTypeAttributes(e, options);
         auto& schema = wrapNullable(s, options);
 
@@ -499,15 +435,13 @@ namespace
 
         if (options.test(FIXED_FLAG))
             if (!e.empty())
-                addEnum(schema, instantiate(e));
+                addEnum(schema, utils::instantiate(e.get()));
 
         return schema;
     }
 
     so::Object& renderSchema(so::Object& s, const ExtendElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering ExtendElement to JSON Schema";
-
         auto merged = e.get().merge();
         renderSchema(s, *merged, options);
         return s;
@@ -520,8 +454,6 @@ namespace
 
     void renderProperty(ObjectSchema& s, const MemberElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering property MemberElement as JSON Schema";
-
         if (hasFixedTypeAttr(e))
             options.set(FIXED_FLAG);
 
@@ -551,14 +483,14 @@ namespace
                 }
 
                 emplace_unique(s.patternProperties, //
-                    renderPattern(*strKey, pass_flags(options)),
-                    makeSchema(*v, pass_flags(options)));
+                    renderPattern(*strKey, passFlags(options)),
+                    makeSchema(*v, passFlags(options)));
 
             } else if (const auto& strKey = get<const StringElement>(k)) {
 
                 emplace_unique(s.patternProperties, //
-                    renderPattern(*strKey, pass_flags(options)),
-                    makeSchema(*v, pass_flags(options)));
+                    renderPattern(*strKey, passFlags(options)),
+                    makeSchema(*v, passFlags(options)));
 
             } else {
                 LOG(error) << "Unexpected element type in Member Element key: " << k->element();
@@ -568,7 +500,7 @@ namespace
         } else {
             auto strKey = key(e);
 
-            s.properties.data.emplace_back(strKey, makeSchema(*v, pass_flags(options)));
+            s.properties.data.emplace_back(strKey, makeSchema(*v, passFlags(options)));
 
             if (options.test(REQUIRED_FLAG))
                 s.required.data.emplace_back(so::String{ strKey });
@@ -577,37 +509,27 @@ namespace
 
     void renderProperty(ObjectSchema& s, const RefElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering property RefElement as JSON Schema";
-
-        const auto& resolvedEntry = e.attributes().find("resolved");
-        if (resolvedEntry == e.attributes().end()) {
-            LOG(error) << "expected all references to be resolved in backend";
-            assert(false);
-        }
-
-        assert(resolvedEntry->second);
-        renderProperty(s, *resolvedEntry->second, pass_flags(options));
+        const auto& resolved = utils::resolve(e);
+        renderProperty(s, resolved, passFlags(options));
     }
 
     void renderProperty(ObjectSchema& s, const SelectElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering property SelectElement as JSON Schema";
-
         so::Array oneOfs{};
         for (const auto& option : e.get()) {
 
             if (option->empty()) {
-                LOG(error) << "unexpected empty option element in backend";
+                LOG(error) << "empty option element in backend";
                 assert(false);
             }
 
             if (option->get().size() < 1)
-                LOG(warning) << "empty option element in backend";
+                LOG(warning) << "option element without children in backend";
 
             ObjectSchema optionSchema{};
             for (const auto& optionEntry : option->get()) {
                 assert(optionEntry);
-                renderProperty(optionSchema, *optionEntry, pass_flags(options));
+                renderProperty(optionSchema, *optionEntry, passFlags(options));
             }
 
             oneOfs.data.emplace_back(materialize(std::move(optionSchema)));
@@ -619,8 +541,6 @@ namespace
 
     void renderProperty(ObjectSchema& s, const ObjectElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering property ObjectElement as JSON Schema";
-
         if (hasFixedTypeAttr(e))
             options.set(FIXED_FLAG);
 
@@ -629,23 +549,23 @@ namespace
         else
             for (const auto& item : e.get()) {
                 assert(item);
-                renderProperty(s, *item, inherit_flags(options));
+                renderProperty(s, *item, inheritFlags(options));
             }
     }
 
     void renderProperty(ObjectSchema& s, const ExtendElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering property ExtendElement as JSON Schema";
-
         if (e.empty())
-            LOG(warning) << "empty data structure element in backend";
+            LOG(warning) << "empty extend element in backend";
 
         auto merged = e.get().merge();
-        renderProperty(s, *merged, pass_flags(options));
+        renderProperty(s, *merged, passFlags(options));
     }
 
     void renderProperty(ObjectSchema& s, const IElement& e, TypeAttributes options)
     {
+        LOG(debug) << "rendering property `" << e.element() << "` as JSON Schema";
+
         auto schemaPtr = &s;
         refract::visit(e, [schemaPtr, options](const auto& el) { //
             renderProperty(*schemaPtr, el, options);

@@ -13,7 +13,6 @@
 #include <array>
 #include <string>
 #include <limits>
-
 #include "utils/so/YamlIo.h"
 
 using namespace drafter;
@@ -66,18 +65,18 @@ R"YAML(- "Hello world!"
 - 5)YAML"};
 
 const std::string shallow_object = {
-R"YAML("foo": "Hello world!"
-"bar": 5)YAML"};
+R"YAML(foo: "Hello world!"
+bar: 5)YAML"};
 
 const std::string deep_object {
-R"YAML("foo": "Hello world!"
-"empty": {}
-"bar":
-  "id": 5
-  "data":
+R"YAML(foo: "Hello world!"
+empty: {}
+bar:
+  id: 5
+  data:
     - "Here comes the sun"
     -
-      "type": "blob")YAML"};
+      type: "blob")YAML"};
 }
 // clang-format on
 
@@ -275,7 +274,7 @@ SCENARIO("Serialize a utils::so::Value into YAML", "[simple-object][yaml]")
 
     GIVEN("an in place constructed Array{String{`Hello world!`}, Number{5}}")
     {
-        Value value(in_place_type<Array>{}, String{ "Hello world!" }, Number{ 5 });
+        Value value(in_place_type<Array>{}, from_list{}, String{ "Hello world!" }, Number{ 5 });
 
         WHEN("it is serialized into stringstream as YAML")
         {
@@ -292,6 +291,7 @@ SCENARIO("Serialize a utils::so::Value into YAML", "[simple-object][yaml]")
     GIVEN("an in place constructed Object{`foo` -> String{`Hello world!`}, `bar` -> Number{5}}")
     {
         Value value(in_place_type<Object>{}, //
+            from_list{},
             std::make_pair("foo", String{ "Hello world!" }),
             std::make_pair("bar", Number{ 5 }));
 
@@ -300,7 +300,7 @@ SCENARIO("Serialize a utils::so::Value into YAML", "[simple-object][yaml]")
             std::stringstream ss;
             serialize_yaml(ss, value);
 
-            THEN("the stringstream contains: {\\n  \"foo\": \"Hello world!\",\\n  \"bar\": 5\\n}")
+            THEN("the stringstream contains: {\\n  foo: \"Hello world!\",\\n  bar: 5\\n}")
             {
                 REQUIRE(ss.str() == shallow_object);
             }
@@ -384,15 +384,19 @@ SCENARIO("Serialize a utils::so::Value holding deep objects into YAML", "[simple
     GIVEN("a deep object")
     {
         Value value(in_place_type<Object>{}, //
+            from_list{},
             std::make_pair("foo", String{ "Hello world!" }),
             std::make_pair("empty", Object{}),
             std::make_pair("bar",
                 Object{ //
+                    from_list{},
                     std::make_pair("id", Number{ 5 }),
                     std::make_pair("data",
                         Array{ //
+                            from_list{},
                             String{ "Here comes the sun" },
                             Object{
+                                from_list{},
                                 std::make_pair("type", String{ "blob" }),
                             } }) }));
 

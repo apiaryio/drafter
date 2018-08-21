@@ -126,7 +126,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "[\n  \"1\"\n]"
+                              "content": "[\n  \"1\",\n  []\n]"
                             },
                             {
                               "element": "asset",

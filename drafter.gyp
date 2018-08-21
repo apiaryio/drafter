@@ -219,23 +219,6 @@
       ]
     },
 
-# LIBSOS
-    {
-      'target_name': 'libsos',
-      'type': 'static_library',
-      'direct_dependent_settings' : {
-        'include_dirs': [
-          'ext/sos/src'
-        ],
-      },
-      'sources': [
-        'ext/sos/src/sos.cc',
-        'ext/sos/src/sos.h',
-        'ext/sos/src/sosJSON.h',
-        'ext/sos/src/sosYAML.h'
-      ]
-    },
-
 # LIBDRAFTER
     {
       "target_name": "libdrafter",
@@ -253,7 +236,6 @@
         'ext/boost_1_66_0',
       ],
       'export_dependent_settings': [
-        'libsos',
         'libsnowcrash',
       ],
       "sources": [
@@ -311,25 +293,25 @@
         "src/refract/VisitorUtils.cc",
         "src/refract/Visitor.h",
 
-        "src/refract/SerializeCompactVisitor.h",
-        "src/refract/SerializeCompactVisitor.cc",
-        "src/refract/SerializeVisitor.h",
-        "src/refract/SerializeVisitor.cc",
         "src/refract/ComparableVisitor.h",
         "src/refract/ComparableVisitor.cc",
         "src/refract/IsExpandableVisitor.h",
         "src/refract/IsExpandableVisitor.cc",
         "src/refract/ExpandVisitor.h",
         "src/refract/ExpandVisitor.cc",
-        "src/refract/RenderJSONVisitor.h",
-        "src/refract/RenderJSONVisitor.cc",
         "src/refract/PrintVisitor.h",
         "src/refract/PrintVisitor.cc",
         "src/refract/FilterVisitor.h",
         "src/refract/JsonSchema.h",
         "src/refract/JsonSchema.cc",
+        "src/refract/JsonValue.h",
+        "src/refract/JsonValue.cc",
+        "src/refract/JsonUtils.h",
+        "src/refract/JsonUtils.cc",
         "src/refract/ElementUtils.h",
         "src/refract/ElementUtils.cc",
+        "src/refract/SerializeSo.h",
+        "src/refract/SerializeSo.cc",
 
         "src/refract/Registry.h",
         "src/refract/Registry.cc",
@@ -369,7 +351,6 @@
         "src/refract/dsd/String.cc",
       ],
       "dependencies": [
-        "libsos",
         "libsnowcrash",
       ],
     },

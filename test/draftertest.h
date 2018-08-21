@@ -10,9 +10,9 @@
 
 #include "stream.h"
 
-#include "sos.h"
-#include "sosJSON.h"
-#include "sosYAML.h"
+#include "refract/SerializeSo.h"
+#include "utils/log/Trivial.h"
+#include "utils/so/JsonIo.h"
 
 #include "Serialize.h"
 #include "SerializeResult.h"
@@ -45,7 +45,7 @@ namespace draftertest
         const std::string apib = ".apib";
         const std::string json = ".json";
         const std::string sourceMapJson = ".sourcemap.json";
-    }
+    } // namespace ext
 
     class ITFixtureFiles
     {
@@ -103,15 +103,12 @@ namespace draftertest
 
     struct FixtureHelper {
 
-        static sos::Object parseAndSerialize(
+        static std::unique_ptr<refract::IElement> parseAndSerialize(
             snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options)
         {
             drafter::ConversionContext context(options);
 
-            auto parseResult = WrapRefract(blueprint, context);
-            sos::Object result = SerializeRefract(parseResult.get(), context);
-
-            return result;
+            return WrapRefract(blueprint, context);
         }
 
         static const std::string printDiff(const std::string& actual, const std::string& expected)
@@ -153,7 +150,7 @@ namespace draftertest
             return ext::json;
         }
 
-        typedef sos::Object (*Wrapper)(
+        typedef std::unique_ptr<refract::IElement> (*Wrapper)(
             snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options);
 
         static bool handleResultJSON(const Wrapper wrapper,
@@ -161,16 +158,19 @@ namespace draftertest
             const drafter::WrapperOptions& options,
             bool mustBeOk = false)
         {
+            ENABLE_LOGGING;
             ITFixtureFiles fixture = ITFixtureFiles(basepath);
 
             snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
 
             int result = snowcrash::parse(fixture.get(ext::apib), snowcrash::ExportSourcemapOption, blueprint);
 
-            std::stringstream outStream;
-            sos::SerializeJSON serializer;
+            std::ostringstream outStream;
+            if (auto parsed = (*wrapper)(blueprint, options)) {
+                auto soValue = refract::serialize::renderSo(*parsed, options.generateSourceMap);
+                drafter::utils::so::serialize_json(outStream, soValue);
+            }
 
-            serializer.process((*wrapper)(blueprint, options), outStream);
             outStream << "\n";
 
             std::string actual = outStream.str();
@@ -201,6 +201,6 @@ namespace draftertest
             return actual == expected;
         }
     };
-}
+} // namespace draftertest
 
 #endif // #ifndef DRAFTER_DRAFTERTEST_H

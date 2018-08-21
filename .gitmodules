@@ -4,9 +4,6 @@
 [submodule "test/vendor/Catch"]
 	path = test/vendor/Catch
 	url = https://github.com/catchorg/Catch2.git
-[submodule "ext/sos"]
-	path = ext/sos
-	url = https://github.com/apiaryio/sos.git
 [submodule "ext/cmdline"]
 	path = ext/cmdline
 	url = https://github.com/apiaryio/cmdline.git

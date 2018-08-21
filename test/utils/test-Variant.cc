@@ -300,7 +300,6 @@ SCENARIO("variant construction", "[variant][init]")
             REQUIRE(Bar::record().move_assignment == 0);
         }
 
-
         THEN("no Foo, Baz were constructed")
         {
             REQUIRE(Foo::record().default_constructor == 0);

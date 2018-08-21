@@ -9,19 +9,19 @@
 
 #include "snowcrash.h"
 
+#include "utils/so/JsonIo.h"
+#include "utils/so/YamlIo.h"
+
 #include "refract/Element.h"
 #include "refract/FilterVisitor.h"
 #include "refract/Query.h"
 #include "refract/Iterate.h"
+#include "refract/SerializeSo.h"
 
 #include "SerializeResult.h"      // FIXME: remove - actualy required by WrapParseResultRefract()
 #include "Serialize.h"            // FIXME: remove - actualy required by WrapperOptions
 #include "ConversionContext.h"    // FIXME: remove - required by ConversionContext
 #include "RefractDataStructure.h" // FIXME: remove - required by SerializeRefract()
-
-#include "sos.h" // FIXME: remove sos dependency
-#include "sosJSON.h"
-#include "sosYAML.h"
 
 #include "Version.h"
 
@@ -91,62 +91,30 @@ DRAFTER_API drafter_error drafter_parse_blueprint(
     return (drafter_error)blueprint.report.error.code;
 }
 
-namespace
-{ // FIXME: cut'n'paste from main.cc - duplicity
-
-    sos::Serialize* CreateSerializer(const drafter::SerializeFormat& format)
-    {
-        if (format == drafter::JSONFormat) {
-            return new sos::SerializeJSON;
-        }
-
-        return new sos::SerializeYAML;
-    }
-
-    /**
-     * \brief Serialize sos::Object into stream
-     */
-    void Serialization(std::ostream* stream, const sos::Object& object, sos::Serialize* serializer)
-    {
-        serializer->process(object, *stream);
-        *stream << "\n";
-        *stream << std::flush;
-    }
-}
-
 /* Serialize result to given format*/
 DRAFTER_API char* drafter_serialize(drafter_result* res, const drafter_serialize_options serialize_opts)
 {
-
-    drafter::SerializeFormat format = drafter::UnknownFormat;
-
     if (!res) {
         return nullptr;
     }
 
-    switch (serialize_opts.format) {
-        case DRAFTER_SERIALIZE_JSON:
-            format = drafter::JSONFormat;
-            break;
+    std::ostringstream out;
 
-        case DRAFTER_SERIALIZE_YAML:
-            format = drafter::YAMLFormat;
+    switch (serialize_opts.format) {
+        case DRAFTER_SERIALIZE_JSON: {
+            auto soValue = refract::serialize::renderSo(*res, serialize_opts.sourcemap);
+            drafter::utils::so::serialize_json(out, soValue);
             break;
+        }
+        case DRAFTER_SERIALIZE_YAML: {
+            auto soValue = refract::serialize::renderSo(*res, serialize_opts.sourcemap);
+            drafter::utils::so::serialize_yaml(out, soValue);
+            break;
+        }
 
         default:
             return nullptr;
     }
-
-    drafter::WrapperOptions wrapperOptions(serialize_opts.sourcemap);
-    drafter::ConversionContext context(wrapperOptions);
-
-    sos::Object result = drafter::SerializeRefract(res, context);
-
-    std::unique_ptr<sos::Serialize> serializer(CreateSerializer(format));
-
-    std::ostringstream out;
-
-    Serialization(&out, result, serializer.get());
 
     return strdup(out.str().c_str());
 }

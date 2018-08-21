@@ -109,7 +109,6 @@ bool refract::inheritsFixed(const ExtendElement& e)
     return inheritsFixed(*merged);
 }
 
-
 bool refract::hasTypeAttr(const IElement& e, const char* name)
 {
     auto typeAttrIt = e.attributes().find("typeAttributes");
@@ -172,7 +171,8 @@ bool refract::isVariable(const IElement& e)
     return false;
 }
 
-bool refract::hasDefault(const IElement& e) {
+bool refract::hasDefault(const IElement& e)
+{
     return findDefault(e) != nullptr;
 }
 
@@ -185,5 +185,24 @@ std::string refract::key(const MemberElement& m)
     } else {
         LOG(error) << "Non-string key in Member Element: " << m.get().key()->element();
         assert(false);
+    }
+}
+
+void refract::setFixedTypeAttribute(IElement& e)
+{
+    auto typeAttrIt = e.attributes().find("typeAttributes");
+    if (e.attributes().end() == typeAttrIt) {
+        e.attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
+    } else {
+        if (auto* typeAttrs = get<ArrayElement>(typeAttrIt->second.get())) {
+            const auto b = typeAttrs->get().begin();
+            const auto e = typeAttrs->get().end();
+            if (e == std::find_if(b, e, [](const auto& el) { //
+                    const auto* entry = get<const StringElement>(el.get());
+                    return entry && !entry->empty() && (entry->get().get() == "fixed");
+                })) {
+                typeAttrs->get().push_back(from_primitive("fixed"));
+            }
+        }
     }
 }

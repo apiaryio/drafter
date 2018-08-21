@@ -62,9 +62,6 @@
                             "element": "array",
                             "content": [
                               {
-                                "element": "string"
-                              },
-                              {
                                 "element": "string",
                                 "attributes": {
                                   "typeAttributes": {
@@ -108,6 +105,9 @@
                                   }
                                 },
                                 "content": "green"
+                              },
+                              {
+                                "element": "string"
                               }
                             ]
                           }

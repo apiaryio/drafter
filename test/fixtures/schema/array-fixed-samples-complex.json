@@ -228,7 +228,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"tags\": [\n    \"hello\",\n    {\n      \"name\": \"snow\",\n      \"color\": \"white\",\n      \"description\": \"\"\n    },\n    \"world\"\n  ]\n}"
+                              "content": "{\n  \"tags\": [\n    \"hello\",\n    42,\n    {\n      \"name\": \"snow\",\n      \"color\": \"white\",\n      \"description\": \"\"\n    },\n    \"world\"\n  ]\n}"
                             },
                             {
                               "element": "asset",

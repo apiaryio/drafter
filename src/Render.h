@@ -29,14 +29,6 @@ namespace drafter
 
     RenderFormat findRenderFormat(const std::string& contentType);
     std::string getContentTypeFromHeaders(const snowcrash::Headers& headers);
-
-    NodeInfoByValue<snowcrash::Asset> renderPayloadBody(const NodeInfo<snowcrash::Payload>& payload,
-        const NodeInfo<snowcrash::Action>& action,
-        ConversionContext& context);
-
-    NodeInfoByValue<snowcrash::Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload,
-        const NodeInfo<snowcrash::Action>& action,
-        ConversionContext& context);
 }
 
 #endif

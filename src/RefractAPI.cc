@@ -11,9 +11,14 @@
 #include "RefractDataStructure.h"
 #include "RefractAPI.h"
 #include "Render.h"
-#include "refract/Exception.h"
-
 #include "RefractSourceMap.h"
+
+#include "refract/Exception.h"
+#include "refract/JsonValue.h"
+#include "refract/JsonSchema.h"
+
+#include "utils/log/Trivial.h"
+#include "utils/so/JsonIo.h"
 
 #include <iterator>
 #include <set>
@@ -23,6 +28,7 @@
 
 using namespace drafter;
 using namespace refract;
+using namespace drafter::utils::log;
 
 // Forward Declarations
 std::unique_ptr<IElement> ElementToRefract(const NodeInfo<snowcrash::Element>& element, ConversionContext& context);
@@ -73,7 +79,48 @@ namespace
 
         return std::move(element);
     }
-}
+
+    bool isRequest(const NodeInfo<snowcrash::Action>& action)
+    {
+        return !action.isNull() && !action.node->method.empty();
+    }
+
+    NodeInfoByValue<snowcrash::Asset> renderPayloadBody(
+        const NodeInfo<snowcrash::Payload>& payload, RenderFormat format, const IElement& expanded)
+    {
+        if (payload.node->body.empty() && format != UndefinedRenderFormat) {
+            std::stringstream ss{};
+            switch (format) {
+                case JSONRenderFormat: {
+                    drafter::utils::so::serialize_json(ss, refract::generateJsonValue(expanded));
+                    break;
+                }
+
+                case JSONSchemaRenderFormat: {
+                    drafter::utils::so::serialize_json(ss, refract::schema::generateJsonSchema(expanded));
+                    break;
+                }
+
+                default:
+                    assert(false);
+            }
+            return NodeInfoByValue<snowcrash::Asset>{ ss.str(), NodeInfo<snowcrash::Asset>::NullSourceMap() };
+        }
+        return NodeInfoByValue<snowcrash::Asset>{ payload.node->body, &payload.sourceMap->body };
+    }
+
+    NodeInfoByValue<snowcrash::Asset> renderPayloadSchema(
+        const NodeInfo<snowcrash::Payload>& payload, RenderFormat format, const IElement& expanded)
+    {
+        if (payload.node->schema.empty() && !payload.node->attributes.empty() && format == JSONRenderFormat) {
+            std::stringstream ss{};
+            drafter::utils::so::serialize_json(ss, refract::schema::generateJsonSchema(expanded));
+
+            return NodeInfoByValue<snowcrash::Asset>{ ss.str(), NodeInfo<snowcrash::Asset>::NullSourceMap() };
+        }
+        return NodeInfoByValue<snowcrash::Asset>{ payload.node->schema, &payload.sourceMap->schema };
+    }
+} // namespace
 
 std::unique_ptr<IElement> drafter::DataStructureToRefract(
     const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context)
@@ -88,11 +135,10 @@ std::unique_ptr<IElement> drafter::DataStructureToRefract(
         msonElement = std::move(msonExpanded);
     }
 
-    if (!msonElement) {
-        return nullptr;
-    }
-
-    return std::make_unique<HolderElement>(SerializeKey::DataStructure, dsd::Holder(std::move(msonElement)));
+    return msonElement ?                                                                                  //
+        std::make_unique<HolderElement>(SerializeKey::DataStructure, dsd::Holder(std::move(msonElement))) //
+        :
+        nullptr;
 }
 
 std::unique_ptr<IElement> MetadataToRefract(const NodeInfo<snowcrash::Metadata>& metadata, ConversionContext& context)
@@ -230,104 +276,131 @@ std::unique_ptr<IElement> AssetToRefract(
     return std::move(element);
 }
 
-std::unique_ptr<IElement> PayloadToRefract(
-    const NodeInfo<snowcrash::Payload>& payload, const NodeInfo<snowcrash::Action>& action, ConversionContext& context)
+std::unique_ptr<IElement> PayloadToRefract( //
+    const NodeInfo<snowcrash::Payload>& payload,
+    const NodeInfo<snowcrash::Action>& action,
+    ConversionContext& context)
 {
-    auto element = make_element<ArrayElement>();
+    using namespace snowcrash;
 
-    // Use HTTP method to recognize if request or response
-    if (action.isNull() || action.node->method.empty()) {
-        element->element(SerializeKey::HTTPResponse);
+    auto result = make_element<ArrayElement>();
+
+    if (isRequest(action)) {
+        result->element(SerializeKey::HTTPRequest);
+        result->attributes().set(SerializeKey::Method, PrimitiveToRefract(MAKE_NODE_INFO(action, method)));
+
+        if (!payload.isNull() && !payload.node->name.empty()) {
+            result->meta().set(SerializeKey::Title, PrimitiveToRefract(MAKE_NODE_INFO(payload, name)));
+        }
+    } else {
+        result->element(SerializeKey::HTTPResponse);
 
         // FIXME: tests pass without commented out part of condition
         // delivery test to see this part is required else remove it
         // related discussion: https://github.com/apiaryio/drafter/pull/148/files#r42275194
         if (!payload.isNull() /* && !payload.node->name.empty() */) {
-            element->attributes().set(SerializeKey::StatusCode, PrimitiveToRefract(MAKE_NODE_INFO(payload, name)));
-        }
-    } else {
-        element->element(SerializeKey::HTTPRequest);
-        element->attributes().set(SerializeKey::Method, PrimitiveToRefract(MAKE_NODE_INFO(action, method)));
-
-        if (!payload.isNull() && !payload.node->name.empty()) {
-            element->meta().set(SerializeKey::Title, PrimitiveToRefract(MAKE_NODE_INFO(payload, name)));
+            result->attributes().set(SerializeKey::StatusCode, PrimitiveToRefract(MAKE_NODE_INFO(payload, name)));
         }
     }
 
-    AttachSourceMap(*element, payload);
-
-    auto& content = element->get();
+    AttachSourceMap(*result, payload);
 
     // If no payload, return immediately
     if (payload.isNull()) {
-        return std::move(element);
+        return std::move(result);
     }
 
     if (!payload.node->parameters.empty()) {
-        element->attributes().set(
+        result->attributes().set(
             SerializeKey::HrefVariables, ParametersToRefract(MAKE_NODE_INFO(payload, parameters), context));
     }
 
     if (!payload.node->headers.empty()) {
-        element->attributes().set(SerializeKey::Headers,
+        result->attributes().set(SerializeKey::Headers,
             CollectionToRefract<ArrayElement>(
                 MAKE_NODE_INFO(payload, headers), context, HeaderToRefract, SerializeKey::HTTPHeaders));
     }
 
+    auto& content = result->get();
+
     if (!payload.node->description.empty())
         content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
 
-    if (!payload.node->attributes.empty())
-        content.push_back(DataStructureToRefract(MAKE_NODE_INFO(payload, attributes), context));
+    std::unique_ptr<IElement> payloadAttributeElement = payload.node->attributes.empty() ? //
+        nullptr :
+        MSONToRefract(MAKE_NODE_INFO(payload, attributes), context);
 
-    // FIXME: This whole rendering should be done after converting to refract. Currently, both
-    // the renders will do MSONToRefract individually on the same thing. So, basically, the attributes
-    // in a payload gets converted to refract 3 times which is something we should fix.
-    try {
-        // Render using boutique
-        NodeInfoByValue<snowcrash::Asset> payloadBody = renderPayloadBody(payload, action, context);
-        NodeInfoByValue<snowcrash::Asset> payloadSchema = renderPayloadSchema(payload, action, context);
+    std::unique_ptr<IElement> payloadAttributeExpanded = payloadAttributeElement && context.options.expandMSON ? //
+        ExpandRefract(std::move(payloadAttributeElement), context) :
+        nullptr;
 
-        // Get content type
-        std::string contentType = getContentTypeFromHeaders(payload.node->headers);
-        std::string schemaContentType
-            = snowcrash::RegexMatch(contentType, JSONRegex) ? JSONSchemaContentType : contentType;
+    const RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node->headers));
 
-        // Push Body Asset
-        if (!payloadBody.first.empty())
-            content.push_back(AssetToRefract( //
-                NodeInfo<snowcrash::Asset>(payloadBody),
-                contentType,
-                SerializeKey::MessageBody));
+    auto payloadBody = NodeInfoByValue<snowcrash::Asset>{ payload.node->body, &payload.sourceMap->body };
+    auto payloadSchema = NodeInfoByValue<snowcrash::Asset>{ payload.node->schema, &payload.sourceMap->schema };
 
-        // Render only if Body is JSON or Schema is defined
-        if (!payloadSchema.first.empty()) {
-            content.push_back(AssetToRefract( //
-                NodeInfo<snowcrash::Asset>(payloadSchema),
-                schemaContentType,
-                SerializeKey::MessageBodySchema));
+    if (payload.node->attributes.empty() && !action.isNull() && !action.node->attributes.empty()) {
+
+        if ((payload.node->body.empty() && renderFormat != UndefinedRenderFormat)
+            || (payload.node->schema.empty() && renderFormat == JSONRenderFormat))
+            if (auto mson = MSONToRefract(MAKE_NODE_INFO(action, attributes), context)) {
+                if (auto actionAttributeExpanded = ExpandRefract(std::move(mson), context)) {
+                    payloadBody = renderPayloadBody(payload, renderFormat, *actionAttributeExpanded);
+                    payloadSchema = renderPayloadSchema(payload, renderFormat, *actionAttributeExpanded);
+                }
+            }
+
+    } else {
+        if (!payload.node->attributes.empty()
+            && ((payload.node->body.empty() && renderFormat != UndefinedRenderFormat)
+                   || (payload.node->schema.empty() && renderFormat == JSONRenderFormat))) {
+
+            if (!payloadAttributeElement)
+                payloadAttributeElement = MSONToRefract(MAKE_NODE_INFO(payload, attributes), context);
+            if (!payloadAttributeExpanded)
+                payloadAttributeExpanded = ExpandRefract(clone(*payloadAttributeElement), context);
+
+            if (payloadAttributeExpanded) {
+                payloadBody = renderPayloadBody(payload, renderFormat, *payloadAttributeExpanded);
+                payloadSchema = renderPayloadSchema(payload, renderFormat, *payloadAttributeExpanded);
+            }
         }
     }
 
-    // what to do?
-    // we are not able to generate JSON and/or JSON Schema
-    // this is not fatal, rethrow will finish conversion
+    // Push dataStructure
+    if (context.options.expandMSON) {
+        if (payloadAttributeExpanded) {
+            content.push_back(std::make_unique<HolderElement>(
+                SerializeKey::DataStructure, dsd::Holder(std::move(payloadAttributeExpanded))));
+        }
+    } else {
+        if (payloadAttributeElement) {
+            content.push_back(std::make_unique<HolderElement>(
+                SerializeKey::DataStructure, dsd::Holder(std::move(payloadAttributeElement))));
+        }
+    }
 
-    // ideal solution is add warning into collection
-    // but there is no way how to do it
-    // in current time we solve it by rethrow
-    catch (snowcrash::Error& e) {
-        context.warn(snowcrash::Warning("unable to render JSON/JSONSchema. " + e.message,
-            snowcrash::ApplicationError,
-            payload.sourceMap->sourceMap));
-    } catch (LogicError& e) {
-        context.warn(snowcrash::Warning(std::string("unable to render JSON/JSONSchema. ").append(e.what()),
-            snowcrash::ApplicationError,
-            payload.sourceMap->sourceMap));
+    // Get content type
+    const std::string contentType = getContentTypeFromHeaders(payload.node->headers);
+
+    // Push Body Asset
+    if (!payloadBody.first.empty())
+        content.push_back(AssetToRefract( //
+            NodeInfo<snowcrash::Asset>(payloadBody),
+            contentType,
+            SerializeKey::MessageBody));
+
+    // Render only if Body is JSON or Schema is defined
+    if (!payloadSchema.first.empty()) {
+        content.push_back(AssetToRefract( //
+            NodeInfo<snowcrash::Asset>(payloadSchema),
+            snowcrash::RegexMatch(contentType, JSONRegex) ? JSONSchemaContentType : contentType,
+            SerializeKey::MessageBodySchema));
     }
 
     RemoveEmptyElements(content);
-    return std::move(element);
+
+    return result;
 }
 
 std::unique_ptr<ArrayElement> TransactionToRefract(const NodeInfo<snowcrash::TransactionExample>& transaction,
@@ -446,8 +519,9 @@ std::unique_ptr<ArrayElement> ResourceToRefract(
     if (!resource.node->description.empty())
         content.push_back(CopyToRefract(MAKE_NODE_INFO(resource, description)));
 
-    if (!resource.node->attributes.empty())
+    if (!resource.node->attributes.empty()) {
         content.push_back(DataStructureToRefract(MAKE_NODE_INFO(resource, attributes), context));
+    }
     NodeInfoToElements(MAKE_NODE_INFO(resource, actions), ActionToRefract, content, context);
 
     RemoveEmptyElements(content);

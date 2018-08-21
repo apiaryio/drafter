@@ -8,11 +8,12 @@
 
 #include "YamlIo.h"
 
+#include <algorithm>
 #include <cassert>
+#include <exception>
 #include <iostream>
 #include <iterator>
-#include <exception>
-#include <algorithm>
+#include <regex>
 
 #include "../Utf8.h"
 #include "../Utils.h"
@@ -25,6 +26,12 @@ using namespace so;
 namespace
 {
     using namespace utf8;
+
+    bool is_alphanum_dash(const std::string& str)
+    {
+        thread_local const std::regex r{ "[a-zA-Z0-9-]+" };
+        return std::regex_match(str.begin(), str.end(), r);
+    }
 
     bool is_yaml_printable(const codepoint& c)
     {
@@ -217,7 +224,12 @@ namespace
             for (const auto& m : value.data) {
                 do_indent(out, indent);
 
-                serialize_yaml(out, m.first);
+                // for clearer, unescaped reading
+                if (is_alphanum_dash(m.first))
+                    out << m.first;
+                else
+                    serialize_yaml(out, m.first);
+
                 out << ":";
 
                 visit(m.second, *this, out, indent + 1);
@@ -256,7 +268,7 @@ namespace
             }
         }
     };
-}
+} // namespace
 
 std::ostream& so::serialize_yaml(std::ostream& out, const Value& obj)
 {

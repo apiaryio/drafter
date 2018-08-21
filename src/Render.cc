@@ -6,20 +6,24 @@
 //  Copyright (c) 2015 Apiary. All rights reserved.
 //
 
-#include "Render.h"
 #include "RefractDataStructure.h"
+#include "Render.h"
 
-#include "SourceAnnotation.h"
 #include "BlueprintUtility.h"
 #include "RegexMatch.h"
+#include "SourceAnnotation.h"
 
 #include "ConversionContext.h"
 
-#include "refract/RenderJSONVisitor.h"
 #include "refract/JsonSchema.h"
+#include "refract/JsonValue.h"
+#include "refract/SerializeSo.h"
+
+#include "utils/log/Trivial.h"
 #include "utils/so/JsonIo.h"
 
 using namespace snowcrash;
+using namespace drafter::utils::log;
 
 namespace drafter
 {
@@ -49,106 +53,5 @@ namespace drafter
         }
 
         return "";
-    }
-
-    NodeInfoByValue<Asset> renderPayloadBody(
-        const NodeInfo<Payload>& payload, const NodeInfo<Action>& action, ConversionContext& context)
-    {
-
-        NodeInfoByValue<Asset> body = std::make_pair(payload.node->body, &payload.sourceMap->body);
-
-        NodeInfo<Attributes> payloadAttributes = MAKE_NODE_INFO(payload, attributes);
-        NodeInfo<Attributes> actionAttributes = MAKE_NODE_INFO(action, attributes);
-
-        // hold attributes via pointer - because problems with assignment in NodeInfo<>
-        NodeInfo<Attributes>* attributes = &payloadAttributes;
-
-        if (payload.node->attributes.empty() && !action.isNull() && !action.node->attributes.empty()) {
-            attributes = &actionAttributes;
-        }
-
-        RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node->headers));
-
-        // Only continue down if we have a render format
-        if (!payload.node->body.empty() || attributes->node->empty() || renderFormat == UndefinedRenderFormat) {
-            return body;
-        }
-
-        // Expand MSON into Refract
-        auto element = MSONToRefract(*attributes, context);
-
-        if (!element) {
-            return body;
-        }
-
-        auto expanded = ExpandRefract(std::move(element), context);
-
-        if (!expanded) {
-            return body;
-        }
-
-        // One of this will always execute since we have a catch above for not having render format
-        switch (renderFormat) {
-            case JSONRenderFormat: {
-                refract::RenderJSONVisitor renderer;
-                refract::Visit(renderer, *expanded);
-                return std::make_pair(renderer.getString(), NodeInfo<Asset>::NullSourceMap());
-            }
-
-            case JSONSchemaRenderFormat: {
-
-                std::stringstream ss{};
-                utils::so::serialize_json(ss, refract::schema::generateJsonSchema(*expanded));
-                return std::make_pair(ss.str(), NodeInfo<Asset>::NullSourceMap());
-            }
-
-            case UndefinedRenderFormat:
-                break;
-        }
-
-        // Throw exception
-        throw snowcrash::Error("unknown content type for messageBody to be rendered", snowcrash::ApplicationError);
-    }
-
-    NodeInfoByValue<Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload,
-        const NodeInfo<snowcrash::Action>& action,
-        ConversionContext& context)
-    {
-
-        NodeInfoByValue<Asset> schema = std::make_pair(payload.node->schema, &payload.sourceMap->schema);
-
-        NodeInfo<Attributes> payloadAttributes = MAKE_NODE_INFO(payload, attributes);
-        NodeInfo<Attributes> actionAttributes = MAKE_NODE_INFO(action, attributes);
-
-        // hold attributes via pointer - because problems with assignment in NodeInfo<>
-        NodeInfo<Attributes>* attributes = &payloadAttributes;
-
-        if (payload.node->attributes.empty() && !action.isNull() && !action.node->attributes.empty()) {
-            attributes = &actionAttributes;
-        }
-
-        // Generate Schema only if Body content type is JSON
-        if (!payload.node->schema.empty() || payload.node->attributes.empty()
-            || findRenderFormat(getContentTypeFromHeaders(payload.node->headers)) != JSONRenderFormat) {
-
-            return schema;
-        }
-
-        auto element = MSONToRefract(*attributes, context);
-
-        if (!element) {
-            return schema;
-        }
-
-        auto expanded = ExpandRefract(std::move(element), context);
-
-        if (!expanded) {
-            return schema;
-        }
-
-        std::stringstream ss{};
-        utils::so::serialize_json(ss, refract::schema::generateJsonSchema(*expanded));
-
-        return std::make_pair(ss.str(), NodeInfo<Asset>::NullSourceMap());
     }
 } // namespace drafter
