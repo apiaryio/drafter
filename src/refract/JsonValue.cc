@@ -233,8 +233,6 @@ namespace
             for (const auto& entry : element.get()) {
                 assert(entry);
                 renderItem(result, *entry, inheritOrPassFlags(options, *entry));
-                if (options.test(FIXED_TYPE_FLAG))
-                    break;
             }
 
         return so::Value{ result };
