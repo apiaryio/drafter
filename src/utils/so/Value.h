@@ -115,7 +115,7 @@ namespace drafter
         namespace so
         {
             template <typename ValueType>
-            void emplace_unique(so::Object& c, std::string key, ValueType&& value)
+            void emplace_unique(Object& c, std::string key, ValueType&& value)
             {
                 auto it = std::find_if(
                     c.data.begin(), c.data.end(), [&key](const auto& entry) { return entry.first == key; });
@@ -124,6 +124,8 @@ namespace drafter
                 else
                     it->second = std::forward<ValueType>(value);
             }
+
+            Value* find(Object& c, const std::string& key);
         } // namespace so
     }     // namespace utils
 } // namespace drafter
