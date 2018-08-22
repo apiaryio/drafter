@@ -405,7 +405,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
     {
         auto el = make_element<ArrayElement>(   //
             from_primitive("Hello world!"),     //
-            from_primitive(42),               //
+            from_primitive(42),                 //
             make_element<ArrayElement>(         //
                 from_primitive("short string"), //
                 from_primitive(true)));
@@ -449,7 +449,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
     {
         auto el = make_element<ArrayElement>(   //
             from_primitive("Hello world!"),     //
-            from_primitive(42),               //
+            from_primitive(42),                 //
             make_element<ArrayElement>(         //
                 from_primitive("short string"), //
                 from_primitive(true)));
@@ -569,7 +569,7 @@ SCENARIO("JSON Schema serialization of ObjectElement", "[json-schema]")
     GIVEN("An ObjectElement holding three MemberElements")
     {
         auto el = make_element<ObjectElement>(                                             //
-            make_element<MemberElement>(from_primitive("first"), from_primitive(42)),    //
+            make_element<MemberElement>(from_primitive("first"), from_primitive(42)),      //
             make_element<MemberElement>(from_primitive("second"), from_primitive(true)),   //
             make_element<MemberElement>(from_primitive("third"), from_primitive("foobar")) //
         );
@@ -612,7 +612,7 @@ SCENARIO("JSON Schema serialization of ObjectElement", "[json-schema]")
         auto el = make_element<ObjectElement>(                                                 //
             make_element<SelectElement>(                                                       //
                 make_element<OptionElement>(                                                   //
-                    make_element<MemberElement>(from_primitive("a"), from_primitive(42)),    //
+                    make_element<MemberElement>(from_primitive("a"), from_primitive(42)),      //
                     make_element<MemberElement>(from_primitive("b"), from_primitive("foobar")) //
                     )                                                                          //
                 ),                                                                             //
@@ -626,16 +626,16 @@ SCENARIO("JSON Schema serialization of ObjectElement", "[json-schema]")
                 ),                                                                             //
             make_element<SelectElement>(                                                       //
                 make_element<OptionElement>(                                                   //
-                    make_element<MemberElement>(from_primitive("e"), from_primitive(42)),    //
+                    make_element<MemberElement>(from_primitive("e"), from_primitive(42)),      //
                     make_element<MemberElement>(from_primitive("f"), from_primitive(true)),    //
                     make_element<MemberElement>(from_primitive("g"), from_primitive("abc"))    //
                     ),                                                                         //
                 make_element<OptionElement>(                                                   //
-                    make_element<MemberElement>(from_primitive("h"), from_primitive(42)),    //
+                    make_element<MemberElement>(from_primitive("h"), from_primitive(42)),      //
                     make_element<MemberElement>(from_primitive("i"), from_primitive("foobar")) //
                     ),                                                                         //
                 make_element<OptionElement>(                                                   //
-                    make_element<MemberElement>(from_primitive("j"), from_primitive(42)),    //
+                    make_element<MemberElement>(from_primitive("j"), from_primitive(42)),      //
                     make_element<MemberElement>(from_primitive("k"), from_primitive("foobar")) //
                     )                                                                          //
                 ));
@@ -662,12 +662,12 @@ SCENARIO("JSON Schema serialization of ObjectElement", "[json-schema]")
         auto el = make_element<ObjectElement>(                                                         //
             make_element<SelectElement>(                                                               //
                 make_element<OptionElement>(                                                           //
-                    make_element<MemberElement>(from_primitive("a"), from_primitive(42))             //
+                    make_element<MemberElement>(from_primitive("a"), from_primitive(42))               //
                     ),                                                                                 //
                 make_element<OptionElement>(                                                           //
                     make_element<SelectElement>(                                                       //
                         make_element<OptionElement>(                                                   //
-                            make_element<MemberElement>(from_primitive("c"), from_primitive(42)),    //
+                            make_element<MemberElement>(from_primitive("c"), from_primitive(42)),      //
                             make_element<MemberElement>(from_primitive("d"), from_primitive("foobar")) //
                             ),                                                                         //
                         make_element<OptionElement>(                                                   //

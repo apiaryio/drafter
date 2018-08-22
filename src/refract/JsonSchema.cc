@@ -261,7 +261,7 @@ namespace
 
     so::Object& renderSchema(so::Object& schema, const IElement& e, TypeAttributes options)
     {
-        LOG(debug) << "rendering `"<< e.element() <<"` element to JSON Schema";
+        LOG(debug) << "rendering `" << e.element() << "` element to JSON Schema";
 
         auto schemaPtr = &schema;
         refract::visit(e, [schemaPtr, options](const auto& el) { //
