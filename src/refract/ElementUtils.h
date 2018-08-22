@@ -108,8 +108,6 @@ namespace refract
 
     bool hasDefault(const IElement& e);
 
-    std::string key(const MemberElement& m);
-
     ///
     /// Find a default value for an Element
     ///
@@ -149,9 +147,26 @@ namespace refract
     template <typename Element>
     bool definesValue(const Element& e)
     {
-        return !e.empty() || findFirstSample(e) || findDefault(e);
+        return nullptr != findValue(e);
+    }
+
+    template <typename Element>
+    const Element* findValue(const Element& element)
+    {
+        if (!element.empty())
+            return &element;
+        if (const Element* sample = findFirstSample(element))
+            return sample;
+        if (const Element* dfault = findDefault(element))
+            return dfault;
+        return nullptr;
     }
 
 } // namespace refract
+
+namespace refract
+{
+    std::string renderKey(const IElement& element);
+}
 
 #endif

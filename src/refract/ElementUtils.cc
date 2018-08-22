@@ -176,16 +176,32 @@ bool refract::hasDefault(const IElement& e)
     return findDefault(e) != nullptr;
 }
 
-std::string refract::key(const MemberElement& m)
+std::string refract::renderKey(const IElement& element)
 {
-    if (const auto& strKey = get<const StringElement>(m.get().key())) {
-        if (strKey->empty())
-            return "";
-        return strKey->get().get();
+    if (const auto* stringElement = get<const StringElement>(&element)) {
+        if (stringElement->empty()) {
+            if (const auto& sampleValue = findFirstSample(*stringElement)) {
+                return renderKey(*sampleValue);
+            }
+
+            if (const auto& defaultValue = findDefault(*stringElement)) {
+                return renderKey(*defaultValue);
+            }
+
+        } else {
+            return stringElement->get().get();
+        }
+
+    } else if (const auto* extendElement = get<const ExtendElement>(&element)) {
+        auto merged = extendElement->get().merge();
+        assert(merged);
+        return renderKey(*merged);
     } else {
-        LOG(error) << "Non-string key in Member Element: " << m.get().key()->element();
+        LOG(error) << "expected key to resolve to string, got: " << element.element();
         assert(false);
     }
+
+    return "";
 }
 
 void refract::setFixedTypeAttribute(IElement& e)

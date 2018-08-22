@@ -126,7 +126,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"s\": \"start\",\n  \"direct\": \"v1\",\n  \"str\": \"v2\",\n  \"ss\": \"s2\",\n  \"sd\": \"d2\",\n  \"se\": \"e2\",\n  \"e\": \"end\"\n}"
+                              "content": "{\n  \"s\": \"start\",\n  \"direct\": \"v1\",\n  \"str\": \"v2\",\n  \"str sample\n\n\": \"s1\",\n  \"ss\": \"s2\",\n  \"str default\n\n\": \"d1\",\n  \"sd\": \"d2\",\n  \"se\": \"e2\",\n  \"e\": \"end\"\n}"
                             },
                             {
                               "element": "asset",
@@ -310,6 +310,24 @@
                     },
                     "content": {
                       "key": {
+                        "element": "StrSample"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "s1"
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
+                    "content": {
+                      "key": {
                         "element": "StrSample",
                         "content": "ss"
                       },
@@ -329,12 +347,48 @@
                     },
                     "content": {
                       "key": {
+                        "element": "StrDefault"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "d1"
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
+                    "content": {
+                      "key": {
                         "element": "StrDefault",
                         "content": "sd"
                       },
                       "value": {
                         "element": "string",
                         "content": "d2"
+                      }
+                    }
+                  },
+                  {
+                    "element": "member",
+                    "attributes": {
+                      "variable": {
+                        "element": "boolean",
+                        "content": true
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "StrEmpty"
+                      },
+                      "value": {
+                        "element": "string",
+                        "content": "e1"
                       }
                     }
                   },

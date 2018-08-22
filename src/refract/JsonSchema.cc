@@ -76,6 +76,22 @@ namespace
 } // namespace
 
 namespace
+{
+    std::string key(const MemberElement& m)
+    {
+        if (const auto& strKey = get<const StringElement>(m.get().key())) {
+            if (strKey->empty())
+                return "";
+            return strKey->get().get();
+        } else {
+            LOG(error) << "Non-string key in Member Element: " << m.get().key()->element();
+            assert(false);
+        }
+    }
+
+} // namespace
+
+namespace
 { // JSON Schema tools
     so::Object& addSchemaVersion(so::Object& schema)
     {
