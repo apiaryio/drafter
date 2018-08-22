@@ -362,7 +362,7 @@ namespace
             if (!e.empty())
                 for (const auto& entry : e.get()) {
                     assert(entry);
-                    items.data.emplace_back(makeSchema(*entry, inheritOrPassFlags(options, *entry)));
+                    so::emplace_unique(items, makeSchema(*entry, inheritOrPassFlags(options, *entry)));
                 }
 
             auto& schema = wrapNullable(s, options);
@@ -410,7 +410,7 @@ namespace
 
             for (const auto& enumEntry : enums->get()) {
                 assert(enumEntry);
-                anyOf.data.emplace_back(makeSchema(*enumEntry, inheritFlags(options)));
+                so::emplace_unique(anyOf, makeSchema(*enumEntry, inheritFlags(options)));
             }
         } else {
             LOG(warning) << "Enum Element SHALL hold enumerations attribute; interpreting as empty";
@@ -621,7 +621,8 @@ namespace
             for (auto& entry : anyOf->data)
                 if (so::Object* subAnyOf = flattenAnyOfs(entry)) {
                     auto& subAnyOfArray = drafter::utils::get<so::Array>(subAnyOf->data.back().second);
-                    std::move(subAnyOfArray.data.begin(), subAnyOfArray.data.end(), std::back_inserter(newAnyOf.data));
+                    for (auto& subEntry : subAnyOfArray.data)
+                        so::emplace_unique(newAnyOf, std::move(subEntry));
 
                 } else {
                     newAnyOf.data.emplace_back(std::move(entry));

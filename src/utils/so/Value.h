@@ -114,6 +114,15 @@ namespace drafter
 
         namespace so
         {
+            bool operator==(const Null& lhs, const Null& rhs);
+            bool operator==(const True& lhs, const True& rhs);
+            bool operator==(const False& lhs, const False& rhs);
+            bool operator==(const String& lhs, const String& rhs);
+            bool operator==(const Number& lhs, const Number& rhs);
+            bool operator==(const Object& lhs, const Object& rhs);
+            bool operator==(const Array& lhs, const Array& rhs);
+            bool operator==(const Value& lhs, const Value& rhs);
+
             template <typename ValueType>
             void emplace_unique(Object& c, std::string key, ValueType&& value)
             {
@@ -124,6 +133,8 @@ namespace drafter
                 else
                     it->second = std::forward<ValueType>(value);
             }
+
+            void emplace_unique(Array& c, Value&& value);
 
             Value* find(Object& c, const std::string& key);
         } // namespace so
