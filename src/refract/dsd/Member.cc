@@ -48,13 +48,11 @@ Member::Member(std::unique_ptr<IElement> key, std::unique_ptr<IElement> value)
     : key_(std::move(key)), value_(std::move(value))
 {
     assert(key_);
-    assert(!key_->empty());
 }
 
 Member::Member(const std::string& key, std::unique_ptr<IElement> value)
     : key_(make_element<StringElement>(key)), value_(std::move(value))
 {
-    assert(!key.empty());
 }
 
 Member& Member::operator=(Member rhs)

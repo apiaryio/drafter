@@ -1015,7 +1015,8 @@ namespace
         return false;
     }
 
-    std::unique_ptr<IElement> GetPropertyKey(const NodeInfo<mson::PropertyMember>& property, ConversionContext& context)
+    std::unique_ptr<StringElement> GetPropertyKey(
+        const NodeInfo<mson::PropertyMember>& property, ConversionContext& context)
     {
 
         auto key = make_empty<StringElement>();
@@ -1057,6 +1058,22 @@ namespace
         return std::move(key);
     }
 
+    bool validKey(const StringElement& element)
+    {
+        // we don't have references resolved;
+        // named elements can't be validated
+        if (!isReserved(element.element()))
+            return true;
+
+        if (const StringElement* value = findValue(element))
+            // empty strings SHOULD NOT occur
+            // TODO @tjanc@ decide whether too strict
+            if (!value->get().get().empty())
+                return true;
+
+        return false;
+    }
+
     template <typename T>
     std::unique_ptr<MemberElement> RefractElementFromProperty(const NodeInfo<mson::PropertyMember>& property,
         ConversionContext& context,
@@ -1067,7 +1084,7 @@ namespace
         DescriptionInfoContainer descriptions;
 
         auto key = GetPropertyKey(property, context);
-        if (!key || key->empty())
+        if (!key || !validKey(*key))
             return nullptr;
 
         auto element = make_element<MemberElement>(std::move(key),

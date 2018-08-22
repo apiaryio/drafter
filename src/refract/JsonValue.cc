@@ -308,38 +308,10 @@ namespace
                 return;
             }
 
-        if (isVariable(element)) {
-            if (const auto* strKeyEl = get<const StringElement>(elementKey)) {
-                if (!strKeyEl->empty()) {
-                    LOG(warning) << "improvised variable key; sample shall be used as key sample";
-                    const auto& strKey = strKeyEl->get().get();
-                    emplace_unique(obj, strKey, renderValue(*elementValue, passFlags(options)));
-                    return;
-                }
+        auto strKey = renderKey(*elementKey);
 
-            } else if (const auto* extend = get<const ExtendElement>(elementKey)) {
-                if (!extend->empty()) {
-                    auto merged = extend->get().merge();
-                    if (const auto* strKeyEl = get<const StringElement>(merged.get())) {
-                        if (!strKeyEl->empty()) {
-                            LOG(warning) << "improvised variable key; sample shall be used as key sample";
-                            const auto& strKey = strKeyEl->get().get();
-                            emplace_unique(obj, strKey, renderValue(*elementValue, passFlags(options)));
-                            return;
-                        }
-                    } else {
-                        LOG(warning) << "variable property key does not resolve to String Element";
-                        assert(false);
-                    }
-                }
-            }
-
-            LOG(info) << "omitting variable property while rendering value";
-
-        } else {
-            auto strKey = key(element);
+        if (!strKey.empty())
             emplace_unique(obj, strKey, renderValue(*elementValue, passFlags(options)));
-        }
     }
 
     void renderProperty(so::Object& obj, const RefElement& element, TypeAttributes options)
