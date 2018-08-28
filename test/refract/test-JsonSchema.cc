@@ -549,6 +549,38 @@ SCENARIO("JSON Schema serialization of EnumElement", "[json-schema]")
     }
 }
 
+SCENARIO("JSON Schema anyOf reduction", "[json-schema][anyOf]")
+{
+    GIVEN("An empty EnumElement with non-empty enumerations nesting other enums")
+    {
+        auto nestedEnum = make_empty<EnumElement>();
+        nestedEnum->attributes().set("enumerations",
+            make_element<ArrayElement>(          //
+                from_primitive("Hello world!"),  //
+                make_empty<NullElement>(),       //
+                make_element<ArrayElement>(      //
+                    make_empty<StringElement>(), //
+                    from_primitive(true))));
+
+        auto el = make_empty<EnumElement>();
+        el->attributes().set("enumerations",
+            make_element<ArrayElement>(      //
+                from_primitive(false),       //
+                make_empty<NumberElement>(), //
+                std::move(nestedEnum)));
+
+        WHEN("a JSON Schema is generated from it")
+        {
+            auto result = schema::generateJsonSchema(*el);
+
+            THEN("the schema matches a booleans, numbers, string, null and arrays")
+            {
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","anyOf":[{"type":"boolean"},{"type":"number"},{"type":"string"},{"type":"null"},{"type":"array"}]})");
+            }
+        }
+    }
+}
+
 SCENARIO("JSON Schema serialization of ObjectElement", "[json-schema]")
 {
     GIVEN("An empty ObjectElement")

@@ -11,6 +11,7 @@
 #include "../ElementData.h"
 #include "../utils/log/Trivial.h"
 #include "../utils/so/JsonIo.h"
+#include "../utils/Variant.h"
 #include "Element.h"
 #include "ElementIfc.h"
 #include "ElementUtils.h"
@@ -243,6 +244,16 @@ namespace
 
 namespace
 {
+    ///
+    /// Reduce JSON Schema in-memory; currently only flattens nested `anyOf`s
+    ///
+    /// @param schema   JSON Schema to be reduced
+    ///
+    void reduce(so::Object& schema);
+} // namespace
+
+namespace
+{
     void renderProperty(ObjectSchema& s, const MemberElement& e, TypeAttributes options);
     void renderProperty(ObjectSchema& s, const RefElement& e, TypeAttributes options);
     void renderProperty(ObjectSchema& s, const SelectElement& e, TypeAttributes options);
@@ -301,6 +312,8 @@ so::Object schema::generateJsonSchema(const IElement& el)
     addSchemaVersion(result);
     renderSchema(result, el, TypeAttributes{});
 
+    reduce(result);
+
     return result;
 }
 
@@ -349,7 +362,7 @@ namespace
             if (!e.empty())
                 for (const auto& entry : e.get()) {
                     assert(entry);
-                    items.data.emplace_back(makeSchema(*entry, inheritOrPassFlags(options, *entry)));
+                    so::emplace_unique(items, makeSchema(*entry, inheritOrPassFlags(options, *entry)));
                 }
 
             auto& schema = wrapNullable(s, options);
@@ -397,7 +410,7 @@ namespace
 
             for (const auto& enumEntry : enums->get()) {
                 assert(enumEntry);
-                anyOf.data.emplace_back(makeSchema(*enumEntry, inheritFlags(options)));
+                so::emplace_unique(anyOf, makeSchema(*enumEntry, inheritFlags(options)));
             }
         } else {
             LOG(warning) << "Enum Element SHALL hold enumerations attribute; interpreting as empty";
@@ -586,5 +599,59 @@ namespace
         refract::visit(e, [schemaPtr, options](const auto& el) { //
             renderProperty(*schemaPtr, el, options);
         });
+    }
+} // namespace
+
+namespace
+{
+    so::Array* findAnyOf(so::Object& schema)
+    {
+        if (so::Value* anys = so::find(schema, "anyOf"))
+            return &drafter::utils::get<so::Array>(*anys);
+        return nullptr;
+    }
+
+    so::Object* flattenAnyOfs(so::Value& schema);
+
+    so::Object* flattenAnyOfsSpecific(so::Object& schema)
+    {
+        if (so::Array* anyOf = findAnyOf(schema)) {
+
+            so::Array newAnyOf{};
+            for (auto& entry : anyOf->data)
+                if (so::Object* subAnyOf = flattenAnyOfs(entry)) {
+                    auto& subAnyOfArray = drafter::utils::get<so::Array>(subAnyOf->data.back().second);
+                    for (auto& subEntry : subAnyOfArray.data)
+                        so::emplace_unique(newAnyOf, std::move(subEntry));
+
+                } else {
+                    newAnyOf.data.emplace_back(std::move(entry));
+                }
+
+            schema.data.back().second = std::move(newAnyOf);
+            return &schema;
+        }
+
+        for (auto& entry : schema.data)
+            flattenAnyOfs(entry.second);
+
+        return nullptr;
+    }
+
+    template <typename T>
+    so::Object* flattenAnyOfsSpecific(T& schema)
+    {
+        // do nothing
+        return nullptr;
+    }
+
+    so::Object* flattenAnyOfs(so::Value& schema)
+    {
+        return visit(schema, [](auto& s) { return flattenAnyOfsSpecific(s); });
+    }
+
+    void reduce(so::Object& schema)
+    {
+        flattenAnyOfsSpecific(schema);
     }
 } // namespace

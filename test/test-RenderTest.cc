@@ -57,3 +57,5 @@ TEST_REFRACT("render", "issue-547");
 TEST_REFRACT("render", "nullable-samples");
 
 TEST_REFRACT("render", "numbers");
+
+TEST_REFRACT("render", "issue-566");

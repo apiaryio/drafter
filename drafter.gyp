@@ -270,6 +270,7 @@
         "src/utils/Utf8.h",
         "src/utils/Utils.h",
         "src/utils/so/Value.h",
+        "src/utils/so/Value.cc",
         "src/utils/so/JsonIo.h",
         "src/utils/so/JsonIo.cc",
         "src/utils/so/YamlIo.h",
