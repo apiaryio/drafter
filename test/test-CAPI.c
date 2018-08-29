@@ -103,11 +103,37 @@ int test_validation()
     return 0;
 }
 
+const char* source_without_name = "# GET /\n+ Response 204\n";
+const char* expected_without_name = "expected API name, e.g. '# <API Name>'";
+
+int test_parse_to_string_requiring_name()
+{
+
+    drafter_parse_options parseOptions = { true };
+    drafter_serialize_options options;
+    options.sourcemap = false;
+    options.format = DRAFTER_SERIALIZE_YAML;
+
+    char* result = 0;
+
+    int status = drafter_parse_blueprint_to(source_without_name, &result, parseOptions, options);
+
+    assert(status != 0);
+    assert(result);
+
+    assert(strstr(result, expected_without_name) != 0);
+
+    free(result);
+
+    return 0;
+};
+
 int main()
 {
     assert(test_parse_and_serialize() == 0);
     assert(test_parse_to_string() == 0);
     assert(test_version() == 0);
     assert(test_validation() == 0);
+    assert(test_parse_to_string_requiring_name() == 0);
     return 0;
 }
