@@ -1,12 +1,45 @@
 # Drafter Changelog
 
-## master
+## 4.0.0-pre1
 
 ### Breaking
 
-* changes in Enumeration implemetation 
-    * samples are now collected as collection of individual elements
-    * warning on multiple default definitions
+* This release contains numerous changes to enumerations which affect how
+  enumerations are serialised in API Elements.
+    * See [API Elements 1.0](http://apielements.org/) for further specification
+      on the format of the enumerations.
+    * Samples are now collected as collection of individual elements.
+    * The parser will now emit a warning when you define multiple default
+      values for an enumeration.
+
+* Descriptions for MSON structures are no longer found in generated JSON Schemas.
+
+### Enhancements
+
+* Significant performance improvements have been made to this release and
+  parse times for API Blueprints are halved.
+
+### Bug Fixes
+
+* Large numbers will no longer be clipped and numbers will be rendered how
+  they was described. For example `10.00` will be rendered as `10.00` and not `10`.
+  [#443](https://github.com/apiaryio/drafter/issues/443)
+
+* JSON Schema will no longer contain redundant anyOf entries when using
+  fixed-type arrays.
+  [#566](https://github.com/apiaryio/drafter/issues/566)
+
+* Restored handling API Blueprints where referencing an unknown type inside an
+  `array[]` would cause an assertion failure instead of a parsing error.
+  [#556](https://github.com/apiaryio/drafter/issues/556)
+
+* Fix parsing MSON object structures where a property is declared without a
+  key. This was causing an assertion failure instead of a parse error.
+  [#547](https://github.com/apiaryio/drafter/issues/547)
+
+* JSON Schema generation will no longer include duplicate required properties
+  when a property in MSON structure is duplicated.
+  [#493](https://github.com/apiaryio/drafter/issues/493)
 
 ## 4.0.0-pre0
 
