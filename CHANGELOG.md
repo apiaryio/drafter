@@ -62,14 +62,14 @@
 * Instead of returning int, functions that may error return `drafter_error`
   type. This adds additional type-safety when handling errors.
 
-## Bug Fixes
+### Bug Fixes
 
 * Fix JSON Schema "required" for multiple defined members
   [#493](https://github.com/apiaryio/drafter/issues/493)
 
 ## 3.2.7
 
-## Bug Fixes
+### Bug Fixes
 
 * Fix JSON Schema for OneOf when required is present.
   [#453](https://github.com/apiaryio/drafter/issues/453)
