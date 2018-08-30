@@ -1,6 +1,6 @@
 # Drafter Changelog
 
-## 4.0.0-pre1
+## 4.0.0-pre.1
 
 ### Breaking
 
@@ -41,7 +41,7 @@
   when a property in MSON structure is duplicated.
   [#493](https://github.com/apiaryio/drafter/issues/493)
 
-## 4.0.0-pre0
+## 4.0.0-pre.0
 
 ### Breaking
 
