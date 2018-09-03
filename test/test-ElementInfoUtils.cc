@@ -141,7 +141,7 @@ SCENARIO("Merging complex ElementInfo", "[ElementInfo][merge]")
         Container c;
         Info i;
         i.value.emplace_back(refract::make_element<refract::StringElement>("test"));
-        i.sourceMap = std::move(make_sourcemap<E>({ { 4, 2 } }));
+        i.sourceMap = make_sourcemap<E>({ { 4, 2 } });
         c.emplace_back(std::move(i));
 
         WHEN("it is merged")
@@ -179,13 +179,13 @@ SCENARIO("Merging complex ElementInfo", "[ElementInfo][merge]")
 
         Info i1;
         i1.value.emplace_back(refract::make_element<refract::StringElement>("test"));
-        i1.sourceMap = std::move(make_sourcemap<E>({ { 4, 2 } }));
+        i1.sourceMap = make_sourcemap<E>({ { 4, 2 } });
         c.emplace_back(std::move(i1));
 
         Info i2;
         i2.value.emplace_back(refract::make_element<refract::NumberElement>(2));
         i2.value.emplace_back(refract::make_element<refract::StringElement>("computadora"));
-        i2.sourceMap = std::move(make_sourcemap<E>({ { 10, 20 } }));
+        i2.sourceMap = make_sourcemap<E>({ { 10, 20 } });
         c.emplace_back(std::move(i2));
 
         WHEN("it is merged")
@@ -273,12 +273,12 @@ SCENARIO("Cloning InfoElementsContainer")
 
         Info i1;
         i1.value.emplace_back(refract::make_element<refract::StringElement>("test"));
-        i1.sourceMap = std::move(make_sourcemap<E>({ { 4, 2 } }));
+        i1.sourceMap = make_sourcemap<E>({ { 4, 2 } });
         c.emplace_back(std::move(i1));
 
         Info i2;
         i2.value.emplace_back(refract::make_element<refract::NumberElement>(2));
-        i2.sourceMap = std::move(make_sourcemap<E>({ { 10, 20 } }));
+        i2.sourceMap = make_sourcemap<E>({ { 10, 20 } });
         c.emplace_back(std::move(i2));
 
         WHEN("It is cloned")

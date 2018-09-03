@@ -788,8 +788,8 @@ namespace
 
             auto valuesInfo = Merge<EnumElement>()(std::move(data.values));
             auto hintsInfo = Merge<EnumElement>()(std::move(data.hints));
-            auto samplesInfo = Merge<EnumElement>()(std::move(CloneElementInfoContainer<T>(data.samples)));
-            auto defaultInfo = Merge<EnumElement>()(std::move(CloneElementInfoContainer<T>(data.defaults)));
+            auto samplesInfo = Merge<EnumElement>()(CloneElementInfoContainer<T>(data.samples));
+            auto defaultInfo = Merge<EnumElement>()(CloneElementInfoContainer<T>(data.defaults));
 
             dsd::Array enums;
 
@@ -1055,7 +1055,7 @@ namespace
 
         AttachSourceMap(*key, MakeNodeInfo(property.node->name.literal, sourceMap));
 
-        return std::move(key);
+        return key;
     }
 
     bool validKey(const StringElement& element)
