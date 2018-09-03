@@ -156,6 +156,30 @@
                                 "content": {
                                   "key": {
                                     "element": "string",
+                                    "content": "valid_postfix"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": 1.111111e-1
+                                  }
+                                }
+                              },
+                              {
+                                "element": "member",
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": {
+                                  "key": {
+                                    "element": "string",
                                     "content": "fixed_feasible_little"
                                   },
                                   "value": {
@@ -235,6 +259,110 @@
                                     "content": 1.111111e-9991919919199919191999191919991919199191991111
                                   }
                                 }
+                              },
+                              {
+                                "element": "member",
+                                "content": {
+                                  "key": {
+                                    "element": "string",
+                                    "content": "invalid_leading_zeros"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": 0
+                                  }
+                                }
+                              },
+                              {
+                                "element": "member",
+                                "content": {
+                                  "key": {
+                                    "element": "string",
+                                    "content": "invalid_just_string"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": 0
+                                  }
+                                }
+                              },
+                              {
+                                "element": "member",
+                                "content": {
+                                  "key": {
+                                    "element": "string",
+                                    "content": "invalid_prefix"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": 0
+                                  }
+                                }
+                              },
+                              {
+                                "element": "member",
+                                "content": {
+                                  "key": {
+                                    "element": "string",
+                                    "content": "invalid_postfix"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": 0
+                                  }
+                                }
+                              },
+                              {
+                                "element": "member",
+                                "content": {
+                                  "key": {
+                                    "element": "string",
+                                    "content": "invalid_too_much_minus"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": 0
+                                  }
+                                }
+                              },
+                              {
+                                "element": "member",
+                                "content": {
+                                  "key": {
+                                    "element": "string",
+                                    "content": "invalid_infinity"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": 0
+                                  }
+                                }
+                              },
+                              {
+                                "element": "member",
+                                "content": {
+                                  "key": {
+                                    "element": "string",
+                                    "content": "invalid_minus_infinity"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": 0
+                                  }
+                                }
+                              },
+                              {
+                                "element": "member",
+                                "content": {
+                                  "key": {
+                                    "element": "string",
+                                    "content": "invalid_nan"
+                                  },
+                                  "value": {
+                                    "element": "number",
+                                    "content": 0
+                                  }
+                                }
                               }
                             ]
                           }
@@ -258,7 +386,7 @@
                               "content": "application/json"
                             }
                           },
-                          "content": "{\n  \"feasible_little\": -421795144078094336,\n  \"feasible_lot\": 421795144078094336,\n  \"almost_singularity\": 5.3294960e23432895290452894028940264562935939533848306802,\n  \"far_below_planck\": 1.111111e-9991919919199919191999191919991919199191991111,\n  \"fixed_feasible_little\": -421795144078094336,\n  \"fixed_feasible_lot\": 421795144078094336,\n  \"fixed_almost_singularity\": 5.3294960e23432895290452894028940264562935939533848306802,\n  \"fixed_far_below_planck\": 1.111111e-9991919919199919191999191919991919199191991111\n}"
+                          "content": "{\n  \"feasible_little\": -421795144078094336,\n  \"feasible_lot\": 421795144078094336,\n  \"almost_singularity\": 5.3294960e23432895290452894028940264562935939533848306802,\n  \"far_below_planck\": 1.111111e-9991919919199919191999191919991919199191991111,\n  \"valid_postfix\": 1.111111e-1,\n  \"fixed_feasible_little\": -421795144078094336,\n  \"fixed_feasible_lot\": 421795144078094336,\n  \"fixed_almost_singularity\": 5.3294960e23432895290452894028940264562935939533848306802,\n  \"fixed_far_below_planck\": 1.111111e-9991919919199919191999191919991919199191991111,\n  \"invalid_leading_zeros\": 0,\n  \"invalid_just_string\": 0,\n  \"invalid_prefix\": 0,\n  \"invalid_postfix\": 0,\n  \"invalid_too_much_minus\": 0,\n  \"invalid_infinity\": 0,\n  \"invalid_minus_infinity\": 0,\n  \"invalid_nan\": 0\n}"
                         },
                         {
                           "element": "asset",
@@ -279,7 +407,7 @@
                               "content": "application/schema+json"
                             }
                           },
-                          "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"feasible_little\": {\n      \"type\": \"number\"\n    },\n    \"feasible_lot\": {\n      \"type\": \"number\"\n    },\n    \"almost_singularity\": {\n      \"type\": \"number\"\n    },\n    \"far_below_planck\": {\n      \"type\": \"number\"\n    },\n    \"fixed_feasible_little\": {\n      \"type\": \"number\",\n      \"enum\": [\n        -421795144078094336\n      ]\n    },\n    \"fixed_feasible_lot\": {\n      \"type\": \"number\",\n      \"enum\": [\n        421795144078094336\n      ]\n    },\n    \"fixed_almost_singularity\": {\n      \"type\": \"number\",\n      \"enum\": [\n        5.3294960e23432895290452894028940264562935939533848306802\n      ]\n    },\n    \"fixed_far_below_planck\": {\n      \"type\": \"number\",\n      \"enum\": [\n        1.111111e-9991919919199919191999191919991919199191991111\n      ]\n    }\n  }\n}"
+                          "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"feasible_little\": {\n      \"type\": \"number\"\n    },\n    \"feasible_lot\": {\n      \"type\": \"number\"\n    },\n    \"almost_singularity\": {\n      \"type\": \"number\"\n    },\n    \"far_below_planck\": {\n      \"type\": \"number\"\n    },\n    \"valid_postfix\": {\n      \"type\": \"number\",\n      \"enum\": [\n        1.111111e-1\n      ]\n    },\n    \"fixed_feasible_little\": {\n      \"type\": \"number\",\n      \"enum\": [\n        -421795144078094336\n      ]\n    },\n    \"fixed_feasible_lot\": {\n      \"type\": \"number\",\n      \"enum\": [\n        421795144078094336\n      ]\n    },\n    \"fixed_almost_singularity\": {\n      \"type\": \"number\",\n      \"enum\": [\n        5.3294960e23432895290452894028940264562935939533848306802\n      ]\n    },\n    \"fixed_far_below_planck\": {\n      \"type\": \"number\",\n      \"enum\": [\n        1.111111e-9991919919199919191999191919991919199191991111\n      ]\n    },\n    \"invalid_leading_zeros\": {\n      \"type\": \"number\"\n    },\n    \"invalid_just_string\": {\n      \"type\": \"number\"\n    },\n    \"invalid_prefix\": {\n      \"type\": \"number\"\n    },\n    \"invalid_postfix\": {\n      \"type\": \"number\"\n    },\n    \"invalid_too_much_minus\": {\n      \"type\": \"number\"\n    },\n    \"invalid_infinity\": {\n      \"type\": \"number\"\n    },\n    \"invalid_minus_infinity\": {\n      \"type\": \"number\"\n    },\n    \"invalid_nan\": {\n      \"type\": \"number\"\n    }\n  }\n}"
                         }
                       ]
                     }
@@ -290,6 +418,358 @@
           ]
         }
       ]
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
+      },
+      "attributes": {
+        "code": {
+          "element": "number",
+          "content": 4
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 791
+                    },
+                    {
+                      "element": "number",
+                      "content": 37
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "content": "invalid value format for 'number' type. please check mson specification for valid format"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
+      },
+      "attributes": {
+        "code": {
+          "element": "number",
+          "content": 4
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 838
+                    },
+                    {
+                      "element": "number",
+                      "content": 61
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "content": "invalid value format for 'number' type. please check mson specification for valid format"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
+      },
+      "attributes": {
+        "code": {
+          "element": "number",
+          "content": 4
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 909
+                    },
+                    {
+                      "element": "number",
+                      "content": 41
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "content": "invalid value format for 'number' type. please check mson specification for valid format"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
+      },
+      "attributes": {
+        "code": {
+          "element": "number",
+          "content": 4
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 960
+                    },
+                    {
+                      "element": "number",
+                      "content": 43
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "content": "invalid value format for 'number' type. please check mson specification for valid format"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
+      },
+      "attributes": {
+        "code": {
+          "element": "number",
+          "content": 4
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 1013
+                    },
+                    {
+                      "element": "number",
+                      "content": 44
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "content": "invalid value format for 'number' type. please check mson specification for valid format"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
+      },
+      "attributes": {
+        "code": {
+          "element": "number",
+          "content": 4
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 1067
+                    },
+                    {
+                      "element": "number",
+                      "content": 38
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "content": "invalid value format for 'number' type. please check mson specification for valid format"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
+      },
+      "attributes": {
+        "code": {
+          "element": "number",
+          "content": 4
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 1115
+                    },
+                    {
+                      "element": "number",
+                      "content": 45
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "content": "invalid value format for 'number' type. please check mson specification for valid format"
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "warning"
+            }
+          ]
+        }
+      },
+      "attributes": {
+        "code": {
+          "element": "number",
+          "content": 4
+        },
+        "sourceMap": {
+          "element": "array",
+          "content": [
+            {
+              "element": "sourceMap",
+              "content": [
+                {
+                  "element": "array",
+                  "content": [
+                    {
+                      "element": "number",
+                      "content": 1170
+                    },
+                    {
+                      "element": "number",
+                      "content": 28
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "content": "invalid value format for 'number' type. please check mson specification for valid format"
     }
   ]
 }

@@ -380,6 +380,7 @@
         "test/test-OneOfTest.cc",
         "test/test-SyntaxIssuesTest.cc",
         "test/test-ElementDataTest.cc",
+        "test/test-Serialize.cc",
 
         "test/utils/test-Variant.cc",
         "test/utils/test-Utf8.cc",
