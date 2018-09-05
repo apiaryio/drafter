@@ -18,7 +18,7 @@
     ],
     'configurations': {
       'Debug': {
-        'defines': [ 'DEBUG', '_DEBUG' ],
+        'defines': [ 'DEBUG', '_DEBUG', 'LOGGING' ],
         'cflags': [ '-g', '-O0' ],
         'conditions': [
           ['target_arch=="x64"', {
