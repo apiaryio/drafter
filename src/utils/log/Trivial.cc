@@ -9,8 +9,7 @@
 #include "Trivial.h"
 
 #ifdef LOGGING
-static_assert(false, "LOGGING...");
-#include <ofstream>
+#include <fstream>
 #endif
 
 using namespace drafter;
