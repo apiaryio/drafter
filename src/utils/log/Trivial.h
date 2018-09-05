@@ -9,14 +9,14 @@
 #ifndef DRAFTER_UTILS_LOG_TRIVIAL_H
 #define DRAFTER_UTILS_LOG_TRIVIAL_H
 
-#include <fstream>
 #include <mutex>
 #include <thread>
+#include <ostream>
 
 #define ENABLE_LOGGING (drafter::utils::log::trivial_log::instance().enable())
 
 // clang-format off
-#define LOG(svrty) (drafter::utils::log::trivial_entry<drafter::utils::log::svrty>{ drafter::utils::log::trivial_log::instance(), __LINE__, __FILE__ })
+#define LOG(svrty) (drafter::utils::log::trivial_entry{ drafter::utils::log::trivial_log::instance(), drafter::utils::log::svrty, __LINE__, __FILE__ })
 // clang-format on
 
 namespace drafter
@@ -35,56 +35,16 @@ namespace drafter
 
             const char* severity_to_str(severity s);
 
-            class trivial_log
-            {
-                mutable std::mutex write_mtx_;
-                std::ofstream out_;
-                bool enabled_ = false;
+            class trivial_log;
 
-            public:
-                static trivial_log& instance();
-
-            private:
-                trivial_log(const char* out_path);
-
-            public:
-                std::mutex& mtx() const
-                {
-                    return write_mtx_;
-                }
-
-                std::ostream& out()
-                {
-                    return out_;
-                }
-
-                void enable()
-                {
-                    std::lock_guard<std::mutex> lock(write_mtx_);
-                    enabled_ = true;
-                }
-
-                bool enabled() const noexcept
-                {
-                    return enabled_;
-                }
-            };
-
-            template <severity SEVERITY>
             class trivial_entry
             {
                 trivial_log& log_;
+                severity severity_;
                 std::lock_guard<std::mutex> log_lock_;
 
             public:
-                trivial_entry(trivial_log& log, size_t line, const char* file) : log_(log), log_lock_(log_.mtx())
-                {
-                    if (log.enabled()) {
-                        log_.out() << '[' << severity_to_str(SEVERITY) << "]";
-                        log_.out() << '[' << std::this_thread::get_id() << "]";
-                        log_.out() << '[' << file << ':' << line << "] ";
-                    }
-                }
+                trivial_entry(trivial_log& log, severity svrty, size_t line, const char* file);
 
                 trivial_entry(const trivial_entry&) = delete;
                 trivial_entry(trivial_entry&&) = delete;
@@ -92,37 +52,38 @@ namespace drafter
                 trivial_entry& operator=(const trivial_entry&) = delete;
                 trivial_entry& operator=(trivial_entry&&) = delete;
 
-                ~trivial_entry()
-                {
-                    if (log_.enabled())
-                        log_.out() << '\n'; // TODO @tjanc@ could throw
-                }
-
                 template <typename T>
-                trivial_entry& operator<<(T&& obj)
-                {
-                    if (log_.enabled())
-                        log_.out() << std::forward<T>(obj);
-                    return *this;
-                }
+                trivial_entry& operator<<(T&& obj);
+
+                ~trivial_entry();
             };
 
-#ifndef DEBUG
-            template <>
-            class trivial_entry<debug>
+            class trivial_log
             {
-            public:
-                constexpr trivial_entry(trivial_log& log, size_t line, const char* file) noexcept {}
+                mutable std::mutex write_mtx_;
+                std::ostream* out_ = nullptr;
 
-                template <typename T>
-                const trivial_entry<debug>& operator<<(T&& obj) const noexcept
-                {
-                    return *this;
-                }
+            public:
+                static trivial_log& instance();
+
+            private:
+                trivial_log() = default;
+
+            public:
+                std::mutex& mtx() const;
+                void enable();
+                std::ostream* out();
             };
-#endif
-        }
-    }
-}
+
+            template <typename T>
+            trivial_entry& trivial_entry::operator<<(T&& obj)
+            {
+                if (auto* out = log_.out())
+                    *out << std::forward<T>(obj);
+                return *this;
+            }
+        } // namespace log
+    }     // namespace utils
+} // namespace drafter
 
 #endif

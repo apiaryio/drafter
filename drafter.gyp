@@ -428,6 +428,7 @@
       "conditions" : [
         [ 'libdrafter_type=="static_library"', { 'defines' : [ 'DRAFTER_BUILD_STATIC' ] }],
       ],
+      "defines": ["LOGGING"],
       "sources": [
         "src/main.cc",
         "src/config.cc",
