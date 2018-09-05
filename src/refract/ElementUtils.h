@@ -70,7 +70,11 @@ namespace refract
 namespace refract
 {
     void setFixedTypeAttribute(IElement& e);
-}
+    void setTypeAttribute(IElement& e, const std::string& typeAttribute);
+    void setDefault(IElement& e, std::unique_ptr<IElement> deflt);
+    void addSample(IElement& e, std::unique_ptr<IElement> sample);
+    void addEnumeration(IElement& e, std::unique_ptr<IElement> enm);
+} // namespace refract
 
 namespace refract
 {
@@ -114,16 +118,7 @@ namespace refract
     /// @returns    an Element typing a single value representing the default;
     ///             nullptr iff default is not found
     ///
-    template <typename Element>
-    const Element* findDefault(const Element& e)
-    {
-        auto it = e.attributes().find("default");
-        if (it != e.attributes().end()) {
-            if (const auto& result = get<const Element>(it->second.get()))
-                return result;
-        }
-        return nullptr;
-    }
+    const IElement* findDefault(const IElement& e);
 
     ///
     /// Find the first sample value for an Element
@@ -131,36 +126,11 @@ namespace refract
     /// @returns    an Element typing a single value representing the sample;
     ///             nullptr iff sample is not found
     ///
-    template <typename Element>
-    const Element* findFirstSample(const Element& e)
-    {
-        auto it = e.attributes().find("samples");
-        if (it != e.attributes().end()) {
-            if (const auto& samples = get<const ArrayElement>(it->second.get()))
-                if (!samples->empty() && !samples->get().empty())
-                    if (const auto& result = get<const Element>(samples->get().begin()[0].get()))
-                        return result;
-        }
-        return nullptr;
-    }
+    const IElement* findFirstSample(const IElement& e);
 
-    template <typename Element>
-    bool definesValue(const Element& e)
-    {
-        return nullptr != findValue(e);
-    }
+    const IElement* findValue(const IElement& element);
 
-    template <typename Element>
-    const Element* findValue(const Element& element)
-    {
-        if (!element.empty())
-            return &element;
-        if (const Element* sample = findFirstSample(element))
-            return sample;
-        if (const Element* dfault = findDefault(element))
-            return dfault;
-        return nullptr;
-    }
+    bool definesValue(const IElement& e);
 
 } // namespace refract
 

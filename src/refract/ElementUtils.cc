@@ -31,10 +31,6 @@ Element* get(const IElement* e)
 
 bool refract::inheritsFixed(const IElement& e)
 {
-    // a default guarantees to be a valid value
-    if (hasDefault(e))
-        return true;
-
     // otherwise interpret based on specific Element
     return refract::visit(e, [](const auto& el) { //
         return inheritsFixed(el);
@@ -43,18 +39,12 @@ bool refract::inheritsFixed(const IElement& e)
 
 bool refract::inheritsFixed(const ObjectElement& e)
 {
-    if (e.empty())
-        return false;
-
-    return true;
+    return definesValue(e);
 }
 
 bool refract::inheritsFixed(const ArrayElement& e)
 {
-    if (e.empty())
-        return false;
-
-    return true;
+    return definesValue(e);
 }
 
 bool refract::inheritsFixed(const MemberElement& e)
@@ -89,17 +79,17 @@ bool refract::inheritsFixed(const NullElement& e)
 
 bool refract::inheritsFixed(const StringElement& e)
 {
-    return !e.empty() || hasDefault(e); // content or default
+    return definesValue(e);
 }
 
 bool refract::inheritsFixed(const NumberElement& e)
 {
-    return !e.empty() || hasDefault(e); // content or default
+    return definesValue(e);
 }
 
 bool refract::inheritsFixed(const BooleanElement& e)
 {
-    return !e.empty() || hasDefault(e); // content or default
+    return definesValue(e);
 }
 
 bool refract::inheritsFixed(const ExtendElement& e)
@@ -206,19 +196,101 @@ std::string refract::renderKey(const IElement& element)
 
 void refract::setFixedTypeAttribute(IElement& e)
 {
+    setTypeAttribute(e, "fixed");
+}
+
+void refract::setTypeAttribute(IElement& e, const std::string& typeAttribute)
+{
     auto typeAttrIt = e.attributes().find("typeAttributes");
     if (e.attributes().end() == typeAttrIt) {
-        e.attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
+        e.attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive(typeAttribute)));
     } else {
         if (auto* typeAttrs = get<ArrayElement>(typeAttrIt->second.get())) {
             const auto b = typeAttrs->get().begin();
             const auto e = typeAttrs->get().end();
-            if (e == std::find_if(b, e, [](const auto& el) { //
+            if (e == std::find_if(b, e, [&typeAttribute](const auto& el) { //
                     const auto* entry = get<const StringElement>(el.get());
-                    return entry && !entry->empty() && (entry->get().get() == "fixed");
+                    return entry && !entry->empty() && (entry->get().get() == typeAttribute);
                 })) {
-                typeAttrs->get().push_back(from_primitive("fixed"));
+                typeAttrs->get().push_back(from_primitive(typeAttribute));
             }
         }
     }
+}
+
+void refract::setDefault(IElement& e, std::unique_ptr<IElement> deflt)
+{
+    e.attributes().set("default", std::move(deflt));
+}
+
+void refract::addSample(IElement& e, std::unique_ptr<IElement> sample)
+{
+    auto it = e.attributes().find("samples");
+    if (it == e.attributes().end()) {
+        LOG(info) << "creating new samples entry";
+        e.attributes().set("samples", make_element<ArrayElement>(std::move(sample)));
+    } else if (ArrayElement* samples = get<ArrayElement>(it->second.get())) {
+        if (samples->empty()) {
+            LOG(error) << "empty Array Element in samples";
+            assert(false);
+        }
+        LOG(info) << "adding new sample";
+        e.attributes().set("samples", make_element<ArrayElement>(std::move(sample)));
+        samples->get().push_back(std::move(sample));
+    } else {
+        LOG(error) << "expected samples to be held in Array Element content";
+        assert(false);
+    }
+}
+
+void refract::addEnumeration(IElement& e, std::unique_ptr<IElement> enm)
+{
+    auto it = e.attributes().find("enumerations");
+    if (it == e.attributes().end())
+        e.attributes().set("enumerations", make_element<ArrayElement>(std::move(enm)));
+    else if (ArrayElement* enums = get<ArrayElement>(it->second.get())) {
+        if (enums->empty()) {
+            LOG(error) << "empty Array Element in enumerations";
+            assert(false);
+        }
+        enums->get().push_back(std::move(enm));
+    } else {
+        LOG(error) << "expected enumerations to be held in Array Element content";
+        assert(false);
+    }
+}
+
+const IElement* refract::findFirstSample(const IElement& e)
+{
+    auto it = e.attributes().find("samples");
+    if (it != e.attributes().end()) {
+        if (const auto& samples = get<const ArrayElement>(it->second.get()))
+            if (!samples->empty() && !samples->get().empty())
+                return samples->get().begin()[0].get();
+    }
+    return nullptr;
+}
+
+const IElement* refract::findDefault(const IElement& e)
+{
+    auto it = e.attributes().find("default");
+    if (it != e.attributes().end())
+        return it->second.get();
+    return nullptr;
+}
+
+const IElement* refract::findValue(const IElement& element)
+{
+    if (!element.empty())
+        return &element;
+    if (const IElement* sample = findFirstSample(element))
+        return sample;
+    if (const IElement* dfault = findDefault(element))
+        return dfault;
+    return nullptr;
+}
+
+bool refract::definesValue(const IElement& e)
+{
+    return nullptr != findValue(e);
 }
