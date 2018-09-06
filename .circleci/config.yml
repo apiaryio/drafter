@@ -23,22 +23,27 @@ aliases:
     environment:
       CXXFLAGS: '-Werror -Wno-error=unused-function -Wno-error=missing-braces'
 
+  - &tag-filter
+    filters:
+      tags:
+        only: /^v.*/
+
 workflows:
   version: 2
 
   drafter:
     jobs:
       - lint
-      - test-gcc5.4
-      - test-gcc6
-      - test-gcc7
-      #- test-gcc8
-      - test-clang4
-      - test-clang5
-      - test-clang6
-      - test-xcode9
-      - test-integration
-      - test-valgrind
+      - test-gcc5.4: *tag-filter
+      - test-gcc6: *tag-filter
+      - test-gcc7: *tag-filter
+      #- test-gcc8: *tag-filter
+      - test-clang4: *tag-filter
+      - test-clang5: *tag-filter
+      - test-clang6: *tag-filter
+      - test-xcode9: *tag-filter
+      - test-integration: *tag-filter
+      - test-valgrind: *tag-filter
       - release:
           requires:
             - test-gcc5.4
