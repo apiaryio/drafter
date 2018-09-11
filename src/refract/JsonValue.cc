@@ -26,25 +26,17 @@ using namespace drafter::utils::log;
 
 namespace
 {
-    using TypeAttributes = std::bitset<4>;
+    using TypeAttributes = std::bitset<2>;
     constexpr std::size_t FIXED_FLAG = 0;
-    constexpr std::size_t FIXED_TYPE_FLAG = 1;
-    constexpr std::size_t NULLABLE_FLAG = 2;
-    constexpr std::size_t REQUIRED_FLAG = 3;
+    constexpr std::size_t NULLABLE_FLAG = 1;
 
     TypeAttributes updateTypeAttributes(const IElement& element, TypeAttributes options) noexcept
     {
         if (hasFixedTypeAttr(element))
             options.set(FIXED_FLAG);
 
-        if (hasFixedTypeTypeAttr(element))
-            options.set(FIXED_TYPE_FLAG);
-
         if (hasNullableTypeAttr(element))
             options.set(NULLABLE_FLAG);
-
-        if (hasRequiredTypeAttr(element))
-            options.set(REQUIRED_FLAG);
 
         return options;
     }
@@ -56,9 +48,7 @@ namespace
 
     TypeAttributes inheritFlags(TypeAttributes options) noexcept
     {
-        options.reset(FIXED_TYPE_FLAG);
         options.reset(NULLABLE_FLAG);
-        options.reset(REQUIRED_FLAG);
         return options;
     }
 
@@ -103,6 +93,17 @@ namespace
     {
         LOG(error) << "invalid property element: " << element.element();
         assert(false);
+    }
+
+    template <typename Element>
+    void renderItemPrimitive(so::Array& array, const Element& element, TypeAttributes options)
+    {
+        options = updateTypeAttributes(element, options);
+
+        if ((options.test(FIXED_FLAG) || definesValue(element)))
+            array.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
+        else
+            LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
     }
 
     template <typename T>
@@ -151,10 +152,10 @@ namespace
     std::pair<bool, so::Value> renderSampleOrDefaultOrNull(const Element& element, TypeAttributes options)
     {
         if (const auto& sampleValue = findFirstSample(element))
-            return { true, renderValueSpecific(*sampleValue, options) };
+            return { true, renderValue(*sampleValue, options) };
 
         if (const auto& defaultValue = findDefault(element))
-            return { true, renderValueSpecific(*defaultValue, options) };
+            return { true, renderValue(*defaultValue, options) };
 
         if (options.test(NULLABLE_FLAG))
             return { true, so::Null{} };
@@ -210,11 +211,7 @@ namespace
         } else
             for (const auto& item : element.get()) {
                 assert(item);
-                if (options.test(FIXED_TYPE_FLAG) || options.test(FIXED_FLAG))
-                    renderProperty(
-                        result, *item, inheritOrPassFlags(options, *item) | TypeAttributes{}.set(REQUIRED_FLAG));
-                else
-                    renderProperty(result, *item, inheritOrPassFlags(options, *item));
+                renderProperty(result, *item, inheritOrPassFlags(options, *item));
             }
 
         return result;
@@ -247,6 +244,7 @@ namespace
             if (alt.first)
                 return std::move(alt.second);
 
+            LOG(info) << "no value found for EnumElement; searching in `enumerations`";
             auto enumerationsIt = element.attributes().find("enumerations");
             if (element.attributes().end() != enumerationsIt) {
                 const auto enums = get<const ArrayElement>(enumerationsIt->second.get());
@@ -285,17 +283,7 @@ namespace
 
     void renderProperty(so::Object& obj, const MemberElement& element, TypeAttributes options)
     {
-        if (hasFixedTypeAttr(element))
-            options.set(FIXED_FLAG);
-
-        options.set(FIXED_TYPE_FLAG, hasFixedTypeTypeAttr(element));
-        options.set(NULLABLE_FLAG, hasNullableTypeAttr(element));
-
-        if (hasRequiredTypeAttr(element))
-            options.set(REQUIRED_FLAG);
-
-        if (hasOptionalTypeAttr(element))
-            options.reset(REQUIRED_FLAG);
+        options = updateTypeAttributes(element, options);
 
         const auto* elementKey = element.get().key();
         const auto* elementValue = element.get().value();
@@ -349,14 +337,11 @@ namespace
 
     void renderProperty(so::Object& value, const ObjectElement& element, TypeAttributes options)
     {
-        if (hasFixedTypeAttr(element))
-            options.set(FIXED_FLAG);
-
-        if (!element.empty())
-            for (const auto& item : element.get()) {
-                assert(item);
-                renderProperty(value, *item, inheritFlags(options));
-            }
+        // OPTIM @tjanc@ avoid temporary container
+        so::Value mixinValue = renderValueSpecific(element, passFlags(options));
+        if (so::Object* mixinValueObject = get_if<so::Object>(mixinValue))
+            for (auto& property : mixinValueObject->data)
+                emplace_unique(value, std::move(property));
     }
 
     void renderProperty(so::Object& value, const ExtendElement& element, TypeAttributes options)
@@ -392,32 +377,17 @@ namespace
 
     void renderItemSpecific(so::Array& array, const NumberElement& element, TypeAttributes options)
     {
-        options = updateTypeAttributes(element, options);
-
-        if ((options.test(FIXED_FLAG) || definesValue(element)))
-            array.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
-        else
-            LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
+        renderItemPrimitive(array, element, options);
     }
 
     void renderItemSpecific(so::Array& array, const StringElement& element, TypeAttributes options)
     {
-        options = updateTypeAttributes(element, options);
-
-        if ((options.test(FIXED_FLAG) || definesValue(element)))
-            array.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
-        else
-            LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
+        renderItemPrimitive(array, element, options);
     }
 
     void renderItemSpecific(so::Array& array, const BooleanElement& element, TypeAttributes options)
     {
-        options = updateTypeAttributes(element, options);
-
-        if ((options.test(FIXED_FLAG) || definesValue(element)))
-            array.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
-        else
-            LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
+        renderItemPrimitive(array, element, options);
     }
 
     void renderItem(so::Array& array, const IElement& element, TypeAttributes options)

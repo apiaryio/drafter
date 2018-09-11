@@ -1065,7 +1065,7 @@ namespace
         if (!isReserved(element.element()))
             return true;
 
-        if (const StringElement* value = findValue(element))
+        if (const StringElement* value = get<const StringElement>(findValue(element)))
             // empty strings SHOULD NOT occur
             // TODO @tjanc@ decide whether too strict
             if (!value->get().get().empty())

@@ -134,6 +134,8 @@ namespace drafter
                     it->second = std::forward<ValueType>(value);
             }
 
+            void emplace_unique(Object& c, Object::container_type::value_type&& property);
+
             void emplace_unique(Array& c, Value&& value);
 
             Value* find(Object& c, const std::string& key);
