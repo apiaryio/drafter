@@ -68,3 +68,7 @@ tags
 
 # log
 *.log
+
+# CMake
+CMakeFiles/
+Makefile

@@ -1,12 +1,12 @@
-[submodule "ext/snowcrash/ext/markdown-parser/ext/sundown"]
-	path = ext/snowcrash/ext/markdown-parser/ext/sundown
+[submodule "ext/sundown"]
+	path = ext/sundown
 	url = https://github.com/apiaryio/sundown.git
-[submodule "test/vendor/Catch"]
-	path = test/vendor/Catch
+[submodule "ext/Catch"]
+	path = ext/Catch
 	url = https://github.com/catchorg/Catch2.git
 [submodule "ext/cmdline"]
 	path = ext/cmdline
 	url = https://github.com/apiaryio/cmdline.git
-[submodule "test/vendor/dtl"]
-	path = test/vendor/dtl
+[submodule "ext/dtl"]
+	path = ext/dtl
 	url = https://github.com/apiaryio/dtl

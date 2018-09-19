@@ -1,0 +1,7 @@
+include(CMakeFindDependencyMacro)
+find_dependency(snowcrash 1.0)
+find_dependency(Boost 1.66)
+find_dependency(cmdline 1.0)
+find_dependency(dtl 1.0)
+find_dependency(Catch2 1.0)
+include("${CMAKE_CURRENT_LIST_DIR}/drafter-targets.cmake")

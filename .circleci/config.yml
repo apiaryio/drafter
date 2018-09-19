@@ -12,7 +12,9 @@ aliases:
       - run:
           name: Build
           command: |
-            ./configure
+            mkdir build
+            cd build
+            cmake ..
             make -j4
       - run:
           name: Test
