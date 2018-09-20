@@ -109,6 +109,6 @@ namespace snowcrash
 
     /** MSON Property Member Section Parser */
     typedef SectionParser<mson::PropertyMember, ListSectionAdapter> MSONPropertyMemberParser;
-}
+} // namespace snowcrash
 
 #endif

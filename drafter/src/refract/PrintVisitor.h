@@ -68,6 +68,6 @@ namespace refract
     /// @return index of the file logged to
     ///
     int log_to_files(const IElement& e, const std::string& prefix = "print");
-}
+} // namespace refract
 
 #endif

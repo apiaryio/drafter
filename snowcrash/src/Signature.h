@@ -28,7 +28,7 @@ namespace snowcrash
      *  \return SectionType Type of the section if the line contains a keyword
      */
     extern SectionType RecognizeCodeBlockFirstLine(const mdp::ByteBuffer& subject);
-}
+} // namespace snowcrash
 
 namespace scpl
 {
@@ -100,6 +100,6 @@ namespace scpl
         {
         }
     };
-}
+} // namespace scpl
 
 #endif

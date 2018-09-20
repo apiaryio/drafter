@@ -67,7 +67,7 @@ namespace refract
         struct data_of<char[N]> {
             using type = dsd::String;
         };
-    }
-}
+    } // namespace dsd
+} // namespace refract
 
 #endif

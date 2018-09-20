@@ -490,6 +490,6 @@ namespace snowcrash
         /** An API Overview description */
         Description description;
     };
-}
+} // namespace snowcrash
 
 #endif

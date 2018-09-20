@@ -25,7 +25,7 @@ namespace refract
         };
 
         bool operator==(const Null&, const Null&) noexcept;
-    }
-}
+    } // namespace dsd
+} // namespace refract
 
 #endif

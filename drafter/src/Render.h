@@ -29,6 +29,6 @@ namespace drafter
 
     RenderFormat findRenderFormat(const std::string& contentType);
     std::string getContentTypeFromHeaders(const snowcrash::Headers& headers);
-}
+} // namespace drafter
 
 #endif

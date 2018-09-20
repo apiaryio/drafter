@@ -1,26 +1,43 @@
+version: '{build}'
+clone_folder: c:\projects\drafter
 image:
-  - Visual Studio 2015
-  - Visual Studio 2017
-
+- Visual Studio 2015
+- Visual Studio 2017
+configuration:
+- Release
+- Debug
+platform:
+- x64
 environment:
   matrix:
-    - VS_VERSION: 
-    - VS_VERSION: debug
+  - arch: Win64
+  # - arch: #does not work, Release|x64 not a valid target
+matrix:
+  fast_finish: true
 
-install:
-  - set PATH=C:\Ruby25\bin;%PATH%
+# skip unsupported combinations
+init:
+- set arch=
+- if "%arch%"=="Win64" ( set arch= Win64)
+- echo %arch%
+- echo %APPVEYOR_BUILD_WORKER_IMAGE%
+- if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set generator="Visual Studio 15 2017%arch%" )
+- if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" ( set generator="Visual Studio 14 2015%arch%" )
+- echo %generator%
 
-build_script:
-  - curl -O https://curl.haxx.se/ca/cacert.pem
-  - SET SSL_CERT_FILE=%cd%\cacert.pem
-  
-  - git submodule update --init --recursive
-  - rm Gemfile.lock
-  - bundle install --path bundle
+before_build:
+- cmd: |-
+    git submodule update --init --recursive
+    mkdir build
+    cd build
+    cmake --version
+    cmake .. -G %generator%
 
-  - vcbuild.bat %VS_VERSION%
+build:
+  project: c:\projects\drafter\build\Project.sln
+  verbosity: minimal
+  parallel: false
 
-test_script:
-
-  - vcbuild.bat %VS_VERSION% test
-  - vcbuild.bat %VS_VERSION% inttest
+test_script: |-
+  set CTEST_OUTPUT_ON_FAILURE=1
+  ctest -j4

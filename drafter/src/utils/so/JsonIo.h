@@ -22,7 +22,7 @@ namespace drafter
 
             std::ostream& serialize_json(std::ostream& out, const Value& obj);
             std::ostream& serialize_json(std::ostream& out, const Value& obj, packed);
-        }
-    }
-}
+        } // namespace so
+    }     // namespace utils
+} // namespace drafter
 #endif

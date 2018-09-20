@@ -114,7 +114,7 @@ namespace refract
 
         bool operator==(const String&, const String&) noexcept;
         bool operator!=(const String&, const String&) noexcept;
-    }
-}
+    } // namespace dsd
+} // namespace refract
 
 #endif

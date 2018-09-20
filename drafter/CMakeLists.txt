@@ -1,13 +1,12 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-project(drafter VERSION 0.1 LANGUAGES CXX)
+project(Drafter VERSION 4.0 LANGUAGES CXX)
 
-add_library(drafter
+set(DRAFTER_SOURCES
     src/utils/so/Value.cc
     src/utils/so/JsonIo.cc
     src/utils/so/YamlIo.cc
     src/utils/log/Trivial.cc
-    src/reporting.cc
     src/refract/dsd/Bool.cc
     src/refract/dsd/Member.cc
     src/refract/dsd/Object.cc
@@ -40,7 +39,6 @@ add_library(drafter
     src/Serialize.cc
     src/SerializeResult.cc
     src/RefractAPI.cc
-    src/config.cc
     src/drafter.cc
     src/RefractSourceMap.cc
     src/NamedTypesRegistry.cc
@@ -50,40 +48,143 @@ add_library(drafter
     src/RefractElementFactory.cc
     )
 
-add_executable(drafter-tui src/main.cc)
-set_target_properties(drafter-tui PROPERTIES OUTPUT_NAME drafter)
+set(DRAFTER_COMPILE_FEATURES
+    cxx_alias_templates
+    cxx_alignas
+    cxx_alignof
+    cxx_attribute_deprecated
+    cxx_auto_type
+    cxx_constexpr
+    cxx_contextual_conversions
+    cxx_decltype
+    cxx_decltype_auto
+    cxx_defaulted_functions
+    cxx_defaulted_move_initializers
+    cxx_delegating_constructors
+    cxx_deleted_functions
+    cxx_digit_separators
+    cxx_explicit_conversions
+    cxx_final
+    cxx_generalized_initializers
+    cxx_generic_lambdas
+    cxx_inheriting_constructors
+    cxx_lambdas
+    cxx_lambda_init_captures
+    cxx_noexcept
+    cxx_nonstatic_member_init
+    cxx_nullptr
+    cxx_override
+    cxx_range_for
+    cxx_raw_string_literals
+    cxx_return_type_deduction
+    cxx_rvalue_references
+    cxx_sizeof_member
+    cxx_static_assert
+    cxx_strong_enums
+    cxx_thread_local
+    cxx_trailing_return_types
+    cxx_unicode_literals
+    cxx_uniform_initialization
+    cxx_unrestricted_unions
+    cxx_user_literals
+    cxx_variable_templates
+    cxx_variadic_macros
+    cxx_variadic_templates
+    cxx_template_template_parameters
+    )
 
+# libdrafter
+add_library(drafter SHARED ${DRAFTER_SOURCES})
+add_library(drafter-static STATIC ${DRAFTER_SOURCES})
+add_library(drafter-pic STATIC ${DRAFTER_SOURCES})
+set_property(TARGET drafter-pic PROPERTY POSITION_INDEPENDENT_CODE 1)
+
+set_target_properties(drafter PROPERTIES PUBLIC_HEADER "src/drafter.h")
+
+# production dependencies
 find_package(snowcrash 1.0 REQUIRED)
-find_package(Boost 1.66 REQUIRED)
+find_package(BoostContainer 1.66 REQUIRED)
 find_package(cmdline 1.0 REQUIRED)
 
 target_link_libraries(drafter
-    PUBLIC
-        snowcrash::snowcrash
     PRIVATE
-        cmdline::cmdline # TODO @tjanc@ should be a dep of drafter-tui
+        snowcrash::snowcrash-pic
+        Boost::container-pic
+    )
+
+target_link_libraries(drafter-pic
+    PRIVATE
+        snowcrash::snowcrash-pic
+        Boost::container-pic
+    )
+
+target_link_libraries(drafter-static
+    PRIVATE
+        snowcrash::snowcrash-static
+        Boost::container-static
+    )
+
+target_include_directories(drafter PUBLIC
+    $<BUILD_INTERFACE:${Drafter_BINARY_DIR}/src>
+    $<BUILD_INTERFACE:${Drafter_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:src>
+    )
+
+target_include_directories(drafter-static PUBLIC
+    $<BUILD_INTERFACE:${Drafter_BINARY_DIR}/src>
+    $<BUILD_INTERFACE:${Drafter_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:src>
+    )
+
+target_include_directories(drafter-pic PUBLIC
+    $<BUILD_INTERFACE:${Drafter_BINARY_DIR}/src>
+    $<BUILD_INTERFACE:${Drafter_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:src>
+    )
+
+
+target_compile_definitions(drafter PRIVATE BUILDING_DRAFTER=1)
+target_compile_definitions(drafter-static PRIVATE BUILDING_DRAFTER=1)
+target_compile_definitions(drafter-pic PRIVATE BUILDING_DRAFTER=1)
+
+target_compile_definitions(drafter PUBLIC DRAFTER_BUILD_SHARED=1)
+
+target_compile_features(drafter PUBLIC ${DRAFTER_COMPILE_FEATURES})
+target_compile_features(drafter-static PUBLIC ${DRAFTER_COMPILE_FEATURES})
+target_compile_features(drafter-pic PUBLIC ${DRAFTER_COMPILE_FEATURES})
+
+# drafter-tui
+add_executable(drafter-tui
+    src/main.cc
+    src/reporting.cc
+    src/config.cc
     )
 
 target_link_libraries(drafter-tui
     PRIVATE
-        drafter::drafter
+        snowcrash::snowcrash-static
+        drafter::drafter-static
+        cmdline::cmdline
     )
 
-target_include_directories(drafter
-    PUBLIC
-        $<BUILD_INTERFACE:${drafter_BINARY_DIR}/src>
-        $<BUILD_INTERFACE:${drafter_SOURCE_DIR}/src>
-        $<INSTALL_INTERFACE:src>
-    )
+set_target_properties(drafter-tui PROPERTIES OUTPUT_NAME drafter)
+if(UNIX)
+        set_target_properties(drafter-static PROPERTIES OUTPUT_NAME drafter)
+endif()
 
-target_compile_features(drafter PUBLIC cxx_std_14)
-
-install(TARGETS drafter EXPORT drafter-targets
+install(TARGETS drafter drafter-static drafter-pic drafter-tui EXPORT drafter-targets
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
     INCLUDES DESTINATION include
+    PUBLIC_HEADER DESTINATION include
     )
+
+# libdrafter tests
+if(${BUILD_TESTING})
+    include(drafter-tests.cmake)
+endif()
+
 
 install(EXPORT drafter-targets
     FILE drafter-targets.cmake
@@ -96,70 +197,17 @@ write_basic_package_version_file("drafter-config-version.cmake"
     VERSION ${drafter_VERSION}
     COMPATIBILITY SameMajorVersion
     )
-install(FILES "drafter-config.cmake" "drafter-config-version.cmake"
-    DESTINATION lib/cmake/drafter
+
+install(
+    FILES
+        "drafter-config.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/drafter-config-version.cmake"
+    DESTINATION
+        lib/cmake/drafter
     )
 
 add_library(drafter::drafter ALIAS drafter)
+add_library(drafter::drafter-static ALIAS drafter-static)
+add_library(drafter::drafter-pic ALIAS drafter-pic)
 
-# tests
-find_package(Catch2 1.0 REQUIRED)
-
-add_executable(drafter-test
-    test/utils/test-Utf8.cc
-    test/utils/so/test-YamlIo.cc
-    test/utils/so/test-JsonIo.cc
-    test/utils/test-Variant.cc
-    test/test-RefractAPITest.cc
-    test/test-ElementComparator.cc
-    test/refract/dsd/test-Option.cc
-    test/refract/dsd/test-Object.cc
-    test/refract/dsd/test-Select.cc
-    test/refract/dsd/test-Extend.cc
-    test/refract/dsd/test-String.cc
-    test/refract/dsd/test-Holder.cc
-    test/refract/dsd/test-Element.cc
-    test/refract/dsd/test-Array.cc
-    test/refract/dsd/test-Number.cc
-    test/refract/dsd/test-Ref.cc
-    test/refract/dsd/test-InfoElements.cc
-    test/refract/dsd/test-Null.cc
-    test/refract/dsd/test-Bool.cc
-    test/refract/dsd/test-Member.cc
-    test/refract/dsd/test-Enum.cc
-    test/refract/test-InfoElementsUtils.cc
-    test/refract/test-Utils.cc
-    test/refract/test-JsonSchema.cc
-    test/test-VisitorUtils.cc
-    test/test-SyntaxIssuesTest.cc
-    test/test-ApplyVisitorTest.cc
-    test/test-ElementDataTest.cc
-    test/test-RefractDataStructureTest.cc
-    test/test-ElementInfoUtils.cc
-    test/test-drafter.cc
-    test/test-ExtendElementTest.cc
-    test/test-ElementFactoryTest.cc
-    test/test-SchemaTest.cc
-    test/test-OneOfTest.cc
-    test/test-RefractParseResultTest.cc
-    test/test-RefractSourceMapTest.cc
-    test/test-CircularReferenceTest.cc
-    test/test-RenderTest.cc
-    )
-
-target_link_libraries(drafter-test
-    PRIVATE
-        Catch2::Catch2
-        dtl::dtl
-        drafter::drafter
-    )
-
-catch_discover_tests(drafter-test)
-
-file(
-    COPY
-        ${CMAKE_CURRENT_SOURCE_DIR}/test/fixtures/
-    DESTINATION
-        ${CMAKE_CURRENT_BINARY_DIR}/test/fixtures/
-    )
-
+ 

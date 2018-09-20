@@ -96,7 +96,7 @@ namespace drafter
                 !std::is_same<typename std::iterator_traits<T>::iterator_category, void>::value>::type> {
             static constexpr bool value = true;
         };
-    }
-}
+    } // namespace utils
+} // namespace drafter
 
 #endif

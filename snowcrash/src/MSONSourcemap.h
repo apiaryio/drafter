@@ -178,6 +178,6 @@ namespace snowcrash
     private:
         std::unique_ptr<SourceMap<mson::Elements> > m_elements;
     };
-}
+} // namespace snowcrash
 
 #endif

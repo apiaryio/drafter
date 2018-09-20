@@ -397,6 +397,6 @@ namespace snowcrash
 
     /** MSON Value Member Section Parser */
     typedef SectionParser<mson::ValueMember, ListSectionAdapter> MSONValueMemberParser;
-}
+} // namespace snowcrash
 
 #endif

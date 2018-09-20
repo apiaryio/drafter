@@ -24,5 +24,5 @@ namespace drafter
     class ConversionContext;
 
     void RegisterNamedTypes(const NodeInfo<snowcrash::Elements>& elements, ConversionContext& context);
-}
+} // namespace drafter
 #endif // #ifndef DRAFTER_NAMEDTYPESREGISRTY_H

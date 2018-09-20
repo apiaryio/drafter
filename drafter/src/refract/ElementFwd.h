@@ -26,7 +26,7 @@ namespace refract
         class Extend;
         class Option;
         class Select;
-    }
+    } // namespace dsd
 
     template <typename>
     class Element;
@@ -48,6 +48,6 @@ namespace refract
 
     using OptionElement = Element<dsd::Option>;
     using SelectElement = Element<dsd::Select>;
-}
+} // namespace refract
 
 #endif

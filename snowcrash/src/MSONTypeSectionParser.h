@@ -200,6 +200,6 @@ namespace snowcrash
 
     /** MSON Type Section (List) Section Parser */
     typedef SectionParser<mson::TypeSection, ListSectionAdapter> MSONTypeSectionListParser;
-}
+} // namespace snowcrash
 
 #endif

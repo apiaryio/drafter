@@ -61,6 +61,6 @@ namespace drafter
         std::copy(infoContainer.begin(), infoContainer.end(), std::back_inserter(copy));
         return std::move(copy);
     }
-}
+} // namespace drafter
 
 #endif //#ifndef DRAFTER_MERGEELEMENTINFO_H

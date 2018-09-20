@@ -22,6 +22,6 @@ namespace drafter
         const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context);
     std::unique_ptr<refract::IElement> ExpandRefract(
         std::unique_ptr<refract::IElement> element, ConversionContext& context);
-}
+} // namespace drafter
 
 #endif // #ifndef DRAFTER_REFRACTDATASTRUCTURE_H

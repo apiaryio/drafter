@@ -26,7 +26,8 @@ namespace refract
         ///
         /// Composable clone flags
         ///
-        typedef enum {
+        typedef enum
+        {
             cMeta = 0x01,                                   //< Clone meta
             cAttributes = 0x02,                             //< Clone attributes
             cValue = 0x04,                                  //< Clone value
@@ -124,6 +125,6 @@ namespace refract
     {
         return std::unique_ptr<ElementT>(static_cast<ElementT*>(el.clone(flags).release()));
     }
-}
+} // namespace refract
 
 #endif

@@ -108,7 +108,7 @@ namespace refract
 
             // FIXME: add check against recursive inheritance
             // walk recursive in registry and expand inheritance tree
-            for (const IElement *parent = registry.find(en); parent && !isReserved(en);
+            for (const IElement* parent = registry.find(en); parent && !isReserved(en);
                  en = parent->element(), parent = registry.find(en)) {
 
                 inheritance.push(clone(*parent, ((IElement::cAll ^ IElement::cElement) | IElement::cNoMetaId)));

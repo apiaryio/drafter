@@ -246,6 +246,6 @@ namespace refract
     const StringElement* GetDescription(const IElement& e);
 
     bool IsLiteral(const IElement& e);
-}
+} // namespace refract
 
 #endif /* REFRACT_VISITORUTILS_H */

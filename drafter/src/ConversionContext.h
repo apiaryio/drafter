@@ -38,5 +38,5 @@ namespace drafter
 
         void warn(const snowcrash::Warning& warning);
     };
-}
+} // namespace drafter
 #endif // #ifndef DRAFTER_CONVERSIONCONTEXT_H

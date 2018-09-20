@@ -1,29 +1,78 @@
 version: 2
 
 aliases:
-  - &test-base
+  - &test-base-no-backports
     working_directory: /tmp/drafter
     environment:
-      CXXFLAGS: '-Werror -Wno-error=unused-function'
-
     steps:
-      - checkout
-      - run: git submodule update --init --recursive
       - run:
-          name: Build
+          name: Install sudo
+          command: 'apt-get update && apt-get install -y sudo'
+      - run:
+          name: Install CMake
+          command: 'apt-get update && sudo apt-get install -y cmake'
+      - checkout
+      - run:
+          name: Update submodules
+          command: 'git submodule update --init --recursive'
+      - run:
+          name: Build & Test
           command: |
             mkdir build
             cd build
             cmake ..
-            make -j4
-      - run:
-          name: Test
-          command: make test -j4
+            CTEST_OUTPUT_ON_FAILURE=1 ctest -j4 -D ExperimentalBuild
+            CTEST_OUTPUT_ON_FAILURE=1 ctest -j4 -D ExperimentalTest
 
-  - &test-clang-base
-    <<: *test-base
+  - &test-xcode
+    working_directory: /tmp/drafter
     environment:
-      CXXFLAGS: '-Werror -Wno-error=unused-function -Wno-error=missing-braces'
+    steps:
+      - run:
+          name: Install CMake
+          command: 'brew install cmake'
+      - checkout
+      - run:
+          name: Update submodules
+          command: 'git submodule update --init --recursive'
+      - run:
+          name: Build & Test
+          command: |
+            mkdir build
+            cd build
+            cmake .. -G Xcode
+            CTEST_OUTPUT_ON_FAILURE=1 ctest -j4 -D ExperimentalBuild
+            CTEST_OUTPUT_ON_FAILURE=1 ctest -j4 -D ExperimentalTest
+
+  - &test-clang-base-no-backports
+    <<: *test-base-no-backports
+
+  - &test-base-backports
+    working_directory: /tmp/drafter
+    environment:
+    steps:
+      - run:
+          name: Install sudo
+          command: 'apt-get update && apt-get install -y sudo'
+      - run:
+          name: Install CMake jessie-backports
+          command: 'echo "deb http://ftp.debian.org/debian jessie-backports main" | sudo tee --append /etc/apt/sources.list && sudo apt-get update && sudo apt-get -t jessie-backports install -y --no-install-recommends cmake'
+      - checkout
+      - run:
+          name: Update submodules
+          command: 'git submodule update --init --recursive'
+      - run:
+          name: Build & Test
+          command: |
+            mkdir build
+            cd build
+            cmake ..
+            CTEST_OUTPUT_ON_FAILURE=1 ctest -j4 -D ExperimentalBuild
+            CTEST_OUTPUT_ON_FAILURE=1 ctest -j4 -D ExperimentalTest
+
+
+  - &test-clang-base-backports
+    <<: *test-base-backports
 
   - &tag-filter
     filters:
@@ -71,89 +120,108 @@ jobs:
 
     steps:
       - checkout
-      - run: git submodule update --init --recursive
       - run: ./tools/clang-format-check.sh
 
   test-gcc5.4:
-    <<: *test-base
+    <<: *test-base-backports
     docker:
       - image: gcc:5.4
 
   test-gcc6:
-    <<: *test-base
+    <<: *test-base-backports
     docker:
       - image: gcc:6
 
   test-gcc7:
-    <<: *test-base
+    <<: *test-base-no-backports
     docker:
       - image: gcc:7
 
   test-gcc8:
-    <<: *test-base
+    <<: *test-base-no-backports
     docker:
       - image: gcc:8
 
   test-clang4:
-    <<: *test-clang-base
+    <<: *test-clang-base-no-backports
     docker:
       - image: apiaryio/clang:4
 
   test-clang5:
-    <<: *test-clang-base
+    <<: *test-clang-base-no-backports
     docker:
       - image: apiaryio/clang:5
 
   test-clang6:
-    <<: *test-clang-base
+    <<: *test-clang-base-no-backports
     docker:
       - image: apiaryio/clang:6
 
   test-xcode9:
-    <<: *test-clang-base
+    <<: *test-xcode
     macos:
       xcode: "9.4.0"
 
   test-integration:
     docker:
-      - image: circleci/ruby:2.5.1
-    working_directory: /tmp/drafter
+        - image: gcc:7
 
     steps:
+      - run:
+          name: Install sudo
+          command: 'apt-get update && apt-get install -y sudo'
+      - run:
+          name: Install CMake
+          command: 'apt-get update && sudo apt-get install -y cmake'
+      - run:
+          name: Install Ruby
+          command: 'apt-get update && apt-get install -y ruby ruby-dev'
+
       - checkout
       - run: git submodule update --init --recursive
 
       - run:
-          name: Build
-          command: ./configure && make -j4
+          name: Build drafter executable (drafter-tui)
+          command: |
+            mkdir build
+            cd build
+            cmake ..
+            make drafter-tui -j4
+            cd ..
 
       - run:
-          name: Integration Test
-          command: bundle install && bundle exec cucumber
+          name: Drafter TUI integration tests
+          command: 'gem install bundler; bundle install && PATH="${PATH}:${PWD}/build/drafter" bundle exec cucumber'
 
   test-valgrind:
-    <<: *test-base
+    <<: *test-base-no-backports
     docker:
       - image: gcc:7
 
     steps:
+      - run:
+          name: Install sudo
+          command: 'apt-get update && apt-get install -y sudo'
+      - run:
+          name: Install CMake
+          command: 'apt-get update && sudo apt-get install -y cmake'
+      - run:
+          name: Install Valgrind
+          command: 'apt-get update && sudo apt-get install -y valgrind'
+
       - checkout
-      - run: git submodule update --init --recursive
-      - run: apt-get update && apt-get install -y valgrind
+      - run:
+          name: Update submodules
+          command: 'git submodule update --init --recursive'
 
       - run:
-          name: Build
+          name: Build drafter-test and memcheck unit tests
           command: |
-            ./configure
-            make -j4
-            make test -j4
-
-      - run:
-          name: Memory Test
-          command: |
-            mkdir artifacts
-            valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --error-exitcode=1 ./bin/test-libdrafter 2> artifacts/memcheck.log
-            valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --error-exitcode=1 ./bin/test-capi 2> artifacts/memcheck-capi.log
+            mkdir build
+            cd build
+            cmake ..
+            ctest -j4 -D ExperimentalBuild
+            ctest -j4 -D ExperimentalMemCheck
 
       - store_artifacts:
           path: artifacts
@@ -165,5 +233,5 @@ jobs:
 
     steps:
       - checkout
-      - run: git submodule update --init --recursive
+      - run: git submodule update --init --recursive --remote
       - run: ./tools/release.sh

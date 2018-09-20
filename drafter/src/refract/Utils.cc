@@ -31,7 +31,7 @@ namespace
                 return false;
         }
     };
-}
+} // namespace
 
 bool refract::operator==(const IElement& lhs, const IElement& rhs) noexcept
 {

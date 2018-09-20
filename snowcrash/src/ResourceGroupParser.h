@@ -300,6 +300,6 @@ namespace snowcrash
 
     /** ResourceGroup Section Parser */
     typedef SectionParser<ResourceGroup, HeaderSectionAdapter> ResourceGroupParser;
-}
+} // namespace snowcrash
 
 #endif

@@ -111,6 +111,6 @@ namespace snowcrash
             return !first.relation.str.empty() && !second.str.empty() && first.relation.str == second.str;
         }
     };
-}
+} // namespace snowcrash
 
 #endif

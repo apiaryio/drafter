@@ -212,4 +212,4 @@ namespace snowcrash
 
         return cur;
     }
-}
+} // namespace snowcrash

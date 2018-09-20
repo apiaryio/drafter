@@ -184,6 +184,6 @@ namespace drafter
     std::pair<bool, refract::dsd::Number> LiteralTo<refract::dsd::Number>(const mson::Literal& literal);
     template <>
     std::pair<bool, refract::dsd::String> LiteralTo<refract::dsd::String>(const mson::Literal& literal);
-}
+} // namespace drafter
 
 #endif

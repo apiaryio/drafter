@@ -101,6 +101,6 @@ namespace mdp
 
     /** Markdown AST nodes collection iterator */
     typedef MarkdownNodes::iterator MarkdownNodeIterator;
-}
+} // namespace mdp
 
 #endif

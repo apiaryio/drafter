@@ -99,6 +99,6 @@ namespace snowcrash
 
     /** MSON Mixin Section Parser */
     typedef SectionParser<mson::Mixin, ListSectionAdapter> MSONMixinParser;
-}
+} // namespace snowcrash
 
 #endif

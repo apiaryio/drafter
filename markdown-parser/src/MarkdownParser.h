@@ -104,6 +104,6 @@ namespace mdp
         static void blockDidParse(const src_map* map, const uint8_t* txt_data, size_t size, void* opaque);
         void blockDidParse(const BytesRangeSet& sourceMap);
     };
-}
+} // namespace mdp
 
 #endif

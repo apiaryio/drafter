@@ -34,7 +34,7 @@ namespace helper
             return drafter::AnnotationToRefract(annotation, key);
         }
     };
-}
+} // namespace helper
 
 std::unique_ptr<IElement> drafter::WrapRefract(
     snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, ConversionContext& context)

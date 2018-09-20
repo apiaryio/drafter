@@ -36,6 +36,6 @@ namespace drafter
 
     std::unique_ptr<refract::StringElement> LiteralToRefract(
         const NodeInfo<std::string>& literal, ConversionContext& context);
-}
+} // namespace drafter
 
 #endif // #ifndef DRAFTER_REFRACTSOURCEMAP_H

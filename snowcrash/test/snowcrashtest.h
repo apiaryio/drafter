@@ -187,6 +187,6 @@ namespace snowcrashtest
             check(sourceMap, loc2, len2, 2);
         }
     };
-}
+} // namespace snowcrashtest
 
 #endif

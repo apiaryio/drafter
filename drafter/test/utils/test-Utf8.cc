@@ -56,7 +56,7 @@ namespace
         std::make_pair(     256, "utf8_sequence_0-0xff_including-unassigned_including-unprintable-replaced_unseparated.txt")
     };
     // clang-format on
-}
+} // namespace
 
 SCENARIO("iteration over ASCII strings", "[utf8]")
 {

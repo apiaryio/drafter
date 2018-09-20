@@ -57,6 +57,6 @@ namespace snowcrash
 
     /** \return Human readable name for given %SectionType */
     extern std::string SectionName(const SectionType& section);
-}
+} // namespace snowcrash
 
 #endif

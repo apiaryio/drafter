@@ -347,7 +347,7 @@ namespace drafter
             }
         };
 
-    } // ns anonymous
+    } // namespace
 
     void RegisterNamedTypes(const NodeInfo<snowcrash::Elements>& elements, ConversionContext& context)
     {
@@ -415,4 +415,4 @@ namespace drafter
         std::cout << "==DEPENDENCIES INFO END==" << std::endl;
 #endif /* DEBUG_DEPENDENCIES */
     }
-} // ns drafter
+} // namespace drafter

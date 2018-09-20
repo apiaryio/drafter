@@ -19,6 +19,6 @@ namespace refract
     {
         drafter::utils::so::Object generateJsonSchema(const IElement& el);
     }
-}
+} // namespace refract
 
 #endif

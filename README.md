@@ -155,42 +155,105 @@ if (result) {
 | GCC      | 5.3 |
 | MSVC++   | 2015 |
 
-1. Clone the repo + fetch the submodules:
+### Instructions
+
+1. Clone repository with submodules:
 
     ```sh
     $ git clone --recursive git://github.com/apiaryio/drafter.git
     $ cd drafter
     ```
 
-2. Build & test Drafter:
+2. Build
 
     ```sh
-    $ ./configure
-    $ make test
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+    $ make
     ```
 
-    To include integration tests (using Cucumber) use the `--include-integration-tests` flag:
-
-    ```sh
-    $ ./configure --include-integration-tests
-    $ make test
-    ```
-
-We love **Windows** too! Please refer to [Building on Windows](https://github.com/apiaryio/drafter/wiki/Building-on-Windows).
-
-### Drafter command line tool
-1. Build `drafter`:
-
-    ```sh
-    $ make drafter
-    ```
-
-2. Install & use `drafter`:
-
+3. Install
+    
     ```sh
     $ sudo make install
+    ```
+
+    This achieves a system dependent installation such as
+
+    ```
+    <INSTALL> (for example /usr/local)
+    ├── bin
+    │   └── drafter
+    ├── include
+    │   └── drafter
+    │       └── drafter.h
+    └── lib
+        ├── cmake
+        │   └── drafter
+        │       ├── drafter-config.cmake
+        │       ├── drafter-config-version.cmake
+        │       ├── drafter-targets.cmake
+        │       └── drafter-targets-noconfig.cmake
+        ├── libdrafter.a
+        ├── libdrafter-pic.a
+        └── libdrafter.so
+    
+    6 directories, 9 files
+    ```
+
+#### Only build the drafter CLI
+
+Building drafter shared and PIC libraries can be skipped, allowing a much shorter build of the drafter CLI.
+
+1. Clone repository with submodules:
+
+    ```sh
+    $ git clone --recursive git://github.com/apiaryio/drafter.git
+    $ cd drafter
+    ```
+
+2. Build
+
+    ```sh
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+    $ make drafter-cli
+    ```
+
+3. Install
+    
+    ```sh
+    $ sudo make install/fast
     $ drafter --help
     ```
+
+#### Run tests
+
+The default build also includes tests. They are best run via `ctest`:
+```sh
+$ ctest
+```
+
+#### Parallelized build
+
+`make` and `ctest` allow us to specify the number of job queues via the `-j` flag:
+
+```sh
+$ make -j4
+$ ctest -j4
+```
+
+#### Install to custom directory
+
+To install into a given directory, replace `cmake ..` in the build instructions with
+
+```sh
+$ cmake .. -DCMAKE_INSTALL_PREFIX=path
+```
+
+where `path` is an absolute path to the given directory. 
 
 ## Bindings
 Drafter bindings in other languages:
