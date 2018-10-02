@@ -2095,9 +2095,23 @@ content:
                 content:
                   -
                     element: "number"
+                    attributes:
+                      line:
+                        element: "number"
+                        content: 39
+                      column:
+                        element: "number"
+                        content: 1
                     content: 685
                   -
                     element: "number"
+                    attributes:
+                      line:
+                        element: "number"
+                        content: 42
+                      column:
+                        element: "number"
+                        content: 1
                     content: 45
     content: "the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead"
   -
@@ -2124,9 +2138,23 @@ content:
                 content:
                   -
                     element: "number"
+                    attributes:
+                      line:
+                        element: "number"
+                        content: 55
+                      column:
+                        element: "number"
+                        content: 1
                     content: 992
                   -
                     element: "number"
+                    attributes:
+                      line:
+                        element: "number"
+                        content: 58
+                      column:
+                        element: "number"
+                        content: 1
                     content: 45
     content: "the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead"
   -
@@ -2153,8 +2181,22 @@ content:
                 content:
                   -
                     element: "number"
+                    attributes:
+                      line:
+                        element: "number"
+                        content: 14
+                      column:
+                        element: "number"
+                        content: 7
                     content: 200
                   -
                     element: "number"
+                    attributes:
+                      line:
+                        element: "number"
+                        content: 14
+                      column:
+                        element: "number"
+                        content: 108
                     content: 102
     content: "invalid value format for 'number' type. please check mson specification for valid format"
