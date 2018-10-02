@@ -103,15 +103,6 @@ namespace draftertest
 
     struct FixtureHelper {
 
-        static std::unique_ptr<refract::IElement> parseAndSerialize(const std::string& source,
-            snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-            const drafter::WrapperOptions& options)
-        {
-            drafter::ConversionContext context(source.c_str(), options);
-
-            return WrapRefract(blueprint, context);
-        }
-
         static const std::string printDiff(const std::string& actual, const std::string& expected)
         {
             // First, convert strings into arrays of lines.
@@ -151,10 +142,6 @@ namespace draftertest
             return ext::json;
         }
 
-        typedef std::unique_ptr<refract::IElement> (*Wrapper)(const std::string& source,
-            snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
-            const drafter::WrapperOptions& options);
-
         static bool handleResultJSON(
             const std::string& fixturePath, const drafter::WrapperOptions& options, bool mustBeOk = false)
         {
@@ -168,7 +155,9 @@ namespace draftertest
             int result = snowcrash::parse(source, snowcrash::ExportSourcemapOption, blueprint);
 
             std::ostringstream outStream;
-            if (auto parsed = parseAndSerialize(source, blueprint, options)) {
+            drafter::ConversionContext context(source.c_str(), options);
+
+            if (auto parsed = WrapRefract(blueprint, context)) {
                 auto soValue = refract::serialize::renderSo(*parsed, options.generateSourceMap);
                 drafter::utils::so::serialize_json(outStream, soValue);
             }
