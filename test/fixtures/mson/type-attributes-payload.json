@@ -219,10 +219,30 @@
                   "content": [
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 5
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 11
+                        }
+                      },
                       "content": 85
                     },
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 5
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 33
+                        }
+                      },
                       "content": 23
                     }
                   ]

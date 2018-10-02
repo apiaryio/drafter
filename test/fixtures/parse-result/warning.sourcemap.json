@@ -246,10 +246,30 @@
                   "content": [
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 3
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 1
+                        }
+                      },
                       "content": 24
                     },
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 3
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 13
+                        }
+                      },
                       "content": 13
                     }
                   ]
