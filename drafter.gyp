@@ -263,8 +263,12 @@
         "src/RefractElementFactory.cc",
         "src/ConversionContext.cc",
         "src/ConversionContext.h",
-        "src/ElementInfoUtils.h"
-        "src/ElementComparator.h"
+        "src/ElementInfoUtils.h",
+        "src/ElementComparator.h",
+
+
+        "src/SourceMapUtils.h",
+        "src/SourceMapUtils.cc",
 
         "src/utils/Variant.h",
         "src/utils/Utf8.h",

@@ -25,6 +25,8 @@
 
 #include "Version.h"
 
+#include "reporting.h"
+
 #include <string.h>
 
 DRAFTER_API drafter_error drafter_parse_blueprint_to(const char* source,
@@ -83,7 +85,7 @@ DRAFTER_API drafter_error drafter_parse_blueprint(
     sc::parse(source, scOptions, blueprint);
 
     drafter::WrapperOptions wrapperOptions;
-    drafter::ConversionContext context(wrapperOptions);
+    drafter::ConversionContext context(source, wrapperOptions);
     auto result = WrapRefract(blueprint, context);
 
     *out = result.release();

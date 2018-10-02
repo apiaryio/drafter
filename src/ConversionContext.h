@@ -10,6 +10,7 @@
 
 #include "refract/Registry.h"
 #include "snowcrash.h"
+#include "SourceMapUtils.h"
 
 namespace drafter
 {
@@ -19,8 +20,11 @@ namespace drafter
     class ConversionContext
     {
         refract::Registry registry;
+        NewLinesIndex newLinesIndex;
 
     public:
+        ConversionContext(const char* source, const WrapperOptions& options);
+
         const WrapperOptions& options;
         std::vector<snowcrash::Warning> warnings;
 
@@ -34,7 +38,10 @@ namespace drafter
             return registry;
         }
 
-        ConversionContext(const WrapperOptions& options) : options(options) {}
+        inline const NewLinesIndex& GetNewLinesIndex() const
+        {
+            return newLinesIndex;
+        }
 
         void warn(const snowcrash::Warning& warning);
     };

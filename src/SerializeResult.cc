@@ -26,12 +26,13 @@ namespace helper
     struct AnnotationToRefract {
 
         const std::string& key;
+        ConversionContext& context;
 
-        AnnotationToRefract(const std::string& key) : key(key) {}
+        AnnotationToRefract(const std::string& key, ConversionContext& context) : key(key), context(context) {}
 
         auto operator()(snowcrash::SourceAnnotation& annotation)
         {
-            return drafter::AnnotationToRefract(annotation, key);
+            return drafter::AnnotationToRefract(annotation, key, context);
         }
     };
 }
@@ -69,7 +70,7 @@ std::unique_ptr<IElement> drafter::WrapRefract(
     }
 
     if (blueprint.report.error.code != snowcrash::Error::OK) {
-        parseResult->get().push_back(helper::AnnotationToRefract(SerializeKey::Error)(blueprint.report.error));
+        parseResult->get().push_back(helper::AnnotationToRefract(SerializeKey::Error, context)(blueprint.report.error));
     }
 
     snowcrash::Warnings& warnings = blueprint.report.warnings;
@@ -82,7 +83,7 @@ std::unique_ptr<IElement> drafter::WrapRefract(
         std::transform(warnings.begin(),
             warnings.end(),
             std::back_inserter(parseResult->get()),
-            helper::AnnotationToRefract(SerializeKey::Warning));
+            helper::AnnotationToRefract(SerializeKey::Warning, context));
     }
 
     return parseResult;

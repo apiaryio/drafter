@@ -22,7 +22,7 @@ namespace drafter
     class ConversionContext;
 
     std::unique_ptr<refract::IElement> AnnotationToRefract(
-        const snowcrash::SourceAnnotation& annotation, const std::string& key);
+        const snowcrash::SourceAnnotation& annotation, const std::string& key, ConversionContext& context);
 
     std::unique_ptr<refract::IElement> DataStructureToRefract(
         const NodeInfo<snowcrash::DataStructure>& dataStructure, ConversionContext& context);

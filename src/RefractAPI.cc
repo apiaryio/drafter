@@ -26,6 +26,8 @@
 #include "NamedTypesRegistry.h"
 #include "ConversionContext.h"
 
+#include "reporting.h"
+
 using namespace drafter;
 using namespace refract;
 using namespace drafter::utils::log;
@@ -613,7 +615,7 @@ std::unique_ptr<IElement> drafter::BlueprintToRefract(
 }
 
 std::unique_ptr<IElement> drafter::AnnotationToRefract(
-    const snowcrash::SourceAnnotation& annotation, const std::string& key)
+    const snowcrash::SourceAnnotation& annotation, const std::string& key, ConversionContext& context)
 {
     auto element = from_primitive(annotation.message);
 
@@ -622,7 +624,8 @@ std::unique_ptr<IElement> drafter::AnnotationToRefract(
     element->meta().set(SerializeKey::Classes, make_element<ArrayElement>(from_primitive(key)));
 
     element->attributes().set(SerializeKey::AnnotationCode, from_primitive(annotation.code));
-    element->attributes().set(SerializeKey::SourceMap, SourceMapToRefract(annotation.location));
+    element->attributes().set(
+        SerializeKey::SourceMap, SourceMapToRefractWithColumnLineInfo(annotation.location, context));
 
     return std::move(element);
 }
