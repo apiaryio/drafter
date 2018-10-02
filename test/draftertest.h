@@ -17,25 +17,25 @@
 #include "Serialize.h"
 #include "SerializeResult.h"
 
-#define TEST_DRAFTER(description, category, name, tag, wrapper, options, mustBeOk)                                     \
-    TEST_CASE(description " " category " " name, "[" tag "][" category "][" name "]")                                  \
+static drafter::WrapperOptions MSONTestOptions(false, true);
+
+#define TEST_MSON(name, mustBeOk)                                                                                      \
+    TEST_CASE("Testing MSON serialization for " name, "[refract][MSON][" name "]")                                     \
     {                                                                                                                  \
-        REQUIRE(FixtureHelper::handleResultJSON(wrapper, "test/fixtures/" category "/" name, options, mustBeOk));      \
+        REQUIRE(FixtureHelper::handleResultJSON("test/fixtures/mson/" name, MSONTestOptions, mustBeOk));               \
     }
 
 #define TEST_REFRACT(category, name)                                                                                   \
     TEST_CASE("Testing refract serialization for " category " " name, "[refract][" category "][" name "]")             \
     {                                                                                                                  \
-        FixtureHelper::handleResultJSON(                                                                               \
-            &FixtureHelper::parseAndSerialize, "test/fixtures/" category "/" name, drafter::WrapperOptions(false));    \
+        FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, drafter::WrapperOptions(false));           \
     }
 
 #define TEST_REFRACT_SOURCE_MAP(category, name)                                                                        \
     TEST_CASE("Testing refract + source map serialization for " category " " name,                                     \
         "[refract_sourcemap][" category "][" name "]")                                                                 \
     {                                                                                                                  \
-        FixtureHelper::handleResultJSON(                                                                               \
-            &FixtureHelper::parseAndSerialize, "test/fixtures/" category "/" name, drafter::WrapperOptions(true));     \
+        FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, drafter::WrapperOptions(true));            \
     }
 
 namespace draftertest
@@ -103,10 +103,11 @@ namespace draftertest
 
     struct FixtureHelper {
 
-        static std::unique_ptr<refract::IElement> parseAndSerialize(
-            snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options)
+        static std::unique_ptr<refract::IElement> parseAndSerialize(const std::string& source,
+            snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
+            const drafter::WrapperOptions& options)
         {
-            drafter::ConversionContext context(options);
+            drafter::ConversionContext context(source.c_str(), options);
 
             return WrapRefract(blueprint, context);
         }
@@ -150,23 +151,24 @@ namespace draftertest
             return ext::json;
         }
 
-        typedef std::unique_ptr<refract::IElement> (*Wrapper)(
-            snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, const drafter::WrapperOptions& options);
+        typedef std::unique_ptr<refract::IElement> (*Wrapper)(const std::string& source,
+            snowcrash::ParseResult<snowcrash::Blueprint>& blueprint,
+            const drafter::WrapperOptions& options);
 
-        static bool handleResultJSON(const Wrapper wrapper,
-            const std::string& basepath,
-            const drafter::WrapperOptions& options,
-            bool mustBeOk = false)
+        static bool handleResultJSON(
+            const std::string& fixturePath, const drafter::WrapperOptions& options, bool mustBeOk = false)
         {
             ENABLE_LOGGING;
-            ITFixtureFiles fixture = ITFixtureFiles(basepath);
+            ITFixtureFiles fixture = ITFixtureFiles(fixturePath);
 
             snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
 
-            int result = snowcrash::parse(fixture.get(ext::apib), snowcrash::ExportSourcemapOption, blueprint);
+            const auto source = fixture.get(ext::apib);
+
+            int result = snowcrash::parse(source, snowcrash::ExportSourcemapOption, blueprint);
 
             std::ostringstream outStream;
-            if (auto parsed = (*wrapper)(blueprint, options)) {
+            if (auto parsed = parseAndSerialize(source, blueprint, options)) {
                 auto soValue = refract::serialize::renderSo(*parsed, options.generateSourceMap);
                 drafter::utils::so::serialize_json(outStream, soValue);
             }
@@ -177,7 +179,7 @@ namespace draftertest
             std::string expected;
             std::string extension = getFixtureExtension(options);
 
-            INFO("Filename: \x1b[35m" << basepath << extension << "\x1b[0m");
+            INFO("Filename: \x1b[35m" << fixturePath << extension << "\x1b[0m");
             expected = fixture.get(extension);
 
             if (actual != expected) {
