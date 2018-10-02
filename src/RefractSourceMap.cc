@@ -1,5 +1,4 @@
 #include "RefractSourceMap.h"
-#include "reporting.h"
 #include "ConversionContext.h"
 
 using namespace refract;
@@ -41,7 +40,7 @@ std::unique_ptr<IElement> drafter::SourceMapToRefractWithColumnLineInfo(
         std::back_inserter(sourceMapElement->get()),
         [&context](auto& sourceMap) {
             AnnotationPosition position;
-            ::GetLineFromMap(context.GetNewLinesIndex(), sourceMap, position);
+            GetLineFromMap(context.GetNewLinesIndex(), sourceMap, position);
 
             auto location = make_element<NumberElement>(sourceMap.location);
             location->attributes().set("line", from_primitive(position.fromLine));

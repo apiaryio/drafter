@@ -23,6 +23,7 @@
 namespace sc = snowcrash;
 
 using namespace refract;
+using namespace drafter;
 
 namespace
 {

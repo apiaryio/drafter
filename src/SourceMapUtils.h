@@ -11,29 +11,34 @@
 
 #include "SourceAnnotation.h"
 
-typedef std::vector<size_t> NewLinesIndex;
+namespace drafter
+{
 
-/** structure contains starting and ending position of a error/warning. */
-struct AnnotationPosition {
-    size_t fromLine;
-    size_t fromColumn;
-    size_t toLine;
-    size_t toColumn;
-};
+    typedef std::vector<size_t> NewLinesIndex;
 
-/**
- *  \brief Convert character index mapping to line and column number
- *  \param linesEndIndex Vector containing indexes of end line characters
- *  \param range Character index mapping as input
- *  \param out Position of the given range as output
- */
-void GetLineFromMap(const std::vector<size_t>& linesEndIndex, const mdp::Range& range, AnnotationPosition& out);
+    /** structure contains starting and ending position of a error/warning. */
+    struct AnnotationPosition {
+        size_t fromLine;
+        size_t fromColumn;
+        size_t toLine;
+        size_t toColumn;
+    };
 
-/**
- *  \brief Given the source returns the length of all the lines in source as a vector
- *  \param source Source data
- *  \param out Vector containing indexes of all end line character in source
- */
-void GetLinesEndIndex(const std::string& source, NewLinesIndex& out);
+    /**
+     *  \brief Convert character index mapping to line and column number
+     *  \param linesEndIndex Vector containing indexes of end line characters
+     *  \param range Character index mapping as input
+     *  \param out Position of the given range as output
+     */
+    void GetLineFromMap(const std::vector<size_t>& linesEndIndex, const mdp::Range& range, AnnotationPosition& out);
+
+    /**
+     *  \brief Given the source returns the length of all the lines in source as a vector
+     *  \param source Source data
+     *  \param out Vector containing indexes of all end line character in source
+     */
+    void GetLinesEndIndex(const std::string& source, NewLinesIndex& out);
+
+} // namespace drafter
 
 #endif

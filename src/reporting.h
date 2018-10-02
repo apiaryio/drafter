@@ -11,7 +11,6 @@
 
 #include "drafter.h"
 #include "SourceAnnotation.h"
-#include "reporting.h"
 
 /**
  *  \brief Print parser report to stderr.

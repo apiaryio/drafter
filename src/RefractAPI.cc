@@ -26,8 +26,6 @@
 #include "NamedTypesRegistry.h"
 #include "ConversionContext.h"
 
-#include "reporting.h"
-
 using namespace drafter;
 using namespace refract;
 using namespace drafter::utils::log;

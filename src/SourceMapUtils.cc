@@ -1,60 +1,54 @@
 #include "SourceMapUtils.h"
 #include <algorithm>
 
-/**
- *  \brief Convert character index mapping to line and column number
- *  \param linesEndIndex Vector containing indexes of end line characters
- *  \param range Character index mapping as input
- *  \param out Position of the given range as output
- */
-void GetLineFromMap(const std::vector<size_t>& linesEndIndex, const mdp::Range& range, AnnotationPosition& out)
+namespace drafter
 {
 
-    std::vector<size_t>::const_iterator annotationPositionIt;
+    void GetLineFromMap(const std::vector<size_t>& linesEndIndex, const mdp::Range& range, AnnotationPosition& out)
+    {
 
-    out.fromLine = 0;
-    out.fromColumn = 0;
-    out.toLine = 0;
-    out.toColumn = 0;
+        std::vector<size_t>::const_iterator annotationPositionIt;
 
-    // Finds starting line and column position
-    annotationPositionIt = std::upper_bound(linesEndIndex.begin(), linesEndIndex.end(), range.location) - 1;
+        out.fromLine = 0;
+        out.fromColumn = 0;
+        out.toLine = 0;
+        out.toColumn = 0;
 
-    if (annotationPositionIt != linesEndIndex.end()) {
+        // Finds starting line and column position
+        annotationPositionIt = std::upper_bound(linesEndIndex.begin(), linesEndIndex.end(), range.location) - 1;
 
-        out.fromLine = std::distance(linesEndIndex.begin(), annotationPositionIt) + 1;
-        out.fromColumn = range.location - *annotationPositionIt + 1;
-    }
+        if (annotationPositionIt != linesEndIndex.end()) {
 
-    // Finds ending line and column position
-    annotationPositionIt
-        = std::lower_bound(linesEndIndex.begin(), linesEndIndex.end(), range.location + range.length) - 1;
+            out.fromLine = std::distance(linesEndIndex.begin(), annotationPositionIt) + 1;
+            out.fromColumn = range.location - *annotationPositionIt + 1;
+        }
 
-    if (annotationPositionIt != linesEndIndex.end()) {
+        // Finds ending line and column position
+        annotationPositionIt
+            = std::lower_bound(linesEndIndex.begin(), linesEndIndex.end(), range.location + range.length) - 1;
 
-        out.toLine = std::distance(linesEndIndex.begin(), annotationPositionIt) + 1;
-        out.toColumn = (range.location + range.length) - *annotationPositionIt + 1;
+        if (annotationPositionIt != linesEndIndex.end()) {
 
-        if (*(annotationPositionIt + 1) == (range.location + range.length)) {
-            out.toColumn--;
+            out.toLine = std::distance(linesEndIndex.begin(), annotationPositionIt) + 1;
+            out.toColumn = (range.location + range.length) - *annotationPositionIt + 1;
+
+            if (*(annotationPositionIt + 1) == (range.location + range.length)) {
+                out.toColumn--;
+            }
         }
     }
-}
 
-/**
- *  \brief Given the source returns the length of all the lines in source as a vector
- *  \param source Source data
- *  \param out Vector containing indexes of all end line character in source
- */
-void GetLinesEndIndex(const std::string& source, std::vector<size_t>& out)
-{
+    void GetLinesEndIndex(const std::string& source, std::vector<size_t>& out)
+    {
 
-    out.push_back(0);
+        out.push_back(0);
 
-    for (size_t i = 0; i < source.length(); i++) {
+        for (size_t i = 0; i < source.length(); i++) {
 
-        if (source[i] == '\n') {
-            out.push_back(i + 1);
+            if (source[i] == '\n') {
+                out.push_back(i + 1);
+            }
         }
     }
-}
+
+} // namespace drafter
