@@ -89,6 +89,12 @@ endif()
 # targets developed in this super project
 add_subdirectory(markdown-parser EXCLUDE_FROM_ALL)
 add_subdirectory(snowcrash EXCLUDE_FROM_ALL)
-add_subdirectory(drafter)
 
-add_dependencies(drafter-test markdown-parser-test snowcrash-test)
+if(EMSCRIPTEN)
+    add_subdirectory(drafter EXCLUDE_FROM_ALL)
+    add_subdirectory(drafter.js)
+else()
+    add_subdirectory(drafter)
+    add_dependencies(drafter-test markdown-parser-test snowcrash-test)
+endif()
+
