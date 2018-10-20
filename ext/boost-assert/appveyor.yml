@@ -1,0 +1,29 @@
+# Copyright 2016 Peter Dimov
+# Distributed under the Boost Software License, Version 1.0.
+# (See accompanying file LICENSE_1_0.txt or copy at http://boost.org/LICENSE_1_0.txt)
+
+version: 1.0.{build}-{branch}
+
+shallow_clone: true
+
+branches:
+  only:
+    - master
+    - develop
+
+install:
+  - cd ..
+  - git clone -b %APPVEYOR_REPO_BRANCH% https://github.com/boostorg/boost.git boost-root
+  - cd boost-root
+  - git submodule init libs/config
+  - git submodule init libs/core
+  - git submodule init tools/build
+  - git submodule update
+  - xcopy /s /e /q %APPVEYOR_BUILD_FOLDER% libs\assert
+  - bootstrap
+  - b2 headers
+
+build: off
+
+test_script:
+  - b2 libs/assert/test toolset=msvc-9.0,msvc-10.0,msvc-11.0,msvc-14.0
