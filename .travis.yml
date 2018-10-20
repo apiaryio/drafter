@@ -1,0 +1,79 @@
+# Copyright (C) 2016 Daniel James.
+# Distributed under the Boost Software License, Version 1.0. (See accompanying
+# file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+# Use Trusty to get a reasonably recent version of Boost.
+sudo: required
+dist: trusty
+
+language: c++
+
+addons:
+    apt:
+        packages:
+            - libboost-tools-dev
+
+matrix:
+    include:
+      - compiler: gcc
+        env: |
+            USER_CONFIG="using gcc : : g++-4.8 -Werror --std=c++03 ;"
+      - compiler: gcc
+        env: |
+            USER_CONFIG="using gcc : : g++-4.8 -Werror --std=c++11 ;"
+      - compiler: clang
+        env: |
+            USER_CONFIG="using clang : : clang++ -Werror --std=c++03 ;"
+      - compiler: clang
+        env: |
+            USER_CONFIG="using clang : : clang++ -Werror --std=c++11 ;"
+      - compiler: clang
+        env: |
+            USER_CONFIG="using clang : : clang++ -Werror --std=c++11 -D_HAS_AUTO_PTR_ETC=0 ;"
+
+before_script:
+    - export BOOST_VERSION=1.65.1
+    - export BOOST_FILENAME=boost_1_65_1
+    - export BOOST_ROOT=${HOME}/boost
+    - cd ${TRAVIS_BUILD_DIR}
+    - touch Jamroot.jam
+    - cd $HOME
+    - echo $USER_CONFIG > ~/user-config.jam
+    - cat ~/user-config.jam
+    - |
+        mkdir $HOME/download
+        mkdir $HOME/extract
+        cd $HOME/download
+        if [ "$TRAVIS_EVENT_TYPE" == "cron" ]
+        then
+            if [ "$TRAVIS_BRANCH" == "master" ]
+            then
+                snapshot_branch=master
+            else
+                snapshot_branch=develop
+            fi
+            download_url=$(curl https://api.bintray.com/packages/boostorg/$snapshot_branch/snapshot/files |
+                    python -c "import os.path, sys, json; x = json.load(sys.stdin); print '\n'.join(a['path'] for a in x if os.path.splitext(a['path'])[1] == '.bz2')" |
+                    head -n 1 |
+                    sed "s/^/http:\/\/dl.bintray.com\/boostorg\/$snapshot_branch\//")
+        else
+            download_url=https://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/${BOOST_FILENAME}.tar.bz2/download
+        fi
+        echo "Downloading ${download_url}"
+        wget -O boost.tar.bz2 $download_url
+        cd $HOME/extract
+        tar -xjf $HOME/download/boost.tar.bz2
+        mv * ${BOOST_ROOT}
+    - rm -r ${BOOST_ROOT}/boost/functional
+
+script:
+    - cd ${TRAVIS_BUILD_DIR}/test
+    - bjam -q ${BJAM_TOOLSET} include=${BOOST_ROOT} include=${TRAVIS_BUILD_DIR}/include
+    - cd ${TRAVIS_BUILD_DIR}/hash/test
+    - bjam -q ${BJAM_TOOLSET} include=${BOOST_ROOT} include=${TRAVIS_BUILD_DIR}/include
+    - cd ${TRAVIS_BUILD_DIR}/forward/test
+    - bjam -q ${BJAM_TOOLSET} include=${BOOST_ROOT} include=${TRAVIS_BUILD_DIR}/include
+    - cd ${TRAVIS_BUILD_DIR}/factory/test
+    - bjam -q ${BJAM_TOOLSET} include=${BOOST_ROOT} include=${TRAVIS_BUILD_DIR}/include
+    - cd ${TRAVIS_BUILD_DIR}/overloaded_function/test
+    - bjam -q ${BJAM_TOOLSET} include=${BOOST_ROOT} include=${TRAVIS_BUILD_DIR}/include
