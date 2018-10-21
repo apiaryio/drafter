@@ -8,7 +8,7 @@
 
 #include "ElementUtils.h"
 
-#include "../utils/log/Trivial.h"
+#include <drafter/logger/Trivial.h>
 #include "Element.h"
 #include "Utils.h"
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2018 Apiary Inc. All rights reserved.
 //
 
-#include "Trivial.h"
+#include "drafter/logger/Trivial.h"
 
 #ifdef LOGGING
 #include <fstream>

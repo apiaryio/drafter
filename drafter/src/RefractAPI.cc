@@ -17,7 +17,7 @@
 #include "refract/JsonValue.h"
 #include "refract/JsonSchema.h"
 
-#include "utils/log/Trivial.h"
+#include <drafter/logger/Trivial.h>
 #include "utils/so/JsonIo.h"
 
 #include <iterator>

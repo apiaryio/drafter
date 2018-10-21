@@ -9,7 +9,7 @@
 #include "Number.h"
 
 #include "Traits.h"
-#include "../../utils/log/Trivial.h"
+#include <drafter/logger/Trivial.h>
 
 using namespace refract;
 using namespace dsd;

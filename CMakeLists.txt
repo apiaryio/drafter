@@ -12,6 +12,7 @@ set(as_subproject
     Drafter
     Catch2
     dtl
+    Logger
     BoostAssert
     BoostConfig
     BoostCore
@@ -89,6 +90,7 @@ endif()
 # targets developed in this super project
 add_subdirectory(markdown-parser EXCLUDE_FROM_ALL)
 add_subdirectory(snowcrash EXCLUDE_FROM_ALL)
+add_subdirectory(logger EXCLUDE_FROM_ALL)
 
 if(EMSCRIPTEN)
     add_subdirectory(drafter EXCLUDE_FROM_ALL)

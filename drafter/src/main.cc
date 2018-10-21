@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 //
-#include "drafter.h"
+#include <drafter.h>
 
-#include "snowcrash.h"
+#include <snowcrash.h>
 #include "SectionParserData.h" // snowcrash::BlueprintParserOptions
 
 #include "SerializeResult.h"
@@ -19,7 +19,7 @@
 
 #include "ConversionContext.h"
 
-#include "utils/log/Trivial.h"
+#include <drafter/logger/Trivial.h>
 
 namespace sc = snowcrash;
 

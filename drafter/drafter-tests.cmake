@@ -53,6 +53,7 @@ target_link_libraries(drafter-test
         drafter::drafter-static
         snowcrash::snowcrash-static
         Boost::container-static
+        Drafter::logger-static
     )
 
 catch_discover_tests(drafter-test)

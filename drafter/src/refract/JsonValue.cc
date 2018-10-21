@@ -9,7 +9,7 @@
 #include "JsonValue.h"
 
 #include "../ElementData.h"
-#include "../utils/log/Trivial.h"
+#include <drafter/logger/Trivial.h>
 #include "../utils/so/JsonIo.h"
 #include "Element.h"
 #include "ElementUtils.h"

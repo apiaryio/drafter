@@ -6,7 +6,6 @@ set(DRAFTER_SOURCES
     src/utils/so/Value.cc
     src/utils/so/JsonIo.cc
     src/utils/so/YamlIo.cc
-    src/utils/log/Trivial.cc
     src/refract/dsd/Bool.cc
     src/refract/dsd/Member.cc
     src/refract/dsd/Object.cc
@@ -105,23 +104,27 @@ set_target_properties(drafter PROPERTIES PUBLIC_HEADER "src/drafter.h")
 find_package(snowcrash 1.0 REQUIRED)
 find_package(BoostContainer 1.66 REQUIRED)
 find_package(cmdline 1.0 REQUIRED)
+find_package(Logger 1.0 REQUIRED)
 
 target_link_libraries(drafter
     PRIVATE
         snowcrash::snowcrash-pic
         Boost::container-pic
+        Drafter::logger-pic
     )
 
 target_link_libraries(drafter-pic
     PRIVATE
         snowcrash::snowcrash-pic
         Boost::container-pic
+        Drafter::logger-pic
     )
 
 target_link_libraries(drafter-static
     PRIVATE
         snowcrash::snowcrash-static
         Boost::container-static
+        Drafter::logger-static
     )
 
 target_include_directories(drafter PUBLIC
@@ -165,6 +168,7 @@ target_link_libraries(drafter-tui
         snowcrash::snowcrash-static
         drafter::drafter-static
         cmdline::cmdline
+        Drafter::logger-static
     )
 
 set_target_properties(drafter-tui PROPERTIES OUTPUT_NAME drafter)

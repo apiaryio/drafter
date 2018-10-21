@@ -11,7 +11,7 @@
 #include "stream.h"
 
 #include "refract/SerializeSo.h"
-#include "utils/log/Trivial.h"
+#include <drafter/logger/Trivial.h>
 #include "utils/so/JsonIo.h"
 
 #include "Serialize.h"

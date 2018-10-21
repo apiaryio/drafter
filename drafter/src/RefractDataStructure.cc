@@ -26,7 +26,7 @@
 
 #include "refract/VisitorUtils.h"
 
-#include "utils/log/Trivial.h"
+#include <drafter/logger/Trivial.h>
 
 #include <fstream>
 #include <functional>

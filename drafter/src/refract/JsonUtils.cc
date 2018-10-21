@@ -8,7 +8,7 @@
 
 #include "JsonUtils.h"
 
-#include "../utils/log/Trivial.h"
+#include <drafter/logger/Trivial.h>
 #include "Element.h"
 #include "dsd/Bool.h"
 #include "dsd/Number.h"

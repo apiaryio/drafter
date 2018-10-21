@@ -8,7 +8,7 @@
 
 #include "SerializeSo.h"
 
-#include "../utils/log/Trivial.h"
+#include <drafter/logger/Trivial.h>
 #include "Element.h"
 
 using namespace refract;
