@@ -21,8 +21,8 @@ aliases:
             mkdir build
             cd build
             cmake ..
-            CTEST_OUTPUT_ON_FAILURE=1 ctest -j4 -D ExperimentalBuild
-            CTEST_OUTPUT_ON_FAILURE=1 ctest -j4 -D ExperimentalTest
+            make -j4 all
+            CTEST_OUTPUT_ON_FAILURE=1 ctest -j4
 
   - &test-xcode
     working_directory: /tmp/drafter
@@ -67,8 +67,8 @@ aliases:
             mkdir build
             cd build
             cmake ..
-            CTEST_OUTPUT_ON_FAILURE=1 ctest -j4 -D ExperimentalBuild
-            CTEST_OUTPUT_ON_FAILURE=1 ctest -j4 -D ExperimentalTest
+            make -j4 all
+            CTEST_OUTPUT_ON_FAILURE=1 ctest -j4
 
 
   - &test-clang-base-backports
