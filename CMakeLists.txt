@@ -7,7 +7,7 @@ set(CMAKE_SKIP_INSTALL_ALL_DEPENDENCY TRUE)
 set(as_subproject
     markdown-parser
     snowcrash
-    sundown-apiary
+    Sundown
     cmdline
     Drafter
     Catch2

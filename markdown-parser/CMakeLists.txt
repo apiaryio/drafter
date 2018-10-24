@@ -62,11 +62,11 @@ if(UNIX)
     set_target_properties(markdown-parser-static PROPERTIES OUTPUT_NAME markdown-parser)
 endif()
 
-find_package(sundown-apiary 1.0 REQUIRED)
+find_package(Sundown 1.0 REQUIRED)
 
-target_link_libraries(markdown-parser PUBLIC sundown-apiary::sundown-apiary-pic)
-target_link_libraries(markdown-parser-static PUBLIC sundown-apiary::sundown-apiary)
-target_link_libraries(markdown-parser-pic PUBLIC sundown-apiary::sundown-apiary-pic)
+target_link_libraries(markdown-parser PUBLIC Apiary::sundown-pic)
+target_link_libraries(markdown-parser-static PUBLIC Apiary::sundown-static)
+target_link_libraries(markdown-parser-pic PUBLIC Apiary::sundown-pic)
 
 target_include_directories(markdown-parser PUBLIC
     $<BUILD_INTERFACE:${markdown-parser_BINARY_DIR}/src>
