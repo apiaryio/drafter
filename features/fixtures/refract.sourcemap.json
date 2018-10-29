@@ -374,33 +374,36 @@
                           "element": "enum",
                           "attributes": {
                             "default": {
-                              "element": "string",
-                              "attributes": {
-                                "sourceMap": {
-                                  "element": "array",
-                                  "content": [
-                                    {
-                                      "element": "sourceMap",
-                                      "content": [
-                                        {
-                                          "element": "array",
-                                          "content": [
-                                            {
-                                              "element": "number",
-                                              "content": 516
-                                            },
-                                            {
-                                              "element": "number",
-                                              "content": 86
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                }
-                              },
-                              "content": "<default value>"
+                              "element": "enum",
+                              "content": {
+                                "element": "string",
+                                "attributes": {
+                                  "sourceMap": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "sourceMap",
+                                        "content": [
+                                          {
+                                            "element": "array",
+                                            "content": [
+                                              {
+                                                "element": "number",
+                                                "content": 516
+                                              },
+                                              {
+                                                "element": "number",
+                                                "content": 86
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "<default value>"
+                              }
                             },
                             "enumerations": {
                               "element": "array",
@@ -862,33 +865,36 @@
                               "element": "enum",
                               "attributes": {
                                 "default": {
-                                  "element": "string",
-                                  "attributes": {
-                                    "sourceMap": {
-                                      "element": "array",
-                                      "content": [
-                                        {
-                                          "element": "sourceMap",
-                                          "content": [
-                                            {
-                                              "element": "array",
-                                              "content": [
-                                                {
-                                                  "element": "number",
-                                                  "content": 823
-                                                },
-                                                {
-                                                  "element": "number",
-                                                  "content": 86
-                                                }
-                                              ]
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  },
-                                  "content": "<default value>"
+                                  "element": "enum",
+                                  "content": {
+                                    "element": "string",
+                                    "attributes": {
+                                      "sourceMap": {
+                                        "element": "array",
+                                        "content": [
+                                          {
+                                            "element": "sourceMap",
+                                            "content": [
+                                              {
+                                                "element": "array",
+                                                "content": [
+                                                  {
+                                                    "element": "number",
+                                                    "content": 823
+                                                  },
+                                                  {
+                                                    "element": "number",
+                                                    "content": 86
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "content": "<default value>"
+                                  }
                                 },
                                 "enumerations": {
                                   "element": "array",

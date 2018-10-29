@@ -89,8 +89,10 @@ content:
                         element: "enum"
                         attributes:
                           default:
-                            element: "string"
-                            content: "<default value>"
+                            element: "enum"
+                            content:
+                              element: "string"
+                              content: "<default value>"
                           enumerations:
                             element: "array"
                             content:
@@ -166,8 +168,10 @@ content:
                             element: "enum"
                             attributes:
                               default:
-                                element: "string"
-                                content: "<default value>"
+                                element: "enum"
+                                content:
+                                  element: "string"
+                                  content: "<default value>"
                               enumerations:
                                 element: "array"
                                 content:
