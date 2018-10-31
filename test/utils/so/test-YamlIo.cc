@@ -6,9 +6,10 @@
 //  Copyright (c) 2018 Apiary Inc. All rights reserved.
 //
 
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <array>
 #include <string>

@@ -1,7 +1,7 @@
 #ifndef DRAFTER_DRAFTERTEST_H
 #define DRAFTER_DRAFTERTEST_H
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 #include "dtl.hpp"
 
 #include "RefractAPI.h"

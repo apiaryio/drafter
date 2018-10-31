@@ -9,7 +9,7 @@
 #ifndef SNOWCRASH_SNOWCRASHTEST_H
 #define SNOWCRASH_SNOWCRASHTEST_H
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 #include "MarkdownParser.h"
 #include "SectionParser.h"
 

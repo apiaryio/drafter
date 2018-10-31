@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Apiary Inc. All rights reserved.
 //
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 #include "RegexMatch.h"
 
 using namespace snowcrash;
