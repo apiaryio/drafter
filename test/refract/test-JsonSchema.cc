@@ -687,10 +687,6 @@ SCENARIO("JSON Schema serialization of ObjectElement", "[json-schema]")
         "An ObjectElement holding a SelectElement in turn holding, through OptionElements, a MemberElement and another "
         "SelectElement")
     {
-        // clang-format off
-        constexpr const char* expected = R"()";
-        // clang-format on
-
         auto el = make_element<ObjectElement>(                                                         //
             make_element<SelectElement>(                                                               //
                 make_element<OptionElement>(                                                           //

@@ -115,13 +115,8 @@ SCENARIO("`Select` is inserted to and erased from", "[ElementData][Select]")
             WHEN("another three ElementMocks are inserted at begin two at end")
             {
                 auto mock2 = std::make_unique<test::ElementMock>();
-                auto mock2ptr = mock.get();
-
                 auto mock3 = std::make_unique<test::ElementMock>();
-                auto mock3ptr = mock.get();
-
                 auto mock4 = std::make_unique<test::ElementMock>();
-                auto mock4ptr = mock.get();
 
                 select.insert(select.begin(), make_element<OptionElement>(std::move(mock2)));
                 select.insert(select.begin(), make_element<OptionElement>(std::move(mock3)));
@@ -131,7 +126,6 @@ SCENARIO("`Select` is inserted to and erased from", "[ElementData][Select]")
                 auto mock5ptr = mock.get();
 
                 auto mock6 = std::make_unique<test::ElementMock>();
-                auto mock6ptr = mock.get();
 
                 select.insert(select.begin(), make_element<OptionElement>(std::move(mock5)));
                 select.insert(select.begin(), make_element<OptionElement>(std::move(mock6)));
