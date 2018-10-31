@@ -55,7 +55,7 @@ target_link_libraries(drafter-test
         Boost::container
     )
 
-catch_discover_tests(drafter-test)
+add_test(DrafterTest drafter-test)
 
 file(
     COPY

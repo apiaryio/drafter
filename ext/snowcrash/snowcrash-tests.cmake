@@ -42,7 +42,7 @@ add_executable(snowcrash-test-performance
     test/performance/perf-snowcrash.cc
     )
 
-catch_discover_tests(snowcrash-test)
+add_test(SnowcrashTest snowcrash-test)
 
 target_link_libraries(snowcrash-test
     PRIVATE
