@@ -41,8 +41,9 @@ add_subdirectory(ext/snowcrash EXCLUDE_FROM_ALL)
 add_subdirectory(src)
 if(${BUILD_TESTING})
     add_subdirectory(test)
+    add_custom_target(drafter-test-suite ALL)
+    add_dependencies(drafter-test-suite drafter-test markdown-parser-test snowcrash-test)
 endif()
 
 
-add_dependencies(drafter-test markdown-parser-test snowcrash-test)
 
