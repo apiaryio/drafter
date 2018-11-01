@@ -1,5 +1,5 @@
 #include "ElementInfoUtils.h"
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 
 template <typename ElementT>
 snowcrash::SourceMap<typename ElementT::ValueType> make_sourcemap(std::vector<mdp::Range>&& locations)

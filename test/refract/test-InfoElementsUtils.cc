@@ -1,5 +1,5 @@
 #include "refract/InfoElementsUtils.h"
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 
 SCENARIO("Append InfoElement", "[InfoElements][append]")
 {

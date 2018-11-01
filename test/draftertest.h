@@ -1,7 +1,7 @@
 #ifndef DRAFTER_DRAFTERTEST_H
 #define DRAFTER_DRAFTERTEST_H
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 #include "dtl.hpp"
 
 #include "RefractAPI.h"
@@ -176,7 +176,6 @@ namespace draftertest
             std::string actual = outStream.str();
             std::string expected;
             std::string extension = getFixtureExtension(options);
-            bool matches = false;
 
             INFO("Filename: \x1b[35m" << basepath << extension << "\x1b[0m");
             expected = fixture.get(extension);

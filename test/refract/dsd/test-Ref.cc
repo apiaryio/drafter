@@ -6,7 +6,7 @@
 //  Copyright (c) 2017 Apiary Inc. All rights reserved.
 //
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 
 #include "refract/dsd/Ref.h"
 

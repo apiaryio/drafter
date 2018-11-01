@@ -6,7 +6,7 @@
 //  Copyright (c) 2017 Apiary Inc. All rights reserved.
 //
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 
 #include "refract/dsd/Option.h"
 #include "refract/Element.h"
@@ -113,13 +113,8 @@ SCENARIO("`Option` is inserted to and erased from", "[ElementData][Option]")
             WHEN("another three ElementMocks are inserted at begin two at end")
             {
                 auto mock2 = std::make_unique<test::ElementMock>();
-                auto mock2ptr = mock.get();
-
                 auto mock3 = std::make_unique<test::ElementMock>();
-                auto mock3ptr = mock.get();
-
                 auto mock4 = std::make_unique<test::ElementMock>();
-                auto mock4ptr = mock.get();
 
                 option.insert(option.begin(), std::move(mock2));
                 option.insert(option.begin(), std::move(mock3));
@@ -129,7 +124,6 @@ SCENARIO("`Option` is inserted to and erased from", "[ElementData][Option]")
                 auto mock5ptr = mock.get();
 
                 auto mock6 = std::make_unique<test::ElementMock>();
-                auto mock6ptr = mock.get();
 
                 option.insert(option.begin(), std::move(mock5));
                 option.insert(option.begin(), std::move(mock6));

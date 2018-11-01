@@ -6,7 +6,7 @@
 //  Copyright (c) 2017 Apiary Inc. All rights reserved.
 //
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 
 #include "refract/dsd/Array.h"
 #include "refract/Element.h"
@@ -113,13 +113,10 @@ SCENARIO("`Array` is inserted to and erased from", "[ElementData][Array]")
             WHEN("another three ElementMocks are inserted at begin two at end")
             {
                 auto mock2 = std::make_unique<test::ElementMock>();
-                auto mock2ptr = mock.get();
 
                 auto mock3 = std::make_unique<test::ElementMock>();
-                auto mock3ptr = mock.get();
 
                 auto mock4 = std::make_unique<test::ElementMock>();
-                auto mock4ptr = mock.get();
 
                 array.insert(array.begin(), std::move(mock2));
                 array.insert(array.begin(), std::move(mock3));
@@ -129,7 +126,6 @@ SCENARIO("`Array` is inserted to and erased from", "[ElementData][Array]")
                 auto mock5ptr = mock.get();
 
                 auto mock6 = std::make_unique<test::ElementMock>();
-                auto mock6ptr = mock.get();
 
                 array.insert(array.begin(), std::move(mock5));
                 array.insert(array.begin(), std::move(mock6));

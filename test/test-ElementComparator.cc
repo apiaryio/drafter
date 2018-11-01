@@ -1,5 +1,5 @@
 #include "ElementComparator.h"
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 #include "refract/Element.h"
 
 using namespace drafter;

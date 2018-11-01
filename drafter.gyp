@@ -69,7 +69,7 @@
       'target_name': 'test-libmarkdownparser',
       'type': 'executable',
       'include_dirs': [
-        'test/vendor/Catch/include',
+        'test/vendor/Catch/single_include',
       ],
       'sources': [
         'ext/snowcrash/ext/markdown-parser/test/test-ByteBuffer.cc',
@@ -165,7 +165,7 @@
       'target_name': 'test-libsnowcrash',
       'type': 'executable',
       'include_dirs': [
-        'test/vendor/Catch/include',
+        'test/vendor/Catch/single_include',
       ],
       'sources': [
         'ext/snowcrash/test/test-ActionParser.cc',
@@ -361,7 +361,7 @@
       'target_name': 'test-libdrafter',
       'type': 'executable',
       'include_dirs': [
-        'test/vendor/Catch/include',
+        'test/vendor/Catch/single_include',
         'test/vendor/dtl/dtl',
         'src/refract',
       ],

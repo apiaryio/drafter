@@ -6,7 +6,7 @@
 //  Copyright (c) 2017 Apiary Inc. All rights reserved.
 //
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 
 #include "refract/dsd/Object.h"
 #include "refract/Element.h"
@@ -113,13 +113,8 @@ SCENARIO("`Object` is inserted to and erased from", "[ElementData][Object]")
             WHEN("another three ElementMocks are inserted at begin two at end")
             {
                 auto mock2 = std::make_unique<test::ElementMock>();
-                auto mock2ptr = mock.get();
-
                 auto mock3 = std::make_unique<test::ElementMock>();
-                auto mock3ptr = mock.get();
-
                 auto mock4 = std::make_unique<test::ElementMock>();
-                auto mock4ptr = mock.get();
 
                 object.insert(object.begin(), std::move(mock2));
                 object.insert(object.begin(), std::move(mock3));
@@ -129,7 +124,6 @@ SCENARIO("`Object` is inserted to and erased from", "[ElementData][Object]")
                 auto mock5ptr = mock.get();
 
                 auto mock6 = std::make_unique<test::ElementMock>();
-                auto mock6ptr = mock.get();
 
                 object.insert(object.begin(), std::move(mock5));
                 object.insert(object.begin(), std::move(mock6));
