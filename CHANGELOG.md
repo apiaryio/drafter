@@ -1,5 +1,12 @@
 # Drafter Changelog
 
+## 4.0.0-pre.2
+
+### Bug Fixes
+
+* Parameters which are of `enum` type will now have their `default` values
+  correctly serialized in the output using `enum` type
+
 ## 4.0.0-pre.1
 
 ### Breaking
