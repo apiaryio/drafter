@@ -99,7 +99,6 @@ namespace
                             assert(mergeKey);
 
                             return std::find_if(value.get().begin(), value.get().end(), [mergeKey](const auto& e) {
-
                                 if (auto valueMember = TypeQueryVisitor::as<const MemberElement>(e.get())) {
                                     auto valueKey = TypeQueryVisitor::as<const StringElement>(valueMember->get().key());
                                     assert(valueKey);

@@ -143,7 +143,7 @@ namespace drafter
             }
 
             template <size_t I>
-            const auto& get() const &
+            const auto& get() const&
             {
                 static_assert(I >= 0 && I < sizeof...(Variants), "invalid index");
                 using Which = typename type_at<I, Variants...>::type;
