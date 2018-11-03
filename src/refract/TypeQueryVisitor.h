@@ -18,7 +18,8 @@ namespace refract
     {
 
     public:
-        typedef enum {
+        typedef enum
+        {
             Null,
             Holder,
 
