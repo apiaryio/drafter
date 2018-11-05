@@ -56,7 +56,11 @@ target_link_libraries(drafter-test
         Boost::container
     )
 
-add_test(DrafterTest drafter-test)
+if(MONOLITHIC_TESTS)
+    add_test(DrafterTest drafter-test)
+else()
+    catch_discover_tests(drafter-test)
+endif()
 
 file(
     COPY

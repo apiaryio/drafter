@@ -1,27 +1,179 @@
 version: 2
 
 aliases:
-  - &test-base
+  - &update
+    run:
+      name: Update
+      command: "apt-get update"
+
+  - &update-backports
+    run:
+      name: "Add jessie-backports && Update"
+      command: |
+          echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/sources.list
+          apt-get update
+
+  - &install-cmake
+    run:
+      name: Install CMake
+      command: 'apt-get install -y cmake'
+
+  - &install-cmake-backports
+    run:
+      name: Install CMake from jessie-backports
+      command: 'apt-get -t jessie-backports install -y --no-install-recommends cmake'
+
+  - &install-cmake-homebrew
+    run:
+      name: Install CMake
+      command: 'brew install cmake'
+
+  - &update-submodules
+    run:
+      name: Update submodules
+      command: 'git submodule update --init --recursive'
+
+  - &install-bundle
+    run:
+      name: Install integration test dependencies
+      command: |
+        apt-get install -y ruby ruby-dev
+        gem install bundler
+        bundle install --path vendor/bundle
+
+  - &install-valgrind
+    run:
+      name: Install valgrind
+      command: "apt-get install -y valgrind"
+
+  - &build-unix-release
+    run:
+      name: Build and test
+      command: ctest -j4 -S cmake/unix_multi.cmake -DCTEST_BUILD_TYPE=Release -DCTEST_BUILD_NAME="$(c++ --version | head -n1)"
+
+  - &build-unix-debug
+    run:
+      name: Build and test
+      command: ctest -j4 -S cmake/unix_multi.cmake -DCTEST_BUILD_TYPE=Debug -DCTEST_BUILD_NAME="$(c++ --version | head -n1)"
+
+  - &test-unix-release-backports
     working_directory: /tmp/drafter
     environment:
-      CXXFLAGS: '-Werror -Wno-error=unused-function'
-
     steps:
+      - <<: *update-backports
+      - <<: *install-cmake-backports
       - checkout
-      - run: git submodule update --init --recursive
-      - run:
-          name: Build
-          command: |
-            ./configure
-            make -j4
-      - run:
-          name: Test
-          command: make test -j4
+      - <<: *update-submodules
+      - <<: *install-bundle
+      - <<: *build-unix-release
 
-  - &test-clang-base
-    <<: *test-base
+  - &test-unix-release
+    working_directory: /tmp/drafter
     environment:
-      CXXFLAGS: '-Werror -Wno-error=unused-function -Wno-error=missing-braces'
+    steps:
+      - <<: *update
+      - <<: *install-cmake
+      - checkout
+      - <<: *update-submodules
+      - <<: *install-bundle
+      - <<: *build-unix-release
+
+  - &test-unix-debug
+    working_directory: /tmp/drafter
+    environment:
+    steps:
+      - <<: *update
+      - <<: *install-cmake
+      - checkout
+      - <<: *update-submodules
+      - <<: *install-bundle
+      - <<: *build-unix-debug
+
+  - &test-coverage
+    working_directory: /tmp/drafter
+    environment:
+    steps:
+      - <<: *update
+      - <<: *install-cmake
+      - checkout
+      - <<: *update-submodules
+      - <<: *install-bundle
+      - run:
+          name: Build and test
+          command: ctest -j4 -S cmake/coverage.cmake 
+
+  - &test-asan
+    working_directory: /tmp/drafter
+    environment:
+    steps:
+      - <<: *update
+      - <<: *install-cmake
+      - checkout
+      - <<: *update-submodules
+      - run:
+          name: Build and test
+          command: "ctest -j4 -S cmake/asan.cmake || echo 'warning: non-zero exit status; check https://my.cdash.org/index.php?project=Drafter for more information'"
+
+  - &test-lsan
+    working_directory: /tmp/drafter
+    environment:
+    steps:
+      - <<: *update
+      - <<: *install-cmake
+      - checkout
+      - <<: *update-submodules
+      - run:
+          name: Build and test
+          command: ctest -j4 -S cmake/lsan.cmake 
+
+  - &test-ubsan
+    working_directory: /tmp/drafter
+    environment:
+    steps:
+      - <<: *update
+      - <<: *install-cmake
+      - checkout
+      - <<: *update-submodules
+      - run:
+          name: Build and test
+          command: "ctest -j4 -S cmake/ubsan.cmake || echo 'warning: non-zero exit status; check https://my.cdash.org/index.php?project=Drafter for more information'"
+
+  - &test-valgrind
+    working_directory: /tmp/drafter
+    environment:
+    steps:
+      - <<: *update
+      - <<: *install-cmake
+      - <<: *install-valgrind
+      - checkout
+      - <<: *update-submodules
+      - run:
+          name: Build and test
+          command: ctest -j4 -S cmake/valgrind.cmake 
+
+  - &test-xcode-debug
+    working_directory: /tmp/drafter
+    environment:
+    steps:
+      - <<: *install-cmake-homebrew
+      - checkout
+      - <<: *update-submodules
+      - run:
+          name: Install integration test dependencies
+          command: sudo gem install bundler && bundle install --path vendor/bundle
+      - <<: *build-unix-debug
+
+  - &test-xcode-release
+    working_directory: /tmp/drafter
+    environment:
+    steps:
+      - <<: *install-cmake-homebrew
+      - checkout
+      - <<: *update-submodules
+      - run:
+          name: Install integration test dependencies
+          command: sudo gem install bundler && bundle install --path vendor/bundle
+      - <<: *build-unix-release
 
   - &tag-filter
     filters:
@@ -34,28 +186,42 @@ workflows:
   drafter:
     jobs:
       - lint
-      - test-gcc5.4: *tag-filter
-      - test-gcc6: *tag-filter
-      - test-gcc7: *tag-filter
-      #- test-gcc8: *tag-filter
-      - test-clang4: *tag-filter
-      - test-clang5: *tag-filter
-      - test-clang6: *tag-filter
-      - test-xcode9: *tag-filter
-      - test-integration: *tag-filter
-      - test-valgrind: *tag-filter
+      - test-gcc5.4-release: *tag-filter
+      - test-gcc6-release: *tag-filter
+      - test-gcc7-release: *tag-filter
+      - test-gcc7-debug: *tag-filter
+      - test-gcc8-release: *tag-filter
+      - test-gcc8-debug: *tag-filter
+      - test-gcc7-coverage: *tag-filter
+      - test-gcc8-asan: *tag-filter
+      - test-gcc8-lsan: *tag-filter
+      - test-gcc8-ubsan: *tag-filter
+      - test-gcc8-valgrind: *tag-filter
+      - test-clang4-release: *tag-filter
+      - test-clang5-release: *tag-filter
+      - test-clang6-release: *tag-filter
+      - test-clang6-debug: *tag-filter
+      - test-xcode9-release: *tag-filter
+      - test-xcode9-debug: *tag-filter
       - release:
           requires:
-            - test-gcc5.4
-            - test-gcc6
-            - test-gcc7
-            #- test-gcc8
-            - test-clang4
-            - test-clang5
-            - test-clang6
-            - test-xcode9
-            - test-integration
-            - test-valgrind
+            - test-gcc5.4-release
+            - test-gcc6-release
+            - test-gcc7-release
+            - test-gcc7-debug
+            - test-gcc8-release
+            - test-gcc8-debug
+            - test-gcc7-coverage
+            - test-gcc8-asan
+            - test-gcc8-lsan
+            - test-gcc8-ubsan
+            - test-gcc8-valgrind
+            - test-clang4-release
+            - test-clang5-release
+            - test-clang6-release
+            - test-clang6-debug
+            - test-xcode9-release
+            - test-xcode9-debug
           filters:
             tags:
               only: /^v.*/
@@ -69,92 +235,92 @@ jobs:
 
     steps:
       - checkout
-      - run: git submodule update --init --recursive
       - run: ./tools/clang-format-check.sh
 
-  test-gcc5.4:
-    <<: *test-base
+  test-gcc5.4-release:
+    <<: *test-unix-release-backports
     docker:
       - image: gcc:5.4
 
-  test-gcc6:
-    <<: *test-base
+  test-gcc6-release:
+    <<: *test-unix-release-backports
     docker:
       - image: gcc:6
 
-  test-gcc7:
-    <<: *test-base
+  test-gcc7-release:
+    <<: *test-unix-release
     docker:
       - image: gcc:7
 
-  test-gcc8:
-    <<: *test-base
+  test-gcc7-debug:
+    <<: *test-unix-debug
+    docker:
+      - image: gcc:7
+
+  test-gcc8-release:
+    <<: *test-unix-release
+    docker:
+      - image: gcc:7
+
+  test-gcc8-debug:
+    <<: *test-unix-debug
+    docker:
+      - image: gcc:7
+
+  test-gcc7-coverage:
+    <<: *test-coverage
+    docker:
+      - image: gcc:7
+
+  test-gcc8-asan:
+    <<: *test-asan
     docker:
       - image: gcc:8
 
-  test-clang4:
-    <<: *test-clang-base
+  test-gcc8-lsan:
+    <<: *test-lsan
+    docker:
+      - image: gcc:8
+
+  test-gcc8-ubsan:
+    <<: *test-ubsan
+    docker:
+      - image: gcc:8
+
+  test-gcc8-valgrind:
+    <<: *test-valgrind
+    docker:
+      - image: gcc:8
+
+  test-clang4-release:
+    <<: *test-unix-release
     docker:
       - image: apiaryio/clang:4
 
-  test-clang5:
-    <<: *test-clang-base
+  test-clang5-release:
+    <<: *test-unix-release
     docker:
       - image: apiaryio/clang:5
 
-  test-clang6:
-    <<: *test-clang-base
+  test-clang6-release:
+    <<: *test-unix-release
     docker:
       - image: apiaryio/clang:6
 
-  test-xcode9:
-    <<: *test-clang-base
+  test-clang6-debug:
+    <<: *test-unix-debug
+    docker:
+      - image: apiaryio/clang:6
+
+  test-xcode9-debug:
+    <<: *test-xcode-debug
     macos:
       xcode: "9.4.0"
 
-  test-integration:
-    docker:
-      - image: circleci/ruby:2.5.1
-    working_directory: /tmp/drafter
-
-    steps:
-      - checkout
-      - run: git submodule update --init --recursive
-
-      - run:
-          name: Build
-          command: ./configure && make -j4
-
-      - run:
-          name: Integration Test
-          command: bundle install && bundle exec cucumber
-
-  test-valgrind:
-    <<: *test-base
-    docker:
-      - image: gcc:7
-
-    steps:
-      - checkout
-      - run: git submodule update --init --recursive
-      - run: apt-get update && apt-get install -y valgrind
-
-      - run:
-          name: Build
-          command: |
-            ./configure
-            make -j4
-            make test -j4
-
-      - run:
-          name: Memory Test
-          command: |
-            mkdir artifacts
-            valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --error-exitcode=1 ./bin/test-libdrafter 2> artifacts/memcheck.log
-            valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --error-exitcode=1 ./bin/test-capi 2> artifacts/memcheck-capi.log
-
-      - store_artifacts:
-          path: artifacts
+  test-xcode9-release:
+    <<: *test-xcode-release
+    macos:
+      xcode: "9.4.0"
 
   release:
     docker:
@@ -163,5 +329,5 @@ jobs:
 
     steps:
       - checkout
-      - run: git submodule update --init --recursive
+      - <<: *update-submodules
       - run: ./tools/release.sh
