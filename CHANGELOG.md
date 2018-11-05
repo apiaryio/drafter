@@ -1,5 +1,10 @@
 # Drafter Changelog
 
+## master
+
+* Add column/line info to anotations source maps 
+* change start column index from 1 to 0 in reporting. (while `-l` switch is used)
+
 ## 4.0.0-pre.1
 
 ### Breaking
