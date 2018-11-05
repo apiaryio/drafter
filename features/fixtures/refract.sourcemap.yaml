@@ -2101,7 +2101,7 @@ content:
                         content: 39
                       column:
                         element: "number"
-                        content: 1
+                        content: 0
                     content: 685
                   -
                     element: "number"
@@ -2111,7 +2111,7 @@ content:
                         content: 42
                       column:
                         element: "number"
-                        content: 1
+                        content: 0
                     content: 45
     content: "the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead"
   -
@@ -2144,7 +2144,7 @@ content:
                         content: 55
                       column:
                         element: "number"
-                        content: 1
+                        content: 0
                     content: 992
                   -
                     element: "number"
@@ -2154,7 +2154,7 @@ content:
                         content: 58
                       column:
                         element: "number"
-                        content: 1
+                        content: 0
                     content: 45
     content: "the 'headers' section at this level is deprecated and will be removed in a future, use respective payload header section(s) instead"
   -
@@ -2187,7 +2187,7 @@ content:
                         content: 14
                       column:
                         element: "number"
-                        content: 7
+                        content: 6
                     content: 200
                   -
                     element: "number"
@@ -2197,6 +2197,6 @@ content:
                         content: 14
                       column:
                         element: "number"
-                        content: 108
+                        content: 107
                     content: 102
     content: "invalid value format for 'number' type. please check mson specification for valid format"
