@@ -17,9 +17,8 @@ TEST_CASE("Mixin block classifier", "[mson][mixin]")
     mdp::ByteBuffer source = "- Include Person";
 
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    markdownParser.parse(source, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
 
     REQUIRE(!markdownAST.children().empty());
     REQUIRE(markdownAST.children().front().type == mdp::ListItemMarkdownNodeType);

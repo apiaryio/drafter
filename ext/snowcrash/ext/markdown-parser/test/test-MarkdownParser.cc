@@ -14,13 +14,12 @@ using namespace mdp;
 TEST_CASE("Parse one paragaraph", "[parser][paragraph]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     // NOTE: +1 Error
     // Used version of sundown automatically adds a newline if one is missing.
     // If the input buffer does not ends with new line it might be "prolonged".
 
-    parser.parse("Hello World!\n", ast);
+    MarkdownNode ast = parser.parse("Hello World!\n");
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -41,7 +40,6 @@ TEST_CASE("Parse one paragaraph", "[parser][paragraph]")
 TEST_CASE("Parse when starting with empty line", "[parser][empty_line]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src
         = "\n"
@@ -49,7 +47,7 @@ TEST_CASE("Parse when starting with empty line", "[parser][empty_line]")
           "\n"
           "Ipsum\n";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -59,36 +57,39 @@ TEST_CASE("Parse when starting with empty line", "[parser][empty_line]")
     REQUIRE(ast.sourceMap[0].location == 0);
     REQUIRE(ast.sourceMap[0].length == 14);
 
-    MarkdownNode& node = ast.children()[0];
-    REQUIRE(node.type == ParagraphMarkdownNodeType);
-    REQUIRE(node.text == "Lorem");
-    REQUIRE(node.data == 0);
-    REQUIRE(node.children().empty());
-    REQUIRE(node.sourceMap.size() == 1);
-    REQUIRE(node.sourceMap[0].location == 1);
-    REQUIRE(node.sourceMap[0].length == 7);
+    {
+        MarkdownNode& node = ast.children()[0];
+        REQUIRE(node.type == ParagraphMarkdownNodeType);
+        REQUIRE(node.text == "Lorem");
+        REQUIRE(node.data == 0);
+        REQUIRE(node.children().empty());
+        REQUIRE(node.sourceMap.size() == 1);
+        REQUIRE(node.sourceMap[0].location == 1);
+        REQUIRE(node.sourceMap[0].length == 7);
+    }
 
-    node = ast.children()[1];
-    REQUIRE(node.type == ParagraphMarkdownNodeType);
-    REQUIRE(node.text == "Ipsum");
-    REQUIRE(node.data == 0);
-    REQUIRE(node.children().empty());
-    REQUIRE(node.sourceMap.size() == 1);
-    REQUIRE(node.sourceMap[0].location == 8);
-    REQUIRE(node.sourceMap[0].length == 6);
+    {
+        MarkdownNode& node = ast.children()[1];
+        REQUIRE(node.type == ParagraphMarkdownNodeType);
+        REQUIRE(node.text == "Ipsum");
+        REQUIRE(node.data == 0);
+        REQUIRE(node.children().empty());
+        REQUIRE(node.sourceMap.size() == 1);
+        REQUIRE(node.sourceMap[0].location == 8);
+        REQUIRE(node.sourceMap[0].length == 6);
+    }
 }
 
 TEST_CASE("Parse multiple paragaraphs", "[parser][paragraph]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src
         = "Lorem\n"
           "\n"
           "Ipsum\n";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -98,33 +99,36 @@ TEST_CASE("Parse multiple paragaraphs", "[parser][paragraph]")
     REQUIRE(ast.sourceMap[0].location == 0);
     REQUIRE(ast.sourceMap[0].length == 13);
 
-    MarkdownNode& node = ast.children()[0];
-    REQUIRE(node.type == ParagraphMarkdownNodeType);
-    REQUIRE(node.text == "Lorem");
-    REQUIRE(node.data == 0);
-    REQUIRE(node.children().empty());
-    REQUIRE(node.sourceMap.size() == 1);
-    REQUIRE(node.sourceMap[0].location == 0);
-    REQUIRE(node.sourceMap[0].length == 7);
+    {
+        MarkdownNode& node = ast.children()[0];
+        REQUIRE(node.type == ParagraphMarkdownNodeType);
+        REQUIRE(node.text == "Lorem");
+        REQUIRE(node.data == 0);
+        REQUIRE(node.children().empty());
+        REQUIRE(node.sourceMap.size() == 1);
+        REQUIRE(node.sourceMap[0].location == 0);
+        REQUIRE(node.sourceMap[0].length == 7);
+    }
 
-    node = ast.children()[1];
-    REQUIRE(node.type == ParagraphMarkdownNodeType);
-    REQUIRE(node.text == "Ipsum");
-    REQUIRE(node.data == 0);
-    REQUIRE(node.children().empty());
-    REQUIRE(node.sourceMap.size() == 1);
-    REQUIRE(node.sourceMap[0].location == 7);
-    REQUIRE(node.sourceMap[0].length == 6);
+    {
+        MarkdownNode& node = ast.children()[1];
+        REQUIRE(node.type == ParagraphMarkdownNodeType);
+        REQUIRE(node.text == "Ipsum");
+        REQUIRE(node.data == 0);
+        REQUIRE(node.children().empty());
+        REQUIRE(node.sourceMap.size() == 1);
+        REQUIRE(node.sourceMap[0].location == 7);
+        REQUIRE(node.sourceMap[0].length == 6);
+    }
 }
 
 TEST_CASE("Parse header", "[parser][header]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src = "# Header\n";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -147,13 +151,12 @@ TEST_CASE("Parse header", "[parser][header]")
 TEST_CASE("Parse multiple headers", "[parser][header]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src
         = "# Header 1\n"
           "## Header 2\n";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -163,33 +166,36 @@ TEST_CASE("Parse multiple headers", "[parser][header]")
     REQUIRE(ast.sourceMap[0].location == 0);
     REQUIRE(ast.sourceMap[0].length == 23);
 
-    MarkdownNode node = ast.children()[0];
-    REQUIRE(node.type == HeaderMarkdownNodeType);
-    REQUIRE(node.text == "Header 1");
-    REQUIRE(node.data == 1);
-    REQUIRE(node.children().empty());
-    REQUIRE(node.sourceMap.size() == 1);
-    REQUIRE(node.sourceMap[0].location == 0);
-    REQUIRE(node.sourceMap[0].length == 11);
+    {
+        MarkdownNode& node = ast.children()[0];
+        REQUIRE(node.type == HeaderMarkdownNodeType);
+        REQUIRE(node.text == "Header 1");
+        REQUIRE(node.data == 1);
+        REQUIRE(node.children().empty());
+        REQUIRE(node.sourceMap.size() == 1);
+        REQUIRE(node.sourceMap[0].location == 0);
+        REQUIRE(node.sourceMap[0].length == 11);
+    }
 
-    node = ast.children()[1];
-    REQUIRE(node.type == HeaderMarkdownNodeType);
-    REQUIRE(node.text == "Header 2");
-    REQUIRE(node.data == 2);
-    REQUIRE(node.children().empty());
-    REQUIRE(node.sourceMap.size() == 1);
-    REQUIRE(node.sourceMap[0].location == 11);
-    REQUIRE(node.sourceMap[0].length == 12);
+    {
+        MarkdownNode& node = ast.children()[1];
+        REQUIRE(node.type == HeaderMarkdownNodeType);
+        REQUIRE(node.text == "Header 2");
+        REQUIRE(node.data == 2);
+        REQUIRE(node.children().empty());
+        REQUIRE(node.sourceMap.size() == 1);
+        REQUIRE(node.sourceMap[0].location == 11);
+        REQUIRE(node.sourceMap[0].length == 12);
+    }
 }
 
 TEST_CASE("Parse horizontal rule", "[parser][hrule]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src = "---\n";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -199,7 +205,7 @@ TEST_CASE("Parse horizontal rule", "[parser][hrule]")
     REQUIRE(ast.sourceMap[0].location == 0);
     REQUIRE(ast.sourceMap[0].length == 4);
 
-    MarkdownNode node = ast.children().front();
+    MarkdownNode& node = ast.children().front();
     REQUIRE(node.type == HRuleMarkdownNodeType);
     REQUIRE(node.text.empty());
     REQUIRE(node.data == 0);
@@ -212,11 +218,10 @@ TEST_CASE("Parse horizontal rule", "[parser][hrule]")
 TEST_CASE("Parse code block", "[parser][code]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src = "    <code>42</code>\n";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -226,7 +231,7 @@ TEST_CASE("Parse code block", "[parser][code]")
     REQUIRE(ast.sourceMap[0].location == 0);
     REQUIRE(ast.sourceMap[0].length == 20);
 
-    MarkdownNode node = ast.children().front();
+    MarkdownNode& node = ast.children().front();
     REQUIRE(node.type == CodeMarkdownNodeType);
     REQUIRE(node.text == "<code>42</code>\n");
     REQUIRE(node.data == 0);
@@ -239,11 +244,10 @@ TEST_CASE("Parse code block", "[parser][code]")
 TEST_CASE("Parse HTML block tag", "[parser][html]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src = "<div>some</div>\n";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -253,7 +257,7 @@ TEST_CASE("Parse HTML block tag", "[parser][html]")
     REQUIRE(ast.sourceMap[0].location == 0);
     REQUIRE(ast.sourceMap[0].length == 16);
 
-    MarkdownNode node = ast.children().front();
+    MarkdownNode& node = ast.children().front();
     REQUIRE(node.type == HTMLMarkdownNodeType);
     REQUIRE(node.text == "<div>some</div>\n");
     REQUIRE(node.data == 0);
@@ -266,11 +270,10 @@ TEST_CASE("Parse HTML block tag", "[parser][html]")
 TEST_CASE("Parse single list item", "[parser][list]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src = "- list item\n";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -280,7 +283,7 @@ TEST_CASE("Parse single list item", "[parser][list]")
     REQUIRE(ast.sourceMap[0].location == 0);
     REQUIRE(ast.sourceMap[0].length == 12);
 
-    MarkdownNode node = ast.children()[0];
+    MarkdownNode& node = ast.children()[0];
     REQUIRE(node.type == ListItemMarkdownNodeType);
     REQUIRE(node.text.empty());
     REQUIRE(node.data == 2);
@@ -289,20 +292,19 @@ TEST_CASE("Parse single list item", "[parser][list]")
     REQUIRE(node.sourceMap[0].location == 0);
     REQUIRE(node.sourceMap[0].length == 12);
 
-    node = node.children()[0];
-    REQUIRE(node.type == ParagraphMarkdownNodeType);
-    REQUIRE(node.text == "list item");
-    REQUIRE(node.data == 0);
-    REQUIRE(node.children().empty());
-    REQUIRE(node.sourceMap.size() == 1);
-    REQUIRE(node.sourceMap[0].location == 2);
-    REQUIRE(node.sourceMap[0].length == 10);
+    MarkdownNode& item = node.children()[0];
+    REQUIRE(item.type == ParagraphMarkdownNodeType);
+    REQUIRE(item.text == "list item");
+    REQUIRE(item.data == 0);
+    REQUIRE(item.children().empty());
+    REQUIRE(item.sourceMap.size() == 1);
+    REQUIRE(item.sourceMap[0].location == 2);
+    REQUIRE(item.sourceMap[0].length == 10);
 }
 
 TEST_CASE("Parse nested list items", "[parser][list]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src
         = "- A\n"
@@ -326,7 +328,7 @@ TEST_CASE("Parse nested list items", "[parser][list]")
             + paragraph "E"
      */
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -355,7 +357,7 @@ TEST_CASE("Parse nested list items", "[parser][list]")
     REQUIRE(itemA.children()[0].sourceMap[0].length == 2);
 
     // List Item B
-    MarkdownNode itemB = itemA.children()[1];
+    MarkdownNode& itemB = itemA.children()[1];
     REQUIRE(itemB.type == ListItemMarkdownNodeType);
     REQUIRE(itemB.text.empty());
     REQUIRE(itemB.data == 2);
@@ -370,13 +372,13 @@ TEST_CASE("Parse nested list items", "[parser][list]")
     REQUIRE(itemB.children()[0].text == "B");
     REQUIRE(itemB.children()[0].data == 0);
     REQUIRE(itemB.children()[0].children().empty());
-    MarkdownNode paraBX = itemB.children()[0];
+    MarkdownNode& paraBX = itemB.children()[0];
     REQUIRE(itemB.children()[0].sourceMap.size() == 1);
     REQUIRE(itemB.children()[0].sourceMap[0].location == 10);
     REQUIRE(itemB.children()[0].sourceMap[0].length == 2);
 
     // List Item C
-    MarkdownNode itemC = itemB.children()[1];
+    MarkdownNode& itemC = itemB.children()[1];
     REQUIRE(itemC.type == ListItemMarkdownNodeType);
     REQUIRE(itemC.text.empty());
     REQUIRE(itemC.data == 2);
@@ -394,7 +396,7 @@ TEST_CASE("Parse nested list items", "[parser][list]")
     REQUIRE(itemC.children()[0].sourceMap[0].length == 2);
 
     // List Item D
-    MarkdownNode itemD = itemA.children()[2];
+    MarkdownNode& itemD = itemA.children()[2];
     REQUIRE(itemD.type == ListItemMarkdownNodeType);
     REQUIRE(itemD.text.empty());
     REQUIRE(itemD.data == 2);
@@ -412,7 +414,7 @@ TEST_CASE("Parse nested list items", "[parser][list]")
     REQUIRE(itemD.children()[0].sourceMap[0].length == 2);
 
     // List Item E
-    MarkdownNode itemE = ast.children()[1];
+    MarkdownNode& itemE = ast.children()[1];
     REQUIRE(itemE.type == ListItemMarkdownNodeType);
     REQUIRE(itemE.text.empty());
     REQUIRE(itemE.data == 2);
@@ -433,7 +435,6 @@ TEST_CASE("Parse nested list items", "[parser][list]")
 TEST_CASE("Parse list item with multiple paragraphs", "[parser][list]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src
         = "- A\n"
@@ -443,7 +444,7 @@ TEST_CASE("Parse list item with multiple paragraphs", "[parser][list]")
           "\n"
           "    E\n";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -453,7 +454,7 @@ TEST_CASE("Parse list item with multiple paragraphs", "[parser][list]")
     REQUIRE(ast.sourceMap[0].location == 0);
     REQUIRE(ast.sourceMap[0].length == 24);
 
-    MarkdownNode node = ast.children()[0];
+    MarkdownNode& node = ast.children()[0];
     REQUIRE(node.type == ListItemMarkdownNodeType);
     REQUIRE(node.text.empty());
     REQUIRE(node.data == 2);
@@ -495,11 +496,10 @@ TEST_CASE("Parse list item with multiple paragraphs", "[parser][list]")
 TEST_CASE("Parse a simple quote", "[parser][quote]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src = "> quote\n";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -531,7 +531,6 @@ TEST_CASE("Parse a simple quote", "[parser][quote]")
 TEST_CASE("Source map crash", "[parser][sourcemap][issue][snowcrash][62]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src
         = "* B\n"
@@ -540,7 +539,7 @@ TEST_CASE("Source map crash", "[parser][sourcemap][issue][snowcrash][62]")
           "\n"
           "* E\n";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -551,11 +550,10 @@ TEST_CASE("Source map crash", "[parser][sourcemap][issue][snowcrash][62]")
 TEST_CASE("Map node without trailing newline", "[parser][sourcemap]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src = "# Hello World";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -577,7 +575,6 @@ TEST_CASE("Map node without trailing newline", "[parser][sourcemap]")
 TEST_CASE("Parse six nested level list items", "[parser]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src
         = "+ 1\n"
@@ -587,53 +584,52 @@ TEST_CASE("Parse six nested level list items", "[parser]")
           "                + 5\n"
           "                    + 6\n";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
     REQUIRE(ast.children().size() == 1);
 
-    MarkdownNode& list = ast.children().back();
-    REQUIRE(list.type == ListItemMarkdownNodeType);
-    REQUIRE(list.children().size() == 2);
-    REQUIRE(list.children().front().type == ParagraphMarkdownNodeType);
-    REQUIRE(list.children().front().text == "1");
+    MarkdownNode& item1 = ast.children().back();
+    REQUIRE(item1.type == ListItemMarkdownNodeType);
+    REQUIRE(item1.children().size() == 2);
+    REQUIRE(item1.children().front().type == ParagraphMarkdownNodeType);
+    REQUIRE(item1.children().front().text == "1");
 
-    list = list.children().back();
-    REQUIRE(list.type == ListItemMarkdownNodeType);
-    REQUIRE(list.children().size() == 2);
-    REQUIRE(list.children().front().type == ParagraphMarkdownNodeType);
-    REQUIRE(list.children().front().text == "2");
+    MarkdownNode& item2 = item1.children().back();
+    REQUIRE(item2.type == ListItemMarkdownNodeType);
+    REQUIRE(item2.children().size() == 2);
+    REQUIRE(item2.children().front().type == ParagraphMarkdownNodeType);
+    REQUIRE(item2.children().front().text == "2");
 
-    list = list.children().back();
-    REQUIRE(list.type == ListItemMarkdownNodeType);
-    REQUIRE(list.children().size() == 2);
-    REQUIRE(list.children().front().type == ParagraphMarkdownNodeType);
-    REQUIRE(list.children().front().text == "3");
+    MarkdownNode& item3 = item2.children().back();
+    REQUIRE(item3.type == ListItemMarkdownNodeType);
+    REQUIRE(item3.children().size() == 2);
+    REQUIRE(item3.children().front().type == ParagraphMarkdownNodeType);
+    REQUIRE(item3.children().front().text == "3");
 
-    list = list.children().back();
-    REQUIRE(list.type == ListItemMarkdownNodeType);
-    REQUIRE(list.children().size() == 2);
-    REQUIRE(list.children().front().type == ParagraphMarkdownNodeType);
-    REQUIRE(list.children().front().text == "4");
+    MarkdownNode& item4 = item3.children().back();
+    REQUIRE(item4.type == ListItemMarkdownNodeType);
+    REQUIRE(item4.children().size() == 2);
+    REQUIRE(item4.children().front().type == ParagraphMarkdownNodeType);
+    REQUIRE(item4.children().front().text == "4");
 
-    list = list.children().back();
-    REQUIRE(list.type == ListItemMarkdownNodeType);
-    REQUIRE(list.children().size() == 2);
-    REQUIRE(list.children().front().type == ParagraphMarkdownNodeType);
-    REQUIRE(list.children().front().text == "5");
+    MarkdownNode& item5 = item4.children().back();
+    REQUIRE(item5.type == ListItemMarkdownNodeType);
+    REQUIRE(item5.children().size() == 2);
+    REQUIRE(item5.children().front().type == ParagraphMarkdownNodeType);
+    REQUIRE(item5.children().front().text == "5");
 
-    list = list.children().back();
-    REQUIRE(list.type == ListItemMarkdownNodeType);
-    REQUIRE(list.children().size() == 1);
-    REQUIRE(list.children().front().type == ParagraphMarkdownNodeType);
-    REQUIRE(list.children().front().text == "6");
+    MarkdownNode& item6 = item5.children().back();
+    REQUIRE(item6.type == ListItemMarkdownNodeType);
+    REQUIRE(item6.children().size() == 1);
+    REQUIRE(item6.children().front().type == ParagraphMarkdownNodeType);
+    REQUIRE(item6.children().front().text == "6");
 }
 
 TEST_CASE("Multi-paragraph list item source map", "[parser][sourcemap]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     // List item with two paragraphs & lazy indentation:
     //
@@ -650,7 +646,7 @@ TEST_CASE("Multi-paragraph list item source map", "[parser][sourcemap]")
           "    consectetur\n"
           "adipiscing elit\n";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -685,35 +681,37 @@ TEST_CASE("Multi-paragraph list item source map", "[parser][sourcemap]")
 TEST_CASE("Sublist should have more indentation than the list item", "[parser]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src
         = " + 1\n"
           "+ 2\n";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
     REQUIRE(ast.children().size() == 2);
 
-    MarkdownNode& list = ast.children().front();
-    REQUIRE(list.type == ListItemMarkdownNodeType);
-    REQUIRE(list.children().size() == 1);
-    REQUIRE(list.children().front().type == ParagraphMarkdownNodeType);
-    REQUIRE(list.children().front().text == "1");
+    {
+        MarkdownNode& list = ast.children().front();
+        REQUIRE(list.type == ListItemMarkdownNodeType);
+        REQUIRE(list.children().size() == 1);
+        REQUIRE(list.children().front().type == ParagraphMarkdownNodeType);
+        REQUIRE(list.children().front().text == "1");
+    }
 
-    list = ast.children().back();
-    REQUIRE(list.type == ListItemMarkdownNodeType);
-    REQUIRE(list.children().size() == 1);
-    REQUIRE(list.children().front().type == ParagraphMarkdownNodeType);
-    REQUIRE(list.children().front().text == "2");
+    {
+        MarkdownNode& list = ast.children().back();
+        REQUIRE(list.type == ListItemMarkdownNodeType);
+        REQUIRE(list.children().size() == 1);
+        REQUIRE(list.children().front().type == ParagraphMarkdownNodeType);
+        REQUIRE(list.children().front().text == "2");
+    }
 }
 
 TEST_CASE("Empty quota in listitem", "[parser]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src
         = "+ a\n"
@@ -722,7 +720,7 @@ TEST_CASE("Empty quota in listitem", "[parser]")
           "              \"t\"\n"
           "            }";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());

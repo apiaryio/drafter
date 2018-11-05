@@ -26,9 +26,8 @@ mdp::ByteBuffer BlueprintFixture
 TEST_CASE("Blueprint block classifier", "[blueprint]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    markdownParser.parse(BlueprintFixture, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(BlueprintFixture);
 
     REQUIRE(!markdownAST.children().empty());
 
@@ -526,13 +525,12 @@ TEST_CASE("Parsing blueprint with mson data structures", "[blueprint]")
           "\n";
 
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
 
     ParseResult<Blueprint> blueprint;
     mson::NamedTypeBaseTable::iterator baseIt;
     mson::NamedTypeInheritanceTable::iterator inheritanceIt;
 
-    markdownParser.parse(source, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
     REQUIRE(!markdownAST.children().empty());
 
     snowcrash::SectionParserData pd(ExportSourcemapOption, source, blueprint.node);

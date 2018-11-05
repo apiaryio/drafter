@@ -26,8 +26,7 @@ const mdp::ByteBuffer HeadersSignatureContentFixture
 TEST_CASE("recognize headers signature", "[headers]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
-    markdownParser.parse(HeadersFixture, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(HeadersFixture);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Headers>::sectionType(markdownAST.children().begin());

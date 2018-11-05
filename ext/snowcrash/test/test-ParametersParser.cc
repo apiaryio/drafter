@@ -26,8 +26,7 @@ const mdp::ByteBuffer ParametersFixture
 TEST_CASE("Recognize Parameters section block", "[parameters]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
-    markdownParser.parse(ParametersFixture, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(ParametersFixture);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameters>::sectionType(markdownAST.children().begin());
