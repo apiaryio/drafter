@@ -1,54 +1,70 @@
 #include "SourceMapUtils.h"
 #include <algorithm>
 
+#include "utils/Utf8.h"
+
+#include <iostream>
+
 namespace drafter
 {
 
-    void GetLineFromMap(const std::vector<size_t>& linesEndIndex, const mdp::Range& range, AnnotationPosition& out)
+    const AnnotationPosition GetLineFromMap(const NewLinesIndex& linesEndIndex, const mdp::Range& range)
     {
-
-        std::vector<size_t>::const_iterator annotationPositionIt;
-
-        out.fromLine = 0;
-        out.fromColumn = 0;
-        out.toLine = 0;
-        out.toColumn = 0;
-
         // Finds starting line and column position
-        annotationPositionIt = std::upper_bound(linesEndIndex.begin(), linesEndIndex.end(), range.location) - 1;
+        AnnotationPosition out;
+        if (linesEndIndex.empty()) { // to avoid std::prev() on empty
+            return out;
+        }
+
+        auto annotationPositionIt = std::upper_bound(linesEndIndex.begin(), linesEndIndex.end(), range.location);
 
         if (annotationPositionIt != linesEndIndex.end()) {
-
-            out.fromLine = std::distance(linesEndIndex.begin(), annotationPositionIt) + 1;
-            out.fromColumn = range.location - *annotationPositionIt + 1;
+            out.fromLine = std::distance(linesEndIndex.begin(), annotationPositionIt);
+            out.fromColumn = range.location - *std::prev(annotationPositionIt);
         }
 
         // Finds ending line and column position
         annotationPositionIt
-            = std::lower_bound(linesEndIndex.begin(), linesEndIndex.end(), range.location + range.length) - 1;
+            = std::lower_bound(linesEndIndex.begin(), linesEndIndex.end(), range.location + range.length);
+
+        //
+        // FIXME: workaround for byte mapping
+        // handle just case when position is after latest newline
+        // remove once all sourceMaps will correctly send character ranges
+        //
+
+        if (linesEndIndex.back() < (range.location + range.length)) {
+            out.toLine = linesEndIndex.size();
+            return out;
+        }
+
+        // end of byte mapping workarround
 
         if (annotationPositionIt != linesEndIndex.end()) {
-
-            out.toLine = std::distance(linesEndIndex.begin(), annotationPositionIt) + 1;
-            out.toColumn = (range.location + range.length) - *annotationPositionIt + 1;
-
-            if (*(annotationPositionIt + 1) == (range.location + range.length)) {
-                out.toColumn--;
-            }
+            out.toLine = std::distance(linesEndIndex.begin(), annotationPositionIt);
+            out.toColumn = (range.location + range.length) - *(std::prev(annotationPositionIt)) - 1;
         }
+
+        return out;
     }
 
-    void GetLinesEndIndex(const std::string& source, std::vector<size_t>& out)
+    const NewLinesIndex GetLinesEndIndex(const std::string& source)
     {
+
+        NewLinesIndex out;
 
         out.push_back(0);
 
-        for (size_t i = 0; i < source.length(); i++) {
+        utils::utf8::input_iterator<std::string::const_iterator> it(source);
+        utils::utf8::input_iterator<std::string::const_iterator> e{ source.end(), source.end() };
 
-            if (source[i] == '\n') {
-                out.push_back(i + 1);
-            }
+        int i = 1;
+        for (; it != e; ++it, ++i) {
+            if (*it == '\n')
+                out.push_back(i);
         }
+
+        return out;
     }
 
 } // namespace drafter

@@ -2,6 +2,9 @@
 
 #include "../src/SourceMapUtils.h"
 
+#include <iostream>
+#include <iterator>
+
 using namespace drafter;
 
 /*
@@ -10,12 +13,12 @@ Map:
 '_' - other character
 
 01234567
-   
+
 ____^     0, 5
 ____^     5, 5
 ^        10, 1
 ___^     11, 4
-__^      15, 3 
+__^      15, 3
 _______^ 18, 8
 */
 
@@ -33,10 +36,9 @@ TEST_CASE("AnnotationPosition is initialized to zero", "[sourcemap utils]")
 
 TEST_CASE("GetLineFromMap for position [0,3]", "[sourcemap utils]")
 {
-    AnnotationPosition a;
-    mdp::Range r = {0,3};
+    mdp::Range r = { 0, 3 };
 
-    GetLineFromMap(nlIndex, r, a);
+    const auto a = GetLineFromMap(nlIndex, r);
 
     REQUIRE(a.fromLine == 1);
     REQUIRE(a.fromColumn == 0);
@@ -46,10 +48,9 @@ TEST_CASE("GetLineFromMap for position [0,3]", "[sourcemap utils]")
 
 TEST_CASE("GetLineFromMap for position - 1st line w/o NL", "[sourcemap utils]")
 {
-    AnnotationPosition a;
-    mdp::Range r = {0,4};
+    mdp::Range r = { 0, 4 };
 
-    GetLineFromMap(nlIndex, r, a);
+    const auto a = GetLineFromMap(nlIndex, r);
 
     REQUIRE(a.fromLine == 1);
     REQUIRE(a.fromColumn == 0);
@@ -59,10 +60,9 @@ TEST_CASE("GetLineFromMap for position - 1st line w/o NL", "[sourcemap utils]")
 
 TEST_CASE("GetLineFromMap for position - 1st line w/ NL", "[sourcemap utils]")
 {
-    AnnotationPosition a;
-    mdp::Range r = {0,5};
+    mdp::Range r = { 0, 5 };
 
-    GetLineFromMap(nlIndex, r, a);
+    const auto a = GetLineFromMap(nlIndex, r);
 
     REQUIRE(a.fromLine == 1);
     REQUIRE(a.fromColumn == 0);
@@ -72,10 +72,9 @@ TEST_CASE("GetLineFromMap for position - 1st line w/ NL", "[sourcemap utils]")
 
 TEST_CASE("GetLineFromMap for position - 2nd line w/ NL", "[sourcemap utils]")
 {
-    AnnotationPosition a;
-    mdp::Range r = {5,5};
+    mdp::Range r = { 5, 5 };
 
-    GetLineFromMap(nlIndex, r, a);
+    const auto a = GetLineFromMap(nlIndex, r);
 
     REQUIRE(a.fromLine == 2);
     REQUIRE(a.fromColumn == 0);
@@ -85,10 +84,9 @@ TEST_CASE("GetLineFromMap for position - 2nd line w/ NL", "[sourcemap utils]")
 
 TEST_CASE("GetLineFromMap for position - last line w/ NL", "[sourcemap utils]")
 {
-    AnnotationPosition a;
-    mdp::Range r = {18,8};
+    mdp::Range r = { 18, 8 };
 
-    GetLineFromMap(nlIndex, r, a);
+    const auto a = GetLineFromMap(nlIndex, r);
 
     REQUIRE(a.fromLine == 6);
     REQUIRE(a.fromColumn == 0);
@@ -98,10 +96,9 @@ TEST_CASE("GetLineFromMap for position - last line w/ NL", "[sourcemap utils]")
 
 TEST_CASE("GetLineFromMap for position - 3rd empty line - just NL", "[sourcemap utils]")
 {
-    AnnotationPosition a;
-    mdp::Range r = {10,1};
+    mdp::Range r = { 10, 1 };
 
-    GetLineFromMap(nlIndex, r, a);
+    const auto a = GetLineFromMap(nlIndex, r);
 
     REQUIRE(a.fromLine == 3);
     REQUIRE(a.fromColumn == 0);
@@ -111,10 +108,9 @@ TEST_CASE("GetLineFromMap for position - 3rd empty line - just NL", "[sourcemap 
 
 TEST_CASE("GetLineFromMap for position - 1st two lines", "[sourcemap utils]")
 {
-    AnnotationPosition a;
-    mdp::Range r = {0,10};
+    mdp::Range r = { 0, 10 };
 
-    GetLineFromMap(nlIndex, r, a);
+    const auto a = GetLineFromMap(nlIndex, r);
 
     REQUIRE(a.fromLine == 1);
     REQUIRE(a.fromColumn == 0);
@@ -124,10 +120,9 @@ TEST_CASE("GetLineFromMap for position - 1st two lines", "[sourcemap utils]")
 
 TEST_CASE("GetLineFromMap for position - lines 1-3", "[sourcemap utils]")
 {
-    AnnotationPosition a;
-    mdp::Range r = {5,10};
+    mdp::Range r = { 5, 10 };
 
-    GetLineFromMap(nlIndex, r, a);
+    const auto a = GetLineFromMap(nlIndex, r);
 
     REQUIRE(a.fromLine == 2);
     REQUIRE(a.fromColumn == 0);
@@ -137,13 +132,33 @@ TEST_CASE("GetLineFromMap for position - lines 1-3", "[sourcemap utils]")
 
 TEST_CASE("GetLineFromMap for position - all lines", "[sourcemap utils]")
 {
-    AnnotationPosition a;
-    mdp::Range r = {0,26};
+    mdp::Range r = { 0, 26 };
 
-    GetLineFromMap(nlIndex, r, a);
+    const auto a = GetLineFromMap(nlIndex, r);
 
     REQUIRE(a.fromLine == 1);
     REQUIRE(a.fromColumn == 0);
     REQUIRE(a.toLine == 6);
     REQUIRE(a.toColumn == 7);
+}
+
+TEST_CASE("GetLineFromMap for position - range is overflowing last char index", "[sourcemap utils workaround]")
+{
+    mdp::Range r = { 22, 10 };
+
+    const auto a = GetLineFromMap(nlIndex, r);
+
+    REQUIRE(a.fromLine == 6);
+    REQUIRE(a.fromColumn == 4);
+    REQUIRE(a.toLine == 7);
+    REQUIRE(a.toColumn == 0);
+}
+
+TEST_CASE("GetLinesEndIndex - check indexing utf8 chars", "[sourcemap utils]")
+{
+    const static std::string input = "$\n¢\n€\n𐍈\n"; // 0, 2, 4, 6, 8
+    const NewLinesIndex expected = { 0, 2, 4, 6, 8 };
+
+    const auto out = GetLinesEndIndex(input);
+    REQUIRE(std::equal(expected.begin(), expected.end(), out.begin()));
 }

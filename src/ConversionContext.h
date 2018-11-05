@@ -20,7 +20,7 @@ namespace drafter
     class ConversionContext
     {
         refract::Registry registry;
-        NewLinesIndex newLinesIndex;
+        const NewLinesIndex newLinesIndex;
 
     public:
         ConversionContext(const char* source, const WrapperOptions& options);

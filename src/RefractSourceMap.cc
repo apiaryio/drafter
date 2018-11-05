@@ -39,8 +39,7 @@ std::unique_ptr<IElement> drafter::SourceMapToRefractWithColumnLineInfo(
         sourceMap.end(),
         std::back_inserter(sourceMapElement->get()),
         [&context](auto& sourceMap) {
-            AnnotationPosition position;
-            GetLineFromMap(context.GetNewLinesIndex(), sourceMap, position);
+            auto position = GetLineFromMap(context.GetNewLinesIndex(), sourceMap);
 
             auto location = make_element<NumberElement>(sourceMap.location);
             location->attributes().set("line", from_primitive(position.fromLine));

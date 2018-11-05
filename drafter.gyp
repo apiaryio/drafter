@@ -416,6 +416,7 @@
         "test/test-ElementInfoUtils.cc",
         "test/test-ElementComparator.cc",
         "test/test-VisitorUtils.cc",
+        "test/test-sourceMapToLineColumn.cc",
 
       ],
       'dependencies': [

@@ -55,10 +55,10 @@ namespace
             std::cerr << " " << annotation.message;
         }
 
-        std::vector<size_t> linesEndIndex;
+        NewLinesIndex linesEndIndex;
 
         if (useLineNumbers) {
-            GetLinesEndIndex(source, linesEndIndex);
+            linesEndIndex = GetLinesEndIndex(source);
         }
 
         if (!annotation.location.empty()) {
@@ -69,8 +69,7 @@ namespace
 
                 if (useLineNumbers) {
 
-                    AnnotationPosition annotationPosition;
-                    ::GetLineFromMap(linesEndIndex, *it, annotationPosition);
+                    auto annotationPosition = GetLineFromMap(linesEndIndex, *it);
 
                     std::cerr << "; line " << annotationPosition.fromLine << ", column "
                               << annotationPosition.fromColumn;
@@ -94,7 +93,7 @@ namespace
         AnnotationToString(const std::string& source, const bool useLineNumbers) : useLineNumbers(useLineNumbers)
         {
             if (useLineNumbers) {
-                GetLinesEndIndex(source, linesEndIndex);
+                linesEndIndex = GetLinesEndIndex(source);
             }
         }
 
@@ -110,9 +109,8 @@ namespace
 
                     if (useLineNumbers) {
 
-                        AnnotationPosition annotationPosition;
                         mdp::Range pos(static_cast<std::int64_t>(loc->get()), static_cast<std::int64_t>(len->get()));
-                        ::GetLineFromMap(linesEndIndex, pos, annotationPosition);
+                        const auto annotationPosition = GetLineFromMap(linesEndIndex, pos);
 
                         output << "; line " << annotationPosition.fromLine << ", column "
                                << annotationPosition.fromColumn;

@@ -11,9 +11,9 @@
 namespace drafter
 {
 
-    ConversionContext::ConversionContext(const char* source, const WrapperOptions& options) : options(options)
+    ConversionContext::ConversionContext(const char* source, const WrapperOptions& options)
+        : newLinesIndex(GetLinesEndIndex(source)), options(options)
     {
-        GetLinesEndIndex(source, newLinesIndex);
     }
 
     void ConversionContext::warn(const snowcrash::Warning& warning)
