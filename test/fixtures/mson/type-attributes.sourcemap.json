@@ -201,7 +201,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 3
+                          "content": 2
                         }
                       },
                       "content": 24
@@ -215,7 +215,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 64
+                          "content": 63
                         }
                       },
                       "content": 62
@@ -265,7 +265,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 3
+                          "content": 2
                         }
                       },
                       "content": 24
@@ -279,7 +279,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 64
+                          "content": 63
                         }
                       },
                       "content": 62
@@ -329,7 +329,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 3
+                          "content": 2
                         }
                       },
                       "content": 24
@@ -343,7 +343,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 64
+                          "content": 63
                         }
                       },
                       "content": 62
@@ -393,7 +393,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 3
+                          "content": 2
                         }
                       },
                       "content": 24
@@ -407,7 +407,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 64
+                          "content": 63
                         }
                       },
                       "content": 62

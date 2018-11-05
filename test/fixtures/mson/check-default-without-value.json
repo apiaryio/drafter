@@ -151,7 +151,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 11
+                          "content": 10
                         }
                       },
                       "content": 66
@@ -165,7 +165,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 25
+                          "content": 24
                         }
                       },
                       "content": 15

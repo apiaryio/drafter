@@ -37,7 +37,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 3
+                          "content": 2
                         }
                       },
                       "content": 282
@@ -51,7 +51,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 14
+                          "content": 13
                         }
                       },
                       "content": 12
@@ -101,7 +101,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 3
+                          "content": 2
                         }
                       },
                       "content": 282
@@ -115,7 +115,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 14
+                          "content": 13
                         }
                       },
                       "content": 12
