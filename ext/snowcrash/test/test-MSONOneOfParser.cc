@@ -17,9 +17,8 @@ TEST_CASE("OneOf block classifier", "[mson][one_of]")
     mdp::ByteBuffer source = "- one Of";
 
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    markdownParser.parse(source, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
 
     REQUIRE(!markdownAST.children().empty());
     REQUIRE(markdownAST.children().front().type == mdp::ListItemMarkdownNodeType);
@@ -38,9 +37,8 @@ TEST_CASE("OneOf be tolerant on parsing input", "[mson][one_of]")
     mdp::ByteBuffer source = "- one \t Of";
 
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    markdownParser.parse(source, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
 
     sectionType = SectionProcessor<mson::OneOf>::sectionType(markdownAST.children().begin());
     REQUIRE(sectionType == MSONOneOfSectionType);

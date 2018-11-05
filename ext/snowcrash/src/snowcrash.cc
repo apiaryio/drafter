@@ -63,8 +63,7 @@ int snowcrash::parse(
 
         // Parse Markdown
         mdp::MarkdownParser markdownParser;
-        mdp::MarkdownNode markdownAST;
-        markdownParser.parse(source, markdownAST);
+        mdp::MarkdownNode markdownAST = markdownParser.parse(source);
 
         // Build SectionParserData
         SectionParserData pd(options, source, out.node);

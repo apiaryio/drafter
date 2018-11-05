@@ -11,33 +11,10 @@
 using namespace mdp;
 
 MarkdownNode::MarkdownNode(MarkdownNodeType type_, MarkdownNode* parent_, const ByteBuffer& text_, const Data& data_)
-    : type(type_), text(text_), data(data_), m_parent(parent_)
+    : type(type_), text(text_), data(data_), sourceMap(), m_parent(parent_), m_children(nullptr)
 {
     m_children.reset(::new MarkdownNodes);
 }
-
-MarkdownNode::MarkdownNode(const MarkdownNode& rhs)
-{
-    this->type = rhs.type;
-    this->text = rhs.text;
-    this->data = rhs.data;
-    this->sourceMap = rhs.sourceMap;
-    this->m_children.reset(::new MarkdownNodes(*rhs.m_children.get()));
-    this->m_parent = rhs.m_parent;
-}
-
-MarkdownNode& MarkdownNode::operator=(const MarkdownNode& rhs)
-{
-    this->type = rhs.type;
-    this->text = rhs.text;
-    this->data = rhs.data;
-    this->sourceMap = rhs.sourceMap;
-    this->m_children.reset(::new MarkdownNodes(*rhs.m_children.get()));
-    this->m_parent = rhs.m_parent;
-    return *this;
-}
-
-MarkdownNode::~MarkdownNode() {}
 
 MarkdownNode& MarkdownNode::parent()
 {

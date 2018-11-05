@@ -33,9 +33,8 @@ TEST_CASE("Resource group block classifier", "[resource_group]")
     "Assembly language\n";
 
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    markdownParser.parse(source, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
 
     REQUIRE(!markdownAST.children().empty());
     sectionType = SectionProcessor<ResourceGroup>::sectionType(markdownAST.children().begin());

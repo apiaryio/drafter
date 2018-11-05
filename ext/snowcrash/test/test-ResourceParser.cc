@@ -34,9 +34,8 @@ mdp::ByteBuffer ResourceFixture
 TEST_CASE("Resource block classifier", "[resource]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    markdownParser.parse(ResourceFixture, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(ResourceFixture);
 
     REQUIRE(!markdownAST.children().empty());
     sectionType = SectionProcessor<Resource>::sectionType(markdownAST.children().begin());
