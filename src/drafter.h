@@ -31,12 +31,13 @@ extern "C" {
 #endif
 #endif
 
-#ifndef DRAFTER_API
 #if defined _WIN32 || defined __CYGWIN__
 #if defined(DRAFTER_BUILD_SHARED) /* build dll */
+#if defined(BUILDING_DRAFTER)
 #define DRAFTER_API __declspec(dllexport)
-#elif !defined(DRAFTER_BUILD_STATIC) /* use dll */
+#else
 #define DRAFTER_API __declspec(dllimport)
+#endif
 #else               /* static library */
 #define DRAFTER_API /* nothing */
 #endif
@@ -46,7 +47,7 @@ extern "C" {
 #else
 #define DRAFTER_API
 #endif
-#endif
+
 #endif
 
 #ifndef __cplusplus
