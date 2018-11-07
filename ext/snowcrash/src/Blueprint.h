@@ -163,10 +163,10 @@ namespace snowcrash
         };
 
         /** Identifier */
-        Identifier id;
+        Identifier id = "";
 
         /** Type */
-        ReferenceType type;
+        ReferenceType type = ModelReference;
 
         struct ReferenceMetadata {
 
@@ -181,7 +181,7 @@ namespace snowcrash
         };
 
         /** Metadata for the reference */
-        ReferenceMetadata meta;
+        ReferenceMetadata meta = {};
     };
 
     /**
@@ -446,19 +446,19 @@ namespace snowcrash
         Element::Content content;
 
         /** Type of Category element (to be used internally only) */
-        Element::Category category;
+        Element::Category category = UndefinedCategory;
 
         /** Constructor */
-        Element(const Element::Class& element_ = Element::UndefinedElement);
+        explicit Element(const Element::Class& element_ = Element::UndefinedElement);
 
         /** Copy constructor */
-        Element(const Element& rhs);
+        Element(const Element& rhs) = default;
 
         /** Assignment operator */
-        Element& operator=(const Element& rhs);
+        Element& operator=(const Element& rhs) = default;
 
         /** Destructor */
-        ~Element();
+        ~Element() = default;
     };
 
     /**

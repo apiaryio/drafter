@@ -21,7 +21,7 @@ namespace refract
         ///
         /// Simple mock of an element. No thread-safety guarantees.
         ///
-        struct ElementMock : refract::IElement, tracked<ElementMock> {
+        struct ElementMock : tracked<ElementMock>, refract::IElement {
             mutable int _total_ctx = 0;
 
             /// A value

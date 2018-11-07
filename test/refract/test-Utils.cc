@@ -8,19 +8,11 @@
 
 #include <cassert>
 #include <catch2/catch.hpp>
-#include "../Tracker.h"
 #include "refract/Element.h"
 
 #include "refract/Utils.h"
 
 using namespace refract;
-
-namespace
-{
-    struct foo : public tracked<foo> {
-        int bar_ = 42;
-    };
-} // namespace
 
 SCENARIO("Elements are visited by a void() visitor", "[Element][utils][visitor]")
 {

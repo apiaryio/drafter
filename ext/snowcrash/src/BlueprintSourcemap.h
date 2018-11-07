@@ -283,28 +283,28 @@ namespace snowcrash
         };
 
         /** Class of the Element (to be used internally only) */
-        Element::Class element;
+        Element::Class element = Element::UndefinedElement;
 
         /** Source Map of Attributes of the Element */
-        Attributes attributes;
+        Attributes attributes = {};
 
         /** Source Map of Content of the Element */
-        Content content;
+        Content content = {};
 
         /** Type of the Category element (to be used internally only) */
-        Element::Category category;
+        Element::Category category = Element::UndefinedCategory;
 
         /** Constructor */
-        SourceMap(const Element::Class& element_ = Element::UndefinedElement);
+        explicit SourceMap(const Element::Class& element_ = Element::UndefinedElement);
 
         /** Copy constructor */
-        SourceMap(const SourceMap<Element>& rhs);
+        SourceMap(const SourceMap<Element>& rhs) = default;
 
         /** Assignment operator */
-        SourceMap<Element>& operator=(const SourceMap<Element>& rhs);
+        SourceMap<Element>& operator=(const SourceMap<Element>& rhs) = default;
 
         /** Destructor */
-        ~SourceMap();
+        ~SourceMap() = default;
     };
 
     /**

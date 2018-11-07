@@ -61,23 +61,3 @@ Element::Content& Element::Content::operator=(const Element::Content& rhs)
 Element::Content::~Content() {}
 
 Element::Element(const Element::Class& element_) : element(element_) {}
-
-Element::Element(const Element& rhs)
-{
-    this->element = rhs.element;
-    this->attributes = rhs.attributes;
-    this->content = rhs.content;
-    this->category = rhs.category;
-}
-
-Element& Element::operator=(const Element& rhs)
-{
-    this->element = rhs.element;
-    this->attributes = rhs.attributes;
-    this->content = rhs.content;
-    this->category = rhs.category;
-
-    return *this;
-}
-
-Element::~Element() {}
