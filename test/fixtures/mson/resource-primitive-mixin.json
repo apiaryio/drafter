@@ -106,7 +106,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 6
+                          "content": 7
                         }
                       },
                       "content": 45
@@ -120,7 +120,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 20
+                          "content": 21
                         }
                       },
                       "content": 15
@@ -170,7 +170,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 4
+                          "content": 5
                         }
                       },
                       "content": 43
@@ -184,7 +184,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 20
+                          "content": 21
                         }
                       },
                       "content": 17

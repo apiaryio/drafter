@@ -108,7 +108,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 2
+                          "content": 3
                         }
                       },
                       "content": 334
@@ -122,7 +122,7 @@
                         },
                         "column": {
                           "element": "number",
-                          "content": 0
+                          "content": 1
                         }
                       },
                       "content": 30
