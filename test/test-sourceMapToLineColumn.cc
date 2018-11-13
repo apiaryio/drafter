@@ -1,8 +1,7 @@
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 
 #include "../src/SourceMapUtils.h"
 
-#include <iostream>
 #include <iterator>
 
 using namespace drafter;
