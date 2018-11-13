@@ -20,7 +20,7 @@ namespace drafter
 
         if (annotationPositionIt != linesEndIndex.end()) {
             out.fromLine = std::distance(linesEndIndex.begin(), annotationPositionIt);
-            out.fromColumn = range.location - *std::prev(annotationPositionIt);
+            out.fromColumn = range.location - *std::prev(annotationPositionIt) + 1;
         }
 
         // Finds ending line and column position
@@ -35,6 +35,7 @@ namespace drafter
 
         if (linesEndIndex.back() < (range.location + range.length)) {
             out.toLine = linesEndIndex.size();
+            out.toColumn = 1;
             return out;
         }
 
@@ -42,7 +43,7 @@ namespace drafter
 
         if (annotationPositionIt != linesEndIndex.end()) {
             out.toLine = std::distance(linesEndIndex.begin(), annotationPositionIt);
-            out.toColumn = (range.location + range.length) - *(std::prev(annotationPositionIt)) - 1;
+            out.toColumn = (range.location + range.length) - *(std::prev(annotationPositionIt));
         }
 
         return out;
