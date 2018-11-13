@@ -87,6 +87,7 @@ namespace
         } else {
             LOG(error) << "Non-string key in Member Element: " << m.get().key()->element();
             assert(false);
+            return "";
         }
     }
 
