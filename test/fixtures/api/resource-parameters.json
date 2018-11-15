@@ -85,8 +85,11 @@
                           "element": "enum",
                           "attributes": {
                             "default": {
-                              "element": "string",
-                              "content": "1"
+                              "element": "enum",
+                              "content": {
+                                "element": "string",
+                                "content": "1"
+                              }
                             },
                             "enumerations": {
                               "element": "array",

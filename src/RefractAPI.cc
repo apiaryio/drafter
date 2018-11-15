@@ -179,8 +179,8 @@ std::unique_ptr<IElement> ParameterValuesToRefract(
 
     // Add default value
     if (!parameter.node->defaultValue.empty()) {
-        element->attributes().set(
-            SerializeKey::Default, LiteralToRefract(MAKE_NODE_INFO(parameter, defaultValue), context));
+        element->attributes().set(SerializeKey::Default,
+            make_element<EnumElement>(LiteralToRefract(MAKE_NODE_INFO(parameter, defaultValue), context)));
     }
 
     // Add enumerations

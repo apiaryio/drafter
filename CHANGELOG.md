@@ -1,6 +1,13 @@
 # Drafter Changelog
 
-## master
+## 4.0.0-pre.2
+
+### Bug Fixes
+
+* Parameters which are of `enum` type will now have their `default` values
+  correctly serialized in the output using `enum` type
+
+### Enhancements
 
 * Add column/line info to anotations source maps 
 
