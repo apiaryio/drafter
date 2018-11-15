@@ -7,6 +7,10 @@
 * Parameters which are of `enum` type will now have their `default` values
   correctly serialized in the output using `enum` type
 
+### Enhancements
+
+* Add column/line info to anotations source maps 
+
 ## 4.0.0-pre.1
 
 ### Breaking

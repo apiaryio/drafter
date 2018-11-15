@@ -330,10 +330,30 @@
                   "content": [
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 7
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 1
+                        }
+                      },
                       "content": 87
                     },
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 7
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 24
+                        }
+                      },
                       "content": 24
                     }
                   ]

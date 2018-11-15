@@ -14,7 +14,11 @@
 namespace drafter
 {
 
+    class ConversionContext;
+
     std::unique_ptr<refract::IElement> SourceMapToRefract(const mdp::CharactersRangeSet& sourceMap);
+    std::unique_ptr<refract::IElement> SourceMapToRefractWithColumnLineInfo(
+        const mdp::CharactersRangeSet& sourceMap, const ConversionContext& context);
 
     template <typename T>
     void AttachSourceMap(refract::IElement& element, const T& nodeInfo)
@@ -31,8 +35,6 @@ namespace drafter
         AttachSourceMap(*element, primitive);
         return std::move(element);
     }
-
-    class ConversionContext;
 
     std::unique_ptr<refract::StringElement> LiteralToRefract(
         const NodeInfo<std::string>& literal, ConversionContext& context);

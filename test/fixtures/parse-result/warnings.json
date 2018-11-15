@@ -139,10 +139,30 @@
                   "content": [
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 3
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 1
+                        }
+                      },
                       "content": 24
                     },
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 3
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 13
+                        }
+                      },
                       "content": 13
                     }
                   ]
@@ -183,10 +203,30 @@
                   "content": [
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 4
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 1
+                        }
+                      },
                       "content": 37
                     },
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 6
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 11
+                        }
+                      },
                       "content": 27
                     }
                   ]
