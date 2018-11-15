@@ -101,10 +101,30 @@
                   "content": [
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 15
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 3
+                        }
+                      },
                       "content": 334
                     },
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 16
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 1
+                        }
+                      },
                       "content": 30
                     }
                   ]

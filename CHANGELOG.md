@@ -1,5 +1,9 @@
 # Drafter Changelog
 
+## master
+
+* Add column/line info to anotations source maps 
+
 ## 4.0.0-pre.1
 
 ### Breaking

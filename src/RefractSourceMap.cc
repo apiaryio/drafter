@@ -1,4 +1,5 @@
 #include "RefractSourceMap.h"
+#include "ConversionContext.h"
 
 using namespace refract;
 
@@ -10,6 +11,7 @@ namespace
             from_primitive(sourceMap.location),
             from_primitive(sourceMap.length));
     }
+
 } // namespace
 
 std::unique_ptr<IElement> drafter::SourceMapToRefract(const mdp::CharactersRangeSet& sourceMap)
@@ -22,6 +24,33 @@ std::unique_ptr<IElement> drafter::SourceMapToRefract(const mdp::CharactersRange
         sourceMap.end(),
         std::back_inserter(sourceMapElement->get()),
         CharacterRangeToRefract);
+
+    return make_element<ArrayElement>(std::move(sourceMapElement));
+}
+
+std::unique_ptr<IElement> drafter::SourceMapToRefractWithColumnLineInfo(
+    const mdp::CharactersRangeSet& sourceMap, const ConversionContext& context)
+{
+    auto sourceMapElement = make_element<ArrayElement>();
+    sourceMapElement->element(SerializeKey::SourceMap);
+
+    std::transform( //
+        sourceMap.begin(),
+        sourceMap.end(),
+        std::back_inserter(sourceMapElement->get()),
+        [&context](auto& sourceMap) {
+            auto position = GetLineFromMap(context.GetNewLinesIndex(), sourceMap);
+
+            auto location = make_element<NumberElement>(sourceMap.location);
+            location->attributes().set("line", from_primitive(position.fromLine));
+            location->attributes().set("column", from_primitive(position.fromColumn));
+
+            auto length = make_element<NumberElement>(sourceMap.length);
+            length->attributes().set("line", from_primitive(position.toLine));
+            length->attributes().set("column", from_primitive(position.toColumn));
+
+            return make_element<ArrayElement>(std::move(location), std::move(length));
+        });
 
     return make_element<ArrayElement>(std::move(sourceMapElement));
 }

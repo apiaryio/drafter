@@ -44,6 +44,7 @@ add_executable(drafter-test
     test-CircularReferenceTest.cc
     test-RenderTest.cc
     test-Serialize.cc
+    test-sourceMapToLineColumn.cc
     )
 
 target_link_libraries(drafter-test

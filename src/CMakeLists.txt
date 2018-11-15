@@ -46,6 +46,7 @@ set(DRAFTER_SOURCES
     Render.cc
     ConversionContext.cc
     RefractElementFactory.cc
+    SourceMapUtils.cc
     )
 
 set(DRAFTER_COMPILE_FEATURES

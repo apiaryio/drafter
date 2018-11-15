@@ -121,10 +121,30 @@
                   "content": [
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 3
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 3
+                        }
+                      },
                       "content": 24
                     },
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 3
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 64
+                        }
+                      },
                       "content": 62
                     }
                   ]
@@ -165,10 +185,30 @@
                   "content": [
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 3
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 3
+                        }
+                      },
                       "content": 24
                     },
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 3
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 64
+                        }
+                      },
                       "content": 62
                     }
                   ]
@@ -209,10 +249,30 @@
                   "content": [
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 3
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 3
+                        }
+                      },
                       "content": 24
                     },
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 3
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 64
+                        }
+                      },
                       "content": 62
                     }
                   ]
@@ -253,10 +313,30 @@
                   "content": [
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 3
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 3
+                        }
+                      },
                       "content": 24
                     },
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 3
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 64
+                        }
+                      },
                       "content": 62
                     }
                   ]

@@ -296,10 +296,30 @@
                   "content": [
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 8
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 3
+                        }
+                      },
                       "content": 65
                     },
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 8
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 16
+                        }
+                      },
                       "content": 14
                     }
                   ]
@@ -340,10 +360,30 @@
                   "content": [
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 10
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 7
+                        }
+                      },
                       "content": 98
                     },
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 10
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 32
+                        }
+                      },
                       "content": 26
                     }
                   ]
@@ -384,10 +424,30 @@
                   "content": [
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 11
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 3
+                        }
+                      },
                       "content": 126
                     },
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 11
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 14
+                        }
+                      },
                       "content": 12
                     }
                   ]
@@ -428,10 +488,30 @@
                   "content": [
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 12
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 3
+                        }
+                      },
                       "content": 140
                     },
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 13
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 1
+                        }
+                      },
                       "content": 11
                     }
                   ]
@@ -472,10 +552,30 @@
                   "content": [
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 19
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 2
+                        }
+                      },
                       "content": 186
                     },
                     {
                       "element": "number",
+                      "attributes": {
+                        "line": {
+                          "element": "number",
+                          "content": 21
+                        },
+                        "column": {
+                          "element": "number",
+                          "content": 1
+                        }
+                      },
                       "content": 6
                     }
                   ]
