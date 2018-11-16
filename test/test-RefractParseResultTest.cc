@@ -13,6 +13,7 @@ using namespace draftertest;
 TEST_REFRACT("parse-result", "simple");
 TEST_REFRACT("parse-result", "warning");
 TEST_REFRACT("parse-result", "warnings");
+TEST_REFRACT("parse-result", "error");
 TEST_REFRACT("parse-result", "error-warning");
 TEST_REFRACT("parse-result", "blueprint");
 TEST_REFRACT("parse-result", "mson");
