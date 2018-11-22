@@ -161,4 +161,4 @@ namespace refract
         return result;
     }
 
-}; // namespace refract
+} // namespace refract

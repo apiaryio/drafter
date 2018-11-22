@@ -44,6 +44,6 @@ namespace refract
         return typeInfo;
     }
 
-}; // namespace refract
+} // namespace refract
 
 #undef VISIT_IMPL

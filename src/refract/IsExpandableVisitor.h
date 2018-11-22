@@ -26,6 +26,6 @@ namespace refract
         bool get() const;
     };
 
-}; // namespace refract
+} // namespace refract
 
 #endif // #ifndef REFRACT_EXPANDVISITOR_H

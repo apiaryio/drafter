@@ -105,6 +105,6 @@ namespace refract
         element.content(visitor);
     }
 
-}; // namespace refract
+} // namespace refract
 
 #endif // #ifndef REFRACT_VISITOR_H

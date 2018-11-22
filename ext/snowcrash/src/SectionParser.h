@@ -157,15 +157,14 @@ namespace snowcrash
         }
 
         /** \return Collection of siblings to starting Node */
-        static const MarkdownNodes& startingNodeSiblings(
-            const MarkdownNodeIterator& seed, const MarkdownNodes& siblings)
+        static const MarkdownNodes& startingNodeSiblings(const MarkdownNodeIterator&, const MarkdownNodes& siblings)
         {
             return siblings;
         }
 
         /** \return Starting node for next parsing */
         static const MarkdownNodeIterator nextStartingNode(
-            const MarkdownNodeIterator& seed, const MarkdownNodes& siblings, const MarkdownNodeIterator& cur)
+            const MarkdownNodeIterator&, const MarkdownNodes&, const MarkdownNodeIterator& cur)
         {
             return cur;
         }
@@ -203,14 +202,13 @@ namespace snowcrash
             return seed->children().begin();
         }
 
-        static const MarkdownNodes& startingNodeSiblings(
-            const MarkdownNodeIterator& seed, const MarkdownNodes& siblings)
+        static const MarkdownNodes& startingNodeSiblings(const MarkdownNodeIterator& seed, const MarkdownNodes&)
         {
             return seed->children();
         }
 
         static const MarkdownNodeIterator nextStartingNode(
-            const MarkdownNodeIterator& seed, const MarkdownNodes& siblings, const MarkdownNodeIterator& cur)
+            const MarkdownNodeIterator& seed, const MarkdownNodes& siblings, const MarkdownNodeIterator&)
         {
             if (seed == siblings.end())
                 return seed;

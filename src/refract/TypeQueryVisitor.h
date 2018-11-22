@@ -107,6 +107,6 @@ namespace refract
         }
     };
 
-}; // namespace refract
+} // namespace refract
 
 #endif // #ifndef REFRACT_TYPEQUERYVISITOR_H

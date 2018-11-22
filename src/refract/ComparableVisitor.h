@@ -55,6 +55,6 @@ namespace refract
         bool get() const;
     };
 
-}; // namespace refract
+} // namespace refract
 
 #endif // #ifndef REFRACT_COMPARABLEVISITOR_H

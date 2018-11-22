@@ -227,6 +227,6 @@ namespace refract
         return i++;
     }
 
-}; // namespace refract
+} // namespace refract
 
 #undef VISIT_IMPL
