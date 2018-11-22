@@ -8,8 +8,8 @@
 
 #include <catch2/catch.hpp>
 
-#include "refract/dsd/Holder.h"
-#include "ElementMock.h"
+#include <refract/Element.h>
+#include <refract/dsd/Holder.h>
 
 using namespace refract;
 using namespace dsd;
@@ -59,12 +59,13 @@ SCENARIO("`Holder` is default constructed and both copy- and move constructed fr
 
 SCENARIO("`Holder` is constructed from value and is claimed", "[ElementData][Holder]")
 {
-    GIVEN("An `Holder` with an ElementMock value")
+    GIVEN("An `Holder` with a string element value")
     {
-        Holder holder(std::make_unique<test::ElementMock>());
-        REQUIRE(test::ElementMock::instances().size() == 1);
+        auto inner = from_primitive("abc");
+        const auto* innerPtr = inner.get();
+        Holder holder(std::move(inner));
 
-        WHEN("it is claimed")
+        WHEN("it is claimed from")
         {
             auto result = holder.claim();
 
@@ -73,14 +74,9 @@ SCENARIO("`Holder` is constructed from value and is claimed", "[ElementData][Hol
                 REQUIRE(holder.data() == nullptr);
             }
 
-            THEN("nothing was called on the mock")
+            THEN("the result is the original element")
             {
-                REQUIRE(test::ElementMock::instances().front()->_total_ctx == 0);
-            }
-
-            THEN("the mock is the one passed into its constructor")
-            {
-                REQUIRE(test::ElementMock::instances().front() == result.get());
+                REQUIRE(innerPtr == result.get());
             }
         }
     }

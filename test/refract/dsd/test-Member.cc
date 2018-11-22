@@ -11,7 +11,6 @@
 #include "refract/dsd/Member.h"
 
 #include "refract/Element.h"
-#include "ElementMock.h"
 
 using namespace refract;
 using namespace dsd;
@@ -60,65 +59,41 @@ SCENARIO("`Member` is default constructed and both copy- and move constructed fr
 SCENARIO("Member is constructed from values, both copy- and move constructed from and all its copies are destroyed",
     "[ElementData][Member]")
 {
-    GIVEN("A std::string key and an ElementMock* value")
+    GIVEN("A std::string key and a number element value")
     {
         std::string key = "eigenvalue";
-        auto mock = new test::ElementMock{};
-
-        REQUIRE(test::ElementMock::instances().size() == 1);
-        REQUIRE(&test::ElementMock::last_instance() == mock);
+        auto mock = from_primitive(42);
+        const auto* mockPtr = mock.get();
 
         WHEN("a Member is constructed using them")
         {
-            {
-                Member member(key, std::unique_ptr<IElement>(mock));
+            Member member(key, std::move(mock));
 
-                THEN("its key is not nullptr")
-                {
-                    REQUIRE(member.key());
-                }
-                THEN("its element obtained by key() holds a StringElement with the key")
-                {
-                    auto strValue = dynamic_cast<const StringElement*>(member.key());
-                    REQUIRE(strValue);
-                    REQUIRE(key == strValue->get());
-                }
-                THEN("its element obtained by value() is the mock")
-                {
-                    auto value = dynamic_cast<const test::ElementMock*>(member.value());
-                    REQUIRE(value == mock);
-                }
-                THEN("its mock still is the only instance of its type")
-                {
-                    REQUIRE(test::ElementMock::instances().size() == 1);
-                    REQUIRE(&test::ElementMock::last_instance() == mock);
-                }
-                THEN("nothing was called on the mock")
-                {
-                    REQUIRE(test::ElementMock::last_instance()._total_ctx == 0);
-                }
+            THEN("its key is not nullptr")
+            {
+                REQUIRE(member.key());
             }
-
-            WHEN("it goes out of scope")
+            THEN("its element obtained by key() holds a StringElement with the key")
             {
-                THEN("the value is destroyed")
-                {
-                    REQUIRE(test::ElementMock::instances().empty());
-                }
+                auto strValue = dynamic_cast<const StringElement*>(member.key());
+                REQUIRE(strValue);
+                REQUIRE(key == strValue->get());
+            }
+            THEN("its element obtained by value() is the mock")
+            {
+                auto value = dynamic_cast<const NumberElement*>(member.value());
+                REQUIRE(value == mockPtr);
             }
         }
     }
 
-    GIVEN("A Member with a StringElement key and an ElementMock value")
+    GIVEN("A Member with a StringElement key and an NumberElement value")
     {
         std::string key = "eigenvalue";
-        auto mock = new test::ElementMock{};
-        mock->clone_out = std::make_unique<test::ElementMock>();
-        auto clone_out_ptr = mock->clone_out.get();
-        mock->_value = 349802;
+        auto mock = from_primitive(42);
+        const auto* mockPtr = mock.get();
 
-        REQUIRE(test::ElementMock::instances().size() == 2);
-        Member member(key, std::unique_ptr<IElement>(mock));
+        Member member(key, std::move(mock));
 
         WHEN("another Member is copy constructed from it")
         {
@@ -136,26 +111,12 @@ SCENARIO("Member is constructed from values, both copy- and move constructed fro
                 REQUIRE(strValue);
                 REQUIRE(key == strValue->get());
             }
-
-            THEN("its value is the result of invoking clone() on original value")
-            {
-                REQUIRE(mock->_total_ctx == 1);
-                REQUIRE(mock->clone_ctx == 1);
-                REQUIRE(mock->clone_in == IElement::cAll);
-
-                REQUIRE(member2.value() == clone_out_ptr);
-            }
-
-            THEN("no further ElementMocks are constructed")
-            {
-                REQUIRE(test::ElementMock::instances().size() == 2);
-            }
         }
 
         WHEN("another Member is move constructed from it")
         {
-            auto memberKey = member.key();
-            auto memberValue = member.value();
+            const auto* memberKey = member.key();
+            const auto* memberValue = member.value();
 
             Member member2(std::move(member));
 
@@ -170,50 +131,36 @@ SCENARIO("Member is constructed from values, both copy- and move constructed fro
                 REQUIRE(member2.key() == memberKey);
                 REQUIRE(member2.value() == memberValue);
             }
-
-            THEN("nothing gets called on the original mock")
-            {
-                REQUIRE(mock->_total_ctx == 0);
-            }
-
-            THEN("no further ElementMocks are constructed")
-            {
-                REQUIRE(test::ElementMock::instances().size() == 2);
-            }
         }
     }
 }
 
 SCENARIO("`Member` is modified", "[ElementData][Member]")
 {
-    GIVEN("A Member with a StringElement key and an ElementMock value")
+    GIVEN("A Member with a StringElement key and a number element value")
     {
         std::string key = "eigenvalue";
-        auto mock = new test::ElementMock{};
+        auto mock = from_primitive(42);
+        const auto* mockPtr = mock.get();
 
-        REQUIRE(test::ElementMock::instances().size() == 1);
-        Member member(key, std::unique_ptr<IElement>(mock));
-        REQUIRE(test::ElementMock::instances().size() == 1);
+        Member member(key, std::move(mock));
 
         WHEN("its value is modified through its setter")
         {
-            auto keyBefore = member.key();
+            const auto* keyBefore = member.key();
 
-            auto mock2 = new test::ElementMock{};
-            member.value(std::unique_ptr<IElement>(mock2));
+            auto mock2 = from_primitive(42);
+            const auto* mock2ptr = mock2.get();
+            member.value(std::move(mock2));
 
             THEN("its value changes to the new one")
             {
-                REQUIRE(member.value() == mock2);
+                REQUIRE(member.value() == mock2ptr);
             }
+
             THEN("its key does not change")
             {
                 REQUIRE(member.key() == keyBefore);
-            }
-            THEN("its old value was destructed")
-            {
-                REQUIRE(test::ElementMock::instances().size() == 1);
-                REQUIRE(&test::ElementMock::last_instance() == mock2);
             }
         }
     }
