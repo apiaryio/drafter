@@ -316,7 +316,7 @@ namespace snowcrash
          *
          *  Use respective payload's header collection instead.
          */
-        DEPRECATED Headers headers;
+        Headers headers;
 
         /** Transactions examples */
         TransactionExamples examples;
@@ -360,7 +360,7 @@ namespace snowcrash
          *
          *  Use respective payload's header collection instead.
          */
-        DEPRECATED Headers headers;
+        Headers headers;
 
         /** A set of Actions specified for this Resource */
         Actions actions;

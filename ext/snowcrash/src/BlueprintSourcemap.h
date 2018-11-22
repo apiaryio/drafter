@@ -176,7 +176,7 @@ namespace snowcrash
          *
          *  Use respective payload's header collection instead.
          */
-        DEPRECATED SourceMap<Headers> headers;
+        SourceMap<Headers> headers;
 
         /** Transactions examples */
         SourceMap<TransactionExamples> examples;
@@ -221,7 +221,7 @@ namespace snowcrash
          *
          *  Use respective payload's header collection instead.
          */
-        DEPRECATED SourceMap<Headers> headers;
+        SourceMap<Headers> headers;
 
         /** A set of Actions specified for this Resource */
         SourceMap<Actions> actions;
