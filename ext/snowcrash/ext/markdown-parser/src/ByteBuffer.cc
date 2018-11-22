@@ -158,3 +158,20 @@ ByteBuffer mdp::MapBytesRangeSet(const BytesRangeSet& rangeSet, const ByteBuffer
 
     return s.str();
 }
+
+void mdp::mergeContinuous(RangeSet<Range>& lhs, const RangeSet<Range>& rhs)
+{
+    if (rhs.empty())
+        return;
+
+    if (lhs.empty() || rhs.front().location != lhs.back().location + lhs.back().length) {
+        lhs.insert(lhs.end(), rhs.begin(), rhs.end());
+    } else {
+        // merge
+        lhs.back().length += rhs.front().length;
+
+        if (rhs.size() > 1) {
+            lhs.insert(lhs.end(), ++rhs.begin(), rhs.end());
+        }
+    }
+}

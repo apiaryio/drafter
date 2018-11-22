@@ -49,7 +49,7 @@ namespace snowcrash
             CodeBlockUtility::signatureContentAsCodeBlock(node, pd, out.report, out.node);
 
             if (pd.exportSourceMap() && !out.node.empty()) {
-                out.sourceMap.sourceMap.append(node->sourceMap);
+                mdp::mergeContinuous(out.sourceMap.sourceMap, node->sourceMap);
             }
 
             return ++MarkdownNodeIterator(node);
@@ -69,7 +69,7 @@ namespace snowcrash
             out.node += content;
 
             if (pd.exportSourceMap() && !content.empty()) {
-                out.sourceMap.sourceMap.append(node->sourceMap);
+                mdp::mergeContinuous(out.sourceMap.sourceMap, node->sourceMap);
             }
 
             return ++MarkdownNodeIterator(node);

@@ -81,7 +81,7 @@ namespace snowcrash
                 out.node.description += remainingContent;
 
                 if (pd.exportSourceMap()) {
-                    out.sourceMap.description.sourceMap.append(node->sourceMap);
+                    mdp::mergeContinuous(out.sourceMap.description.sourceMap, node->sourceMap);
                 }
             }
 
@@ -210,7 +210,7 @@ namespace snowcrash
                     node, pd, sectionType, out.report, out.node.examples.back().responses.back().body);
 
                 if (pd.exportSourceMap() && !content.empty()) {
-                    out.sourceMap.examples.collection.back().responses.collection.back().body.sourceMap.append(
+                    mdp::mergeContinuous(out.sourceMap.examples.collection.back().responses.collection.back().body.sourceMap, 
                         node->sourceMap);
                 }
 
@@ -225,7 +225,7 @@ namespace snowcrash
                     node, pd, sectionType, out.report, out.node.examples.back().requests.back().body);
 
                 if (pd.exportSourceMap() && !content.empty()) {
-                    out.sourceMap.examples.collection.back().requests.collection.back().body.sourceMap.append(
+                    mdp::mergeContinuous(out.sourceMap.examples.collection.back().requests.collection.back().body.sourceMap, 
                         node->sourceMap);
                 }
 

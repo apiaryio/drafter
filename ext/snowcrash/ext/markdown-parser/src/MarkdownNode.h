@@ -9,7 +9,7 @@
 #ifndef MARKDOWNPARSER_NODE_H
 #define MARKDOWNPARSER_NODE_H
 
-#include <deque>
+#include <boost/container/deque.hpp>
 #include <memory>
 #include <iostream>
 #include "ByteBuffer.h"
@@ -40,7 +40,7 @@ namespace mdp
     class MarkdownNode;
 
     /** Markdown AST nodes collection */
-    typedef std::deque<MarkdownNode> MarkdownNodes;
+    typedef boost::container::deque<MarkdownNode> MarkdownNodes;
 
     /**
      *  AST node
@@ -77,7 +77,7 @@ namespace mdp
         const MarkdownNodes& children() const;
 
         /** Constructor */
-        MarkdownNode(MarkdownNodeType type_ = UndefinedMarkdownNodeType,
+        explicit MarkdownNode(MarkdownNodeType type_ = UndefinedMarkdownNodeType,
             MarkdownNode* parent_ = NULL,
             const ByteBuffer& text_ = ByteBuffer(),
             const Data& data_ = Data());
@@ -98,7 +98,7 @@ namespace mdp
 
     private:
         MarkdownNode* m_parent;
-        std::unique_ptr<MarkdownNodes> m_children;
+        MarkdownNodes m_children;
     };
 
     /** Markdown AST nodes collection iterator */

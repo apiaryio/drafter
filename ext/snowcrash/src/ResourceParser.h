@@ -164,7 +164,7 @@ namespace snowcrash
                     = CodeBlockUtility::addDanglingAsset(node, pd, sectionType, out.report, out.node.model.body);
 
                 if (pd.exportSourceMap() && !content.empty()) {
-                    out.sourceMap.model.body.sourceMap.append(node->sourceMap);
+                    mdp::mergeContinuous(out.sourceMap.model.body.sourceMap, node->sourceMap);
                 }
 
                 // Update model in the model table as well

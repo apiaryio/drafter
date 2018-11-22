@@ -265,7 +265,7 @@ namespace snowcrash
                 sections[0].content.description += content;
 
                 if (pd.exportSourceMap() && !content.empty()) {
-                    sourceMap.collection[0].description.sourceMap.append(node->sourceMap);
+                    mdp::mergeContinuous(sourceMap.collection[0].description.sourceMap, node->sourceMap);
                 }
 
                 return ++MarkdownNodeIterator(node);

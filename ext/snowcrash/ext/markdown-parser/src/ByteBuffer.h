@@ -29,40 +29,22 @@ namespace mdp
 
     /** A generic continuous range */
     struct Range {
-        size_t location;
-        size_t length;
+        size_t location = 0;
+        size_t length = 0;
 
-        Range(size_t loc = 0, size_t len = 0) : location(loc), length(len) {}
+        Range() = default;
+        Range(size_t loc, size_t len) : location(loc), length(len) {}
     };
 
     /** Range of bytes */
-    typedef Range BytesRange;
+    using BytesRange = Range;
 
     /** Range of characters */
-    typedef Range CharactersRange;
+    using CharactersRange = Range;
 
     /** A generic set of non-continuous of ranges */
     template <typename T>
-    class RangeSet : public std::vector<T>
-    {
-    public:
-        /** Append another range set to this one, merging continuous blocks */
-        void append(const RangeSet& val)
-        {
-            if (val.empty())
-                return;
-            if (this->empty() || val.front().location != this->back().location + this->back().length) {
-                this->insert(this->end(), val.begin(), val.end());
-            } else {
-                // merge
-                this->back().length += val.front().length;
-
-                if (val.size() > 1) {
-                    this->insert(this->end(), ++val.begin(), val.end());
-                }
-            }
-        }
-    };
+    using RangeSet = std::vector<T>;
 
     /** Set of non-continuous byte ranges */
     typedef RangeSet<BytesRange> BytesRangeSet;
@@ -83,6 +65,9 @@ namespace mdp
 
     /** Maps bytes range set to byte buffer */
     ByteBuffer MapBytesRangeSet(const BytesRangeSet& rangeSet, const ByteBuffer& byteBuffer);
+
+    /** Append another range set to this one, merging continuous blocks */
+    void mergeContinuous(RangeSet<Range>& lhs, const RangeSet<Range>& rhs);
 }
 
 #endif

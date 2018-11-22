@@ -47,7 +47,7 @@ namespace drafter
 
             for (auto& info : container) {
                 std::move(info.value.begin(), info.value.end(), std::back_inserter(result.value));
-                result.sourceMap.sourceMap.append(info.sourceMap.sourceMap);
+                mdp::mergeContinuous(result.sourceMap.sourceMap, info.sourceMap.sourceMap);
             }
 
             return result;

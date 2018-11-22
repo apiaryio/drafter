@@ -160,7 +160,7 @@ namespace snowcrash
             mdp::ByteBuffer content = mdp::MapBytesRangeSet(node->sourceMap, pd.sourceData);
 
             if (pd.exportSourceMap() && !content.empty()) {
-                out.sourceMap.description.sourceMap.append(node->sourceMap);
+                mdp::mergeContinuous(out.sourceMap.description.sourceMap, node->sourceMap);
             }
 
             TrimString(content);

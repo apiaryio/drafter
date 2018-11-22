@@ -146,7 +146,7 @@ namespace snowcrash
                 out.node.content.value += signature.remainingContent;
 
                 if (pd.exportSourceMap()) {
-                    out.sourceMap.value.sourceMap.append(node->sourceMap);
+                    mdp::mergeContinuous(out.sourceMap.value.sourceMap, node->sourceMap);
                 }
             }
 

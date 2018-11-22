@@ -89,7 +89,7 @@ namespace snowcrash
             TrimString(content);
 
             if (pd.exportSourceMap() && !content.empty()) {
-                out.sourceMap.content.elements().collection.back().content.copy.sourceMap.append(node->sourceMap);
+                mdp::mergeContinuous(out.sourceMap.content.elements().collection.back().content.copy.sourceMap, node->sourceMap);
             }
 
             out.node.content.elements().back().content.copy += content;

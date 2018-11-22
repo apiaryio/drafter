@@ -900,7 +900,7 @@ namespace
 
             mdp::CharactersRangeSet location;
             for (const auto& item : values) {
-                location.append(item.sourceMap.sourceMap);
+                mdp::mergeContinuous(location, item.sourceMap.sourceMap);
             }
 
             context.warn(snowcrash::Warning("multiple definitions of 'default' value", snowcrash::MSONError, location));
@@ -963,7 +963,7 @@ namespace
 
         for (const auto& item : descriptions) {
             join(item.description);
-            sourceMap.sourceMap.append(item.sourceMap.sourceMap);
+            mdp::mergeContinuous(sourceMap.sourceMap, item.sourceMap.sourceMap);
         }
 
         if (description.empty()) {
@@ -1022,7 +1022,7 @@ namespace
         auto key = make_empty<StringElement>();
 
         snowcrash::SourceMap<mson::Literal> sourceMap;
-        sourceMap.sourceMap.append(property.sourceMap->name.sourceMap);
+        mdp::mergeContinuous(sourceMap.sourceMap, property.sourceMap->name.sourceMap);
 
         if (!property.node->name.variable.empty()) {
 
@@ -1342,7 +1342,7 @@ namespace
 
         if (!ds.node->name.symbol.literal.empty()) {
             snowcrash::SourceMap<mson::Literal> sourceMap = *NodeInfo<mson::Literal>::NullSourceMap();
-            sourceMap.sourceMap.append(ds.sourceMap->name.sourceMap);
+            mdp::mergeContinuous(sourceMap.sourceMap, ds.sourceMap->name.sourceMap);
             element->meta().set(
                 SerializeKey::Id, PrimitiveToRefract(MakeNodeInfo(ds.node->name.symbol.literal, sourceMap)));
         }

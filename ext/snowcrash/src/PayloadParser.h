@@ -81,7 +81,7 @@ namespace snowcrash
                     out.node.description = remainingContent;
 
                     if (pd.exportSourceMap() && !out.node.description.empty()) {
-                        out.sourceMap.description.sourceMap.append(node->sourceMap);
+                        mdp::mergeContinuous(out.sourceMap.description.sourceMap, node->sourceMap);
                     }
                 } else if (!parseModelReference(node, pd, remainingContent, out)) {
 
@@ -93,7 +93,7 @@ namespace snowcrash
                     pd.sectionsContext.pop_back();
 
                     if (pd.exportSourceMap() && !out.node.body.empty()) {
-                        out.sourceMap.body.sourceMap.append(node->sourceMap);
+                        mdp::mergeContinuous(out.sourceMap.body.sourceMap, node->sourceMap);
                     }
                 }
             }
@@ -137,7 +137,7 @@ namespace snowcrash
                     out.node.body += content;
 
                     if (pd.exportSourceMap() && !content.empty()) {
-                        out.sourceMap.body.sourceMap.append(node->sourceMap);
+                        mdp::mergeContinuous(out.sourceMap.body.sourceMap, node->sourceMap);
                     }
                 }
             }
@@ -230,7 +230,7 @@ namespace snowcrash
                     = CodeBlockUtility::addDanglingAsset(node, pd, sectionType, out.report, out.node.body);
 
                 if (pd.exportSourceMap() && !content.empty()) {
-                    out.sourceMap.body.sourceMap.append(node->sourceMap);
+                    mdp::mergeContinuous(out.sourceMap.body.sourceMap, node->sourceMap);
                 }
 
                 return ++MarkdownNodeIterator(node);

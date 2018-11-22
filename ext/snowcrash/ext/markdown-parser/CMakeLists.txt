@@ -63,10 +63,11 @@ if(UNIX)
 endif()
 
 find_package(Sundown 1.0 REQUIRED)
+find_package(BoostContainer 1.66 REQUIRED)
 
-target_link_libraries(markdown-parser PUBLIC Apiary::sundown-pic)
-target_link_libraries(markdown-parser-static PUBLIC Apiary::sundown-static)
-target_link_libraries(markdown-parser-pic PUBLIC Apiary::sundown-pic)
+target_link_libraries(markdown-parser PUBLIC Apiary::sundown-pic Boost::container)
+target_link_libraries(markdown-parser-static PUBLIC Apiary::sundown-static Boost::container)
+target_link_libraries(markdown-parser-pic PUBLIC Apiary::sundown-pic Boost::container)
 
 target_include_directories(markdown-parser PUBLIC
     $<BUILD_INTERFACE:${markdown-parser_BINARY_DIR}/src>

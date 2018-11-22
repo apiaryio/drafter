@@ -57,7 +57,7 @@ namespace snowcrash
             }
 
             if (pd.exportSourceMap() && !out.node.str.empty()) {
-                out.sourceMap.sourceMap.append(node->sourceMap);
+                mdp::mergeContinuous(out.sourceMap.sourceMap, node->sourceMap);
             }
 
             return ++MarkdownNodeIterator(node);

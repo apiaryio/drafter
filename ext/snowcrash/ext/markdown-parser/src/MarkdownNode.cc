@@ -11,9 +11,8 @@
 using namespace mdp;
 
 MarkdownNode::MarkdownNode(MarkdownNodeType type_, MarkdownNode* parent_, const ByteBuffer& text_, const Data& data_)
-    : type(type_), text(text_), data(data_), sourceMap(), m_parent(parent_), m_children(nullptr)
+    : type(type_), text(text_), data(data_), sourceMap(), m_parent(parent_), m_children()
 {
-    m_children.reset(::new MarkdownNodes);
 }
 
 MarkdownNode& MarkdownNode::parent()
@@ -42,18 +41,12 @@ bool MarkdownNode::hasParent() const
 
 MarkdownNodes& MarkdownNode::children()
 {
-    if (!m_children.get())
-        throw "no children set";
-
-    return *m_children;
+    return m_children;
 }
 
 const MarkdownNodes& MarkdownNode::children() const
 {
-    if (!m_children.get())
-        throw "no children set";
-
-    return *m_children;
+    return m_children;
 }
 
 void MarkdownNode::printNode(size_t level) const
@@ -113,7 +106,7 @@ void MarkdownNode::printNode(size_t level) const
 
     cout << std::endl;
 
-    for (MarkdownNodeIterator it = m_children->begin(); it != m_children->end(); ++it) {
+    for (auto it = m_children.begin(); it != m_children.end(); ++it) {
         it->printNode(level + 1);
     }
 
