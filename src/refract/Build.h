@@ -67,6 +67,6 @@ namespace refract
     {
         return ElementBuilder<E>(e);
     }
-}; // namespace refract
+} // namespace refract
 
 #endif // #ifndef REFRACT_BUILD_H

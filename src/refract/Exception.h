@@ -26,6 +26,6 @@ namespace refract
         explicit Deprecated(const std::string& msg) : std::logic_error(msg) {}
     };
 
-}; // namespace refract
+} // namespace refract
 
 #endif // #ifndef REFRACT_EXCEPTION_H

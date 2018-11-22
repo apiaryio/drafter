@@ -57,6 +57,6 @@ namespace refract
         Context* context;
     };
 
-}; // namespace refract
+} // namespace refract
 
 #endif // #ifndef REFRACT_EXPANVISITOR_H

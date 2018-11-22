@@ -48,6 +48,6 @@ namespace refract
         }
     };
 
-}; // namespace refract
+} // namespace refract
 
 #endif // #ifndef REFRACT_FILTERVISITOR_H

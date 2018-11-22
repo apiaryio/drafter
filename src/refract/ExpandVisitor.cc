@@ -372,6 +372,6 @@ namespace refract
         return std::move(result);
     }
 
-}; // namespace refract
+} // namespace refract
 
 #undef VISIT_IMPL

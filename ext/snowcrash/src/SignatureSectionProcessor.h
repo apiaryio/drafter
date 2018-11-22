@@ -38,7 +38,7 @@ namespace scpl
 
             SignatureTraits signatureTraits;
             return signatureTraits;
-        };
+        }
 
         /**
          * \brief Process section signature markdown node (Default)
@@ -58,7 +58,7 @@ namespace scpl
 
             // Do section specific logic using the signature data
             return snowcrash::SectionProcessor<T>::finalizeSignature(node, pd, signature, out);
-        };
+        }
 
         /**
          * \brief Parse section signature markdown node
@@ -142,7 +142,7 @@ namespace scpl
             }
 
             return signature;
-        };
+        }
 
         /**
          * \brief Use the signature data to do section specific logic
@@ -161,7 +161,7 @@ namespace scpl
         {
 
             return ++MarkdownNodeIterator(node);
-        };
+        }
 
         /**
          * \brief Parse the identifier from the signature
@@ -229,7 +229,7 @@ namespace scpl
             }
 
             snowcrash::TrimString(subject);
-        };
+        }
 
         /**
          * \brief Parse the values from the signature
@@ -314,7 +314,7 @@ namespace scpl
 
             snowcrash::TrimString(out.value);
             out.value = snowcrash::StripBackticks(out.value);
-        };
+        }
 
         /**
          * \brief Parse the attributes from the signature
@@ -355,10 +355,10 @@ namespace scpl
                 if (!attribute.empty()) {
                     out.attributes.push_back(attribute);
                 }
-            };
+            }
 
             snowcrash::TrimString(subject);
-        };
+        }
 
         /**
          * \brief Find the matching bracket while ignoring any nested brackets and return the string

@@ -95,7 +95,7 @@ MarkdownParser::RenderCallbackData MarkdownParser::renderCallbackData()
     return this;
 }
 
-void MarkdownParser::renderHeader(struct buf* ob, const struct buf* text, int level, void* opaque)
+void MarkdownParser::renderHeader(struct buf*, const struct buf* text, int level, void* opaque)
 {
     if (!opaque)
         return;
@@ -122,13 +122,13 @@ void MarkdownParser::beginList(int flags, void* opaque)
     p->beginList(flags);
 }
 
-void MarkdownParser::beginList(int flags)
+void MarkdownParser::beginList(int)
 {
     if (!m_workingNode)
         throw NO_WORKING_NODE_ERR;
 }
 
-void MarkdownParser::renderList(struct buf* ob, const struct buf* text, int flags, void* opaque)
+void MarkdownParser::renderList(struct buf*, const struct buf* text, int flags, void* opaque)
 {
     if (!opaque)
         return;
@@ -137,7 +137,7 @@ void MarkdownParser::renderList(struct buf* ob, const struct buf* text, int flag
     p->renderList(ByteBufferFromSundown(text), flags);
 }
 
-void MarkdownParser::renderList(const ByteBuffer& text, int flags)
+void MarkdownParser::renderList(const ByteBuffer&, int)
 {
     m_listBlockContext = true;
 }
@@ -163,7 +163,7 @@ void MarkdownParser::beginListItem(int flags)
     m_workingNode = &m_workingNode->children().back();
 }
 
-void MarkdownParser::renderListItem(struct buf* ob, const struct buf* text, int flags, void* opaque)
+void MarkdownParser::renderListItem(struct buf*, const struct buf* text, int flags, void* opaque)
 {
     if (!opaque)
         return;
@@ -194,7 +194,7 @@ void MarkdownParser::renderListItem(const ByteBuffer& text, int flags)
     m_workingNode = &m_workingNode->parent();
 }
 
-void MarkdownParser::renderBlockCode(struct buf* ob, const struct buf* text, const struct buf* lang, void* opaque)
+void MarkdownParser::renderBlockCode(struct buf*, const struct buf* text, const struct buf* lang, void* opaque)
 {
     if (!opaque)
         return;
@@ -203,7 +203,7 @@ void MarkdownParser::renderBlockCode(struct buf* ob, const struct buf* text, con
     p->renderBlockCode(ByteBufferFromSundown(text), ByteBufferFromSundown(lang));
 }
 
-void MarkdownParser::renderBlockCode(const ByteBuffer& text, const ByteBuffer& language)
+void MarkdownParser::renderBlockCode(const ByteBuffer& text, const ByteBuffer&)
 {
     if (!m_workingNode)
         throw NO_WORKING_NODE_ERR;
@@ -212,7 +212,7 @@ void MarkdownParser::renderBlockCode(const ByteBuffer& text, const ByteBuffer& l
     m_workingNode->children().push_back(node);
 }
 
-void MarkdownParser::renderParagraph(struct buf* ob, const struct buf* text, void* opaque)
+void MarkdownParser::renderParagraph(struct buf*, const struct buf* text, void* opaque)
 {
     if (!opaque)
         return;
@@ -230,7 +230,7 @@ void MarkdownParser::renderParagraph(const ByteBuffer& text)
     m_workingNode->children().push_back(node);
 }
 
-void MarkdownParser::renderHorizontalRule(struct buf* ob, void* opaque)
+void MarkdownParser::renderHorizontalRule(struct buf*, void* opaque)
 {
     if (!opaque)
         return;
@@ -248,7 +248,7 @@ void MarkdownParser::renderHorizontalRule()
     m_workingNode->children().push_back(node);
 }
 
-void MarkdownParser::renderHTML(struct buf* ob, const struct buf* text, void* opaque)
+void MarkdownParser::renderHTML(struct buf*, const struct buf* text, void* opaque)
 {
     if (!opaque)
         return;
@@ -287,7 +287,7 @@ void MarkdownParser::beginQuote()
     m_workingNode = &m_workingNode->children().back();
 }
 
-void MarkdownParser::renderQuote(struct buf* ob, const struct buf* text, void* opaque)
+void MarkdownParser::renderQuote(struct buf*, const struct buf* text, void* opaque)
 {
     if (!opaque)
         return;
@@ -310,7 +310,7 @@ void MarkdownParser::renderQuote(const ByteBuffer& text)
     m_workingNode = &m_workingNode->parent();
 }
 
-void MarkdownParser::blockDidParse(const src_map* map, const uint8_t* txt_data, size_t size, void* opaque)
+void MarkdownParser::blockDidParse(const src_map* map, const uint8_t*, size_t, void* opaque)
 {
     if (!opaque || !map)
         return;
