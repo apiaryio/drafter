@@ -281,6 +281,7 @@ TEST_CASE("Parse resource with a HR", "[resource][block]")
     REQUIRE(resource.sourceMap.actions.collection.empty());
 }
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Parse resource method abbreviation", "[resource]")
 {
     mdp::ByteBuffer source
@@ -312,6 +313,7 @@ TEST_CASE("Parse resource method abbreviation", "[resource]")
     REQUIRE(resource.sourceMap.actions.collection.size() == 1);
     SourceMapHelper::check(resource.sourceMap.actions.collection[0].method.sourceMap, 0, 16);
 }
+#endif
 
 TEST_CASE("Parse resource without name", "[resource]")
 {
@@ -863,6 +865,7 @@ TEST_CASE("Dangling transaction example assets", "[resource]")
         resource.sourceMap.actions.collection[0].examples.collection[0].responses.collection[0].body.sourceMap, 78, 31);
 }
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Body list item in description", "[resource][regression][190]")
 {
     mdp::ByteBuffer source
@@ -887,6 +890,7 @@ TEST_CASE("Body list item in description", "[resource][regression][190]")
     REQUIRE(resource.sourceMap.actions.collection.size() == 1);
     SourceMapHelper::check(resource.sourceMap.actions.collection[0].description.sourceMap, 10, 34);
 }
+#endif
 
 TEST_CASE("Parse resource attributes", "[resource]")
 {

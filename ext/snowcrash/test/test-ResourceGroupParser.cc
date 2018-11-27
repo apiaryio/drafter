@@ -327,6 +327,7 @@ TEST_CASE("Parse resource method abbreviation followed by a foreign method", "[r
     REQUIRE(resourceGroup.sourceMap.content.elements().collection.size() == 1);
 }
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Parse resource method abbreviation followed by another", "[resource_group]")
 {
     mdp::ByteBuffer source
@@ -371,7 +372,9 @@ TEST_CASE("Parse resource method abbreviation followed by another", "[resource_g
     REQUIRE(resourceGroup.sourceMap.attributes.name.sourceMap.empty());
     REQUIRE(resourceGroup.sourceMap.content.elements().collection.size() == 2);
 }
+#endif
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Resource followed by a complete action", "[resource_group][regression][185]")
 {
     mdp::ByteBuffer source
@@ -416,6 +419,7 @@ TEST_CASE("Resource followed by a complete action", "[resource_group][regression
     REQUIRE(resourceSM.actions.collection.size() == 1);
     SourceMapHelper::check(resourceSM.actions.collection[0].method.sourceMap, 16, 10);
 }
+#endif
 
 TEST_CASE("Too eager complete action processing", "[resource_group][regression][187]")
 {

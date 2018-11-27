@@ -29,6 +29,7 @@ TEST_CASE("Parse empty blueprint", "[parser]")
     REQUIRE(blueprint.node.content.elements().empty());
 }
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Parse simple blueprint", "[parser]")
 {
     mdp::ByteBuffer source
@@ -69,6 +70,7 @@ TEST_CASE("Parse simple blueprint", "[parser]")
     REQUIRE(response.name == "200");
     REQUIRE(response.body == "Text\n\n{ ... }\n");
 }
+#endif
 
 TEST_CASE("Parse blueprint with unsupported characters", "[parser]")
 {
@@ -85,6 +87,7 @@ TEST_CASE("Parse blueprint with unsupported characters", "[parser]")
     SourceMapHelper::check(blueprint2.report.error.location, 4, 1);
 }
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Do not report duplicate response when media type differs", "[method][14]")
 {
     mdp::ByteBuffer source
@@ -101,7 +104,9 @@ TEST_CASE("Do not report duplicate response when media type differs", "[method][
     REQUIRE(blueprint.report.error.code == Error::OK);
     REQUIRE(blueprint.report.warnings.empty());
 }
+#endif
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Support description ending with an list item", "[parser][8]")
 {
     mdp::ByteBuffer source
@@ -128,6 +133,7 @@ TEST_CASE("Support description ending with an list item", "[parser][8]")
     REQUIRE(resource.actions[0].examples[0].responses[0].name == "200");
     REQUIRE(resource.actions[0].examples[0].responses[0].body == "...\n");
 }
+#endif
 
 TEST_CASE("Invalid ‘warning: empty body asset’ for certain status codes", "[parser][13]")
 {
@@ -181,6 +187,7 @@ TEST_CASE("SIGTERM parsing blueprint", "[parser][45]")
     REQUIRE(blueprint.report.warnings.size() == 4);
 }
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Parse adjacent asset blocks", "[parser][9]")
 {
     mdp::ByteBuffer source
@@ -214,7 +221,9 @@ TEST_CASE("Parse adjacent asset blocks", "[parser][9]")
     REQUIRE(resource.actions[0].examples[0].responses[1].name == "404");
     REQUIRE(resource.actions[0].examples[0].responses[1].body == "Not found\n");
 }
+#endif
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Parse adjacent asset list blocks", "[parser][9]")
 {
     mdp::ByteBuffer source
@@ -240,7 +249,9 @@ TEST_CASE("Parse adjacent asset list blocks", "[parser][9]")
     REQUIRE(resource.actions[0].examples[0].responses[0].name == "200");
     REQUIRE(resource.actions[0].examples[0].responses[0].body.empty());
 }
+#endif
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Parse adjacent nested asset blocks", "[parser][9]")
 {
     mdp::ByteBuffer source
@@ -272,7 +283,9 @@ TEST_CASE("Parse adjacent nested asset blocks", "[parser][9]")
     REQUIRE(resource.actions[0].examples[0].responses[0].name == "200");
     REQUIRE(resource.actions[0].examples[0].responses[0].body == "A\nB\nC\n\n");
 }
+#endif
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Exception while parsing a blueprint with leading empty space", "[regression][parser]")
 {
     mdp::ByteBuffer source
@@ -286,7 +299,9 @@ TEST_CASE("Exception while parsing a blueprint with leading empty space", "[regr
     REQUIRE(blueprint.report.warnings.size() == 1);
     REQUIRE(blueprint.report.warnings[0].code == EmptyDefinitionWarning);
 }
+#endif
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Invalid source map without closing newline", "[regression][parser]")
 {
     mdp::ByteBuffer source = "# PUT /branch";
@@ -299,7 +314,9 @@ TEST_CASE("Invalid source map without closing newline", "[regression][parser]")
     REQUIRE(blueprint.report.warnings[0].code == EmptyDefinitionWarning);
     SourceMapHelper::check(blueprint.report.warnings[0].location, 0, 13);
 }
+#endif
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Warn about missing API name if there is an API description", "[parser][regression]")
 {
     mdp::ByteBuffer source1 = "Hello World\n";
@@ -339,6 +356,7 @@ TEST_CASE("Warn about missing API name if there is an API description", "[parser
     REQUIRE(blueprint3.report.error.code == Error::OK);
     REQUIRE(blueprint3.report.warnings.empty());
 }
+#endif
 
 TEST_CASE("Resource with incorrect URI segfault", "[parser][regression]")
 {
@@ -428,6 +446,7 @@ TEST_CASE("Ignoring block recovery", "[parser][regression][188]")
     REQUIRE(resource.actions[0].method == "DELETE");
 }
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Ignoring dangling model assets", "[parser][regression][196]")
 {
     mdp::ByteBuffer source
@@ -464,6 +483,7 @@ TEST_CASE("Ignoring dangling model assets", "[parser][regression][196]")
     REQUIRE(resource.actions[0].examples[0].responses[0].name == "200");
     REQUIRE(resource.actions[0].examples[0].responses[0].body == "{ A }\n\n");
 }
+#endif
 
 TEST_CASE("Ignoring local media type", "[parser][regression][195]")
 {
@@ -558,6 +578,7 @@ TEST_CASE("Using local media type", "[parser][regression][195]")
         18);
 }
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Parse ill-formatted header", "[parser][198][regression]")
 {
     mdp::ByteBuffer source
@@ -586,6 +607,7 @@ TEST_CASE("Parse ill-formatted header", "[parser][198][regression]")
     REQUIRE(resource.actions[0].examples[0].responses[0].headers[0].first == "Location");
     REQUIRE(resource.actions[0].examples[0].responses[0].headers[0].second == "new_url");
 }
+#endif
 
 TEST_CASE("Overshadow parameters", "[parser][201][regression][parameters]")
 {
@@ -679,6 +701,7 @@ TEST_CASE("Don't remove link references", "[parser][213]")
     REQUIRE(resource.description == "This is [third example][id]\n\n[id]: http://c.com");
 }
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Don't mess up sourcemaps when there are references", "[parser][213]")
 {
     mdp::ByteBuffer source
@@ -702,7 +725,9 @@ TEST_CASE("Don't mess up sourcemaps when there are references", "[parser][213]")
     REQUIRE(resourceSM.actions.collection.size() == 1);
     SourceMapHelper::check(resourceSM.actions.collection[0].method.sourceMap, 111, 8);
 }
+#endif
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("doesn't crash while parsing response followed by a block quote and heading", "[parser][322]")
 {
     mdp::ByteBuffer source
@@ -723,7 +748,9 @@ TEST_CASE("doesn't crash while parsing response followed by a block quote and he
     SourceMap<Payload> payloadSM = actionSM.examples.collection[0].responses.collection[0];
     SourceMapHelper::check(payloadSM.body.sourceMap, 30, 22);
 }
+#endif
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("doesn't crash while parsing response followed by a block quote settext heading", "[parser][322]")
 {
     mdp::ByteBuffer source
@@ -745,6 +772,7 @@ TEST_CASE("doesn't crash while parsing response followed by a block quote settex
     SourceMap<Payload> payloadSM = actionSM.examples.collection[0].responses.collection[0];
     SourceMapHelper::check(payloadSM.body.sourceMap, 30, 22, 1);
 }
+#endif
 
 TEST_CASE("Parse blueprint with mismatched adapter blocks", "[blueprint]")
 {

@@ -148,6 +148,7 @@ TEST_CASE("Warn about additional content block in parameters section", "[paramet
     REQUIRE(parameters.sourceMap.collection[0].description.sourceMap.empty());
 }
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Warn about multiple parameters with the same name", "[parameters]")
 {
     mdp::ByteBuffer source
@@ -171,6 +172,7 @@ TEST_CASE("Warn about multiple parameters with the same name", "[parameters]")
     REQUIRE(parameters.sourceMap.collection.size() == 1);
     SourceMapHelper::check(parameters.sourceMap.collection[0].name.sourceMap, 35, 10);
 }
+#endif
 
 TEST_CASE(
     "Recognize parameter when there is no description on its signature and remaining description is not a new node",
@@ -263,6 +265,7 @@ TEST_CASE("Parse parameters when it has parameter of both old and new syntax", "
     REQUIRE(parameters.node[1].exampleValue == "25");
 }
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Percentage encoded characters in parameter name ", "[parameters][percentageencoding][issue][107]")
 {
     // Blueprint in question:
@@ -299,7 +302,9 @@ TEST_CASE("Percentage encoded characters in parameter name ", "[parameters][perc
     REQUIRE(resource.actions[0].parameters[0].exampleValue == "substringof('homer', id)");
     REQUIRE(resource.actions[0].parameters[0].description == "test");
 }
+#endif
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE(
     "Invalid percentage encoded characters in parameter name ", "[invalid][parameters][percentageencoding][issue][107]")
 {
@@ -324,7 +329,9 @@ TEST_CASE(
     REQUIRE(blueprint.report.error.code == Error::OK);
     REQUIRE(blueprint.report.warnings.size() == 3);
 }
+#endif
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Incomplete percentage encoded characters in parameter name ",
     "[incomplete][parameters][percentageencoding][issue][107]")
 {
@@ -349,6 +356,7 @@ TEST_CASE("Incomplete percentage encoded characters in parameter name ",
     REQUIRE(blueprint.report.error.code == Error::OK);
     REQUIRE(blueprint.report.warnings.size() == 3);
 }
+#endif
 
 TEST_CASE("Parse old style parameter in parameters with non-complete default value", "[parameter]")
 {

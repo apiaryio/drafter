@@ -72,6 +72,7 @@ TEST_CASE("Warn about unsupported uri template label expansion", "[warnings][78]
     REQUIRE(blueprint.report.warnings[0].code == URIWarning);
 }
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Warn about unsupported uri template in abbreviated blueprint", "[warnings][78]")
 {
     mdp::ByteBuffer source
@@ -91,3 +92,4 @@ TEST_CASE("Warn about unsupported uri template in abbreviated blueprint", "[warn
     REQUIRE(blueprint.report.warnings.size() == 1);
     REQUIRE(blueprint.report.warnings[0].code == URIWarning);
 }
+#endif

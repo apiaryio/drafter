@@ -38,8 +38,12 @@ TEST_MSON_SUCCESS("resource-nested-member");
 TEST_MSON_SUCCESS("array-sample");
 TEST_MSON_SUCCESS("object-sample");
 TEST_MSON_SUCCESS("enum-members-description");
+
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_MSON_SUCCESS("array-reference");
 TEST_MSON_SUCCESS("reference-override");
+#endif
+
 TEST_MSON_SUCCESS("enum-variants");
 TEST_MSON_SUCCESS("inheritance-primitive");
 TEST_MSON_SUCCESS("regression-207");
@@ -47,10 +51,13 @@ TEST_MSON_SUCCESS("regression-267");
 TEST_MSON("regression-269", false);
 
 TEST_REFRACT("mson", "variable-property-name");
+
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_REFRACT("mson", "check-bool-number-value-validity");
 TEST_REFRACT("mson", "check-default-without-value");
 TEST_REFRACT("mson", "check-sample-without-value");
 TEST_REFRACT("mson", "fixed-type-array-primitive-nested");
+#endif
 
 TEST_MSON_SUCCESS("enum-empty-default");
 TEST_MSON_SUCCESS("enum-multiple-default");

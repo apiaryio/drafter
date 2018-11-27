@@ -20,18 +20,28 @@ TEST_REFRACT("api", "action-parameters");
 TEST_REFRACT("api", "request-parameters");
 TEST_REFRACT("api", "request-only");
 TEST_REFRACT("api", "asset");
+
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_REFRACT("api", "xml-body");
+#endif
+
 TEST_REFRACT("api", "schema-body");
+
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_REFRACT("api", "schema-custom");
 TEST_REFRACT("api", "schema-custom-json");
+#endif
+
 TEST_REFRACT("api", "attributes-references");
 TEST_REFRACT("api", "action-request-attributes");
 TEST_REFRACT("api", "mson");
 
 // regressions
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_REFRACT("api", "attributes-array-nested-named-type");
 TEST_REFRACT("api", "attributes-named-type-member-reference");
 TEST_REFRACT("api", "attributes-named-type-mixin");
 TEST_REFRACT("api", "attributes-named-type-enum-reference");
+#endif
 
 TEST_REFRACT("api", "mixin-inheritance");

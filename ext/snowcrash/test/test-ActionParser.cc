@@ -533,6 +533,7 @@ TEST_CASE("Warn when request is not followed by a response", "[action]")
 //    REQUIRE(action.node.examples[1].responses.size() == 1);
 // }
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Named Endpoint", "[named_endpoint]")
 {
     const mdp::ByteBuffer source
@@ -561,7 +562,9 @@ TEST_CASE("Named Endpoint", "[named_endpoint]")
     Action action = resource.actions.at(0);
     REQUIRE(action.method == "GET");
 }
+#endif
 
+#if ! defined (_MSC_VER) || ! defined (_DEBUG)
 TEST_CASE("Named Endpoints Edge Cases", "[named_endpoint]")
 {
     const mdp::ByteBuffer source
@@ -619,6 +622,7 @@ TEST_CASE("Named Endpoints Edge Cases", "[named_endpoint]")
         REQUIRE(action.method == "POST");
     }
 }
+#endif
 
 TEST_CASE("Action section containing properties keyword under it", "[action][127]")
 {
