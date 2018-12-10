@@ -1,0 +1,6 @@
+os: windows
+language: cpp
+script:
+  - vcbuild.bat %VS_VERSION%
+  - vcbuild.bat %VS_VERSION% test
+  - vcbuild.bat %VS_VERSION% inttest
