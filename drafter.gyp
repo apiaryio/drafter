@@ -394,6 +394,7 @@
         "test/refract/test-Utils.cc",
         "test/refract/test-JsonSchema.cc",
         "test/refract/test-JsonValue.cc",
+        "test/refract/test-ElementUtils.cc",
 
         "test/refract/dsd/test-Array.cc",
         "test/refract/dsd/test-Bool.cc",

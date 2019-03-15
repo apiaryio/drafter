@@ -25,6 +25,7 @@ add_executable(drafter-test
     refract/dsd/test-Member.cc
     refract/dsd/test-Enum.cc
     refract/test-InfoElementsUtils.cc
+    refract/test-ElementUtils.cc
     refract/test-Utils.cc
     refract/test-JsonSchema.cc
     refract/test-JsonValue.cc

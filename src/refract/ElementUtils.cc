@@ -9,25 +9,15 @@
 #include "ElementUtils.h"
 
 #include "../utils/log/Trivial.h"
+#include "JsonUtils.h"
 #include "Element.h"
 #include "Utils.h"
-
 #include <algorithm>
+#include <numeric>
+#include <limits>
 #include <cassert>
 
 using namespace refract;
-
-template <typename Element>
-Element* get(IElement* e)
-{
-    return dynamic_cast<Element*>(e);
-}
-
-template <typename Element>
-Element* get(const IElement* e)
-{
-    return dynamic_cast<Element*>(e);
-}
 
 bool refract::inheritsFixed(const IElement& e)
 {
@@ -293,4 +283,161 @@ const IElement* refract::findValue(const IElement& element)
 bool refract::definesValue(const IElement& e)
 {
     return nullptr != findValue(e);
+}
+
+namespace
+{
+    const ArrayElement* enumerations(const EnumElement& e)
+    {
+        auto it = e.attributes().find("enumerations");
+        if (it != e.attributes().end())
+            if (const ArrayElement* enums = get<const ArrayElement>(it->second.get()))
+                return enums;
+        return nullptr;
+    }
+
+    template <typename It>
+    cardinal sizeOfMult(It b, It e, bool inheritsFixed) noexcept
+    {
+        return std::accumulate(b, e, cardinal{ 1 }, [inheritsFixed](const auto& a, const auto& b) { //
+            return a * sizeOf(*b, inheritsFixed);
+        });
+    }
+
+    template <typename It>
+    cardinal sizeOfSum(It b, It e, bool inheritsFixed) noexcept
+    {
+        return std::accumulate(b, e, cardinal::empty(), [inheritsFixed](const auto& a, const auto& b) { //
+            return a + sizeOf(*b, inheritsFixed);
+        });
+    }
+
+    cardinal wrapNullable(cardinal s, const IElement& e)
+    {
+        return hasNullableTypeAttr(e) ? (s + cardinal{ 1 }) : s;
+    }
+}
+
+cardinal refract::sizeOf(const IElement& e, bool inheritsFixed)
+{
+    return refract::visit(e, [inheritsFixed](const auto& el) { //
+        return sizeOf(el, inheritsFixed);
+    });
+}
+
+cardinal refract::sizeOf(const ObjectElement& e, bool inheritsFixed)
+{
+    auto baseSize = cardinal::open();
+    const bool isFixed = inheritsFixed || hasFixedTypeAttr(e);
+    if (isFixed || hasFixedTypeTypeAttr(e)) {
+        if (e.empty())
+            baseSize = cardinal{ 1 };
+        else
+            baseSize = sizeOfMult(e.get().begin(), e.get().end(), isFixed);
+    }
+    return wrapNullable(baseSize, e);
+}
+
+cardinal refract::sizeOf(const MemberElement& e, bool inheritsFixed)
+{
+    if (e.empty() || !e.get().value())
+        return cardinal::empty();
+    const auto keySize = isVariable(e) ? cardinal::open() : cardinal{ 1 };
+    return wrapNullable(keySize * sizeOf(*e.get().value(), inheritsFixed), e);
+}
+
+cardinal refract::sizeOf(const ArrayElement& e, bool inheritsFixed)
+{
+    auto baseSize = cardinal::open();
+
+    if (inheritsFixed || hasFixedTypeAttr(e))
+        if (e.empty())
+            baseSize = cardinal{ 1 };
+        else
+            baseSize = sizeOfMult(e.get().begin(), e.get().end(), true);
+    else if (hasFixedTypeTypeAttr(e)) {
+        if (e.empty())
+            baseSize = cardinal::empty();
+        else if (sizeOfSum(e.get().begin(), e.get().end(), false) != cardinal::empty())
+            baseSize = cardinal::open();
+    }
+    return wrapNullable(baseSize, e);
+}
+
+cardinal refract::sizeOf(const EnumElement& e, bool inheritsFixed)
+{
+    const auto* enums = enumerations(e);
+
+    if (!enums || enums->empty())
+        return cardinal::empty();
+
+    inheritsFixed = inheritsFixed || hasFixedTypeAttr(e);
+    const auto baseSize = sizeOfSum(enums->get().begin(), enums->get().end(), inheritsFixed);
+
+    return wrapNullable(baseSize, e);
+}
+
+cardinal refract::sizeOf(const NullElement& e, bool inheritsFixed)
+{
+    return cardinal{ 1 };
+}
+
+cardinal refract::sizeOf(const StringElement& e, bool inheritsFixed)
+{
+    auto baseSize = cardinal::open();
+    if ((definesValue(e) && inheritsFixed) || hasFixedTypeAttr(e))
+        baseSize = cardinal{ 1 };
+    return wrapNullable(baseSize, e);
+}
+
+cardinal refract::sizeOf(const NumberElement& e, bool inheritsFixed)
+{
+    auto baseSize = cardinal::open();
+    if ((definesValue(e) && inheritsFixed) || hasFixedTypeAttr(e))
+        baseSize = cardinal{ 1 };
+    return wrapNullable(baseSize, e);
+}
+
+cardinal refract::sizeOf(const BooleanElement& e, bool inheritsFixed)
+{
+    auto baseSize = cardinal{ 2 };
+    if ((definesValue(e) && inheritsFixed) || hasFixedTypeAttr(e))
+        baseSize = cardinal{ 1 };
+    return wrapNullable(baseSize, e);
+}
+
+cardinal refract::sizeOf(const ExtendElement& e, bool inheritsFixed)
+{
+    if (e.empty())
+        return cardinal::empty();
+    if (const auto merged = e.get().merge())
+        return sizeOf(*merged, inheritsFixed);
+    return cardinal::empty();
+}
+
+cardinal refract::sizeOf(const RefElement& e, bool inheritsFixed)
+{
+    const auto& resolved = utils::resolve(e);
+    return sizeOf(resolved, inheritsFixed);
+}
+
+cardinal refract::sizeOf(const HolderElement& e, bool inheritsFixed)
+{
+    if (e.empty() || !e.get().data())
+        return cardinal::empty();
+    return sizeOf(*e.get().data(), inheritsFixed);
+}
+
+cardinal refract::sizeOf(const SelectElement& e, bool inheritsFixed)
+{
+    if (e.empty())
+        return cardinal::empty();
+    return sizeOfSum(e.get().begin(), e.get().end(), inheritsFixed);
+}
+
+cardinal refract::sizeOf(const OptionElement& e, bool inheritsFixed)
+{
+    if (e.empty())
+        return cardinal::empty();
+    return sizeOfMult(e.get().begin(), e.get().end(), inheritsFixed);
 }
