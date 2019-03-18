@@ -5,4 +5,4 @@
 source 'https://rubygems.org'
 
 gem 'cucumber'
-gem 'aruba', '0.7.4'
+gem 'aruba'
