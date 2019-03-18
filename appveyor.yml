@@ -2,24 +2,25 @@ image:
   - Visual Studio 2015
   - Visual Studio 2017
 
+cache:
+  - vendor/bundle
+
 environment:
   matrix:
-    - VS_VERSION: 
+    - VS_VERSION:
+      RUBY_VERSION: 25-x64
     - VS_VERSION: debug
+      RUBY_VERSION: 25-x64
 
 install:
-  - set PATH=C:\Ruby25\bin;%PATH%
+  - set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
+  - bundle config --local path vendor/bundle
+  - bundle install
 
 build_script:
-  - curl -O https://curl.haxx.se/ca/cacert.pem
-  - SET SSL_CERT_FILE=%cd%\cacert.pem
-
   - git submodule update --init --recursive
-  - bundle install --path bundle
-
   - vcbuild.bat %VS_VERSION%
 
 test_script:
-
   - vcbuild.bat %VS_VERSION% test
   - vcbuild.bat %VS_VERSION% inttest
