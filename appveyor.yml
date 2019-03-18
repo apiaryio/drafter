@@ -13,9 +13,8 @@ install:
 build_script:
   - curl -O https://curl.haxx.se/ca/cacert.pem
   - SET SSL_CERT_FILE=%cd%\cacert.pem
-  
+
   - git submodule update --init --recursive
-  - rm Gemfile.lock
   - bundle install --path bundle
 
   - vcbuild.bat %VS_VERSION%
