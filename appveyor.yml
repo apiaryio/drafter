@@ -21,6 +21,4 @@ build_script:
   - vcbuild.bat %VS_VERSION%
 
 test_script:
-
   - vcbuild.bat %VS_VERSION% test
-  - vcbuild.bat %VS_VERSION% inttest
