@@ -18,11 +18,11 @@ using namespace refract;
 
 SCENARIO("Cardinals of empty types", "[apie][sizeOf]")
 {
-    GIVEN("Empty String Element")
+    GIVEN("an empty String Element")
     {
         const auto tested = make_empty<StringElement>();
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -38,11 +38,11 @@ SCENARIO("Cardinals of empty types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Empty Number Element")
+    GIVEN("an empty Number Element")
     {
         const auto tested = make_empty<NumberElement>();
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -58,11 +58,11 @@ SCENARIO("Cardinals of empty types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Empty Boolean Element")
+    GIVEN("an empty Boolean Element")
     {
         const auto tested = make_empty<BooleanElement>();
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -78,11 +78,11 @@ SCENARIO("Cardinals of empty types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Null Element")
+    GIVEN("a Null Element")
     {
         const auto tested = make_empty<NullElement>();
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -98,11 +98,11 @@ SCENARIO("Cardinals of empty types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Empty Array Element")
+    GIVEN("an empty Array Element")
     {
         const auto tested = make_empty<ArrayElement>();
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -118,11 +118,11 @@ SCENARIO("Cardinals of empty types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Empty Object Element")
+    GIVEN("an empty Object Element")
     {
         const auto tested = make_empty<ObjectElement>();
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -141,12 +141,12 @@ SCENARIO("Cardinals of empty types", "[apie][sizeOf]")
 
 SCENARIO("Cardinals of empty, nullable types", "[apie][sizeOf]")
 {
-    GIVEN("Nullable, empty String Element")
+    GIVEN("a nullable, empty String Element")
     {
         const auto tested = make_empty<StringElement>();
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("nullable")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -162,12 +162,12 @@ SCENARIO("Cardinals of empty, nullable types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Nullable, empty Number Element")
+    GIVEN("a nullable, empty Number Element")
     {
         const auto tested = make_empty<NumberElement>();
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("nullable")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -183,12 +183,12 @@ SCENARIO("Cardinals of empty, nullable types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Nullable, empty Boolean Element")
+    GIVEN("a nullable, empty Boolean Element")
     {
         const auto tested = make_empty<BooleanElement>();
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("nullable")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -204,12 +204,12 @@ SCENARIO("Cardinals of empty, nullable types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Nullable, empty Array Element")
+    GIVEN("a nullable, empty Array Element")
     {
         const auto tested = make_empty<ArrayElement>();
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("nullable")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -225,12 +225,12 @@ SCENARIO("Cardinals of empty, nullable types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Nullable, empty Object Element")
+    GIVEN("a nullable, empty Object Element")
     {
         const auto tested = make_empty<ObjectElement>();
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("nullable")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -249,7 +249,7 @@ SCENARIO("Cardinals of empty, nullable types", "[apie][sizeOf]")
 
 SCENARIO("Cardinals of nullable, fixed, empty types", "[apie][sizeOf]")
 {
-    GIVEN("Nullable, empty, fixed String Element")
+    GIVEN("a nullable, empty, fixed String Element")
     {
         const auto tested = make_empty<StringElement>();
         tested->attributes().set("typeAttributes",
@@ -257,7 +257,7 @@ SCENARIO("Cardinals of nullable, fixed, empty types", "[apie][sizeOf]")
                 from_primitive("fixed"),
                 from_primitive("nullable")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -273,7 +273,7 @@ SCENARIO("Cardinals of nullable, fixed, empty types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Nullable, empty, fixed Number Element")
+    GIVEN("a nullable, empty, fixed Number Element")
     {
         const auto tested = make_empty<NumberElement>();
         tested->attributes().set("typeAttributes",
@@ -281,7 +281,7 @@ SCENARIO("Cardinals of nullable, fixed, empty types", "[apie][sizeOf]")
                 from_primitive("fixed"),
                 from_primitive("nullable")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -297,7 +297,7 @@ SCENARIO("Cardinals of nullable, fixed, empty types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Nullable, empty, fixed Boolean Element")
+    GIVEN("a nullable, empty, fixed Boolean Element")
     {
         const auto tested = make_empty<BooleanElement>();
         tested->attributes().set("typeAttributes",
@@ -305,7 +305,7 @@ SCENARIO("Cardinals of nullable, fixed, empty types", "[apie][sizeOf]")
                 from_primitive("fixed"),
                 from_primitive("nullable")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -321,7 +321,7 @@ SCENARIO("Cardinals of nullable, fixed, empty types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Nullable, empty, fixed Array Element")
+    GIVEN("a nullable, empty, fixed Array Element")
     {
         const auto tested = make_empty<ArrayElement>();
         tested->attributes().set("typeAttributes",
@@ -329,7 +329,7 @@ SCENARIO("Cardinals of nullable, fixed, empty types", "[apie][sizeOf]")
                 from_primitive("fixed"),
                 from_primitive("nullable")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -345,7 +345,7 @@ SCENARIO("Cardinals of nullable, fixed, empty types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Nullable, empty, fixed Object Element")
+    GIVEN("a nullable, empty, fixed Object Element")
     {
         const auto tested = make_empty<ObjectElement>();
         tested->attributes().set("typeAttributes",
@@ -353,7 +353,7 @@ SCENARIO("Cardinals of nullable, fixed, empty types", "[apie][sizeOf]")
                 from_primitive("fixed"),
                 from_primitive("nullable")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -372,12 +372,12 @@ SCENARIO("Cardinals of nullable, fixed, empty types", "[apie][sizeOf]")
 
 SCENARIO("Cardinals of fixed, empty types", "[apie][sizeOf]")
 {
-    GIVEN("Empty, fixed String Element")
+    GIVEN("an empty, fixed String Element")
     {
         const auto tested = make_empty<StringElement>();
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -393,12 +393,12 @@ SCENARIO("Cardinals of fixed, empty types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Empty, fixed Number Element")
+    GIVEN("an empty, fixed Number Element")
     {
         const auto tested = make_empty<NumberElement>();
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -414,12 +414,12 @@ SCENARIO("Cardinals of fixed, empty types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Empty, fixed Boolean Element")
+    GIVEN("an empty, fixed Boolean Element")
     {
         const auto tested = make_empty<BooleanElement>();
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -435,12 +435,12 @@ SCENARIO("Cardinals of fixed, empty types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Empty, fixed Array Element")
+    GIVEN("an empty, fixed Array Element")
     {
         const auto tested = make_empty<ArrayElement>();
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -456,12 +456,12 @@ SCENARIO("Cardinals of fixed, empty types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Empty, fixed Object Element")
+    GIVEN("an empty, fixed Object Element")
     {
         const auto tested = make_empty<ObjectElement>();
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -480,11 +480,11 @@ SCENARIO("Cardinals of fixed, empty types", "[apie][sizeOf]")
 
 SCENARIO("Cardinals of types with content", "[apie][sizeOf]")
 {
-    GIVEN("String Element with some content")
+    GIVEN("a String Element with some content")
     {
         const auto tested = make_element<StringElement>("Persuit");
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -500,11 +500,11 @@ SCENARIO("Cardinals of types with content", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Number Element with some content")
+    GIVEN("a Number Element with some content")
     {
         const auto tested = make_element<NumberElement>(101);
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -520,11 +520,11 @@ SCENARIO("Cardinals of types with content", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Boolean Element with some content")
+    GIVEN("a Boolean Element with some content")
     {
         const auto tested = make_element<BooleanElement>(true);
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -540,11 +540,11 @@ SCENARIO("Cardinals of types with content", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Array Element with some content")
+    GIVEN("an Array Element with some content")
     {
         const auto tested = make_element<ArrayElement>(from_primitive(3), from_primitive("hey"));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -560,13 +560,13 @@ SCENARIO("Cardinals of types with content", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Object Element with some content")
+    GIVEN("an Object Element with some content")
     {
         const auto tested = make_element<ObjectElement>(             //
             make_element<MemberElement>("no", from_primitive(true)), //
             make_element<MemberElement>("*", from_primitive(42)));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -585,12 +585,12 @@ SCENARIO("Cardinals of types with content", "[apie][sizeOf]")
 
 SCENARIO("Cardinals of fixed types with content", "[apie][sizeOf]")
 {
-    GIVEN("Fixed String Element with some content")
+    GIVEN("a fixed String Element with some content")
     {
         const auto tested = make_element<StringElement>("Persuit");
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -606,12 +606,12 @@ SCENARIO("Cardinals of fixed types with content", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Fixed Number Element with some content")
+    GIVEN("a fixed Number Element with some content")
     {
         const auto tested = make_element<NumberElement>(101);
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -627,12 +627,12 @@ SCENARIO("Cardinals of fixed types with content", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Fixed Boolean Element with some content")
+    GIVEN("a fixed Boolean Element with some content")
     {
         const auto tested = make_element<BooleanElement>(true);
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -648,7 +648,7 @@ SCENARIO("Cardinals of fixed types with content", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Fixed Array Element with some content")
+    GIVEN("a fixed Array Element with some content")
     {
         // 2 values: does not inherit fixed; {true, false}
         auto entry1 = make_empty<BooleanElement>();
@@ -677,7 +677,7 @@ SCENARIO("Cardinals of fixed types with content", "[apie][sizeOf]")
         );
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -693,14 +693,14 @@ SCENARIO("Cardinals of fixed types with content", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Fixed Object Element with some content")
+    GIVEN("a fixed Object Element with some content")
     {
         const auto tested = make_element<ObjectElement>(             //
             make_element<MemberElement>("no", from_primitive(true)), //
             make_element<MemberElement>("*", from_primitive(42)));
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixed")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -719,12 +719,12 @@ SCENARIO("Cardinals of fixed types with content", "[apie][sizeOf]")
 
 SCENARIO("Cardinals of fixedType, empty types", "[apie][sizeOf]")
 {
-    GIVEN("Empty, fixedType Array Element")
+    GIVEN("an empty, fixedType Array Element")
     {
         const auto tested = make_empty<ArrayElement>();
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixedType")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -740,12 +740,12 @@ SCENARIO("Cardinals of fixedType, empty types", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("Empty, fixedType Object Element")
+    GIVEN("an empty, fixedType Object Element")
     {
         const auto tested = make_empty<ObjectElement>();
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixedType")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -764,12 +764,12 @@ SCENARIO("Cardinals of fixedType, empty types", "[apie][sizeOf]")
 
 SCENARIO("Cardinals of fixedType types with content", "[apie][sizeOf]")
 {
-    GIVEN("FixedType Array Element with some content")
+    GIVEN("a fixedType Array Element with some content")
     {
         const auto tested = make_element<ArrayElement>(make_element<NullElement>(), from_primitive(33));
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixedType")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
@@ -785,7 +785,7 @@ SCENARIO("Cardinals of fixedType types with content", "[apie][sizeOf]")
         }
     }
 
-    GIVEN("FixedType Object Element with some content")
+    GIVEN("a fixedType Object Element with some content")
     {
         const auto tested = make_element<ObjectElement>(                     //
             make_element<MemberElement>("no", make_empty<BooleanElement>()), // 2 values
@@ -794,7 +794,7 @@ SCENARIO("Cardinals of fixedType types with content", "[apie][sizeOf]")
         );
         tested->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixedType")));
 
-        WHEN("it's cardinality is computed")
+        WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
 
