@@ -14,15 +14,6 @@
 
 namespace refract
 {
-    struct IElement;
-
-    namespace dsd
-    {
-        class String;
-        class Number;
-        class Boolean;
-    } // namespace dsd
-
     namespace utils
     {
         drafter::utils::so::String instantiate(const dsd::String& e);
@@ -32,11 +23,6 @@ namespace refract
         drafter::utils::so::String instantiateEmpty(const StringElement& e);
         drafter::utils::so::Number instantiateEmpty(const NumberElement& e);
         drafter::utils::so::Value instantiateEmpty(const BooleanElement& e);
-
-        ///
-        /// Resolves a previously expanded reference
-        ///
-        const IElement& resolve(const RefElement& element);
     } // namespace utils
 } // namespace refract
 

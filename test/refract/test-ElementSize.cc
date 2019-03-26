@@ -1,4 +1,4 @@
-#include "refract/ElementUtils.h"
+#include "refract/ElementSize.h"
 #include "refract/Element.h"
 #include <catch2/catch.hpp>
 
@@ -26,14 +26,9 @@ SCENARIO("Cardinals of empty types", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is an infinite cardinal")
+            THEN("it is infinite")
             {
                 REQUIRE(!finite(result));
-            }
-
-            THEN("it is the open cardinal")
-            {
-                REQUIRE(result == cardinal::open());
             }
         }
     }
@@ -46,14 +41,9 @@ SCENARIO("Cardinals of empty types", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is an infinite cardinal")
+            THEN("it is infinite")
             {
                 REQUIRE(!finite(result));
-            }
-
-            THEN("it is the open cardinal")
-            {
-                REQUIRE(result == cardinal::open());
             }
         }
     }
@@ -65,11 +55,6 @@ SCENARIO("Cardinals of empty types", "[apie][sizeOf]")
         WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
-
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
 
             THEN("it is equal to the 2nd cardinal")
             {
@@ -86,11 +71,6 @@ SCENARIO("Cardinals of empty types", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
-
             THEN("it is equal to the 1st cardinal")
             {
                 REQUIRE(result == cardinal{ 1 });
@@ -106,14 +86,9 @@ SCENARIO("Cardinals of empty types", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is an infinite cardinal")
+            THEN("it is infinite")
             {
                 REQUIRE(!finite(result));
-            }
-
-            THEN("it is the open cardinal")
-            {
-                REQUIRE(result == cardinal::open());
             }
         }
     }
@@ -126,14 +101,9 @@ SCENARIO("Cardinals of empty types", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is an infinite cardinal")
+            THEN("it is infinite")
             {
                 REQUIRE(!finite(result));
-            }
-
-            THEN("it is the open cardinal")
-            {
-                REQUIRE(result == cardinal::open());
             }
         }
     }
@@ -150,14 +120,9 @@ SCENARIO("Cardinals of empty, nullable types", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is an infinite cardinal")
+            THEN("it is infinite")
             {
                 REQUIRE(!finite(result));
-            }
-
-            THEN("it is the open cardinal")
-            {
-                REQUIRE(result == cardinal::open());
             }
         }
     }
@@ -171,14 +136,9 @@ SCENARIO("Cardinals of empty, nullable types", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is an infinite cardinal")
+            THEN("it is infinite")
             {
                 REQUIRE(!finite(result));
-            }
-
-            THEN("it is the open cardinal")
-            {
-                REQUIRE(result == cardinal::open());
             }
         }
     }
@@ -191,11 +151,6 @@ SCENARIO("Cardinals of empty, nullable types", "[apie][sizeOf]")
         WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
-
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
 
             THEN("it is equal to the 3rd cardinal")
             {
@@ -213,14 +168,9 @@ SCENARIO("Cardinals of empty, nullable types", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is an infinite cardinal")
+            THEN("it is infinite")
             {
                 REQUIRE(!finite(result));
-            }
-
-            THEN("it is the open cardinal")
-            {
-                REQUIRE(result == cardinal::open());
             }
         }
     }
@@ -234,14 +184,9 @@ SCENARIO("Cardinals of empty, nullable types", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is an infinite cardinal")
+            THEN("it is infinite")
             {
                 REQUIRE(!finite(result));
-            }
-
-            THEN("it is the open cardinal")
-            {
-                REQUIRE(result == cardinal::open());
             }
         }
     }
@@ -260,11 +205,6 @@ SCENARIO("Cardinals of nullable, fixed, empty types", "[apie][sizeOf]")
         WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
-
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
 
             THEN("it is the 2nd cardinal")
             {
@@ -285,11 +225,6 @@ SCENARIO("Cardinals of nullable, fixed, empty types", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
-
             THEN("it is the 2nd cardinal")
             {
                 REQUIRE(result == cardinal{ 2 });
@@ -308,11 +243,6 @@ SCENARIO("Cardinals of nullable, fixed, empty types", "[apie][sizeOf]")
         WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
-
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
 
             THEN("it is the 2nd cardinal")
             {
@@ -333,11 +263,6 @@ SCENARIO("Cardinals of nullable, fixed, empty types", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
-
             THEN("it is the 2nd cardinal")
             {
                 REQUIRE(result == cardinal{ 2 });
@@ -356,11 +281,6 @@ SCENARIO("Cardinals of nullable, fixed, empty types", "[apie][sizeOf]")
         WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
-
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
 
             THEN("it is the 2nd cardinal")
             {
@@ -381,11 +301,6 @@ SCENARIO("Cardinals of fixed, empty types", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
-
             THEN("it is the 1st cardinal")
             {
                 REQUIRE(result == cardinal{ 1 });
@@ -401,11 +316,6 @@ SCENARIO("Cardinals of fixed, empty types", "[apie][sizeOf]")
         WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
-
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
 
             THEN("it is the 1st cardinal")
             {
@@ -423,11 +333,6 @@ SCENARIO("Cardinals of fixed, empty types", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
-
             THEN("it is equal to the 2nd cardinal")
             {
                 REQUIRE(result == cardinal{ 1 });
@@ -444,11 +349,6 @@ SCENARIO("Cardinals of fixed, empty types", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
-
             THEN("it is the 1st cardinal")
             {
                 REQUIRE(result == cardinal{ 1 });
@@ -464,11 +364,6 @@ SCENARIO("Cardinals of fixed, empty types", "[apie][sizeOf]")
         WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
-
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
 
             THEN("it is the 1st cardinal")
             {
@@ -488,14 +383,9 @@ SCENARIO("Cardinals of types with content", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is an infinite cardinal")
+            THEN("it is infinite")
             {
                 REQUIRE(!finite(result));
-            }
-
-            THEN("it is the open cardinal")
-            {
-                REQUIRE(result == cardinal::open());
             }
         }
     }
@@ -508,14 +398,9 @@ SCENARIO("Cardinals of types with content", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is an infinite cardinal")
+            THEN("it is infinite")
             {
                 REQUIRE(!finite(result));
-            }
-
-            THEN("it is the open cardinal")
-            {
-                REQUIRE(result == cardinal::open());
             }
         }
     }
@@ -527,11 +412,6 @@ SCENARIO("Cardinals of types with content", "[apie][sizeOf]")
         WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
-
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
 
             THEN("it is equal to the 2nd cardinal")
             {
@@ -548,14 +428,9 @@ SCENARIO("Cardinals of types with content", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is an infinite cardinal")
+            THEN("it is infinite")
             {
                 REQUIRE(!finite(result));
-            }
-
-            THEN("it is the open cardinal")
-            {
-                REQUIRE(result == cardinal::open());
             }
         }
     }
@@ -570,14 +445,9 @@ SCENARIO("Cardinals of types with content", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is an infinite cardinal")
+            THEN("it is infinite")
             {
                 REQUIRE(!finite(result));
-            }
-
-            THEN("it is the open cardinal")
-            {
-                REQUIRE(result == cardinal::open());
             }
         }
     }
@@ -593,11 +463,6 @@ SCENARIO("Cardinals of fixed types with content", "[apie][sizeOf]")
         WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
-
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
 
             THEN("it is the 1st cardinal")
             {
@@ -615,11 +480,6 @@ SCENARIO("Cardinals of fixed types with content", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
-
             THEN("it is the 1st cardinal")
             {
                 REQUIRE(result == cardinal{ 1 });
@@ -635,11 +495,6 @@ SCENARIO("Cardinals of fixed types with content", "[apie][sizeOf]")
         WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
-
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
 
             THEN("it is equal to the 2nd cardinal")
             {
@@ -681,11 +536,6 @@ SCENARIO("Cardinals of fixed types with content", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
-
             THEN("it is the 12th cardinal")
             {
                 REQUIRE(result == cardinal{ 12 });
@@ -703,11 +553,6 @@ SCENARIO("Cardinals of fixed types with content", "[apie][sizeOf]")
         WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
-
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
 
             THEN("it is the 1st cardinal")
             {
@@ -728,11 +573,6 @@ SCENARIO("Cardinals of fixedType, empty types", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
-
             THEN("it is the empty cardinal")
             {
                 REQUIRE(result == cardinal::empty());
@@ -748,11 +588,6 @@ SCENARIO("Cardinals of fixedType, empty types", "[apie][sizeOf]")
         WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
-
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
 
             THEN("it is the 1st cardinal")
             {
@@ -773,14 +608,9 @@ SCENARIO("Cardinals of fixedType types with content", "[apie][sizeOf]")
         {
             const cardinal result = sizeOf(*tested);
 
-            THEN("it is an infinite cardinal")
+            THEN("it is infinite")
             {
                 REQUIRE(!finite(result));
-            }
-
-            THEN("it is the open cardinal")
-            {
-                REQUIRE(result == cardinal::open());
             }
         }
     }
@@ -797,11 +627,6 @@ SCENARIO("Cardinals of fixedType types with content", "[apie][sizeOf]")
         WHEN("its cardinality is computed")
         {
             const cardinal result = sizeOf(*tested);
-
-            THEN("it is a finite cardinal")
-            {
-                REQUIRE(finite(result));
-            }
 
             THEN("it is the 8th cardinal")
             {

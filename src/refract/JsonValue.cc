@@ -304,7 +304,7 @@ namespace
 
     void renderProperty(so::Object& obj, const RefElement& element, TypeAttributes options)
     {
-        const auto& resolved = utils::resolve(element);
+        const auto& resolved = resolve(element);
         renderProperty(obj, resolved, passFlags(options));
     }
 
@@ -366,7 +366,7 @@ namespace
 
     void renderItemSpecific(so::Array& array, const RefElement& element, TypeAttributes options)
     {
-        const auto& resolved = utils::resolve(element);
+        const auto& resolved = resolve(element);
         if (const auto& mixin = get<const ArrayElement>(&resolved)) {
             // OPTIM @tjanc@ avoid temporary container
             so::Value mixinValue = renderValueSpecific(*mixin, passFlags(options));

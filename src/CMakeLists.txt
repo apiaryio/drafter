@@ -3,50 +3,51 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(Drafter VERSION 4.0 LANGUAGES CXX)
 
 set(DRAFTER_SOURCES
-    utils/so/Value.cc
-    utils/so/JsonIo.cc
-    utils/so/YamlIo.cc
-    utils/log/Trivial.cc
-    refract/dsd/Bool.cc
-    refract/dsd/Member.cc
-    refract/dsd/Object.cc
-    refract/dsd/Ref.cc
-    refract/dsd/Extend.cc
-    refract/dsd/Holder.cc
-    refract/dsd/Array.cc
-    refract/dsd/Select.cc
-    refract/dsd/Null.cc
-    refract/dsd/Enum.cc
-    refract/dsd/String.cc
-    refract/dsd/Number.cc
-    refract/dsd/Option.cc
-    refract/Utils.cc
-    refract/ElementUtils.cc
-    refract/ComparableVisitor.cc
-    refract/JsonValue.cc
-    refract/JsonUtils.cc
-    refract/SerializeSo.cc
-    refract/Query.cc
-    refract/InfoElements.cc
-    refract/TypeQueryVisitor.cc
-    refract/JsonSchema.cc
-    refract/PrintVisitor.cc
-    refract/Registry.cc
-    refract/IsExpandableVisitor.cc
-    refract/VisitorUtils.cc
-    refract/ExpandVisitor.cc
-    refract/Element.cc
+    ConversionContext.cc
+    NamedTypesRegistry.cc
+    RefractAPI.cc
+    RefractDataStructure.cc
+    RefractElementFactory.cc
+    RefractSourceMap.cc
+    Render.cc
     Serialize.cc
     SerializeResult.cc
-    RefractAPI.cc
-    drafter.cc
-    RefractSourceMap.cc
-    NamedTypesRegistry.cc
-    RefractDataStructure.cc
-    Render.cc
-    ConversionContext.cc
-    RefractElementFactory.cc
     SourceMapUtils.cc
+    drafter.cc
+    refract/ComparableVisitor.cc
+    refract/Element.cc
+    refract/ElementSize.cc
+    refract/ElementUtils.cc
+    refract/ExpandVisitor.cc
+    refract/InfoElements.cc
+    refract/IsExpandableVisitor.cc
+    refract/JsonSchema.cc
+    refract/JsonUtils.cc
+    refract/JsonValue.cc
+    refract/PrintVisitor.cc
+    refract/Query.cc
+    refract/Registry.cc
+    refract/SerializeSo.cc
+    refract/TypeQueryVisitor.cc
+    refract/Utils.cc
+    refract/VisitorUtils.cc
+    refract/dsd/Array.cc
+    refract/dsd/Bool.cc
+    refract/dsd/Enum.cc
+    refract/dsd/Extend.cc
+    refract/dsd/Holder.cc
+    refract/dsd/Member.cc
+    refract/dsd/Null.cc
+    refract/dsd/Number.cc
+    refract/dsd/Object.cc
+    refract/dsd/Option.cc
+    refract/dsd/Ref.cc
+    refract/dsd/Select.cc
+    refract/dsd/String.cc
+    utils/log/Trivial.cc
+    utils/so/JsonIo.cc
+    utils/so/Value.cc
+    utils/so/YamlIo.cc
     )
 
 set(DRAFTER_COMPILE_FEATURES

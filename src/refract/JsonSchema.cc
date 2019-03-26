@@ -15,6 +15,7 @@
 #include "Element.h"
 #include "ElementIfc.h"
 #include "ElementUtils.h"
+#include "ElementSize.h"
 #include "JsonUtils.h"
 #include "JsonValue.h"
 #include "Utils.h"
@@ -585,7 +586,7 @@ namespace
 
     void renderProperty(ObjectSchema& s, const RefElement& e, TypeAttributes options)
     {
-        const auto& resolved = utils::resolve(e);
+        const auto& resolved = resolve(e);
         renderProperty(s, resolved, passFlags(options));
     }
 

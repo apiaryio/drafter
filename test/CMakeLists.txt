@@ -24,11 +24,12 @@ add_executable(drafter-test
     refract/dsd/test-Bool.cc
     refract/dsd/test-Member.cc
     refract/dsd/test-Enum.cc
+    refract/test-Cardinal.cc
+    refract/test-ElementSize.cc
     refract/test-InfoElementsUtils.cc
-    refract/test-ElementUtils.cc
-    refract/test-Utils.cc
     refract/test-JsonSchema.cc
     refract/test-JsonValue.cc
+    refract/test-Utils.cc
     test-VisitorUtils.cc
     test-SyntaxIssuesTest.cc
     test-ApplyVisitorTest.cc

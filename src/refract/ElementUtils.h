@@ -138,83 +138,11 @@ namespace refract
 namespace refract
 {
     std::string renderKey(const IElement& element);
-}
 
-namespace refract
-{
-    class cardinal
-    {
-    public:
-        using value_type = std::size_t;
-
-    private:
-        value_type data_ = 0;
-
-    public:
-        constexpr cardinal() noexcept = default;
-        explicit constexpr cardinal(value_type d) noexcept : data_{ d } {}
-
-        constexpr value_type data() const noexcept
-        {
-            return data_;
-        }
-
-    public:
-        static constexpr cardinal open() noexcept
-        {
-            return cardinal{ std::numeric_limits<value_type>::max() };
-        }
-
-        static constexpr cardinal empty() noexcept
-        {
-            return cardinal{ 0 };
-        }
-    };
-
-    constexpr bool operator==(cardinal lhs, cardinal rhs) noexcept
-    {
-        return lhs.data() == rhs.data();
-    }
-
-    constexpr bool operator!=(cardinal lhs, cardinal rhs) noexcept
-    {
-        return lhs.data() != rhs.data();
-    }
-
-    constexpr bool finite(cardinal a) noexcept
-    {
-        return a != cardinal::open();
-    }
-
-    constexpr cardinal operator+(cardinal lhs, cardinal rhs) noexcept
-    {
-        return (lhs == cardinal::open() || rhs == cardinal::open()) ? cardinal::open() :
-                                                                      cardinal{ lhs.data() + rhs.data() };
-    }
-
-    constexpr cardinal operator*(cardinal lhs, cardinal rhs)noexcept
-    {
-        return (lhs == cardinal::empty() || rhs == cardinal::empty()) ?
-            cardinal::empty() :
-            ((lhs == cardinal::open() || rhs == cardinal::open()) ? cardinal::open() :
-                                                                    cardinal{ lhs.data() * rhs.data() });
-    }
-
-    cardinal sizeOf(const ArrayElement& e, bool inheritsFixed = false);
-    cardinal sizeOf(const BooleanElement& e, bool inheritsFixed = false);
-    cardinal sizeOf(const EnumElement& e, bool inheritsFixed = false);
-    cardinal sizeOf(const ExtendElement& e, bool inheritsFixed = false);
-    cardinal sizeOf(const HolderElement& e, bool inheritsFixed = false);
-    cardinal sizeOf(const MemberElement& e, bool inheritsFixed = false);
-    cardinal sizeOf(const NullElement& e, bool inheritsFixed = false);
-    cardinal sizeOf(const NumberElement& e, bool inheritsFixed = false);
-    cardinal sizeOf(const ObjectElement& e, bool inheritsFixed = false);
-    cardinal sizeOf(const OptionElement& e, bool inheritsFixed = false);
-    cardinal sizeOf(const RefElement& e, bool inheritsFixed = false);
-    cardinal sizeOf(const SelectElement& e, bool inheritsFixed = false);
-    cardinal sizeOf(const StringElement& e, bool inheritsFixed = false);
-
-    cardinal sizeOf(const IElement& e, bool inheritsFixed = false);
+    ///
+    /// Resolve a previously expanded reference
+    ///
+    const IElement& resolve(const RefElement& element);
 }
 
 #endif
