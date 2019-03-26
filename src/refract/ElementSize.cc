@@ -28,17 +28,17 @@ namespace
     }
 
     template <typename It>
-    cardinal sizeOfMult(It b, It e, bool inheritsFixed) noexcept
+    cardinal sizeOfMult(It begin, It end, bool inheritsFixed) noexcept
     {
-        return std::accumulate(b, e, cardinal{ 1 }, [inheritsFixed](const auto& a, const auto& b) { //
+        return std::accumulate(begin, end, cardinal{ 1 }, [inheritsFixed](const auto& a, const auto& b) { //
             return a * sizeOf(*b, inheritsFixed);
         });
     }
 
     template <typename It>
-    cardinal sizeOfSum(It b, It e, bool inheritsFixed) noexcept
+    cardinal sizeOfSum(It begin, It end, bool inheritsFixed) noexcept
     {
-        return std::accumulate(b, e, cardinal::empty(), [inheritsFixed](const auto& a, const auto& b) { //
+        return std::accumulate(begin, end, cardinal::empty(), [inheritsFixed](const auto& a, const auto& b) { //
             return a + sizeOf(*b, inheritsFixed);
         });
     }
