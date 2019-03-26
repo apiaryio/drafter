@@ -1,5 +1,11 @@
 # Drafter Changelog
 
+## Master
+
+### Enhancements
+
+* generated JSON Schema makes use of the `enum` validation instead of the more syntax heavy `anyOf` for each enumerations EnumElement entry typing a single value
+
 ## 4.0.0-pre.2
 
 ### Bug Fixes
