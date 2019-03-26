@@ -8,13 +8,11 @@
 
 #include "JsonUtils.h"
 
-#include "../utils/log/Trivial.h"
 #include "Element.h"
 #include "dsd/Bool.h"
 #include "dsd/Number.h"
 #include "dsd/String.h"
 
-using namespace drafter::utils::log;
 using namespace drafter::utils;
 using namespace refract;
 
@@ -48,17 +46,4 @@ so::Number utils::instantiateEmpty(const NumberElement& e)
 so::Value utils::instantiateEmpty(const BooleanElement& e)
 {
     return so::False{};
-}
-
-const IElement& utils::resolve(const RefElement& element)
-{
-    const auto& resolvedEntry = element.attributes().find("resolved");
-    if (resolvedEntry == element.attributes().end()) {
-        LOG(error) << "expected all references to be resolved in backend";
-        assert(false);
-        return element;
-    }
-
-    assert(resolvedEntry->second);
-    return *resolvedEntry->second;
 }

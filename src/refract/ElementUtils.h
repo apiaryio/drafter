@@ -11,6 +11,7 @@
 
 #include "ElementIfc.h"
 #include "ElementFwd.h"
+#include <limits>
 
 namespace refract
 {
@@ -137,6 +138,11 @@ namespace refract
 namespace refract
 {
     std::string renderKey(const IElement& element);
+
+    ///
+    /// Resolve a previously expanded reference
+    ///
+    const IElement& resolve(const RefElement& element);
 }
 
 #endif

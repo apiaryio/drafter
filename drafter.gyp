@@ -315,6 +315,9 @@
         "src/refract/JsonUtils.cc",
         "src/refract/ElementUtils.h",
         "src/refract/ElementUtils.cc",
+        "src/refract/ElementSize.h",
+        "src/refract/ElementSize.cc",
+        "src/refract/Cardinal.h",
         "src/refract/SerializeSo.h",
         "src/refract/SerializeSo.cc",
 
@@ -394,6 +397,8 @@
         "test/refract/test-Utils.cc",
         "test/refract/test-JsonSchema.cc",
         "test/refract/test-JsonValue.cc",
+        "test/refract/test-ElementSize.cc",
+        "test/refract/test-Cardinal.cc",
 
         "test/refract/dsd/test-Array.cc",
         "test/refract/dsd/test-Bool.cc",

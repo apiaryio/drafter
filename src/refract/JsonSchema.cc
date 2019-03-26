@@ -15,7 +15,9 @@
 #include "Element.h"
 #include "ElementIfc.h"
 #include "ElementUtils.h"
+#include "ElementSize.h"
 #include "JsonUtils.h"
+#include "JsonValue.h"
 #include "Utils.h"
 #include <algorithm>
 #include <bitset>
@@ -136,6 +138,12 @@ namespace
         return schema;
     }
 
+    so::Object& addEnum(so::Object& schema, so::Array value)
+    {
+        schema.data.emplace_back("enum", std::move(value));
+        return schema;
+    }
+
     so::Object& addRequired(so::Object& schema, so::Array value)
     {
         schema.data.emplace_back("required", std::move(value));
@@ -145,13 +153,6 @@ namespace
     so::Object& addPatternProperties(so::Object& schema, so::Object value)
     {
         schema.data.emplace_back("patternProperties", std::move(value));
-        return schema;
-    }
-
-    template <typename... Args>
-    so::Object& addEnum(so::Object& schema, Args&&... args)
-    {
-        schema.data.emplace_back("enum", so::Array{ so::from_list{}, so::Value{ std::forward<Args>(args) }... });
         return schema;
     }
 
@@ -176,6 +177,11 @@ namespace
     so::Object nullSchema()
     {
         return so::Object{ so::from_list{}, std::make_pair("type", so::String{ "null" }) };
+    }
+
+    so::Object typeSchema(const char* type)
+    {
+        return so::Object{ so::from_list{}, std::make_pair("type", so::String{ type }) };
     }
 
     so::Object& wrapNullable(so::Object& s, TypeAttributes options)
@@ -396,30 +402,62 @@ namespace
     {
         options = updateTypeAttributes(e, options);
 
-        so::Array anyOf{};
+        so::Array enm{};   // schemas typing single value accumulated in `enum`
+        so::Array anyOf{}; // anything other schemas
 
         if (options.test(NULLABLE_FLAG))
-            anyOf.data.emplace_back(nullSchema());
+            so::emplace_unique(enm, so::Null{});
 
         auto enumerationsIt = e.attributes().find("enumerations");
         if (e.attributes().end() != enumerationsIt) {
 
             const auto enums = get<const ArrayElement>(enumerationsIt->second.get());
+
             assert(enums);
             assert(!enums->empty());
-
             for (const auto& enumEntry : enums->get()) {
                 assert(enumEntry);
-                so::emplace_unique(anyOf, makeSchema(*enumEntry, inheritFlags(options)));
+                if (sizeOf(*enumEntry) == cardinal{ 1 }) // schema types single value
+                    so::emplace_unique(enm, generateJsonValue(*enumEntry));
+                else { // schema MAY type more values
+                    auto s = makeSchema(*enumEntry, inheritFlags(options));
+                    if (s.data.size() == 1) {
+                        const auto& key = s.data.at(0).first;
+                        auto* vals = get_if<so::Array>(s.data.at(0).second);
+                        if (key == "enum") {
+                            for (auto& val : vals->data)
+                                so::emplace_unique(enm, std::move(val));
+                        } else if (key == "anyOf") {
+                            for (auto& val : vals->data)
+                                so::emplace_unique(anyOf, std::move(val));
+                        } else {
+                            so::emplace_unique(anyOf, std::move(s));
+                        }
+                    } else {
+                        so::emplace_unique(anyOf, std::move(s));
+                    }
+                }
             }
         } else {
             LOG(warning) << "Enum Element SHALL hold enumerations attribute; interpreting as empty";
         }
 
-        schema.data.emplace_back("anyOf", std::move(anyOf));
+        if (anyOf.data.empty()) // use `enum`, all schemas type single values
+            addEnum(schema, std::move(enm));
+
+        else { // use `anyOf`, some schemas MAY type multiple values
+            // add accumulated single-valued schemas as an option
+            if (!enm.data.empty()) {
+                so::Object enms;
+                addEnum(enms, std::move(enm));
+                so::emplace_unique(anyOf, std::move(enms));
+            }
+
+            addAnyOf(schema, std::move(anyOf));
+        }
 
         return schema;
-    } // namespace
+    }
 
     so::Object& renderSchema(so::Object& schema, const NullElement& e, TypeAttributes options)
     {
@@ -427,46 +465,56 @@ namespace
         return schema;
     }
 
-    so::Object& renderSchema(so::Object& s, const StringElement& e, TypeAttributes options)
+    template <typename E>
+    constexpr const char* typeOf = "";
+
+    template <>
+    constexpr const char* typeOf<StringElement> = "string";
+
+    template <>
+    constexpr const char* typeOf<NumberElement> = "number";
+
+    template <>
+    constexpr const char* typeOf<BooleanElement> = "boolean";
+
+    template <typename E>
+    so::Object& renderSchemaPrimitive(so::Object& s, const E& e, TypeAttributes options)
     {
         options = updateTypeAttributes(e, options);
-        auto& schema = wrapNullable(s, options);
 
-        addType(schema, "string");
+        if (options.test(FIXED_FLAG)) {
+            if (!e.empty()) {
+                if (options.test(NULLABLE_FLAG))
+                    addEnum(s, so::Array{ so::from_list{}, so::Null{}, utils::instantiate(e.get()) });
+                else
+                    addEnum(s, so::Array{ so::from_list{}, utils::instantiate(e.get()) });
+                return s;
+            }
+        }
 
-        if (options.test(FIXED_FLAG))
-            if (!e.empty())
-                addEnum(schema, utils::instantiate(e.get()));
+        if (options.test(NULLABLE_FLAG)) {
+            addAnyOf(s, so::Array{ so::from_list{}, nullSchema(), typeSchema(typeOf<E>) });
+            return s;
+        }
 
-        return schema;
+        addType(s, typeOf<E>);
+
+        return s;
+    }
+
+    so::Object& renderSchema(so::Object& s, const StringElement& e, TypeAttributes options)
+    {
+        return renderSchemaPrimitive(s, e, options);
     }
 
     so::Object& renderSchema(so::Object& s, const NumberElement& e, TypeAttributes options)
     {
-        options = updateTypeAttributes(e, options);
-        auto& schema = wrapNullable(s, options);
-
-        addType(schema, "number");
-
-        if (options.test(FIXED_FLAG))
-            if (!e.empty())
-                addEnum(schema, utils::instantiate(e.get()));
-
-        return schema;
+        return renderSchemaPrimitive(s, e, options);
     }
 
     so::Object& renderSchema(so::Object& s, const BooleanElement& e, TypeAttributes options)
     {
-        options = updateTypeAttributes(e, options);
-        auto& schema = wrapNullable(s, options);
-
-        addType(schema, "boolean");
-
-        if (options.test(FIXED_FLAG))
-            if (!e.empty())
-                addEnum(schema, utils::instantiate(e.get()));
-
-        return schema;
+        return renderSchemaPrimitive(s, e, options);
     }
 
     so::Object& renderSchema(so::Object& s, const ExtendElement& e, TypeAttributes options)
@@ -538,7 +586,7 @@ namespace
 
     void renderProperty(ObjectSchema& s, const RefElement& e, TypeAttributes options)
     {
-        const auto& resolved = utils::resolve(e);
+        const auto& resolved = resolve(e);
         renderProperty(s, resolved, passFlags(options));
     }
 

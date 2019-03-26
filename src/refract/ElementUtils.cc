@@ -9,25 +9,15 @@
 #include "ElementUtils.h"
 
 #include "../utils/log/Trivial.h"
+#include "JsonUtils.h"
 #include "Element.h"
 #include "Utils.h"
-
 #include <algorithm>
+#include <numeric>
+#include <limits>
 #include <cassert>
 
 using namespace refract;
-
-template <typename Element>
-Element* get(IElement* e)
-{
-    return dynamic_cast<Element*>(e);
-}
-
-template <typename Element>
-Element* get(const IElement* e)
-{
-    return dynamic_cast<Element*>(e);
-}
 
 bool refract::inheritsFixed(const IElement& e)
 {
@@ -293,4 +283,17 @@ const IElement* refract::findValue(const IElement& element)
 bool refract::definesValue(const IElement& e)
 {
     return nullptr != findValue(e);
+}
+
+const IElement& refract::resolve(const RefElement& element)
+{
+    const auto& resolvedEntry = element.attributes().find("resolved");
+    if (resolvedEntry == element.attributes().end()) {
+        LOG(error) << "expected all references to be resolved in backend";
+        assert(false);
+        return element;
+    }
+
+    assert(resolvedEntry->second);
+    return *resolvedEntry->second;
 }
