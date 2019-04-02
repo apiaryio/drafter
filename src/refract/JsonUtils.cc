@@ -29,8 +29,8 @@ so::Number utils::instantiate(const dsd::Number& e)
 so::Value utils::instantiate(const dsd::Boolean& e)
 {
     return e ? //
-        so::Value{ in_place_type<so::True>{} } :
-        so::Value{ in_place_type<so::False>{} };
+        so::Value{ mpark::in_place_type_t<so::True>{} } :
+        so::Value{ mpark::in_place_type_t<so::False>{} };
 }
 
 so::String utils::instantiateEmpty(const StringElement& e)

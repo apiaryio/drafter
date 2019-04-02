@@ -11,7 +11,6 @@
 #include "../ElementData.h"
 #include "../utils/log/Trivial.h"
 #include "../utils/so/JsonIo.h"
-#include "../utils/Variant.h"
 #include "Element.h"
 #include "ElementIfc.h"
 #include "ElementUtils.h"
@@ -423,7 +422,7 @@ namespace
                     auto s = makeSchema(*enumEntry, inheritFlags(options));
                     if (s.data.size() == 1) {
                         const auto& key = s.data.at(0).first;
-                        auto* vals = get_if<so::Array>(s.data.at(0).second);
+                        auto* vals = mpark::get_if<so::Array>(&s.data.at(0).second);
                         if (key == "enum") {
                             for (auto& val : vals->data)
                                 so::emplace_unique(enm, std::move(val));
@@ -655,7 +654,7 @@ namespace
     so::Array* findAnyOf(so::Object& schema)
     {
         if (so::Value* anys = so::find(schema, "anyOf"))
-            return &drafter::utils::get<so::Array>(*anys);
+            return mpark::get_if<so::Array>(anys);
         return nullptr;
     }
 
@@ -668,7 +667,7 @@ namespace
             so::Array newAnyOf{};
             for (auto& entry : anyOf->data)
                 if (so::Object* subAnyOf = flattenAnyOfs(entry)) {
-                    auto& subAnyOfArray = drafter::utils::get<so::Array>(subAnyOf->data.back().second);
+                    auto& subAnyOfArray = mpark::get<so::Array>(subAnyOf->data.back().second);
                     for (auto& subEntry : subAnyOfArray.data)
                         so::emplace_unique(newAnyOf, std::move(subEntry));
 
@@ -695,7 +694,7 @@ namespace
 
     so::Object* flattenAnyOfs(so::Value& schema)
     {
-        return visit(schema, [](auto& s) { return flattenAnyOfsSpecific(s); });
+        return mpark::visit([](auto& s) { return flattenAnyOfsSpecific(s); }, schema);
     }
 
     void reduce(so::Object& schema)

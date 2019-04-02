@@ -145,7 +145,7 @@ SCENARIO("Serialize strings from utf-8 fixtures as JSON", "[simple-object][json]
                 REQUIRE(input_is);
 
                 const Value value( //
-                    in_place_type<String>{},
+                    mpark::in_place_type_t<String>{},
                     std::string( //
                         (std::istreambuf_iterator<char>(input_is)),
                         std::istreambuf_iterator<char>()));
@@ -223,7 +223,7 @@ SCENARIO("Serialize strings containing control characters", "[simple-object][jso
 {
     GIVEN("an in place constructed String{`\\n\\r`}")
     {
-        Value value(in_place_type<String>{}, "\n\r");
+        Value value(mpark::in_place_type_t<String>{}, "\n\r");
 
         WHEN("it is serialized into stringstream as JSON")
         {
@@ -239,7 +239,7 @@ SCENARIO("Serialize strings containing control characters", "[simple-object][jso
 
     GIVEN("an in place constructed String{`\\n\\0abc\\u7F\\u14\\/\\u9F\\r`}")
     {
-        Value value(in_place_type<String>{},
+        Value value(mpark::in_place_type_t<String>{},
             std::string{ "\n\x00"
                          "abc\x7F\x14\\/\x9F\r",
                 11 }); // needs to be specified because 0x00
@@ -260,7 +260,7 @@ SCENARIO("Serialize strings containing control characters", "[simple-object][jso
 
     GIVEN("an in place constructed String{`ࠀ`}")
     {
-        Value value(in_place_type<String>{}, std::string{ "ࠀ" });
+        Value value(mpark::in_place_type_t<String>{}, std::string{ "ࠀ" });
         std::string expected{ "\"ࠀ\"" };
 
         WHEN("it is serialized into stringstream as JSON")
@@ -280,7 +280,7 @@ SCENARIO("Serialize a utils::so::Value into indented and/or packed JSON", "[simp
 {
     GIVEN("an in place constructed Null in Value")
     {
-        Value value(in_place_type<Null>{});
+        Value value(mpark::in_place_type_t<Null>{});
 
         WHEN("it is serialized into stringstream as indented JSON")
         {
@@ -307,7 +307,7 @@ SCENARIO("Serialize a utils::so::Value into indented and/or packed JSON", "[simp
 
     GIVEN("an in place constructed True in Value")
     {
-        Value value(in_place_type<True>{});
+        Value value(mpark::in_place_type_t<True>{});
 
         WHEN("it is serialized into stringstream as indented JSON")
         {
@@ -334,7 +334,7 @@ SCENARIO("Serialize a utils::so::Value into indented and/or packed JSON", "[simp
 
     GIVEN("an in place constructed False in Value")
     {
-        Value value(in_place_type<False>{});
+        Value value(mpark::in_place_type_t<False>{});
 
         WHEN("it is serialized into stringstream as indented JSON")
         {
@@ -361,7 +361,7 @@ SCENARIO("Serialize a utils::so::Value into indented and/or packed JSON", "[simp
 
     GIVEN("an in place constructed String{`Hello world!`}")
     {
-        Value value(in_place_type<String>{}, "Hello world!");
+        Value value(mpark::in_place_type_t<String>{}, "Hello world!");
 
         WHEN("it is serialized into stringstream as indented JSON")
         {
@@ -388,7 +388,7 @@ SCENARIO("Serialize a utils::so::Value into indented and/or packed JSON", "[simp
 
     GIVEN("an in place constructed Array{from_list{}, String{`Hello world!`}, Number{5}}")
     {
-        Value value(in_place_type<Array>{}, from_list{}, String{ "Hello world!" }, Number{ 5 });
+        Value value(mpark::in_place_type_t<Array>{}, from_list{}, String{ "Hello world!" }, Number{ 5 });
 
         WHEN("it is serialized into stringstream as indented JSON")
         {
@@ -415,7 +415,7 @@ SCENARIO("Serialize a utils::so::Value into indented and/or packed JSON", "[simp
 
     GIVEN("an in place constructed Object{`foo` -> String{`Hello world!`}, `bar` -> Number{5}}")
     {
-        Value value(in_place_type<Object>{}, //
+        Value value(mpark::in_place_type_t<Object>{}, //
             from_list{},
             std::make_pair("foo", String{ "Hello world!" }),
             std::make_pair("bar", Number{ 5 }));
@@ -448,7 +448,7 @@ SCENARIO("Serialize a utils::so::Value holding numbers json", "[simple-object][j
 {
     GIVEN("an in place constructed Number{0}")
     {
-        Value value(in_place_type<Number>{}, 0);
+        Value value(mpark::in_place_type_t<Number>{}, 0);
 
         WHEN("it is serialized into stringstream as JSON")
         {
@@ -467,7 +467,7 @@ SCENARIO("Serialize a utils::so::Value holding deep objects into indented json",
 {
     GIVEN("a deep object")
     {
-        Value value(in_place_type<Object>{}, //
+        Value value(mpark::in_place_type_t<Object>{}, //
             from_list{},
             std::make_pair("foo", String{ "Hello world!" }),
             std::make_pair("empty", Object{}),

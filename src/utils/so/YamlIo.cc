@@ -14,10 +14,9 @@
 #include <iostream>
 #include <iterator>
 #include <regex>
-
+#include <mpark/variant.hpp>
 #include "../Utf8.h"
 #include "../Utils.h"
-#include "../Variant.h"
 
 using namespace drafter;
 using namespace utils;
@@ -168,7 +167,10 @@ namespace
     }
 
     struct yaml_printer final {
-        void operator()(const Null& value, std::ostream& out, int indent = 0) const
+        std::ostream& out;
+        const int indent;
+
+        void operator()(const Null& value) const
         {
             if (indent > 0)
                 out << ' ';
@@ -176,7 +178,7 @@ namespace
             out << "null";
         }
 
-        void operator()(const True& value, std::ostream& out, int indent = 0) const
+        void operator()(const True& value) const
         {
             if (indent > 0)
                 out << ' ';
@@ -184,7 +186,7 @@ namespace
             out << "true";
         }
 
-        void operator()(const False& value, std::ostream& out, int indent = 0) const
+        void operator()(const False& value) const
         {
             if (indent > 0)
                 out << ' ';
@@ -192,7 +194,7 @@ namespace
             out << "false";
         }
 
-        void operator()(const String& value, std::ostream& out, int indent = 0) const
+        void operator()(const String& value) const
         {
             if (indent > 0)
                 out << ' ';
@@ -200,7 +202,7 @@ namespace
             serialize_yaml(out, value.data);
         }
 
-        void operator()(const Number& value, std::ostream& out, int indent = 0) const
+        void operator()(const Number& value) const
         {
             if (indent > 0)
                 out << ' ';
@@ -208,70 +210,78 @@ namespace
             out << value.data;
         }
 
-        void operator()(const Object& value, std::ostream& out, int indent = 0) const
-        {
-            if (value.data.empty()) {
-                if (indent > 0)
-                    out << ' ';
-                out << "{}";
-                return;
-            }
-
-            if (indent > 0)
-                out << '\n';
-
-            int newlines = value.data.size() - 1;
-            for (const auto& m : value.data) {
-                do_indent(out, indent);
-
-                // for clearer, unescaped reading
-                if (is_alphanum_dash(m.first))
-                    out << m.first;
-                else
-                    serialize_yaml(out, m.first);
-
-                out << ":";
-
-                visit(m.second, *this, out, indent + 1);
-
-                if (newlines > 0) {
-                    out << '\n';
-                    --newlines;
-                }
-            }
-        }
-
-        void operator()(const Array& value, std::ostream& out, int indent = 0) const
-        {
-            if (value.data.empty()) {
-                if (indent > 0)
-                    out << ' ';
-                out << "[]";
-                return;
-            }
-
-            if (indent > 0)
-                out << '\n';
-
-            int newlines = value.data.size() - 1;
-            for (const auto& m : value.data) {
-                do_indent(out, indent);
-
-                out << '-';
-
-                visit(m, *this, out, indent + 1);
-
-                if (newlines > 0) {
-                    out << '\n';
-                    --newlines;
-                }
-            }
-        }
+        void operator()(const Object& value) const;
+        void operator()(const Array& value) const;
     };
+
+    void visit(const Value& obj, std::ostream& out, int indent = 0)
+    {
+        mpark::visit(yaml_printer{ out, indent }, obj);
+    }
+
+    void yaml_printer::operator()(const Object& value) const
+    {
+        if (value.data.empty()) {
+            if (indent > 0)
+                out << ' ';
+            out << "{}";
+            return;
+        }
+
+        if (indent > 0)
+            out << '\n';
+
+        int newlines = value.data.size() - 1;
+        for (const auto& m : value.data) {
+            do_indent(out, indent);
+
+            // for clearer, unescaped reading
+            if (is_alphanum_dash(m.first))
+                out << m.first;
+            else
+                serialize_yaml(out, m.first);
+
+            out << ":";
+
+            visit(m.second, out, indent + 1);
+
+            if (newlines > 0) {
+                out << '\n';
+                --newlines;
+            }
+        }
+    }
+
+    void yaml_printer::operator()(const Array& value) const
+    {
+        if (value.data.empty()) {
+            if (indent > 0)
+                out << ' ';
+            out << "[]";
+            return;
+        }
+
+        if (indent > 0)
+            out << '\n';
+
+        int newlines = value.data.size() - 1;
+        for (const auto& m : value.data) {
+            do_indent(out, indent);
+
+            out << '-';
+
+            visit(m, out, indent + 1);
+
+            if (newlines > 0) {
+                out << '\n';
+                --newlines;
+            }
+        }
+    }
 } // namespace
 
 std::ostream& so::serialize_yaml(std::ostream& out, const Value& obj)
 {
-    visit(obj, yaml_printer{}, out);
+    visit(obj, out);
     return out;
 }

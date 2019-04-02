@@ -230,10 +230,12 @@
         'include_dirs': [
           'src',
           'ext/boost_1_66_0',
+          'ext/variant/include',
         ],
       },
       'include_dirs' : [
         'ext/boost_1_66_0',
+        'ext/variant/include',
       ],
       'export_dependent_settings': [
         'libsnowcrash',
@@ -270,7 +272,6 @@
         "src/SourceMapUtils.h",
         "src/SourceMapUtils.cc",
 
-        "src/utils/Variant.h",
         "src/utils/Utf8.h",
         "src/utils/Utils.h",
         "src/utils/so/Value.h",
@@ -389,7 +390,6 @@
         "test/test-ElementDataTest.cc",
         "test/test-Serialize.cc",
 
-        "test/utils/test-Variant.cc",
         "test/utils/test-Utf8.cc",
         "test/utils/so/test-JsonIo.cc",
         "test/utils/so/test-YamlIo.cc",
