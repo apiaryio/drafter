@@ -10,3 +10,6 @@
 [submodule "test/vendor/dtl"]
 	path = test/vendor/dtl
 	url = https://github.com/apiaryio/dtl
+[submodule "ext/variant"]
+	path = ext/variant
+	url = https://github.com/mpark/variant.git
