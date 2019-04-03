@@ -148,8 +148,8 @@ std::unique_ptr<IElement> drafter::DataStructureToRefract(
         msonElement = std::move(msonExpanded);
     }
 
-    return msonElement ?                                                                             //
-        make_unique<HolderElement>(SerializeKey::DataStructure, dsd::Holder(std::move(msonElement))) //
+    return msonElement ?                                                                                      //
+        refract::make_unique<HolderElement>(SerializeKey::DataStructure, dsd::Holder(std::move(msonElement))) //
         :
         nullptr;
 }
@@ -383,12 +383,12 @@ std::unique_ptr<IElement> PayloadToRefract( //
     // Push dataStructure
     if (context.options.expandMSON) {
         if (payloadAttributeExpanded) {
-            content.push_back(make_unique<HolderElement>(
+            content.push_back(refract::make_unique<HolderElement>(
                 SerializeKey::DataStructure, dsd::Holder(std::move(payloadAttributeExpanded))));
         }
     } else {
         if (payloadAttributeElement) {
-            content.push_back(make_unique<HolderElement>(
+            content.push_back(refract::make_unique<HolderElement>(
                 SerializeKey::DataStructure, dsd::Holder(std::move(payloadAttributeElement))));
         }
     }

@@ -10,14 +10,13 @@
 #define REFRACT_ELEMENT_H
 
 #include <string>
-
 #include "dsd/ElementData.h"
 #include "dsd/Traits.h"
-
 #include "ElementIfc.h"
 #include "InfoElements.h"
 #include "Visitor.h"
 #include "Utils.h"
+#include <memory>
 
 namespace refract
 {
