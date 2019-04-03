@@ -19,12 +19,21 @@
 
 using namespace refract;
 
+namespace
+{
+    struct InheritsFixedVisitor {
+        template <typename ElementT>
+        bool operator()(const ElementT& el) const noexcept
+        {
+            return inheritsFixed(el);
+        }
+    };
+}
+
 bool refract::inheritsFixed(const IElement& e)
 {
     // otherwise interpret based on specific Element
-    return refract::visit(e, [](const auto& el) { //
-        return inheritsFixed(el);
-    });
+    return refract::visit(e, InheritsFixedVisitor{});
 }
 
 bool refract::inheritsFixed(const ObjectElement& e)
@@ -97,7 +106,7 @@ bool refract::hasTypeAttr(const IElement& e, const char* name)
         if (const auto* typeAttrs = get<const ArrayElement>(typeAttrIt->second.get())) {
             const auto b = typeAttrs->get().begin();
             const auto e = typeAttrs->get().end();
-            return e != std::find_if(b, e, [&name](const auto& el) { //
+            return e != std::find_if(b, e, [&name](const std::unique_ptr<IElement>& el) { //
                 const auto* entry = get<const StringElement>(el.get());
                 return entry && !entry->empty() && (entry->get().get() == name);
             });
@@ -198,7 +207,7 @@ void refract::setTypeAttribute(IElement& e, const std::string& typeAttribute)
         if (auto* typeAttrs = get<ArrayElement>(typeAttrIt->second.get())) {
             const auto b = typeAttrs->get().begin();
             const auto e = typeAttrs->get().end();
-            if (e == std::find_if(b, e, [&typeAttribute](const auto& el) { //
+            if (e == std::find_if(b, e, [&typeAttribute](const std::unique_ptr<IElement>& el) { //
                     const auto* entry = get<const StringElement>(el.get());
                     return entry && !entry->empty() && (entry->get().get() == typeAttribute);
                 })) {

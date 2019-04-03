@@ -291,14 +291,22 @@ namespace
         return s;
     }
 
+    struct RenderSchemaVisitor {
+        so::Object* schemaPtr;
+        TypeAttributes options;
+
+        template <typename ElementT>
+        void operator()(const ElementT& el)
+        {
+            renderSchema(*schemaPtr, el, options);
+        }
+    };
+
     so::Object& renderSchema(so::Object& schema, const IElement& e, TypeAttributes options)
     {
         LOG(debug) << "rendering `" << e.element() << "` element to JSON Schema";
 
-        auto schemaPtr = &schema;
-        refract::visit(e, [schemaPtr, options](const auto& el) { //
-            renderSchema(*schemaPtr, el, options);
-        });
+        refract::visit(e, RenderSchemaVisitor{ &schema, options });
         return schema;
     }
 
@@ -465,16 +473,22 @@ namespace
     }
 
     template <typename E>
-    constexpr const char* typeOf = "";
+    struct type_name;
 
     template <>
-    constexpr const char* typeOf<StringElement> = "string";
+    struct type_name<StringElement> {
+        constexpr static const char* value = "string";
+    };
 
     template <>
-    constexpr const char* typeOf<NumberElement> = "number";
+    struct type_name<NumberElement> {
+        constexpr static const char* value = "number";
+    };
 
     template <>
-    constexpr const char* typeOf<BooleanElement> = "boolean";
+    struct type_name<BooleanElement> {
+        constexpr static const char* value = "boolean";
+    };
 
     template <typename E>
     so::Object& renderSchemaPrimitive(so::Object& s, const E& e, TypeAttributes options)
@@ -492,11 +506,11 @@ namespace
         }
 
         if (options.test(NULLABLE_FLAG)) {
-            addAnyOf(s, so::Array{ so::from_list{}, nullSchema(), typeSchema(typeOf<E>) });
+            addAnyOf(s, so::Array{ so::from_list{}, nullSchema(), typeSchema(type_name<E>::value) });
             return s;
         }
 
-        addType(s, typeOf<E>);
+        addType(s, type_name<E>::value);
 
         return s;
     }
@@ -638,14 +652,22 @@ namespace
         renderProperty(s, *merged, passFlags(options));
     }
 
+    struct RenderPropertyVisitor {
+        ObjectSchema* schemaPtr;
+        TypeAttributes options;
+
+        template <typename ElementT>
+        void operator()(const ElementT& el)
+        {
+            renderProperty(*schemaPtr, el, options);
+        }
+    };
+
     void renderProperty(ObjectSchema& s, const IElement& e, TypeAttributes options)
     {
         LOG(debug) << "rendering property `" << e.element() << "` as JSON Schema";
 
-        auto schemaPtr = &s;
-        refract::visit(e, [schemaPtr, options](const auto& el) { //
-            renderProperty(*schemaPtr, el, options);
-        });
+        refract::visit(e, RenderPropertyVisitor{ &s, options });
     }
 } // namespace
 
@@ -692,9 +714,17 @@ namespace
         return nullptr;
     }
 
+    struct FlattenAnyOfsVisitor {
+        template <typename Value>
+        so::Object* operator()(const Value& s)
+        {
+            return flattenAnyOfsSpecific(s);
+        }
+    };
+
     so::Object* flattenAnyOfs(so::Value& schema)
     {
-        return mpark::visit([](auto& s) { return flattenAnyOfsSpecific(s); }, schema);
+        return mpark::visit(FlattenAnyOfsVisitor{}, schema);
     }
 
     void reduce(so::Object& schema)

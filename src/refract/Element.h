@@ -21,6 +21,12 @@
 
 namespace refract
 {
+    template <typename T, typename... Args>
+    std::unique_ptr<T> make_unique(Args&&... args)
+    {
+        return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+    }
+
     ///
     /// Refract Element definition
     ///
@@ -126,7 +132,7 @@ namespace refract
 
         std::unique_ptr<IElement> clone(int flags = IElement::cAll) const override
         {
-            auto el = std::make_unique<Element>();
+            auto el = make_unique<Element>();
 
             if (flags & IElement::cElement)
                 el->element(name_);
@@ -156,9 +162,9 @@ namespace refract
     /// @remark an empty Element has an empty data structure definition (DSD)
     ///
     template <typename ElementT>
-    auto make_empty()
+    std::unique_ptr<ElementT> make_empty()
     {
-        return std::make_unique<ElementT>();
+        return make_unique<ElementT>();
     }
 
     ///
@@ -166,20 +172,20 @@ namespace refract
     /// of its data structure definition (DSD)
     ///
     template <typename ElementT, typename... Args>
-    auto make_element(Args&&... args)
+    std::unique_ptr<ElementT> make_element(Args&&... args)
     {
         using DataT = typename ElementT::ValueType;
-        return std::make_unique<ElementT>(DataT{ std::forward<Args>(args)... });
+        return make_unique<ElementT>(DataT{ std::forward<Args>(args)... });
     }
 
     template <typename Primitive, typename DataT = typename dsd::data_of<Primitive>::type>
-    auto from_primitive(const Primitive& p)
+    std::unique_ptr<Element<DataT> > from_primitive(const Primitive& p)
     {
         return make_element<Element<DataT> >(p);
     }
 
     template <typename ElementT, typename ContentVisitor, typename... Args>
-    auto generate_element(ContentVisitor visit, Args&&... visitorArgs)
+    std::unique_ptr<ElementT> generate_element(ContentVisitor visit, Args&&... visitorArgs)
     {
         auto element = make_element<ElementT>();
         visit(element->get(), std::forward<Args>(visitorArgs)...);

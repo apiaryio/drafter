@@ -35,11 +35,24 @@ std::unique_ptr<IElement> ElementToRefract(const NodeInfo<snowcrash::Element>& e
 
 namespace
 {
+    struct is_nullptr {
+        template <typename T>
+        constexpr bool operator()(const T* ptr) const noexcept
+        {
+            return ptr == nullptr;
+        }
+
+        template <typename T>
+        constexpr bool operator()(const std::unique_ptr<T>& ptr) const noexcept
+        {
+            return ptr == nullptr;
+        }
+    };
+
     template <typename Collection>
     void RemoveEmptyElements(Collection& elements)
     {
-        elements.erase(std::remove_if(elements.begin(), elements.end(), [](const auto& el) { return el == nullptr; }),
-            elements.end());
+        elements.erase(std::remove_if(elements.begin(), elements.end(), is_nullptr{}), elements.end());
     }
 
     template <typename T, typename DataT, typename Functor>
@@ -51,7 +64,7 @@ namespace
         std::transform(nodeInfoCollection.begin(),
             nodeInfoCollection.end(),
             std::back_inserter(content),
-            [&transformFunctor, &context](const auto& nodeInfo) { //
+            [&transformFunctor, &context](const typename NodeInfoCollection<T>::value_type& nodeInfo) { //
                 return transformFunctor(nodeInfo, context);
             });
     }
@@ -77,7 +90,7 @@ namespace
             RemoveEmptyElements(content);
         }
 
-        return std::move(element);
+        return element;
     }
 
     bool isRequest(const NodeInfo<snowcrash::Action>& action)
@@ -135,8 +148,8 @@ std::unique_ptr<IElement> drafter::DataStructureToRefract(
         msonElement = std::move(msonExpanded);
     }
 
-    return msonElement ?                                                                                  //
-        std::make_unique<HolderElement>(SerializeKey::DataStructure, dsd::Holder(std::move(msonElement))) //
+    return msonElement ?                                                                             //
+        make_unique<HolderElement>(SerializeKey::DataStructure, dsd::Holder(std::move(msonElement))) //
         :
         nullptr;
 }
@@ -148,13 +161,13 @@ std::unique_ptr<IElement> MetadataToRefract(const NodeInfo<snowcrash::Metadata>&
         from_primitive(metadata.node->second));
 
     element->meta().set(SerializeKey::Classes,
-        generate_element<ArrayElement>([](auto& data) { //
+        generate_element<ArrayElement>([](dsd::Array& data) { //
             data.push_back(from_primitive(SerializeKey::User));
         }));
 
     AttachSourceMap(*element, metadata);
 
-    return std::move(element);
+    return element;
 }
 
 std::unique_ptr<IElement> CopyToRefract(const NodeInfo<std::string>& copy)
@@ -166,7 +179,7 @@ std::unique_ptr<IElement> CopyToRefract(const NodeInfo<std::string>& copy)
     auto element = PrimitiveToRefract(copy);
     element->element(SerializeKey::Copy);
 
-    return std::move(element);
+    return element;
 }
 
 std::unique_ptr<IElement> ParameterValuesToRefract(
@@ -187,7 +200,7 @@ std::unique_ptr<IElement> ParameterValuesToRefract(
     element->attributes().set(SerializeKey::Enumerations,
         CollectionToRefract<ArrayElement>(MAKE_NODE_INFO(parameter, values), context, LiteralToRefract));
 
-    return std::move(element);
+    return element;
 }
 
 // NOTE: We removed type specific templates from here in https://github.com/apiaryio/drafter/pull/447
@@ -205,7 +218,7 @@ std::unique_ptr<IElement> ExtractParameter(const NodeInfo<snowcrash::Parameter>&
                 SerializeKey::Default, PrimitiveToRefract(MAKE_NODE_INFO(parameter, defaultValue)));
         }
 
-        return std::move(element);
+        return element;
     } else {
         return ParameterValuesToRefract(parameter, context);
     }
@@ -238,7 +251,7 @@ std::unique_ptr<IElement> ParameterToRefract(
         element->attributes().set(SerializeKey::TypeAttributes, make_element<ArrayElement>(from_primitive(use)));
     }
 
-    return std::move(element);
+    return element;
 }
 
 std::unique_ptr<IElement> ParametersToRefract(
@@ -253,7 +266,7 @@ std::unique_ptr<IElement> HeaderToRefract(const NodeInfo<snowcrash::Header>& hea
 
     AttachSourceMap(*element, header);
 
-    return std::move(element);
+    return element;
 }
 
 std::unique_ptr<IElement> AssetToRefract(
@@ -273,7 +286,7 @@ std::unique_ptr<IElement> AssetToRefract(
         element->attributes().set(SerializeKey::ContentType, from_primitive(contentType));
     }
 
-    return std::move(element);
+    return element;
 }
 
 std::unique_ptr<IElement> PayloadToRefract( //
@@ -307,7 +320,7 @@ std::unique_ptr<IElement> PayloadToRefract( //
 
     // If no payload, return immediately
     if (payload.isNull()) {
-        return std::move(result);
+        return result;
     }
 
     if (!payload.node->parameters.empty()) {
@@ -370,12 +383,12 @@ std::unique_ptr<IElement> PayloadToRefract( //
     // Push dataStructure
     if (context.options.expandMSON) {
         if (payloadAttributeExpanded) {
-            content.push_back(std::make_unique<HolderElement>(
+            content.push_back(make_unique<HolderElement>(
                 SerializeKey::DataStructure, dsd::Holder(std::move(payloadAttributeExpanded))));
         }
     } else {
         if (payloadAttributeElement) {
-            content.push_back(std::make_unique<HolderElement>(
+            content.push_back(make_unique<HolderElement>(
                 SerializeKey::DataStructure, dsd::Holder(std::move(payloadAttributeElement))));
         }
     }
@@ -609,7 +622,7 @@ std::unique_ptr<IElement> drafter::BlueprintToRefract(
 
     RemoveEmptyElements(content);
 
-    return std::move(ast);
+    return ast;
 }
 
 std::unique_ptr<IElement> drafter::AnnotationToRefract(
@@ -625,5 +638,5 @@ std::unique_ptr<IElement> drafter::AnnotationToRefract(
     element->attributes().set(
         SerializeKey::SourceMap, SourceMapToRefractWithColumnLineInfo(annotation.location, context));
 
-    return std::move(element);
+    return element;
 }

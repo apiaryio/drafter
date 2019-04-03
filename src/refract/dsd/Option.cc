@@ -47,7 +47,7 @@ Option::Option(const Option& other) : elements_()
     std::transform(other.elements_.begin(),
         other.elements_.end(),
         std::back_inserter(elements_),
-        [](const auto& el) -> std::unique_ptr<IElement> {
+        [](const value_type& el) -> std::unique_ptr<IElement> {
             assert(el);
             return el->clone();
         });
@@ -75,12 +75,12 @@ Option::iterator Option::erase(Option::const_iterator b, Option::const_iterator 
 
 bool dsd::operator==(const Option& lhs, const Option& rhs) noexcept
 {
-    return std::equal( //
-        lhs.begin(),
-        lhs.end(),
-        rhs.begin(),
-        rhs.end(),
-        [](const auto& l, const auto& r) { return *l == *r; });
+    return lhs.size() == rhs.size()
+        && std::equal( //
+               lhs.begin(),
+               lhs.end(),
+               rhs.begin(),
+               [](const Option::value_type& l, const Option::value_type& r) { return *l == *r; });
 }
 
 bool dsd::operator!=(const Option& lhs, const Option& rhs) noexcept

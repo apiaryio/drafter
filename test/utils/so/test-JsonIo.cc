@@ -22,8 +22,6 @@ using namespace drafter;
 using namespace utils;
 using namespace so;
 
-using namespace std::literals;
-
 namespace
 {
     const std::array<const char*, 30> utf8fixtures = {

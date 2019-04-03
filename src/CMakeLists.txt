@@ -51,48 +51,26 @@ set(DRAFTER_SOURCES
     )
 
 set(DRAFTER_COMPILE_FEATURES
-    cxx_alias_templates
     cxx_alignas
     cxx_alignof
-    cxx_attribute_deprecated
     cxx_auto_type
     cxx_constexpr
-    cxx_contextual_conversions
     cxx_decltype
-    cxx_decltype_auto
     cxx_defaulted_functions
     cxx_defaulted_move_initializers
     cxx_delegating_constructors
     cxx_deleted_functions
-    cxx_digit_separators
-    cxx_explicit_conversions
     cxx_final
-    cxx_generalized_initializers
-    cxx_generic_lambdas
-    cxx_inheriting_constructors
     cxx_lambdas
-    cxx_lambda_init_captures
     cxx_noexcept
-    cxx_nonstatic_member_init
     cxx_nullptr
     cxx_override
     cxx_range_for
     cxx_raw_string_literals
-    cxx_return_type_deduction
     cxx_rvalue_references
-    cxx_sizeof_member
     cxx_static_assert
-    cxx_strong_enums
-    cxx_thread_local
     cxx_trailing_return_types
-    cxx_unicode_literals
-    cxx_uniform_initialization
-    cxx_unrestricted_unions
-    cxx_user_literals
-    cxx_variable_templates
-    cxx_variadic_macros
     cxx_variadic_templates
-    cxx_template_template_parameters
     )
 
 # libdrafter

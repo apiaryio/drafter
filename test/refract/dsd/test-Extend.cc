@@ -79,7 +79,7 @@ SCENARIO("`Extend` is inserted to and erased from", "[ElementData][Extend]")
 
         WHEN("an ElementMock is pushed back")
         {
-            auto mock = std::make_unique<test::ElementMock>();
+            auto mock = make_unique<test::ElementMock>();
             auto mock1ptr = mock.get();
 
             REQUIRE(test::ElementMock::instances().size() == 1);
@@ -113,18 +113,18 @@ SCENARIO("`Extend` is inserted to and erased from", "[ElementData][Extend]")
 
             WHEN("another three ElementMocks are inserted at begin two at end")
             {
-                auto mock2 = std::make_unique<test::ElementMock>();
-                auto mock3 = std::make_unique<test::ElementMock>();
-                auto mock4 = std::make_unique<test::ElementMock>();
+                auto mock2 = make_unique<test::ElementMock>();
+                auto mock3 = make_unique<test::ElementMock>();
+                auto mock4 = make_unique<test::ElementMock>();
 
                 extend.insert(extend.begin(), std::move(mock2));
                 extend.insert(extend.begin(), std::move(mock3));
                 extend.insert(extend.begin(), std::move(mock4));
 
-                auto mock5 = std::make_unique<test::ElementMock>();
+                auto mock5 = make_unique<test::ElementMock>();
                 auto mock5ptr = mock.get();
 
-                auto mock6 = std::make_unique<test::ElementMock>();
+                auto mock6 = make_unique<test::ElementMock>();
 
                 extend.insert(extend.begin(), std::move(mock5));
                 extend.insert(extend.begin(), std::move(mock6));
@@ -188,7 +188,7 @@ SCENARIO("`Extend` is inserted to and erased from", "[ElementData][Extend]")
 
             WHEN("another ElementMock is pushed back")
             {
-                auto mock2 = std::make_unique<test::ElementMock>();
+                auto mock2 = make_unique<test::ElementMock>();
                 auto mock2ptr = mock2.get();
 
                 REQUIRE(test::ElementMock::instances().size() == 2);
@@ -252,9 +252,9 @@ SCENARIO("`Extend` is move-constructed from elements", "[ElementData][Extend]")
     {
         REQUIRE(test::ElementMock::instances().size() == 0);
 
-        auto mock1 = std::make_unique<test::ElementMock>();
-        auto mock2 = std::make_unique<test::ElementMock>();
-        auto mock3 = std::make_unique<test::ElementMock>();
+        auto mock1 = make_unique<test::ElementMock>();
+        auto mock2 = make_unique<test::ElementMock>();
+        auto mock3 = make_unique<test::ElementMock>();
 
         const auto mock1ptr = mock1.get();
         const auto mock2ptr = mock2.get();
@@ -1214,20 +1214,21 @@ SCENARIO("Extend::merge behaves as expected", "[Element][Extend][merge]")
                     REQUIRE(std::find_if( //
                                 result->get().begin(),
                                 result->get().end(),
-                                [&ipsum](const auto& elptr) { return *elptr == *ipsum; })
+                                [&ipsum](const std::unique_ptr<IElement>& elptr) { return *elptr == *ipsum; })
                         != result->get().end());
 
                     REQUIRE(std::find_if( //
                                 result->get().begin(),
                                 result->get().end(),
-                                [&dolorem](const auto& elptr) { return *elptr == *dolorem; })
+                                [&dolorem](const std::unique_ptr<IElement>& elptr) { return *elptr == *dolorem; })
                         != result->get().end());
 
-                    REQUIRE(
-                        std::count_if( //
-                            result->get().begin(),
-                            result->get().end(),
-                            [](const auto& elptr) { return nullptr != dynamic_cast<const RefElement*>(elptr.get()); })
+                    REQUIRE(std::count_if( //
+                                result->get().begin(),
+                                result->get().end(),
+                                [](const std::unique_ptr<IElement>& elptr) {
+                                    return nullptr != dynamic_cast<const RefElement*>(elptr.get());
+                                })
                         == 2);
 
                     THEN("the result contains one select element")
@@ -1248,13 +1249,13 @@ SCENARIO("Extend::merge behaves as expected", "[Element][Extend][merge]")
                         REQUIRE(std::find_if( //
                                     result->get().begin(),
                                     result->get().end(),
-                                    [&expected](const auto& elptr) { return *elptr == *expected; })
+                                    [&expected](const std::unique_ptr<IElement>& elptr) { return *elptr == *expected; })
                             != result->get().end());
 
                         REQUIRE(std::count_if( //
                                     result->get().begin(),
                                     result->get().end(),
-                                    [](const auto& elptr) {
+                                    [](const std::unique_ptr<IElement>& elptr) {
                                         return nullptr != dynamic_cast<const SelectElement*>(elptr.get());
                                     })
                             == 1);
@@ -1288,37 +1289,37 @@ SCENARIO("Extend::merge behaves as expected", "[Element][Extend][merge]")
                         REQUIRE(std::find_if( //
                                     result->get().begin(),
                                     result->get().end(),
-                                    [&foo](const auto& elptr) { return *elptr == *foo; })
+                                    [&foo](const std::unique_ptr<IElement>& elptr) { return *elptr == *foo; })
                             != result->get().end());
 
                         REQUIRE(std::find_if( //
                                     result->get().begin(),
                                     result->get().end(),
-                                    [&zoo](const auto& elptr) { return *elptr == *zoo; })
+                                    [&zoo](const std::unique_ptr<IElement>& elptr) { return *elptr == *zoo; })
                             != result->get().end());
 
                         REQUIRE(std::find_if( //
                                     result->get().begin(),
                                     result->get().end(),
-                                    [&state](const auto& elptr) { return *elptr == *state; })
+                                    [&state](const std::unique_ptr<IElement>& elptr) { return *elptr == *state; })
                             != result->get().end());
 
                         REQUIRE(std::find_if( //
                                     result->get().begin(),
                                     result->get().end(),
-                                    [&bar](const auto& elptr) { return *elptr == *bar; })
+                                    [&bar](const std::unique_ptr<IElement>& elptr) { return *elptr == *bar; })
                             != result->get().end());
 
                         REQUIRE(std::find_if( //
                                     result->get().begin(),
                                     result->get().end(),
-                                    [&lorem](const auto& elptr) { return *elptr == *lorem; })
+                                    [&lorem](const std::unique_ptr<IElement>& elptr) { return *elptr == *lorem; })
                             != result->get().end());
 
                         REQUIRE(std::count_if( //
                                     result->get().begin(),
                                     result->get().end(),
-                                    [](const auto& elptr) {
+                                    [](const std::unique_ptr<IElement>& elptr) {
                                         return nullptr != dynamic_cast<const MemberElement*>(elptr.get());
                                     })
                             == 5);

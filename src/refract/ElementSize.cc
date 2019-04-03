@@ -30,7 +30,8 @@ namespace
     template <typename It>
     cardinal sizeOfMult(It begin, It end, bool inheritsFixed) noexcept
     {
-        return std::accumulate(begin, end, cardinal{ 1 }, [inheritsFixed](const auto& a, const auto& b) { //
+        using ElementPtr = decltype(*begin);
+        return std::accumulate(begin, end, cardinal{ 1 }, [inheritsFixed](cardinal a, const ElementPtr& b) { //
             return a * sizeOf(*b, inheritsFixed);
         });
     }
@@ -38,7 +39,8 @@ namespace
     template <typename It>
     cardinal sizeOfSum(It begin, It end, bool inheritsFixed) noexcept
     {
-        return std::accumulate(begin, end, cardinal::empty(), [inheritsFixed](const auto& a, const auto& b) { //
+        using ElementPtr = decltype(*begin);
+        return std::accumulate(begin, end, cardinal::empty(), [inheritsFixed](cardinal a, const ElementPtr& b) { //
             return a + sizeOf(*b, inheritsFixed);
         });
     }
@@ -47,13 +49,21 @@ namespace
     {
         return hasNullableTypeAttr(e) ? (s + cardinal{ 1 }) : s;
     }
+
+    struct SizeOfVisitor {
+        bool inheritsFixed;
+
+        template <typename ElementT>
+        cardinal operator()(const ElementT& el) const
+        {
+            return sizeOf(el, inheritsFixed);
+        }
+    };
 }
 
 cardinal refract::sizeOf(const IElement& e, bool inheritsFixed)
 {
-    return refract::visit(e, [inheritsFixed](const auto& el) { //
-        return sizeOf(el, inheritsFixed);
-    });
+    return refract::visit(e, SizeOfVisitor{ inheritsFixed });
 }
 
 cardinal refract::sizeOf(const ObjectElement& e, bool inheritsFixed)

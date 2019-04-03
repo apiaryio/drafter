@@ -78,7 +78,7 @@ SCENARIO("`Array` is inserted to and erased from", "[ElementData][Array]")
 
         WHEN("an ElementMock is pushed back")
         {
-            auto mock = std::make_unique<test::ElementMock>();
+            auto mock = make_unique<test::ElementMock>();
             auto mock1ptr = mock.get();
 
             REQUIRE(test::ElementMock::instances().size() == 1);
@@ -112,20 +112,20 @@ SCENARIO("`Array` is inserted to and erased from", "[ElementData][Array]")
 
             WHEN("another three ElementMocks are inserted at begin two at end")
             {
-                auto mock2 = std::make_unique<test::ElementMock>();
+                auto mock2 = make_unique<test::ElementMock>();
 
-                auto mock3 = std::make_unique<test::ElementMock>();
+                auto mock3 = make_unique<test::ElementMock>();
 
-                auto mock4 = std::make_unique<test::ElementMock>();
+                auto mock4 = make_unique<test::ElementMock>();
 
                 array.insert(array.begin(), std::move(mock2));
                 array.insert(array.begin(), std::move(mock3));
                 array.insert(array.begin(), std::move(mock4));
 
-                auto mock5 = std::make_unique<test::ElementMock>();
+                auto mock5 = make_unique<test::ElementMock>();
                 auto mock5ptr = mock.get();
 
-                auto mock6 = std::make_unique<test::ElementMock>();
+                auto mock6 = make_unique<test::ElementMock>();
 
                 array.insert(array.begin(), std::move(mock5));
                 array.insert(array.begin(), std::move(mock6));
@@ -189,7 +189,7 @@ SCENARIO("`Array` is inserted to and erased from", "[ElementData][Array]")
 
             WHEN("another ElementMock is pushed back")
             {
-                auto mock2 = std::make_unique<test::ElementMock>();
+                auto mock2 = make_unique<test::ElementMock>();
                 auto mock2ptr = mock2.get();
 
                 REQUIRE(test::ElementMock::instances().size() == 2);
@@ -253,9 +253,9 @@ SCENARIO("`Array` is move-constructed from elements", "[ElementData][Array]")
     {
         REQUIRE(test::ElementMock::instances().size() == 0);
 
-        auto mock1 = std::make_unique<test::ElementMock>();
-        auto mock2 = std::make_unique<test::ElementMock>();
-        auto mock3 = std::make_unique<test::ElementMock>();
+        auto mock1 = make_unique<test::ElementMock>();
+        auto mock2 = make_unique<test::ElementMock>();
+        auto mock3 = make_unique<test::ElementMock>();
 
         const auto mock1ptr = mock1.get();
         const auto mock2ptr = mock2.get();

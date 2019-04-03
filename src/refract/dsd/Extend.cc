@@ -98,46 +98,50 @@ namespace
                             auto mergeKey = TypeQueryVisitor::as<const StringElement>(mergeMember->get().key());
                             assert(mergeKey);
 
-                            return std::find_if(value.get().begin(), value.get().end(), [mergeKey](const auto& e) {
-                                if (auto valueMember = TypeQueryVisitor::as<const MemberElement>(e.get())) {
-                                    auto valueKey = TypeQueryVisitor::as<const StringElement>(valueMember->get().key());
-                                    assert(valueKey);
+                            return std::find_if(
+                                value.get().begin(), value.get().end(), [mergeKey](const std::unique_ptr<IElement>& e) {
+                                    if (auto valueMember = TypeQueryVisitor::as<const MemberElement>(e.get())) {
+                                        auto valueKey
+                                            = TypeQueryVisitor::as<const StringElement>(valueMember->get().key());
+                                        assert(valueKey);
 
-                                    return mergeKey->get() == valueKey->get();
-                                }
+                                        return mergeKey->get() == valueKey->get();
+                                    }
 
-                                if (auto valueSelect = TypeQueryVisitor::as<const SelectElement>(e.get())) {
-                                    return valueSelect->get().end()
-                                        != std::find_if(valueSelect->get().begin(),
-                                               valueSelect->get().end(),
-                                               [mergeKey](const auto& option) {
-                                                   return option->get().end()
-                                                       != std::find_if(option->get().begin(),
-                                                              option->get().end(),
-                                                              [mergeKey](const auto& optEl) {
-                                                                  if (auto optElMember
-                                                                      = TypeQueryVisitor::as<const MemberElement>(
-                                                                          optEl.get())) {
-                                                                      auto optElMemberKey
-                                                                          = TypeQueryVisitor::as<const StringElement>(
+                                    if (auto valueSelect = TypeQueryVisitor::as<const SelectElement>(e.get())) {
+                                        return valueSelect->get().end()
+                                            != std::find_if(valueSelect->get().begin(),
+                                                   valueSelect->get().end(),
+                                                   [mergeKey](const std::unique_ptr<OptionElement>& option) {
+                                                       return option->get().end()
+                                                           != std::find_if(option->get().begin(),
+                                                                  option->get().end(),
+                                                                  [mergeKey](const std::unique_ptr<IElement>& optEl) {
+                                                                      if (auto optElMember
+                                                                          = TypeQueryVisitor::as<const MemberElement>(
+                                                                              optEl.get())) {
+                                                                          auto optElMemberKey = TypeQueryVisitor::as<
+                                                                              const StringElement>(
                                                                               optElMember->get().key());
-                                                                      assert(optElMemberKey);
-                                                                      return optElMemberKey->get() == mergeKey->get();
-                                                                  }
-                                                                  return false;
-                                                              });
-                                               });
-                                }
+                                                                          assert(optElMemberKey);
+                                                                          return optElMemberKey->get()
+                                                                              == mergeKey->get();
+                                                                      }
+                                                                      return false;
+                                                                  });
+                                                   });
+                                    }
 
-                                return false;
-                            });
-                        } else if (auto mergeRef = TypeQueryVisitor::as<const RefElement>(m.get())) {
-                            return std::find_if(value.get().begin(), value.get().end(), [mergeRef](const auto& e) {
-                                if (auto valueRef = TypeQueryVisitor::as<const RefElement>(e.get()))
-                                    return mergeRef->get() == valueRef->get();
-                                else
                                     return false;
-                            });
+                                });
+                        } else if (auto mergeRef = TypeQueryVisitor::as<const RefElement>(m.get())) {
+                            return std::find_if(
+                                value.get().begin(), value.get().end(), [mergeRef](const std::unique_ptr<IElement>& e) {
+                                    if (auto valueRef = TypeQueryVisitor::as<const RefElement>(e.get()))
+                                        return mergeRef->get() == valueRef->get();
+                                    else
+                                        return false;
+                                });
                         } else {
                             return value.get().end();
                         }
@@ -158,9 +162,10 @@ namespace
 
         void operator()(T& value, const T& merge) const
         {
-            std::transform(merge.get().begin(), merge.get().end(), std::back_inserter(value.get()), [](const auto& e) {
-                return clone(*e);
-            });
+            std::transform(merge.get().begin(),
+                merge.get().end(),
+                std::back_inserter(value.get()),
+                [](const std::unique_ptr<IElement>& e) { return clone(*e); });
         }
     };
 
@@ -224,8 +229,9 @@ namespace
                             auto it = std::find_if( //
                                 target_enums->get().begin(),
                                 target_enums->get().end(),
-                                [&append_enum](
-                                    auto& target_enum) { return visit(*target_enum, TypeEqual{ *append_enum }); });
+                                [&append_enum](const std::unique_ptr<IElement>& target_enum) {
+                                    return visit(*target_enum, TypeEqual{ *append_enum });
+                                });
                             if (target_enums->get().end() != it) {
                                 target_enums->get().erase(it);
                             }
@@ -335,7 +341,7 @@ Extend::Extend(const Extend& other) : elements_()
     std::transform(other.elements_.begin(),
         other.elements_.end(),
         std::back_inserter(elements_),
-        [](const auto& el) -> std::unique_ptr<IElement> {
+        [](const value_type& el) -> std::unique_ptr<IElement> {
             assert(el);
             return el->clone();
         });
@@ -368,16 +374,16 @@ std::unique_ptr<IElement> Extend::merge() const
 
 bool dsd::operator==(const Extend& lhs, const Extend& rhs) noexcept
 {
-    return std::equal( //
-        lhs.begin(),
-        lhs.end(),
-        rhs.begin(),
-        rhs.end(),
-        [](const auto& l, const auto& r) {
-            assert(l);
-            assert(r);
-            return *l == *r;
-        });
+    return lhs.size() == rhs.size()
+        && std::equal( //
+               lhs.begin(),
+               lhs.end(),
+               rhs.begin(),
+               [](const Extend::value_type& l, const Extend::value_type& r) {
+                   assert(l);
+                   assert(r);
+                   return *l == *r;
+               });
 }
 
 bool dsd::operator!=(const Extend& lhs, const Extend& rhs) noexcept

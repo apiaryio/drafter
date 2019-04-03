@@ -62,7 +62,7 @@ namespace refract
             }
 
             const auto e = arr->get().end();
-            if (e == std::find_if(arr->get().begin(), e, [&value](const auto& attr) {
+            if (e == std::find_if(arr->get().begin(), e, [&value](const std::unique_ptr<IElement>& attr) {
                     if (const auto& str = TypeQueryVisitor::as<Element<DSDType> >(attr.get())) {
                         if (str->get() == value.get())
                             return true;

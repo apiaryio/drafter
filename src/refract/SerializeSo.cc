@@ -34,6 +34,16 @@ namespace
     so::Object serializeContent(const dsd::Member& e, bool renderSourceMaps);
     so::String serializeContent(const dsd::Ref& e, bool renderSourceMaps);
 
+    struct SerializeContentVisitor {
+        bool renderSourceMaps;
+
+        template <typename ElementT>
+        so::Value operator()(const ElementT& el) const
+        {
+            return serializeContent(el.get(), renderSourceMaps);
+        }
+    };
+
     so::Object serializeAny(const IElement& e, bool renderSourceMaps)
     {
         so::Object result;
@@ -60,9 +70,7 @@ namespace
         }
 
         if (!e.empty()) {
-            result.data.emplace_back("content", visit(e, [renderSourceMaps](const auto& el) { //
-                return serializeContent(el.get(), renderSourceMaps);
-            }));
+            result.data.emplace_back("content", visit(e, SerializeContentVisitor{ renderSourceMaps }));
         }
 
         return result;

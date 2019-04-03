@@ -30,7 +30,7 @@ namespace helper
 
         AnnotationToRefract(const std::string& key, ConversionContext& context) : key(key), context(context) {}
 
-        auto operator()(snowcrash::SourceAnnotation& annotation)
+        std::unique_ptr<refract::IElement> operator()(snowcrash::SourceAnnotation& annotation)
         {
             return drafter::AnnotationToRefract(annotation, key, context);
         }

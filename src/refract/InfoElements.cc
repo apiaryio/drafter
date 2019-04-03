@@ -72,25 +72,27 @@ namespace refract
     InfoElements::InfoElements(const InfoElements& other) : elements()
     {
         elements.reserve(other.size());
-        std::transform(other.begin(), other.end(), std::back_inserter(elements), [](const auto& el) {
-            assert(el.second);
-            return std::make_pair(el.first, refract::clone(*el.second));
-        });
+        std::transform(
+            other.begin(), other.end(), std::back_inserter(elements), [](const InfoElements::value_type& el) {
+                assert(el.second);
+                return std::make_pair(el.first, refract::clone(*el.second));
+            });
     }
 
     void InfoElements::clone(const InfoElements& other)
     {
-        std::transform(other.begin(), other.end(), std::back_inserter(elements), [](const auto& el) {
-            assert(el.second);
-            return std::make_pair(el.first, refract::clone(*el.second));
-        });
+        std::transform(
+            other.begin(), other.end(), std::back_inserter(elements), [](const InfoElements::value_type& el) {
+                assert(el.second);
+                return std::make_pair(el.first, refract::clone(*el.second));
+            });
     }
 
     void InfoElements::erase(const std::string& key)
     {
-        elements.erase(
-            std::remove_if(
-                elements.begin(), elements.end(), [&key](const auto& keyValue) { return keyValue.first == key; }),
+        elements.erase(std::remove_if(elements.begin(),
+                           elements.end(),
+                           [&key](const InfoElements::value_type& keyValue) { return keyValue.first == key; }),
             elements.end());
     }
 
@@ -131,13 +133,15 @@ namespace refract
 
     InfoElements::const_iterator InfoElements::find(const std::string& name) const
     {
-        return std::find_if(
-            elements.begin(), elements.end(), [&name](const auto& keyValue) { return keyValue.first == name; });
+        return std::find_if(elements.begin(), elements.end(), [&name](const InfoElements::value_type& keyValue) {
+            return keyValue.first == name;
+        });
     }
 
     InfoElements::iterator InfoElements::find(const std::string& name)
     {
-        return std::find_if(
-            elements.begin(), elements.end(), [&name](const auto& keyValue) { return keyValue.first == name; });
+        return std::find_if(elements.begin(), elements.end(), [&name](const InfoElements::value_type& keyValue) {
+            return keyValue.first == name;
+        });
     }
 }
