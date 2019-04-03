@@ -107,23 +107,27 @@ set_target_properties(drafter PROPERTIES PUBLIC_HEADER "drafter.h")
 find_package(snowcrash 1.0 REQUIRED)
 find_package(BoostContainer 1.66 REQUIRED)
 find_package(cmdline 1.0 REQUIRED)
+find_package(MPark.Variant 1.4 REQUIRED)
 
 target_link_libraries(drafter
     PRIVATE
         snowcrash::snowcrash-pic
         Boost::container
+        mpark_variant
     )
 
 target_link_libraries(drafter-pic
     PRIVATE
         snowcrash::snowcrash-pic
         Boost::container
+        mpark_variant
     )
 
 target_link_libraries(drafter-static
     PRIVATE
         snowcrash::snowcrash-static
         Boost::container
+        mpark_variant
     )
 
 target_include_directories(drafter PUBLIC
@@ -167,6 +171,7 @@ target_link_libraries(drafter-cli
         snowcrash::snowcrash-static
         drafter::drafter-static
         cmdline::cmdline
+        mpark_variant
     )
 
 set_target_properties(drafter-cli PROPERTIES OUTPUT_NAME drafter)

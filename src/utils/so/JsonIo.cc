@@ -108,22 +108,25 @@ namespace
 
     template <bool Packed = true>
     struct json_printer final {
-        void operator()(const Null& value, std::ostream& out, int indent = 0) const
+        std::ostream& out;
+        const int indent;
+
+        void operator()(const Null& value) const
         {
             out << "null";
         }
 
-        void operator()(const True& value, std::ostream& out, int indent = 0) const
+        void operator()(const True& value) const
         {
             out << "true";
         }
 
-        void operator()(const False& value, std::ostream& out, int indent = 0) const
+        void operator()(const False& value) const
         {
             out << "false";
         }
 
-        void operator()(const String& value, std::ostream& out, int indent = 0) const
+        void operator()(const String& value) const
         {
             out << '"';
             escape_json_string( //
@@ -133,65 +136,76 @@ namespace
             out << '"';
         }
 
-        void operator()(const Number& value, std::ostream& out, int indent = 0) const
+        void operator()(const Number& value) const
         {
             out << value.data;
         }
 
-        void operator()(const Object& value, std::ostream& out, int indent = 0) const
-        {
-            out << '{';
-            int commas = value.data.size() - 1;
-            for (const auto& m : value.data) {
-                if (!Packed)
-                    break_indent(out, indent + 1);
-
-                out << '"' << m.first << "\":";
-
-                if (!Packed)
-                    out << ' ';
-
-                visit(m.second, *this, out, indent + 1);
-
-                if (commas > 0) {
-                    out << ',';
-                    --commas;
-                }
-            }
-            if (!(Packed || value.data.empty()))
-                break_indent(out, indent);
-            out << '}';
-        }
-
-        void operator()(const Array& value, std::ostream& out, int indent = 0) const
-        {
-            out << '[';
-            int commas = value.data.size() - 1;
-            for (const auto& m : value.data) {
-                if (!Packed)
-                    break_indent(out, indent + 1);
-                visit(m, *this, out, indent + 1);
-
-                if (commas > 0) {
-                    out << ',';
-                    --commas;
-                }
-            }
-            if (!(Packed || value.data.empty()))
-                break_indent(out, indent);
-            out << ']';
-        }
+        void operator()(const Object& value) const;
+        void operator()(const Array& value) const;
     };
+
+    template <bool Packed>
+    void visit(const Value& obj, std::ostream& out, int indent = 0)
+    {
+        mpark::visit(json_printer<Packed>{ out, indent }, obj);
+    }
+
+    template <bool Packed>
+    void json_printer<Packed>::operator()(const Object& value) const
+    {
+        out << '{';
+        int commas = value.data.size() - 1;
+        for (const auto& m : value.data) {
+            if (!Packed)
+                break_indent(out, indent + 1);
+
+            out << '"' << m.first << "\":";
+
+            if (!Packed)
+                out << ' ';
+
+            visit<Packed>(m.second, out, indent + 1);
+
+            if (commas > 0) {
+                out << ',';
+                --commas;
+            }
+        }
+        if (!(Packed || value.data.empty()))
+            break_indent(out, indent);
+        out << '}';
+    }
+
+    template <bool Packed>
+    void json_printer<Packed>::operator()(const Array& value) const
+    {
+        out << '[';
+        int commas = value.data.size() - 1;
+        for (const auto& m : value.data) {
+            if (!Packed)
+                break_indent(out, indent + 1);
+            visit<Packed>(m, out, indent + 1);
+
+            if (commas > 0) {
+                out << ',';
+                --commas;
+            }
+        }
+        if (!(Packed || value.data.empty()))
+            break_indent(out, indent);
+        out << ']';
+    }
 } // namespace
 
 std::ostream& so::serialize_json(std::ostream& out, const Value& obj)
 {
-    visit(obj, json_printer<false>{}, out);
+    visit<false>(obj, out);
     return out;
 }
 
 std::ostream& so::serialize_json(std::ostream& out, const Value& obj, packed)
 {
-    visit(obj, json_printer<true>{}, out);
+    visit<true>(obj, out);
     return out;
 }

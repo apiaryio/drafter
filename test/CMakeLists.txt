@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 find_package(Catch2 1.0 REQUIRED)
+find_package(MPark.Variant 1.4 REQUIRED)
 
 add_executable(drafter-test
     utils/test-Utf8.cc
     utils/so/test-YamlIo.cc
     utils/so/test-JsonIo.cc
-    utils/test-Variant.cc
     test-RefractAPITest.cc
     test-ElementComparator.cc
     refract/dsd/test-Option.cc
@@ -56,6 +56,7 @@ target_link_libraries(drafter-test
         drafter::drafter-static
         snowcrash::snowcrash-static
         Boost::container
+        mpark_variant
     )
 
 add_test(DrafterTest drafter-test)

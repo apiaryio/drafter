@@ -12,7 +12,8 @@ set(as_subproject
     Drafter
     Catch2
     dtl
-    BoostContainer)
+    BoostContainer
+    MPark.Variant)
 
 macro(find_package)
     if(NOT "${ARGV0}" IN_LIST as_subproject)
@@ -24,6 +25,7 @@ endmacro()
 add_subdirectory(ext/snowcrash/ext/markdown-parser/ext/sundown EXCLUDE_FROM_ALL)
 add_subdirectory(ext/cmdline EXCLUDE_FROM_ALL)
 add_subdirectory(ext/boost_1_66_0 EXCLUDE_FROM_ALL)
+add_subdirectory(ext/variant EXCLUDE_FROM_ALL)
 
 message(STATUS "Setting up tests for production...")
 set(BUILD_TESTING ON)

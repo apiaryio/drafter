@@ -13,8 +13,7 @@
 #include <string>
 #include <algorithm>
 #include <boost/container/vector.hpp>
-
-#include "../Variant.h"
+#include <mpark/variant.hpp>
 
 namespace drafter
 {
@@ -30,7 +29,7 @@ namespace drafter
             struct Object;
             struct Array;
 
-            using Value = variant<Null, True, False, String, Number, Object, Array>;
+            using Value = mpark::variant<Null, True, False, String, Number, Object, Array>;
 
             struct from_list {
             };

@@ -47,15 +47,24 @@ bool drafter::utils::so::operator==(const Array& lhs, const Array& rhs)
     return lhs.data.size() == rhs.data.size() && std::equal(lhs.data.begin(), lhs.data.end(), rhs.data.begin());
 }
 
+namespace
+{
+    struct same_equal {
+        const Value& rhs;
+        template <typename Specific>
+        bool operator()(const Specific& lhs) const noexcept
+        {
+            return lhs == mpark::get<Specific>(rhs);
+        }
+    };
+}
+
 bool drafter::utils::so::operator==(const Value& lhs, const Value& rhs)
 {
-    using namespace drafter::utils;
     if (lhs.index() != rhs.index())
         return false;
-    return visit( //
-        lhs,
-        [](const auto& l, const Value& r) { return l == get<typename bare<decltype(l)>::type>(r); },
-        rhs);
+
+    return mpark::visit(same_equal{ rhs }, lhs);
 }
 
 Value* drafter::utils::so::find(Object& c, const std::string& key)

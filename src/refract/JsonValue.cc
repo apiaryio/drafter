@@ -339,7 +339,7 @@ namespace
     {
         // OPTIM @tjanc@ avoid temporary container
         so::Value mixinValue = renderValueSpecific(element, passFlags(options));
-        if (so::Object* mixinValueObject = get_if<so::Object>(mixinValue))
+        if (so::Object* mixinValueObject = mpark::get_if<so::Object>(&mixinValue))
             for (auto& property : mixinValueObject->data)
                 emplace_unique(value, std::move(property));
     }
@@ -370,7 +370,7 @@ namespace
         if (const auto& mixin = get<const ArrayElement>(&resolved)) {
             // OPTIM @tjanc@ avoid temporary container
             so::Value mixinValue = renderValueSpecific(*mixin, passFlags(options));
-            if (const so::Array* mixinValueArray = get_if<so::Array>(mixinValue))
+            if (const so::Array* mixinValueArray = mpark::get_if<so::Array>(&mixinValue))
                 std::move(mixinValueArray->data.begin(), mixinValueArray->data.end(), std::back_inserter(array.data));
         }
     }
