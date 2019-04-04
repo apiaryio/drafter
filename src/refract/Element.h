@@ -40,7 +40,7 @@ namespace refract
         bool hasValue_ = false; //< Whether DSD is set
         DataType data_ = {};    //< DSD
 
-        std::string name_ = DataType::name; //< Name of the Element
+        std::string name_ = { DataType::name }; //< Name of the Element
 
     public:
         using ValueType = DataType; //< DSD type definition

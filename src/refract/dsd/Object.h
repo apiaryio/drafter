@@ -111,7 +111,7 @@ namespace refract
             ///
             /// @return iterator to Element added
             ///
-            iterator insert(const_iterator it, std::unique_ptr<IElement> el);
+            iterator insert(iterator it, std::unique_ptr<IElement> el);
 
             ///
             /// Remove a subsequence of children
@@ -121,7 +121,7 @@ namespace refract
             ///
             /// @return iterator following the last child removed
             ///
-            iterator erase(const_iterator b, const_iterator e);
+            iterator erase(iterator b, iterator e);
 
             using container_traits<Object, container_type>::erase;
 

@@ -347,7 +347,7 @@ Extend::Extend(const Extend& other) : elements_()
         });
 }
 
-Extend::iterator Extend::insert(Extend::const_iterator it, std::unique_ptr<IElement> el)
+Extend::iterator Extend::insert(Extend::iterator it, std::unique_ptr<IElement> el)
 {
     assert(it >= begin());
     assert(it <= end());
@@ -362,7 +362,7 @@ Extend::iterator Extend::insert(Extend::const_iterator it, std::unique_ptr<IElem
     return elements_.insert(it, std::move(el));
 }
 
-Extend::iterator Extend::erase(Extend::const_iterator b, Extend::const_iterator e)
+Extend::iterator Extend::erase(Extend::iterator b, Extend::iterator e)
 {
     return elements_.erase(b, e);
 }

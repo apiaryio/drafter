@@ -29,15 +29,16 @@ namespace refract
         using supports_end = decltype(supports_end_test(std::declval<T>()));
 
         template <typename T,
-            typename = decltype(std::declval<T>().insert(
-                std::declval<typename T::const_iterator>(), std::declval<typename T::value_type>()))>
+            typename = decltype(
+                std::declval<T>().insert(std::declval<typename T::iterator>(), std::declval<typename T::value_type>()))>
         std::true_type supports_insert_test(const T&);
         std::false_type supports_insert_test(...);
         template <typename T>
         using supports_insert = decltype(supports_insert_test(std::declval<T>()));
 
         template <typename T,
-            typename = decltype(std::declval<T>().erase(std::declval<T>().begin(), std::declval<T>().begin()))>
+            typename = decltype(
+                std::declval<T>().erase(std::declval<typename T::iterator>(), std::declval<typename T::iterator>()))>
         std::true_type supports_erase_test(const T&);
         std::false_type supports_erase_test(...);
         template <typename T>
@@ -136,7 +137,7 @@ namespace refract
             ///
             /// @return iterator following the member removed
             ///
-            const_iterator erase(const_iterator it)
+            iterator erase(iterator it)
             {
                 return self().erase(it, std::next(it));
             }

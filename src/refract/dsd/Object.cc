@@ -76,7 +76,7 @@ void Object::push_back(std::unique_ptr<IElement> el)
     elements_.emplace_back(std::move(el));
 }
 
-Object::iterator Object::insert(Object::const_iterator it, std::unique_ptr<IElement> el)
+Object::iterator Object::insert(Object::iterator it, std::unique_ptr<IElement> el)
 {
     assert(it >= begin());
     assert(it <= end());
@@ -85,7 +85,7 @@ Object::iterator Object::insert(Object::const_iterator it, std::unique_ptr<IElem
     return elements_.insert(it, std::move(el));
 }
 
-Object::iterator Object::erase(Object::const_iterator b, Object::const_iterator e)
+Object::iterator Object::erase(Object::iterator b, Object::iterator e)
 {
     return elements_.erase(b, e);
 }

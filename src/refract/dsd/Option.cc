@@ -59,7 +59,7 @@ Option& Option::operator=(Option rhs)
     return *this;
 }
 
-Option::iterator Option::insert(Option::const_iterator it, std::unique_ptr<IElement> el)
+Option::iterator Option::insert(Option::iterator it, std::unique_ptr<IElement> el)
 {
     assert(it >= begin());
     assert(it <= end());
@@ -68,7 +68,7 @@ Option::iterator Option::insert(Option::const_iterator it, std::unique_ptr<IElem
     return elements_.insert(it, std::move(el));
 }
 
-Option::iterator Option::erase(Option::const_iterator b, Option::const_iterator e)
+Option::iterator Option::erase(Option::iterator b, Option::iterator e)
 {
     return elements_.erase(b, e);
 }

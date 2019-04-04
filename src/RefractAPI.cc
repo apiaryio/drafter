@@ -167,7 +167,7 @@ std::unique_ptr<IElement> MetadataToRefract(const NodeInfo<snowcrash::Metadata>&
 
     AttachSourceMap(*element, metadata);
 
-    return element;
+    return std::move(element);
 }
 
 std::unique_ptr<IElement> CopyToRefract(const NodeInfo<std::string>& copy)
@@ -200,7 +200,7 @@ std::unique_ptr<IElement> ParameterValuesToRefract(
     element->attributes().set(SerializeKey::Enumerations,
         CollectionToRefract<ArrayElement>(MAKE_NODE_INFO(parameter, values), context, LiteralToRefract));
 
-    return element;
+    return std::move(element);
 }
 
 // NOTE: We removed type specific templates from here in https://github.com/apiaryio/drafter/pull/447
@@ -218,7 +218,7 @@ std::unique_ptr<IElement> ExtractParameter(const NodeInfo<snowcrash::Parameter>&
                 SerializeKey::Default, PrimitiveToRefract(MAKE_NODE_INFO(parameter, defaultValue)));
         }
 
-        return element;
+        return std::move(element);
     } else {
         return ParameterValuesToRefract(parameter, context);
     }
@@ -251,7 +251,7 @@ std::unique_ptr<IElement> ParameterToRefract(
         element->attributes().set(SerializeKey::TypeAttributes, make_element<ArrayElement>(from_primitive(use)));
     }
 
-    return element;
+    return std::move(element);
 }
 
 std::unique_ptr<IElement> ParametersToRefract(
@@ -266,7 +266,7 @@ std::unique_ptr<IElement> HeaderToRefract(const NodeInfo<snowcrash::Header>& hea
 
     AttachSourceMap(*element, header);
 
-    return element;
+    return std::move(element);
 }
 
 std::unique_ptr<IElement> AssetToRefract(
@@ -320,7 +320,7 @@ std::unique_ptr<IElement> PayloadToRefract( //
 
     // If no payload, return immediately
     if (payload.isNull()) {
-        return result;
+        return std::move(result);
     }
 
     if (!payload.node->parameters.empty()) {
@@ -413,7 +413,7 @@ std::unique_ptr<IElement> PayloadToRefract( //
 
     RemoveEmptyElements(content);
 
-    return result;
+    return std::move(result);
 }
 
 std::unique_ptr<ArrayElement> TransactionToRefract(const NodeInfo<snowcrash::TransactionExample>& transaction,
@@ -622,7 +622,7 @@ std::unique_ptr<IElement> drafter::BlueprintToRefract(
 
     RemoveEmptyElements(content);
 
-    return ast;
+    return std::move(ast);
 }
 
 std::unique_ptr<IElement> drafter::AnnotationToRefract(
@@ -638,5 +638,5 @@ std::unique_ptr<IElement> drafter::AnnotationToRefract(
     element->attributes().set(
         SerializeKey::SourceMap, SourceMapToRefractWithColumnLineInfo(annotation.location, context));
 
-    return element;
+    return std::move(element);
 }

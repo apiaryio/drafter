@@ -207,7 +207,8 @@ namespace
                 return R"(^(?![\s\S]))";
             } else {
                 std::regex sanitizer{ R"([-[\]{}()*+?.,\^$|#\s])" };
-                return std::regex_replace(e.get().get(), sanitizer, R"(\$&)");
+                const std::string replacement{R"(\$&)"};
+                return std::regex_replace(e.get().get(), sanitizer, replacement);
             }
         }
         // clang-format on

@@ -40,11 +40,12 @@ namespace helper
 std::unique_ptr<IElement> drafter::WrapRefract(
     snowcrash::ParseResult<snowcrash::Blueprint>& blueprint, ConversionContext& context)
 {
-    snowcrash::Error error;
-    std::unique_ptr<IElement> blueprintRefract = nullptr;
-
     // auto parseResult = make_empty<ArrayElement>();
     auto parseResult = make_element<ArrayElement>(); // XXX @tjanc@ review
+    snowcrash::Error error;
+
+    std::unique_ptr<IElement> blueprintRefract = nullptr;
+
     parseResult->element(SerializeKey::ParseResult);
 
     if (blueprint.report.error.code == snowcrash::Error::OK) {
@@ -86,5 +87,5 @@ std::unique_ptr<IElement> drafter::WrapRefract(
             helper::AnnotationToRefract(SerializeKey::Warning, context));
     }
 
-    return parseResult;
+    return std::move(parseResult);
 }

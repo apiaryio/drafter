@@ -56,7 +56,7 @@ Array::Array(const Array& other) : Array()
         });
 }
 
-Array::iterator Array::insert(Array::const_iterator it, std::unique_ptr<IElement> el)
+Array::iterator Array::insert(Array::iterator it, std::unique_ptr<IElement> el)
 {
     assert(it >= begin());
     assert(it <= end());
@@ -65,7 +65,7 @@ Array::iterator Array::insert(Array::const_iterator it, std::unique_ptr<IElement
     return elements_.insert(it, std::move(el));
 }
 
-Array::iterator Array::erase(Array::const_iterator b, Array::const_iterator e)
+Array::iterator Array::erase(Array::iterator b, Array::iterator e)
 {
     return elements_.erase(b, e);
 }

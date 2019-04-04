@@ -84,9 +84,8 @@ namespace refract
         public:
             ///
             /// Get reference to memory representation
-            /// @deprecated
             ///
-            [[deprecated]] const container_type& get() const noexcept
+            const container_type& get() const noexcept
             {
                 return elements_;
             }
@@ -118,7 +117,7 @@ namespace refract
             ///
             /// @return iterator to Element added
             ///
-            iterator insert(const_iterator it, std::unique_ptr<OptionElement> el);
+            iterator insert(iterator it, std::unique_ptr<OptionElement> el);
 
             ///
             /// Remove a subsequence of children
@@ -128,7 +127,7 @@ namespace refract
             ///
             /// @return iterator following the last child removed
             ///
-            iterator erase(const_iterator b, const_iterator e);
+            iterator erase(iterator b, iterator e);
 
             using container_traits<Select, container_type>::erase;
         };

@@ -61,7 +61,7 @@ Select& Select::operator=(Select rhs)
     return *this;
 }
 
-Select::iterator Select::insert(Select::const_iterator it, std::unique_ptr<OptionElement> el)
+Select::iterator Select::insert(Select::iterator it, std::unique_ptr<OptionElement> el)
 {
     assert(it >= begin());
     assert(it <= end());
@@ -70,7 +70,7 @@ Select::iterator Select::insert(Select::const_iterator it, std::unique_ptr<Optio
     return elements_.insert(it, std::move(el));
 }
 
-Select::iterator Select::erase(Select::const_iterator b, Select::const_iterator e)
+Select::iterator Select::erase(Select::iterator b, Select::iterator e)
 {
     return elements_.erase(b, e);
 }
