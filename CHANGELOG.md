@@ -6,6 +6,8 @@
 
 * generated JSON Schema makes use of the `enum` validation instead of the more syntax heavy `anyOf` for each enumerations EnumElement entry typing a single value
 
+* transitioned from C++14 back to C++11 to support older compilers
+
 ## 4.0.0-pre.2
 
 ### Bug Fixes
