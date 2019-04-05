@@ -10,7 +10,6 @@
 #include "StringUtility.h"
 
 #include <cstdlib>
-#include <regex>
 
 using namespace drafter;
 using namespace refract;
@@ -131,13 +130,98 @@ namespace
     /// > U+0030 through U+0039.
     ///
     // clang-format off
-    const std::regex json_number_expression(R"REGEX(-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)REGEX");
+    // const std::regex json_number_expression(R"REGEX(-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)REGEX");
     // clang-format on
+
+    template <typename It, typename Predicate>
+    It many(It begin, It end, Predicate predicate)
+    {
+        for (; begin != end; ++begin)
+            if (!predicate(*begin))
+                break;
+        return begin;
+    }
+
+    template <typename It, typename Predicate>
+    It optional(It begin, It end, Predicate predicate)
+    {
+        if (begin != end && predicate(*begin))
+            ++begin;
+        return begin;
+    }
 
     template <typename It>
     bool isValidNumber(It b, It e)
     {
-        return std::regex_match(b, e, json_number_expression);
+        // >
+        // > It may have a preceding minus sign (U+002D).
+        static_assert(0x2D == '-', "");
+        b = optional(b, e, [](char c) { return c == '-'; });
+
+        // >
+        // > The digits are the code points U+0030 through U+0039.
+        static_assert(0x30 == '0', "");
+        static_assert(0x39 == '9', "");
+        const auto is_digit = [](char c) -> bool { return c >= '0' && c <= '9'; };
+
+        // >
+        // > A number is a sequence of decimal digits with no superfluous
+        // > leading zero.
+        if (b == e)
+            return false;
+
+        if (*b == '0') {
+            ++b;
+            if (b == e)
+                return true;
+        } else {
+            if (!is_digit(*b))
+                return false;
+
+            b = many(b, e, is_digit);
+            if (b == e)
+                return true;
+        }
+
+        // >
+        // > It may have a fractional part prefixed by a decimal point (U+002E).
+        static_assert(0x2E == '.', "");
+        if (*b == '.') {
+            ++b;
+            if (b == e)
+                return false;
+
+            if (!is_digit(*b))
+                return false;
+
+            b = many(b, e, is_digit);
+            if (b == e)
+                return true;
+        }
+
+        // >
+        // > It may have an exponent, prefixed by e (U+0065) or E (U+0045) and
+        // > optionally + (U+002B) or – (U+002D)
+        static_assert(0x65 == 'e', "");
+        static_assert(0x45 == 'E', "");
+        if (*b == 'e' || *b == 'E') {
+            ++b;
+
+            static_assert(0x2B == '+', "");
+            static_assert(0x2D == '-', "");
+            b = optional(b, e, [](char c) { return c == '+' || c == '-'; });
+            if (b == e)
+                return false;
+
+            if (!is_digit(*b))
+                return false;
+
+            b = many(b, e, is_digit);
+            if (b == e)
+                return true;
+        }
+
+        return false;
     }
 } // namespace
 

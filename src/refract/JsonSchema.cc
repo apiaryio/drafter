@@ -21,7 +21,6 @@
 #include <algorithm>
 #include <bitset>
 #include <cassert>
-#include <regex>
 
 using namespace refract;
 using namespace schema;
@@ -206,9 +205,64 @@ namespace
             if(e.empty()) {
                 return R"(^(?![\s\S]))";
             } else {
-                std::regex sanitizer{ R"([-[\]{}()*+?.,\^$|#\s])" };
-                const std::string replacement{R"(\$&)"};
-                return std::regex_replace(e.get().get(), sanitizer, replacement);
+
+                // TODO gcc4.8 support forced us to replace std::regex with the
+                //   naive loop-switch implementation that follows
+                // std::regex sanitizer{ R"([-[\]{}()*+?.,\^$|#\s])" };
+                // const std::string fmt = R"(\$&)";
+                // return std::regex_replace(e.get().get(), sanitizer, fmt);
+                std::string result{};
+                for(char c : e.get().get()) {
+                    switch(c) {
+                        default:
+                            result += c;
+                            break;
+                        case '^':
+                            result += "\\^";
+                            break;
+                        case '$':
+                            result += "\\$";
+                            break;
+                        case '*':
+                            result += "\\*";
+                            break;
+                        case '+':
+                            result += "\\+";
+                            break;
+                        case '?':
+                            result += "\\?";
+                            break;
+                        case '.':
+                            result += "\\.";
+                            break;
+                        case '(':
+                            result += "\\(";
+                            break;
+                        case ')':
+                            result += "\\)";
+                            break;
+                        case '|':
+                            result += "\\|";
+                            break;
+                        case '{':
+                            result += "\\{";
+                            break;
+                        case '}':
+                            result += "\\}";
+                            break;
+                        case '[':
+                            result += "\\[";
+                            break;
+                        case ']':
+                            result += "\\]";
+                            break;
+                        case '\\':
+                            result += "\\\\";
+                            break;
+                    
+                    }
+                }
+                return result;
             }
         }
         // clang-format on
@@ -347,389 +401,391 @@ namespace
         if (e.empty())
             LOG(warning) << "empty data structure element in backend";
         else
-            for (const auto& item : e.get()) {
-                assert(item);
-                if (options.test(FIXED_TYPE_FLAG) || options.test(FIXED_FLAG))
-                    renderProperty(
-                        result, *item, inheritOrPassFlags(options, *item) | TypeAttributes{}.set(REQUIRED_FLAG));
-                else
-                    renderProperty(result, *item, inheritOrPassFlags(options, *item));
-            }
+            for (const auto& item : e.get())
+                            {
+                                assert(item);
+                                if (options.test(FIXED_TYPE_FLAG) || options.test(FIXED_FLAG))
+                                    renderProperty(result,
+                                        *item,
+                                        inheritOrPassFlags(options, *item) | TypeAttributes{}.set(REQUIRED_FLAG));
+                                else
+                                    renderProperty(result, *item, inheritOrPassFlags(options, *item));
+                            }
 
-        materialize(schema, std::move(result));
+                            materialize(schema, std::move(result));
 
-        if (options.test(FIXED_TYPE_FLAG) || options.test(FIXED_FLAG))
-            addAdditionalProperties(schema, so::False{});
+                            if (options.test(FIXED_TYPE_FLAG) || options.test(FIXED_FLAG))
+                                addAdditionalProperties(schema, so::False{});
 
-        return schema;
-    }
-
-    so::Object& renderSchema(so::Object& s, const ArrayElement& e, TypeAttributes options)
-    {
-        constexpr const char* TYPE_NAME = "array";
-
-        options = updateTypeAttributes(e, options);
-
-        if (options.test(FIXED_TYPE_FLAG)) { // array of any of types
-
-            so::Array items{};
-            if (!e.empty())
-                for (const auto& entry : e.get()) {
-                    assert(entry);
-                    so::emplace_unique(items, makeSchema(*entry, inheritOrPassFlags(options, *entry)));
-                }
-
-            auto& schema = wrapNullable(s, options);
-            addType(schema, TYPE_NAME);
-            addItems(schema, so::Object{ so::from_list{}, std::make_pair("anyOf", std::move(items)) });
-
-        } else if (options.test(FIXED_FLAG)) { // tuple of N constants/types
-
-            so::Array items{};
-            if (!e.empty())
-                for (const auto& item : e.get()) {
-                    assert(item);
-                    items.data.emplace_back(makeSchema(*item, inheritOrPassFlags(options, *item)));
-                }
-
-            auto& schema = wrapNullable(s, options);
-            addType(schema, TYPE_NAME);
-            addMinItems(schema, items.data.size());  // minimum of N entries
-            addItems(schema, std::move(items));      // schemas of tuple entries
-            addAdditionalItems(schema, so::False{}); // no more entries
-
-        } else {
-            auto& schema = wrapNullable(s, options);
-            addType(schema, TYPE_NAME);
-        }
-
-        return s;
-    }
-
-    so::Object& renderSchema(so::Object& schema, const EnumElement& e, TypeAttributes options)
-    {
-        options = updateTypeAttributes(e, options);
-
-        so::Array enm{};   // schemas typing single value accumulated in `enum`
-        so::Array anyOf{}; // anything other schemas
-
-        if (options.test(NULLABLE_FLAG))
-            so::emplace_unique(enm, so::Null{});
-
-        auto enumerationsIt = e.attributes().find("enumerations");
-        if (e.attributes().end() != enumerationsIt) {
-
-            const auto enums = get<const ArrayElement>(enumerationsIt->second.get());
-
-            assert(enums);
-            assert(!enums->empty());
-            for (const auto& enumEntry : enums->get()) {
-                assert(enumEntry);
-                if (sizeOf(*enumEntry) == cardinal{ 1 }) // schema types single value
-                    so::emplace_unique(enm, generateJsonValue(*enumEntry));
-                else { // schema MAY type more values
-                    auto s = makeSchema(*enumEntry, inheritFlags(options));
-                    if (s.data.size() == 1) {
-                        const auto& key = s.data.at(0).first;
-                        auto* vals = mpark::get_if<so::Array>(&s.data.at(0).second);
-                        if (key == "enum") {
-                            for (auto& val : vals->data)
-                                so::emplace_unique(enm, std::move(val));
-                        } else if (key == "anyOf") {
-                            for (auto& val : vals->data)
-                                so::emplace_unique(anyOf, std::move(val));
-                        } else {
-                            so::emplace_unique(anyOf, std::move(s));
-                        }
-                    } else {
-                        so::emplace_unique(anyOf, std::move(s));
+                            return schema;
                     }
-                }
-            }
-        } else {
-            LOG(warning) << "Enum Element SHALL hold enumerations attribute; interpreting as empty";
-        }
 
-        if (anyOf.data.empty()) // use `enum`, all schemas type single values
-            addEnum(schema, std::move(enm));
+                    so::Object& renderSchema(so::Object & s, const ArrayElement& e, TypeAttributes options)
+                    {
+                        constexpr const char* TYPE_NAME = "array";
 
-        else { // use `anyOf`, some schemas MAY type multiple values
-            // add accumulated single-valued schemas as an option
-            if (!enm.data.empty()) {
-                so::Object enms;
-                addEnum(enms, std::move(enm));
-                so::emplace_unique(anyOf, std::move(enms));
-            }
+                        options = updateTypeAttributes(e, options);
 
-            addAnyOf(schema, std::move(anyOf));
-        }
+                        if (options.test(FIXED_TYPE_FLAG)) { // array of any of types
 
-        return schema;
-    }
+                            so::Array items{};
+                            if (!e.empty())
+                                for (const auto& entry : e.get()) {
+                                    assert(entry);
+                                    so::emplace_unique(items, makeSchema(*entry, inheritOrPassFlags(options, *entry)));
+                                }
 
-    so::Object& renderSchema(so::Object& schema, const NullElement& e, TypeAttributes options)
-    {
-        addType(schema, "null");
-        return schema;
-    }
+                            auto& schema = wrapNullable(s, options);
+                            addType(schema, TYPE_NAME);
+                            addItems(schema, so::Object{ so::from_list{}, std::make_pair("anyOf", std::move(items)) });
 
-    template <typename E>
-    struct type_name;
+                        } else if (options.test(FIXED_FLAG)) { // tuple of N constants/types
 
-    template <>
-    struct type_name<StringElement> {
-        constexpr static const char* value = "string";
-    };
+                            so::Array items{};
+                            if (!e.empty())
+                                for (const auto& item : e.get()) {
+                                    assert(item);
+                                    items.data.emplace_back(makeSchema(*item, inheritOrPassFlags(options, *item)));
+                                }
 
-    template <>
-    struct type_name<NumberElement> {
-        constexpr static const char* value = "number";
-    };
+                            auto& schema = wrapNullable(s, options);
+                            addType(schema, TYPE_NAME);
+                            addMinItems(schema, items.data.size());  // minimum of N entries
+                            addItems(schema, std::move(items));      // schemas of tuple entries
+                            addAdditionalItems(schema, so::False{}); // no more entries
 
-    template <>
-    struct type_name<BooleanElement> {
-        constexpr static const char* value = "boolean";
-    };
+                        } else {
+                            auto& schema = wrapNullable(s, options);
+                            addType(schema, TYPE_NAME);
+                        }
 
-    template <typename E>
-    so::Object& renderSchemaPrimitive(so::Object& s, const E& e, TypeAttributes options)
-    {
-        options = updateTypeAttributes(e, options);
+                        return s;
+                    }
 
-        if (options.test(FIXED_FLAG)) {
-            if (!e.empty()) {
-                if (options.test(NULLABLE_FLAG))
-                    addEnum(s, so::Array{ so::from_list{}, so::Null{}, utils::instantiate(e.get()) });
-                else
-                    addEnum(s, so::Array{ so::from_list{}, utils::instantiate(e.get()) });
-                return s;
-            }
-        }
+                    so::Object& renderSchema(so::Object & schema, const EnumElement& e, TypeAttributes options)
+                    {
+                        options = updateTypeAttributes(e, options);
 
-        if (options.test(NULLABLE_FLAG)) {
-            addAnyOf(s, so::Array{ so::from_list{}, nullSchema(), typeSchema(type_name<E>::value) });
-            return s;
-        }
+                        so::Array enm{};   // schemas typing single value accumulated in `enum`
+                        so::Array anyOf{}; // anything other schemas
 
-        addType(s, type_name<E>::value);
+                        if (options.test(NULLABLE_FLAG))
+                            so::emplace_unique(enm, so::Null{});
 
-        return s;
-    }
+                        auto enumerationsIt = e.attributes().find("enumerations");
+                        if (e.attributes().end() != enumerationsIt) {
 
-    so::Object& renderSchema(so::Object& s, const StringElement& e, TypeAttributes options)
-    {
-        return renderSchemaPrimitive(s, e, options);
-    }
+                            const auto enums = get<const ArrayElement>(enumerationsIt->second.get());
 
-    so::Object& renderSchema(so::Object& s, const NumberElement& e, TypeAttributes options)
-    {
-        return renderSchemaPrimitive(s, e, options);
-    }
+                            assert(enums);
+                            assert(!enums->empty());
+                            for (const auto& enumEntry : enums->get()) {
+                                assert(enumEntry);
+                                if (sizeOf(*enumEntry) == cardinal{ 1 }) // schema types single value
+                                    so::emplace_unique(enm, generateJsonValue(*enumEntry));
+                                else { // schema MAY type more values
+                                    auto s = makeSchema(*enumEntry, inheritFlags(options));
+                                    if (s.data.size() == 1) {
+                                        const auto& key = s.data.at(0).first;
+                                        auto* vals = mpark::get_if<so::Array>(&s.data.at(0).second);
+                                        if (key == "enum") {
+                                            for (auto& val : vals->data)
+                                                so::emplace_unique(enm, std::move(val));
+                                        } else if (key == "anyOf") {
+                                            for (auto& val : vals->data)
+                                                so::emplace_unique(anyOf, std::move(val));
+                                        } else {
+                                            so::emplace_unique(anyOf, std::move(s));
+                                        }
+                                    } else {
+                                        so::emplace_unique(anyOf, std::move(s));
+                                    }
+                                }
+                            }
+                        } else {
+                            LOG(warning) << "Enum Element SHALL hold enumerations attribute; interpreting as empty";
+                        }
 
-    so::Object& renderSchema(so::Object& s, const BooleanElement& e, TypeAttributes options)
-    {
-        return renderSchemaPrimitive(s, e, options);
-    }
+                        if (anyOf.data.empty()) // use `enum`, all schemas type single values
+                            addEnum(schema, std::move(enm));
 
-    so::Object& renderSchema(so::Object& s, const ExtendElement& e, TypeAttributes options)
-    {
-        auto merged = e.get().merge();
-        renderSchema(s, *merged, options);
-        return s;
-    }
+                        else { // use `anyOf`, some schemas MAY type multiple values
+                            // add accumulated single-valued schemas as an option
+                            if (!enm.data.empty()) {
+                                so::Object enms;
+                                addEnum(enms, std::move(enm));
+                                so::emplace_unique(anyOf, std::move(enms));
+                            }
 
-} // namespace
+                            addAnyOf(schema, std::move(anyOf));
+                        }
 
-namespace
-{
+                        return schema;
+                    }
 
-    void renderProperty(ObjectSchema& s, const MemberElement& e, TypeAttributes options)
-    {
-        if (hasFixedTypeAttr(e))
-            options.set(FIXED_FLAG);
+                    so::Object& renderSchema(so::Object & schema, const NullElement& e, TypeAttributes options)
+                    {
+                        addType(schema, "null");
+                        return schema;
+                    }
 
-        options.set(FIXED_TYPE_FLAG, hasFixedTypeTypeAttr(e));
-        options.set(NULLABLE_FLAG, hasNullableTypeAttr(e));
+                    template <typename E>
+                    struct type_name;
 
-        if (hasRequiredTypeAttr(e))
-            options.set(REQUIRED_FLAG);
+                    template <>
+                    struct type_name<StringElement> {
+                        constexpr static const char* value = "string";
+                    };
 
-        if (hasOptionalTypeAttr(e))
-            options.reset(REQUIRED_FLAG);
+                    template <>
+                    struct type_name<NumberElement> {
+                        constexpr static const char* value = "number";
+                    };
 
-        const auto k = e.get().key();
-        const auto v = e.get().value();
+                    template <>
+                    struct type_name<BooleanElement> {
+                        constexpr static const char* value = "boolean";
+                    };
 
-        assert(k);
-        if (isVariable(e)) {
+                    template <typename E>
+                    so::Object& renderSchemaPrimitive(so::Object & s, const E& e, TypeAttributes options)
+                    {
+                        options = updateTypeAttributes(e, options);
 
-            if (const auto& extKey = get<const ExtendElement>(k)) {
-                auto mergedKey = extKey->get().merge();
-                auto strKey = get<const StringElement>(mergedKey.get());
+                        if (options.test(FIXED_FLAG)) {
+                            if (!e.empty()) {
+                                if (options.test(NULLABLE_FLAG))
+                                    addEnum(s, so::Array{ so::from_list{}, so::Null{}, utils::instantiate(e.get()) });
+                                else
+                                    addEnum(s, so::Array{ so::from_list{}, utils::instantiate(e.get()) });
+                                return s;
+                            }
+                        }
 
-                if (!strKey) {
-                    LOG(error) << "Merging Member Element key yielded other than String Element: "
-                               << mergedKey->element();
-                    assert(false);
-                }
+                        if (options.test(NULLABLE_FLAG)) {
+                            addAnyOf(s, so::Array{ so::from_list{}, nullSchema(), typeSchema(type_name<E>::value) });
+                            return s;
+                        }
 
-                emplace_unique(s.patternProperties, //
-                    renderPattern(*strKey, passFlags(options)),
-                    makeSchema(*v, passFlags(options)));
+                        addType(s, type_name<E>::value);
 
-            } else if (const auto& strKey = get<const StringElement>(k)) {
+                        return s;
+                    }
 
-                emplace_unique(s.patternProperties, //
-                    renderPattern(*strKey, passFlags(options)),
-                    makeSchema(*v, passFlags(options)));
+                    so::Object& renderSchema(so::Object & s, const StringElement& e, TypeAttributes options)
+                    {
+                        return renderSchemaPrimitive(s, e, options);
+                    }
 
-            } else {
-                LOG(error) << "Unexpected element type in Member Element key: " << k->element();
-                assert(false);
-            }
+                    so::Object& renderSchema(so::Object & s, const NumberElement& e, TypeAttributes options)
+                    {
+                        return renderSchemaPrimitive(s, e, options);
+                    }
 
-        } else {
-            auto strKey = key(e);
+                    so::Object& renderSchema(so::Object & s, const BooleanElement& e, TypeAttributes options)
+                    {
+                        return renderSchemaPrimitive(s, e, options);
+                    }
 
-            s.properties.data.emplace_back(strKey, makeSchema(*v, passFlags(options)));
+                    so::Object& renderSchema(so::Object & s, const ExtendElement& e, TypeAttributes options)
+                    {
+                        auto merged = e.get().merge();
+                        renderSchema(s, *merged, options);
+                        return s;
+                    }
 
-            if (options.test(REQUIRED_FLAG))
-                s.required.data.emplace_back(so::String{ strKey });
-        }
-    }
+                } // namespace
 
-    void renderProperty(ObjectSchema& s, const RefElement& e, TypeAttributes options)
-    {
-        const auto& resolved = resolve(e);
-        renderProperty(s, resolved, passFlags(options));
-    }
+                namespace
+                {
 
-    void renderProperty(ObjectSchema& s, const SelectElement& e, TypeAttributes options)
-    {
-        so::Array oneOfs{};
-        for (const auto& option : e.get()) {
+                    void renderProperty(ObjectSchema& s, const MemberElement& e, TypeAttributes options)
+                    {
+                        if (hasFixedTypeAttr(e))
+                            options.set(FIXED_FLAG);
 
-            if (option->empty()) {
-                LOG(error) << "empty option element in backend";
-                assert(false);
-            }
+                        options.set(FIXED_TYPE_FLAG, hasFixedTypeTypeAttr(e));
+                        options.set(NULLABLE_FLAG, hasNullableTypeAttr(e));
 
-            if (option->get().size() < 1)
-                LOG(warning) << "option element without children in backend";
+                        if (hasRequiredTypeAttr(e))
+                            options.set(REQUIRED_FLAG);
 
-            ObjectSchema optionSchema{};
-            for (const auto& optionEntry : option->get()) {
-                assert(optionEntry);
-                renderProperty(optionSchema, *optionEntry, passFlags(options));
-            }
+                        if (hasOptionalTypeAttr(e))
+                            options.reset(REQUIRED_FLAG);
 
-            oneOfs.data.emplace_back(materialize(std::move(optionSchema)));
-        }
-        so::Object result{};
-        addOneOf(result, std::move(oneOfs));
-        s.allOf.data.emplace_back(std::move(result));
-    }
+                        const auto k = e.get().key();
+                        const auto v = e.get().value();
 
-    void renderProperty(ObjectSchema& s, const ObjectElement& e, TypeAttributes options)
-    {
-        if (hasFixedTypeAttr(e))
-            options.set(FIXED_FLAG);
+                        assert(k);
+                        if (isVariable(e)) {
 
-        if (e.empty())
-            LOG(warning) << "empty data structure element in backend";
-        else
-            for (const auto& item : e.get()) {
-                assert(item);
-                renderProperty(s, *item, inheritFlags(options));
-            }
-    }
+                            if (const auto& extKey = get<const ExtendElement>(k)) {
+                                auto mergedKey = extKey->get().merge();
+                                auto strKey = get<const StringElement>(mergedKey.get());
 
-    void renderProperty(ObjectSchema& s, const ExtendElement& e, TypeAttributes options)
-    {
-        if (e.empty())
-            LOG(warning) << "empty extend element in backend";
+                                if (!strKey) {
+                                    LOG(error) << "Merging Member Element key yielded other than String Element: "
+                                               << mergedKey->element();
+                                    assert(false);
+                                }
 
-        auto merged = e.get().merge();
-        renderProperty(s, *merged, passFlags(options));
-    }
+                                emplace_unique(s.patternProperties, //
+                                    renderPattern(*strKey, passFlags(options)),
+                                    makeSchema(*v, passFlags(options)));
 
-    struct RenderPropertyVisitor {
-        ObjectSchema* schemaPtr;
-        TypeAttributes options;
+                            } else if (const auto& strKey = get<const StringElement>(k)) {
 
-        template <typename ElementT>
-        void operator()(const ElementT& el)
-        {
-            renderProperty(*schemaPtr, el, options);
-        }
-    };
+                                emplace_unique(s.patternProperties, //
+                                    renderPattern(*strKey, passFlags(options)),
+                                    makeSchema(*v, passFlags(options)));
 
-    void renderProperty(ObjectSchema& s, const IElement& e, TypeAttributes options)
-    {
-        LOG(debug) << "rendering property `" << e.element() << "` as JSON Schema";
+                            } else {
+                                LOG(error) << "Unexpected element type in Member Element key: " << k->element();
+                                assert(false);
+                            }
 
-        refract::visit(e, RenderPropertyVisitor{ &s, options });
-    }
-} // namespace
+                        } else {
+                            auto strKey = key(e);
 
-namespace
-{
-    so::Array* findAnyOf(so::Object& schema)
-    {
-        if (so::Value* anys = so::find(schema, "anyOf"))
-            return mpark::get_if<so::Array>(anys);
-        return nullptr;
-    }
+                            s.properties.data.emplace_back(strKey, makeSchema(*v, passFlags(options)));
 
-    so::Object* flattenAnyOfs(so::Value& schema);
+                            if (options.test(REQUIRED_FLAG))
+                                s.required.data.emplace_back(so::String{ strKey });
+                        }
+                    }
 
-    so::Object* flattenAnyOfsSpecific(so::Object& schema)
-    {
-        if (so::Array* anyOf = findAnyOf(schema)) {
+                    void renderProperty(ObjectSchema& s, const RefElement& e, TypeAttributes options)
+                    {
+                        const auto& resolved = resolve(e);
+                        renderProperty(s, resolved, passFlags(options));
+                    }
 
-            so::Array newAnyOf{};
-            for (auto& entry : anyOf->data)
-                if (so::Object* subAnyOf = flattenAnyOfs(entry)) {
-                    auto& subAnyOfArray = mpark::get<so::Array>(subAnyOf->data.back().second);
-                    for (auto& subEntry : subAnyOfArray.data)
-                        so::emplace_unique(newAnyOf, std::move(subEntry));
+                    void renderProperty(ObjectSchema& s, const SelectElement& e, TypeAttributes options)
+                    {
+                        so::Array oneOfs{};
+                        for (const auto& option : e.get()) {
 
-                } else {
-                    newAnyOf.data.emplace_back(std::move(entry));
-                }
+                            if (option->empty()) {
+                                LOG(error) << "empty option element in backend";
+                                assert(false);
+                            }
 
-            schema.data.back().second = std::move(newAnyOf);
-            return &schema;
-        }
+                            if (option->get().size() < 1)
+                                LOG(warning) << "option element without children in backend";
 
-        for (auto& entry : schema.data)
-            flattenAnyOfs(entry.second);
+                            ObjectSchema optionSchema{};
+                            for (const auto& optionEntry : option->get()) {
+                                assert(optionEntry);
+                                renderProperty(optionSchema, *optionEntry, passFlags(options));
+                            }
 
-        return nullptr;
-    }
+                            oneOfs.data.emplace_back(materialize(std::move(optionSchema)));
+                        }
+                        so::Object result{};
+                        addOneOf(result, std::move(oneOfs));
+                        s.allOf.data.emplace_back(std::move(result));
+                    }
 
-    template <typename T>
-    so::Object* flattenAnyOfsSpecific(T& schema)
-    {
-        // do nothing
-        return nullptr;
-    }
+                    void renderProperty(ObjectSchema& s, const ObjectElement& e, TypeAttributes options)
+                    {
+                        if (hasFixedTypeAttr(e))
+                            options.set(FIXED_FLAG);
 
-    struct FlattenAnyOfsVisitor {
-        template <typename Value>
-        so::Object* operator()(const Value& s)
-        {
-            return flattenAnyOfsSpecific(s);
-        }
-    };
+                        if (e.empty())
+                            LOG(warning) << "empty data structure element in backend";
+                        else
+                            for (const auto& item : e.get()) {
+                                assert(item);
+                                renderProperty(s, *item, inheritFlags(options));
+                            }
+                    }
 
-    so::Object* flattenAnyOfs(so::Value& schema)
-    {
-        return mpark::visit(FlattenAnyOfsVisitor{}, schema);
-    }
+                    void renderProperty(ObjectSchema& s, const ExtendElement& e, TypeAttributes options)
+                    {
+                        if (e.empty())
+                            LOG(warning) << "empty extend element in backend";
 
-    void reduce(so::Object& schema)
-    {
-        flattenAnyOfsSpecific(schema);
-    }
-} // namespace
+                        auto merged = e.get().merge();
+                        renderProperty(s, *merged, passFlags(options));
+                    }
+
+                    struct RenderPropertyVisitor {
+                        ObjectSchema* schemaPtr;
+                        TypeAttributes options;
+
+                        template <typename ElementT>
+                        void operator()(const ElementT& el)
+                        {
+                            renderProperty(*schemaPtr, el, options);
+                        }
+                    };
+
+                    void renderProperty(ObjectSchema& s, const IElement& e, TypeAttributes options)
+                    {
+                        LOG(debug) << "rendering property `" << e.element() << "` as JSON Schema";
+
+                        refract::visit(e, RenderPropertyVisitor{ &s, options });
+                    }
+                } // namespace
+
+                namespace
+                {
+                    so::Array* findAnyOf(so::Object& schema)
+                    {
+                        if (so::Value* anys = so::find(schema, "anyOf"))
+                            return mpark::get_if<so::Array>(anys);
+                        return nullptr;
+                    }
+
+                    so::Object* flattenAnyOfs(so::Value& schema);
+
+                    so::Object* flattenAnyOfsSpecific(so::Object& schema)
+                    {
+                        if (so::Array* anyOf = findAnyOf(schema)) {
+
+                            so::Array newAnyOf{};
+                            for (auto& entry : anyOf->data)
+                                if (so::Object* subAnyOf = flattenAnyOfs(entry)) {
+                                    auto& subAnyOfArray = mpark::get<so::Array>(subAnyOf->data.back().second);
+                                    for (auto& subEntry : subAnyOfArray.data)
+                                        so::emplace_unique(newAnyOf, std::move(subEntry));
+
+                                } else {
+                                    newAnyOf.data.emplace_back(std::move(entry));
+                                }
+
+                            schema.data.back().second = std::move(newAnyOf);
+                            return &schema;
+                        }
+
+                        for (auto& entry : schema.data)
+                            flattenAnyOfs(entry.second);
+
+                        return nullptr;
+                    }
+
+                    template <typename T>
+                    so::Object* flattenAnyOfsSpecific(T& schema)
+                    {
+                        // do nothing
+                        return nullptr;
+                    }
+
+                    struct FlattenAnyOfsVisitor {
+                        template <typename Value>
+                        so::Object* operator()(const Value& s)
+                        {
+                            return flattenAnyOfsSpecific(s);
+                        }
+                    };
+
+                    so::Object* flattenAnyOfs(so::Value& schema)
+                    {
+                        return mpark::visit(FlattenAnyOfsVisitor{}, schema);
+                    }
+
+                    void reduce(so::Object& schema)
+                    {
+                        flattenAnyOfsSpecific(schema);
+                    }
+                } // namespace
