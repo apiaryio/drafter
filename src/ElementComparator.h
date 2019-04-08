@@ -9,6 +9,7 @@
 #define DRAFTER_ELEMENTCOMPARATOR_H
 
 #include "refract/InfoElements.h"
+#include "refract/Utils.h"
 #include <algorithm>
 #include <iterator>
 #include <type_traits>
@@ -22,23 +23,26 @@ namespace drafter
             using InfoRef = std::vector<std::reference_wrapper<const refract::InfoElements::value_type> >;
 
             template <typename IgnorePredicate>
-            InfoRef operator()(const refract::InfoElements& infoElements, IgnorePredicate&& ignore) const
+            InfoRef operator()(const refract::InfoElements& infoElements, IgnorePredicate ignore) const
             {
                 InfoRef res;
 
-                std::transform(infoElements.begin(), infoElements.end(), std::back_inserter(res), [](auto& info) {
-                    return std::cref(info);
-                });
+                std::transform(infoElements.begin(),
+                    infoElements.end(),
+                    std::back_inserter(res),
+                    [](const refract::InfoElements::value_type& info) { return std::cref(info); });
 
                 res.erase(std::remove_if(res.begin(),
                               res.end(),
-                              [ignoreKey = std::forward<IgnorePredicate>(ignore)](const auto& entry) //
-                              {                                                                      //
-                                  return ignoreKey(entry.get().first);                               //
+                              [&ignore](const InfoRef::value_type& entry) //
+                              {                                           //
+                                  return ignore(entry.get().first);       //
                               }),
                     res.end());
 
-                std::sort(res.begin(), res.end(), [](auto l, auto r) { return l.get().first < r.get().first; });
+                std::sort(res.begin(), res.end(), [](const InfoRef::value_type& l, const InfoRef::value_type& r) {
+                    return l.get().first < r.get().first;
+                });
 
                 return res;
             }
@@ -70,9 +74,14 @@ namespace drafter
                 const auto l = SortedRef()(lhs, ignore);
                 const auto r = SortedRef()(rhs, ignore);
 
-                return std::equal(l.begin(), l.end(), r.begin(), r.end(), [](const auto& l, const auto& r) {
-                    return l.get().first == r.get().first && *l.get().second.get() == *r.get().second.get();
-                });
+                return l.size() == r.size()
+                    && std::equal(l.begin(),
+                           l.end(),
+                           r.begin(),
+                           [](const SortedRef::InfoRef::value_type& l, const SortedRef::InfoRef::value_type& r) {
+                               return (l.get().first == r.get().first)
+                                   && (*l.get().second.get() == *r.get().second.get());
+                           });
             }
         };
 

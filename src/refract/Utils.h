@@ -241,19 +241,26 @@ namespace refract
         };
     }
 
-    template <typename How>
-    auto visit(IElement& ifc, How&& f)
+    template <typename How,
+        typename HowRef = How&,
+        typename Result = typename std::result_of<HowRef(const NullElement&)>::type,
+        typename = typename std::enable_if<std::is_void<Result>::value>::type>
+    void visit(const IElement& ifc, How&& f)
     {
         using namespace impl;
 
         state_functor<How> stm(std::forward<How>(f));
         ifc.visit(stm);
 
-        return stm.consume();
+        stm.consume();
     }
 
-    template <typename How>
-    auto visit(const IElement& ifc, How&& f)
+    template <typename How,
+        typename HowRef = How&,
+        typename Result = typename std::result_of<HowRef(const NullElement&)>::type,
+        typename = typename std::enable_if<!std::is_void<Result>::value>::type,
+        typename = void>
+    Result visit(const IElement& ifc, How&& f)
     {
         using namespace impl;
 

@@ -48,7 +48,7 @@ Select::Select(const Select& other) : elements_()
     std::transform(other.elements_.begin(),
         other.elements_.end(),
         std::back_inserter(elements_),
-        [](const auto& el) -> std::unique_ptr<OptionElement> {
+        [](const value_type& el) -> std::unique_ptr<OptionElement> {
             if (!el)
                 return nullptr;
             return clone(*el);
@@ -61,7 +61,7 @@ Select& Select::operator=(Select rhs)
     return *this;
 }
 
-Select::iterator Select::insert(Select::const_iterator it, std::unique_ptr<OptionElement> el)
+Select::iterator Select::insert(Select::iterator it, std::unique_ptr<OptionElement> el)
 {
     assert(it >= begin());
     assert(it <= end());
@@ -70,7 +70,7 @@ Select::iterator Select::insert(Select::const_iterator it, std::unique_ptr<Optio
     return elements_.insert(it, std::move(el));
 }
 
-Select::iterator Select::erase(Select::const_iterator b, Select::const_iterator e)
+Select::iterator Select::erase(Select::iterator b, Select::iterator e)
 {
     return elements_.erase(b, e);
 }
@@ -79,12 +79,12 @@ Select::~Select() {}
 
 bool dsd::operator==(const Select& lhs, const Select& rhs) noexcept
 {
-    return std::equal( //
-        lhs.begin(),
-        lhs.end(),
-        rhs.begin(),
-        rhs.end(),
-        [](const auto& l, const auto& r) { return *l == *r; });
+    return lhs.size() == rhs.size()
+        && std::equal( //
+               lhs.begin(),
+               lhs.end(),
+               rhs.begin(),
+               [](const Select::value_type& l, const Select::value_type& r) { return *l == *r; });
 }
 
 bool dsd::operator!=(const Select& lhs, const Select& rhs) noexcept

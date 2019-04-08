@@ -94,9 +94,10 @@ namespace refract
             T operator()(const T& value, Functor& expand)
             {
                 T members;
-                std::transform(value.begin(), value.end(), std::back_inserter(members), [&expand](const auto& el) {
-                    return expand(el.get());
-                });
+                std::transform(
+                    value.begin(), value.end(), std::back_inserter(members), [&expand](const typename T::value_type& el) {
+                        return expand(el.get());
+                    });
                 return std::move(members);
             }
         };
@@ -164,7 +165,7 @@ namespace refract
         template <typename V>
         V ExpandValue(const V& v)
         {
-            auto expandOrClone = [this](const auto& el) { return this->ExpandOrClone(el); };
+            auto expandOrClone = [this](const IElement* el) { return this->ExpandOrClone(el); };
 
             return ExpandValueImpl<V>()(v, expandOrClone);
         }

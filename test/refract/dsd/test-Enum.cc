@@ -9,6 +9,7 @@
 #include <catch2/catch.hpp>
 
 #include "refract/dsd/Enum.h"
+#include "refract/Element.h"
 #include "ElementMock.h"
 
 using namespace refract;
@@ -61,7 +62,7 @@ SCENARIO("`Enum` is constructed from value and is claimed", "[ElementData][Enum]
 {
     GIVEN("An `Enum` with an ElementMock value")
     {
-        Enum enm(std::make_unique<test::ElementMock>());
+        Enum enm(make_unique<test::ElementMock>());
         REQUIRE(test::ElementMock::instances().size() == 1);
 
         WHEN("it is claimed")

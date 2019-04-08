@@ -58,7 +58,7 @@ std::string refract::GetKeyAsString(const MemberElement& e)
 
 MemberElement* refract::FindMemberByKey(const ObjectElement& e, const std::string& name)
 {
-    auto it = std::find_if(e.get().begin(), e.get().end(), [&name](const auto& el) {
+    auto it = std::find_if(e.get().begin(), e.get().end(), [&name](const std::unique_ptr<IElement>& el) {
         ComparableVisitor cmp(name, ComparableVisitor::key);
         VisitBy(*el, cmp);
         return cmp.get();

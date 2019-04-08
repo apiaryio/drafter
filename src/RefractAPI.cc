@@ -35,11 +35,24 @@ std::unique_ptr<IElement> ElementToRefract(const NodeInfo<snowcrash::Element>& e
 
 namespace
 {
+    struct is_nullptr {
+        template <typename T>
+        constexpr bool operator()(const T* ptr) const noexcept
+        {
+            return ptr == nullptr;
+        }
+
+        template <typename T>
+        constexpr bool operator()(const std::unique_ptr<T>& ptr) const noexcept
+        {
+            return ptr == nullptr;
+        }
+    };
+
     template <typename Collection>
     void RemoveEmptyElements(Collection& elements)
     {
-        elements.erase(std::remove_if(elements.begin(), elements.end(), [](const auto& el) { return el == nullptr; }),
-            elements.end());
+        elements.erase(std::remove_if(elements.begin(), elements.end(), is_nullptr{}), elements.end());
     }
 
     template <typename T, typename DataT, typename Functor>
@@ -51,7 +64,7 @@ namespace
         std::transform(nodeInfoCollection.begin(),
             nodeInfoCollection.end(),
             std::back_inserter(content),
-            [&transformFunctor, &context](const auto& nodeInfo) { //
+            [&transformFunctor, &context](const typename NodeInfoCollection<T>::value_type& nodeInfo) { //
                 return transformFunctor(nodeInfo, context);
             });
     }
@@ -77,7 +90,7 @@ namespace
             RemoveEmptyElements(content);
         }
 
-        return std::move(element);
+        return element;
     }
 
     bool isRequest(const NodeInfo<snowcrash::Action>& action)
@@ -135,8 +148,8 @@ std::unique_ptr<IElement> drafter::DataStructureToRefract(
         msonElement = std::move(msonExpanded);
     }
 
-    return msonElement ?                                                                                  //
-        std::make_unique<HolderElement>(SerializeKey::DataStructure, dsd::Holder(std::move(msonElement))) //
+    return msonElement ?                                                                                      //
+        refract::make_unique<HolderElement>(SerializeKey::DataStructure, dsd::Holder(std::move(msonElement))) //
         :
         nullptr;
 }
@@ -148,7 +161,7 @@ std::unique_ptr<IElement> MetadataToRefract(const NodeInfo<snowcrash::Metadata>&
         from_primitive(metadata.node->second));
 
     element->meta().set(SerializeKey::Classes,
-        generate_element<ArrayElement>([](auto& data) { //
+        generate_element<ArrayElement>([](dsd::Array& data) { //
             data.push_back(from_primitive(SerializeKey::User));
         }));
 
@@ -166,7 +179,7 @@ std::unique_ptr<IElement> CopyToRefract(const NodeInfo<std::string>& copy)
     auto element = PrimitiveToRefract(copy);
     element->element(SerializeKey::Copy);
 
-    return std::move(element);
+    return element;
 }
 
 std::unique_ptr<IElement> ParameterValuesToRefract(
@@ -273,7 +286,7 @@ std::unique_ptr<IElement> AssetToRefract(
         element->attributes().set(SerializeKey::ContentType, from_primitive(contentType));
     }
 
-    return std::move(element);
+    return element;
 }
 
 std::unique_ptr<IElement> PayloadToRefract( //
@@ -370,12 +383,12 @@ std::unique_ptr<IElement> PayloadToRefract( //
     // Push dataStructure
     if (context.options.expandMSON) {
         if (payloadAttributeExpanded) {
-            content.push_back(std::make_unique<HolderElement>(
+            content.push_back(refract::make_unique<HolderElement>(
                 SerializeKey::DataStructure, dsd::Holder(std::move(payloadAttributeExpanded))));
         }
     } else {
         if (payloadAttributeElement) {
-            content.push_back(std::make_unique<HolderElement>(
+            content.push_back(refract::make_unique<HolderElement>(
                 SerializeKey::DataStructure, dsd::Holder(std::move(payloadAttributeElement))));
         }
     }
@@ -400,7 +413,7 @@ std::unique_ptr<IElement> PayloadToRefract( //
 
     RemoveEmptyElements(content);
 
-    return result;
+    return std::move(result);
 }
 
 std::unique_ptr<ArrayElement> TransactionToRefract(const NodeInfo<snowcrash::TransactionExample>& transaction,

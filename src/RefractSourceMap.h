@@ -29,7 +29,7 @@ namespace drafter
     }
 
     template <typename T>
-    auto PrimitiveToRefract(const NodeInfo<T>& primitive)
+    std::unique_ptr<refract::IElement> PrimitiveToRefract(const NodeInfo<T>& primitive)
     {
         auto element = refract::from_primitive(*primitive.node);
         AttachSourceMap(*element, primitive);

@@ -158,8 +158,10 @@ SCENARIO("InfoElementss can be copied and moved", "[InfoElements]")
             }
             THEN("their keys equal")
             {
-                REQUIRE(std::equal(
-                    collection.begin(), collection.end(), collection2.begin(), [](const auto& m1, const auto& m2) {
+                REQUIRE(std::equal(collection.begin(),
+                    collection.end(),
+                    collection2.begin(),
+                    [](const InfoElements::value_type& m1, const InfoElements::value_type& m2) {
                         return m1.first == m2.first;
                     }));
             }
@@ -202,8 +204,10 @@ SCENARIO("InfoElementss can be copied and moved", "[InfoElements]")
             }
             THEN("their keys equal")
             {
-                REQUIRE(std::equal(
-                    collection.begin(), collection.end(), collection2.begin(), [](const auto& m1, const auto& m2) {
+                REQUIRE(std::equal(collection.begin(),
+                    collection.end(),
+                    collection2.begin(),
+                    [](const InfoElements::value_type& m1, const InfoElements::value_type& m2) {
                         return m1.first == m2.first;
                     }));
             }

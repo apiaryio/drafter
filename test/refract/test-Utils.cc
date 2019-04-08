@@ -20,6 +20,27 @@ namespace
     struct foo : public tracked<foo> {
         int bar_ = 42;
     };
+
+    struct VoidCaptureVisitor {
+        const IElement** arg;
+        template <typename ElementT>
+        void operator()(const ElementT& el)
+        {
+            assert(arg);
+            *arg = &el;
+        }
+    };
+
+    struct VoidCaptureReturning42Visitor {
+        const IElement** arg;
+        template <typename ElementT>
+        int operator()(const ElementT& el)
+        {
+            assert(arg);
+            *arg = &el;
+            return 42;
+        }
+    };
 } // namespace
 
 SCENARIO("Elements are visited by a void() visitor", "[Element][utils][visitor]")
@@ -31,7 +52,7 @@ SCENARIO("Elements are visited by a void() visitor", "[Element][utils][visitor]"
         WHEN("it is visited by a void visitor")
         {
             const IElement* arg = nullptr;
-            visit(b, [&arg](const auto& el) { arg = &el; });
+            visit(b, VoidCaptureVisitor{ &arg });
 
             THEN("the element is passed to the visitor by argument")
             {
@@ -50,10 +71,7 @@ SCENARIO("Elements are visited by a int() visitor", "[Element][utils][visitor]")
         WHEN("it is visited by a int() visitor returning 42")
         {
             const IElement* arg = nullptr;
-            const auto result = visit(b, [&arg](const auto& el) -> int {
-                arg = &el;
-                return 42;
-            });
+            const auto result = visit(b, VoidCaptureReturning42Visitor{ &arg });
 
             THEN("the element is passed to the visitor by argument")
             {

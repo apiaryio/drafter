@@ -121,12 +121,20 @@ namespace
         return so::Null{}; // unreachable
     }
 
+    struct RenderValueVisitor {
+        TypeAttributes options;
+
+        template <typename ElementT>
+        so::Value operator()(const ElementT& el) const
+        {
+            return renderValueSpecific(el, options);
+        }
+    };
+
     so::Value renderValue(const IElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering `" << element.element() << "` element to JSON Value";
-        return refract::visit(element, [options](const auto& el) { //
-            return renderValueSpecific(el, options);
-        });
+        return refract::visit(element, RenderValueVisitor{ options });
     }
 } // namespace
 
@@ -354,14 +362,21 @@ namespace
         renderProperty(value, *merged, passFlags(options));
     }
 
+    struct RenderPropertyVisitor {
+        so::Object* objPtr;
+        TypeAttributes options;
+
+        template <typename ElementT>
+        void operator()(const ElementT& el)
+        {
+            renderProperty(*objPtr, el, options);
+        }
+    };
+
     void renderProperty(so::Object& value, const IElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering property `" << element.element() << "` as JSON Value";
-
-        auto objPtr = &value;
-        refract::visit(element, [objPtr, options](const auto& el) { //
-            renderProperty(*objPtr, el, options);
-        });
+        refract::visit(element, RenderPropertyVisitor{ &value, options });
     }
 
     void renderItemSpecific(so::Array& array, const RefElement& element, TypeAttributes options)
@@ -390,12 +405,20 @@ namespace
         renderItemPrimitive(array, element, options);
     }
 
+    struct RenderItemVisitor {
+        so::Array* aPtr;
+        TypeAttributes options;
+
+        template <typename ElementT>
+        void operator()(const ElementT& el)
+        {
+            renderItemSpecific(*aPtr, el, options);
+        }
+    };
+
     void renderItem(so::Array& array, const IElement& element, TypeAttributes options)
     {
         LOG(debug) << "rendering item `" << element.element() << "` element as JSON Value";
-        auto aPtr = &array;
-        refract::visit(element, [aPtr, options](const auto& el) { //
-            renderItemSpecific(*aPtr, el, options);
-        });
+        refract::visit(element, RenderItemVisitor{ &array, options });
     }
 } // namespace

@@ -63,7 +63,9 @@ Member& Member::operator=(Member rhs)
 
 bool dsd::operator==(const Member& lhs, const Member& rhs) noexcept
 {
-    auto eq = [](const auto& lptr, const auto& rptr) { return (lptr == rptr) || (lptr && rptr && (*lptr == *rptr)); };
+    auto eq = [](const IElement* lptr, const IElement* rptr) {
+        return (lptr == rptr) || (lptr && rptr && (*lptr == *rptr));
+    };
     return eq(lhs.key(), rhs.key()) && eq(lhs.value(), rhs.value());
 }
 

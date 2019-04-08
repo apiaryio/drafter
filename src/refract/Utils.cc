@@ -45,9 +45,13 @@ bool refract::operator!=(const IElement& lhs, const IElement& rhs) noexcept
 
 bool refract::operator==(const InfoElements& lhs, const InfoElements& rhs) noexcept
 {
-    return std::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), [](const auto& l, const auto& r) {
-        return (l.first == r.first) && (*l.second == *r.second);
-    });
+    return lhs.size() == rhs.size()
+        && std::equal(lhs.begin(),
+               lhs.end(),
+               rhs.begin(),
+               [](const InfoElements::value_type& l, const InfoElements::value_type& r) {
+                   return (l.first == r.first) && (*l.second == *r.second);
+               });
 }
 
 bool refract::operator!=(const InfoElements& lhs, const InfoElements& rhs) noexcept

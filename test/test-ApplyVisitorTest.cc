@@ -287,7 +287,7 @@ TEST_CASE("Query Element name", "[Visitor]")
 
     ac.push_back(from_primitive("str"));
 
-    auto namedArrayPtr = [](auto& content) {
+    auto namedArrayPtr = [](dsd::Array& content) {
         auto namedArray = make_empty<ArrayElement>();
         namedArray->element("named");
 
@@ -297,7 +297,7 @@ TEST_CASE("Query Element name", "[Visitor]")
         return result;
     }(ac);
 
-    auto namedNumberPtr = [](auto& content) {
+    auto namedNumberPtr = [](dsd::Array& content) {
         auto namedNumber = make_empty<NumberElement>();
         namedNumber->element("named");
 

@@ -13,7 +13,6 @@
 #include <exception>
 #include <iostream>
 #include <iterator>
-#include <regex>
 #include <mpark/variant.hpp>
 #include "../Utf8.h"
 #include "../Utils.h"
@@ -28,8 +27,10 @@ namespace
 
     bool is_alphanum_dash(const std::string& str)
     {
-        thread_local const std::regex r{ "[a-zA-Z0-9-]+" };
-        return std::regex_match(str.begin(), str.end(), r);
+        for (char c : str)
+            if (c < 'A' || c > 'z' || (c > 'Z' && c < 'a') || c == '-')
+                return false;
+        return true;
     }
 
     bool is_yaml_printable(const codepoint& c)

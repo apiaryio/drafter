@@ -793,12 +793,14 @@ namespace
 
             dsd::Array enums;
 
-            auto addToEnumerations = [](auto& info,
+            auto addToEnumerations = [](std::unique_ptr<IElement>& info,
                                          dsd::Array& enums,
                                          ConversionContext& context,
-                                         const auto& sourceMap,
+                                         const snowcrash::SourceMap<typename EnumElement::ValueType>& sourceMap,
                                          const bool reportDuplicity) {
-                if (std::find_if(enums.begin(), enums.end(), [&info](auto& enm) { return Equal(*info, *enm); })
+                if (std::find_if(enums.begin(),
+                        enums.end(),
+                        [&info](std::unique_ptr<IElement>& enm) { return Equal(*info, *enm); })
                     == enums.end()) {
 
                     enums.push_back(std::move(info));
@@ -810,25 +812,29 @@ namespace
 
             std::for_each(valuesInfo.value.begin(),
                 valuesInfo.value.end(),
-                [&valuesInfo, &addToEnumerations, &enums, &context](
-                    auto& info) { addToEnumerations(info, enums, context, valuesInfo.sourceMap, true); });
+                [&valuesInfo, &addToEnumerations, &enums, &context](std::unique_ptr<IElement>& info) {
+                    addToEnumerations(info, enums, context, valuesInfo.sourceMap, true);
+                });
             std::for_each(samplesInfo.value.begin(),
                 samplesInfo.value.end(),
-                [&samplesInfo, &addToEnumerations, &enums, &context](
-                    auto& info) { addToEnumerations(info, enums, context, samplesInfo.sourceMap, false); });
+                [&samplesInfo, &addToEnumerations, &enums, &context](std::unique_ptr<IElement>& info) {
+                    addToEnumerations(info, enums, context, samplesInfo.sourceMap, false);
+                });
             std::for_each(defaultInfo.value.begin(),
                 defaultInfo.value.end(),
-                [&defaultInfo, &addToEnumerations, &enums, &context](
-                    auto& info) { addToEnumerations(info, enums, context, defaultInfo.sourceMap, false); });
+                [&defaultInfo, &addToEnumerations, &enums, &context](std::unique_ptr<IElement>& info) {
+                    addToEnumerations(info, enums, context, defaultInfo.sourceMap, false);
+                });
             std::for_each(hintsInfo.value.begin(),
                 hintsInfo.value.end(),
-                [&hintsInfo, &addToEnumerations, &enums, &context](
-                    auto& info) { addToEnumerations(info, enums, context, hintsInfo.sourceMap, true); });
+                [&hintsInfo, &addToEnumerations, &enums, &context](std::unique_ptr<IElement>& info) {
+                    addToEnumerations(info, enums, context, hintsInfo.sourceMap, true);
+                });
 
             if (!enums.empty()) {
 
-                std::for_each(enums.begin(), enums.end(), [](auto& info) {
-                    if (IsLiteral(*info.get())) {
+                std::for_each(enums.begin(), enums.end(), [](std::unique_ptr<IElement>& info) {
+                    if (IsLiteral(*info)) {
                         AppendInfoElement<ArrayElement>(info->attributes(), "typeAttributes", dsd::String{ "fixed" });
                     }
                 });
@@ -872,7 +878,7 @@ namespace
         std::transform(std::make_move_iterator(info.value.begin()),
             std::make_move_iterator(info.value.end()),
             std::back_inserter(a->get()),
-            [](auto node) { return make_element<EnumElement>(dsd::Enum{ std::move(node) }); });
+            [](std::unique_ptr<IElement> node) { return make_element<EnumElement>(dsd::Enum{ std::move(node) }); });
 
         element.attributes().set(key, std::move(a));
     }
@@ -935,7 +941,7 @@ namespace
     template <typename T>
     void ElementDataToElement(T& element, ElementData<T> data, ConversionContext& context)
     {
-        auto validate = [&context](const auto& val) {
+        auto validate = [&context](const ElementInfo<T>& val) {
             CheckValueValidity<T> validate;
             validate(val, context);
         };

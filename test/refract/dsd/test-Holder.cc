@@ -8,6 +8,7 @@
 
 #include <catch2/catch.hpp>
 
+#include "refract/Element.h"
 #include "refract/dsd/Holder.h"
 #include "ElementMock.h"
 
@@ -61,7 +62,7 @@ SCENARIO("`Holder` is constructed from value and is claimed", "[ElementData][Hol
 {
     GIVEN("An `Holder` with an ElementMock value")
     {
-        Holder holder(std::make_unique<test::ElementMock>());
+        Holder holder(make_unique<test::ElementMock>());
         REQUIRE(test::ElementMock::instances().size() == 1);
 
         WHEN("it is claimed")

@@ -72,7 +72,7 @@ Value* drafter::utils::so::find(Object& c, const std::string& key)
     auto it = std::find_if( //
         c.data.begin(),
         c.data.end(),
-        [&key](const auto& entry) { return entry.first == key; });
+        [&key](const Object::container_type::value_type& entry) { return entry.first == key; });
 
     if (it != c.data.end())
         return &it->second;
@@ -81,7 +81,9 @@ Value* drafter::utils::so::find(Object& c, const std::string& key)
 
 void drafter::utils::so::emplace_unique(Array& c, Value&& value)
 {
-    auto it = std::find_if(c.data.begin(), c.data.end(), [&value](const auto& entry) { return entry == value; });
+    auto it = std::find_if(c.data.begin(), c.data.end(), [&value](const Array::container_type::value_type& entry) {
+        return entry == value;
+    });
 
     if (it == c.data.end())
         c.data.emplace_back(std::move(value));
@@ -89,8 +91,10 @@ void drafter::utils::so::emplace_unique(Array& c, Value&& value)
 
 void drafter::utils::so::emplace_unique(Object& c, Object::container_type::value_type&& property)
 {
-    auto it = std::find_if(
-        c.data.begin(), c.data.end(), [& key = property.first](const auto& entry) { return entry.first == key; });
+    const auto& key = property.first;
+    auto it = std::find_if(c.data.begin(), c.data.end(), [&key](const Object::container_type::value_type& entry) {
+        return entry.first == key;
+    });
     if (it == c.data.end())
         c.data.emplace_back(std::move(property));
     else

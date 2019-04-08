@@ -78,7 +78,7 @@ SCENARIO("`Select` is inserted to and erased from", "[ElementData][Select]")
 
         WHEN("an ElementMock is pushed back")
         {
-            auto mock = std::make_unique<test::ElementMock>();
+            auto mock = make_unique<test::ElementMock>();
             auto mock1ptr = mock.get();
 
             REQUIRE(test::ElementMock::instances().size() == 1);
@@ -114,18 +114,18 @@ SCENARIO("`Select` is inserted to and erased from", "[ElementData][Select]")
 
             WHEN("another three ElementMocks are inserted at begin two at end")
             {
-                auto mock2 = std::make_unique<test::ElementMock>();
-                auto mock3 = std::make_unique<test::ElementMock>();
-                auto mock4 = std::make_unique<test::ElementMock>();
+                auto mock2 = make_unique<test::ElementMock>();
+                auto mock3 = make_unique<test::ElementMock>();
+                auto mock4 = make_unique<test::ElementMock>();
 
                 select.insert(select.begin(), make_element<OptionElement>(std::move(mock2)));
                 select.insert(select.begin(), make_element<OptionElement>(std::move(mock3)));
                 select.insert(select.begin(), make_element<OptionElement>(std::move(mock4)));
 
-                auto mock5 = std::make_unique<test::ElementMock>();
+                auto mock5 = make_unique<test::ElementMock>();
                 auto mock5ptr = mock.get();
 
-                auto mock6 = std::make_unique<test::ElementMock>();
+                auto mock6 = make_unique<test::ElementMock>();
 
                 select.insert(select.begin(), make_element<OptionElement>(std::move(mock5)));
                 select.insert(select.begin(), make_element<OptionElement>(std::move(mock6)));
@@ -189,7 +189,7 @@ SCENARIO("`Select` is inserted to and erased from", "[ElementData][Select]")
 
             WHEN("another ElementMock is pushed back")
             {
-                auto mock2 = std::make_unique<test::ElementMock>();
+                auto mock2 = make_unique<test::ElementMock>();
                 auto mock2ptr = mock2.get();
 
                 auto mock2Option = make_element<OptionElement>(std::move(mock2));
@@ -261,17 +261,17 @@ SCENARIO("`Select` is move-constructed from elements", "[ElementData][Select]")
     {
         REQUIRE(test::ElementMock::instances().size() == 0);
 
-        auto mock1 = std::make_unique<test::ElementMock>();
+        auto mock1 = make_unique<test::ElementMock>();
         const auto mock1ptr = mock1.get();
         auto mock1Option = make_element<OptionElement>(std::move(mock1));
         const auto mock1OptionPtr = mock1Option.get();
 
-        auto mock2 = std::make_unique<test::ElementMock>();
+        auto mock2 = make_unique<test::ElementMock>();
         const auto mock2ptr = mock2.get();
         auto mock2Option = make_element<OptionElement>(std::move(mock2));
         const auto mock2OptionPtr = mock2Option.get();
 
-        auto mock3 = std::make_unique<test::ElementMock>();
+        auto mock3 = make_unique<test::ElementMock>();
         const auto mock3ptr = mock3.get();
         auto mock3Option = make_element<OptionElement>(std::move(mock3));
         const auto mock3OptionPtr = mock3Option.get();

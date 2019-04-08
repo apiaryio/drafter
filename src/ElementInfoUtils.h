@@ -22,7 +22,7 @@ namespace drafter
         using Info = ElementInfo<T>;
         using Container = std::deque<Info>;
 
-        ElementInfo<T> operator()(Container container) const
+        Info operator()(Container container) const
         {
             if (container.empty()) {
                 return ElementInfo<T>();

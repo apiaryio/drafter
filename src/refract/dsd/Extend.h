@@ -81,19 +81,19 @@ namespace refract
             }
 
         public: // iterators
-            auto begin() noexcept
+            iterator begin() noexcept
             {
                 return elements_.begin();
             }
-            auto end() noexcept
+            iterator end() noexcept
             {
                 return elements_.end();
             }
-            auto begin() const noexcept
+            const_iterator begin() const noexcept
             {
                 return elements_.begin();
             }
-            auto end() const noexcept
+            const_iterator end() const noexcept
             {
                 return elements_.end();
             }
@@ -107,7 +107,7 @@ namespace refract
             ///
             /// @return iterator to Element added
             ///
-            iterator insert(const_iterator it, std::unique_ptr<IElement> el);
+            iterator insert(iterator it, std::unique_ptr<IElement> el);
 
             ///
             /// Remove a subsequence of children
@@ -117,7 +117,7 @@ namespace refract
             ///
             /// @return iterator following the last child removed
             ///
-            iterator erase(const_iterator b, const_iterator e);
+            iterator erase(iterator b, iterator e);
 
             using container_traits<Extend, container_type>::erase;
 

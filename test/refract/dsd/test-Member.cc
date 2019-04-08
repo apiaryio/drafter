@@ -113,7 +113,7 @@ SCENARIO("Member is constructed from values, both copy- and move constructed fro
     {
         std::string key = "eigenvalue";
         auto mock = new test::ElementMock{};
-        mock->clone_out = std::make_unique<test::ElementMock>();
+        mock->clone_out = make_unique<test::ElementMock>();
         auto clone_out_ptr = mock->clone_out.get();
         mock->_value = 349802;
 
