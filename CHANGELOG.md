@@ -1,6 +1,6 @@
 # Drafter Changelog
 
-## Master
+## 4.0.0-pre.3 (2019-04-08)
 
 ### Enhancements
 
