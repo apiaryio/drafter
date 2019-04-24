@@ -12,6 +12,9 @@
     + MSON string now interpreted as String Element instead of Object Element
   ```
 
+* Release builds of Drafter will no longer include assertions, this prevents
+  the potential for development intended assertions to cause Drafter to abort.
+
 ## 4.0.0-pre.3 (2019-04-08)
 
 ### Enhancements

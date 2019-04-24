@@ -8,7 +8,6 @@
 #ifndef REFRACT_DSD_TRAITS_H
 #define REFRACT_DSD_TRAITS_H
 
-#include <cassert>
 #include <iterator>
 #include <type_traits>
 
@@ -180,8 +179,7 @@ namespace refract
             ///
             void clear()
             {
-                auto e = self().erase(self().begin(), self().end());
-                assert(e == self().end());
+                self().erase(self().begin(), self().end());
             }
 
             ///
@@ -195,8 +193,7 @@ namespace refract
             ///
             void push_back(value_type el)
             {
-                auto it = self().insert(self().end(), std::move(el));
-                assert(std::next(it) == self().end());
+                self().insert(self().end(), std::move(el));
             }
         };
     }
