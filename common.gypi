@@ -48,6 +48,7 @@
         }
       },
       'Release': {
+        'defines': [ 'NDEBUG' ],
         'cflags': [ '-O3' ],
         'conditions': [
           ['target_arch=="x64"', {

@@ -81,13 +81,15 @@ namespace
     std::string key(const MemberElement& m)
     {
         if (const auto& strKey = get<const StringElement>(m.get().key())) {
-            if (strKey->empty())
-                return "";
-            return strKey->get().get();
+            if (!strKey->empty()) {
+                return strKey->get().get();
+            }
         } else {
             LOG(error) << "Non-string key in Member Element: " << m.get().key()->element();
             assert(false);
         }
+
+        return "";
     }
 
 } // namespace
