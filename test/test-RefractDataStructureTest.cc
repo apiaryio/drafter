@@ -57,5 +57,7 @@ TEST_MSON_SUCCESS("enum-multiple-default");
 
 TEST_MSON_SUCCESS("enumerations");
 
+TEST_REFRACT("mson", "issue-682");
+
 #undef TEST_MSON_SUCCESS
 #undef TEST_MSON

@@ -218,16 +218,23 @@ namespace
         return whereTo;
     }
 
-    mson::BaseTypeName SelectNestedTypeSpecification(
-        const mson::TypeNames& nestedTypes, const mson::BaseTypeName defaultNestedType = mson::StringTypeName)
+    mson::BaseTypeName SelectNestedTypeSpecification(const mson::TypeNames& nestedTypes)
     {
-        mson::BaseTypeName type = defaultNestedType;
+        mson::BaseTypeName defaultNestedType = mson::StringTypeName;
+
         // Found if type of element is specified.
         // if more types is used - fallback to "StringType"
-        if (nestedTypes.size() == 1) {
-            type = nestedTypes.begin()->base;
+        if (nestedTypes.size() == 1)
+            defaultNestedType = nestedTypes.begin()->base;
+
+        switch (defaultNestedType) {
+            default:
+                return mson::StringTypeName;
+            case mson::BooleanTypeName:
+            case mson::StringTypeName:
+            case mson::NumberTypeName:
+                return defaultNestedType;
         }
-        return type;
     }
 
     /**
