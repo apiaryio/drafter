@@ -1,5 +1,17 @@
 # Drafter Changelog
 
+## 4.0.0-pre.4 (2019-04-25)
+
+### Bug Fixes
+
+* Drafter no longer attempts to interpret non-primitive MSON type hints as fallbacks for nested values.
+  [#682](https://github.com/apiaryio/drafter/issues/682)
+
+  ```apib
+  + (array[object])
+    + MSON string now interpreted as String Element instead of Object Element
+  ```
+
 ## 4.0.0-pre.3 (2019-04-08)
 
 ### Enhancements
