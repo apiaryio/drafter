@@ -162,10 +162,11 @@ namespace
 
         void operator()(T& value, const T& merge) const
         {
-            std::transform(merge.get().begin(),
-                merge.get().end(),
-                std::back_inserter(value.get()),
-                [](const std::unique_ptr<IElement>& e) { return clone(*e); });
+            if (!merge.empty() && !value.empty())
+                std::transform(merge.get().begin(),
+                    merge.get().end(),
+                    std::back_inserter(value.get()),
+                    [](const std::unique_ptr<IElement>& e) { return clone(*e); });
         }
     };
 
