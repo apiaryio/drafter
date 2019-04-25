@@ -47,7 +47,6 @@ set(MARKDOWN_PARSER_COMPILE_FEATURES
     cxx_uniform_initialization
     cxx_unrestricted_unions
     cxx_user_literals
-    cxx_variable_templates
     cxx_variadic_macros
     cxx_variadic_templates
     cxx_template_template_parameters
