@@ -54,19 +54,10 @@ set(MARKDOWN_PARSER_COMPILE_FEATURES
     )
 
 add_library(markdown-parser SHARED ${MARKDOWN_PARSER_SOURCES})
-add_library(markdown-parser-static STATIC ${MARKDOWN_PARSER_SOURCES})
-add_library(markdown-parser-pic STATIC ${MARKDOWN_PARSER_SOURCES})
-set_property(TARGET markdown-parser-pic PROPERTY POSITION_INDEPENDENT_CODE 1)
-
-if(UNIX)
-    set_target_properties(markdown-parser-static PROPERTIES OUTPUT_NAME markdown-parser)
-endif()
 
 find_package(Sundown 1.0 REQUIRED)
 
 target_link_libraries(markdown-parser PUBLIC Apiary::sundown-pic)
-target_link_libraries(markdown-parser-static PUBLIC Apiary::sundown-static)
-target_link_libraries(markdown-parser-pic PUBLIC Apiary::sundown-pic)
 
 target_include_directories(markdown-parser PUBLIC
     $<BUILD_INTERFACE:${markdown-parser_BINARY_DIR}/src>
@@ -74,23 +65,9 @@ target_include_directories(markdown-parser PUBLIC
     $<INSTALL_INTERFACE:src>
     )
 
-target_include_directories(markdown-parser-static PUBLIC
-    $<BUILD_INTERFACE:${markdown-parser_BINARY_DIR}/src>
-    $<BUILD_INTERFACE:${markdown-parser_SOURCE_DIR}/src>
-    $<INSTALL_INTERFACE:src>
-    )
-
-target_include_directories(markdown-parser-pic PUBLIC
-    $<BUILD_INTERFACE:${markdown-parser_BINARY_DIR}/src>
-    $<BUILD_INTERFACE:${markdown-parser_SOURCE_DIR}/src>
-    $<INSTALL_INTERFACE:src>
-    )
-
 target_compile_features(markdown-parser PUBLIC ${MARKDOWN_PARSER_COMPILE_FEATURES})
-target_compile_features(markdown-parser-static PUBLIC ${MARKDOWN_PARSER_COMPILE_FEATURES})
-target_compile_features(markdown-parser-pic PUBLIC ${MARKDOWN_PARSER_COMPILE_FEATURES})
 
-install(TARGETS markdown-parser markdown-parser-static markdown-parser-pic EXPORT markdown-parser-targets
+install(TARGETS markdown-parser EXPORT markdown-parser-targets
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
@@ -118,8 +95,6 @@ install(
     )
 
 add_library(markdown-parser::markdown-parser ALIAS markdown-parser)
-add_library(markdown-parser::markdown-parser-static ALIAS markdown-parser-static)
-add_library(markdown-parser::markdown-parser-pic ALIAS markdown-parser-pic)
 
 if(BUILD_TESTING)
     include(markdown-parser-tests.cmake)

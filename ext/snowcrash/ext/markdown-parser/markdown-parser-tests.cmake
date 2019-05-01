@@ -13,6 +13,6 @@ add_test(MardownParserTest markdown-parser-test)
 target_link_libraries(markdown-parser-test
     PRIVATE
         Catch2::Catch2
-        markdown-parser::markdown-parser-static
+        markdown-parser::markdown-parser
     )
 

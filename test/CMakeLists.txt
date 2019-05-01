@@ -53,8 +53,8 @@ target_link_libraries(drafter-test
     PRIVATE
         Catch2::Catch2
         dtl::dtl
-        drafter::drafter-static
-        snowcrash::snowcrash-static
+        drafter::drafter
+        snowcrash::snowcrash
         Boost::container
         mpark_variant
     )
