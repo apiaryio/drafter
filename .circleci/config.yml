@@ -27,37 +27,37 @@ aliases:
     run:
       name: Build drafter/debug with clang
       command: |
-          ctest -j4 -S cmake/unix.cmake -DCTEST_BUILD_TYPE=Debug -DCTEST_BUILD_NAME="clang $(c++ -dumpversion)"
+          ctest -VV -j4 -S cmake/unix.cmake -DCTEST_BUILD_TYPE=Debug -DCTEST_BUILD_NAME="clang $(c++ -dumpversion)"
 
   - &clang-release
     run:
       name: Build drafter/release with clang
       command: |
-          ctest -j4 -S cmake/unix.cmake -DCTEST_BUILD_TYPE=Release -DCTEST_BUILD_NAME="clang $(c++ -dumpversion)"
+          ctest -VV -j4 -S cmake/unix.cmake -DCTEST_BUILD_TYPE=Release -DCTEST_BUILD_NAME="clang $(c++ -dumpversion)"
 
   - &gcc-debug
     run:
       name: Build drafter/debug with gcc
       command: |
-          ctest -j4 -S cmake/unix.cmake -DCTEST_BUILD_TYPE=Debug -DCTEST_BUILD_NAME="gcc $(c++ -dumpversion)"
+          ctest -VV -j4 -S cmake/unix.cmake -DCTEST_BUILD_TYPE=Debug -DCTEST_BUILD_NAME="gcc $(c++ -dumpversion)"
 
   - &gcc-release
     run:
       name: Build drafter/release with gcc
       command: |
-          ctest -j4 -S cmake/unix.cmake -DCTEST_BUILD_TYPE=Release -DCTEST_BUILD_NAME="gcc $(c++ -dumpversion)"
+          ctest -VV -j4 -S cmake/unix.cmake -DCTEST_BUILD_TYPE=Release -DCTEST_BUILD_NAME="gcc $(c++ -dumpversion)"
 
   - &xcode-debug
     run:
       name: Build drafter/debug with xcode
       command: |
-          ctest -j4 -S cmake/xcode.cmake -DCTEST_BUILD_TYPE=Debug -DCTEST_BUILD_NAME="xcode"
+          ctest -VV -j4 -S cmake/xcode.cmake -DCTEST_BUILD_TYPE=Debug -DCTEST_BUILD_NAME="xcode"
 
   - &xcode-release
     run:
       name: Build drafter/release with xcode
       command: |
-          ctest -j4 -S cmake/xcode.cmake -DCTEST_BUILD_TYPE=Release -DCTEST_BUILD_NAME="xcode"
+          ctest -VV -j4 -S cmake/xcode.cmake -DCTEST_BUILD_TYPE=Release -DCTEST_BUILD_NAME="xcode"
 
   - &update-submodules
     run:
