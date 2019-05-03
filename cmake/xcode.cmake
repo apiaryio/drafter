@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
 
-set(CTEST_PROJECT_NAME "Drafter")
 if("${CTEST_BUILD_NAME}" STREQUAL "")
     set(CTEST_BUILD_NAME "${CTEST_BUILD_TYPE}")
 else()
