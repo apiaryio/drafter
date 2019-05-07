@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.4 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
 
 message(STATUS "Testing dependencies ${BUILD_TESTING_DEPENDENCIES}.")
 
