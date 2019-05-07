@@ -1,11 +1,10 @@
 version: 2
 
 aliases:
-  - &test-base
+  - &test-base-legacy
     working_directory: /tmp/drafter
     environment:
       CXXFLAGS: '-Werror -Wno-error=unused-function'
-
     steps:
       - checkout
       - run: git submodule update --init --recursive
@@ -17,6 +16,9 @@ aliases:
       - run:
           name: Test
           command: make test -j4
+
+  - &test-base
+    working_directory: /tmp/drafter
 
   - &tag-filter
     filters:
@@ -113,12 +115,12 @@ jobs:
       - run: ./tools/clang-format-check.sh
 
   test-gyp:
-    <<: *test-base
+    <<: *test-base-legacy
     docker:
       - image: gcc:5.4
 
   test-gcc-49-debug:
-    working_directory: /tmp/drafter
+    <<: *test-base
     steps:
       - checkout
       - <<: *update-submodules
@@ -127,7 +129,7 @@ jobs:
       - image: apiaryio/drafter-ci:gcc-4.9
 
   test-gcc-49-release:
-    working_directory: /tmp/drafter
+    <<: *test-base
     steps:
       - checkout
       - <<: *update-submodules
@@ -136,7 +138,7 @@ jobs:
       - image: apiaryio/drafter-ci:gcc-4.9
 
   test-gcc-latest-debug:
-    working_directory: /tmp/drafter
+    <<: *test-base
     steps:
       - checkout
       - <<: *update-submodules
@@ -145,7 +147,7 @@ jobs:
       - image: apiaryio/drafter-ci:gcc-latest
 
   test-gcc-latest-release:
-    working_directory: /tmp/drafter
+    <<: *test-base
     steps:
       - checkout
       - <<: *update-submodules
@@ -154,7 +156,7 @@ jobs:
       - image: apiaryio/drafter-ci:gcc-latest
 
   test-clang-4-debug:
-    working_directory: /tmp/drafter
+    <<: *test-base
     steps:
       - checkout
       - <<: *update-submodules
@@ -163,7 +165,7 @@ jobs:
       - image: apiaryio/drafter-ci:clang-4.0
 
   test-clang-4-release:
-    working_directory: /tmp/drafter
+    <<: *test-base
     steps:
       - checkout
       - <<: *update-submodules
@@ -172,7 +174,7 @@ jobs:
       - image: apiaryio/drafter-ci:clang-4.0
 
   test-clang-latest-debug:
-    working_directory: /tmp/drafter
+    <<: *test-base
     steps:
       - checkout
       - <<: *update-submodules
@@ -181,7 +183,7 @@ jobs:
       - image: apiaryio/drafter-ci:clang-latest
 
   test-clang-latest-release:
-    working_directory: /tmp/drafter
+    <<: *test-base
     steps:
       - checkout
       - <<: *update-submodules
@@ -190,7 +192,7 @@ jobs:
       - image: apiaryio/drafter-ci:clang-latest
 
   test-xcode9-debug:
-    working_directory: /tmp/drafter
+    <<: *test-base
     steps:
       - checkout
       - <<: *update-submodules
@@ -200,7 +202,7 @@ jobs:
       xcode: "9.4.0"
 
   test-xcode9-release:
-    working_directory: /tmp/drafter
+    <<: *test-base
     steps:
       - checkout
       - <<: *update-submodules
@@ -210,7 +212,7 @@ jobs:
       xcode: "9.4.0"
 
   test-valgrind:
-    <<: *test-base
+    <<: *test-base-legacy
     docker:
       - image: gcc:7
 
