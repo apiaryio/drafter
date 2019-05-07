@@ -119,7 +119,6 @@ jobs:
 
   test-gcc-49-debug:
     working_directory: /tmp/drafter
-    environment:
     steps:
       - checkout
       - <<: *update-submodules
@@ -129,7 +128,6 @@ jobs:
 
   test-gcc-49-release:
     working_directory: /tmp/drafter
-    environment:
     steps:
       - checkout
       - <<: *update-submodules
@@ -139,7 +137,6 @@ jobs:
 
   test-gcc-latest-debug:
     working_directory: /tmp/drafter
-    environment:
     steps:
       - checkout
       - <<: *update-submodules
@@ -149,7 +146,6 @@ jobs:
 
   test-gcc-latest-release:
     working_directory: /tmp/drafter
-    environment:
     steps:
       - checkout
       - <<: *update-submodules
@@ -159,7 +155,6 @@ jobs:
 
   test-clang-4-debug:
     working_directory: /tmp/drafter
-    environment:
     steps:
       - checkout
       - <<: *update-submodules
@@ -169,7 +164,6 @@ jobs:
 
   test-clang-4-release:
     working_directory: /tmp/drafter
-    environment:
     steps:
       - checkout
       - <<: *update-submodules
@@ -179,7 +173,6 @@ jobs:
 
   test-clang-latest-debug:
     working_directory: /tmp/drafter
-    environment:
     steps:
       - checkout
       - <<: *update-submodules
@@ -189,7 +182,6 @@ jobs:
 
   test-clang-latest-release:
     working_directory: /tmp/drafter
-    environment:
     steps:
       - checkout
       - <<: *update-submodules
@@ -199,7 +191,6 @@ jobs:
 
   test-xcode9-debug:
     working_directory: /tmp/drafter
-    environment:
     steps:
       - checkout
       - <<: *update-submodules
@@ -210,7 +201,6 @@ jobs:
 
   test-xcode9-release:
     working_directory: /tmp/drafter
-    environment:
     steps:
       - checkout
       - <<: *update-submodules
