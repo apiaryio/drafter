@@ -94,10 +94,10 @@ namespace refract
             T operator()(const T& value, Functor& expand)
             {
                 T members;
-                std::transform(
-                    value.begin(), value.end(), std::back_inserter(members), [&expand](const typename T::value_type& el) {
-                        return expand(el.get());
-                    });
+                std::transform(value.begin(),
+                    value.end(),
+                    std::back_inserter(members),
+                    [&expand](const typename T::value_type& el) { return expand(el.get()); });
                 return std::move(members);
             }
         };
@@ -272,6 +272,40 @@ namespace refract
         }
     };
 
+    template <>
+    struct ExpandElement<EnumElement, EnumElement::ValueType, false> {
+        std::unique_ptr<IElement> operator()(const EnumElement& e, ExpandVisitor::Context* context)
+        {
+            if (!isReserved(e.element().c_str()))
+                return context->ExpandNamedType(e);
+
+            auto o = e.empty() ? //
+                make_empty<EnumElement>() :
+                make_element<EnumElement>(context->ExpandValue(e.get()));
+
+            o->meta() = e.meta();
+
+            for (const auto& attribute : e.attributes()) {
+                if (attribute.first == "enumerations") {
+                    const auto* enums = TypeQueryVisitor::as<const ArrayElement>(attribute.second.get());
+                    assert(enums);
+                    assert(!enums->empty());
+
+                    dsd::Array expanded;
+                    for (const auto& entry : enums->get()) {
+                        assert(entry);
+                        expanded.push_back(context->ExpandOrClone(entry.get()));
+                    }
+                    o->attributes().set("enumerations", make_element<ArrayElement>(std::move(expanded)));
+                } else {
+                    o->attributes().set(attribute.first, attribute.second->clone());
+                }
+            }
+
+            return o;
+        }
+    };
+
     template <typename T>
     struct ExpandElement<T, dsd::Select, true> {
         std::unique_ptr<IElement> operator()(const T& e, ExpandVisitor::Context* context)
@@ -372,7 +406,6 @@ namespace refract
     {
         return std::move(result);
     }
-
 }; // namespace refract
 
 #undef VISIT_IMPL
