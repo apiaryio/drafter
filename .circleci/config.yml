@@ -49,18 +49,6 @@ aliases:
       command: |
           ctest -VV -j4 -S cmake/unix.cmake -DCTEST_BUILD_TYPE=Release -DCTEST_BUILD_NAME="gcc $(c++ -dumpversion)"
 
-  - &xcode-debug
-    run:
-      name: Build drafter/debug with xcode
-      command: |
-          ctest -VV -j4 -S cmake/xcode.cmake -DCTEST_BUILD_TYPE=Debug -DCTEST_BUILD_NAME="xcode"
-
-  - &xcode-release
-    run:
-      name: Build drafter/release with xcode
-      command: |
-          ctest -VV -j4 -S cmake/xcode.cmake -DCTEST_BUILD_TYPE=Release -DCTEST_BUILD_NAME="xcode"
-
   - &update-submodules
     run:
       name: Update submodules
@@ -80,8 +68,8 @@ workflows:
       - test-clang-4-release: *tag-filter
       - test-clang-latest-debug: *tag-filter
       - test-clang-latest-release: *tag-filter
-      - test-xcode9-release: *tag-filter
-      - test-xcode9-debug: *tag-filter
+      - test-osx-release: *tag-filter
+      - test-osx-debug: *tag-filter
       - test-gyp: *tag-filter
       - test-valgrind: *tag-filter
       - release:
@@ -94,8 +82,8 @@ workflows:
             - test-clang-4-release
             - test-clang-latest-debug
             - test-clang-latest-release
-            - test-xcode9-release
-            - test-xcode9-debug
+            - test-osx-release
+            - test-osx-debug
             - test-gyp
             - test-valgrind
           filters:
@@ -191,23 +179,23 @@ jobs:
     docker:
       - image: apiaryio/drafter-ci:clang-latest
 
-  test-xcode9-debug:
+  test-osx-debug:
     <<: *test-base
     steps:
       - checkout
       - <<: *update-submodules
       - run: brew install cmake
-      - <<: *xcode-debug
+      - <<: *clang-debug
     macos:
       xcode: "9.4.0"
 
-  test-xcode9-release:
+  test-osx-release:
     <<: *test-base
     steps:
       - checkout
       - <<: *update-submodules
       - run: brew install cmake
-      - <<: *xcode-release
+      - <<: *clang-release
     macos:
       xcode: "9.4.0"
 
