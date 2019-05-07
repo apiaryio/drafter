@@ -125,6 +125,32 @@ namespace refract
                 return false;
             }
         };
+
+        template <>
+        struct IsExpandable<EnumElement, EnumElement::ValueType, false> {
+            bool operator()(const EnumElement* e) const
+            {
+                if (checkElement(e))
+                    return true;
+
+                if (!e->empty()) {
+                    IsExpandableVisitor v;
+                    VisitBy(*e->get().value(), v);
+                    if (v.get())
+                        return true;
+                }
+
+                const auto it = e->attributes().find("enumerations");
+                if (it != e->attributes().end()) {
+                    IsExpandableVisitor v;
+                    VisitBy(*it->second, v);
+                    if (v.get())
+                        return true;
+                }
+
+                return false;
+            }
+        };
     } // anonymous namespace
 
     IsExpandableVisitor::IsExpandableVisitor() : result(false) {}
