@@ -126,7 +126,7 @@
                                   "content": "application/json"
                                 }
                               },
-                              "content": "{\n  \"monitor\": {\n    \"email\": \"june@email.com\"\n  }\n}"
+                              "content": "{\n  \"monitor\": {\n    \"email\": \"user@example.com\"\n  }\n}"
                             },
                             {
                               "element": "asset",
@@ -193,7 +193,7 @@
                       },
                       "value": {
                         "element": "string",
-                        "content": "june@email.com"
+                        "content": "user@example.com"
                       }
                     }
                   }
