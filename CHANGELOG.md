@@ -1,5 +1,12 @@
 # Drafter Changelog
 
+## 4.0.0-pre.5 (2019-05-07)
+
+### Bug Fixes
+
+* Drafter now correctly expands types nested in EnumElement
+  [#689](https://github.com/apiaryio/drafter/issues/689)
+
 ## 4.0.0-pre.4 (2019-04-25)
 
 ### Bug Fixes
