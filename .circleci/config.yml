@@ -184,6 +184,7 @@ jobs:
     steps:
       - checkout
       - <<: *update-submodules
+      - run: sudo bundle install
       - run: brew install cmake
       - <<: *clang-debug
     macos:
@@ -194,6 +195,7 @@ jobs:
     steps:
       - checkout
       - <<: *update-submodules
+      - run: sudo bundle install
       - run: brew install cmake
       - <<: *clang-release
     macos:
