@@ -1,11 +1,10 @@
 version: 2
 
 aliases:
-  - &test-base
+  - &test-base-legacy
     working_directory: /tmp/drafter
     environment:
       CXXFLAGS: '-Werror -Wno-error=unused-function'
-
     steps:
       - checkout
       - run: git submodule update --init --recursive
@@ -18,15 +17,42 @@ aliases:
           name: Test
           command: make test -j4
 
-  - &test-clang-base
-    <<: *test-base
-    environment:
-      CXXFLAGS: '-Werror -Wno-error=unused-function -Wno-error=missing-braces'
+  - &test-base
+    working_directory: /tmp/drafter
 
   - &tag-filter
     filters:
       tags:
         only: /^v.*/
+
+  - &clang-debug
+    run:
+      name: Build drafter/debug with clang
+      command: |
+          ctest -VV -j4 -S cmake/unix.cmake -DCTEST_BUILD_TYPE=Debug -DCTEST_BUILD_NAME="clang $(c++ -dumpversion)"
+
+  - &clang-release
+    run:
+      name: Build drafter/release with clang
+      command: |
+          ctest -VV -j4 -S cmake/unix.cmake -DCTEST_BUILD_TYPE=Release -DCTEST_BUILD_NAME="clang $(c++ -dumpversion)"
+
+  - &gcc-debug
+    run:
+      name: Build drafter/debug with gcc
+      command: |
+          ctest -VV -j4 -S cmake/unix.cmake -DCTEST_BUILD_TYPE=Debug -DCTEST_BUILD_NAME="gcc $(c++ -dumpversion)"
+
+  - &gcc-release
+    run:
+      name: Build drafter/release with gcc
+      command: |
+          ctest -VV -j4 -S cmake/unix.cmake -DCTEST_BUILD_TYPE=Release -DCTEST_BUILD_NAME="gcc $(c++ -dumpversion)"
+
+  - &update-submodules
+    run:
+      name: Update submodules
+      command: 'git submodule update --init --recursive'
 
 workflows:
   version: 2
@@ -34,27 +60,31 @@ workflows:
   drafter:
     jobs:
       - lint
-      - test-gcc5.4: *tag-filter
-      - test-gcc6: *tag-filter
-      - test-gcc7: *tag-filter
-      #- test-gcc8: *tag-filter
-      - test-clang4: *tag-filter
-      - test-clang5: *tag-filter
-      - test-clang6: *tag-filter
-      - test-xcode9: *tag-filter
-      - test-integration: *tag-filter
+      - test-gcc-49-debug: *tag-filter
+      - test-gcc-49-release: *tag-filter
+      - test-gcc-latest-debug: *tag-filter
+      - test-gcc-latest-release: *tag-filter
+      - test-clang-4-debug: *tag-filter
+      - test-clang-4-release: *tag-filter
+      - test-clang-latest-debug: *tag-filter
+      - test-clang-latest-release: *tag-filter
+      - test-osx-release: *tag-filter
+      - test-osx-debug: *tag-filter
+      - test-gyp: *tag-filter
       - test-valgrind: *tag-filter
       - release:
           requires:
-            - test-gcc5.4
-            - test-gcc6
-            - test-gcc7
-            #- test-gcc8
-            - test-clang4
-            - test-clang5
-            - test-clang6
-            - test-xcode9
-            - test-integration
+            - test-gcc-49-debug
+            - test-gcc-49-release
+            - test-gcc-latest-debug
+            - test-gcc-latest-release
+            - test-clang-4-debug
+            - test-clang-4-release
+            - test-clang-latest-debug
+            - test-clang-latest-release
+            - test-osx-release
+            - test-osx-debug
+            - test-gyp
             - test-valgrind
           filters:
             tags:
@@ -72,65 +102,107 @@ jobs:
       - run: git submodule update --init --recursive
       - run: ./tools/clang-format-check.sh
 
-  test-gcc5.4:
-    <<: *test-base
+  test-gyp:
+    <<: *test-base-legacy
     docker:
       - image: gcc:5.4
 
-  test-gcc6:
+  test-gcc-49-debug:
     <<: *test-base
+    steps:
+      - checkout
+      - <<: *update-submodules
+      - <<: *gcc-debug
     docker:
-      - image: gcc:6
+      - image: apiaryio/drafter-ci:gcc-4.9
 
-  test-gcc7:
+  test-gcc-49-release:
     <<: *test-base
+    steps:
+      - checkout
+      - <<: *update-submodules
+      - <<: *gcc-release
     docker:
-      - image: gcc:7
+      - image: apiaryio/drafter-ci:gcc-4.9
 
-  test-gcc8:
+  test-gcc-latest-debug:
     <<: *test-base
+    steps:
+      - checkout
+      - <<: *update-submodules
+      - <<: *gcc-debug
     docker:
-      - image: gcc:8
+      - image: apiaryio/drafter-ci:gcc-latest
 
-  test-clang4:
-    <<: *test-clang-base
+  test-gcc-latest-release:
+    <<: *test-base
+    steps:
+      - checkout
+      - <<: *update-submodules
+      - <<: *gcc-release
     docker:
-      - image: apiaryio/clang:4
+      - image: apiaryio/drafter-ci:gcc-latest
 
-  test-clang5:
-    <<: *test-clang-base
+  test-clang-4-debug:
+    <<: *test-base
+    steps:
+      - checkout
+      - <<: *update-submodules
+      - <<: *clang-debug
     docker:
-      - image: apiaryio/clang:5
+      - image: apiaryio/drafter-ci:clang-4.0
 
-  test-clang6:
-    <<: *test-clang-base
+  test-clang-4-release:
+    <<: *test-base
+    steps:
+      - checkout
+      - <<: *update-submodules
+      - <<: *clang-release
     docker:
-      - image: apiaryio/clang:6
+      - image: apiaryio/drafter-ci:clang-4.0
 
-  test-xcode9:
-    <<: *test-clang-base
+  test-clang-latest-debug:
+    <<: *test-base
+    steps:
+      - checkout
+      - <<: *update-submodules
+      - <<: *clang-debug
+    docker:
+      - image: apiaryio/drafter-ci:clang-latest
+
+  test-clang-latest-release:
+    <<: *test-base
+    steps:
+      - checkout
+      - <<: *update-submodules
+      - <<: *clang-release
+    docker:
+      - image: apiaryio/drafter-ci:clang-latest
+
+  test-osx-debug:
+    <<: *test-base
+    steps:
+      - checkout
+      - <<: *update-submodules
+      - run: sudo bundle install
+      - run: brew install cmake
+      - <<: *clang-debug
     macos:
       xcode: "9.4.0"
 
-  test-integration:
-    docker:
-      - image: circleci/ruby:2.5.1
-    working_directory: /tmp/drafter
-
+  test-osx-release:
+    <<: *test-base
     steps:
       - checkout
-      - run: git submodule update --init --recursive
-
-      - run:
-          name: Build
-          command: ./configure && make -j4
-
-      - run:
-          name: Integration Test
-          command: bundle install && bundle exec cucumber
+      - <<: *update-submodules
+      - run: sudo bundle install
+      - run: brew install cmake
+      - <<: *clang-release
+    macos:
+      xcode: "9.4.0"
 
   test-valgrind:
-    <<: *test-base
+    <<: *test-base-legacy
     docker:
       - image: gcc:7
 
@@ -163,5 +235,6 @@ jobs:
 
     steps:
       - checkout
-      - run: git submodule update --init --recursive
+      - <<: *update-submodules
       - run: ./tools/release.sh
+

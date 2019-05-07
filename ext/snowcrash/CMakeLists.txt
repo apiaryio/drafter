@@ -25,19 +25,10 @@ else()
 endif()
 
 add_library(snowcrash SHARED ${snowcrash_SOURCES})
-add_library(snowcrash-static STATIC ${snowcrash_SOURCES})
-add_library(snowcrash-pic STATIC ${snowcrash_SOURCES})
-set_property(TARGET snowcrash-pic PROPERTY POSITION_INDEPENDENT_CODE 1)
-
-if(UNIX)
-    set_target_properties(snowcrash-static PROPERTIES OUTPUT_NAME snowcrash)
-endif()
 
 find_package(markdown-parser 1.0 REQUIRED)
 
-target_link_libraries(snowcrash PUBLIC markdown-parser::markdown-parser-pic)
-target_link_libraries(snowcrash-static PUBLIC markdown-parser::markdown-parser-static)
-target_link_libraries(snowcrash-pic PUBLIC markdown-parser::markdown-parser-pic)
+target_link_libraries(snowcrash PUBLIC markdown-parser::markdown-parser)
 
 target_include_directories(snowcrash PUBLIC
     $<BUILD_INTERFACE:${snowcrash_BINARY_DIR}/src>
@@ -45,19 +36,7 @@ target_include_directories(snowcrash PUBLIC
     $<INSTALL_INTERFACE:src>
     )
 
-target_include_directories(snowcrash-static PUBLIC
-    $<BUILD_INTERFACE:${snowcrash_BINARY_DIR}/src>
-    $<BUILD_INTERFACE:${snowcrash_SOURCE_DIR}/src>
-    $<INSTALL_INTERFACE:src>
-    )
-
-target_include_directories(snowcrash-pic PUBLIC
-    $<BUILD_INTERFACE:${snowcrash_BINARY_DIR}/src>
-    $<BUILD_INTERFACE:${snowcrash_SOURCE_DIR}/src>
-    $<INSTALL_INTERFACE:src>
-    )
-
-install(TARGETS snowcrash snowcrash-static snowcrash-pic EXPORT snowcrash-targets
+install(TARGETS snowcrash EXPORT snowcrash-targets
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
@@ -84,9 +63,6 @@ install(
     )
 
 add_library(snowcrash::snowcrash ALIAS snowcrash)
-add_library(snowcrash::snowcrash-static ALIAS snowcrash-static)
-add_library(snowcrash::snowcrash-pic ALIAS snowcrash-pic)
-
 
 if(BUILD_TESTING)
     include(snowcrash-tests.cmake)

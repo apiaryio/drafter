@@ -75,9 +75,6 @@ set(DRAFTER_COMPILE_FEATURES
 
 # libdrafter
 add_library(drafter SHARED ${DRAFTER_SOURCES})
-add_library(drafter-static STATIC ${DRAFTER_SOURCES})
-add_library(drafter-pic STATIC ${DRAFTER_SOURCES})
-set_property(TARGET drafter-pic PROPERTY POSITION_INDEPENDENT_CODE 1)
 
 set_target_properties(drafter PROPERTIES PUBLIC_HEADER "drafter.h")
 
@@ -89,21 +86,7 @@ find_package(MPark.Variant 1.4 REQUIRED)
 
 target_link_libraries(drafter
     PRIVATE
-        snowcrash::snowcrash-pic
-        Boost::container
-        mpark_variant
-    )
-
-target_link_libraries(drafter-pic
-    PRIVATE
-        snowcrash::snowcrash-pic
-        Boost::container
-        mpark_variant
-    )
-
-target_link_libraries(drafter-static
-    PRIVATE
-        snowcrash::snowcrash-static
+        snowcrash::snowcrash
         Boost::container
         mpark_variant
     )
@@ -114,28 +97,11 @@ target_include_directories(drafter PUBLIC
     $<INSTALL_INTERFACE:>
     )
 
-target_include_directories(drafter-static PUBLIC
-    $<BUILD_INTERFACE:${Drafter_BINARY_DIR}>
-    $<BUILD_INTERFACE:${Drafter_SOURCE_DIR}>
-    $<INSTALL_INTERFACE:>
-    )
-
-target_include_directories(drafter-pic PUBLIC
-    $<BUILD_INTERFACE:${Drafter_BINARY_DIR}>
-    $<BUILD_INTERFACE:${Drafter_SOURCE_DIR}>
-    $<INSTALL_INTERFACE:>
-    )
-
-
 target_compile_definitions(drafter PRIVATE BUILDING_DRAFTER=1)
-target_compile_definitions(drafter-static PRIVATE BUILDING_DRAFTER=1)
-target_compile_definitions(drafter-pic PRIVATE BUILDING_DRAFTER=1)
 
 target_compile_definitions(drafter PUBLIC DRAFTER_BUILD_SHARED=1)
 
 target_compile_features(drafter PUBLIC ${DRAFTER_COMPILE_FEATURES})
-target_compile_features(drafter-static PUBLIC ${DRAFTER_COMPILE_FEATURES})
-target_compile_features(drafter-pic PUBLIC ${DRAFTER_COMPILE_FEATURES})
 
 # drafter-cli
 add_executable(drafter-cli
@@ -146,18 +112,15 @@ add_executable(drafter-cli
 
 target_link_libraries(drafter-cli
     PRIVATE
-        snowcrash::snowcrash-static
-        drafter::drafter-static
+        snowcrash::snowcrash
+        drafter::drafter
         cmdline::cmdline
         mpark_variant
     )
 
 set_target_properties(drafter-cli PROPERTIES OUTPUT_NAME drafter)
-if(UNIX)
-        set_target_properties(drafter-static PROPERTIES OUTPUT_NAME drafter)
-endif()
 
-install(TARGETS drafter drafter-static drafter-pic drafter-cli EXPORT drafter-targets
+install(TARGETS drafter drafter-cli EXPORT drafter-targets
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
@@ -186,6 +149,3 @@ install(
     )
 
 add_library(drafter::drafter ALIAS drafter)
-add_library(drafter::drafter-static ALIAS drafter-static)
-add_library(drafter::drafter-pic ALIAS drafter-pic)
-

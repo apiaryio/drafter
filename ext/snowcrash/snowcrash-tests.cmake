@@ -47,8 +47,8 @@ add_test(SnowcrashTest snowcrash-test)
 target_link_libraries(snowcrash-test
     PRIVATE
         Catch2::Catch2
-        snowcrash::snowcrash-static
-        markdown-parser::markdown-parser-static
+        snowcrash::snowcrash
+        markdown-parser::markdown-parser
     )
 
 target_link_libraries(snowcrash-test-performance
