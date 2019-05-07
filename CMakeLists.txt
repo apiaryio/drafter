@@ -28,12 +28,12 @@ add_subdirectory(ext/boost_1_66_0 EXCLUDE_FROM_ALL)
 add_subdirectory(ext/variant EXCLUDE_FROM_ALL)
 
 message(STATUS "Setting up tests for production...")
-set(BUILD_TESTING ON)
 add_subdirectory(test/vendor/Catch EXCLUDE_FROM_ALL)
 add_subdirectory(test/vendor/dtl EXCLUDE_FROM_ALL)
+
+enable_testing()
 include(CTest)
 include(test/vendor/Catch/contrib/Catch.cmake)
-enable_testing()
 
 # targets developed in this super project
 add_subdirectory(ext/snowcrash/ext/markdown-parser EXCLUDE_FROM_ALL)
