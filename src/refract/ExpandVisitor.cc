@@ -302,7 +302,7 @@ namespace refract
                 }
             }
 
-            return o;
+            return std::move(o);
         }
     };
 
