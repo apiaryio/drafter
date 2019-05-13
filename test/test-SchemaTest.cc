@@ -115,3 +115,4 @@ TEST_REFRACT("schema", "one-of-complex");
 TEST_REFRACT("schema", "one-of-properties");
 
 TEST_REFRACT("schema", "issue-493-multiple-same-required");
+TEST_REFRACT("schema", "issue-686");
