@@ -38,7 +38,7 @@ bool refract::inheritsFixed(const IElement& e)
 
 bool refract::inheritsFixed(const ObjectElement& e)
 {
-    return definesValue(e);
+    return true;
 }
 
 bool refract::inheritsFixed(const ArrayElement& e)
