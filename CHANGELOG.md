@@ -1,5 +1,12 @@
 # Drafter Changelog
 
+## Master
+
+### Bug Fixes
+
+* The `fixed` type attribute now inherits to empty objects. This regression was
+  introduced in 4.0.0-pre.1.
+
 ## 4.0.0-pre.5 (2019-05-07)
 
 ### Bug Fixes
