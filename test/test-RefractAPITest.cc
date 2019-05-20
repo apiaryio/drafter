@@ -35,3 +35,5 @@ TEST_REFRACT("api", "attributes-named-type-mixin");
 TEST_REFRACT("api", "attributes-named-type-enum-reference");
 
 TEST_REFRACT("api", "mixin-inheritance");
+
+TEST_REFRACT("api", "issue-702");
