@@ -1,11 +1,20 @@
 # Drafter Changelog
 
-## Master
+## 4.0.0-pre.6 (2019-05-20)
 
 ### Bug Fixes
 
 * The `fixed` type attribute now inherits to empty objects. This regression was
   introduced in 4.0.0-pre.1.
+  [#686](https://github.com/apiaryio/drafter/issues/686)
+
+* Prevents a segmentation fault while parsing a document which contains an
+  "empty" `One Of` MSON entry.
+  [#699](https://github.com/apiaryio/drafter/issues/699)
+
+* Prevent an infinite loop while parsing a document with a circular MSON
+  reference.
+  [#702](https://github.com/apiaryio/drafter/issues/702)
 
 ## 4.0.0-pre.5 (2019-05-07)
 
