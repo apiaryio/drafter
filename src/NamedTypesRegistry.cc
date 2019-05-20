@@ -264,20 +264,24 @@ namespace drafter
 
             bool hasAncestor(const snowcrash::DataStructure* object, const snowcrash::DataStructure* ancestor) const
             {
-                std::string s = name(object);
-                const std::string& isAncestor = name(ancestor);
+                std::vector<std::string> symbols;
 
-                while (!s.empty()) {
-                    if (s == isAncestor) {
-                        return true;
-                    }
+                const std::string& object_typename = name(object);
+                const std::string& ancestor_typename = name(ancestor);
 
-                    InheritanceMap::const_iterator i = childToParent.find(s);
-                    if (i == childToParent.end()) {
-                        return false;
-                    }
+                auto current_typename = object_typename;
 
-                    s = i->second;
+                while (true) {
+                    if (current_typename == ancestor_typename)
+                        return true; // found ancestor (happy path)
+                    auto next_typename = childToParent.find(current_typename);
+                    if (next_typename == childToParent.end())
+                        return false; // arrived at the end
+
+                    if (symbols.end() != std::find(symbols.begin(), symbols.end(), current_typename))
+                        return false; // circular reference
+                    symbols.emplace_back(current_typename);
+                    current_typename = next_typename->second;
                 }
 
                 return false;
