@@ -102,18 +102,28 @@ namespace refract
             }
         };
 
+        template <typename It>
+        std::reverse_iterator<It> make_reverse(It&& it)
+        {
+            return std::reverse_iterator<It>(std::forward<It>(it));
+        }
+
         std::unique_ptr<ExtendElement> GetInheritanceTree(const std::string& name, const Registry& registry)
         {
-            std::vector<std::pair<std::string, std::unique_ptr<IElement> > > inheritance;
+            using inheritance_map = std::vector<std::pair<std::string, std::unique_ptr<IElement> > >;
+
+            inheritance_map inheritance;
             std::string en = name;
 
             // walk recursive in registry and expand inheritance tree
             for (const IElement* parent = registry.find(en); parent && !isReserved(en);
                  en = parent->element(), parent = registry.find(en)) {
 
-                if (inheritance.end() != std::find_if(inheritance.begin(), inheritance.end(), [en](const auto& other) {
-                        return en == other.first;
-                    })) {
+                if (inheritance.end()
+                    != std::find_if(inheritance.begin(),                                               //
+                        inheritance.end(),                                                             //
+                        [en](const inheritance_map::value_type& other) { return en == other.first; })) //
+                {
                     return make_empty<ExtendElement>();
                 }
 
@@ -128,9 +138,10 @@ namespace refract
             auto e = make_element<ExtendElement>();
             auto& content = e->get();
 
-            std::for_each(std::make_reverse_iterator(inheritance.end()),
-                std::make_reverse_iterator(inheritance.begin()),
-                [&content](auto& entry) { content.push_back(std::move(entry.second)); });
+            std::for_each( //
+                make_reverse(inheritance.end()),
+                make_reverse(inheritance.begin()),
+                [&content](inheritance_map::value_type& entry) { content.push_back(std::move(entry.second)); });
 
             // FIXME: posible solution while referenced type is not found in regisry
             // \see test/fixtures/mson-resource-unresolved-reference.apib
