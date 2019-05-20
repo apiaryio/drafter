@@ -60,6 +60,7 @@ TEST_MSON_SUCCESS("enumerations");
 TEST_REFRACT("mson", "issue-682");
 TEST_REFRACT("mson", "issue-682-b");
 TEST_REFRACT("mson", "issue-689");
+TEST_REFRACT("mson", "issue-699");
 
 #undef TEST_MSON_SUCCESS
 #undef TEST_MSON
