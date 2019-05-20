@@ -49,6 +49,12 @@ aliases:
       command: |
           ctest -VV -j4 -S cmake/unix.cmake -DCTEST_BUILD_TYPE=Release -DCTEST_BUILD_NAME="gcc $(c++ -dumpversion)"
 
+  - &coverage
+    run:
+      name: Build drafter/release with gcc
+      command: |
+          ctest -VV -j4 -S cmake/unix-coverage.cmake -DCTEST_BUILD_TYPE=Debug -DCTEST_BUILD_NAME="coverage $(c++ -dumpversion)"
+
   - &update-submodules
     run:
       name: Update submodules
@@ -72,6 +78,7 @@ workflows:
       - test-osx-debug: *tag-filter
       - test-gyp: *tag-filter
       - test-valgrind: *tag-filter
+      - test-coverage: *tag-filter
       - release:
           requires:
             - test-gcc-49-debug
@@ -227,6 +234,16 @@ jobs:
 
       - store_artifacts:
           path: artifacts
+
+  test-coverage:
+    <<: *test-base
+    steps:
+      - checkout
+      - <<: *update-submodules
+      - <<: *coverage
+    docker:
+      - image: apiaryio/drafter-ci:gcc-latest
+
 
   release:
     docker:
