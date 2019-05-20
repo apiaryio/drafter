@@ -1294,7 +1294,9 @@ namespace
                     std::back_inserter(option->get()),
                     context);
             } else {
-                option->get().push_back(MsonElementToRefract(oneOfInfo, context, mson::StringTypeName));
+                if (auto apie = MsonElementToRefract(oneOfInfo, context, mson::StringTypeName)) {
+                    option->get().push_back(std::move(apie));
+                }
             }
 
             select->get().push_back(std::move(option));
