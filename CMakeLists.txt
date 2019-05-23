@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
 
+include(DefaultBuildType.cmake)
+
 message(STATUS "Testing dependencies ${BUILD_TESTING_DEPENDENCIES}.")
 
 set(CMAKE_PREFIX_PATH "/prefix")
