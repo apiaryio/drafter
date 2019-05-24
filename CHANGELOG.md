@@ -1,5 +1,11 @@
 # Drafter Changelog
 
+## Master
+
+### Enhancements
+
+* The default build type is now release when using cmake.
+
 ## 4.0.0-pre.6 (2019-05-20)
 
 ### Bug Fixes
