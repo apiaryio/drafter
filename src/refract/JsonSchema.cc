@@ -273,10 +273,10 @@ namespace
     }
 
     struct ObjectSchema {
-        so::Object properties;
-        so::Object patternProperties;
-        so::Array required;
-        so::Array allOf;
+        so::Object properties = {};
+        so::Object patternProperties = {};
+        so::Array required = {};
+        so::Array allOf = {};
     };
 
     so::Object& materialize(so::Object& result, ObjectSchema s)
