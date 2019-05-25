@@ -10,7 +10,6 @@
 
 #include "refract/dsd/Enum.h"
 #include "refract/Element.h"
-#include "ElementMock.h"
 
 using namespace refract;
 using namespace dsd;
@@ -60,10 +59,11 @@ SCENARIO("`Enum` is default constructed and both copy- and move constructed from
 
 SCENARIO("`Enum` is constructed from value and is claimed", "[ElementData][Enum]")
 {
-    GIVEN("An `Enum` with an ElementMock value")
+    GIVEN("An `Enum` with a StringElement value")
     {
-        Enum enm(make_unique<test::ElementMock>());
-        REQUIRE(test::ElementMock::instances().size() == 1);
+        auto el = make_element<StringElement>();
+        const auto* elPtr = el.get();
+        Enum enm(std::move(el));
 
         WHEN("it is claimed")
         {
@@ -74,14 +74,9 @@ SCENARIO("`Enum` is constructed from value and is claimed", "[ElementData][Enum]
                 REQUIRE(enm.value() == nullptr);
             }
 
-            THEN("nothing was called on the mock")
+            THEN("the str is the one passed into its constructor")
             {
-                REQUIRE(test::ElementMock::instances().front()->_total_ctx == 0);
-            }
-
-            THEN("the mock is the one passed into its constructor")
-            {
-                REQUIRE(test::ElementMock::instances().front() == result.get());
+                REQUIRE(result.get() == elPtr);
             }
         }
     }

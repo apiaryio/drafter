@@ -8,7 +8,6 @@
 
 #include <cassert>
 #include <catch2/catch.hpp>
-#include "../Tracker.h"
 #include "refract/Element.h"
 
 #include "refract/Utils.h"
@@ -17,10 +16,6 @@ using namespace refract;
 
 namespace
 {
-    struct foo : public tracked<foo> {
-        int bar_ = 42;
-    };
-
     struct VoidCaptureVisitor {
         const IElement** arg;
         template <typename ElementT>

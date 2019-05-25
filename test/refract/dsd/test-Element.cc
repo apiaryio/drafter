@@ -9,36 +9,10 @@
 #include <catch2/catch.hpp>
 
 #include "refract/Element.h"
-#include "ElementMock.h"
 
 using namespace refract;
 using namespace dsd;
 
-// TODO @tjanc@ rewrite tests for (all?) DSDs
-// namespace
-// {
-//     struct DataMock : tracked<DataMock> {
-//         using DataType = int;
-//
-//         static const char* name;
-//
-//         DataType foo = 42;
-//
-//         DataMock() = default;
-//         DataMock(DataType val) : foo(std::move(val)) {}
-//
-//         DataMock(const DataMock&) = default;
-//         DataMock(DataMock&&) = default;
-//
-//         DataMock& operator=(const DataMock&) = default;
-//         DataMock& operator=(DataMock&&) = default;
-//
-//         ~DataMock() = default;
-//     };
-//     const char* DataMock::name = "{data-mock}";
-//
-// }
-//
 SCENARIO("`isReserved` identifies reserved type names", "[Element]")
 {
     WHEN("it is invoked with an `array` literal")
