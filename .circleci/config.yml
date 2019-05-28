@@ -112,7 +112,7 @@ jobs:
   test-gyp:
     <<: *test-base-legacy
     docker:
-      - image: gcc:5.4
+      - image: gcc:4.8.5
 
   test-gcc-49-debug:
     <<: *test-base
