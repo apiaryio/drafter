@@ -10,8 +10,8 @@
 
 #include "refract/InfoElements.h"
 #include "refract/ElementIfc.h"
-
-#include "ElementMock.h"
+#include "refract/ElementFwd.h"
+#include "refract/Element.h"
 
 using namespace refract;
 
@@ -42,34 +42,25 @@ SCENARIO("Elements can be added and erased from InfoElements", "[InfoElements]")
     {
         InfoElements collection;
 
-        WHEN("an ElementMock pointer is added")
+        WHEN("a StringElement is added")
         {
             const char* key = "id";
 
-            auto el = new test::ElementMock();
-            el->element_out = "\0 42";
-            collection.set(key, std::unique_ptr<IElement>(el));
+            auto el = make_element<StringElement>("foo");
+            const auto* elPtr = el.get();
+            collection.set(key, std::move(el));
 
             THEN("its size increments")
             {
                 REQUIRE(collection.size() == 1);
             }
-            THEN("nothing gets called on the mock")
-            {
-                REQUIRE(el->_total_ctx == 0);
-            }
-            THEN("the original mock pointer is still dereferencable")
-            {
-                REQUIRE(el->element() == "\0 42");
-            }
             THEN("the pointer obtained by find equals the original one")
             {
-                REQUIRE(collection.find(key)->second.get() == el);
+                REQUIRE(collection.find(key)->second.get() == elPtr);
             }
 
             WHEN("the member is deleted by erase(const std::string&)")
             {
-                REQUIRE(test::ElementMock::instances().size() == 1);
                 collection.erase(key);
 
                 THEN("its size decrements")
@@ -79,10 +70,6 @@ SCENARIO("Elements can be added and erased from InfoElements", "[InfoElements]")
                 THEN("it is empty")
                 {
                     REQUIRE(collection.empty());
-                }
-                THEN("the mock is destructed")
-                {
-                    REQUIRE(test::ElementMock::instances().size() == 0);
                 }
             }
         }
@@ -118,27 +105,26 @@ SCENARIO("InfoElementss can be copied and moved", "[InfoElements]")
 
     GIVEN("A InfoElements with three entries")
     {
+
         std::string key1 = "id";
         std::string key2 = "peterson";
-        const char* key3 = "rabbit h\000le";
+        std::string key3 = "rabbit h\000le";
 
-        auto mock1 = new test::ElementMock{};
-        auto mock2 = new test::ElementMock{};
-        auto mock3 = new test::ElementMock{};
-
-        auto mock1clone = new test::ElementMock{};
-        auto mock2clone = new test::ElementMock{};
-        auto mock3clone = new test::ElementMock{};
-
-        mock1->clone_out.reset(mock1clone);
-        mock2->clone_out.reset(mock2clone);
-        mock3->clone_out.reset(mock3clone);
+        auto str1 = make_element<StringElement>("a");
+        const auto* str1ptr = str1.get();
+        auto str1clone = make_element<StringElement>("a");
+        auto str2 = make_element<StringElement>("b");
+        const auto* str2ptr = str2.get();
+        auto str2clone = make_element<StringElement>("b");
+        auto str3 = make_element<StringElement>("c");
+        const auto* str3ptr = str3.get();
+        auto str3clone = make_element<StringElement>("c");
 
         InfoElements collection;
 
-        collection.set(key1, std::unique_ptr<IElement>(mock1));
-        collection.set(key2, std::unique_ptr<IElement>(mock2));
-        collection.set(key3, std::unique_ptr<IElement>(mock3));
+        collection.set(key1, std::move(str1));
+        collection.set(key2, std::move(str2));
+        collection.set(key3, std::move(str3));
 
         REQUIRE(collection.size() == 3);
 
@@ -165,22 +151,14 @@ SCENARIO("InfoElementss can be copied and moved", "[InfoElements]")
                         return m1.first == m2.first;
                     }));
             }
-            THEN("the values of the latter were obtained by calling clone() on the original")
+            THEN("their values equal")
             {
-                REQUIRE(mock1->_total_ctx == 1);
-                REQUIRE(mock1->clone_ctx == 1);
-                REQUIRE(mock1->clone_in == IElement::cAll);
-                REQUIRE(collection2.find(key1)->second.get() == mock1clone);
-
-                REQUIRE(mock2->_total_ctx == 1);
-                REQUIRE(mock2->clone_ctx == 1);
-                REQUIRE(mock2->clone_in == IElement::cAll);
-                REQUIRE(collection2.find(key2)->second.get() == mock2clone);
-
-                REQUIRE(mock3->_total_ctx == 1);
-                REQUIRE(mock3->clone_ctx == 1);
-                REQUIRE(mock3->clone_in == IElement::cAll);
-                REQUIRE(collection2.find(key3)->second.get() == mock3clone);
+                REQUIRE(std::equal(collection.begin(),
+                    collection.end(),
+                    collection2.begin(),
+                    [](const InfoElements::value_type& m1, const InfoElements::value_type& m2) {
+                        return *m1.second == *m2.second;
+                    }));
             }
         }
 
@@ -213,9 +191,9 @@ SCENARIO("InfoElementss can be copied and moved", "[InfoElements]")
             }
             THEN("the values of the latter are the same as the original values")
             {
-                REQUIRE(collection2.find(key1)->second.get() == mock1);
-                REQUIRE(collection2.find(key2)->second.get() == mock2);
-                REQUIRE(collection2.find(key3)->second.get() == mock3);
+                REQUIRE(collection2.find(key1)->second.get() == str1ptr);
+                REQUIRE(collection2.find(key2)->second.get() == str2ptr);
+                REQUIRE(collection2.find(key3)->second.get() == str3ptr);
             }
         }
     }

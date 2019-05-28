@@ -7,10 +7,10 @@
 //
 
 #include <catch2/catch.hpp>
-#include "ElementMock.h"
 
 #include "refract/dsd/Select.h"
 #include "refract/Element.h"
+#include "refract/ElementFwd.h"
 
 #include <array>
 
@@ -76,16 +76,11 @@ SCENARIO("`Select` is inserted to and erased from", "[ElementData][Select]")
     {
         Select select;
 
-        WHEN("an ElementMock is pushed back")
+        WHEN("a StringElement is pushed back")
         {
-            auto mock = make_unique<test::ElementMock>();
-            auto mock1ptr = mock.get();
-
-            REQUIRE(test::ElementMock::instances().size() == 1);
-
-            auto mock1Option = make_element<OptionElement>(std::move(mock));
-            auto mock1OptionPtr = mock1Option.get();
-            select.push_back(std::move(mock1Option));
+            auto str1 = make_element<OptionElement>(make_element<StringElement>("a"));
+            auto str1ptr = str1.get();
+            select.push_back(std::move(str1));
 
             THEN("its size is 1")
             {
@@ -97,40 +92,26 @@ SCENARIO("`Select` is inserted to and erased from", "[ElementData][Select]")
                 REQUIRE(!select.empty());
             }
 
-            THEN("its begin points to the mock")
+            THEN("its begin points to the str")
             {
-                REQUIRE((*select.begin()).get() == mock1OptionPtr);
+                REQUIRE((*select.begin()).get() == str1ptr);
             }
 
-            THEN("there were no method calls to the mock")
+            WHEN("another three OptionElements are inserted at begin two at end")
             {
-                REQUIRE(mock1ptr->_total_ctx == 0);
-            }
+                auto str2 = make_element<OptionElement>(make_element<StringElement>("b"));
+                auto str3 = make_element<OptionElement>(make_element<StringElement>("c"));
+                auto str4 = make_element<OptionElement>(make_element<StringElement>("d"));
 
-            THEN("there still is just one mock instance")
-            {
-                REQUIRE(test::ElementMock::instances().size() == 1);
-            }
+                select.insert(select.begin(), std::move(str2));
+                select.insert(select.begin(), std::move(str3));
+                select.insert(select.begin(), std::move(str4));
 
-            WHEN("another three ElementMocks are inserted at begin two at end")
-            {
-                auto mock2 = make_unique<test::ElementMock>();
-                auto mock3 = make_unique<test::ElementMock>();
-                auto mock4 = make_unique<test::ElementMock>();
+                auto str5 = make_element<OptionElement>(make_element<StringElement>("e"));
+                auto str6 = make_element<OptionElement>(make_element<StringElement>("f"));
 
-                select.insert(select.begin(), make_element<OptionElement>(std::move(mock2)));
-                select.insert(select.begin(), make_element<OptionElement>(std::move(mock3)));
-                select.insert(select.begin(), make_element<OptionElement>(std::move(mock4)));
-
-                auto mock5 = make_unique<test::ElementMock>();
-                auto mock5ptr = mock.get();
-
-                auto mock6 = make_unique<test::ElementMock>();
-
-                select.insert(select.begin(), make_element<OptionElement>(std::move(mock5)));
-                select.insert(select.begin(), make_element<OptionElement>(std::move(mock6)));
-
-                REQUIRE(test::ElementMock::instances().size() == 6);
+                select.insert(select.begin(), std::move(str5));
+                select.insert(select.begin(), std::move(str6));
 
                 THEN("its size is 6")
                 {
@@ -152,23 +133,6 @@ SCENARIO("`Select` is inserted to and erased from", "[ElementData][Select]")
                     {
                         REQUIRE(it == std::next(select.begin(), 2));
                     }
-
-                    THEN("only 5 instances of ElementMock exist")
-                    {
-                        REQUIRE(test::ElementMock::instances().size() == 5);
-                    }
-
-                    THEN("none of the existing instances of ElementMock is the erased Element")
-                    {
-                        const auto& instances = test::ElementMock::instances();
-                        REQUIRE(std::find_if(instances.begin(),
-                                    instances.end(),
-                                    [mock5ptr](const test::ElementMock* el) {
-                                        assert(el);
-                                        return el == mock5ptr;
-                                    })
-                            == instances.end());
-                    }
                 }
 
                 WHEN("all but the first Element are erased")
@@ -187,17 +151,12 @@ SCENARIO("`Select` is inserted to and erased from", "[ElementData][Select]")
                 }
             }
 
-            WHEN("another ElementMock is pushed back")
+            WHEN("another OptionElement is pushed back")
             {
-                auto mock2 = make_unique<test::ElementMock>();
-                auto mock2ptr = mock2.get();
+                auto str2 = make_element<OptionElement>(make_element<StringElement>("bar"));
+                auto str2ptr = str2.get();
 
-                auto mock2Option = make_element<OptionElement>(std::move(mock2));
-                auto mock2OptionPtr = mock2Option.get();
-
-                REQUIRE(test::ElementMock::instances().size() == 2);
-
-                select.push_back(std::move(mock2Option));
+                select.push_back(std::move(str2));
 
                 THEN("its size is 2")
                 {
@@ -214,41 +173,10 @@ SCENARIO("`Select` is inserted to and erased from", "[ElementData][Select]")
                     REQUIRE(!select.empty());
                 }
 
-                THEN("its first two elements are the given mocks")
+                THEN("its first two elements are the given strs")
                 {
-                    REQUIRE(select.begin()[0].get() == mock1OptionPtr);
-                    REQUIRE(select.begin()[1].get() == mock2OptionPtr);
-                }
-
-                THEN("there were no method calls to the mocks")
-                {
-                    REQUIRE(mock1ptr->_total_ctx == 0);
-                    REQUIRE(mock2ptr->_total_ctx == 0);
-                }
-
-                THEN("there still are just two mock instances")
-                {
-                    REQUIRE(test::ElementMock::instances().size() == 2);
-                }
-
-                THEN("it is iterable")
-                {
-                    auto mocks = std::array<const OptionElement*, 2>{
-                        mock1OptionPtr, //
-                        mock2OptionPtr  //
-                    };
-
-                    auto mocks_it = mocks.begin();
-                    int ctx = 0;
-                    for (const auto& el : select) {
-                        REQUIRE(mocks_it < mocks.end()); // memory overflow
-                        REQUIRE(*mocks_it == el.get());
-                        ++mocks_it;
-                        ++ctx;
-                        REQUIRE(ctx != 0); // integer overflow
-                    }
-
-                    REQUIRE(ctx == 2);
+                    REQUIRE(select.begin()[0].get() == str1ptr);
+                    REQUIRE(select.begin()[1].get() == str2ptr);
                 }
             }
         }
@@ -257,33 +185,23 @@ SCENARIO("`Select` is inserted to and erased from", "[ElementData][Select]")
 
 SCENARIO("`Select` is move-constructed from elements", "[ElementData][Select]")
 {
-    GIVEN("Three ElementMock instances")
+    GIVEN("Three StringElement instances")
     {
-        REQUIRE(test::ElementMock::instances().size() == 0);
+        auto str1 = make_element<OptionElement>(make_element<StringElement>("a"));
+        auto str1Clone = make_element<OptionElement>(make_element<StringElement>("a"));
+        const auto str1ptr = str1.get();
 
-        auto mock1 = make_unique<test::ElementMock>();
-        const auto mock1ptr = mock1.get();
-        auto mock1Option = make_element<OptionElement>(std::move(mock1));
-        const auto mock1OptionPtr = mock1Option.get();
+        auto str2 = make_element<OptionElement>(make_element<StringElement>("b"));
+        auto str2Clone = make_element<OptionElement>(make_element<StringElement>("b"));
+        const auto str2ptr = str2.get();
 
-        auto mock2 = make_unique<test::ElementMock>();
-        const auto mock2ptr = mock2.get();
-        auto mock2Option = make_element<OptionElement>(std::move(mock2));
-        const auto mock2OptionPtr = mock2Option.get();
-
-        auto mock3 = make_unique<test::ElementMock>();
-        const auto mock3ptr = mock3.get();
-        auto mock3Option = make_element<OptionElement>(std::move(mock3));
-        const auto mock3OptionPtr = mock3Option.get();
-
-        REQUIRE(test::ElementMock::instances().size() == 3);
+        auto str3 = make_element<OptionElement>(make_element<StringElement>("c"));
+        auto str3Clone = make_element<OptionElement>(make_element<StringElement>("c"));
+        const auto str3ptr = str3.get();
 
         WHEN("An Select is constructed from them")
         {
-            Select select( //
-                std::move(mock1Option),
-                std::move(mock2Option),
-                std::move(mock3Option));
+            Select select{ std::move(str1), std::move(str2), std::move(str3) };
 
             THEN("its size is three")
             {
@@ -297,246 +215,109 @@ SCENARIO("`Select` is move-constructed from elements", "[ElementData][Select]")
             {
                 REQUIRE(!select.empty());
             }
-            THEN("it is iterable")
+            THEN("its members were obtained by moving in the original strs")
             {
-                auto mocks = std::array<const OptionElement*, 3>{ //
-                    mock1OptionPtr,
-                    mock2OptionPtr,
-                    mock3OptionPtr
-                };
-                auto mocks_it = mocks.begin();
-
-                int ctx = 0;
-                for (const auto& el : select) {
-                    REQUIRE(mocks_it < mocks.end()); // memory overflow
-                    REQUIRE(*mocks_it == el.get());
-                    ++mocks_it;
-                    ++ctx;
-                    REQUIRE(ctx != 0); // integer overflow
-                }
-                REQUIRE(ctx == 3);
-            }
-            THEN("non-temporary ElementMocks were not constructed")
-            {
-                REQUIRE(test::ElementMock::instances().size() == 3);
-            }
-            THEN("its members were obtained by moving in the original mocks")
-            {
-                REQUIRE(mock1ptr->_total_ctx == 0);
-                REQUIRE(mock2ptr->_total_ctx == 0);
-                REQUIRE(mock3ptr->_total_ctx == 0);
-
-                REQUIRE(select.begin()[0].get() == mock1OptionPtr);
-                REQUIRE(select.begin()[1].get() == mock2OptionPtr);
-                REQUIRE(select.begin()[2].get() == mock3OptionPtr);
+                REQUIRE(select.begin()[0].get() == str1ptr);
+                REQUIRE(select.begin()[1].get() == str2ptr);
+                REQUIRE(select.begin()[2].get() == str3ptr);
             }
         }
 
         WHEN("an Select is created from them")
         {
+            Select select{ std::move(str1), std::move(str2), std::move(str3) };
+
+            THEN("its size is three")
             {
-                Select select{ std::move(mock1Option), std::move(mock2Option), std::move(mock3Option) };
+                REQUIRE(select.size() == 3);
+            }
+            THEN("its begin is 3 away from its end")
+            {
+                REQUIRE(select.end() - select.begin() == 3);
+            }
+            THEN("it is not empty")
+            {
+                REQUIRE(!select.empty());
+            }
+            THEN("its first three elements are the given strs")
+            {
+                REQUIRE(select.begin()[0].get() == str1ptr);
+                REQUIRE(select.begin()[1].get() == str2ptr);
+                REQUIRE(select.begin()[2].get() == str3ptr);
+            }
+
+            WHEN("another Select is copy constructed from it")
+            {
+                Select select2(select);
 
                 THEN("its size is three")
                 {
-                    REQUIRE(select.size() == 3);
+                    REQUIRE(select2.size() == 3);
                 }
                 THEN("its begin is 3 away from its end")
                 {
-                    REQUIRE(select.end() - select.begin() == 3);
+                    REQUIRE(select2.end() - select2.begin() == 3);
+                }
+                THEN("the original's size is three")
+                {
+                    REQUIRE(select.size() == 3);
                 }
                 THEN("it is not empty")
                 {
+                    REQUIRE(!select2.empty());
+                }
+                THEN("the original is not empty")
+                {
                     REQUIRE(!select.empty());
                 }
-                THEN("its first three elements are the given mocks")
+                THEN("its size equals the original's size")
                 {
-                    REQUIRE(select.begin()[0].get() == mock1OptionPtr);
-                    REQUIRE(select.begin()[1].get() == mock2OptionPtr);
-                    REQUIRE(select.begin()[2].get() == mock3OptionPtr);
+                    REQUIRE(select.size() == select2.size());
                 }
-                THEN("it is iterable")
+                THEN("their entries are equal")
                 {
-                    auto mocks = std::array<const OptionElement*, 3>{ //
-                        mock1OptionPtr,
-                        mock2OptionPtr,
-                        mock3OptionPtr
-                    };
-                    auto mocks_it = mocks.begin();
-
-                    int ctx = 0;
-                    for (const auto& el : select) {
-                        REQUIRE(mocks_it < mocks.end()); // memory overflow
-                        REQUIRE(*mocks_it == el.get());
-                        ++mocks_it;
-                        ++ctx;
-                        REQUIRE(ctx != 0); // integer overflow
-                    }
-                    REQUIRE(ctx == 3);
-                }
-                THEN("non-temporary ElementMocks were not constructed")
-                {
-                    REQUIRE(test::ElementMock::instances().size() == 3);
-                }
-                THEN("nothing was called on the mocks")
-                {
-                    REQUIRE(mock1ptr->_total_ctx == 0);
-                    REQUIRE(mock2ptr->_total_ctx == 0);
-                    REQUIRE(mock3ptr->_total_ctx == 0);
-                }
-
-                WHEN("another Select is copy constructed from it")
-                {
-                    auto mock1clone = new test::ElementMock{};
-                    auto mock2clone = new test::ElementMock{};
-                    auto mock3clone = new test::ElementMock{};
-                    REQUIRE(test::ElementMock::instances().size() == 6);
-
-                    mock1ptr->clone_out.reset(mock1clone);
-                    mock2ptr->clone_out.reset(mock2clone);
-                    mock3ptr->clone_out.reset(mock3clone);
-                    REQUIRE(test::ElementMock::instances().size() == 6);
-
-                    Select select2(select);
-
-                    THEN("its size is three")
-                    {
-                        REQUIRE(select2.size() == 3);
-                    }
-                    THEN("its begin is 3 away from its end")
-                    {
-                        REQUIRE(select2.end() - select2.begin() == 3);
-                    }
-                    THEN("the original's size is three")
-                    {
-                        REQUIRE(select.size() == 3);
-                    }
-                    THEN("it is not empty")
-                    {
-                        REQUIRE(!select2.empty());
-                    }
-                    THEN("the original is not empty")
-                    {
-                        REQUIRE(!select.empty());
-                    }
-                    THEN("its size equals the original's size")
-                    {
-                        REQUIRE(select.size() == select2.size());
-                    }
-
-                    THEN("it is iterable")
-                    {
-                        auto mocks = std::array<IElement*, 3>{ mock1clone, mock2clone, mock3clone };
-                        auto mocks_it = mocks.begin();
-                        int ctx = 0;
-                        for (const auto& el : select2) {
-                            REQUIRE(mocks_it < mocks.end()); // memory overflow
-                            REQUIRE(*mocks_it == el->get().begin()[0].get());
-                            ++mocks_it;
-                            ++ctx;
-                            REQUIRE(ctx != 0); // integer overflow
-                        }
-                        REQUIRE(ctx == 3);
-                    }
-
-                    THEN("non-temporary ElementMocks were not constructed")
-                    {
-                        REQUIRE(test::ElementMock::instances().size() == 6);
-                    }
-
-                    THEN("its members were obtained calling `IElement::clone(cAll)` on original mocks")
-                    {
-                        REQUIRE(mock1ptr->_total_ctx == 1);
-                        REQUIRE(mock2ptr->_total_ctx == 1);
-                        REQUIRE(mock3ptr->_total_ctx == 1);
-
-                        REQUIRE(mock1ptr->clone_ctx == 1);
-                        REQUIRE(mock2ptr->clone_ctx == 1);
-                        REQUIRE(mock3ptr->clone_ctx == 1);
-
-                        REQUIRE(mock1ptr->clone_in == IElement::cAll);
-                        REQUIRE(mock2ptr->clone_in == IElement::cAll);
-                        REQUIRE(mock3ptr->clone_in == IElement::cAll);
-
-                        REQUIRE(select2.begin()[0]->get().begin()[0].get() == mock1clone);
-                        REQUIRE(select2.begin()[1]->get().begin()[0].get() == mock2clone);
-                        REQUIRE(select2.begin()[2]->get().begin()[0].get() == mock3clone);
-                    }
-                }
-
-                WHEN("another Select is move constructed from it")
-                {
-                    {
-                        Select select2(std::move(select));
-
-                        THEN("its size is three")
-                        {
-                            REQUIRE(select2.size() == 3);
-                        }
-                        THEN("its begin is 3 away from its end")
-                        {
-                            REQUIRE(select2.end() - select2.begin() == 3);
-                        }
-                        THEN("the original's begin is at its end")
-                        {
-                            REQUIRE(select.end() == select.begin());
-                        }
-                        THEN("the original's size is zero")
-                        {
-                            REQUIRE(select.size() == 0);
-                        }
-                        THEN("the original is empty")
-                        {
-                            REQUIRE(select.empty());
-                        }
-                        THEN("it is not empty")
-                        {
-                            REQUIRE(!select2.empty());
-                        }
-                        THEN("it is iterable")
-                        {
-                            auto mocks = std::array<const OptionElement*, 3>{ //
-                                mock1OptionPtr,
-                                mock2OptionPtr,
-                                mock3OptionPtr
-                            };
-                            auto mocks_it = mocks.begin();
-
-                            int ctx = 0;
-                            for (const auto& el : select2) {
-                                REQUIRE(mocks_it < mocks.end()); // memory overflow
-                                REQUIRE(*mocks_it == el.get());
-                                ++mocks_it;
-                                ++ctx;
-                                REQUIRE(ctx != 0); // integer overflow
-                            }
-                            REQUIRE(ctx == 3);
-                        }
-                        THEN("non-temporary ElementMocks were not constructed")
-                        {
-                            REQUIRE(test::ElementMock::instances().size() == 3);
-                        }
-                        THEN("its members are the original mocks")
-                        {
-                            REQUIRE(select2.begin()[0]->get().begin()[0].get() == mock1ptr);
-                            REQUIRE(select2.begin()[1]->get().begin()[0].get() == mock2ptr);
-                            REQUIRE(select2.begin()[2]->get().begin()[0].get() == mock3ptr);
-                        }
-                    }
-                    WHEN("it goes out of scope")
-                    {
-                        THEN("no mocks are left")
-                        {
-                            REQUIRE(test::ElementMock::instances().empty());
-                        }
-                    }
+                    REQUIRE(std::equal(select2.begin(),
+                        select2.end(),
+                        select.begin(),
+                        [](const std::unique_ptr<OptionElement>& e1, const std::unique_ptr<OptionElement>& e2) {
+                            return *e1 == *e2;
+                        }));
                 }
             }
-            WHEN("it goes out of scope")
+
+            WHEN("another Select is move constructed from it")
             {
-                THEN("no mocks are left")
+                Select select2(std::move(select));
+
+                THEN("its size is three")
                 {
-                    REQUIRE(test::ElementMock::instances().empty());
+                    REQUIRE(select2.size() == 3);
+                }
+                THEN("its begin is 3 away from its end")
+                {
+                    REQUIRE(select2.end() - select2.begin() == 3);
+                }
+                THEN("the original's begin is at its end")
+                {
+                    REQUIRE(select.end() == select.begin());
+                }
+                THEN("the original's size is zero")
+                {
+                    REQUIRE(select.size() == 0);
+                }
+                THEN("the original is empty")
+                {
+                    REQUIRE(select.empty());
+                }
+                THEN("it is not empty")
+                {
+                    REQUIRE(!select2.empty());
+                }
+                THEN("its entries are the original strs")
+                {
+                    REQUIRE(select2.begin()[0].get() == str1ptr);
+                    REQUIRE(select2.begin()[1].get() == str2ptr);
+                    REQUIRE(select2.begin()[2].get() == str3ptr);
                 }
             }
         }

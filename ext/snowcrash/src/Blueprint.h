@@ -166,7 +166,7 @@ namespace snowcrash
         Identifier id;
 
         /** Type */
-        ReferenceType type;
+        ReferenceType type = {};
 
         struct ReferenceMetadata {
 
@@ -182,6 +182,8 @@ namespace snowcrash
 
         /** Metadata for the reference */
         ReferenceMetadata meta;
+
+        Reference() = default;
     };
 
     /**
@@ -393,7 +395,7 @@ namespace snowcrash
         struct Attributes {
 
             /** Human readable name of the element */
-            Name name;
+            Name name = {};
         };
 
         /** Content of an element */
@@ -437,16 +439,16 @@ namespace snowcrash
         };
 
         /** Type of the element */
-        Element::Class element;
+        Element::Class element = {};
 
         /** Attributes of the element */
-        Element::Attributes attributes;
+        Element::Attributes attributes = {};
 
         /** Content of the element */
-        Element::Content content;
+        Element::Content content = {};
 
         /** Type of Category element (to be used internally only) */
-        Element::Category category;
+        Element::Category category = {};
 
         /** Constructor */
         Element(const Element::Class& element_ = Element::UndefinedElement);

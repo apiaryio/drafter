@@ -10,7 +10,6 @@
 
 #include "refract/dsd/Option.h"
 #include "refract/Element.h"
-#include "ElementMock.h"
 
 #include <array>
 
@@ -47,6 +46,11 @@ SCENARIO("`Option` is default constructed and both copy- and move constructed fr
         {
             Option option2(option);
 
+            THEN("the original Option is empty")
+            {
+                REQUIRE(option.empty());
+            }
+
             THEN("the latter Option is also empty")
             {
                 REQUIRE(option2.empty());
@@ -59,7 +63,7 @@ SCENARIO("`Option` is default constructed and both copy- and move constructed fr
 
             THEN("the original Option is empty")
             {
-                REQUIRE(option2.empty());
+                REQUIRE(option.empty());
             }
 
             THEN("the latter Option is also empty")
@@ -76,14 +80,12 @@ SCENARIO("`Option` is inserted to and erased from", "[ElementData][Option]")
     {
         Option option;
 
-        WHEN("an ElementMock is pushed back")
+        WHEN("a StringElement is pushed back")
         {
-            auto mock = make_unique<test::ElementMock>();
-            auto mock1ptr = mock.get();
+            auto str = make_element<StringElement>("a");
+            auto str1ptr = str.get();
 
-            REQUIRE(test::ElementMock::instances().size() == 1);
-
-            option.push_back(std::move(mock));
+            option.push_back(std::move(str));
 
             THEN("its size is 1")
             {
@@ -95,40 +97,26 @@ SCENARIO("`Option` is inserted to and erased from", "[ElementData][Option]")
                 REQUIRE(!option.empty());
             }
 
-            THEN("its begin points to the mock")
+            THEN("its begin points to the str")
             {
-                REQUIRE((*option.begin()).get() == mock1ptr);
+                REQUIRE((*option.begin()).get() == str1ptr);
             }
 
-            THEN("there were no method calls to the mock")
+            WHEN("another three StringElements are inserted at begin two at end")
             {
-                REQUIRE(mock1ptr->_total_ctx == 0);
-            }
+                auto str2 = make_element<StringElement>("b");
+                auto str3 = make_element<StringElement>("c");
+                auto str4 = make_element<StringElement>("d");
 
-            THEN("there still is just one mock instance")
-            {
-                REQUIRE(test::ElementMock::instances().size() == 1);
-            }
+                option.insert(option.begin(), std::move(str2));
+                option.insert(option.begin(), std::move(str3));
+                option.insert(option.begin(), std::move(str4));
 
-            WHEN("another three ElementMocks are inserted at begin two at end")
-            {
-                auto mock2 = make_unique<test::ElementMock>();
-                auto mock3 = make_unique<test::ElementMock>();
-                auto mock4 = make_unique<test::ElementMock>();
+                auto str5 = make_element<StringElement>("e");
+                auto str6 = make_element<StringElement>("f");
 
-                option.insert(option.begin(), std::move(mock2));
-                option.insert(option.begin(), std::move(mock3));
-                option.insert(option.begin(), std::move(mock4));
-
-                auto mock5 = make_unique<test::ElementMock>();
-                auto mock5ptr = mock.get();
-
-                auto mock6 = make_unique<test::ElementMock>();
-
-                option.insert(option.begin(), std::move(mock5));
-                option.insert(option.begin(), std::move(mock6));
-
-                REQUIRE(test::ElementMock::instances().size() == 6);
+                option.insert(option.begin(), std::move(str5));
+                option.insert(option.begin(), std::move(str6));
 
                 THEN("its size is 6")
                 {
@@ -150,23 +138,6 @@ SCENARIO("`Option` is inserted to and erased from", "[ElementData][Option]")
                     {
                         REQUIRE(it == std::next(option.begin(), 2));
                     }
-
-                    THEN("only 5 instances of ElementMock exist")
-                    {
-                        REQUIRE(test::ElementMock::instances().size() == 5);
-                    }
-
-                    THEN("none of the existing instances of ElementMock is the erased Element")
-                    {
-                        const auto& instances = test::ElementMock::instances();
-                        REQUIRE(std::find_if(instances.begin(),
-                                    instances.end(),
-                                    [mock5ptr](const test::ElementMock* el) {
-                                        assert(el);
-                                        return el == mock5ptr;
-                                    })
-                            == instances.end());
-                    }
                 }
 
                 WHEN("all but the first Element are erased")
@@ -185,14 +156,12 @@ SCENARIO("`Option` is inserted to and erased from", "[ElementData][Option]")
                 }
             }
 
-            WHEN("another ElementMock is pushed back")
+            WHEN("another StringElement is pushed back")
             {
-                auto mock2 = make_unique<test::ElementMock>();
-                auto mock2ptr = mock2.get();
+                auto str2 = make_element<StringElement>();
+                auto str2ptr = str2.get();
 
-                REQUIRE(test::ElementMock::instances().size() == 2);
-
-                option.push_back(std::move(mock2));
+                option.push_back(std::move(str2));
 
                 THEN("its size is 2")
                 {
@@ -209,36 +178,10 @@ SCENARIO("`Option` is inserted to and erased from", "[ElementData][Option]")
                     REQUIRE(!option.empty());
                 }
 
-                THEN("its first two elements are the given mocks")
+                THEN("its first two elements are the given strs")
                 {
-                    REQUIRE(option.begin()[0].get() == mock1ptr);
-                    REQUIRE(option.begin()[1].get() == mock2ptr);
-                }
-
-                THEN("there were no method calls to the mocks")
-                {
-                    REQUIRE(mock1ptr->_total_ctx == 0);
-                    REQUIRE(mock2ptr->_total_ctx == 0);
-                }
-
-                THEN("there still are just two mock instances")
-                {
-                    REQUIRE(test::ElementMock::instances().size() == 2);
-                }
-
-                THEN("it is iterable")
-                {
-                    auto mocks = std::array<IElement*, 2>{ mock1ptr, mock2ptr };
-                    auto mocks_it = mocks.begin();
-                    int ctx = 0;
-                    for (const auto& el : option) {
-                        REQUIRE(mocks_it < mocks.end()); // memory overflow
-                        REQUIRE(*mocks_it == el.get());
-                        ++mocks_it;
-                        ++ctx;
-                        REQUIRE(ctx != 0); // integer overflow
-                    }
-                    REQUIRE(ctx == 2);
+                    REQUIRE(option.begin()[0].get() == str1ptr);
+                    REQUIRE(option.begin()[1].get() == str2ptr);
                 }
             }
         }
@@ -247,23 +190,19 @@ SCENARIO("`Option` is inserted to and erased from", "[ElementData][Option]")
 
 SCENARIO("`Option` is move-constructed from elements", "[ElementData][Option]")
 {
-    GIVEN("Three ElementMock instances")
+    GIVEN("Three StringElement instances")
     {
-        REQUIRE(test::ElementMock::instances().size() == 0);
+        auto str1 = make_element<StringElement>();
+        auto str2 = make_element<StringElement>();
+        auto str3 = make_element<StringElement>();
 
-        auto mock1 = make_unique<test::ElementMock>();
-        auto mock2 = make_unique<test::ElementMock>();
-        auto mock3 = make_unique<test::ElementMock>();
-
-        const auto mock1ptr = mock1.get();
-        const auto mock2ptr = mock2.get();
-        const auto mock3ptr = mock3.get();
-
-        REQUIRE(test::ElementMock::instances().size() == 3);
+        const auto str1ptr = str1.get();
+        const auto str2ptr = str2.get();
+        const auto str3ptr = str3.get();
 
         WHEN("An Option is constructed from them")
         {
-            Option option(std::move(mock1), std::move(mock2), std::move(mock3));
+            Option option(std::move(str1), std::move(str2), std::move(str3));
 
             THEN("its size is three")
             {
@@ -279,38 +218,31 @@ SCENARIO("`Option` is move-constructed from elements", "[ElementData][Option]")
             }
             THEN("it is iterable")
             {
-                auto mock_ptrs = std::array<const IElement*, 3>{ mock1ptr, mock2ptr, mock3ptr };
-                auto mock_ptrs_it = mock_ptrs.begin();
+                auto str_ptrs = std::array<const IElement*, 3>{ str1ptr, str2ptr, str3ptr };
+                auto str_ptrs_it = str_ptrs.begin();
                 int ctx = 0;
                 for (const auto& el : option) {
-                    REQUIRE(mock_ptrs_it < mock_ptrs.end()); // memory overflow
-                    REQUIRE(*mock_ptrs_it == el.get());
-                    ++mock_ptrs_it;
+                    REQUIRE(str_ptrs_it < str_ptrs.end()); // memory overflow
+                    REQUIRE(*str_ptrs_it == el.get());
+                    ++str_ptrs_it;
                     ++ctx;
                     REQUIRE(ctx != 0); // integer overflow
                 }
                 REQUIRE(ctx == 3);
             }
-            THEN("non-temporary ElementMocks were not constructed")
-            {
-                REQUIRE(test::ElementMock::instances().size() == 3);
-            }
-            THEN("its members were obtained by moving in the original mocks")
-            {
-                REQUIRE(mock1ptr->_total_ctx == 0);
-                REQUIRE(mock2ptr->_total_ctx == 0);
-                REQUIRE(mock3ptr->_total_ctx == 0);
 
-                REQUIRE(option.begin()[0].get() == mock1ptr);
-                REQUIRE(option.begin()[1].get() == mock2ptr);
-                REQUIRE(option.begin()[2].get() == mock3ptr);
+            THEN("its members were obtained by moving in the original strs")
+            {
+                REQUIRE(option.begin()[0].get() == str1ptr);
+                REQUIRE(option.begin()[1].get() == str2ptr);
+                REQUIRE(option.begin()[2].get() == str3ptr);
             }
         }
 
         WHEN("an Option is created from them")
         {
             {
-                Option option{ std::move(mock1), std::move(mock2), std::move(mock3) };
+                Option option{ std::move(str1), std::move(str2), std::move(str3) };
 
                 THEN("its size is three")
                 {
@@ -324,49 +256,29 @@ SCENARIO("`Option` is move-constructed from elements", "[ElementData][Option]")
                 {
                     REQUIRE(!option.empty());
                 }
-                THEN("its first three elements are the given mocks")
+                THEN("its first three elements are the given strs")
                 {
-                    REQUIRE(option.begin()[0].get() == mock1ptr);
-                    REQUIRE(option.begin()[1].get() == mock2ptr);
-                    REQUIRE(option.begin()[2].get() == mock3ptr);
+                    REQUIRE(option.begin()[0].get() == str1ptr);
+                    REQUIRE(option.begin()[1].get() == str2ptr);
+                    REQUIRE(option.begin()[2].get() == str3ptr);
                 }
                 THEN("it is iterable")
                 {
-                    auto mocks = std::array<IElement*, 3>{ mock1ptr, mock2ptr, mock3ptr };
-                    auto mocks_it = mocks.begin();
+                    auto strs = std::array<IElement*, 3>{ str1ptr, str2ptr, str3ptr };
+                    auto strs_it = strs.begin();
                     int ctx = 0;
                     for (const auto& el : option) {
-                        REQUIRE(mocks_it < mocks.end()); // memory overflow
-                        REQUIRE(*mocks_it == el.get());
-                        ++mocks_it;
+                        REQUIRE(strs_it < strs.end()); // memory overflow
+                        REQUIRE(*strs_it == el.get());
+                        ++strs_it;
                         ++ctx;
                         REQUIRE(ctx != 0); // integer overflow
                     }
                     REQUIRE(ctx == 3);
                 }
-                THEN("non-temporary ElementMocks were not constructed")
-                {
-                    REQUIRE(test::ElementMock::instances().size() == 3);
-                }
-                THEN("nothing was called on the mocks")
-                {
-                    REQUIRE(mock1ptr->_total_ctx == 0);
-                    REQUIRE(mock2ptr->_total_ctx == 0);
-                    REQUIRE(mock3ptr->_total_ctx == 0);
-                }
 
                 WHEN("another Option is copy constructed from it")
                 {
-                    auto mock1clone = new test::ElementMock{};
-                    auto mock2clone = new test::ElementMock{};
-                    auto mock3clone = new test::ElementMock{};
-                    REQUIRE(test::ElementMock::instances().size() == 6);
-
-                    mock1ptr->clone_out.reset(mock1clone);
-                    mock2ptr->clone_out.reset(mock2clone);
-                    mock3ptr->clone_out.reset(mock3clone);
-                    REQUIRE(test::ElementMock::instances().size() == 6);
-
                     Option option2(option);
 
                     THEN("its size is three")
@@ -393,47 +305,21 @@ SCENARIO("`Option` is move-constructed from elements", "[ElementData][Option]")
                     {
                         REQUIRE(option.size() == option2.size());
                     }
-                    THEN("it is iterable")
+                    THEN("they are equal")
                     {
-                        auto mocks = std::array<IElement*, 3>{ mock1clone, mock2clone, mock3clone };
-                        auto mocks_it = mocks.begin();
-                        int ctx = 0;
-                        for (const auto& el : option2) {
-                            REQUIRE(mocks_it < mocks.end()); // memory overflow
-                            REQUIRE(*mocks_it == el.get());
-                            ++mocks_it;
-                            ++ctx;
-                            REQUIRE(ctx != 0); // integer overflow
-                        }
-                        REQUIRE(ctx == 3);
-                    }
-                    THEN("non-temporary ElementMocks were not constructed")
-                    {
-                        REQUIRE(test::ElementMock::instances().size() == 6);
-                    }
-                    THEN("its members were obtained calling `IElement::clone(cAll)` on original mocks")
-                    {
-                        REQUIRE(mock1ptr->_total_ctx == 1);
-                        REQUIRE(mock2ptr->_total_ctx == 1);
-                        REQUIRE(mock3ptr->_total_ctx == 1);
-
-                        REQUIRE(mock1ptr->clone_ctx == 1);
-                        REQUIRE(mock2ptr->clone_ctx == 1);
-                        REQUIRE(mock3ptr->clone_ctx == 1);
-
-                        REQUIRE(mock1ptr->clone_in == IElement::cAll);
-                        REQUIRE(mock2ptr->clone_in == IElement::cAll);
-                        REQUIRE(mock3ptr->clone_in == IElement::cAll);
-
-                        REQUIRE(option2.begin()[0].get() == mock1clone);
-                        REQUIRE(option2.begin()[1].get() == mock2clone);
-                        REQUIRE(option2.begin()[2].get() == mock3clone);
+                        std::equal(option.begin(),
+                            option.end(),
+                            option2.begin(),
+                            [](const std::unique_ptr<IElement>& e1, const std::unique_ptr<IElement>& e2) {
+                                return *e1 == *e2;
+                            });
                     }
                 }
 
                 WHEN("another Option is move constructed from it")
                 {
                     {
+                        Option option1(option);
                         Option option2(std::move(option));
 
                         THEN("its size is three")
@@ -460,45 +346,16 @@ SCENARIO("`Option` is move-constructed from elements", "[ElementData][Option]")
                         {
                             REQUIRE(!option2.empty());
                         }
-                        THEN("it is iterable")
+                        THEN("they are equal")
                         {
-                            auto mocks = std::array<IElement*, 3>{ mock1ptr, mock2ptr, mock3ptr };
-                            auto mocks_it = mocks.begin();
-                            int ctx = 0;
-                            for (const auto& el : option2) {
-                                REQUIRE(mocks_it < mocks.end()); // memory overflow
-                                REQUIRE(*mocks_it == el.get());
-                                ++mocks_it;
-                                ++ctx;
-                                REQUIRE(ctx != 0); // integer overflow
-                            }
-                            REQUIRE(ctx == 3);
-                        }
-                        THEN("non-temporary ElementMocks were not constructed")
-                        {
-                            REQUIRE(test::ElementMock::instances().size() == 3);
-                        }
-                        THEN("its members are the original mocks")
-                        {
-                            REQUIRE(option2.begin()[0].get() == mock1ptr);
-                            REQUIRE(option2.begin()[1].get() == mock2ptr);
-                            REQUIRE(option2.begin()[2].get() == mock3ptr);
+                            std::equal(option1.begin(),
+                                option1.end(),
+                                option2.begin(),
+                                [](const std::unique_ptr<IElement>& e1, const std::unique_ptr<IElement>& e2) {
+                                    return *e1 == *e2;
+                                });
                         }
                     }
-                    WHEN("it goes out of scope")
-                    {
-                        THEN("no mocks are left")
-                        {
-                            REQUIRE(test::ElementMock::instances().empty());
-                        }
-                    }
-                }
-            }
-            WHEN("it goes out of scope")
-            {
-                THEN("no mocks are left")
-                {
-                    REQUIRE(test::ElementMock::instances().empty());
                 }
             }
         }
