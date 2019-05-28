@@ -395,7 +395,7 @@ namespace snowcrash
         struct Attributes {
 
             /** Human readable name of the element */
-            Name name;
+            Name name = {};
         };
 
         /** Content of an element */

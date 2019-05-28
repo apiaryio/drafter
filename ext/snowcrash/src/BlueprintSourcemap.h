@@ -247,7 +247,7 @@ namespace snowcrash
         struct Attributes {
 
             /** Source Map of a Element Name */
-            SourceMap<Name> name;
+            SourceMap<Name> name = {};
         };
 
         /** Source Map Structure for Content of the Element */
