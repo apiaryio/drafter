@@ -2,6 +2,12 @@
 
 ## Master
 
+### Bug Fixes
+
+* JSON value & JSON schema backends now support top-level Reference Elements.
+  This prevents crashes on `Include` statements in `enum` contexts.
+  [#709](https://github.com/apiaryio/drafter/issues/709)
+
 ### Enhancements
 
 * The default build type is now release when using cmake.
