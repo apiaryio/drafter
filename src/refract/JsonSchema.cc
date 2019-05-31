@@ -323,28 +323,29 @@ namespace
     void renderProperty(ObjectSchema& s, const ExtendElement& e, TypeAttributes options);
     void renderProperty(ObjectSchema& s, const IElement& e, TypeAttributes options);
 
-    so::Object& renderSchema(so::Object& schema, const ObjectElement& e, TypeAttributes options);
-    so::Object& renderSchema(so::Object& schema, const ArrayElement& e, TypeAttributes options);
-    so::Object& renderSchema(so::Object& schema, const EnumElement& e, TypeAttributes options);
-    so::Object& renderSchema(so::Object& schema, const NullElement& e, TypeAttributes options);
-    so::Object& renderSchema(so::Object& schema, const StringElement& e, TypeAttributes options);
-    so::Object& renderSchema(so::Object& schema, const NumberElement& e, TypeAttributes options);
-    so::Object& renderSchema(so::Object& schema, const BooleanElement& e, TypeAttributes options);
-    so::Object& renderSchema(so::Object& schema, const ExtendElement& e, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const ObjectElement& e, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const ArrayElement& e, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const EnumElement& e, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const NullElement& e, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const StringElement& e, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const NumberElement& e, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const BooleanElement& e, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const ExtendElement& e, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const RefElement& e, TypeAttributes options);
     so::Object& renderSchema(so::Object& schema, const IElement& e, TypeAttributes options);
 
     template <typename T>
     void renderProperty(ObjectSchema&, const T& e, so::Object&, TypeAttributes)
     {
         LOG(error) << "invalid property element: " << e.element();
-        assert(false);
+        abort();
     }
 
     template <typename T>
-    so::Object& renderSchema(so::Object& s, so::Object&, const T& e, TypeAttributes)
+    so::Object& renderSchemaSpecific(so::Object& s, const T& e, TypeAttributes)
     {
         LOG(error) << "invalid top level element: " << e.element();
-        assert(false);
+        abort();
         return s;
     }
 
@@ -355,7 +356,7 @@ namespace
         template <typename ElementT>
         void operator()(const ElementT& el)
         {
-            renderSchema(*schemaPtr, el, options);
+            renderSchemaSpecific(*schemaPtr, el, options);
         }
     };
 
@@ -389,8 +390,13 @@ so::Object schema::generateJsonSchema(const IElement& el)
 
 namespace
 {
+    so::Object& renderSchemaSpecific(so::Object& s, const RefElement& e, TypeAttributes options)
+    {
+        const auto& resolved = resolve(e);
+        return renderSchema(s, resolved, passFlags(options));
+    }
 
-    so::Object& renderSchema(so::Object& s, const ObjectElement& e, TypeAttributes options)
+    so::Object& renderSchemaSpecific(so::Object& s, const ObjectElement& e, TypeAttributes options)
     {
         constexpr const char* TYPE_NAME = "object";
 
@@ -421,7 +427,7 @@ namespace
         return schema;
     }
 
-    so::Object& renderSchema(so::Object& s, const ArrayElement& e, TypeAttributes options)
+    so::Object& renderSchemaSpecific(so::Object& s, const ArrayElement& e, TypeAttributes options)
     {
         constexpr const char* TYPE_NAME = "array";
 
@@ -463,7 +469,7 @@ namespace
         return s;
     }
 
-    so::Object& renderSchema(so::Object& schema, const EnumElement& e, TypeAttributes options)
+    so::Object& renderSchemaSpecific(so::Object& schema, const EnumElement& e, TypeAttributes options)
     {
         options = updateTypeAttributes(e, options);
 
@@ -524,7 +530,7 @@ namespace
         return schema;
     }
 
-    so::Object& renderSchema(so::Object& schema, const NullElement& e, TypeAttributes options)
+    so::Object& renderSchemaSpecific(so::Object& schema, const NullElement& e, TypeAttributes options)
     {
         addType(schema, "null");
         return schema;
@@ -573,22 +579,22 @@ namespace
         return s;
     }
 
-    so::Object& renderSchema(so::Object& s, const StringElement& e, TypeAttributes options)
+    so::Object& renderSchemaSpecific(so::Object& s, const StringElement& e, TypeAttributes options)
     {
         return renderSchemaPrimitive(s, e, options);
     }
 
-    so::Object& renderSchema(so::Object& s, const NumberElement& e, TypeAttributes options)
+    so::Object& renderSchemaSpecific(so::Object& s, const NumberElement& e, TypeAttributes options)
     {
         return renderSchemaPrimitive(s, e, options);
     }
 
-    so::Object& renderSchema(so::Object& s, const BooleanElement& e, TypeAttributes options)
+    so::Object& renderSchemaSpecific(so::Object& s, const BooleanElement& e, TypeAttributes options)
     {
         return renderSchemaPrimitive(s, e, options);
     }
 
-    so::Object& renderSchema(so::Object& s, const ExtendElement& e, TypeAttributes options)
+    so::Object& renderSchemaSpecific(so::Object& s, const ExtendElement& e, TypeAttributes options)
     {
         auto merged = e.get().merge();
         renderSchema(s, *merged, options);
