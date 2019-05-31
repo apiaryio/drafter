@@ -86,13 +86,14 @@ namespace
     so::Value renderValueSpecific(const NumberElement& element, TypeAttributes options);
     so::Value renderValueSpecific(const BooleanElement& element, TypeAttributes options);
     so::Value renderValueSpecific(const ExtendElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const RefElement& element, TypeAttributes options);
     so::Value renderValue(const IElement& element, TypeAttributes options);
 
     template <typename T>
     void renderProperty(so::Object&, const T& element, TypeAttributes)
     {
         LOG(error) << "invalid property element: " << element.element();
-        assert(false);
+        abort();
     }
 
     template <typename Element>
@@ -117,7 +118,7 @@ namespace
     so::Value renderValueSpecific(const T& element, TypeAttributes)
     {
         LOG(error) << "invalid top level element: " << element.element();
-        assert(false);
+        abort();
         return so::Null{}; // unreachable
     }
 
@@ -282,6 +283,12 @@ namespace
         auto merged = element.get().merge();
         assert(merged);
         return renderValue(*merged, options);
+    }
+
+    so::Value renderValueSpecific(const RefElement& element, TypeAttributes options)
+    {
+        const auto& resolved = resolve(element);
+        return renderValue(resolved, passFlags(options));
     }
 
 } // namespace
