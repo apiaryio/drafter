@@ -17,9 +17,8 @@ mdp::ByteBuffer RelationFixture = "+ Relation: create";
 TEST_CASE("Recognize relation signature", "[relation]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    markdownParser.parse(RelationFixture, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(RelationFixture);
 
     REQUIRE(!markdownAST.children().empty());
     sectionType = SectionProcessor<Relation>::sectionType(markdownAST.children().begin());
@@ -31,9 +30,8 @@ TEST_CASE("Relation signature without colon", "[relation]")
     mdp::ByteBuffer source = "+ Relation delete";
 
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    markdownParser.parse(source, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
 
     REQUIRE(!markdownAST.children().empty());
     sectionType = SectionProcessor<Relation>::sectionType(markdownAST.children().begin());
@@ -58,9 +56,8 @@ TEST_CASE("Relation identifier starting with non lower alphabet", "[relation]")
     mdp::ByteBuffer source = "+ Relation: 9delete";
 
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    markdownParser.parse(source, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
 
     REQUIRE(!markdownAST.children().empty());
     sectionType = SectionProcessor<Relation>::sectionType(markdownAST.children().begin());
@@ -80,9 +77,8 @@ TEST_CASE("Relation identifier containing capital letters", "[relation]")
     mdp::ByteBuffer source = "+ Relation: deLete";
 
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    markdownParser.parse(source, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
 
     REQUIRE(!markdownAST.children().empty());
     sectionType = SectionProcessor<Relation>::sectionType(markdownAST.children().begin());
@@ -102,9 +98,8 @@ TEST_CASE("Relation identifier containing special characters", "[relation]")
     mdp::ByteBuffer source = "+ Relation: del*et_e";
 
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    markdownParser.parse(source, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
 
     REQUIRE(!markdownAST.children().empty());
     sectionType = SectionProcessor<Relation>::sectionType(markdownAST.children().begin());
@@ -124,9 +119,8 @@ TEST_CASE("Relation identifier consisting of dots and dashes", "[relation]")
     mdp::ByteBuffer source = "+ Relation: delete-task.2";
 
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    markdownParser.parse(source, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
 
     REQUIRE(!markdownAST.children().empty());
     sectionType = SectionProcessor<Relation>::sectionType(markdownAST.children().begin());

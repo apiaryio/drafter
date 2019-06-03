@@ -33,9 +33,9 @@ static ByteBuffer ByteBufferFromSundown(const struct buf* text)
 
 MarkdownParser::MarkdownParser() : m_workingNode(NULL), m_listBlockContext(false), m_source(NULL), m_sourceLength(0) {}
 
-void MarkdownParser::parse(const ByteBuffer& source, MarkdownNode& ast)
+MarkdownNode MarkdownParser::parse(const ByteBuffer& source)
 {
-    ast = MarkdownNode();
+    MarkdownNode ast{};
     m_workingNode = &ast;
     m_workingNode->type = RootMarkdownNodeType;
     m_workingNode->sourceMap.push_back(BytesRange(0, source.length()));
@@ -57,6 +57,8 @@ void MarkdownParser::parse(const ByteBuffer& source, MarkdownNode& ast)
     m_source = NULL;
     m_sourceLength = 0;
     m_listBlockContext = false;
+
+    return ast;
 }
 
 MarkdownParser::RenderCallbacks MarkdownParser::renderCallbacks()
@@ -105,8 +107,7 @@ void MarkdownParser::renderHeader(const ByteBuffer& text, int level)
     if (!m_workingNode)
         throw NO_WORKING_NODE_ERR;
 
-    MarkdownNode node(HeaderMarkdownNodeType, m_workingNode, text, level);
-    m_workingNode->children().push_back(node);
+    m_workingNode->children().emplace_back(HeaderMarkdownNodeType, m_workingNode, text, level);
 }
 
 void MarkdownParser::beginList(int flags, void* opaque)
@@ -152,8 +153,7 @@ void MarkdownParser::beginListItem(int flags)
     if (!m_workingNode)
         throw NO_WORKING_NODE_ERR;
 
-    MarkdownNode node(ListItemMarkdownNodeType, m_workingNode, ByteBuffer(), flags);
-    m_workingNode->children().push_back(node);
+    m_workingNode->children().emplace_back(ListItemMarkdownNodeType, m_workingNode, ByteBuffer(), flags);
 
     // Push context
     m_workingNode = &m_workingNode->children().back();
@@ -180,8 +180,7 @@ void MarkdownParser::renderListItem(const ByteBuffer& text, int flags)
     // Instead of storing the text on the list item
     // create the artificial paragraph node to store the text.
     if (m_workingNode->children().empty() || m_workingNode->children().front().type != ParagraphMarkdownNodeType) {
-        MarkdownNode textNode(ParagraphMarkdownNodeType, m_workingNode, text);
-        m_workingNode->children().push_front(textNode);
+        m_workingNode->children().emplace_front(ParagraphMarkdownNodeType, m_workingNode, text);
     }
 
     m_workingNode->data = flags;
@@ -204,8 +203,7 @@ void MarkdownParser::renderBlockCode(const ByteBuffer& text, const ByteBuffer& l
     if (!m_workingNode)
         throw NO_WORKING_NODE_ERR;
 
-    MarkdownNode node(CodeMarkdownNodeType, m_workingNode, text);
-    m_workingNode->children().push_back(node);
+    m_workingNode->children().emplace_back(CodeMarkdownNodeType, m_workingNode, text);
 }
 
 void MarkdownParser::renderParagraph(struct buf* ob, const struct buf* text, void* opaque)
@@ -222,8 +220,7 @@ void MarkdownParser::renderParagraph(const ByteBuffer& text)
     if (!m_workingNode)
         throw NO_WORKING_NODE_ERR;
 
-    MarkdownNode node(ParagraphMarkdownNodeType, m_workingNode, text);
-    m_workingNode->children().push_back(node);
+    m_workingNode->children().emplace_back(ParagraphMarkdownNodeType, m_workingNode, text);
 }
 
 void MarkdownParser::renderHorizontalRule(struct buf* ob, void* opaque)
@@ -240,8 +237,7 @@ void MarkdownParser::renderHorizontalRule()
     if (!m_workingNode)
         throw NO_WORKING_NODE_ERR;
 
-    MarkdownNode node(HRuleMarkdownNodeType, m_workingNode, ByteBuffer(), MarkdownNode::Data());
-    m_workingNode->children().push_back(node);
+    m_workingNode->children().emplace_back(HRuleMarkdownNodeType, m_workingNode, ByteBuffer(), MarkdownNode::Data());
 }
 
 void MarkdownParser::renderHTML(struct buf* ob, const struct buf* text, void* opaque)
@@ -258,8 +254,8 @@ void MarkdownParser::renderHTML(const ByteBuffer& text)
     if (!m_workingNode)
         throw NO_WORKING_NODE_ERR;
 
-    MarkdownNode node(HTMLMarkdownNodeType, m_workingNode, text);
-    m_workingNode->children().push_back(node);
+    MarkdownNode node();
+    m_workingNode->children().emplace_back(HTMLMarkdownNodeType, m_workingNode, text);
 }
 
 void MarkdownParser::beginQuote(void* opaque)
@@ -276,8 +272,7 @@ void MarkdownParser::beginQuote()
     if (!m_workingNode)
         throw NO_WORKING_NODE_ERR;
 
-    MarkdownNode node(QuoteMarkdownNodeType, m_workingNode);
-    m_workingNode->children().push_back(node);
+    m_workingNode->children().emplace_back(QuoteMarkdownNodeType, m_workingNode);
 
     // Push context
     m_workingNode = &m_workingNode->children().back();

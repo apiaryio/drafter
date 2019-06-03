@@ -25,8 +25,7 @@ const mdp::ByteBuffer ListSectionFixture
 TEST_CASE("Header adapter with header section", "[adapter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
-    markdownParser.parse(HeaderSectionFixture, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(HeaderSectionFixture);
 
     SectionParserData pd(0, HeaderSectionFixture, Blueprint());
 
@@ -46,8 +45,7 @@ TEST_CASE("Header adapter with header section", "[adapter]")
 TEST_CASE("Header adapter with list section", "[adapter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
-    markdownParser.parse(ListSectionFixture, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(ListSectionFixture);
 
     SectionParserData pd(0, ListSectionFixture, Blueprint());
 
@@ -59,8 +57,7 @@ TEST_CASE("Header adapter with list section", "[adapter]")
 TEST_CASE("List adapter with List section", "[adapter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
-    markdownParser.parse(ListSectionFixture, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(ListSectionFixture);
 
     SectionParserData pd(0, ListSectionFixture, Blueprint());
 
@@ -70,7 +67,7 @@ TEST_CASE("List adapter with List section", "[adapter]")
     MarkdownNodeIterator it = ListSectionAdapter::startingNode(markdownAST.children().begin(), pd);
     REQUIRE(it->text == "Signature");
 
-    MarkdownNodes collection
+    const MarkdownNodes& collection
         = ListSectionAdapter::startingNodeSiblings(markdownAST.children().begin(), markdownAST.children());
     REQUIRE(collection.size() == 2);
 
@@ -81,8 +78,7 @@ TEST_CASE("List adapter with List section", "[adapter]")
 TEST_CASE("List adapter with Header section", "[adapter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
-    markdownParser.parse(HeaderSectionFixture, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(HeaderSectionFixture);
 
     SectionParserData pd(0, HeaderSectionFixture, Blueprint());
 

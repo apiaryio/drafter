@@ -39,9 +39,9 @@ namespace mdp
          *  \brief Parse source buffer
          *
          *  \param source   Markdown source data to be parsed
-         *  \param ast      Parsed AST (root node)
+         *  \return         Parsed AST (root node)
          */
-        void parse(const ByteBuffer& source, MarkdownNode& ast);
+        MarkdownNode parse(const ByteBuffer& source);
 
     private:
         MarkdownNode* m_workingNode;
