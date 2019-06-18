@@ -579,6 +579,27 @@ SCENARIO("JSON Schema anyOf reduction", "[json-schema][anyOf]")
             }
         }
     }
+
+    GIVEN("An Array element with two identical Object with swapped members order")
+    {
+        auto el = make_element<ArrayElement>(
+            make_element<ObjectElement>(make_element<MemberElement>(from_primitive("one"), from_primitive(1)),
+                make_element<MemberElement>(from_primitive("msg"), from_primitive("hello"))),
+            make_element<ObjectElement>(make_element<MemberElement>(from_primitive("msg"), from_primitive("hello")),
+                make_element<MemberElement>(from_primitive("one"), from_primitive(1))));
+
+        el->attributes().set("typeAttributes", make_element<ArrayElement>(from_primitive("fixedType")));
+
+        WHEN("a JSON Schema is generated from it")
+        {
+            auto result = schema::generateJsonSchema(*el);
+
+            THEN("the schema matches objects")
+            {
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","items":{"anyOf":[{"type":"object","properties":{"one":{"type":"number"},"msg":{"type":"string"}}}]}})");
+            }
+        }
+    }
 }
 
 SCENARIO("JSON Schema serialization of ObjectElement", "[json-schema]")
