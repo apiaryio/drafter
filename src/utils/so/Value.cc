@@ -37,9 +37,26 @@ bool drafter::utils::so::operator==(const Number& lhs, const Number& rhs)
     return lhs.data == rhs.data;
 }
 
+namespace
+{
+    bool hasEqualMembers(const Object& lhs, const Object& rhs)
+    {
+        using itemType = typename Object::container_type::const_reference;
+        for (itemType item : lhs.data) {
+
+            if (std::find_if(rhs.data.begin(), rhs.data.end(), [&item](itemType rItem) { return item == rItem; })
+                == rhs.data.end()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+
 bool drafter::utils::so::operator==(const Object& lhs, const Object& rhs)
 {
-    return lhs.data.size() == rhs.data.size() && std::equal(lhs.data.begin(), lhs.data.end(), rhs.data.begin());
+    return lhs.data.size() == rhs.data.size() && hasEqualMembers(lhs, rhs);
 }
 
 bool drafter::utils::so::operator==(const Array& lhs, const Array& rhs)

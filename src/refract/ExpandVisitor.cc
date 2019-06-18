@@ -120,9 +120,9 @@ namespace refract
                  en = parent->element(), parent = registry.find(en)) {
 
                 if (inheritance.end()
-                    != std::find_if(inheritance.begin(),                                               //
-                        inheritance.end(),                                                             //
-                        [en](const inheritance_map::value_type& other) { return en == other.first; })) //
+                    != std::find_if(inheritance.begin(),                                                  //
+                           inheritance.end(),                                                             //
+                           [en](const inheritance_map::value_type& other) { return en == other.first; })) //
                 {
                     return make_empty<ExtendElement>();
                 }
