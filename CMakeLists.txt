@@ -26,7 +26,7 @@ endmacro()
 # add external dependencies living in `ext`
 add_subdirectory(ext/snowcrash/ext/markdown-parser/ext/sundown EXCLUDE_FROM_ALL)
 add_subdirectory(ext/cmdline EXCLUDE_FROM_ALL)
-add_subdirectory(ext/boost_1_66_0 EXCLUDE_FROM_ALL)
+add_subdirectory(ext/boost EXCLUDE_FROM_ALL)
 add_subdirectory(ext/variant EXCLUDE_FROM_ALL)
 
 message(STATUS "Setting up tests for production...")
