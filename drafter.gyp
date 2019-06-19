@@ -229,12 +229,12 @@
       'direct_dependent_settings' : {
         'include_dirs': [
           'src',
-          'ext/boost_1_66_0',
+          'ext/boost',
           'ext/variant/include',
         ],
       },
       'include_dirs' : [
-        'ext/boost_1_66_0',
+        'ext/boost',
         'ext/variant/include',
       ],
       'export_dependent_settings': [
