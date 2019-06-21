@@ -1,5 +1,13 @@
 # Drafter Changelog
 
+## Master
+
+### Enhancements
+
+* Adds de-duplication of objects in `anyOf` in produced JSON Schemas under
+  cases where the properties have been declared in different orders in MSON.
+  [#664](https://github.com/apiaryio/drafter/issues/664)
+
 ## 4.0.0-pre.7 (2019-05-31)
 
 ### Enhancements
