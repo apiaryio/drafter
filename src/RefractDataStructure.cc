@@ -456,16 +456,20 @@ namespace
     struct ExtractTypeDefinition {
 
         ElementData<T>& data;
-        const ConversionContext& context;
+        ConversionContext& context;
+
+        using TypeDefinition = NodeInfo<mson::TypeDefinition>;
 
         template <typename E, bool IsPrimitive = is_primitive<E>()>
         struct Fetch;
 
         template <typename E>
         struct Fetch<E, ComplexType> {
-            ElementInfo<T> operator()(const mson::TypeNames& typeNames, const ConversionContext& context) const
+            ElementInfo<T> operator()(const TypeDefinition& typeDefinition, ConversionContext& context) const
             {
                 std::deque<std::unique_ptr<IElement> > types;
+
+                auto typeNames = typeDefinition.node->typeSpecification.nestedTypes;
 
                 for (const auto& type : typeNames) {
                     mson::BaseTypeName typeName = type.base;
@@ -474,6 +478,15 @@ namespace
                     if (typeName == mson::UndefinedTypeName && !type.symbol.literal.empty()) {
                         typeName = GetMsonTypeFromName(type.symbol.literal, context);
                         method = type.symbol.variable ? eSample : eElement;
+
+                        if (typeName == mson::UndefinedTypeName
+                            && method == eElement) { // undefined named element in hinting
+                            std::stringstream msg;
+                            msg << "Undefined named type '" << type.symbol.literal << "' referenced in type definition";
+                            context.warn(snowcrash::Warning(
+                                msg.str().c_str(), snowcrash::MSONError, typeDefinition.sourceMap->sourceMap));
+                            continue;
+                        }
                     }
 
                     const RefractElementFactory& f = FactoryFromType(typeName);
@@ -490,7 +503,7 @@ namespace
         template <typename E, bool dummy>
         struct Store<E, true, dummy> {
             void operator()(
-                ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context) const
+                ElementData<E>& data, const TypeDefinition& typeDefinition, const ConversionContext& context) const
             {
                 // do nothing - Primitive types does not contain TypeDefinitions
             }
@@ -499,17 +512,17 @@ namespace
         template <typename E, bool dummy>
         struct Store<E, false, dummy> {
             void operator()(
-                ElementData<E>& data, const mson::TypeNames& typeNames, const ConversionContext& context) const
+                ElementData<E>& data, const TypeDefinition& typeDefinition, ConversionContext& context) const
             {
-                data.hints.push_back(Fetch<E>()(typeNames, context));
+                data.hints.push_back(Fetch<E>()(typeDefinition, context));
             }
         };
 
-        ExtractTypeDefinition(ElementData<T>& data, const ConversionContext& context) : data(data), context(context) {}
+        ExtractTypeDefinition(ElementData<T>& data, ConversionContext& context) : data(data), context(context) {}
 
-        void operator()(const NodeInfo<mson::TypeDefinition>& typeDefinition) const
+        void operator()(const TypeDefinition& typeDefinition) const
         {
-            Store<T>()(data, typeDefinition.node->typeSpecification.nestedTypes, context);
+            Store<T>()(data, typeDefinition, context);
         }
     };
 
