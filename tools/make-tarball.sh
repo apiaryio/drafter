@@ -29,7 +29,7 @@ $(pwd)/tools/make-tarball.sh checkout $TMPDIR/$DIR/
 (
   # Remove unnessecery files
   cd $TMPDIR/$DIR
-  rm -fr appveyor.yml circle.yml .npmignore tools/*.{sh,py} tools/homebrew package.json emcc/
+  rm -fr appveyor.yml .circleci .clang-format ARCHITECTURE.md .git* Dockerfile Gemfile* *.gyp *.gypi vcbuild.bat tools *.xcodeproj *.xcworkspace
 )
 
 (
