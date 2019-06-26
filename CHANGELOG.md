@@ -4,6 +4,9 @@
 
 ### Bug Fixes
 
+* Fix escaping keys in generated JSON/JSON-Scheme in generated assets
+  [#719](https://github.com/apiaryio/drafter/issues/719)
+
 * When using a type hint with an array, for example `array[Unknown]`. We will now
   emit a warning when the referenced type does not exist. The invalid type
   reference will not be present in the parse result.

@@ -76,6 +76,11 @@ R"JSON({
   "bar": 5
 })JSON"};
 
+const std::string shallow_object_indented_with_escaped_key = {
+R"JSON({
+  "href\"": "Hello world!"
+})JSON"};
+
 const std::string shallow_object_packed = {
 R"JSON({"foo":"Hello world!","bar":5})JSON"};
 
@@ -437,6 +442,24 @@ SCENARIO("Serialize a utils::so::Value into indented and/or packed JSON", "[simp
             THEN("the stringstream contains: {\"foo\":\"Hello world!\",\"bar\":5}")
             {
                 REQUIRE(ss.str() == shallow_object_packed);
+            }
+        }
+    }
+
+    GIVEN("an in place constructed Object{`href\"` -> String{`Hello world!`}")
+    {
+        Value value(mpark::in_place_type_t<Object>{}, //
+            from_list{},
+            std::make_pair("href\"", String{ "Hello world!" }));
+
+        WHEN("it is serialized into stringstream as indented JSON")
+        {
+            std::stringstream ss;
+            serialize_json(ss, value);
+
+            THEN("the stringstream contains correctly escaped key {\\n  \"href\\\\\\\": \"Hello world!\"\\n}")
+            {
+                REQUIRE(ss.str() == shallow_object_indented_with_escaped_key);
             }
         }
     }
