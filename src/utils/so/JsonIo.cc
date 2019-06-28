@@ -160,7 +160,9 @@ namespace
             if (!Packed)
                 break_indent(out, indent + 1);
 
-            out << '"' << m.first << "\":";
+            out << '"';
+            escape_json_string(m.first.begin(), m.first.end(), std::ostream_iterator<char>(out));
+            out << "\":";
 
             if (!Packed)
                 out << ' ';
