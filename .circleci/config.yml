@@ -1,4 +1,7 @@
-version: 2
+version: 2.1
+
+orbs:
+  win: sandbox/windows-tools@dev:preview
 
 aliases:
   - &test-base-legacy
@@ -71,41 +74,7 @@ workflows:
 
   drafter:
     jobs:
-      - lint
-      - test-gcc-49-debug: *tag-filter
-      - test-gcc-49-release: *tag-filter
-      - test-gcc-latest-debug: *tag-filter
-      - test-gcc-latest-release: *tag-filter
-      - test-clang-4-debug: *tag-filter
-      - test-clang-4-release: *tag-filter
-      - test-clang-latest-debug: *tag-filter
-      - test-clang-latest-release: *tag-filter
-      - test-osx-release: *tag-filter
-      - test-osx-debug: *tag-filter
-      - test-gyp: *tag-filter
-      - test-valgrind: *tag-filter
-      - test-coverage: *tag-filter
-      - test-ubsan: *tag-filter
-      - release:
-          requires:
-            - test-gcc-49-debug
-            - test-gcc-49-release
-            - test-gcc-latest-debug
-            - test-gcc-latest-release
-            - test-clang-4-debug
-            - test-clang-4-release
-            - test-clang-latest-debug
-            - test-clang-latest-release
-            - test-osx-release
-            - test-osx-debug
-            - test-gyp
-            - test-valgrind
-            - test-ubsan
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
+      - test-windows
 
 jobs:
   lint:
@@ -224,6 +193,12 @@ jobs:
       - <<: *clang-release
     macos:
       xcode: "9.4.0"
+
+  test-windows:
+    executor: win/preview-default
+    steps:
+      - checkout
+      - run: echo 'Hello, Windows'
 
   test-valgrind:
     <<: *test-base-legacy
