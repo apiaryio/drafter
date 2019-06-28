@@ -2,4 +2,4 @@ os: windows
 language: cpp
 script:
   - cmake .
-  - cmake --build . --target install
+  - cmake --build .
