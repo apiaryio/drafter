@@ -2,5 +2,4 @@ os: windows
 language: cpp
 script:
   - cmake .
-  - make -j4
-  - make test -j4
+  - cmake --build . --target install
