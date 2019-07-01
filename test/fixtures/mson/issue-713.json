@@ -15,10 +15,58 @@
         },
         "title": {
           "element": "string",
-          "content": ""
+          "content": "My API"
         }
       },
       "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
+          },
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "MyObject"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "key"
+                      },
+                      "value": {
+                        "element": "require",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "``"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
         {
           "element": "resource",
           "meta": {
@@ -30,7 +78,7 @@
           "attributes": {
             "href": {
               "element": "string",
-              "content": "/"
+              "content": "/{?a&b}"
             }
           },
           "content": [
@@ -52,6 +100,16 @@
                         "method": {
                           "element": "string",
                           "content": "GET"
+                        }
+                      },
+                      "content": []
+                    },
+                    {
+                      "element": "httpResponse",
+                      "attributes": {
+                        "statusCode": {
+                          "element": "string",
+                          "content": "200"
                         },
                         "headers": {
                           "element": "httpHeaders",
@@ -76,18 +134,7 @@
                         {
                           "element": "dataStructure",
                           "content": {
-                            "element": "object",
-                            "content": [
-                              {
-                                "element": "select",
-                                "content": [
-                                  {
-                                    "element": "option",
-                                    "content": []
-                                  }
-                                ]
-                              }
-                            ]
+                            "element": "MyObject"
                           }
                         },
                         {
@@ -109,7 +156,7 @@
                               "content": "application/json"
                             }
                           },
-                          "content": "{}"
+                          "content": "{\n  \"key\": {}\n}"
                         },
                         {
                           "element": "asset",
@@ -130,13 +177,9 @@
                               "content": "application/schema+json"
                             }
                           },
-                          "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"allOf\": [\n    {\n      \"oneOf\": []\n    }\n  ]\n}"
+                          "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"key\": {\n      \"type\": \"object\"\n    }\n  }\n}"
                         }
                       ]
-                    },
-                    {
-                      "element": "httpResponse",
-                      "content": []
                     }
                   ]
                 }
@@ -162,7 +205,7 @@
       "attributes": {
         "code": {
           "element": "number",
-          "content": 6
+          "content": 12
         },
         "sourceMap": {
           "element": "array",
@@ -178,28 +221,28 @@
                       "attributes": {
                         "line": {
                           "element": "number",
-                          "content": 1
+                          "content": 9
                         },
                         "column": {
                           "element": "number",
                           "content": 1
                         }
                       },
-                      "content": 0
+                      "content": 65
                     },
                     {
                       "element": "number",
                       "attributes": {
                         "line": {
                           "element": "number",
-                          "content": 2
+                          "content": 10
                         },
                         "column": {
                           "element": "number",
                           "content": 1
                         }
                       },
-                      "content": 9
+                      "content": 16
                     }
                   ]
                 }
@@ -208,7 +251,7 @@
           ]
         }
       },
-      "content": "action is missing a response for a request"
+      "content": "URI template expression \"?a&b\" contains invalid characters. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters"
     }
   ]
 }

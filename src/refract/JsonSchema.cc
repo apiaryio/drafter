@@ -302,10 +302,7 @@ namespace
 
         return materialize(result, s);
     }
-} // namespace
 
-namespace
-{
     ///
     /// Reduce JSON Schema in-memory; currently only flattens nested `anyOf`s
     ///
@@ -316,58 +313,39 @@ namespace
 
 namespace
 {
-    void renderProperty(ObjectSchema& s, const MemberElement& e, TypeAttributes options);
-    void renderProperty(ObjectSchema& s, const RefElement& e, TypeAttributes options);
-    void renderProperty(ObjectSchema& s, const SelectElement& e, TypeAttributes options);
-    void renderProperty(ObjectSchema& s, const ObjectElement& e, TypeAttributes options);
-    void renderProperty(ObjectSchema& s, const ExtendElement& e, TypeAttributes options);
-    void renderProperty(ObjectSchema& s, const IElement& e, TypeAttributes options);
+    void renderPropertySpecific(ObjectSchema& schema, const ArrayElement& element, TypeAttributes options);
+    void renderPropertySpecific(ObjectSchema& schema, const BooleanElement& element, TypeAttributes options);
+    void renderPropertySpecific(ObjectSchema& schema, const EnumElement& element, TypeAttributes options);
+    void renderPropertySpecific(ObjectSchema& schema, const ExtendElement& element, TypeAttributes options);
+    void renderPropertySpecific(ObjectSchema& schema, const HolderElement& element, TypeAttributes options);
+    void renderPropertySpecific(ObjectSchema& schema, const MemberElement& element, TypeAttributes options);
+    void renderPropertySpecific(ObjectSchema& schema, const NullElement& element, TypeAttributes options);
+    void renderPropertySpecific(ObjectSchema& schema, const NumberElement& element, TypeAttributes options);
+    void renderPropertySpecific(ObjectSchema& schema, const ObjectElement& element, TypeAttributes options);
+    void renderPropertySpecific(ObjectSchema& schema, const OptionElement& element, TypeAttributes options);
+    void renderPropertySpecific(ObjectSchema& schema, const RefElement& element, TypeAttributes options);
+    void renderPropertySpecific(ObjectSchema& schema, const SelectElement& element, TypeAttributes options);
+    void renderPropertySpecific(ObjectSchema& schema, const StringElement& element, TypeAttributes options);
+    void renderProperty(ObjectSchema& schema, const IElement& element, TypeAttributes options);
 
-    so::Object& renderSchemaSpecific(so::Object& schema, const ObjectElement& e, TypeAttributes options);
-    so::Object& renderSchemaSpecific(so::Object& schema, const ArrayElement& e, TypeAttributes options);
-    so::Object& renderSchemaSpecific(so::Object& schema, const EnumElement& e, TypeAttributes options);
-    so::Object& renderSchemaSpecific(so::Object& schema, const NullElement& e, TypeAttributes options);
-    so::Object& renderSchemaSpecific(so::Object& schema, const StringElement& e, TypeAttributes options);
-    so::Object& renderSchemaSpecific(so::Object& schema, const NumberElement& e, TypeAttributes options);
-    so::Object& renderSchemaSpecific(so::Object& schema, const BooleanElement& e, TypeAttributes options);
-    so::Object& renderSchemaSpecific(so::Object& schema, const ExtendElement& e, TypeAttributes options);
-    so::Object& renderSchemaSpecific(so::Object& schema, const RefElement& e, TypeAttributes options);
-    so::Object& renderSchema(so::Object& schema, const IElement& e, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const ArrayElement& element, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const BooleanElement& element, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const EnumElement& element, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const ExtendElement& element, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const HolderElement& element, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const MemberElement& element, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const NullElement& element, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const NumberElement& element, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const ObjectElement& element, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const OptionElement& element, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const RefElement& element, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const SelectElement& element, TypeAttributes options);
+    so::Object& renderSchemaSpecific(so::Object& schema, const StringElement& element, TypeAttributes options);
+    so::Object& renderSchema(so::Object& schema, const IElement& element, TypeAttributes options);
+}
 
-    template <typename T>
-    void renderProperty(ObjectSchema&, const T& e, so::Object&, TypeAttributes)
-    {
-        LOG(error) << "invalid property element: " << e.element();
-        abort();
-    }
-
-    template <typename T>
-    so::Object& renderSchemaSpecific(so::Object& s, const T& e, TypeAttributes)
-    {
-        LOG(error) << "invalid top level element: " << e.element();
-        abort();
-        return s;
-    }
-
-    struct RenderSchemaVisitor {
-        so::Object* schemaPtr;
-        TypeAttributes options;
-
-        template <typename ElementT>
-        void operator()(const ElementT& el)
-        {
-            renderSchemaSpecific(*schemaPtr, el, options);
-        }
-    };
-
-    so::Object& renderSchema(so::Object& schema, const IElement& e, TypeAttributes options)
-    {
-        LOG(debug) << "rendering `" << e.element() << "` element to JSON Schema";
-
-        refract::visit(e, RenderSchemaVisitor{ &schema, options });
-        return schema;
-    }
-
+namespace
+{
     so::Object makeSchema(const IElement& e, TypeAttributes options)
     {
         so::Object result{};
@@ -376,20 +354,23 @@ namespace
     }
 } // namespace
 
-so::Object schema::generateJsonSchema(const IElement& el)
-{
-    so::Object result{};
-
-    addSchemaVersion(result);
-    renderSchema(result, el, TypeAttributes{});
-
-    reduce(result);
-
-    return result;
-}
-
 namespace
 {
+    template <typename T>
+    so::Object& errorByImpossibleSchema(so::Object& schema, const T& element)
+    {
+        LOG(error) << "invalid element, interpreting as unsatisfiable schema: " << element.element();
+        addOneOf(schema, so::Array{so::from_list{}, so::Object{}, so::Object{}});
+        return schema;
+    }
+
+    so::Object& renderSchemaSpecific(so::Object& s, const HolderElement& e, TypeAttributes options)
+    {
+        if (!e.empty() && e.get().data())
+            return renderSchema(s, *e.get().data(), passFlags(options));
+        return s;
+    }
+
     so::Object& renderSchemaSpecific(so::Object& s, const RefElement& e, TypeAttributes options)
     {
         const auto& resolved = resolve(e);
@@ -485,30 +466,30 @@ namespace
             const auto enums = get<const ArrayElement>(enumerationsIt->second.get());
 
             assert(enums);
-            assert(!enums->empty());
-            for (const auto& enumEntry : enums->get()) {
-                assert(enumEntry);
-                if (sizeOf(*enumEntry) == cardinal{ 1 }) // schema types single value
-                    so::emplace_unique(enm, generateJsonValue(*enumEntry));
-                else { // schema MAY type more values
-                    auto s = makeSchema(*enumEntry, inheritFlags(options));
-                    if (s.data.size() == 1) {
-                        const auto& key = s.data.at(0).first;
-                        auto* vals = mpark::get_if<so::Array>(&s.data.at(0).second);
-                        if (key == "enum") {
-                            for (auto& val : vals->data)
-                                so::emplace_unique(enm, std::move(val));
-                        } else if (key == "anyOf") {
-                            for (auto& val : vals->data)
-                                so::emplace_unique(anyOf, std::move(val));
+            if (!enums->empty())
+                for (const auto& enumEntry : enums->get()) {
+                    assert(enumEntry);
+                    if (sizeOf(*enumEntry) == cardinal{ 1 }) // schema types single value
+                        so::emplace_unique(enm, generateJsonValue(*enumEntry));
+                    else { // schema MAY type more values
+                        auto s = makeSchema(*enumEntry, inheritFlags(options));
+                        if (s.data.size() == 1) {
+                            const auto& key = s.data.at(0).first;
+                            auto* vals = mpark::get_if<so::Array>(&s.data.at(0).second);
+                            if (key == "enum") {
+                                for (auto& val : vals->data)
+                                    so::emplace_unique(enm, std::move(val));
+                            } else if (key == "anyOf") {
+                                for (auto& val : vals->data)
+                                    so::emplace_unique(anyOf, std::move(val));
+                            } else {
+                                so::emplace_unique(anyOf, std::move(s));
+                            }
                         } else {
                             so::emplace_unique(anyOf, std::move(s));
                         }
-                    } else {
-                        so::emplace_unique(anyOf, std::move(s));
                     }
                 }
-            }
         } else {
             LOG(warning) << "Enum Element SHALL hold enumerations attribute; interpreting as empty";
         }
@@ -579,6 +560,21 @@ namespace
         return s;
     }
 
+    so::Object& renderSchemaSpecific(so::Object& s, const MemberElement& e, TypeAttributes options)
+    {
+        return errorByImpossibleSchema(s, e);
+    }
+
+    so::Object& renderSchemaSpecific(so::Object& s, const OptionElement& e, TypeAttributes options)
+    {
+        return errorByImpossibleSchema(s, e);
+    }
+
+    so::Object& renderSchemaSpecific(so::Object& s, const SelectElement& e, TypeAttributes options)
+    {
+        return errorByImpossibleSchema(s, e);
+    }
+
     so::Object& renderSchemaSpecific(so::Object& s, const StringElement& e, TypeAttributes options)
     {
         return renderSchemaPrimitive(s, e, options);
@@ -601,12 +597,70 @@ namespace
         return s;
     }
 
+    struct RenderSchemaVisitor {
+        so::Object* schemaPtr;
+        TypeAttributes options;
+
+        template <typename ElementT>
+        void operator()(const ElementT& el)
+        {
+            renderSchemaSpecific(*schemaPtr, el, options);
+        }
+    };
+
+    so::Object& renderSchema(so::Object& schema, const IElement& e, TypeAttributes options)
+    {
+        LOG(debug) << "rendering `" << e.element() << "` element to JSON Schema";
+
+        refract::visit(e, RenderSchemaVisitor{ &schema, options });
+        return schema;
+    }
 } // namespace
 
 namespace
 {
+    template <typename T>
+    void errorButSkipProperty(const T& element)
+    {
+        LOG(error) << "skipping invalid property element: " << element.element();
+    }
 
-    void renderProperty(ObjectSchema& s, const MemberElement& e, TypeAttributes options)
+    void renderPropertySpecific(ObjectSchema&, const ArrayElement& element, TypeAttributes)
+    {
+        errorButSkipProperty(element);
+    }
+
+    void renderPropertySpecific(ObjectSchema&, const BooleanElement& element, TypeAttributes)
+    {
+        errorButSkipProperty(element);
+    }
+
+    void renderPropertySpecific(ObjectSchema&, const EnumElement& element, TypeAttributes)
+    {
+        errorButSkipProperty(element);
+    }
+
+    void renderPropertySpecific(ObjectSchema&, const NullElement& element, TypeAttributes)
+    {
+        errorButSkipProperty(element);
+    }
+
+    void renderPropertySpecific(ObjectSchema&, const NumberElement& element, TypeAttributes)
+    {
+        errorButSkipProperty(element);
+    }
+
+    void renderPropertySpecific(ObjectSchema&, const StringElement& element, TypeAttributes)
+    {
+        errorButSkipProperty(element);
+    }
+
+    void renderPropertySpecific(ObjectSchema&, const OptionElement& element, TypeAttributes)
+    {
+        errorButSkipProperty(element);
+    }
+
+    void renderPropertySpecific(ObjectSchema& s, const MemberElement& e, TypeAttributes options)
     {
         if (hasFixedTypeAttr(e))
             options.set(FIXED_FLAG);
@@ -661,24 +715,32 @@ namespace
         }
     }
 
-    void renderProperty(ObjectSchema& s, const RefElement& e, TypeAttributes options)
+    void renderPropertySpecific(ObjectSchema& s, const HolderElement& e, TypeAttributes options)
+    {
+        if (!e.empty() && e.get().data())
+            renderProperty(s, *e.get().data(), passFlags(options));
+    }
+
+    void renderPropertySpecific(ObjectSchema& s, const RefElement& e, TypeAttributes options)
     {
         const auto& resolved = resolve(e);
         renderProperty(s, resolved, passFlags(options));
     }
 
-    void renderProperty(ObjectSchema& s, const SelectElement& e, TypeAttributes options)
+    void renderPropertySpecific(ObjectSchema& s, const SelectElement& e, TypeAttributes options)
     {
         so::Array oneOfs{};
         for (const auto& option : e.get()) {
 
             if (option->empty()) {
                 LOG(error) << "empty option element in backend";
-                assert(false);
+                continue;
             }
 
-            if (option->get().size() < 1)
+            if (option->get().size() < 1) {
                 LOG(warning) << "option element without children in backend";
+                continue;
+            }
 
             ObjectSchema optionSchema{};
             for (const auto& optionEntry : option->get()) {
@@ -693,7 +755,7 @@ namespace
         s.allOf.data.emplace_back(std::move(result));
     }
 
-    void renderProperty(ObjectSchema& s, const ObjectElement& e, TypeAttributes options)
+    void renderPropertySpecific(ObjectSchema& s, const ObjectElement& e, TypeAttributes options)
     {
         if (hasFixedTypeAttr(e))
             options.set(FIXED_FLAG);
@@ -707,7 +769,7 @@ namespace
             }
     }
 
-    void renderProperty(ObjectSchema& s, const ExtendElement& e, TypeAttributes options)
+    void renderPropertySpecific(ObjectSchema& s, const ExtendElement& e, TypeAttributes options)
     {
         if (e.empty())
             LOG(warning) << "empty extend element in backend";
@@ -723,7 +785,7 @@ namespace
         template <typename ElementT>
         void operator()(const ElementT& el)
         {
-            renderProperty(*schemaPtr, el, options);
+            renderPropertySpecific(*schemaPtr, el, options);
         }
     };
 
@@ -796,3 +858,15 @@ namespace
         flattenAnyOfsSpecific(schema);
     }
 } // namespace
+
+so::Object schema::generateJsonSchema(const IElement& el)
+{
+    so::Object result{};
+
+    addSchemaVersion(result);
+    renderSchema(result, el, TypeAttributes{});
+
+    reduce(result);
+
+    return result;
+}

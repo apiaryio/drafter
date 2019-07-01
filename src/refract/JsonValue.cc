@@ -65,83 +65,50 @@ namespace
 
 namespace
 {
-    void renderProperty(so::Object& obj, const MemberElement& element, TypeAttributes options);
-    void renderProperty(so::Object& obj, const RefElement& element, TypeAttributes options);
-    void renderProperty(so::Object& obj, const SelectElement& element, TypeAttributes options);
-    void renderProperty(so::Object& obj, const ObjectElement& element, TypeAttributes options);
-    void renderProperty(so::Object& obj, const ExtendElement& element, TypeAttributes options);
+    void renderPropertySpecific(so::Object& obj, const ArrayElement& element, TypeAttributes options);
+    void renderPropertySpecific(so::Object& obj, const BooleanElement& element, TypeAttributes options);
+    void renderPropertySpecific(so::Object& obj, const EnumElement& element, TypeAttributes options);
+    void renderPropertySpecific(so::Object& obj, const ExtendElement& element, TypeAttributes options);
+    void renderPropertySpecific(so::Object& obj, const HolderElement& element, TypeAttributes options);
+    void renderPropertySpecific(so::Object& obj, const MemberElement& element, TypeAttributes options);
+    void renderPropertySpecific(so::Object& obj, const NullElement& element, TypeAttributes options);
+    void renderPropertySpecific(so::Object& obj, const NumberElement& element, TypeAttributes options);
+    void renderPropertySpecific(so::Object& obj, const ObjectElement& element, TypeAttributes options);
+    void renderPropertySpecific(so::Object& obj, const OptionElement& element, TypeAttributes options);
+    void renderPropertySpecific(so::Object& obj, const RefElement& element, TypeAttributes options);
+    void renderPropertySpecific(so::Object& obj, const SelectElement& element, TypeAttributes options);
+    void renderPropertySpecific(so::Object& obj, const StringElement& element, TypeAttributes options);
     void renderProperty(so::Object& obj, const IElement& element, TypeAttributes options);
 
-    void renderItemSpecific(so::Array& obj, const RefElement& element, TypeAttributes options);
-    void renderItemSpecific(so::Array& obj, const NumberElement& element, TypeAttributes options);
-    void renderItemSpecific(so::Array& obj, const StringElement& element, TypeAttributes options);
-    void renderItemSpecific(so::Array& obj, const BooleanElement& element, TypeAttributes options);
-    void renderItem(so::Array& obj, const IElement& element, TypeAttributes options);
-
-    so::Value renderValueSpecific(const ObjectElement& element, TypeAttributes options);
     so::Value renderValueSpecific(const ArrayElement& element, TypeAttributes options);
-    so::Value renderValueSpecific(const EnumElement& element, TypeAttributes options);
-    so::Value renderValueSpecific(const NullElement& element, TypeAttributes options);
-    so::Value renderValueSpecific(const StringElement& element, TypeAttributes options);
-    so::Value renderValueSpecific(const NumberElement& element, TypeAttributes options);
     so::Value renderValueSpecific(const BooleanElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const EnumElement& element, TypeAttributes options);
     so::Value renderValueSpecific(const ExtendElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const HolderElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const MemberElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const NullElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const NumberElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const ObjectElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const OptionElement& element, TypeAttributes options);
     so::Value renderValueSpecific(const RefElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const SelectElement& element, TypeAttributes options);
+    so::Value renderValueSpecific(const StringElement& element, TypeAttributes options);
     so::Value renderValue(const IElement& element, TypeAttributes options);
 
-    template <typename T>
-    void renderProperty(so::Object&, const T& element, TypeAttributes)
-    {
-        LOG(error) << "invalid property element: " << element.element();
-        abort();
-    }
-
-    template <typename Element>
-    void renderItemPrimitive(so::Array& array, const Element& element, TypeAttributes options)
-    {
-        options = updateTypeAttributes(element, options);
-
-        if ((options.test(FIXED_FLAG) || definesValue(element)))
-            array.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
-        else
-            LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
-    }
-
-    template <typename T>
-    void renderItemSpecific(so::Array& array, const T& element, TypeAttributes options)
-    {
-        LOG(debug) << "rendering item " << element.element() << "Element as JSON Value";
-        array.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
-    }
-
-    template <typename T>
-    so::Value renderValueSpecific(const T& element, TypeAttributes)
-    {
-        LOG(error) << "invalid top level element: " << element.element();
-        abort();
-        return so::Null{}; // unreachable
-    }
-
-    struct RenderValueVisitor {
-        TypeAttributes options;
-
-        template <typename ElementT>
-        so::Value operator()(const ElementT& el) const
-        {
-            return renderValueSpecific(el, options);
-        }
-    };
-
-    so::Value renderValue(const IElement& element, TypeAttributes options)
-    {
-        LOG(debug) << "rendering `" << element.element() << "` element to JSON Value";
-        return refract::visit(element, RenderValueVisitor{ options });
-    }
-} // namespace
-
-so::Value refract::generateJsonValue(const IElement& el)
-{
-    return renderValue(el, TypeAttributes{});
+    void renderItemSpecific(so::Array& array, const ArrayElement& element, TypeAttributes options);
+    void renderItemSpecific(so::Array& array, const BooleanElement& element, TypeAttributes options);
+    void renderItemSpecific(so::Array& array, const EnumElement& element, TypeAttributes options);
+    void renderItemSpecific(so::Array& array, const ExtendElement& element, TypeAttributes options);
+    void renderItemSpecific(so::Array& array, const HolderElement& element, TypeAttributes options);
+    void renderItemSpecific(so::Array& array, const MemberElement& element, TypeAttributes options);
+    void renderItemSpecific(so::Array& array, const NullElement& element, TypeAttributes options);
+    void renderItemSpecific(so::Array& array, const NumberElement& element, TypeAttributes options);
+    void renderItemSpecific(so::Array& array, const ObjectElement& element, TypeAttributes options);
+    void renderItemSpecific(so::Array& array, const OptionElement& element, TypeAttributes options);
+    void renderItemSpecific(so::Array& array, const RefElement& element, TypeAttributes options);
+    void renderItemSpecific(so::Array& array, const SelectElement& element, TypeAttributes options);
+    void renderItemSpecific(so::Array& array, const StringElement& element, TypeAttributes options);
+    void renderItem(so::Array& array, const IElement& element, TypeAttributes options);
 }
 
 namespace
@@ -175,6 +142,13 @@ namespace
 
 namespace
 {
+    template <typename T>
+    so::Null errorByNull(const T& element)
+    {
+        LOG(error) << "invalid element, interpreting as null: " << element.element();
+        return so::Null{};
+    }
+
     template <typename Element>
     so::Value renderValuePrimitive(const Element& element, TypeAttributes options)
     {
@@ -205,6 +179,28 @@ namespace
     so::Value renderValueSpecific(const BooleanElement& element, TypeAttributes options)
     {
         return renderValuePrimitive(element, passFlags(options));
+    }
+
+    so::Value renderValueSpecific(const MemberElement& element, TypeAttributes options)
+    {
+        return errorByNull(element);
+    }
+
+    so::Value renderValueSpecific(const OptionElement& element, TypeAttributes options)
+    {
+        return errorByNull(element);
+    }
+
+    so::Value renderValueSpecific(const SelectElement& element, TypeAttributes options)
+    {
+        return errorByNull(element);
+    }
+
+    so::Value renderValueSpecific(const HolderElement& element, TypeAttributes options)
+    {
+        if (!element.empty() && element.get().data())
+            return renderValue(*element.get().data(), passFlags(options));
+        return so::Null{};
     }
 
     so::Value renderValueSpecific(const ObjectElement& element, TypeAttributes options)
@@ -271,7 +267,7 @@ namespace
 
         assert(element.get().value());
         return renderValue(*element.get().value(), inheritFlags(options));
-    } // namespace
+    }
 
     so::Value renderValueSpecific(const NullElement& element, TypeAttributes options)
     {
@@ -291,12 +287,76 @@ namespace
         return renderValue(resolved, passFlags(options));
     }
 
+    struct RenderValueVisitor {
+        TypeAttributes options;
+
+        template <typename ElementT>
+        so::Value operator()(const ElementT& el) const
+        {
+            return renderValueSpecific(el, options);
+        }
+    };
+
+    so::Value renderValue(const IElement& element, TypeAttributes options)
+    {
+        LOG(debug) << "rendering `" << element.element() << "` element to JSON Value";
+        return refract::visit(element, RenderValueVisitor{ options });
+    }
+
 } // namespace
 
 namespace
 {
+    template <typename T>
+    void errorButSkipProperty(const T& element)
+    {
+        LOG(error) << "skipping invalid property element: " << element.element();
+    }
 
-    void renderProperty(so::Object& obj, const MemberElement& element, TypeAttributes options)
+    void renderPropertySpecific(so::Object& obj, const ArrayElement& element, TypeAttributes options)
+    {
+        errorButSkipProperty(element);
+    }
+
+    void renderPropertySpecific(so::Object& obj, const BooleanElement& element, TypeAttributes options)
+    {
+        errorButSkipProperty(element);
+    }
+
+    void renderPropertySpecific(so::Object& obj, const EnumElement& element, TypeAttributes options)
+    {
+        errorButSkipProperty(element);
+    }
+
+    void renderPropertySpecific(so::Object& obj, const NullElement& element, TypeAttributes options)
+    {
+        errorButSkipProperty(element);
+    }
+
+    void renderPropertySpecific(so::Object& obj, const NumberElement& element, TypeAttributes options)
+    {
+        errorButSkipProperty(element);
+    }
+
+    void renderPropertySpecific(so::Object& obj, const StringElement& element, TypeAttributes options)
+    {
+        errorButSkipProperty(element);
+    }
+
+    void renderPropertySpecific(so::Object& obj, const OptionElement& element, TypeAttributes options)
+    {
+        errorButSkipProperty(element);
+    }
+
+    void renderPropertySpecific(so::Object& obj, const HolderElement& element, TypeAttributes options)
+    {
+        if (!element.empty() && element.get().data())
+            renderProperty(obj, *element.get().data(), options);
+        else
+            errorButSkipProperty(element);
+    }
+
+    void renderPropertySpecific(so::Object& obj, const MemberElement& element, TypeAttributes options)
     {
         options = updateTypeAttributes(element, options);
 
@@ -317,20 +377,19 @@ namespace
             emplace_unique(obj, strKey, renderValue(*elementValue, passFlags(options)));
     }
 
-    void renderProperty(so::Object& obj, const RefElement& element, TypeAttributes options)
+    void renderPropertySpecific(so::Object& obj, const RefElement& element, TypeAttributes options)
     {
         const auto& resolved = resolve(element);
         renderProperty(obj, resolved, passFlags(options));
     }
 
-    void renderProperty(so::Object& value, const SelectElement& element, TypeAttributes options)
+    void renderPropertySpecific(so::Object& value, const SelectElement& element, TypeAttributes options)
     {
         so::Array oneOfs{};
         for (const auto& option : element.get()) {
 
             if (option->empty()) {
-                LOG(error) << "unexpected empty option element in backend";
-                assert(false);
+                LOG(error) << "skipping unexpected empty option element in backend";
                 continue;
             }
 
@@ -350,7 +409,7 @@ namespace
         LOG(warning) << "no non-empty OptionElement in SelectElement; skipping property";
     }
 
-    void renderProperty(so::Object& value, const ObjectElement& element, TypeAttributes options)
+    void renderPropertySpecific(so::Object& value, const ObjectElement& element, TypeAttributes options)
     {
         // OPTIM @tjanc@ avoid temporary container
         so::Value mixinValue = renderValueSpecific(element, passFlags(options));
@@ -359,7 +418,7 @@ namespace
                 emplace_unique(value, std::move(property));
     }
 
-    void renderProperty(so::Object& value, const ExtendElement& element, TypeAttributes options)
+    void renderPropertySpecific(so::Object& value, const ExtendElement& element, TypeAttributes options)
     {
         if (element.empty())
             LOG(warning) << "empty extend element in backend";
@@ -376,7 +435,7 @@ namespace
         template <typename ElementT>
         void operator()(const ElementT& el)
         {
-            renderProperty(*objPtr, el, options);
+            renderPropertySpecific(*objPtr, el, options);
         }
     };
 
@@ -385,6 +444,72 @@ namespace
         LOG(debug) << "rendering property `" << element.element() << "` as JSON Value";
         refract::visit(element, RenderPropertyVisitor{ &value, options });
     }
+
+}
+
+namespace
+{
+    template <typename T>
+    void errorButSkipItem(const T& element)
+    {
+        LOG(error) << "skipping invalid item element: " << element.element();
+    }
+
+    template <typename Element>
+    void renderItemPrimitive(so::Array& array, const Element& element, TypeAttributes options)
+    {
+        options = updateTypeAttributes(element, options);
+
+        if ((options.test(FIXED_FLAG) || definesValue(element)))
+            array.data.emplace_back(renderValueSpecific(element, inheritOrPassFlags(options, element)));
+        else
+            LOG(debug) << "skipping empty non-fixed primitive element in ArrayElement";
+    }
+
+    void renderItemSpecific(so::Array& array, const ArrayElement& element, TypeAttributes options)
+    {
+        array.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
+    }
+
+    void renderItemSpecific(so::Array& array, const EnumElement& element, TypeAttributes options)
+    {
+        array.data.emplace_back(renderValue(element, inheritOrPassFlags(options, element)));
+    }
+
+    void renderItemSpecific(so::Array& array, const ExtendElement& element, TypeAttributes options)
+    {
+        array.data.emplace_back(renderValueSpecific(element, inheritOrPassFlags(options, element)));
+    }
+
+    void renderItemSpecific(so::Array& array, const NullElement& element, TypeAttributes options)
+    {
+        array.data.emplace_back(renderValueSpecific(element, inheritOrPassFlags(options, element)));
+    }
+
+    void renderItemSpecific(so::Array& array, const ObjectElement& element, TypeAttributes options)
+    {
+        array.data.emplace_back(renderValueSpecific(element, inheritOrPassFlags(options, element)));
+    }
+
+    void renderItemSpecific(so::Array& array, const HolderElement& element, TypeAttributes options)
+    {
+        array.data.emplace_back(renderValueSpecific(element, inheritOrPassFlags(options, element)));
+    };
+
+    void renderItemSpecific(so::Array& array, const MemberElement& element, TypeAttributes options)
+    {
+        errorButSkipItem(element);
+    };
+
+    void renderItemSpecific(so::Array& array, const OptionElement& element, TypeAttributes options)
+    {
+        errorButSkipItem(element);
+    };
+
+    void renderItemSpecific(so::Array& array, const SelectElement& element, TypeAttributes options)
+    {
+        errorButSkipItem(element);
+    };
 
     void renderItemSpecific(so::Array& array, const RefElement& element, TypeAttributes options)
     {
@@ -429,3 +554,8 @@ namespace
         refract::visit(element, RenderItemVisitor{ &array, options });
     }
 } // namespace
+
+so::Value refract::generateJsonValue(const IElement& el)
+{
+    return renderValue(el, TypeAttributes{});
+}
