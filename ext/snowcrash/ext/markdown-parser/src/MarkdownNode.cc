@@ -6,6 +6,10 @@
 //  Copyright (c) 2014 Apiary Inc. All rights reserved.
 //
 
+#ifdef DEBUG
+#include <iostream>
+#endif
+
 #include "MarkdownNode.h"
 
 using namespace mdp;
@@ -79,67 +83,69 @@ const MarkdownNodes& MarkdownNode::children() const
     return *m_children;
 }
 
+#ifdef DEBUG
 void MarkdownNode::printNode(size_t level) const
 {
-    using std::cout;
+    using std::cerr;
     for (size_t i = 0; i < level; ++i)
-        std::cout << "  ";
+        cerr << "  ";
 
-    cout << "+ ";
+    cerr << "+ ";
     switch (type) {
         case RootMarkdownNodeType:
-            cout << "root";
+            cerr << "root";
             break;
 
         case CodeMarkdownNodeType:
-            cout << "code";
+            cerr << "code";
             break;
 
         case QuoteMarkdownNodeType:
-            cout << "quote";
+            cerr << "quote";
             break;
 
         case HTMLMarkdownNodeType:
-            cout << "HTML";
+            cerr << "HTML";
             break;
 
         case HeaderMarkdownNodeType:
-            cout << "header";
+            cerr << "header";
             break;
 
         case HRuleMarkdownNodeType:
-            cout << "hrul";
+            cerr << "hrul";
             break;
 
         case ListItemMarkdownNodeType:
-            cout << "list item";
+            cerr << "list item";
             break;
 
         case ParagraphMarkdownNodeType:
-            cout << "paragraph";
+            cerr << "paragraph";
             break;
 
         default:
-            cout << "undefined";
+            cerr << "undefined";
             break;
     }
 
-    cout << " (type " << type << ", data " << data << ") - ";
-    cout << "`" << text << "`";
+    cerr << " (type " << type << ", data " << data << ") - ";
+    cerr << "`" << text << "`";
 
     if (!sourceMap.empty()) {
         for (mdp::BytesRangeSet::const_iterator it = sourceMap.begin(); it != sourceMap.end(); ++it) {
-            std::cout << ((it == sourceMap.begin()) ? " :" : ";");
-            std::cout << it->location << ":" << it->length;
+            std::cerr << ((it == sourceMap.begin()) ? " :" : ";");
+            std::cerr << it->location << ":" << it->length;
         }
     }
 
-    cout << std::endl;
+    cerr << std::endl;
 
     for (MarkdownNodeIterator it = m_children->begin(); it != m_children->end(); ++it) {
         it->printNode(level + 1);
     }
 
     if (level == 0)
-        cout << std::endl << std::endl;
+        cerr << std::endl << std::endl;
 }
+#endif
