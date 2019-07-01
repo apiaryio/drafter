@@ -1,6 +1,12 @@
 # Drafter Changelog
 
-## Master
+## 4.0.0-pre.8 (2019-07-01)
+
+### Enhancements
+
+* Adds de-duplication of objects in `anyOf` in produced JSON Schemas under
+  cases where the properties have been declared in different orders in MSON.
+  [#664](https://github.com/apiaryio/drafter/issues/664)
 
 ### Bug Fixes
 
@@ -11,11 +17,8 @@
   emit a warning when the referenced type does not exist. The invalid type
   reference will not be present in the parse result.
 
-### Enhancements
-
-* Adds de-duplication of objects in `anyOf` in produced JSON Schemas under
-  cases where the properties have been declared in different orders in MSON.
-  [#664](https://github.com/apiaryio/drafter/issues/664)
+* Prevents Drafter from aborting while parsing some API Blueprints due to
+  invalid internal state.
 
 ## 4.0.0-pre.7 (2019-05-31)
 
