@@ -11,7 +11,6 @@
 
 #include <deque>
 #include <memory>
-#include <iostream>
 #include "ByteBuffer.h"
 
 namespace mdp
@@ -91,8 +90,10 @@ namespace mdp
         /** Destructor */
         ~MarkdownNode();
 
-        /** Prints the node to the stdout */
+#ifdef DEBUG
+        /** Prints the node to the stderr */
         void printNode(size_t level = 0) const;
+#endif
 
     private:
         MarkdownNode* m_parent;
