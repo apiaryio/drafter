@@ -32,7 +32,7 @@ $ brew install drafter
 
 [AUR package](https://aur.archlinux.org/packages/drafter/) for Arch Linux.
 
-Other systems refer to [build notes](#build).
+Other systems refer to [installation notes](#installation).
 
 ## Usage
 
@@ -145,54 +145,57 @@ if (result) {
 }
 ```
 
-## Build
+## Installation
 
-### Compiler Support
+Building Drafter will require a modern C++ compiler and
+[CMake](https://cmake.org/install/). The following compilers are tested and
+known to work:
 
-| Compiler | Minimum Supported Version |
-|----------|---------------------------|
-| Clang    | 4.0 |
-| GCC      | 5.3 |
-| MSVC++   | 2015 |
+| Compiler | Minimum Version |
+|----------|-----------------|
+| Clang    | 4.0             |
+| GCC      | 5.3             |
+| MSVC++   | 2015            |
 
-1. Clone the repo + fetch the submodules:
+The following steps can be used to build and install Drafter:
+
+1. Download a Drafter (release tarballs can be found in [GitHub
+   Releases](https://github.com/apiaryio/drafter/releases)):
 
     ```sh
-    $ git clone --recursive git://github.com/apiaryio/drafter.git
+    $ curl -OL https://github.com/apiaryio/drafter/releases/download/v4.0.0/drafter-4.0.0.tar.gz
+    $ tar xvf drafter-4.0.0
+    $ cd drafter-4.0.0
+    ```
+
+    Alternatively, you can clone the source repository, for example:
+
+    ```sh
+    $ git clone --recursive https://github.com/apiaryio/drafter.git
     $ cd drafter
     ```
 
-2. Build & test Drafter:
+2. Build & Install Drafter:
 
     ```sh
-    $ ./configure
-    $ make test
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+    $ make
+    $ [sudo] make install
     ```
 
-    To include integration tests (using Cucumber) use the `--include-integration-tests` flag:
+    NOTE: You can use `cmake -DCMAKE_INSTALL_PREFIX="$HOME/.local ..` if you
+    don't want a system wide install.
+
+3. You can now use Drafter CLI and library:
 
     ```sh
-    $ ./configure --include-integration-tests
-    $ make test
-    ```
-
-We love **Windows** too! Please refer to [Building on Windows](https://github.com/apiaryio/drafter/wiki/Building-on-Windows).
-
-### Drafter command line tool
-1. Build `drafter`:
-
-    ```sh
-    $ make drafter
-    ```
-
-2. Install & use `drafter`:
-
-    ```sh
-    $ sudo make install
     $ drafter --help
     ```
 
 ## Bindings
+
 Drafter bindings in other languages:
 
 - [drafter-npm](https://github.com/apiaryio/drafter-npm) (Node.js)
@@ -201,13 +204,16 @@ Drafter bindings in other languages:
 - [DrafterPy](https://github.com/menecio/drafterpy) (Python)
 
 ### CLI Wrapper
+
 - [fury-cli](https://github.com/apiaryio/fury-cli) (Node.js)
 - [Drafter-php](https://github.com/hendrikmaus/drafter-php) (PHP)
 
 ## Contribute
+
 Fork & Pull Request
 
 If you want to create a binding for Drafter please refer to the [Writing a Binding](https://github.com/apiaryio/drafter/wiki/Writing-a-binding) article.
 
 ## License
+
 MIT License. See the [LICENSE](https://github.com/apiaryio/drafter/blob/master/LICENSE) file.
