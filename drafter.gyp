@@ -88,8 +88,14 @@
       'direct_dependent_settings' : {
         'include_dirs': [
           'ext/snowcrash/src',
+          'ext/variant/include',
+          'ext/boost',
         ],
       },
+      'include_dirs' : [
+        'ext/boost',
+        'ext/variant/include',
+      ],
       'export_dependent_settings': [
         'libmarkdownparser'
       ],

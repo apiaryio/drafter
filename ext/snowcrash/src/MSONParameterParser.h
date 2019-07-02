@@ -110,23 +110,25 @@ namespace snowcrash
                     }
 
                     for (size_t i = 0; i < typeSection.node.content.elements().size(); i++) {
-                        mson::ValueMember valueMember = typeSection.node.content.elements().at(i).content.value;
+                        // TODO review access through Element::value()
+                        const mson::ValueMember* valueMember = typeSection.node.content.elements().at(i).value();
                         SourceMap<mson::ValueMember> valueMemberSM;
 
                         if (pd.exportSourceMap()) {
                             valueMemberSM = typeSection.sourceMap.elements().collection.at(i).value;
                         }
 
-                        if (valueMember.valueDefinition.values.size() == 1) {
-                            out.node.values.push_back(valueMember.valueDefinition.values[0].literal);
+                        if (valueMember)
+                            if (valueMember->valueDefinition.values.size() == 1) {
+                                out.node.values.push_back(valueMember->valueDefinition.values[0].literal);
 
-                            if (pd.exportSourceMap()) {
-                                SourceMap<Value> valueSM;
-                                valueSM.sourceMap = valueMemberSM.valueDefinition.sourceMap;
+                                if (pd.exportSourceMap()) {
+                                    SourceMap<Value> valueSM;
+                                    valueSM.sourceMap = valueMemberSM.valueDefinition.sourceMap;
 
-                                out.sourceMap.values.collection.push_back(valueSM);
+                                    out.sourceMap.values.collection.push_back(valueSM);
+                                }
                             }
-                        }
                     }
 
                     break;

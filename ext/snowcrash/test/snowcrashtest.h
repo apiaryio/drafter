@@ -163,7 +163,7 @@ namespace snowcrashtest
          * If 'nth' is given, check that particular row of the given sourceMap with the
          * given location & length.
          */
-        static void check(mdp::BytesRangeSet& sourceMap, int loc, int len, size_t nth = 0)
+        static void check(const mdp::BytesRangeSet& sourceMap, int loc, int len, size_t nth = 0)
         {
 
             if (nth == 0) {
@@ -179,7 +179,7 @@ namespace snowcrashtest
         /**
          * Test a sourcemap which is of size 2
          */
-        static void check(mdp::BytesRangeSet& sourceMap, int loc1, int len1, int loc2, int len2)
+        static void check(const mdp::BytesRangeSet& sourceMap, int loc1, int len1, int loc2, int len2)
         {
 
             REQUIRE(sourceMap.size() == 2);

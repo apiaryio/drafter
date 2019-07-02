@@ -202,7 +202,7 @@ namespace snowcrash
             }
         }
 
-        if (element.klass != mson::Element::UndefinedClass) {
+        if (!element.empty()) {
             sections.node.back().content.elements().push_back(element);
 
             if (pd.exportSourceMap()) {

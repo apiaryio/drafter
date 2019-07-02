@@ -203,11 +203,18 @@ TEST_CASE("Parse mson value member array with items", "[mson][value_member]")
     REQUIRE(valueMember.node.sections[0].content.description.empty());
     REQUIRE(valueMember.node.sections[0].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(valueMember.node.sections[0].content.elements().size() == 2);
-    REQUIRE(valueMember.node.sections[0].content.elements().at(0).klass == mson::Element::ValueClass);
-    REQUIRE(valueMember.node.sections[0].content.elements().at(0).content.value.valueDefinition.values.size() == 1);
-    REQUIRE(valueMember.node.sections[0].content.elements().at(0).content.value.description == "A sample value");
-    REQUIRE(valueMember.node.sections[0].content.elements().at(1).klass == mson::Element::ValueClass);
-    REQUIRE(valueMember.node.sections[0].content.elements().at(1).content.value.valueDefinition.values.size() == 1);
+
+    {
+        const auto* sub = valueMember.node.sections[0].content.elements().at(0).value();
+        REQUIRE(sub);
+        REQUIRE(sub->valueDefinition.values.size() == 1);
+        REQUIRE(sub->description == "A sample value");
+    }
+    {
+        const auto* sub = valueMember.node.sections[0].content.elements().at(1).value();
+        REQUIRE(sub);
+        REQUIRE(sub->valueDefinition.values.size() == 1);
+    }
 
     SourceMapHelper::check(valueMember.sourceMap.valueDefinition.sourceMap, 2, 8);
     REQUIRE(valueMember.sourceMap.sections.collection.size() == 1);

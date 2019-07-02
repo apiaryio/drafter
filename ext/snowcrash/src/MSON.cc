@@ -106,137 +106,26 @@ bool PropertyMember::empty() const
     return (this->name.empty() && this->description.empty() && this->sections.empty() && this->valueDefinition.empty());
 }
 
-OneOf& Element::Content::oneOf()
-{
-    if (!m_elements.get())
-        throw ELEMENTS_NOT_SET_ERR;
-
-    return *m_elements;
-}
-
-const OneOf& Element::Content::oneOf() const
-{
-    if (!m_elements.get())
-        throw ELEMENTS_NOT_SET_ERR;
-
-    return *m_elements;
-}
-
-Elements& Element::Content::elements()
-{
-    if (!m_elements.get())
-        throw ELEMENTS_NOT_SET_ERR;
-
-    return *m_elements;
-}
-
-const Elements& Element::Content::elements() const
-{
-    if (!m_elements.get())
-        throw ELEMENTS_NOT_SET_ERR;
-
-    return *m_elements;
-}
-
-Element::Content& Element::Content::operator=(const Elements& rhs)
-{
-    m_elements.reset(::new Elements(rhs));
-
-    return *this;
-}
-
-Element::Content::Content()
-{
-    m_elements.reset(::new Elements);
-}
-
-Element::Content::Content(const Element::Content& rhs)
-{
-    this->property = rhs.property;
-    this->value = rhs.value;
-    this->mixin = rhs.mixin;
-    m_elements.reset(::new Elements(*rhs.m_elements.get()));
-}
-
-Element::Content& Element::Content::operator=(const Element::Content& rhs)
-{
-    this->property = rhs.property;
-    this->value = rhs.value;
-    this->mixin = rhs.mixin;
-    m_elements.reset(::new Elements(*rhs.m_elements.get()));
-
-    return *this;
-}
-
-Element::Content::~Content() {}
-
-Element::Element(const Element::Class& klass_) : klass(klass_) {}
-
-Element::Element(const Element& rhs)
-{
-    this->klass = rhs.klass;
-    this->content = rhs.content;
-}
-
-Element& Element::operator=(const Element& rhs)
-{
-    this->klass = rhs.klass;
-    this->content = rhs.content;
-
-    return *this;
-}
-
-Element::~Element() {}
-
-/**
- * \brief Build Element from property member
- *
- * \param propertyMember Property member which was given
- */
 void Element::build(const PropertyMember& propertyMember)
 {
-    this->klass = Element::PropertyClass;
-    this->content.property = propertyMember;
+    content = propertyMember;
 }
 
-/**
- * \brief Build Element from value member
- *
- * \param valueMember Value member which was given
- */
 void Element::build(const ValueMember& valueMember)
 {
-    this->klass = Element::ValueClass;
-    this->content.value = valueMember;
+    content = valueMember;
 }
 
-/**
- * \brief Build Element from mixin type
- *
- * \param mixin Mixin which was given
- */
 void Element::build(const Mixin& mixin)
 {
-    this->klass = Element::MixinClass;
-    this->content.mixin = mixin;
+    content = mixin;
 }
 
-/**
- * \brief Build Element from one of type
- *
- * \param oneOf One Of which was given
- */
 void Element::build(const OneOf& oneOf)
 {
-    this->buildFromElements(oneOf);
-    this->klass = Element::OneOfClass;
+    content = OneOfSection{ oneOf };
 }
 
-/**
- * \brief Build Element from a value
- *
- * \param value Value of the value member
- */
 void Element::build(const Value& value)
 {
     ValueMember valueMember;
@@ -245,13 +134,7 @@ void Element::build(const Value& value)
     this->build(valueMember);
 }
 
-/**
- * \brief Buile Element from group of elements
- *
- * \param elements Group of elements
- */
 void Element::buildFromElements(const Elements& elements)
 {
-    this->klass = Element::GroupClass;
-    this->content = elements;
+    content = Element::GroupSection{ elements };
 }

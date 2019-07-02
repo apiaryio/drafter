@@ -37,6 +37,57 @@ using namespace drafter::utils::log;
 
 namespace
 {
+    std::unique_ptr<IElement> MsonTypeSectionToElements( //
+        const mson::Element::Empty&,
+        const snowcrash::SourceMap<mson::Element>*,
+        ConversionContext&,
+        const mson::BaseTypeName);
+
+    std::unique_ptr<IElement> MsonTypeSectionToElements( //
+        const mson::Element::PropertyMemberSection&,
+        const snowcrash::SourceMap<mson::Element>*,
+        ConversionContext&,
+        const mson::BaseTypeName);
+
+    std::unique_ptr<IElement> MsonTypeSectionToElements( //
+        const mson::Element::ValueMemberSection&,
+        const snowcrash::SourceMap<mson::Element>*,
+        ConversionContext&,
+        const mson::BaseTypeName);
+
+    std::unique_ptr<IElement> MsonTypeSectionToElements( //
+        const mson::Element::MixinSection&,
+        const snowcrash::SourceMap<mson::Element>*,
+        ConversionContext&,
+        const mson::BaseTypeName);
+
+    std::unique_ptr<IElement> MsonTypeSectionToElements( //
+        const mson::Element::OneOfSection&,
+        const snowcrash::SourceMap<mson::Element>*,
+        ConversionContext&,
+        const mson::BaseTypeName);
+
+    std::unique_ptr<IElement> MsonTypeSectionToElements( //
+        const mson::Element::OneOfSection&,
+        const snowcrash::SourceMap<mson::Element>*,
+        ConversionContext&,
+        const mson::BaseTypeName);
+
+    std::unique_ptr<IElement> MsonTypeSectionToElements( //
+        const mson::Element::GroupSection&,
+        const snowcrash::SourceMap<mson::Element>*,
+        ConversionContext&,
+        const mson::BaseTypeName);
+
+    std::unique_ptr<IElement> MsonToElement( //
+        const mson::Element&,
+        const snowcrash::SourceMap<mson::Element>*,
+        ConversionContext&,
+        const mson::BaseTypeName);
+}
+
+namespace
+{
     bool hasContent(const NodeInfo<mson::TypeSection>& typeSection) noexcept
     {
         return !typeSection.node->content.value.empty() || !typeSection.node->content.elements().empty();
@@ -197,10 +248,6 @@ namespace
         return attr;
     }
 
-    std::unique_ptr<IElement> MsonElementToRefract(const NodeInfo<mson::Element>& mse,
-        ConversionContext& context,
-        mson::BaseTypeName defaultNestedType = mson::StringTypeName);
-
     template <typename It>
     It MsonElementsToRefract(const NodeInfo<mson::Elements>& elements,
         It whereTo,
@@ -210,7 +257,7 @@ namespace
         NodeInfoCollection<mson::Elements> elementsNodeInfo(elements);
 
         for (const auto& nodeInfo : elementsNodeInfo)
-            if (auto apie = MsonElementToRefract(nodeInfo, context, defaultNestedType)) {
+            if (auto apie = MsonToElement(*nodeInfo.node, nodeInfo.sourceMap, context, defaultNestedType)) {
                 *whereTo = std::move(apie);
                 ++whereTo;
             }
@@ -1294,76 +1341,188 @@ namespace
 
         throw snowcrash::Error("unknown type of mson member", snowcrash::MSONError, input.sourceMap->sourceMap);
     }
+}
 
-    std::unique_ptr<IElement> MsonOneofToRefract(const NodeInfo<mson::OneOf>& oneOf, ConversionContext& context)
+namespace
+{
+    std::unique_ptr<OptionElement> MsonOneOfEntryToElements(
+        const mson::Element::Empty&, const snowcrash::SourceMap<mson::Element>*, ConversionContext&)
     {
+        throw snowcrash::Error("unknown type of mson element", snowcrash::ApplicationError);
+    }
+
+    std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::Element::PropertyMemberSection& section,
+        const snowcrash::SourceMap<mson::Element>* sourceMap,
+        ConversionContext& context)
+    {
+        if (auto apie = MsonTypeSectionToElements(section, sourceMap, context, mson::StringTypeName))
+            return make_element<OptionElement>(std::move(apie));
+        return nullptr;
+    }
+
+    std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::Element::ValueMemberSection& section,
+        const snowcrash::SourceMap<mson::Element>* sourceMap,
+        ConversionContext& context)
+    {
+        if (auto apie = MsonTypeSectionToElements(section, sourceMap, context, mson::StringTypeName))
+            return make_element<OptionElement>(std::move(apie));
+        return nullptr;
+    }
+
+    std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::Element::MixinSection& section,
+        const snowcrash::SourceMap<mson::Element>* sourceMap,
+        ConversionContext& context)
+    {
+        if (auto apie = MsonTypeSectionToElements(section, sourceMap, context, mson::StringTypeName))
+            return make_element<OptionElement>(std::move(apie));
+        return nullptr;
+    }
+
+    std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::Element::OneOfSection& section,
+        const snowcrash::SourceMap<mson::Element>* sourceMap,
+        ConversionContext& context)
+    {
+        if (auto apie = MsonTypeSectionToElements(section, sourceMap, context, mson::StringTypeName))
+            return make_element<OptionElement>(std::move(apie));
+        return nullptr;
+    }
+
+    std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::Element::GroupSection& section,
+        const snowcrash::SourceMap<mson::Element>* sourceMap,
+        ConversionContext& context)
+    {
+        auto option = make_element<OptionElement>();
+        MsonElementsToRefract( //
+            MakeNodeInfo(*section, sourceMap->elements()),
+            std::back_inserter(option->get()),
+            context);
+        return option;
+    }
+
+    struct MsonOneOfEntryToElementsLambda {
+        const snowcrash::SourceMap<mson::Element>* sourceMap;
+        ConversionContext& context;
+        SelectElement& select;
+
+        template <typename Section>
+        void operator()(const Section& s) const
+        {
+            if (auto option = MsonOneOfEntryToElements(s, sourceMap, context))
+                select.get().push_back(std::move(option));
+            else
+                select.get().push_back(make_element<OptionElement>()); // TODO see mson/issue-699
+        }
+    };
+}
+
+namespace
+{
+    std::unique_ptr<IElement> MsonTypeSectionToElements( //
+        const mson::Element::Empty&,
+        const snowcrash::SourceMap<mson::Element>*,
+        ConversionContext&,
+        const mson::BaseTypeName)
+    {
+        // TODO avoid throwing exceptions...
+        throw snowcrash::Error("unknown type of mson element", snowcrash::ApplicationError);
+    }
+
+    std::unique_ptr<IElement> MsonTypeSectionToElements( //
+        const mson::Element::PropertyMemberSection& section,
+        const snowcrash::SourceMap<mson::Element>* sourceMap,
+        ConversionContext& context,
+        const mson::BaseTypeName defaultNestedType)
+    {
+        return MsonMemberToRefract<PropertyTrait>(MakeNodeInfo(section, sourceMap->property),
+            context,
+            GetType(section.valueDefinition, context),
+            defaultNestedType);
+    }
+
+    std::unique_ptr<IElement> MsonTypeSectionToElements( //
+        const mson::Element::ValueMemberSection& section,
+        const snowcrash::SourceMap<mson::Element>* sourceMap,
+        ConversionContext& context,
+        const mson::BaseTypeName defaultNestedType)
+    {
+        return MsonMemberToRefract<ValueTrait>(MakeNodeInfo(section, sourceMap->value),
+            context,
+            GetType(section.valueDefinition, context),
+            defaultNestedType);
+    }
+
+    std::unique_ptr<IElement> MsonTypeSectionToElements( //
+        const mson::Element::MixinSection& section,
+        const snowcrash::SourceMap<mson::Element>* sourceMap,
+        ConversionContext&,
+        const mson::BaseTypeName)
+    {
+        auto ref = make_element<RefElement>(section.typeSpecification.name.symbol.literal);
+        ref->attributes().set(SerializeKey::Path, from_primitive(SerializeKey::Content));
+        return std::move(ref);
+    }
+
+    std::unique_ptr<IElement> MsonTypeSectionToElements( //
+        const mson::Element::OneOfSection& section,
+        const snowcrash::SourceMap<mson::Element>* sourceMap,
+        ConversionContext& context,
+        const mson::BaseTypeName);
+
+    std::unique_ptr<IElement> MsonTypeSectionToElements( //
+        const mson::Element::OneOfSection& section,
+        const snowcrash::SourceMap<mson::Element>* sourceMap,
+        ConversionContext& context,
+        const mson::BaseTypeName)
+    {
+        const NodeInfo<mson::OneOf>& oneOf = MakeNodeInfo(*section, sourceMap->oneOf());
 
         NodeInfoCollection<mson::OneOf> oneOfNodeInfo(oneOf);
         auto select = oneOfNodeInfo.empty() ? make_empty<SelectElement>() : make_element<SelectElement>();
 
         for (const auto& oneOfInfo : oneOfNodeInfo) {
-
-            auto option = make_element<OptionElement>();
-
-            // we can not use MsonElementToRefract() for groups,
-            // "option" element handles directly all elements in group
-            if (oneOfInfo.node->klass == mson::Element::GroupClass) {
-                MsonElementsToRefract(MakeNodeInfo(oneOfInfo.node->content.elements(), oneOfInfo.sourceMap->elements()),
-                    std::back_inserter(option->get()),
-                    context);
-            } else {
-                if (auto apie = MsonElementToRefract(oneOfInfo, context, mson::StringTypeName)) {
-                    option->get().push_back(std::move(apie));
-                }
-            }
-
-            select->get().push_back(std::move(option));
+            oneOfInfo.node->visit(MsonOneOfEntryToElementsLambda{ sourceMap, context, *select });
         }
 
         return std::move(select);
     }
 
-    std::unique_ptr<RefElement> MsonMixinToRefract(const NodeInfo<mson::Mixin>& mixin)
-    {
-        auto ref = make_element<RefElement>(mixin.node->typeSpecification.name.symbol.literal);
-
-        ref->attributes().set(SerializeKey::Path, from_primitive(SerializeKey::Content));
-
-        return ref;
-    }
-
-    std::unique_ptr<IElement> MsonElementToRefract(const NodeInfo<mson::Element>& mse,
+    std::unique_ptr<IElement> MsonTypeSectionToElements( //
+        const mson::Element::GroupSection&,
+        const snowcrash::SourceMap<mson::Element>*,
         ConversionContext& context,
-        const mson::BaseTypeName defaultNestedType /* = mson::StringTypeName */)
+        const mson::BaseTypeName)
     {
-        switch (mse.node->klass) {
-            case mson::Element::PropertyClass:
-                return MsonMemberToRefract<PropertyTrait>(
-                    MakeNodeInfo(mse.node->content.property, mse.sourceMap->property),
-                    context,
-                    GetType(mse.node->content.property.valueDefinition, context),
-                    defaultNestedType);
-
-            case mson::Element::ValueClass:
-                return MsonMemberToRefract<ValueTrait>(MakeNodeInfo(mse.node->content.value, mse.sourceMap->value),
-                    context,
-                    GetType(mse.node->content.value.valueDefinition, context),
-                    defaultNestedType);
-
-            case mson::Element::MixinClass:
-                return MsonMixinToRefract(MakeNodeInfo(mse.node->content.mixin, mse.sourceMap->mixin));
-
-            case mson::Element::OneOfClass:
-                return MsonOneofToRefract(MakeNodeInfo(mse.node->content.oneOf(), mse.sourceMap->oneOf()), context);
-
-            case mson::Element::GroupClass:
-                throw snowcrash::Error("unable to handle element group", snowcrash::ApplicationError);
-
-            default:
-                throw snowcrash::Error("unknown type of mson element", snowcrash::ApplicationError);
-        }
+        // TODO avoid throwing exceptions...
+        throw snowcrash::Error("unable to handle element group", snowcrash::ApplicationError);
     }
 
+    struct MsonTypeSectionToElementsLambda {
+        std::unique_ptr<IElement>& result;
+        const snowcrash::SourceMap<mson::Element>* sourceMap;
+        ConversionContext& context;
+        mson::BaseTypeName defaultNestedType;
+
+        template <typename Section>
+        void operator()(const Section& s)
+        {
+            result = MsonTypeSectionToElements(s, sourceMap, context, defaultNestedType);
+        }
+    };
+
+    std::unique_ptr<IElement> MsonToElement( //
+        const mson::Element& element,
+        const snowcrash::SourceMap<mson::Element>* sourceMap,
+        ConversionContext& context,
+        const mson::BaseTypeName defaultNestedType)
+    {
+        std::unique_ptr<IElement> result;
+        element.visit(MsonTypeSectionToElementsLambda{ result, sourceMap, context, defaultNestedType });
+        return result;
+    }
+}
+
+namespace
+{
     template <typename T>
     std::unique_ptr<IElement> RefractElementFromMSON(
         const NodeInfo<snowcrash::DataStructure>& ds, ConversionContext& context)

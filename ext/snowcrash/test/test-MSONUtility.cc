@@ -500,7 +500,7 @@ TEST_CASE("Build member type from one of", "[mson][utility]")
 
     element.build(oneOf);
 
-    REQUIRE(element.klass == Element::OneOfClass);
+    REQUIRE(element.oneOf());
 }
 
 TEST_CASE("Build member type from mixin", "[mson][utility]")
@@ -510,7 +510,7 @@ TEST_CASE("Build member type from mixin", "[mson][utility]")
 
     element.build(mixin);
 
-    REQUIRE(element.klass == Element::MixinClass);
+    REQUIRE(element.mixin());
 }
 
 TEST_CASE("Build member type from value member", "[mson][utility]")
@@ -520,7 +520,7 @@ TEST_CASE("Build member type from value member", "[mson][utility]")
 
     element.build(valueMember);
 
-    REQUIRE(element.klass == Element::ValueClass);
+    REQUIRE(element.value());
 }
 
 TEST_CASE("Build member type from property member", "[mson][utility]")
@@ -530,7 +530,7 @@ TEST_CASE("Build member type from property member", "[mson][utility]")
 
     element.build(propertyMember);
 
-    REQUIRE(element.klass == Element::PropertyClass);
+    REQUIRE(element.property());
 }
 
 TEST_CASE("Build member type from members collection", "[mson][utility]")
@@ -545,8 +545,9 @@ TEST_CASE("Build member type from members collection", "[mson][utility]")
 
     element.buildFromElements(typeSection.content.elements());
 
-    REQUIRE(element.klass == Element::GroupClass);
-    REQUIRE(element.content.elements().size() == 1);
+    const auto* result = element.group();
+    REQUIRE(result);
+    REQUIRE(result->size() == 1);
 }
 
 TEST_CASE("Parsing base type from base type name", "[mson][utility]")

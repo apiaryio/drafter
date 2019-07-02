@@ -55,8 +55,15 @@ set(MARKDOWN_PARSER_COMPILE_FEATURES
 add_library(markdown-parser ${MARKDOWN_PARSER_SOURCES})
 
 find_package(Sundown 1.0 REQUIRED)
+find_package(MPark.Variant 1.4 REQUIRED)
+find_package(BoostContainer 1.66 REQUIRED)
 
-target_link_libraries(markdown-parser PUBLIC Apiary::sundown)
+target_link_libraries(markdown-parser
+    PUBLIC
+        Apiary::sundown
+        Boost::container
+        mpark_variant
+      )
 
 target_include_directories(markdown-parser PUBLIC
     $<BUILD_INTERFACE:${markdown-parser_BINARY_DIR}/src>

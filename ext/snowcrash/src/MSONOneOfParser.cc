@@ -83,7 +83,7 @@ namespace snowcrash
                 break;
         }
 
-        if (element.klass != mson::Element::UndefinedClass) {
+        if (!element.empty()) {
             out.node.push_back(element);
 
             if (pd.exportSourceMap()) {
