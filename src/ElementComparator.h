@@ -58,8 +58,9 @@ namespace drafter
 
         struct IgnoreKeys {
             const std::set<std::string> keys;
-            IgnoreKeys() = default;
+
             explicit IgnoreKeys(const std::set<std::string>&& keys) : keys(std::move(keys)) {}
+            IgnoreKeys() {}
 
             bool operator()(const std::string& key) const noexcept
             {
@@ -112,18 +113,15 @@ namespace drafter
             const InfoElementsComparator<IgnoreMeta> ignoreMeta;
 
         public:
-            explicit ElementComparator(
-                const refract::IElement& rhs_, const IgnoreAttrs& ignoreAttrs, const IgnoreMeta& ignoreMeta)
-                : rhs(rhs_), ignoreAttrs(std::move(ignoreAttrs)), ignoreMeta(std::move(ignoreMeta))
-            {
-            }
+            explicit ElementComparator(const refract::IElement& rhs_, const IgnoreAttrs& ignoreAttrs, const IgnoreMeta& ignoreMeta) : rhs(rhs_), ignoreAttrs(std::move(ignoreAttrs)), ignoreMeta(std::move(ignoreMeta)) {}
 
         public:
             template <typename ElementT>
             bool operator()(const ElementT& lhs) const
             {
                 return (lhs.empty() == rhs.empty()) && (lhs.element() == rhs.element())
-                    && ignoreMeta(rhs.meta(), lhs.meta()) && ignoreAttrs(rhs.attributes(), lhs.attributes())
+                    && ignoreMeta(rhs.meta(), lhs.meta()) 
+                    && ignoreAttrs(rhs.attributes(), lhs.attributes()) 
                     && (lhs.empty() || (lhs.get() == dynamic_cast<const ElementT*>(&rhs)->get()));
             }
         };
