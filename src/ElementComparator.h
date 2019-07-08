@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <iterator>
 #include <type_traits>
+#include <set>
 
 namespace drafter
 {
@@ -52,6 +53,17 @@ namespace drafter
             bool operator()(const std::string&) const noexcept
             {
                 return false;
+            }
+        };
+
+        struct IgnoreKeys {
+            const std::set<std::string> keys;
+            IgnoreKeys() = default;
+            explicit IgnoreKeys(const std::set<std::string>&& keys) : keys(std::move(keys)) {}
+
+            bool operator()(const std::string& key) const noexcept
+            {
+                return keys.end() != keys.find(key);
             }
         };
 
@@ -96,17 +108,22 @@ namespace drafter
         class ElementComparator
         {
             const refract::IElement& rhs;
+            const InfoElementsComparator<IgnoreAttrs> ignoreAttrs;
+            const InfoElementsComparator<IgnoreMeta> ignoreMeta;
 
         public:
-            explicit ElementComparator(const refract::IElement& rhs_) : rhs(rhs_) {}
+            explicit ElementComparator(
+                const refract::IElement& rhs_, const IgnoreAttrs& ignoreAttrs, const IgnoreMeta& ignoreMeta)
+                : rhs(rhs_), ignoreAttrs(std::move(ignoreAttrs)), ignoreMeta(std::move(ignoreMeta))
+            {
+            }
 
         public:
             template <typename ElementT>
             bool operator()(const ElementT& lhs) const
             {
                 return (lhs.empty() == rhs.empty()) && (lhs.element() == rhs.element())
-                    && (InfoElementsComparator<IgnoreAttrs>{}(rhs.attributes(), lhs.attributes()))
-                    && (InfoElementsComparator<IgnoreMeta>{}(rhs.meta(), lhs.meta()))
+                    && ignoreMeta(rhs.meta(), lhs.meta()) && ignoreAttrs(rhs.attributes(), lhs.attributes())
                     && (lhs.empty() || (lhs.get() == dynamic_cast<const ElementT*>(&rhs)->get()));
             }
         };
@@ -118,7 +135,7 @@ namespace drafter
         IgnoreAttrs&& ignoreAttrs = {},
         IgnoreMeta&& ignoreMeta = {})
     {
-        return visit(lhs, detail::ElementComparator<IgnoreAttrs, IgnoreMeta>{ rhs });
+        return visit(lhs, detail::ElementComparator<IgnoreAttrs, IgnoreMeta>{ rhs, ignoreAttrs, ignoreMeta });
     }
 } // namespace drafter
 

@@ -820,7 +820,12 @@ namespace
                                          const bool reportDuplicity) {
                 if (std::find_if(enums.begin(),
                         enums.end(),
-                        [&info](std::unique_ptr<IElement>& enm) { return Equal(*info, *enm); })
+                        [&info](std::unique_ptr<IElement>& enm) {
+                            return Equal(*info,
+                                *enm,
+                                detail::IgnoreKeys({ "sourceMap" }),
+                                detail::IgnoreKeys({ "description" }));
+                        })
                     == enums.end()) {
 
                     enums.push_back(std::move(info));
