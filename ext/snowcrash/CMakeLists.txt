@@ -24,7 +24,7 @@ else()
     set(snowcrash_SOURCES ${snowcrash_SOURCES} src/posix/RegexMatch.cc)
 endif()
 
-add_library(snowcrash SHARED ${snowcrash_SOURCES})
+add_library(snowcrash ${snowcrash_SOURCES})
 
 find_package(markdown-parser 1.0 REQUIRED)
 
