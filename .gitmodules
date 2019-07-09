@@ -13,3 +13,6 @@
 [submodule "ext/variant"]
 	path = ext/variant
 	url = https://github.com/mpark/variant.git
+[submodule "ext/PEGTL"]
+	path = ext/PEGTL
+	url = https://github.com/taocpp/PEGTL.git
