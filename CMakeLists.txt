@@ -28,6 +28,7 @@ add_subdirectory(ext/snowcrash/ext/markdown-parser/ext/sundown EXCLUDE_FROM_ALL)
 add_subdirectory(ext/cmdline EXCLUDE_FROM_ALL)
 add_subdirectory(ext/boost EXCLUDE_FROM_ALL)
 add_subdirectory(ext/variant EXCLUDE_FROM_ALL)
+add_subdirectory(ext/PEGTL EXCLUDE_FROM_ALL)
 
 message(STATUS "Setting up tests for production...")
 add_subdirectory(test/vendor/Catch EXCLUDE_FROM_ALL)
