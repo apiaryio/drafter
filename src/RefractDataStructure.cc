@@ -821,7 +821,7 @@ namespace
                 if (std::find_if(enums.begin(),
                         enums.end(),
                         [&info](std::unique_ptr<IElement>& enm) {
-                            return Equal(*info,
+                            return Equal<detail::IgnoreKeys>(*info,
                                 *enm,
                                 detail::IgnoreKeys({ "sourceMap" }),
                                 detail::IgnoreKeys({ "description" }));

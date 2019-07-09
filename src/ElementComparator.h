@@ -80,7 +80,7 @@ namespace drafter
             {
             }
 
-            explicit InfoElementsComparator(IgnorePredicate ignoreKey) : ignore{ std::move(ignoreKey) } {}
+            explicit InfoElementsComparator(IgnorePredicate ignoreKey) : ignore(std::move(ignoreKey)) {}
 
             bool operator()(const refract::InfoElements& rhs, const refract::InfoElements& lhs) const
             {
