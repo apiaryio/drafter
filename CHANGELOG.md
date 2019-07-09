@@ -10,6 +10,9 @@
 
 ### Bug Fixes
 
+* Avoid duplication in `enumerations` for same elements with different description
+  [#718](https://github.com/apiaryio/drafter/issues/719)
+
 * Fix escaping keys in generated JSON/JSON-Scheme in generated assets
   [#719](https://github.com/apiaryio/drafter/issues/719)
 
