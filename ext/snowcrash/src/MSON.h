@@ -19,6 +19,7 @@
 
 #include "Platform.h"
 #include "MarkdownParser.h"
+#include "Just.h"
 
 #define ELEMENTS_NOT_SET_ERR std::logic_error("no elements set")
 
@@ -31,37 +32,6 @@
 
 namespace mson
 {
-    template <typename T, typename>
-    struct just {
-
-        T content;
-
-        just() noexcept(T()) : content{} {}
-
-        explicit just(T&& c) noexcept : content{ std::move(c) } {}
-        explicit just(const T& c) : content{ c } {}
-
-        const T* operator->() const noexcept
-        {
-            return &content;
-        }
-
-        T* operator->() noexcept
-        {
-            return &content;
-        }
-
-        const T& operator*() const noexcept
-        {
-            return content;
-        }
-
-        T& operator*() noexcept
-        {
-            return content;
-        }
-    };
-
     /** Markdown */
     typedef mdp::ByteBuffer Markdown;
 
