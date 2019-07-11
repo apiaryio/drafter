@@ -118,17 +118,19 @@ namespace snowcrash
                             valueMemberSM = typeSection.sourceMap.elements().collection.at(i).value;
                         }
 
-                        if (valueMember)
-                            if (valueMember->valueDefinition.values.size() == 1) {
-                                out.node.values.push_back(valueMember->valueDefinition.values[0].literal);
+                        if (!valueMember)
+                            continue;
 
-                                if (pd.exportSourceMap()) {
-                                    SourceMap<Value> valueSM;
-                                    valueSM.sourceMap = valueMemberSM.valueDefinition.sourceMap;
+                        if (valueMember->valueDefinition.values.size() == 1) {
+                            out.node.values.push_back(valueMember->valueDefinition.values[0].literal);
 
-                                    out.sourceMap.values.collection.push_back(valueSM);
-                                }
+                            if (pd.exportSourceMap()) {
+                                SourceMap<Value> valueSM;
+                                valueSM.sourceMap = valueMemberSM.valueDefinition.sourceMap;
+
+                                out.sourceMap.values.collection.push_back(valueSM);
                             }
+                        }
                     }
 
                     break;
