@@ -495,41 +495,29 @@ TEST_CASE("Parse type definition when non-structure type has nested types", "[ms
 
 TEST_CASE("Build member type from one of", "[mson][utility]")
 {
-    OneOf oneOf;
     Element element;
-
-    element.build(oneOf);
-
+    element = Element::OneOfSection{OneOf{}};
     REQUIRE(element.oneOf());
 }
 
 TEST_CASE("Build member type from mixin", "[mson][utility]")
 {
-    Mixin mixin;
     Element element;
-
-    element.build(mixin);
-
+    element = Mixin{};
     REQUIRE(element.mixin());
 }
 
 TEST_CASE("Build member type from value member", "[mson][utility]")
 {
-    ValueMember valueMember;
     Element element;
-
-    element.build(valueMember);
-
+    element = ValueMember{};
     REQUIRE(element.value());
 }
 
 TEST_CASE("Build member type from property member", "[mson][utility]")
 {
-    PropertyMember propertyMember;
     Element element;
-
-    element.build(propertyMember);
-
+    element = PropertyMember{};
     REQUIRE(element.property());
 }
 
@@ -537,13 +525,11 @@ TEST_CASE("Build member type from members collection", "[mson][utility]")
 {
     Element element;
     TypeSection typeSection;
-    PropertyMember propertyMember;
-    Element propertyMemberElement;
 
-    element.build(propertyMember);
-    typeSection.content.elements().push_back(propertyMemberElement);
+    element = PropertyMember{};
+    typeSection.content.elements().push_back(Element{});
 
-    element.buildFromElements(typeSection.content.elements());
+    element = Element::GroupSection{ typeSection.content.elements() };
 
     const auto* result = element.group();
     REQUIRE(result);

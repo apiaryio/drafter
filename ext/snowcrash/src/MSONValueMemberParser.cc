@@ -102,7 +102,7 @@ namespace snowcrash
                         LogicalErrorWarning,
                         sourceMap));
             } else {
-                element.build(mixin.node);
+                element = mixin.node;
 
                 if (pd.exportSourceMap()) {
                     elementSM.mixin = mixin.sourceMap;
@@ -124,7 +124,7 @@ namespace snowcrash
             IntermediateParseResult<mson::OneOf> oneOf(sections.report);
             cur = MSONOneOfParser::parse(node, siblings, pd, oneOf);
 
-            element.build(oneOf.node);
+            element = mson::Element::OneOfSection{ oneOf.node };
 
             if (pd.exportSourceMap()) {
                 elementSM = oneOf.sourceMap;
@@ -137,7 +137,7 @@ namespace snowcrash
                 IntermediateParseResult<mson::ValueMember> valueMember(sections.report);
                 cur = MSONValueMemberParser::parse(node, siblings, pd, valueMember);
 
-                element.build(valueMember.node);
+                element = valueMember.node;
 
                 if ((valueMember.node.valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType
                         || valueMember.node.valueDefinition.typeDefinition.baseType == mson::ObjectBaseType)
@@ -164,7 +164,7 @@ namespace snowcrash
                 IntermediateParseResult<mson::PropertyMember> propertyMember(sections.report);
                 cur = MSONPropertyMemberParser::parse(node, siblings, pd, propertyMember);
 
-                element.build(propertyMember.node);
+                element = propertyMember.node;
 
                 if ((propertyMember.node.valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType
                         || propertyMember.node.valueDefinition.typeDefinition.baseType == mson::ObjectBaseType)

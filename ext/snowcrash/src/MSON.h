@@ -389,6 +389,36 @@ namespace mson
         explicit Element(OneOfSection&& c) noexcept : content{ std::move(c) } {}
         explicit Element(GroupSection&& c) noexcept : content{ std::move(c) } {}
 
+        Element& operator=(PropertyMemberSection c) noexcept
+        {
+            content = std::move(c);
+            return *this;
+        }
+
+        Element& operator=(ValueMemberSection c) noexcept
+        {
+            content = std::move(c);
+            return *this;
+        }
+
+        Element& operator=(MixinSection c) noexcept
+        {
+            content = std::move(c);
+            return *this;
+        }
+
+        Element& operator=(OneOfSection c) noexcept
+        {
+            content = std::move(c);
+            return *this;
+        }
+
+        Element& operator=(GroupSection c) noexcept
+        {
+            content = std::move(c);
+            return *this;
+        }
+
         bool empty() const noexcept
         {
             return mpark::get_if<Empty>(&content);
@@ -405,15 +435,6 @@ namespace mson
         {
             mpark::visit(std::forward<F>(f), content);
         }
-
-        /** Functions which allow the building of member type */
-        void build(const PropertyMember& propertyMember);
-        void build(const ValueMember& valueMember);
-        void build(const Mixin& mixin);
-        void build(const ::mson::OneOf& oneOf);
-        void build(const Value& value);
-
-        void buildFromElements(const Elements& elements);
     };
 }
 

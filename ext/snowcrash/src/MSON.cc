@@ -105,36 +105,3 @@ bool PropertyMember::empty() const
 {
     return (this->name.empty() && this->description.empty() && this->sections.empty() && this->valueDefinition.empty());
 }
-
-void Element::build(const PropertyMember& propertyMember)
-{
-    content = propertyMember;
-}
-
-void Element::build(const ValueMember& valueMember)
-{
-    content = valueMember;
-}
-
-void Element::build(const Mixin& mixin)
-{
-    content = mixin;
-}
-
-void Element::build(const OneOf& oneOf)
-{
-    content = OneOfSection{ oneOf };
-}
-
-void Element::build(const Value& value)
-{
-    ValueMember valueMember;
-
-    valueMember.valueDefinition.values.push_back(value);
-    this->build(valueMember);
-}
-
-void Element::buildFromElements(const Elements& elements)
-{
-    content = Element::GroupSection{ elements };
-}

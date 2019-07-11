@@ -36,7 +36,7 @@ namespace snowcrash
                     IntermediateParseResult<mson::Mixin> mixin(out.report);
                     cur = MSONMixinParser::parse(node, siblings, pd, mixin);
 
-                    element.build(mixin.node);
+                    element = mixin.node;
 
                     if (pd.exportSourceMap()) {
                         elementSM.mixin = mixin.sourceMap;
@@ -62,7 +62,7 @@ namespace snowcrash
                     IntermediateParseResult<mson::OneOf> oneOf(out.report);
                     cur = MSONOneOfParser::parse(node, siblings, pd, oneOf);
 
-                    element.build(oneOf.node);
+                    element = mson::Element::OneOfSection{ oneOf.node };
 
                     if (pd.exportSourceMap()) {
                         elementSM = oneOf.sourceMap;
@@ -77,7 +77,7 @@ namespace snowcrash
                         IntermediateParseResult<mson::PropertyMember> propertyMember(out.report);
                         cur = MSONPropertyMemberParser::parse(node, siblings, pd, propertyMember);
 
-                        element.build(propertyMember.node);
+                        element = propertyMember.node;
 
                         if (pd.exportSourceMap()) {
                             elementSM.property = propertyMember.sourceMap;
@@ -87,7 +87,7 @@ namespace snowcrash
                         IntermediateParseResult<mson::ValueMember> valueMember(out.report);
                         cur = MSONValueMemberParser::parse(node, siblings, pd, valueMember);
 
-                        element.build(valueMember.node);
+                        element = valueMember.node;
 
                         if (pd.exportSourceMap()) {
                             elementSM.value = valueMember.sourceMap;
@@ -124,7 +124,7 @@ namespace snowcrash
                         IntermediateParseResult<mson::ValueMember> valueMember(out.report);
                         cur = MSONValueMemberParser::parse(node, siblings, pd, valueMember);
 
-                        element.build(valueMember.node);
+                        element = valueMember.node;
 
                         if (pd.exportSourceMap()) {
                             elementSM.value = valueMember.sourceMap;
@@ -136,7 +136,7 @@ namespace snowcrash
                         IntermediateParseResult<mson::PropertyMember> propertyMember(out.report);
                         cur = MSONPropertyMemberParser::parse(node, siblings, pd, propertyMember);
 
-                        element.build(propertyMember.node);
+                        element = propertyMember.node;
 
                         if (pd.exportSourceMap()) {
                             elementSM.property = propertyMember.sourceMap;
