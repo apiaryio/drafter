@@ -17,6 +17,16 @@ using namespace drafter;
 
 namespace
 {
+    std::unique_ptr<OptionElement> WrapOption(std::unique_ptr<IElement> el)
+    {
+        if (el)
+            return make_element<OptionElement>(std::move(el));
+        return nullptr;
+    }
+}
+
+namespace
+{
     std::unique_ptr<OptionElement> MsonOneOfEntryToElements(
         const mson::Element::Empty&, const snowcrash::SourceMap<mson::Element>*, ConversionContext&)
     {
@@ -27,36 +37,28 @@ namespace
         const snowcrash::SourceMap<mson::Element>* sourceMap,
         ConversionContext& context)
     {
-        if (auto apie = MsonTypeSectionToApie(section, sourceMap, context, mson::StringTypeName))
-            return make_element<OptionElement>(std::move(apie));
-        return nullptr;
+        return WrapOption(MsonTypeSectionToApie(section, sourceMap, context, mson::StringTypeName));
     }
 
     std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::Element::ValueMemberSection& section,
         const snowcrash::SourceMap<mson::Element>* sourceMap,
         ConversionContext& context)
     {
-        if (auto apie = MsonTypeSectionToApie(section, sourceMap, context, mson::StringTypeName))
-            return make_element<OptionElement>(std::move(apie));
-        return nullptr;
+        return WrapOption(MsonTypeSectionToApie(section, sourceMap, context, mson::StringTypeName));
     }
 
     std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::Element::MixinSection& section,
         const snowcrash::SourceMap<mson::Element>* sourceMap,
         ConversionContext& context)
     {
-        if (auto apie = MsonTypeSectionToApie(section, sourceMap, context, mson::StringTypeName))
-            return make_element<OptionElement>(std::move(apie));
-        return nullptr;
+        return WrapOption(MsonTypeSectionToApie(section, sourceMap, context, mson::StringTypeName));
     }
 
     std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::Element::OneOfSection& section,
         const snowcrash::SourceMap<mson::Element>* sourceMap,
         ConversionContext& context)
     {
-        if (auto apie = MsonTypeSectionToApie(section, sourceMap, context, mson::StringTypeName))
-            return make_element<OptionElement>(std::move(apie));
-        return nullptr;
+        return WrapOption(MsonTypeSectionToApie(section, sourceMap, context, mson::StringTypeName));
     }
 
     std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::Element::GroupSection& section,
