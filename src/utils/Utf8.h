@@ -214,7 +214,7 @@ namespace drafter
                 template <typename Container>
                 explicit constexpr input_iterator(const Container& last) noexcept //
                     : e_(last.end()),
-		      cp_and_next_(decode_one(last.begin(), last.end()))
+                      cp_and_next_(decode_one(last.begin(), last.end()))
                 {
                 }
 
