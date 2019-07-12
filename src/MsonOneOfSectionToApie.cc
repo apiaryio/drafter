@@ -102,5 +102,5 @@ std::unique_ptr<refract::IElement> drafter::MsonOneOfSectionToApie( //
         oneOfInfo.node->visit(MsonOneOfEntryToElementsLambda{ oneOfInfo.sourceMap, context, *result });
     }
 
-    return result;
+    return std::move(result);
 }
