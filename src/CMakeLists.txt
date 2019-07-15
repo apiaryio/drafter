@@ -74,9 +74,9 @@ set(DRAFTER_COMPILE_FEATURES
     )
 
 # libdrafter
-add_library(drafter SHARED ${DRAFTER_SOURCES})
+add_library(drafter ${DRAFTER_SOURCES})
 
-set_target_properties(drafter PROPERTIES PUBLIC_HEADER "drafter.h")
+set_target_properties(drafter PROPERTIES PUBLIC_HEADER "drafter.h" WINDOWS_EXPORT_ALL_SYMBOLS 1)
 
 # production dependencies
 find_package(snowcrash 1.0 REQUIRED)
@@ -99,7 +99,7 @@ target_include_directories(drafter PUBLIC
 
 target_compile_definitions(drafter PRIVATE BUILDING_DRAFTER=1)
 
-target_compile_definitions(drafter PUBLIC DRAFTER_BUILD_SHARED=1)
+target_compile_definitions(drafter PUBLIC DRAFTER_BUILD_STATIC=1)
 
 target_compile_features(drafter PUBLIC ${DRAFTER_COMPILE_FEATURES})
 

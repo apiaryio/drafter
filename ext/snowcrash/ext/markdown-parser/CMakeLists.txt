@@ -52,11 +52,11 @@ set(MARKDOWN_PARSER_COMPILE_FEATURES
     cxx_template_template_parameters
     )
 
-add_library(markdown-parser SHARED ${MARKDOWN_PARSER_SOURCES})
+add_library(markdown-parser ${MARKDOWN_PARSER_SOURCES})
 
 find_package(Sundown 1.0 REQUIRED)
 
-target_link_libraries(markdown-parser PUBLIC Apiary::sundown-pic)
+target_link_libraries(markdown-parser PUBLIC Apiary::sundown)
 
 target_include_directories(markdown-parser PUBLIC
     $<BUILD_INTERFACE:${markdown-parser_BINARY_DIR}/src>
