@@ -164,19 +164,8 @@ namespace snowcrash
         /** Source Map of Link Relation (THIS SHOULD NOT BE HERE - should be under element attributes) */
         SourceMap<Relation> relation;
 
-        /**
-         *  \brief Action-specific HTTP headers
-         *
-         *  DEPRECATION WARNING:
-         *  --------------------
-         *
-         *  This AST node is build for deprecated API Blueprint syntax
-         *  and as such it will be removed in a future version of
-         *  Snow Crash.
-         *
-         *  Use respective payload's header collection instead.
-         */
-        DEPRECATED SourceMap<Headers> headers;
+        /** Action-specific HTTP headers */
+        SourceMap<Headers> headers;
 
         /** Transactions examples */
         SourceMap<TransactionExamples> examples;
@@ -209,19 +198,8 @@ namespace snowcrash
         /** Parameters */
         SourceMap<Parameters> parameters;
 
-        /**
-         *  \brief Resource-specific HTTP Headers
-         *
-         *  DEPRECATION WARNING:
-         *  --------------------
-         *
-         *  This AST node is build for deprecated API Blueprint syntax
-         *  and as such it will be removed in a future version of
-         *  Snow Crash.
-         *
-         *  Use respective payload's header collection instead.
-         */
-        DEPRECATED SourceMap<Headers> headers;
+        /** Resource-specific HTTP Headers */
+        SourceMap<Headers> headers;
 
         /** A set of Actions specified for this Resource */
         SourceMap<Actions> actions;

@@ -13,24 +13,6 @@
 extern "C" {
 #endif
 
-#if defined(BUILDING_DRAFTER)
-#define DEPRECATED
-#endif
-
-#if defined(_MSC_VER)
-#if !defined(DEPRECATED)
-#define DEPRECATED __declspec(deprecated)
-#endif
-#elif defined(__clang__) || defined(__GNUC__)
-#if !defined(DEPRECATED)
-#define DEPRECATED __attribute__((deprecated))
-#endif
-#else
-#if !defined(DEPRECATED)
-#define DEPRECATED
-#endif
-#endif
-
 #ifndef DRAFTER_API
 #if defined _WIN32 || defined __CYGWIN__
 #if defined(DRAFTER_BUILD_SHARED) /* build dll */

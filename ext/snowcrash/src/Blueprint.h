@@ -306,19 +306,8 @@ namespace snowcrash
         /** Link Relation */
         Relation relation;
 
-        /**
-         *  \brief Action-specific HTTP headers
-         *
-         *  DEPRECATION WARNING:
-         *  --------------------
-         *
-         *  This AST node is build for deprecated API Blueprint syntax
-         *  and as such it will be removed in a future version of
-         *  Snow Crash.
-         *
-         *  Use respective payload's header collection instead.
-         */
-        DEPRECATED Headers headers;
+        /** Action-specific HTTP headers */
+        Headers headers;
 
         /** Transactions examples */
         TransactionExamples examples;
@@ -350,19 +339,8 @@ namespace snowcrash
         /** Parameters */
         Parameters parameters;
 
-        /**
-         *  \brief Resource-specific HTTP Headers
-         *
-         *  DEPRECATION WARNING:
-         *  --------------------
-         *
-         *  This AST node is build for deprecated API Blueprint syntax
-         *  and as such it will be removed in a future version of
-         *  Snow Crash.
-         *
-         *  Use respective payload's header collection instead.
-         */
-        DEPRECATED Headers headers;
+        /** Resource-specific HTTP Headers */
+        Headers headers;
 
         /** A set of Actions specified for this Resource */
         Actions actions;
