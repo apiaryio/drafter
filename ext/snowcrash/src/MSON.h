@@ -186,10 +186,10 @@ namespace mson
     struct ValueDefinition {
 
         /** List of values */
-        Values values;
+        Values values = {};
 
         /** Type of the values */
-        TypeDefinition typeDefinition;
+        TypeDefinition typeDefinition = {};
 
         /** Check if empty */
         bool empty() const;
@@ -285,13 +285,13 @@ namespace mson
     struct ValueMember {
 
         /** Inline description */
-        Markdown description;
+        Markdown description = {};
 
         /** Definition of member's value */
-        ValueDefinition valueDefinition;
+        ValueDefinition valueDefinition = {};
 
         /** List of member type's sections */
-        TypeSections sections;
+        TypeSections sections = {};
 
         /** Check if empty */
         bool empty() const;
