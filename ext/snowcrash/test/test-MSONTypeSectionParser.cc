@@ -119,12 +119,18 @@ TEST_CASE("Parse array mson sample list type section", "[mson][type_section]")
     REQUIRE(typeSection.node.content.value.empty());
     REQUIRE(typeSection.node.content.description.empty());
     REQUIRE(typeSection.node.content.elements().size() == 2);
-    REQUIRE(typeSection.node.content.elements().at(0).klass == mson::Element::ValueClass);
-    REQUIRE(typeSection.node.content.elements().at(0).content.value.valueDefinition.values.size() == 1);
-    REQUIRE(typeSection.node.content.elements().at(0).content.value.valueDefinition.values[0].literal == "75");
-    REQUIRE(typeSection.node.content.elements().at(1).klass == mson::Element::ValueClass);
-    REQUIRE(typeSection.node.content.elements().at(1).content.value.valueDefinition.values.size() == 1);
-    REQUIRE(typeSection.node.content.elements().at(1).content.value.valueDefinition.values[0].literal == "100");
+    {
+        const auto* value = typeSection.node.content.elements().at(0).value();
+        REQUIRE(value);
+        REQUIRE(value->valueDefinition.values.size() == 1);
+        REQUIRE(value->valueDefinition.values[0].literal == "75");
+    }
+    {
+        const auto* value = typeSection.node.content.elements().at(1).value();
+        REQUIRE(value);
+        REQUIRE(value->valueDefinition.values.size() == 1);
+        REQUIRE(value->valueDefinition.values[0].literal == "100");
+    }
 
     REQUIRE(typeSection.sourceMap.value.sourceMap.empty());
     REQUIRE(typeSection.sourceMap.description.sourceMap.empty());
@@ -197,12 +203,18 @@ TEST_CASE("Parse mson sample list type section with values as list items", "[mso
     REQUIRE(typeSection.node.content.value.empty());
     REQUIRE(typeSection.node.content.description.empty());
     REQUIRE(typeSection.node.content.elements().size() == 2);
-    REQUIRE(typeSection.node.content.elements().at(0).klass == mson::Element::ValueClass);
-    REQUIRE(typeSection.node.content.elements().at(0).content.value.valueDefinition.values.size() == 1);
-    REQUIRE(typeSection.node.content.elements().at(0).content.value.valueDefinition.values[0].literal == "red");
-    REQUIRE(typeSection.node.content.elements().at(1).klass == mson::Element::ValueClass);
-    REQUIRE(typeSection.node.content.elements().at(1).content.value.valueDefinition.values.size() == 1);
-    REQUIRE(typeSection.node.content.elements().at(1).content.value.valueDefinition.values[0].literal == "green");
+    {
+        const auto* value = typeSection.node.content.elements().at(0).value();
+        REQUIRE(value);
+        REQUIRE(value->valueDefinition.values.size() == 1);
+        REQUIRE(value->valueDefinition.values[0].literal == "red");
+    }
+    {
+        const auto* value = typeSection.node.content.elements().at(1).value();
+        REQUIRE(value);
+        REQUIRE(value->valueDefinition.values.size() == 1);
+        REQUIRE(value->valueDefinition.values[0].literal == "green");
+    }
 
     REQUIRE(typeSection.sourceMap.value.sourceMap.empty());
     REQUIRE(typeSection.sourceMap.description.sourceMap.empty());
@@ -336,12 +348,18 @@ TEST_CASE("Parse mson sample header type section with values as list items", "[m
     REQUIRE(typeSection.node.content.value.empty());
     REQUIRE(typeSection.node.content.description.empty());
     REQUIRE(typeSection.node.content.elements().size() == 2);
-    REQUIRE(typeSection.node.content.elements().at(0).klass == mson::Element::ValueClass);
-    REQUIRE(typeSection.node.content.elements().at(0).content.value.valueDefinition.values.size() == 1);
-    REQUIRE(typeSection.node.content.elements().at(0).content.value.valueDefinition.values[0].literal == "red");
-    REQUIRE(typeSection.node.content.elements().at(1).klass == mson::Element::ValueClass);
-    REQUIRE(typeSection.node.content.elements().at(1).content.value.valueDefinition.values.size() == 1);
-    REQUIRE(typeSection.node.content.elements().at(1).content.value.valueDefinition.values[0].literal == "green");
+    {
+        const auto* value = typeSection.node.content.elements().at(0).value();
+        REQUIRE(value);
+        REQUIRE(value->valueDefinition.values.size() == 1);
+        REQUIRE(value->valueDefinition.values[0].literal == "red");
+    }
+    {
+        const auto* value = typeSection.node.content.elements().at(1).value();
+        REQUIRE(value);
+        REQUIRE(value->valueDefinition.values.size() == 1);
+        REQUIRE(value->valueDefinition.values[0].literal == "green");
+    }
 
     REQUIRE(typeSection.sourceMap.value.sourceMap.empty());
     REQUIRE(typeSection.sourceMap.description.sourceMap.empty());
@@ -481,9 +499,6 @@ TEST_CASE("Parse mson sample type section for a simple object", "[mson][type_sec
           "        - username: pksunkara\n"
           "        - admin: false";
 
-    mson::Element member;
-    SourceMap<mson::Element> memberSM;
-
     ParseResult<mson::TypeSection> typeSection;
     typeSection.node.baseType = mson::ObjectBaseType;
     SectionParserHelper<mson::TypeSection, MSONTypeSectionListParser>::parse(
@@ -496,24 +511,29 @@ TEST_CASE("Parse mson sample type section for a simple object", "[mson][type_sec
     REQUIRE(typeSection.node.content.value.empty());
     REQUIRE(typeSection.node.content.description.empty());
     REQUIRE(typeSection.node.content.elements().size() == 1);
-    REQUIRE(typeSection.node.content.elements().at(0).klass == mson::Element::PropertyClass);
-    REQUIRE(typeSection.node.content.elements().at(0).content.property.name.literal == "user");
-    REQUIRE(typeSection.node.content.elements().at(0).content.property.sections.size() == 1);
-    REQUIRE(typeSection.node.content.elements().at(0).content.property.sections[0].klass
-        == mson::TypeSection::MemberTypeClass);
-    REQUIRE(typeSection.node.content.elements().at(0).content.property.sections[0].content.elements().size() == 2);
 
-    member = typeSection.node.content.elements().at(0).content.property.sections[0].content.elements().at(0);
-    REQUIRE(member.klass == mson::Element::PropertyClass);
-    REQUIRE(member.content.property.name.literal == "username");
-    REQUIRE(member.content.property.valueDefinition.values.size() == 1);
-    REQUIRE(member.content.property.valueDefinition.values[0].literal == "pksunkara");
+    const auto* parent = typeSection.node.content.elements().at(0).property();
+    REQUIRE(parent);
+    REQUIRE(parent->name.literal == "user");
+    REQUIRE(parent->sections.size() == 1);
+    REQUIRE(parent->sections[0].klass == mson::TypeSection::MemberTypeClass);
+    REQUIRE(parent->sections[0].content.elements().size() == 2);
 
-    member = typeSection.node.content.elements().at(0).content.property.sections[0].content.elements().at(1);
-    REQUIRE(member.klass == mson::Element::PropertyClass);
-    REQUIRE(member.content.property.name.literal == "admin");
-    REQUIRE(member.content.property.valueDefinition.values.size() == 1);
-    REQUIRE(member.content.property.valueDefinition.values[0].literal == "false");
+    {
+        const auto* property = parent->sections[0].content.elements().at(0).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "username");
+        REQUIRE(property->valueDefinition.values.size() == 1);
+        REQUIRE(property->valueDefinition.values[0].literal == "pksunkara");
+    }
+
+    {
+        const auto* property = parent->sections[0].content.elements().at(1).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "admin");
+        REQUIRE(property->valueDefinition.values.size() == 1);
+        REQUIRE(property->valueDefinition.values[0].literal == "false");
+    }
 
     REQUIRE(typeSection.sourceMap.value.sourceMap.empty());
     REQUIRE(typeSection.sourceMap.description.sourceMap.empty());
@@ -524,13 +544,19 @@ TEST_CASE("Parse mson sample type section for a simple object", "[mson][type_sec
     REQUIRE(typeSection.sourceMap.elements().collection[0].property.sections.collection[0].elements().collection.size()
         == 2);
 
-    memberSM = typeSection.sourceMap.elements().collection[0].property.sections.collection[0].elements().collection[0];
-    SourceMapHelper::check(memberSM.property.name.sourceMap, 39, 20);
-    SourceMapHelper::check(memberSM.property.valueDefinition.sourceMap, 39, 20);
+    {
+        const auto& memberSM
+            = typeSection.sourceMap.elements().collection[0].property.sections.collection[0].elements().collection[0];
+        SourceMapHelper::check(memberSM.property.name.sourceMap, 39, 20);
+        SourceMapHelper::check(memberSM.property.valueDefinition.sourceMap, 39, 20);
+    }
 
-    memberSM = typeSection.sourceMap.elements().collection[0].property.sections.collection[0].elements().collection[1];
-    SourceMapHelper::check(memberSM.property.name.sourceMap, 69, 12);
-    SourceMapHelper::check(memberSM.property.valueDefinition.sourceMap, 69, 12);
+    {
+        const auto& memberSM
+            = typeSection.sourceMap.elements().collection[0].property.sections.collection[0].elements().collection[1];
+        SourceMapHelper::check(memberSM.property.name.sourceMap, 69, 12);
+        SourceMapHelper::check(memberSM.property.valueDefinition.sourceMap, 69, 12);
+    }
 }
 
 TEST_CASE("Parse mson sample type section for a complex object", "[mson][type_section]")
@@ -544,9 +570,6 @@ TEST_CASE("Parse mson sample type section for a complex object", "[mson][type_se
           "            - (object)\n"
           "                - admin: false";
 
-    mson::Element member, submember;
-    SourceMap<mson::Element> memberSM, submemberSM;
-
     ParseResult<mson::TypeSection> typeSection;
     typeSection.node.baseType = mson::ObjectBaseType;
     SectionParserHelper<mson::TypeSection, MSONTypeSectionListParser>::parse(
@@ -559,48 +582,59 @@ TEST_CASE("Parse mson sample type section for a complex object", "[mson][type_se
     REQUIRE(typeSection.node.content.value.empty());
     REQUIRE(typeSection.node.content.description.empty());
     REQUIRE(typeSection.node.content.elements().size() == 1);
-    REQUIRE(typeSection.node.content.elements().at(0).klass == mson::Element::PropertyClass);
-    REQUIRE(typeSection.node.content.elements().at(0).content.property.name.literal == "user");
-    REQUIRE(typeSection.node.content.elements().at(0).content.property.sections.size() == 1);
-    REQUIRE(typeSection.node.content.elements().at(0).content.property.sections[0].klass
-        == mson::TypeSection::MemberTypeClass);
-    REQUIRE(typeSection.node.content.elements().at(0).content.property.sections[0].content.elements().size() == 1);
 
-    member = typeSection.node.content.elements().at(0).content.property.sections[0].content.elements().at(0);
-    REQUIRE(member.klass == mson::Element::PropertyClass);
-    REQUIRE(member.content.property.name.literal == "data");
-    REQUIRE(member.content.property.valueDefinition.values.empty());
-    REQUIRE(member.content.property.valueDefinition.typeDefinition.baseType == mson::ValueBaseType);
-    REQUIRE(member.content.property.sections.size() == 1);
-    REQUIRE(member.content.property.sections[0].klass == mson::TypeSection::MemberTypeClass);
-    REQUIRE(member.content.property.sections[0].content.elements().size() == 3);
+    const auto* parent = typeSection.node.content.elements().at(0).property();
+    REQUIRE(parent);
+    REQUIRE(parent->name.literal == "user");
+    REQUIRE(parent->sections.size() == 1);
+    REQUIRE(parent->sections[0].klass == mson::TypeSection::MemberTypeClass);
+    REQUIRE(parent->sections[0].content.elements().size() == 1);
 
-    submember = member.content.property.sections[0].content.elements().at(0);
-    REQUIRE(submember.klass == mson::Element::ValueClass);
-    REQUIRE(submember.content.value.valueDefinition.values.size() == 1);
-    REQUIRE(submember.content.value.valueDefinition.values[0].literal == "pksunkara");
-    REQUIRE(submember.content.value.sections.empty());
+    {
+        const auto* property = parent->sections[0].content.elements().at(0).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "data");
+        REQUIRE(property->valueDefinition.values.empty());
+        REQUIRE(property->valueDefinition.typeDefinition.baseType == mson::ValueBaseType);
+        REQUIRE(property->sections.size() == 1);
+        REQUIRE(property->sections[0].klass == mson::TypeSection::MemberTypeClass);
+        REQUIRE(property->sections[0].content.elements().size() == 3);
 
-    submember = member.content.property.sections[0].content.elements().at(1);
-    REQUIRE(submember.klass == mson::Element::ValueClass);
-    REQUIRE(submember.content.value.valueDefinition.values.size() == 1);
-    REQUIRE(submember.content.value.valueDefinition.values[0].literal == "1200");
-    REQUIRE(submember.content.value.sections.empty());
+        {
+            const auto* value = property->sections[0].content.elements().at(0).value();
+            REQUIRE(value);
+            REQUIRE(value->valueDefinition.values.size() == 1);
+            REQUIRE(value->valueDefinition.values[0].literal == "pksunkara");
+            REQUIRE(value->sections.empty());
+        }
 
-    submember = member.content.property.sections[0].content.elements().at(2);
-    REQUIRE(submember.klass == mson::Element::ValueClass);
-    REQUIRE(submember.content.value.valueDefinition.values.empty());
-    REQUIRE(submember.content.value.valueDefinition.typeDefinition.baseType == mson::ObjectBaseType);
-    REQUIRE(submember.content.value.sections.size() == 1);
-    REQUIRE(submember.content.value.sections[0].klass == mson::TypeSection::MemberTypeClass);
-    REQUIRE(submember.content.value.sections[0].content.elements().size() == 1);
+        {
+            const auto* value = property->sections[0].content.elements().at(1).value();
+            REQUIRE(value);
+            REQUIRE(value->valueDefinition.values.size() == 1);
+            REQUIRE(value->valueDefinition.values[0].literal == "1200");
+            REQUIRE(value->sections.empty());
+        }
 
-    member = submember.content.value.sections[0].content.elements().at(0);
-    REQUIRE(member.klass == mson::Element::PropertyClass);
-    REQUIRE(member.content.property.name.literal == "admin");
-    REQUIRE(member.content.property.valueDefinition.values.size() == 1);
-    REQUIRE(member.content.property.valueDefinition.values[0].literal == "false");
-    REQUIRE(member.content.property.sections.empty());
+        {
+            const auto* value = property->sections[0].content.elements().at(2).value();
+            REQUIRE(value);
+            REQUIRE(value->valueDefinition.values.empty());
+            REQUIRE(value->valueDefinition.typeDefinition.baseType == mson::ObjectBaseType);
+            REQUIRE(value->sections.size() == 1);
+            REQUIRE(value->sections[0].klass == mson::TypeSection::MemberTypeClass);
+            REQUIRE(value->sections[0].content.elements().size() == 1);
+
+            {
+                const auto* nested = value->sections[0].content.elements().at(0).property();
+                REQUIRE(nested);
+                REQUIRE(nested->name.literal == "admin");
+                REQUIRE(nested->valueDefinition.values.size() == 1);
+                REQUIRE(nested->valueDefinition.values[0].literal == "false");
+                REQUIRE(nested->sections.empty());
+            }
+        }
+    }
 
     REQUIRE(typeSection.sourceMap.value.sourceMap.empty());
     REQUIRE(typeSection.sourceMap.description.sourceMap.empty());
@@ -611,27 +645,37 @@ TEST_CASE("Parse mson sample type section for a complex object", "[mson][type_se
     REQUIRE(typeSection.sourceMap.elements().collection[0].property.sections.collection[0].elements().collection.size()
         == 1);
 
-    memberSM = typeSection.sourceMap.elements().collection[0].property.sections.collection[0].elements().collection[0];
-    SourceMapHelper::check(memberSM.property.name.sourceMap, 39, 13);
-    SourceMapHelper::check(memberSM.property.valueDefinition.sourceMap, 39, 13);
-    REQUIRE(memberSM.property.sections.collection.size() == 1);
-    REQUIRE(memberSM.property.sections.collection[0].elements().collection.size() == 3);
+    {
+        const auto& memberSM
+            = typeSection.sourceMap.elements().collection[0].property.sections.collection[0].elements().collection[0];
+        SourceMapHelper::check(memberSM.property.name.sourceMap, 39, 13);
+        SourceMapHelper::check(memberSM.property.valueDefinition.sourceMap, 39, 13);
+        REQUIRE(memberSM.property.sections.collection.size() == 1);
+        REQUIRE(memberSM.property.sections.collection[0].elements().collection.size() == 3);
 
-    submemberSM = memberSM.property.sections.collection[0].elements().collection[0];
-    SourceMapHelper::check(submemberSM.value.valueDefinition.sourceMap, 66, 10);
-    REQUIRE(submemberSM.value.sections.collection.empty());
+        {
+            const auto& submemberSM = memberSM.property.sections.collection[0].elements().collection[0];
+            SourceMapHelper::check(submemberSM.value.valueDefinition.sourceMap, 66, 10);
+            REQUIRE(submemberSM.value.sections.collection.empty());
+        }
 
-    submemberSM = memberSM.property.sections.collection[0].elements().collection[1];
-    SourceMapHelper::check(submemberSM.value.valueDefinition.sourceMap, 90, 5);
-    REQUIRE(submemberSM.value.sections.collection.empty());
+        {
+            const auto& submemberSM = memberSM.property.sections.collection[0].elements().collection[1];
+            SourceMapHelper::check(submemberSM.value.valueDefinition.sourceMap, 90, 5);
+            REQUIRE(submemberSM.value.sections.collection.empty());
+        }
 
-    submemberSM = memberSM.property.sections.collection[0].elements().collection[2];
-    SourceMapHelper::check(submemberSM.value.valueDefinition.sourceMap, 109, 9);
-    REQUIRE(submemberSM.value.sections.collection.size() == 1);
-    REQUIRE(submemberSM.value.sections.collection[0].elements().collection.size() == 1);
-
-    memberSM = submemberSM.value.sections.collection[0].elements().collection[0];
-    SourceMapHelper::check(memberSM.property.name.sourceMap, 136, 12);
-    SourceMapHelper::check(memberSM.property.valueDefinition.sourceMap, 136, 12);
-    REQUIRE(memberSM.property.sections.collection.empty());
+        {
+            const auto& submemberSM = memberSM.property.sections.collection[0].elements().collection[2];
+            SourceMapHelper::check(submemberSM.value.valueDefinition.sourceMap, 109, 9);
+            REQUIRE(submemberSM.value.sections.collection.size() == 1);
+            REQUIRE(submemberSM.value.sections.collection[0].elements().collection.size() == 1);
+            {
+                const auto& subsubmemberSM = submemberSM.value.sections.collection[0].elements().collection[0];
+                SourceMapHelper::check(subsubmemberSM.property.name.sourceMap, 136, 12);
+                SourceMapHelper::check(subsubmemberSM.property.valueDefinition.sourceMap, 136, 12);
+                REQUIRE(subsubmemberSM.property.sections.collection.empty());
+            }
+        }
+    }
 }

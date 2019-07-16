@@ -29,7 +29,7 @@ namespace snowcrash
                 IntermediateParseResult<mson::Mixin> mixin(out.report);
                 cur = MSONMixinParser::parse(node, siblings, pd, mixin);
 
-                element.build(mixin.node);
+                element = mixin.node;
 
                 if (pd.exportSourceMap()) {
                     elementSM.mixin = mixin.sourceMap;
@@ -42,7 +42,7 @@ namespace snowcrash
                 IntermediateParseResult<mson::OneOf> oneOf(out.report);
                 cur = MSONOneOfParser::parse(node, siblings, pd, oneOf);
 
-                element.build(oneOf.node);
+                element = mson::Element::OneOfSection{oneOf.node};
 
                 if (pd.exportSourceMap()) {
                     elementSM = oneOf.sourceMap;
@@ -57,7 +57,7 @@ namespace snowcrash
 
                 cur = MSONTypeSectionListParser::parse(node, siblings, pd, typeSection);
 
-                element.buildFromElements(typeSection.node.content.elements());
+                element = mson::Element::GroupSection{ typeSection.node.content.elements() };
 
                 if (pd.exportSourceMap()) {
                     elementSM = typeSection.sourceMap.elements();
@@ -70,7 +70,7 @@ namespace snowcrash
                 IntermediateParseResult<mson::PropertyMember> propertyMember(out.report);
                 cur = MSONPropertyMemberParser::parse(node, siblings, pd, propertyMember);
 
-                element.build(propertyMember.node);
+                element = propertyMember.node;
 
                 if (pd.exportSourceMap()) {
                     elementSM.property = propertyMember.sourceMap;
@@ -83,7 +83,7 @@ namespace snowcrash
                 break;
         }
 
-        if (element.klass != mson::Element::UndefinedClass) {
+        if (!element.empty()) {
             out.node.push_back(element);
 
             if (pd.exportSourceMap()) {

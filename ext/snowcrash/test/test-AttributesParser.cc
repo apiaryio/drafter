@@ -69,22 +69,24 @@ TEST_CASE("Parse attributes with nested members", "[attributes]")
     REQUIRE(attributes.node.sections[0].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(attributes.node.sections[0].content.elements().size() == 2);
 
-    mson::Element element = attributes.node.sections[0].content.elements().at(0);
-    REQUIRE(element.klass == mson::Element::PropertyClass);
-    REQUIRE(element.content.property.name.literal == "message");
-    REQUIRE(element.content.property.description == "The blog post article");
-    REQUIRE(element.content.property.valueDefinition.values.empty());
-    REQUIRE(
-        element.content.property.valueDefinition.typeDefinition.typeSpecification.name.base == mson::StringTypeName);
+    {
+        const auto* property = attributes.node.sections[0].content.elements().at(0).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "message");
+        REQUIRE(property->description == "The blog post article");
+        REQUIRE(property->valueDefinition.values.empty());
+        REQUIRE(property->valueDefinition.typeDefinition.typeSpecification.name.base == mson::StringTypeName);
+    }
 
-    element = attributes.node.sections[0].content.elements().at(1);
-    REQUIRE(element.klass == mson::Element::PropertyClass);
-    REQUIRE(element.content.property.name.literal == "author");
-    REQUIRE(element.content.property.description == "Author of the blog post");
-    REQUIRE(element.content.property.valueDefinition.values.size() == 1);
-    REQUIRE(element.content.property.valueDefinition.values[0].literal == "john@appleseed.com");
-    REQUIRE(
-        element.content.property.valueDefinition.typeDefinition.typeSpecification.name.base == mson::StringTypeName);
+    {
+        const auto* property = attributes.node.sections[0].content.elements().at(1).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "author");
+        REQUIRE(property->description == "Author of the blog post");
+        REQUIRE(property->valueDefinition.values.size() == 1);
+        REQUIRE(property->valueDefinition.values[0].literal == "john@appleseed.com");
+        REQUIRE(property->valueDefinition.typeDefinition.typeSpecification.name.base == mson::StringTypeName);
+    }
 
     REQUIRE(attributes.sourceMap.name.sourceMap.empty());
     REQUIRE(attributes.sourceMap.typeDefinition.sourceMap.empty());

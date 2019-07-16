@@ -6,8 +6,9 @@
 //  Copyright (c) 2015 Apiary Inc. All rights reserved.
 //
 
-#include "SourceAnnotation.h"
 #include "RefractDataStructure.h"
+
+#include "SourceAnnotation.h"
 
 #include "RefractSourceMap.h"
 #include "refract/VisitorUtils.h"
@@ -23,6 +24,8 @@
 #include "refract/ElementUtils.h"
 #include "ElementInfoUtils.h"
 #include "ElementComparator.h"
+#include "MsonTypeSectionToApie.h"
+#include "MsonMemberToApie.h"
 
 #include "refract/VisitorUtils.h"
 
@@ -118,53 +121,6 @@ namespace
         }
     }
 
-    mson::BaseTypeName NamedTypeFromElement(const IElement& element)
-    {
-        TypeQueryVisitor type;
-        Visit(type, element);
-
-        switch (type.get()) {
-            case TypeQueryVisitor::Boolean:
-                return mson::BooleanTypeName;
-
-            case TypeQueryVisitor::Number:
-                return mson::NumberTypeName;
-
-            case TypeQueryVisitor::String:
-                return mson::StringTypeName;
-
-            case TypeQueryVisitor::Array:
-                return mson::ArrayTypeName;
-
-            case TypeQueryVisitor::Enum:
-                return mson::EnumTypeName;
-
-            case TypeQueryVisitor::Object:
-                return mson::ObjectTypeName;
-
-            default:
-                return mson::UndefinedTypeName;
-        }
-
-        return mson::UndefinedTypeName;
-    }
-
-    template <typename T>
-    mson::BaseTypeName GetType(const T& type, ConversionContext& context)
-    {
-        mson::BaseTypeName nameType = type.typeDefinition.typeSpecification.name.base;
-        const std::string& parent = type.typeDefinition.typeSpecification.name.symbol.literal;
-
-        if (nameType == mson::UndefinedTypeName && !parent.empty()) {
-            const IElement* base = FindRootAncestor(parent, context.GetNamedTypesRegistry());
-            if (base) {
-                nameType = NamedTypeFromElement(*base);
-            }
-        }
-
-        return nameType;
-    }
-
     std::unique_ptr<ArrayElement> MsonTypeAttributesToRefract(const mson::TypeAttributes& ta)
     {
         if (ta == 0) {
@@ -195,27 +151,6 @@ namespace
         }
 
         return attr;
-    }
-
-    std::unique_ptr<IElement> MsonElementToRefract(const NodeInfo<mson::Element>& mse,
-        ConversionContext& context,
-        mson::BaseTypeName defaultNestedType = mson::StringTypeName);
-
-    template <typename It>
-    It MsonElementsToRefract(const NodeInfo<mson::Elements>& elements,
-        It whereTo,
-        ConversionContext& context,
-        mson::BaseTypeName defaultNestedType = mson::StringTypeName)
-    {
-        NodeInfoCollection<mson::Elements> elementsNodeInfo(elements);
-
-        for (const auto& nodeInfo : elementsNodeInfo)
-            if (auto apie = MsonElementToRefract(nodeInfo, context, defaultNestedType)) {
-                *whereTo = std::move(apie);
-                ++whereTo;
-            }
-
-        return whereTo;
     }
 
     mson::BaseTypeName SelectNestedTypeSpecification(const mson::TypeNames& nestedTypes)
@@ -278,9 +213,9 @@ namespace
                 const mson::BaseTypeName& defaultNestedType) const
             {
                 std::deque<std::unique_ptr<IElement> > values;
-                MsonElementsToRefract(
+                MsonTypeSectionsToApie(
                     MakeNodeInfo(typeSection.node->content.elements(), typeSection.sourceMap->elements()),
-                    std::back_inserter(values),
+                    values,
                     context,
                     defaultNestedType);
                 return ElementInfo<T>{ std::move(values), FetchSourceMap<ValueType>()(typeSection) };
@@ -294,9 +229,9 @@ namespace
                 const mson::BaseTypeName& defaultNestedType) const
             {
                 std::deque<std::unique_ptr<IElement> > values;
-                MsonElementsToRefract(
+                MsonTypeSectionsToApie(
                     MakeNodeInfo(typeSection.node->content.elements(), typeSection.sourceMap->elements()),
-                    std::back_inserter(values),
+                    values,
                     context,
                     defaultNestedType);
 
@@ -722,7 +657,7 @@ namespace
         {
             auto result = make_element<E>();
             std::move(info.value.begin(), info.value.end(), std::back_inserter(result->get()));
-            return std::move(result);
+            return result;
         }
     };
 
@@ -1154,7 +1089,7 @@ namespace
             element->meta().set(SerializeKey::Description, std::move(description));
         }
 
-        return std::move(element);
+        return element;
     }
 
     bool ValueHasMembers(const mson::ValueMember* value)
@@ -1212,7 +1147,7 @@ namespace
                 element->meta().set(SerializeKey::Description, std::move(description));
             }
 
-            return std::move(element);
+            return element;
         }
     };
 
@@ -1294,76 +1229,10 @@ namespace
 
         throw snowcrash::Error("unknown type of mson member", snowcrash::MSONError, input.sourceMap->sourceMap);
     }
+}
 
-    std::unique_ptr<IElement> MsonOneofToRefract(const NodeInfo<mson::OneOf>& oneOf, ConversionContext& context)
-    {
-
-        NodeInfoCollection<mson::OneOf> oneOfNodeInfo(oneOf);
-        auto select = oneOfNodeInfo.empty() ? make_empty<SelectElement>() : make_element<SelectElement>();
-
-        for (const auto& oneOfInfo : oneOfNodeInfo) {
-
-            auto option = make_element<OptionElement>();
-
-            // we can not use MsonElementToRefract() for groups,
-            // "option" element handles directly all elements in group
-            if (oneOfInfo.node->klass == mson::Element::GroupClass) {
-                MsonElementsToRefract(MakeNodeInfo(oneOfInfo.node->content.elements(), oneOfInfo.sourceMap->elements()),
-                    std::back_inserter(option->get()),
-                    context);
-            } else {
-                if (auto apie = MsonElementToRefract(oneOfInfo, context, mson::StringTypeName)) {
-                    option->get().push_back(std::move(apie));
-                }
-            }
-
-            select->get().push_back(std::move(option));
-        }
-
-        return std::move(select);
-    }
-
-    std::unique_ptr<RefElement> MsonMixinToRefract(const NodeInfo<mson::Mixin>& mixin)
-    {
-        auto ref = make_element<RefElement>(mixin.node->typeSpecification.name.symbol.literal);
-
-        ref->attributes().set(SerializeKey::Path, from_primitive(SerializeKey::Content));
-
-        return ref;
-    }
-
-    std::unique_ptr<IElement> MsonElementToRefract(const NodeInfo<mson::Element>& mse,
-        ConversionContext& context,
-        const mson::BaseTypeName defaultNestedType /* = mson::StringTypeName */)
-    {
-        switch (mse.node->klass) {
-            case mson::Element::PropertyClass:
-                return MsonMemberToRefract<PropertyTrait>(
-                    MakeNodeInfo(mse.node->content.property, mse.sourceMap->property),
-                    context,
-                    GetType(mse.node->content.property.valueDefinition, context),
-                    defaultNestedType);
-
-            case mson::Element::ValueClass:
-                return MsonMemberToRefract<ValueTrait>(MakeNodeInfo(mse.node->content.value, mse.sourceMap->value),
-                    context,
-                    GetType(mse.node->content.value.valueDefinition, context),
-                    defaultNestedType);
-
-            case mson::Element::MixinClass:
-                return MsonMixinToRefract(MakeNodeInfo(mse.node->content.mixin, mse.sourceMap->mixin));
-
-            case mson::Element::OneOfClass:
-                return MsonOneofToRefract(MakeNodeInfo(mse.node->content.oneOf(), mse.sourceMap->oneOf()), context);
-
-            case mson::Element::GroupClass:
-                throw snowcrash::Error("unable to handle element group", snowcrash::ApplicationError);
-
-            default:
-                throw snowcrash::Error("unknown type of mson element", snowcrash::ApplicationError);
-        }
-    }
-
+namespace
+{
     template <typename T>
     std::unique_ptr<IElement> RefractElementFromMSON(
         const NodeInfo<snowcrash::DataStructure>& ds, ConversionContext& context)
@@ -1413,7 +1282,7 @@ std::unique_ptr<IElement> drafter::MSONToRefract(
         return nullptr;
     }
 
-    mson::BaseTypeName nameType = GetType(*dataStructure.node, context);
+    mson::BaseTypeName nameType = ResolveType(dataStructure.node->typeDefinition.typeSpecification, context);
 
     switch (nameType) {
         case mson::BooleanTypeName:
@@ -1443,9 +1312,29 @@ std::unique_ptr<IElement> drafter::ExpandRefract(std::unique_ptr<IElement> eleme
     ExpandVisitor expander(context.GetNamedTypesRegistry());
     Visit(expander, *element);
 
-    if (auto expanded = expander.get()) { // investigate expanded TODO XXX
+    if (auto expanded = expander.get()) {
         return expanded;
     }
 
     return element;
+}
+
+// OPTIM @tjanc@ move implementation to MsonMemberToApie.cc
+std::unique_ptr<refract::IElement> drafter::MsonMemberToApie( //
+    const NodeInfo<mson::PropertyMember>& nodeInfo,
+    ConversionContext& context,
+    mson::BaseTypeName nameType,
+    mson::BaseTypeName defaultNestedType)
+{
+    return MsonMemberToRefract<PropertyTrait>(nodeInfo, context, nameType, defaultNestedType);
+}
+
+// OPTIM @tjanc@ move implementation to MsonMemberToApie.cc
+std::unique_ptr<refract::IElement> drafter::MsonMemberToApie( //
+    const NodeInfo<mson::ValueMember>& nodeInfo,
+    ConversionContext& context,
+    mson::BaseTypeName nameType,
+    mson::BaseTypeName defaultNestedType)
+{
+    return MsonMemberToRefract<ValueTrait>(nodeInfo, context, nameType, defaultNestedType);
 }

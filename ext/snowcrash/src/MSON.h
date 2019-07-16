@@ -13,10 +13,13 @@
 #include <string>
 #include <set>
 #include <map>
+#include <mpark/variant.hpp>
+#include <boost/container/vector.hpp>
 #include <stdexcept>
 
 #include "Platform.h"
 #include "MarkdownParser.h"
+#include "Just.h"
 
 #define ELEMENTS_NOT_SET_ERR std::logic_error("no elements set")
 
@@ -29,7 +32,6 @@
 
 namespace mson
 {
-
     /** Markdown */
     typedef mdp::ByteBuffer Markdown;
 
@@ -184,10 +186,10 @@ namespace mson
     struct ValueDefinition {
 
         /** List of values */
-        Values values;
+        Values values = {};
 
         /** Type of the values */
-        TypeDefinition typeDefinition;
+        TypeDefinition typeDefinition = {};
 
         /** Check if empty */
         bool empty() const;
@@ -197,7 +199,7 @@ namespace mson
     struct Element;
 
     /** Collection of elements */
-    typedef std::vector<Element> Elements;
+    typedef boost::container::vector<Element> Elements;
 
     /** Section of a type */
     struct TypeSection {
@@ -283,13 +285,13 @@ namespace mson
     struct ValueMember {
 
         /** Inline description */
-        Markdown description;
+        Markdown description = {};
 
         /** Definition of member's value */
-        ValueDefinition valueDefinition;
+        ValueDefinition valueDefinition = {};
 
         /** List of member type's sections */
-        TypeSections sections;
+        TypeSections sections = {};
 
         /** Check if empty */
         bool empty() const;
@@ -327,82 +329,112 @@ namespace mson
     /** Element of a type section */
     struct Element {
 
-        /** Class of an element */
-        enum Class
+        using Empty = mpark::monostate;
+        using PropertyMemberSection = PropertyMember;
+        using ValueMemberSection = ValueMember;
+        using MixinSection = Mixin;
+        using OneOfSection = just<Elements, struct one_of_tag>;
+        using GroupSection = just<Elements, struct group_tag>;
+
+    private:
+        using Content = mpark::variant< //
+            Empty,
+            PropertyMemberSection,
+            ValueMemberSection,
+            MixinSection,
+            OneOfSection,
+            GroupSection>;
+
+        Content content = {};
+
+    public:
+        constexpr Element() noexcept : content{} {}
+
+        /** EITHER Property member */
+        const PropertyMember* property() const noexcept
         {
-            UndefinedClass = 0, // Unknown
-            PropertyClass,      // Property member
-            ValueClass,         // Value member
-            MixinClass,         // Mixin
-            OneOfClass,         // One of
-            GroupClass          // Group of elements
-        };
+            return mpark::get_if<PropertyMemberSection>(&content);
+        }
 
-        /** Content of the element */
-        struct Content {
+        /** OR Value member */
+        const ValueMember* value() const noexcept
+        {
+            return mpark::get_if<ValueMemberSection>(&content);
+        }
 
-            /** EITHER Property member */
-            PropertyMember property;
+        /** OR Mixin member */
+        const Mixin* mixin() const noexcept
+        {
+            return mpark::get_if<MixinSection>(&content);
+        }
 
-            /** OR Value member */
-            ValueMember value;
+        /** OR One of member */
+        const OneOf* oneOf() const noexcept
+        {
+            auto* result = mpark::get_if<OneOfSection>(&content);
+            return (result ? &**result : nullptr);
+        }
 
-            /** OR Mixin member */
-            Mixin mixin;
-
-            /** OR One of member */
-            OneOf& oneOf();
-            const OneOf& oneOf() const;
-
-            /** OR Collection of elements */
-            Elements& elements();
-            const Elements& elements() const;
-
-            /** Builds the structure from group of elements */
-            Element::Content& operator=(const Elements& rhs);
-
-            /** Constructor */
-            Content();
-
-            /** Copy constructor */
-            Content(const Element::Content& rhs);
-
-            /** Assignment operator */
-            Content& operator=(const Element::Content& rhs);
-
-            /** Destructor */
-            ~Content();
-
-        private:
-            std::unique_ptr<Elements> m_elements;
-        };
-
-        /** Class of the element */
-        Element::Class klass;
-
-        /** Content of the element */
-        Element::Content content;
-
-        /** Constructor */
-        Element(const Element::Class& klass_ = Element::UndefinedClass);
-
-        /** Copy constructor */
-        Element(const Element& rhs);
-
-        /** Assignment operator */
-        Element& operator=(const Element& rhs);
+        /** OR Collection of elements */
+        const Elements* group() const noexcept
+        {
+            auto result = mpark::get_if<GroupSection>(&content);
+            return result ? &**result : nullptr;
+        }
 
         /** Functions which allow the building of member type */
-        void build(const PropertyMember& propertyMember);
-        void build(const ValueMember& valueMember);
-        void build(const Mixin& mixin);
-        void build(const OneOf& oneOf);
-        void build(const Value& value);
+        explicit Element(PropertyMemberSection&& c) noexcept : content{ std::move(c) } {}
+        explicit Element(ValueMemberSection&& c) noexcept : content{ std::move(c) } {}
+        explicit Element(MixinSection&& c) noexcept : content{ std::move(c) } {}
+        explicit Element(OneOfSection&& c) noexcept : content{ std::move(c) } {}
+        explicit Element(GroupSection&& c) noexcept : content{ std::move(c) } {}
 
-        void buildFromElements(const Elements& elements);
+        Element& operator=(PropertyMemberSection c) noexcept
+        {
+            content = std::move(c);
+            return *this;
+        }
 
-        /** Destructor */
-        ~Element();
+        Element& operator=(ValueMemberSection c) noexcept
+        {
+            content = std::move(c);
+            return *this;
+        }
+
+        Element& operator=(MixinSection c) noexcept
+        {
+            content = std::move(c);
+            return *this;
+        }
+
+        Element& operator=(OneOfSection c) noexcept
+        {
+            content = std::move(c);
+            return *this;
+        }
+
+        Element& operator=(GroupSection c) noexcept
+        {
+            content = std::move(c);
+            return *this;
+        }
+
+        bool empty() const noexcept
+        {
+            return mpark::get_if<Empty>(&content);
+        }
+
+        template <typename F>
+        void visit(F&& f)
+        {
+            mpark::visit(std::forward<F>(f), content);
+        }
+
+        template <typename F>
+        void visit(F&& f) const
+        {
+            mpark::visit(std::forward<F>(f), content);
+        }
     };
 }
 

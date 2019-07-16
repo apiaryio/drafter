@@ -165,21 +165,23 @@ TEST_CASE("Parse mson property member object with nested members", "[mson][prope
     REQUIRE(propertyMember.node.sections[0].content.description.empty());
     REQUIRE(propertyMember.node.sections[0].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(propertyMember.node.sections[0].content.elements().size() == 2);
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(0).klass == mson::Element::PropertyClass);
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(0).content.property.name.literal == "first_name");
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(0).content.property.name.variable.empty());
-    REQUIRE(
-        propertyMember.node.sections[0].content.elements().at(0).content.property.valueDefinition.values.size() == 1);
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(0).content.property.valueDefinition.values[0].literal
-        == "Pavan");
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(0).content.property.description == "A sample value");
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(1).klass == mson::Element::PropertyClass);
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(1).content.property.name.literal == "last_name");
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(1).content.property.name.variable.empty());
-    REQUIRE(
-        propertyMember.node.sections[0].content.elements().at(1).content.property.valueDefinition.values.size() == 1);
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(1).content.property.valueDefinition.values[0].literal
-        == "Sunkara");
+    {
+        const auto* property = propertyMember.node.sections[0].content.elements().at(0).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "first_name");
+        REQUIRE(property->name.variable.empty());
+        REQUIRE(property->valueDefinition.values.size() == 1);
+        REQUIRE(property->valueDefinition.values[0].literal == "Pavan");
+        REQUIRE(property->description == "A sample value");
+    }
+    {
+        const auto* property = propertyMember.node.sections[0].content.elements().at(1).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "last_name");
+        REQUIRE(property->name.variable.empty());
+        REQUIRE(property->valueDefinition.values.size() == 1);
+        REQUIRE(property->valueDefinition.values[0].literal == "Sunkara");
+    }
 
     SourceMapHelper::check(propertyMember.sourceMap.name.sourceMap, 2, 14);
     SourceMapHelper::check(propertyMember.sourceMap.valueDefinition.sourceMap, 2, 14);
@@ -236,11 +238,22 @@ TEST_CASE("Parse mson property member when it has a member group in nested membe
     REQUIRE(propertyMember.node.sections.size() == 2);
     REQUIRE(propertyMember.node.sections[0].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(propertyMember.node.sections[0].content.elements().size() == 1);
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(0).content.property.name.literal == "username");
+    {
+        const auto* property = propertyMember.node.sections[0].content.elements().at(0).property();
+        REQUIRE(property->name.literal == "username");
+    }
     REQUIRE(propertyMember.node.sections[1].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(propertyMember.node.sections[1].content.elements().size() == 2);
-    REQUIRE(propertyMember.node.sections[1].content.elements().at(0).content.property.name.literal == "last_name");
-    REQUIRE(propertyMember.node.sections[1].content.elements().at(1).content.property.name.literal == "first_name");
+    {
+        const auto* property = propertyMember.node.sections[1].content.elements().at(0).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "last_name");
+    }
+    {
+        const auto* property = propertyMember.node.sections[1].content.elements().at(1).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "first_name");
+    }
 
     REQUIRE(propertyMember.sourceMap.sections.collection.size() == 2);
     REQUIRE(propertyMember.sourceMap.sections.collection[0].elements().collection.size() == 1);
@@ -277,10 +290,18 @@ TEST_CASE("Parse mson property member when it has multiple member groups", "[mso
     REQUIRE(propertyMember.node.sections[0].content.description == "This is good\n\n- really\n\nI am serious");
     REQUIRE(propertyMember.node.sections[1].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(propertyMember.node.sections[1].content.elements().size() == 1);
-    REQUIRE(propertyMember.node.sections[1].content.elements().at(0).content.property.name.literal == "last_name");
+    {
+        const auto* property = propertyMember.node.sections[1].content.elements().at(0).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "last_name");
+    }
     REQUIRE(propertyMember.node.sections[2].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(propertyMember.node.sections[2].content.elements().size() == 1);
-    REQUIRE(propertyMember.node.sections[2].content.elements().at(0).content.property.name.literal == "first_name");
+    {
+        const auto* property = propertyMember.node.sections[2].content.elements().at(0).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "first_name");
+    }
 
     REQUIRE(propertyMember.sourceMap.sections.collection.size() == 3);
     REQUIRE(propertyMember.sourceMap.sections.collection[0].description.sourceMap.size() == 3);
@@ -347,13 +368,14 @@ TEST_CASE("Parse mson property member when it is an object and has no sub-type s
     REQUIRE(propertyMember.node.sections[0].content.description == "This is good");
     REQUIRE(propertyMember.node.sections[1].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(propertyMember.node.sections[1].content.elements().size() == 1);
-    REQUIRE(propertyMember.node.sections[1].content.elements().at(0).klass == mson::Element::PropertyClass);
-    REQUIRE(propertyMember.node.sections[1].content.elements().at(0).content.property.name.literal == "last_name");
-    REQUIRE(
-        propertyMember.node.sections[1].content.elements().at(0).content.property.valueDefinition.values.size() == 1);
-    REQUIRE(propertyMember.node.sections[1].content.elements().at(0).content.property.valueDefinition.values[0].literal
-        == "sunkara");
-    REQUIRE(propertyMember.node.sections[1].content.elements().at(0).content.property.sections.empty());
+    {
+        const auto* property = propertyMember.node.sections[1].content.elements().at(0).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "last_name");
+        REQUIRE(property->valueDefinition.values.size() == 1);
+        REQUIRE(property->valueDefinition.values[0].literal == "sunkara");
+        REQUIRE(property->sections.empty());
+    }
 
     SourceMapHelper::check(propertyMember.sourceMap.name.sourceMap, 2, 6);
     REQUIRE(propertyMember.sourceMap.sections.collection.size() == 2);
@@ -394,21 +416,23 @@ TEST_CASE("Parse mson property member when it is an object and has no sub-type s
     REQUIRE(propertyMember.node.sections[0].baseType == mson::ImplicitObjectBaseType);
     REQUIRE(propertyMember.node.sections[0].content.elements().size() == 2);
 
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(0).klass == mson::Element::PropertyClass);
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(0).content.property.name.literal == "last_name");
-    REQUIRE(
-        propertyMember.node.sections[0].content.elements().at(0).content.property.valueDefinition.values.size() == 1);
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(0).content.property.valueDefinition.values[0].literal
-        == "sunkara");
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(0).content.property.sections.empty());
+    {
+        const auto* property = propertyMember.node.sections[0].content.elements().at(0).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "last_name");
+        REQUIRE(property->valueDefinition.values.size() == 1);
+        REQUIRE(property->valueDefinition.values[0].literal == "sunkara");
+        REQUIRE(property->sections.empty());
+    }
 
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(1).klass == mson::Element::PropertyClass);
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(1).content.property.name.literal == "first_name");
-    REQUIRE(
-        propertyMember.node.sections[0].content.elements().at(1).content.property.valueDefinition.values.size() == 1);
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(1).content.property.valueDefinition.values[0].literal
-        == "pavan");
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(1).content.property.sections.empty());
+    {
+        const auto* property = propertyMember.node.sections[0].content.elements().at(1).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "first_name");
+        REQUIRE(property->valueDefinition.values.size() == 1);
+        REQUIRE(property->valueDefinition.values[0].literal == "pavan");
+        REQUIRE(property->sections.empty());
+    }
 
     SourceMapHelper::check(propertyMember.sourceMap.name.sourceMap, 2, 5);
     REQUIRE(propertyMember.sourceMap.valueDefinition.sourceMap.empty());
@@ -515,10 +539,12 @@ TEST_CASE("Parse mson property member when containing a mixin", "[mson][property
     REQUIRE(propertyMember.node.sections[0].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(propertyMember.node.sections[0].content.elements().size() == 2);
 
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(0).klass == mson::Element::PropertyClass);
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(1).klass == mson::Element::MixinClass);
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(1).content.mixin.typeSpecification.name.symbol.literal
-        == "Person");
+    REQUIRE(propertyMember.node.sections[0].content.elements().at(0).property());
+    {
+        const auto* mixin = propertyMember.node.sections[0].content.elements().at(1).mixin();
+        REQUIRE(mixin);
+        REQUIRE(mixin->typeSpecification.name.symbol.literal == "Person");
+    }
 
     SourceMapHelper::check(propertyMember.sourceMap.name.sourceMap, 2, 23);
     SourceMapHelper::check(propertyMember.sourceMap.valueDefinition.sourceMap, 2, 23);
@@ -553,15 +579,23 @@ TEST_CASE("Parse mson property member when containing an oneOf", "[mson][propert
     REQUIRE(propertyMember.node.sections[0].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(propertyMember.node.sections[0].content.elements().size() == 2);
 
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(0).klass == mson::Element::PropertyClass);
-    REQUIRE(propertyMember.node.sections[0].content.elements().at(1).klass == mson::Element::OneOfClass);
+    REQUIRE(propertyMember.node.sections[0].content.elements().at(0).property());
+    {
+        const auto* oneOf = propertyMember.node.sections[0].content.elements().at(1).oneOf();
+        REQUIRE(oneOf);
+        REQUIRE(oneOf->size() == 2);
 
-    mson::OneOf oneOf = propertyMember.node.sections[0].content.elements().at(1).content.oneOf();
-    REQUIRE(oneOf.size() == 2);
-    REQUIRE(oneOf.at(0).klass == mson::Element::PropertyClass);
-    REQUIRE(oneOf.at(0).content.property.name.literal == "last_name");
-    REQUIRE(oneOf.at(1).klass == mson::Element::PropertyClass);
-    REQUIRE(oneOf.at(1).content.property.name.literal == "given_name");
+        {
+            const auto* property = oneOf->at(0).property();
+            REQUIRE(property);
+            REQUIRE(property->name.literal == "last_name");
+        }
+        {
+            const auto* property = oneOf->at(1).property();
+            REQUIRE(property);
+            REQUIRE(property->name.literal == "given_name");
+        }
+    }
 
     SourceMapHelper::check(propertyMember.sourceMap.name.sourceMap, 2, 23);
     SourceMapHelper::check(propertyMember.sourceMap.valueDefinition.sourceMap, 2, 23);

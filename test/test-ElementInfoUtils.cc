@@ -6,7 +6,7 @@ snowcrash::SourceMap<typename ElementT::ValueType> make_sourcemap(std::vector<md
 {
     snowcrash::SourceMap<typename ElementT::ValueType> res;
     std::move(locations.begin(), locations.end(), std::back_inserter(res.sourceMap));
-    return std::move(res);
+    return res;
 }
 
 SCENARIO("Merging primitive ElementInfo", "[ElementInfo][merge]")

@@ -4,6 +4,9 @@ project(Drafter VERSION 4.0 LANGUAGES CXX)
 
 set(DRAFTER_SOURCES
     ConversionContext.cc
+    MsonMemberToApie.cc
+    MsonOneOfSectionToApie.cc
+    MsonTypeSectionToApie.cc
     NamedTypesRegistry.cc
     RefractAPI.cc
     RefractDataStructure.cc
@@ -11,6 +14,7 @@ set(DRAFTER_SOURCES
     RefractSourceMap.cc
     Render.cc
     Serialize.cc
+    SerializeKey.cc
     SerializeResult.cc
     SourceMapUtils.cc
     drafter.cc

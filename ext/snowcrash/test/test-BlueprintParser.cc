@@ -768,12 +768,12 @@ TEST_CASE("Do not report error when named sub type is referenced in nested membe
     REQUIRE(dsB.sections.size() == 1);
     REQUIRE(dsB.sections[0].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(dsB.sections[0].content.elements().size() == 1);
-    REQUIRE(dsB.sections[0].content.elements().at(0).klass == mson::Element::PropertyClass);
 
-    mson::PropertyMember person = dsB.sections[0].content.elements().at(0).content.property;
-    REQUIRE(person.name.literal == "person");
-    REQUIRE(person.valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType);
-    REQUIRE(person.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal == "A");
+    const auto* person = dsB.sections[0].content.elements().at(0).property();
+    REQUIRE(person);
+    REQUIRE(person->name.literal == "person");
+    REQUIRE(person->valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType);
+    REQUIRE(person->valueDefinition.typeDefinition.typeSpecification.name.symbol.literal == "A");
 }
 
 TEST_CASE("Do not report error when there are circular references in nested members", "[blueprint]")
@@ -813,12 +813,12 @@ TEST_CASE("Do not report error when there are circular references in nested memb
     REQUIRE(dsC.sections.size() == 1);
     REQUIRE(dsC.sections[0].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(dsC.sections[0].content.elements().size() == 1);
-    REQUIRE(dsC.sections[0].content.elements().at(0).klass == mson::Element::PropertyClass);
 
-    mson::PropertyMember idC = dsC.sections[0].content.elements().at(0).content.property;
-    REQUIRE(idC.name.literal == "id");
-    REQUIRE(idC.valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType);
-    REQUIRE(idC.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal == "A");
+    const auto* idC = dsC.sections[0].content.elements().at(0).property();
+    REQUIRE(idC);
+    REQUIRE(idC->name.literal == "id");
+    REQUIRE(idC->valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType);
+    REQUIRE(idC->valueDefinition.typeDefinition.typeSpecification.name.symbol.literal == "A");
 
     DataStructure dsA = blueprint.node.content.elements().at(0).content.elements().at(2).content.dataStructure;
     REQUIRE(dsA.name.symbol.literal == "A");
@@ -827,12 +827,12 @@ TEST_CASE("Do not report error when there are circular references in nested memb
     REQUIRE(dsA.sections.size() == 1);
     REQUIRE(dsA.sections[0].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(dsA.sections[0].content.elements().size() == 1);
-    REQUIRE(dsA.sections[0].content.elements().at(0).klass == mson::Element::PropertyClass);
 
-    mson::PropertyMember idA = dsA.sections[0].content.elements().at(0).content.property;
-    REQUIRE(idA.name.literal == "id");
-    REQUIRE(idA.valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType);
-    REQUIRE(idA.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal == "B");
+    const auto* idA = dsA.sections[0].content.elements().at(0).property();
+    REQUIRE(idA);
+    REQUIRE(idA->name.literal == "id");
+    REQUIRE(idA->valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType);
+    REQUIRE(idA->valueDefinition.typeDefinition.typeSpecification.name.symbol.literal == "B");
 }
 
 TEST_CASE("Do not report error when named sub type is referenced in nested members when reference happens first",
@@ -865,12 +865,12 @@ TEST_CASE("Do not report error when named sub type is referenced in nested membe
     REQUIRE(dsB.sections.size() == 1);
     REQUIRE(dsB.sections[0].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(dsB.sections[0].content.elements().size() == 1);
-    REQUIRE(dsB.sections[0].content.elements().at(0).klass == mson::Element::PropertyClass);
 
-    mson::PropertyMember person = dsB.sections[0].content.elements().at(0).content.property;
-    REQUIRE(person.name.literal == "person");
-    REQUIRE(person.valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType);
-    REQUIRE(person.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal == "A");
+    const auto* person = dsB.sections[0].content.elements().at(0).property();
+    REQUIRE(person);
+    REQUIRE(person->name.literal == "person");
+    REQUIRE(person->valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType);
+    REQUIRE(person->valueDefinition.typeDefinition.typeSpecification.name.symbol.literal == "A");
 
     DataStructure dsA = blueprint.node.content.elements().at(0).content.elements().at(1).content.dataStructure;
     REQUIRE(dsA.name.symbol.literal == "A");
@@ -909,11 +909,11 @@ TEST_CASE(
     REQUIRE(r.attributes.sections.size() == 1);
     REQUIRE(r.attributes.sections[0].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(r.attributes.sections[0].content.elements().size() == 1);
-    REQUIRE(r.attributes.sections[0].content.elements().at(0).klass == mson::Element::PropertyClass);
 
-    mson::PropertyMember id = r.attributes.sections[0].content.elements().at(0).content.property;
-    REQUIRE(id.name.literal == "id");
-    REQUIRE(id.valueDefinition.typeDefinition.baseType == mson::ImplicitPrimitiveBaseType);
+    const auto* id = r.attributes.sections[0].content.elements().at(0).property();
+    REQUIRE(id);
+    REQUIRE(id->name.literal == "id");
+    REQUIRE(id->valueDefinition.typeDefinition.baseType == mson::ImplicitPrimitiveBaseType);
 
     REQUIRE(blueprint.node.content.elements().at(1).element == Element::CategoryElement);
     REQUIRE(blueprint.node.content.elements().at(1).content.elements().size() == 1);
@@ -926,12 +926,12 @@ TEST_CASE(
     REQUIRE(dsB.sections.size() == 1);
     REQUIRE(dsB.sections[0].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(dsB.sections[0].content.elements().size() == 1);
-    REQUIRE(dsB.sections[0].content.elements().at(0).klass == mson::Element::PropertyClass);
 
-    mson::PropertyMember posts = dsB.sections[0].content.elements().at(0).content.property;
-    REQUIRE(posts.name.literal == "posts");
-    REQUIRE(posts.valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType);
-    REQUIRE(posts.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal == "Post");
+    const auto* posts = dsB.sections[0].content.elements().at(0).property();
+    REQUIRE(posts);
+    REQUIRE(posts->name.literal == "posts");
+    REQUIRE(posts->valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType);
+    REQUIRE(posts->valueDefinition.typeDefinition.typeSpecification.name.symbol.literal == "Post");
 }
 
 TEST_CASE("Report error when named sub type is referenced as mixin", "[blueprint]")
@@ -1015,17 +1015,18 @@ TEST_CASE("Do not report error when named type references itself in array", "[bl
     REQUIRE(dsComment.sections.size() == 1);
     REQUIRE(dsComment.sections[0].klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(dsComment.sections[0].content.elements().size() == 2);
-    REQUIRE(dsComment.sections[0].content.elements().at(0).klass == mson::Element::PropertyClass);
 
-    mson::PropertyMember user = dsComment.sections[0].content.elements().at(0).content.property;
-    REQUIRE(user.name.literal == "user");
-    REQUIRE(user.valueDefinition.typeDefinition.baseType == mson::PrimitiveBaseType);
+    const auto* user = dsComment.sections[0].content.elements().at(0).property();
+    REQUIRE(user);
+    REQUIRE(user->name.literal == "user");
+    REQUIRE(user->valueDefinition.typeDefinition.baseType == mson::PrimitiveBaseType);
 
-    mson::PropertyMember children = dsComment.sections[0].content.elements().at(1).content.property;
-    REQUIRE(children.name.literal == "children");
-    REQUIRE(children.valueDefinition.typeDefinition.baseType == mson::ValueBaseType);
-    REQUIRE(children.valueDefinition.typeDefinition.typeSpecification.nestedTypes.size() == 1);
-    REQUIRE(children.valueDefinition.typeDefinition.typeSpecification.nestedTypes.at(0).symbol.literal == "Comment");
+    const auto* children = dsComment.sections[0].content.elements().at(1).property();
+    REQUIRE(children);
+    REQUIRE(children->name.literal == "children");
+    REQUIRE(children->valueDefinition.typeDefinition.baseType == mson::ValueBaseType);
+    REQUIRE(children->valueDefinition.typeDefinition.typeSpecification.nestedTypes.size() == 1);
+    REQUIRE(children->valueDefinition.typeDefinition.typeSpecification.nestedTypes.at(0).symbol.literal == "Comment");
 }
 
 TEST_CASE("Report error when a named type is defined twice with inheritance", "[blueprint]")
@@ -1308,39 +1309,35 @@ TEST_CASE("Any named type data structure should be able to be overridden when re
     REQUIRE(response.attributes.sections.size() == 1);
     REQUIRE(response.attributes.sections.at(0).klass == mson::TypeSection::MemberTypeClass);
     REQUIRE(response.attributes.sections.at(0).content.elements().size() == 1);
-    REQUIRE(response.attributes.sections.at(0).content.elements().at(0).klass == mson::Element::PropertyClass);
 
-    mson::PropertyMember property1 = response.attributes.sections.at(0).content.elements().at(0).content.property;
+    const auto* property1 = response.attributes.sections.at(0).content.elements().at(0).property();
+    REQUIRE(property1);
+    REQUIRE(property1->name.literal == "data");
+    REQUIRE(property1->sections.size() == 1);
+    REQUIRE(property1->sections.at(0).klass == mson::TypeSection::MemberTypeClass);
+    REQUIRE(property1->sections.at(0).content.elements().size() == 1);
 
-    REQUIRE(property1.name.literal == "data");
-    REQUIRE(property1.sections.size() == 1);
-    REQUIRE(property1.sections.at(0).klass == mson::TypeSection::MemberTypeClass);
-    REQUIRE(property1.sections.at(0).content.elements().size() == 1);
-    REQUIRE(property1.sections.at(0).content.elements().at(0).klass == mson::Element::PropertyClass);
+    const auto* property2 = property1->sections.at(0).content.elements().at(0).property();
+    REQUIRE(property2);
+    REQUIRE(property2->name.literal == "users");
+    REQUIRE(property2->sections.size() == 1);
+    REQUIRE(property2->sections.at(0).klass == mson::TypeSection::MemberTypeClass);
+    REQUIRE(property2->sections.at(0).content.elements().size() == 1);
 
-    mson::PropertyMember property2 = property1.sections.at(0).content.elements().at(0).content.property;
+    const auto* value = property2->sections.at(0).content.elements().at(0).value();
+    REQUIRE(value);
+    REQUIRE(value->valueDefinition.typeDefinition.typeSpecification.name.symbol.literal == "User");
+    REQUIRE(value->sections.size() == 1);
+    REQUIRE(value->sections.at(0).klass == mson::TypeSection::MemberTypeClass);
+    REQUIRE(value->sections.at(0).content.elements().size() == 1);
 
-    REQUIRE(property2.name.literal == "users");
-    REQUIRE(property2.sections.size() == 1);
-    REQUIRE(property2.sections.at(0).klass == mson::TypeSection::MemberTypeClass);
-    REQUIRE(property2.sections.at(0).content.elements().size() == 1);
-    REQUIRE(property2.sections.at(0).content.elements().at(0).klass == mson::Element::ValueClass);
-
-    mson::ValueMember value = property2.sections.at(0).content.elements().at(0).content.value;
-
-    REQUIRE(value.valueDefinition.typeDefinition.typeSpecification.name.symbol.literal == "User");
-    REQUIRE(value.sections.size() == 1);
-    REQUIRE(value.sections.at(0).klass == mson::TypeSection::MemberTypeClass);
-    REQUIRE(value.sections.at(0).content.elements().size() == 1);
-    REQUIRE(value.sections.at(0).content.elements().at(0).klass == mson::Element::PropertyClass);
-
-    mson::PropertyMember property3 = value.sections.at(0).content.elements().at(0).content.property;
-
-    REQUIRE(property3.name.literal == "relation");
-    REQUIRE(property3.sections.empty());
-    REQUIRE(property3.valueDefinition.values.size() == 1);
-    REQUIRE(property3.valueDefinition.values[0].literal == "family");
-    REQUIRE(property3.valueDefinition.typeDefinition.empty());
+    const auto* property3 = value->sections.at(0).content.elements().at(0).property();
+    REQUIRE(property3);
+    REQUIRE(property3->name.literal == "relation");
+    REQUIRE(property3->sections.empty());
+    REQUIRE(property3->valueDefinition.values.size() == 1);
+    REQUIRE(property3->valueDefinition.values[0].literal == "family");
+    REQUIRE(property3->valueDefinition.typeDefinition.empty());
 }
 
 TEST_CASE("Parse attributes with mixin and no base type mentioned for attributes", "[blueprint][362]")

@@ -59,7 +59,7 @@ namespace drafter
     {
         ElementInfoContainer<T> copy;
         std::copy(infoContainer.begin(), infoContainer.end(), std::back_inserter(copy));
-        return std::move(copy);
+        return copy;
     }
 }
 

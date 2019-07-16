@@ -88,8 +88,14 @@
       'direct_dependent_settings' : {
         'include_dirs': [
           'ext/snowcrash/src',
+          'ext/variant/include',
+          'ext/boost',
         ],
       },
+      'include_dirs' : [
+        'ext/boost',
+        'ext/variant/include',
+      ],
       'export_dependent_settings': [
         'libmarkdownparser'
       ],
@@ -249,10 +255,18 @@
         "src/NodeInfo.h",
         "src/Serialize.h",
         "src/Serialize.cc",
+        "src/SerializeKey.h",
+        "src/SerializeKey.cc",
         "src/SerializeResult.h",
         "src/SerializeResult.cc",
         "src/RefractAPI.h",
         "src/RefractAPI.cc",
+        "src/MsonTypeSectionToApie.h",
+        "src/MsonTypeSectionToApie.cc",
+        "src/MsonMemberToApie.h",
+        "src/MsonMemberToApie.cc",
+        "src/MsonOneOfSectionToApie.h",
+        "src/MsonOneOfSectionToApie.cc",
         "src/RefractDataStructure.h",
         "src/RefractDataStructure.cc",
         "src/RefractSourceMap.h",

@@ -62,25 +62,27 @@ TEST_CASE("Parse canonical mson one of", "[mson][one_of]")
 
     REQUIRE(oneOf.node.size() == 2);
 
-    REQUIRE(oneOf.node.at(0).klass == mson::Element::PropertyClass);
-    REQUIRE(oneOf.node.at(0).content.property.name.literal == "state");
-    REQUIRE(oneOf.node.at(0).content.property.valueDefinition.values.size() == 1);
-    REQUIRE(oneOf.node.at(0).content.property.valueDefinition.values.at(0).literal == "Andhra Pradesh");
-    REQUIRE(oneOf.node.at(0).content.property.sections.empty());
-    REQUIRE(oneOf.node.at(0).content.property.description.empty());
-    REQUIRE(oneOf.node.at(0).content.property.name.variable.empty());
-    REQUIRE(oneOf.node.at(0).content.mixin.empty());
-    REQUIRE(oneOf.node.at(0).content.value.empty());
-    REQUIRE(oneOf.node.at(0).content.oneOf().empty());
-    REQUIRE(oneOf.node.at(0).content.elements().empty());
+    {
+        const auto* property = oneOf.node.at(0).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "state");
+        REQUIRE(property->valueDefinition.values.size() == 1);
+        REQUIRE(property->valueDefinition.values.at(0).literal == "Andhra Pradesh");
+        REQUIRE(property->sections.empty());
+        REQUIRE(property->description.empty());
+        REQUIRE(property->name.variable.empty());
+    }
 
-    REQUIRE(oneOf.node.at(1).klass == mson::Element::PropertyClass);
-    REQUIRE(oneOf.node.at(1).content.property.name.literal == "province");
-    REQUIRE(oneOf.node.at(1).content.property.valueDefinition.values.size() == 1);
-    REQUIRE(oneOf.node.at(1).content.property.valueDefinition.values.at(0).literal == "Madras");
-    REQUIRE(oneOf.node.at(1).content.property.sections.empty());
-    REQUIRE(oneOf.node.at(1).content.property.description.empty());
-    REQUIRE(oneOf.node.at(1).content.property.name.variable.empty());
+    {
+        const auto* property = oneOf.node.at(1).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "province");
+        REQUIRE(property->valueDefinition.values.size() == 1);
+        REQUIRE(property->valueDefinition.values.at(0).literal == "Madras");
+        REQUIRE(property->sections.empty());
+        REQUIRE(property->description.empty());
+        REQUIRE(property->name.variable.empty());
+    }
 
     REQUIRE(oneOf.sourceMap.collection.size() == 2);
 
@@ -124,20 +126,32 @@ TEST_CASE("Parse mson one of with one of", "[mson][one_of]")
 
     REQUIRE(oneOf.node.size() == 2);
 
-    REQUIRE(oneOf.node.at(0).klass == mson::Element::PropertyClass);
-    REQUIRE(oneOf.node.at(0).content.property.name.literal == "last_name");
-    REQUIRE(oneOf.node.at(0).content.property.sections.empty());
-    REQUIRE(oneOf.node.at(0).content.property.description.empty());
-    REQUIRE(oneOf.node.at(0).content.property.valueDefinition.empty());
+    {
+        const auto* property = oneOf.node.at(0).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "last_name");
+        REQUIRE(property->sections.empty());
+        REQUIRE(property->description.empty());
+        REQUIRE(property->valueDefinition.empty());
+    }
+    {
+        const auto* entry = oneOf.node.at(1).oneOf();
+        REQUIRE(entry);
+        REQUIRE(entry->size() == 2);
 
-    REQUIRE(oneOf.node.at(1).klass == mson::Element::OneOfClass);
-    REQUIRE(oneOf.node.at(1).content.oneOf().size() == 2);
-    REQUIRE(oneOf.node.at(1).content.oneOf().at(0).klass == mson::Element::PropertyClass);
-    REQUIRE(oneOf.node.at(1).content.oneOf().at(0).content.property.name.literal == "given_name");
-    REQUIRE(oneOf.node.at(1).content.oneOf().at(0).content.property.valueDefinition.empty());
-    REQUIRE(oneOf.node.at(1).content.oneOf().at(1).klass == mson::Element::PropertyClass);
-    REQUIRE(oneOf.node.at(1).content.oneOf().at(1).content.property.name.literal == "suffixed_name");
-    REQUIRE(oneOf.node.at(1).content.oneOf().at(1).content.property.valueDefinition.empty());
+        {
+            const auto* property = entry->at(0).property();
+            REQUIRE(property);
+            REQUIRE(property->name.literal == "given_name");
+            REQUIRE(property->valueDefinition.empty());
+        }
+        {
+            const auto* property = entry->at(1).property();
+            REQUIRE(property);
+            REQUIRE(property->name.literal == "suffixed_name");
+            REQUIRE(property->valueDefinition.empty());
+        }
+    }
 
     REQUIRE(oneOf.sourceMap.collection.size() == 2);
 
@@ -166,20 +180,31 @@ TEST_CASE("Parse mson one of with member group", "[mson][one_of]")
     REQUIRE(oneOf.report.warnings.empty());
 
     REQUIRE(oneOf.node.size() == 2);
-    REQUIRE(oneOf.node.at(0).klass == mson::Element::PropertyClass);
-    REQUIRE(oneOf.node.at(0).content.property.name.literal == "full_name");
-    REQUIRE(oneOf.node.at(0).content.property.sections.empty());
-    REQUIRE(oneOf.node.at(0).content.property.description.empty());
-    REQUIRE(oneOf.node.at(0).content.property.valueDefinition.empty());
-    REQUIRE(oneOf.node.at(1).klass == mson::Element::GroupClass);
-    REQUIRE(oneOf.node.at(1).content.property.empty());
-    REQUIRE(oneOf.node.at(1).content.mixin.empty());
-    REQUIRE(oneOf.node.at(1).content.value.empty());
-    REQUIRE(oneOf.node.at(1).content.elements().size() == 2);
-    REQUIRE(oneOf.node.at(1).content.elements().at(0).klass == mson::Element::PropertyClass);
-    REQUIRE(oneOf.node.at(1).content.elements().at(0).content.property.name.literal == "first_name");
-    REQUIRE(oneOf.node.at(1).content.elements().at(1).klass == mson::Element::PropertyClass);
-    REQUIRE(oneOf.node.at(1).content.elements().at(1).content.property.name.literal == "last_name");
+
+    {
+        const auto* property = oneOf.node.at(0).property();
+        REQUIRE(property);
+        REQUIRE(property->name.literal == "full_name");
+        REQUIRE(property->sections.empty());
+        REQUIRE(property->description.empty());
+        REQUIRE(property->valueDefinition.empty());
+    }
+    {
+        const auto* group = oneOf.node.at(1).group();
+        REQUIRE(group);
+        REQUIRE(group->size() == 2);
+
+        {
+            const auto* property = group->at(0).property();
+            REQUIRE(property);
+            REQUIRE(property->name.literal == "first_name");
+        }
+        {
+            const auto* property = group->at(1).property();
+            REQUIRE(property);
+            REQUIRE(property->name.literal == "last_name");
+        }
+    }
 
     REQUIRE(oneOf.sourceMap.collection.size() == 2);
 

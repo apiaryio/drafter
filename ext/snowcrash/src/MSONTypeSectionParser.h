@@ -116,7 +116,13 @@ namespace snowcrash
                         mson::Element element;
                         SourceMap<mson::Element> elementSM;
 
-                        element.build(mson::parseValue(signature.values[i]));
+                        {
+                            mson::ValueMember valueMember;
+                            valueMember.valueDefinition.values.emplace_back( //
+                                mson::parseValue(signature.values[i]));
+                            element = std::move(valueMember);
+                        }
+
                         out.node.content.elements().push_back(element);
 
                         if (pd.exportSourceMap()) {
@@ -141,7 +147,7 @@ namespace snowcrash
 
             if (assignValues && !signature.remainingContent.empty()
                 && (out.node.baseType == mson::PrimitiveBaseType
-                       || out.node.baseType == mson::ImplicitPrimitiveBaseType)) {
+                    || out.node.baseType == mson::ImplicitPrimitiveBaseType)) {
 
                 out.node.content.value += signature.remainingContent;
 
