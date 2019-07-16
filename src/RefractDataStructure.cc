@@ -657,7 +657,7 @@ namespace
         {
             auto result = make_element<E>();
             std::move(info.value.begin(), info.value.end(), std::back_inserter(result->get()));
-            return std::move(result);
+            return result;
         }
     };
 
@@ -1089,7 +1089,7 @@ namespace
             element->meta().set(SerializeKey::Description, std::move(description));
         }
 
-        return std::move(element);
+        return element;
     }
 
     bool ValueHasMembers(const mson::ValueMember* value)
@@ -1147,7 +1147,7 @@ namespace
                 element->meta().set(SerializeKey::Description, std::move(description));
             }
 
-            return std::move(element);
+            return element;
         }
     };
 

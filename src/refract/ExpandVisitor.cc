@@ -98,7 +98,7 @@ namespace refract
                     value.end(),
                     std::back_inserter(members),
                     [&expand](const typename T::value_type& el) { return expand(el.get()); });
-                return std::move(members);
+                return members;
             }
         };
 
@@ -120,9 +120,9 @@ namespace refract
                  en = parent->element(), parent = registry.find(en)) {
 
                 if (inheritance.end()
-                    != std::find_if(inheritance.begin(),                                                  //
-                           inheritance.end(),                                                             //
-                           [en](const inheritance_map::value_type& other) { return en == other.first; })) //
+                    != std::find_if(inheritance.begin(),                                               //
+                        inheritance.end(),                                                             //
+                        [en](const inheritance_map::value_type& other) { return en == other.first; })) //
                 {
                     return make_empty<ExtendElement>();
                 }
@@ -196,7 +196,7 @@ namespace refract
             o->attributes() = e.attributes();
             o->meta() = e.meta();
 
-            return std::move(o);
+            return o;
         }
 
         template <typename T>
