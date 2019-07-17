@@ -195,11 +195,11 @@ namespace mson
         bool empty() const;
     };
 
-    /** Forward Declaration for element */
-    struct Element;
+    /** Forward Declaration for MemberType */
+    struct MemberType;
 
     /** Collection of elements */
-    typedef boost::container::vector<Element> Elements;
+    typedef boost::container::vector<MemberType> MemberTypes;
 
     /** Section of a type */
     struct TypeSection {
@@ -223,9 +223,9 @@ namespace mson
             /** OR Literal value */
             Literal value;
 
-            /** OR Collection of elements */
-            Elements& elements();
-            const Elements& elements() const;
+            /** OR Collection of MemberTypes */
+            MemberTypes& elements();
+            const MemberTypes& elements() const;
 
             /** Constructor */
             Content(const Markdown& description_ = Markdown(), const Literal& value_ = Literal());
@@ -240,7 +240,7 @@ namespace mson
             ~Content();
 
         private:
-            std::unique_ptr<Elements> m_elements;
+            std::unique_ptr<MemberTypes> m_elements;
         };
 
         /** Constructor */
@@ -324,21 +324,21 @@ namespace mson
     typedef TypeDefinition Mixin;
 
     /** One Of type */
-    typedef Elements OneOf;
+    typedef MemberTypes OneOf;
 
-    /** Element of a type section */
-    struct Element {
+    /** MSON Member Type */
+    struct MemberType {
 
         using Empty = mpark::monostate;
         using PropertyMemberSection = PropertyMember;
         using ValueMemberSection = ValueMember;
         using MixinSection = Mixin;
-        using OneOfSection = just<Elements, struct one_of_tag>;
-        using GroupSection = just<Elements, struct group_tag>;
+        using OneOfSection = just<MemberTypes, struct one_of_tag>;
+        using GroupSection = just<MemberTypes, struct group_tag>;
 
     private:
         using Content = mpark::variant< //
-            Empty,
+            Empty,                      // OPTIM @tjanc@ remove Empty
             PropertyMemberSection,
             ValueMemberSection,
             MixinSection,
@@ -348,7 +348,7 @@ namespace mson
         Content content = {};
 
     public:
-        constexpr Element() noexcept : content{} {}
+        constexpr MemberType() noexcept : content{} {}
 
         /** EITHER Property member */
         const PropertyMember* property() const noexcept
@@ -375,45 +375,45 @@ namespace mson
             return (result ? &**result : nullptr);
         }
 
-        /** OR Collection of elements */
-        const Elements* group() const noexcept
+        /** OR Collection of MemberTypes */
+        const MemberTypes* group() const noexcept
         {
             auto result = mpark::get_if<GroupSection>(&content);
             return result ? &**result : nullptr;
         }
 
         /** Functions which allow the building of member type */
-        explicit Element(PropertyMemberSection&& c) noexcept : content{ std::move(c) } {}
-        explicit Element(ValueMemberSection&& c) noexcept : content{ std::move(c) } {}
-        explicit Element(MixinSection&& c) noexcept : content{ std::move(c) } {}
-        explicit Element(OneOfSection&& c) noexcept : content{ std::move(c) } {}
-        explicit Element(GroupSection&& c) noexcept : content{ std::move(c) } {}
+        explicit MemberType(PropertyMemberSection&& c) noexcept : content{ std::move(c) } {}
+        explicit MemberType(ValueMemberSection&& c) noexcept : content{ std::move(c) } {}
+        explicit MemberType(MixinSection&& c) noexcept : content{ std::move(c) } {}
+        explicit MemberType(OneOfSection&& c) noexcept : content{ std::move(c) } {}
+        explicit MemberType(GroupSection&& c) noexcept : content{ std::move(c) } {}
 
-        Element& operator=(PropertyMemberSection c) noexcept
+        MemberType& operator=(PropertyMemberSection c) noexcept
         {
             content = std::move(c);
             return *this;
         }
 
-        Element& operator=(ValueMemberSection c) noexcept
+        MemberType& operator=(ValueMemberSection c) noexcept
         {
             content = std::move(c);
             return *this;
         }
 
-        Element& operator=(MixinSection c) noexcept
+        MemberType& operator=(MixinSection c) noexcept
         {
             content = std::move(c);
             return *this;
         }
 
-        Element& operator=(OneOfSection c) noexcept
+        MemberType& operator=(OneOfSection c) noexcept
         {
             content = std::move(c);
             return *this;
         }
 
-        Element& operator=(GroupSection c) noexcept
+        MemberType& operator=(GroupSection c) noexcept
         {
             content = std::move(c);
             return *this;

@@ -113,8 +113,8 @@ namespace snowcrash
 
                     for (size_t i = 0; i < signature.values.size(); i++) {
 
-                        mson::Element element;
-                        SourceMap<mson::Element> elementSM;
+                        mson::MemberType element;
+                        SourceMap<mson::MemberType> elementSM;
 
                         {
                             mson::ValueMember valueMember;

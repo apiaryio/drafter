@@ -28,41 +28,41 @@ namespace
 namespace
 {
     std::unique_ptr<OptionElement> MsonOneOfEntryToElements(
-        const mson::Element::Empty&, const snowcrash::SourceMap<mson::Element>*, ConversionContext&)
+        const mson::MemberType::Empty&, const snowcrash::SourceMap<mson::MemberType>*, ConversionContext&)
     {
         throw snowcrash::Error("unknown type of mson element", snowcrash::ApplicationError);
     }
 
-    std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::Element::PropertyMemberSection& section,
-        const snowcrash::SourceMap<mson::Element>* sourceMap,
+    std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::MemberType::PropertyMemberSection& section,
+        const snowcrash::SourceMap<mson::MemberType>* sourceMap,
         ConversionContext& context)
     {
         return WrapOption(MsonTypeSectionToApie(section, sourceMap, context, mson::StringTypeName));
     }
 
-    std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::Element::ValueMemberSection& section,
-        const snowcrash::SourceMap<mson::Element>* sourceMap,
+    std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::MemberType::ValueMemberSection& section,
+        const snowcrash::SourceMap<mson::MemberType>* sourceMap,
         ConversionContext& context)
     {
         return WrapOption(MsonTypeSectionToApie(section, sourceMap, context, mson::StringTypeName));
     }
 
-    std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::Element::MixinSection& section,
-        const snowcrash::SourceMap<mson::Element>* sourceMap,
+    std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::MemberType::MixinSection& section,
+        const snowcrash::SourceMap<mson::MemberType>* sourceMap,
         ConversionContext& context)
     {
         return WrapOption(MsonTypeSectionToApie(section, sourceMap, context, mson::StringTypeName));
     }
 
-    std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::Element::OneOfSection& section,
-        const snowcrash::SourceMap<mson::Element>* sourceMap,
+    std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::MemberType::OneOfSection& section,
+        const snowcrash::SourceMap<mson::MemberType>* sourceMap,
         ConversionContext& context)
     {
         return WrapOption(MsonTypeSectionToApie(section, sourceMap, context, mson::StringTypeName));
     }
 
-    std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::Element::GroupSection& section,
-        const snowcrash::SourceMap<mson::Element>* sourceMap,
+    std::unique_ptr<OptionElement> MsonOneOfEntryToElements(const mson::MemberType::GroupSection& section,
+        const snowcrash::SourceMap<mson::MemberType>* sourceMap,
         ConversionContext& context)
     {
         auto option = make_element<OptionElement>();
@@ -74,7 +74,7 @@ namespace
     }
 
     struct MsonOneOfEntryToElementsLambda {
-        const snowcrash::SourceMap<mson::Element>* sourceMap;
+        const snowcrash::SourceMap<mson::MemberType>* sourceMap;
         ConversionContext& context;
         SelectElement& select;
 

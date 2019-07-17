@@ -21,8 +21,8 @@ namespace snowcrash
     {
 
         MarkdownNodeIterator cur = node;
-        mson::Element element;
-        SourceMap<mson::Element> elementSM;
+        mson::MemberType element;
+        SourceMap<mson::MemberType> elementSM;
 
         switch (pd.sectionContext()) {
             case MSONMixinSectionType: {
@@ -42,7 +42,7 @@ namespace snowcrash
                 IntermediateParseResult<mson::OneOf> oneOf(out.report);
                 cur = MSONOneOfParser::parse(node, siblings, pd, oneOf);
 
-                element = mson::Element::OneOfSection{oneOf.node};
+                element = mson::MemberType::OneOfSection{oneOf.node};
 
                 if (pd.exportSourceMap()) {
                     elementSM = oneOf.sourceMap;
@@ -57,7 +57,7 @@ namespace snowcrash
 
                 cur = MSONTypeSectionListParser::parse(node, siblings, pd, typeSection);
 
-                element = mson::Element::GroupSection{ typeSection.node.content.elements() };
+                element = mson::MemberType::GroupSection{ typeSection.node.content.elements() };
 
                 if (pd.exportSourceMap()) {
                     elementSM = typeSection.sourceMap.elements();

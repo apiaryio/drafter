@@ -93,7 +93,7 @@ TEST_CASE("Parse attributes with nested members", "[attributes]")
     REQUIRE(attributes.sourceMap.sections.collection.size() == 1);
     REQUIRE(attributes.sourceMap.sections.collection[0].elements().collection.size() == 2);
 
-    SourceMap<mson::Element> elementSM = attributes.sourceMap.sections.collection[0].elements().collection[0];
+    SourceMap<mson::MemberType> elementSM = attributes.sourceMap.sections.collection[0].elements().collection[0];
     SourceMapHelper::check(elementSM.property.name.sourceMap, 18, 41);
     SourceMapHelper::check(elementSM.property.description.sourceMap, 18, 41);
     SourceMapHelper::check(elementSM.property.valueDefinition.sourceMap, 18, 41);

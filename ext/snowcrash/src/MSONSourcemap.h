@@ -50,12 +50,12 @@ namespace snowcrash
     /** Source Map of Collection of Type Names */
     SOURCE_MAP_COLLECTION(mson::TypeName, mson::TypeNames)
 
-    /** Forward Declaration for Source Map of Element */
+    /** Forward Declaration for Source Map of MemberType */
     template <>
-    struct SourceMap<mson::Element>;
+    struct SourceMap<mson::MemberType>;
 
-    /** Source Map of Collection of Elements */
-    SOURCE_MAP_COLLECTION(mson::Element, mson::Elements)
+    /** Source Map of Collection of MemberTypes */
+    SOURCE_MAP_COLLECTION(mson::MemberType, mson::MemberTypes)
 
     /** Source Map structure for Type Section */
     template <>
@@ -67,9 +67,9 @@ namespace snowcrash
         /** OR Source Map of Literal */
         SourceMap<mson::Literal> value;
 
-        /** OR Source Map of Collection of elements */
-        SourceMap<mson::Elements>& elements();
-        const SourceMap<mson::Elements>& elements() const;
+        /** OR Source Map of Collection of MemberTypes */
+        SourceMap<mson::MemberTypes>& elements();
+        const SourceMap<mson::MemberTypes>& elements() const;
 
         /** Constructor */
         SourceMap(const SourceMap<mson::Markdown>& description_ = SourceMap<mson::Markdown>(),
@@ -85,7 +85,7 @@ namespace snowcrash
         ~SourceMap();
 
     private:
-        std::unique_ptr<SourceMap<mson::Elements> > m_elements;
+        std::unique_ptr<SourceMap<mson::MemberTypes> > m_elements;
     };
 
     /** Source Map of Collection of Type Sections */
@@ -137,11 +137,11 @@ namespace snowcrash
     };
 
     /** Source Map structure for One Of */
-    // `OneOf` is the same as `Elements`
+    // `OneOf` is the same as `MemberTypes`
 
-    /** Source Map structure for Element */
+    /** Source Map structure for MemberType */
     template <>
-    struct SourceMap<mson::Element> : public SourceMapBase {
+    struct SourceMap<mson::MemberType> : public SourceMapBase {
 
         /** EITHER Source Map of Property Member */
         SourceMap<mson::PropertyMember> property;
@@ -156,27 +156,27 @@ namespace snowcrash
         SourceMap<mson::OneOf>& oneOf();
         const SourceMap<mson::OneOf>& oneOf() const;
 
-        /** OR Source Map of Collection of elements */
-        SourceMap<mson::Elements>& elements();
-        const SourceMap<mson::Elements>& elements() const;
+        /** OR Source Map of Collection of MemberTypes */
+        SourceMap<mson::MemberTypes>& elements();
+        const SourceMap<mson::MemberTypes>& elements() const;
 
-        /** Builds the structure from group of elements */
-        SourceMap<mson::Element>& operator=(const SourceMap<mson::Elements>& rhs);
+        /** Builds the structure from group of MemberTypes */
+        SourceMap<mson::MemberType>& operator=(const SourceMap<mson::MemberTypes>& rhs);
 
         /** Constructor */
         SourceMap();
 
         /** Copy constructor */
-        SourceMap(const SourceMap<mson::Element>& rhs);
+        SourceMap(const SourceMap<mson::MemberType>& rhs);
 
         /** Assignment operator */
-        SourceMap<mson::Element>& operator=(const SourceMap<mson::Element>& rhs);
+        SourceMap<mson::MemberType>& operator=(const SourceMap<mson::MemberType>& rhs);
 
         /** Destructor */
         ~SourceMap();
 
     private:
-        std::unique_ptr<SourceMap<mson::Elements> > m_elements;
+        std::unique_ptr<SourceMap<mson::MemberTypes> > m_elements;
     };
 }
 

@@ -40,7 +40,7 @@ bool ValueDefinition::empty() const
     return (this->values.empty() && this->typeDefinition.empty());
 }
 
-Elements& TypeSection::Content::elements()
+MemberTypes& TypeSection::Content::elements()
 {
     if (!m_elements.get())
         throw ELEMENTS_NOT_SET_ERR;
@@ -48,7 +48,7 @@ Elements& TypeSection::Content::elements()
     return *m_elements;
 }
 
-const Elements& TypeSection::Content::elements() const
+const MemberTypes& TypeSection::Content::elements() const
 {
     if (!m_elements.get())
         throw ELEMENTS_NOT_SET_ERR;
@@ -59,21 +59,21 @@ const Elements& TypeSection::Content::elements() const
 TypeSection::Content::Content(const Markdown& description_, const Literal& value_)
     : description(description_), value(value_)
 {
-    m_elements.reset(::new Elements);
+    m_elements.reset(::new MemberTypes);
 }
 
 TypeSection::Content::Content(const TypeSection::Content& rhs)
 {
     this->description = rhs.description;
     this->value = rhs.value;
-    m_elements.reset(::new Elements(*rhs.m_elements.get()));
+    m_elements.reset(::new MemberTypes(*rhs.m_elements.get()));
 }
 
 TypeSection::Content& TypeSection::Content::operator=(const TypeSection::Content& rhs)
 {
     this->description = rhs.description;
     this->value = rhs.value;
-    m_elements.reset(::new Elements(*rhs.m_elements.get()));
+    m_elements.reset(::new MemberTypes(*rhs.m_elements.get()));
 
     return *this;
 }

@@ -22,8 +22,8 @@ namespace snowcrash
         MarkdownNodeIterator cur = node;
         SectionType parentSectionType = pd.parentSectionContext();
 
-        mson::Element element;
-        SourceMap<mson::Element> elementSM;
+        mson::MemberType element;
+        SourceMap<mson::MemberType> elementSM;
 
         if (node->type == mdp::HeaderMarkdownNodeType) {
             return cur;
@@ -62,7 +62,7 @@ namespace snowcrash
                     IntermediateParseResult<mson::OneOf> oneOf(out.report);
                     cur = MSONOneOfParser::parse(node, siblings, pd, oneOf);
 
-                    element = mson::Element::OneOfSection{ oneOf.node };
+                    element = mson::MemberType::OneOfSection{ oneOf.node };
 
                     if (pd.exportSourceMap()) {
                         elementSM = oneOf.sourceMap;

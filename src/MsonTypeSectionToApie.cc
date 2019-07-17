@@ -71,8 +71,8 @@ mson::BaseTypeName drafter::ResolveType(const mson::TypeSpecification& spec, Con
 }
 
 std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
-    const mson::Element::Empty&,
-    const snowcrash::SourceMap<mson::Element>*,
+    const mson::MemberType::Empty&,
+    const snowcrash::SourceMap<mson::MemberType>*,
     ConversionContext&,
     const mson::BaseTypeName)
 {
@@ -81,8 +81,8 @@ std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
 }
 
 std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
-    const mson::Element::PropertyMemberSection& section,
-    const snowcrash::SourceMap<mson::Element>* sourceMap,
+    const mson::MemberType::PropertyMemberSection& section,
+    const snowcrash::SourceMap<mson::MemberType>* sourceMap,
     ConversionContext& context,
     const mson::BaseTypeName defaultNestedType)
 {
@@ -94,8 +94,8 @@ std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
 }
 
 std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
-    const mson::Element::ValueMemberSection& section,
-    const snowcrash::SourceMap<mson::Element>* sourceMap,
+    const mson::MemberType::ValueMemberSection& section,
+    const snowcrash::SourceMap<mson::MemberType>* sourceMap,
     ConversionContext& context,
     const mson::BaseTypeName defaultNestedType)
 {
@@ -107,8 +107,8 @@ std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
 }
 
 std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
-    const mson::Element::MixinSection& section,
-    const snowcrash::SourceMap<mson::Element>* sourceMap,
+    const mson::MemberType::MixinSection& section,
+    const snowcrash::SourceMap<mson::MemberType>* sourceMap,
     ConversionContext&,
     const mson::BaseTypeName)
 {
@@ -118,14 +118,14 @@ std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
 }
 
 std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
-    const mson::Element::OneOfSection& section,
-    const snowcrash::SourceMap<mson::Element>* sourceMap,
+    const mson::MemberType::OneOfSection& section,
+    const snowcrash::SourceMap<mson::MemberType>* sourceMap,
     ConversionContext& context,
     const mson::BaseTypeName);
 
 std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
-    const mson::Element::OneOfSection& section,
-    const snowcrash::SourceMap<mson::Element>* sourceMap,
+    const mson::MemberType::OneOfSection& section,
+    const snowcrash::SourceMap<mson::MemberType>* sourceMap,
     ConversionContext& context,
     const mson::BaseTypeName)
 {
@@ -133,8 +133,8 @@ std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
 }
 
 std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
-    const mson::Element::GroupSection&,
-    const snowcrash::SourceMap<mson::Element>*,
+    const mson::MemberType::GroupSection&,
+    const snowcrash::SourceMap<mson::MemberType>*,
     ConversionContext& context,
     const mson::BaseTypeName)
 {
@@ -144,7 +144,7 @@ std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
 
 struct MsonTypeSectionToElementsLambda {
     std::unique_ptr<IElement>& result;
-    const snowcrash::SourceMap<mson::Element>* sourceMap;
+    const snowcrash::SourceMap<mson::MemberType>* sourceMap;
     ConversionContext& context;
     mson::BaseTypeName defaultNestedType;
 
@@ -156,8 +156,8 @@ struct MsonTypeSectionToElementsLambda {
 };
 
 std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
-    const mson::Element& element,
-    const snowcrash::SourceMap<mson::Element>* sourceMap,
+    const mson::MemberType& element,
+    const snowcrash::SourceMap<mson::MemberType>* sourceMap,
     ConversionContext& context,
     const mson::BaseTypeName defaultNestedType)
 {

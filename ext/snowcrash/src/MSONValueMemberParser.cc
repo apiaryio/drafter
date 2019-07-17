@@ -83,8 +83,8 @@ namespace snowcrash
             }
         }
 
-        mson::Element element;
-        SourceMap<mson::Element> elementSM;
+        mson::MemberType element;
+        SourceMap<mson::MemberType> elementSM;
 
         if (pd.sectionContext() == MSONMixinSectionType) {
 
@@ -124,7 +124,7 @@ namespace snowcrash
             IntermediateParseResult<mson::OneOf> oneOf(sections.report);
             cur = MSONOneOfParser::parse(node, siblings, pd, oneOf);
 
-            element = mson::Element::OneOfSection{ oneOf.node };
+            element = mson::MemberType::OneOfSection{ oneOf.node };
 
             if (pd.exportSourceMap()) {
                 elementSM = oneOf.sourceMap;

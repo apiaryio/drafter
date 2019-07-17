@@ -28,50 +28,50 @@ namespace drafter
 namespace drafter
 {
     std::unique_ptr<refract::IElement> MsonTypeSectionToApie( //
-        const mson::Element::Empty&,
-        const snowcrash::SourceMap<mson::Element>*,
+        const mson::MemberType::Empty&,
+        const snowcrash::SourceMap<mson::MemberType>*,
         ConversionContext&,
         const mson::BaseTypeName);
 
     std::unique_ptr<refract::IElement> MsonTypeSectionToApie( //
-        const mson::Element::PropertyMemberSection&,
-        const snowcrash::SourceMap<mson::Element>*,
+        const mson::MemberType::PropertyMemberSection&,
+        const snowcrash::SourceMap<mson::MemberType>*,
         ConversionContext&,
         const mson::BaseTypeName);
 
     std::unique_ptr<refract::IElement> MsonTypeSectionToApie( //
-        const mson::Element::ValueMemberSection&,
-        const snowcrash::SourceMap<mson::Element>*,
+        const mson::MemberType::ValueMemberSection&,
+        const snowcrash::SourceMap<mson::MemberType>*,
         ConversionContext&,
         const mson::BaseTypeName);
 
     std::unique_ptr<refract::IElement> MsonTypeSectionToApie( //
-        const mson::Element::MixinSection&,
-        const snowcrash::SourceMap<mson::Element>*,
+        const mson::MemberType::MixinSection&,
+        const snowcrash::SourceMap<mson::MemberType>*,
         ConversionContext&,
         const mson::BaseTypeName);
 
     std::unique_ptr<refract::IElement> MsonTypeSectionToApie( //
-        const mson::Element::OneOfSection&,
-        const snowcrash::SourceMap<mson::Element>*,
+        const mson::MemberType::OneOfSection&,
+        const snowcrash::SourceMap<mson::MemberType>*,
         ConversionContext&,
         const mson::BaseTypeName);
 
     std::unique_ptr<refract::IElement> MsonTypeSectionToApie( //
-        const mson::Element::OneOfSection&,
-        const snowcrash::SourceMap<mson::Element>*,
+        const mson::MemberType::OneOfSection&,
+        const snowcrash::SourceMap<mson::MemberType>*,
         ConversionContext&,
         const mson::BaseTypeName);
 
     std::unique_ptr<refract::IElement> MsonTypeSectionToApie( //
-        const mson::Element::GroupSection&,
-        const snowcrash::SourceMap<mson::Element>*,
+        const mson::MemberType::GroupSection&,
+        const snowcrash::SourceMap<mson::MemberType>*,
         ConversionContext&,
         const mson::BaseTypeName);
 
     std::unique_ptr<refract::IElement> MsonTypeSectionToApie( //
-        const mson::Element&,
-        const snowcrash::SourceMap<mson::Element>*,
+        const mson::MemberType&,
+        const snowcrash::SourceMap<mson::MemberType>*,
         ConversionContext&,
         const mson::BaseTypeName);
 }
@@ -79,12 +79,12 @@ namespace drafter
 namespace drafter
 {
     template <typename WhereTo>
-    void MsonTypeSectionsToApie(const NodeInfo<mson::Elements>& elements,
+    void MsonTypeSectionsToApie(const NodeInfo<mson::MemberTypes>& elements,
         WhereTo& container,
         ConversionContext& context,
         mson::BaseTypeName defaultNestedType = mson::StringTypeName)
     {
-        NodeInfoCollection<mson::Elements> elementsNodeInfo(elements);
+        NodeInfoCollection<mson::MemberTypes> elementsNodeInfo(elements);
 
         for (const auto& nodeInfo : elementsNodeInfo)
             if (auto apie = MsonTypeSectionToApie(*nodeInfo.node, nodeInfo.sourceMap, context, defaultNestedType))

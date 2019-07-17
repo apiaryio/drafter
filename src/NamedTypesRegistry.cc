@@ -93,11 +93,11 @@ namespace
     using Members = std::set<std::string>;
     using MembersMap = std::map<std::string, Members>;
 
-    Members collectMembers(const mson::Elements& elements);
+    Members collectMembers(const mson::MemberTypes& elements);
     Members collectMembers(const mson::TypeSections& ts);
     Members collectMembers(const mson::TypeNames& tn);
 
-    void collectElementMember(const mson::Element::PropertyMemberSection& el, Members& result)
+    void collectElementMember(const mson::MemberType::PropertyMemberSection& el, Members& result)
     {
         std::string member;
         const mson::TypeSections* ts = NULL;
@@ -125,7 +125,7 @@ namespace
         }
     }
 
-    void collectElementMember(const mson::Element::ValueMemberSection& el, Members& result)
+    void collectElementMember(const mson::MemberType::ValueMemberSection& el, Members& result)
     {
         std::string member;
         const mson::TypeSections* ts = NULL;
@@ -144,7 +144,7 @@ namespace
         }
     }
 
-    void collectElementMember(const mson::Element::MixinSection& el, Members& result)
+    void collectElementMember(const mson::MemberType::MixinSection& el, Members& result)
     {
         std::string member = name(el);
 
@@ -153,11 +153,11 @@ namespace
         }
     }
 
-    void collectElementMember(const mson::Element::OneOfSection& el, Members& result) {}
+    void collectElementMember(const mson::MemberType::OneOfSection& el, Members& result) {}
 
-    void collectElementMember(const mson::Element::GroupSection& el, Members& result) {}
+    void collectElementMember(const mson::MemberType::GroupSection& el, Members& result) {}
 
-    void collectElementMember(const mson::Element::Empty& el, Members& result) {}
+    void collectElementMember(const mson::MemberType::Empty& el, Members& result) {}
 
     struct CollectElementMemberLambda {
         Members& members;
@@ -168,7 +168,7 @@ namespace
         }
     };
 
-    Members collectMembers(const mson::Elements& elements)
+    Members collectMembers(const mson::MemberTypes& elements)
     {
         Members members;
 
