@@ -201,69 +201,135 @@ namespace mson
     /** Collection of elements */
     typedef boost::container::vector<MemberType> MemberTypes;
 
-    /** Section of a type */
-    struct TypeSection {
+    // TODO OPTIM @tjanc@ get rid of this
+    struct Example {
+    private:
+        using Content = mpark::variant<Literal, MemberTypes>;
+        Content content;
 
-        /** Class of a type section */
-        enum Class
+    public:
+        explicit Example(Literal value) noexcept : content{ std::move(value) } {}
+        explicit Example(MemberTypes members) noexcept : content{ std::move(members) } {}
+
+    public:
+        const Literal* literal() const noexcept
         {
-            UndefinedClass = 0,    // Unknown
-            BlockDescriptionClass, // Markdown block description
-            MemberTypeClass,       // Contains member types
-            SampleClass,           // Sample value(s) for member types
-            DefaultClass           // Default value(s) for member types
-        };
+            return mpark::get_if<Literal>(&content);
+        }
 
-        /** Content of the type section */
-        struct Content {
+        const MemberTypes* members() const noexcept
+        {
+            return mpark::get_if<MemberTypes>(&content);
+        }
+    };
 
-            /** EITHER Block description */
-            Markdown description;
+    /** MSON Type Section */
+    struct TypeSection {
+        using Empty = mpark::monostate;
+        using BlockDescription = Markdown;
+        using MemberTypeGroup = just<MemberTypes, struct member_type_group_tag>;
+        using SampleSection = just<Example, struct sample_tag>;
+        using DefaultSection = just<Example, struct default_tag>;
 
-            /** OR Literal value */
-            Literal value;
+    private:
+        using Content = mpark::variant< //
+            Empty,
+            BlockDescription,
+            MemberTypeGroup,
+            SampleSection,
+            DefaultSection>;
 
-            /** OR Collection of MemberTypes */
-            MemberTypes& elements();
-            const MemberTypes& elements() const;
+        Content content;
+        BaseType base_;
 
-            /** Constructor */
-            Content(const Markdown& description_ = Markdown(), const Literal& value_ = Literal());
+    public:
+        constexpr TypeSection() noexcept : content{}, base_{ UndefinedBaseType } {}
 
-            /** Copy constructor */
-            Content(const TypeSection::Content& rhs);
-
-            /** Assignment operator */
-            TypeSection::Content& operator=(const TypeSection::Content& rhs);
-
-            /** Desctructor */
-            ~Content();
-
-        private:
-            std::unique_ptr<MemberTypes> m_elements;
-        };
-
-        /** Constructor */
-        TypeSection(const TypeSection::Class& klass_ = TypeSection::UndefinedClass)
-            : baseType(UndefinedBaseType), klass(klass_)
+    public:
+        explicit TypeSection(BlockDescription c, BaseType b = UndefinedBaseType) noexcept : content{ std::move(c) },
+                                                                                            base_{ b }
         {
         }
 
-        /** Base Type (for the parent of the type section) */
-        BaseType baseType;
+        explicit TypeSection(MemberTypeGroup c, BaseType b = UndefinedBaseType) noexcept : content{ std::move(c) },
+                                                                                           base_{ b }
+        {
+        }
 
-        /** Denotes the class of the type section */
-        TypeSection::Class klass;
+        explicit TypeSection(SampleSection c, BaseType b = UndefinedBaseType) noexcept : content{ std::move(c) },
+                                                                                         base_{ b }
+        {
+        }
 
-        /** Content of the type section */
-        TypeSection::Content content;
+        explicit TypeSection(DefaultSection c, BaseType b = UndefinedBaseType) noexcept : content{ std::move(c) },
+                                                                                          base_{ b }
+        {
+        }
 
-        /** Check if empty */
-        bool empty() const;
+    public:
+        TypeSection& operator=(BlockDescription c) noexcept
+        {
+            content = std::move(c);
+            return *this;
+        }
+
+        TypeSection& operator=(MemberTypeGroup c) noexcept
+        {
+            content = std::move(c);
+            return *this;
+        }
+
+        TypeSection& operator=(SampleSection c) noexcept
+        {
+            content = std::move(c);
+            return *this;
+        }
+
+        TypeSection& operator=(DefaultSection c) noexcept
+        {
+            content = std::move(c);
+            return *this;
+        }
+
+    public:
+        /** EITHER Block Description */
+        const BlockDescription* description() const noexcept
+        {
+            return mpark::get_if<BlockDescription>(&content);
+        }
+
+        /** OR Member Type Group */
+        const MemberTypeGroup* members() const noexcept
+        {
+            return mpark::get_if<MemberTypeGroup>(&content);
+        }
+
+        /** OR SampleSection */
+        const SampleSection* sample() const noexcept
+        {
+            return mpark::get_if<SampleSection>(&content);
+        }
+
+        /** OR DefaultSection */
+        const DefaultSection* dfault() const noexcept
+        {
+            return mpark::get_if<DefaultSection>(&content);
+        }
+
+    public:
+        constexpr bool empty() const noexcept
+        {
+            return nullptr != mpark::get_if<Empty>(&content);
+        }
+
+        constexpr BaseType base() const noexcept
+        {
+            return base_;
+        }
     };
 
     /** Collection of type sections */
-    typedef std::vector<TypeSection> TypeSections;
+    typedef boost::container::vector<TypeSection> TypeSections;
 
     /** User-define named type */
     struct NamedType {

@@ -40,52 +40,6 @@ bool ValueDefinition::empty() const
     return (this->values.empty() && this->typeDefinition.empty());
 }
 
-MemberTypes& TypeSection::Content::elements()
-{
-    if (!m_elements.get())
-        throw ELEMENTS_NOT_SET_ERR;
-
-    return *m_elements;
-}
-
-const MemberTypes& TypeSection::Content::elements() const
-{
-    if (!m_elements.get())
-        throw ELEMENTS_NOT_SET_ERR;
-
-    return *m_elements;
-}
-
-TypeSection::Content::Content(const Markdown& description_, const Literal& value_)
-    : description(description_), value(value_)
-{
-    m_elements.reset(::new MemberTypes);
-}
-
-TypeSection::Content::Content(const TypeSection::Content& rhs)
-{
-    this->description = rhs.description;
-    this->value = rhs.value;
-    m_elements.reset(::new MemberTypes(*rhs.m_elements.get()));
-}
-
-TypeSection::Content& TypeSection::Content::operator=(const TypeSection::Content& rhs)
-{
-    this->description = rhs.description;
-    this->value = rhs.value;
-    m_elements.reset(::new MemberTypes(*rhs.m_elements.get()));
-
-    return *this;
-}
-
-TypeSection::Content::~Content() {}
-
-bool TypeSection::empty() const
-{
-    return (this->klass == TypeSection::UndefinedClass && this->content.value.empty()
-        && this->content.description.empty() && this->content.elements().empty());
-}
-
 bool NamedType::empty() const
 {
     return (this->typeDefinition.empty() && this->name.empty() && this->sections.empty());
