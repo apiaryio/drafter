@@ -1,24 +1,19 @@
+version: '{build}'
+clone_folder: c:\projects\drafter
 image:
-  - Visual Studio 2015
-  - Visual Studio 2017
-
-environment:
-  matrix:
-    - VS_VERSION: 
-    - VS_VERSION: debug
-
+- Visual Studio 2015
+configuration:
+- Release
+platform:
+- x64
 install:
   - set PATH=C:\Ruby25\bin;%PATH%
-
+before_build:
+- cmd: |-
+    git submodule update --init --recursive
+    curl -O https://curl.haxx.se/ca/cacert.pem
+    SET SSL_CERT_FILE=%cd%\cacert.pem
+    rm Gemfile.lock
+    bundle install --path bundle
 build_script:
-  - curl -O https://curl.haxx.se/ca/cacert.pem
-  - SET SSL_CERT_FILE=%cd%\cacert.pem
-  
-  - git submodule update --init --recursive
-  - rm Gemfile.lock
-  - bundle install --path bundle
-
-  - vcbuild.bat %VS_VERSION%
-
-test_script:
-  - vcbuild.bat %VS_VERSION% test
+- cmd: ctest --extra-verbose -j4 -S cmake/win_release.cmake -DCTEST_CMAKE_GENERATOR="Visual Studio 14 2015 Win64" -DCTEST_BUILD_NAME="Windows"
