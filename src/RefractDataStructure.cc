@@ -33,6 +33,7 @@
 
 #include <fstream>
 #include <functional>
+#include <numeric> // accumulate
 
 using namespace refract;
 using namespace drafter;
@@ -621,24 +622,6 @@ namespace
         }
     };
 
-    struct Join {
-        std::string& base;
-        Join(std::string& str) : base(str) {}
-
-        void operator()(const std::string& append, const std::string separator = "\n") const
-        {
-            if (append.empty()) {
-                return;
-            }
-
-            if (!base.empty()) {
-                base.append(separator);
-            }
-
-            base.append(append);
-        }
-    };
-
     template <typename E, bool IsPrimitive = is_primitive<E>(), bool dummy = true>
     struct ElementInfoToElement;
 
@@ -916,27 +899,31 @@ namespace
         LastElementToAttribute<T>(std::move(data.defaults), SerializeKey::Default, element, context);
     }
 
-    template <typename T>
-    std::unique_ptr<IElement> DescriptionToRefract(const T& descriptions)
+    std::unique_ptr<IElement> DescriptionToRefract(const DescriptionInfoContainer& descriptions)
     {
         if (descriptions.empty()) {
             return nullptr;
         }
 
-        std::string description;
-        Join join(description);
-        snowcrash::SourceMap<std::string> sourceMap;
+        auto info = std::accumulate(descriptions.cbegin(), descriptions.cend(), DescriptionInfo(), 
+                [](DescriptionInfo& info, typename DescriptionInfoContainer::const_reference item) {
+                    if (item.description.empty())
+                      return info;
 
-        for (const auto& item : descriptions) {
-            join(item.description);
-            sourceMap.sourceMap.append(item.sourceMap.sourceMap);
-        }
+                    if (!info.description.empty()) 
+                        info.description.append("\n");
 
-        if (description.empty()) {
+                    info.description.append(item.description);
+                    info.sourceMap.sourceMap.append(item.sourceMap.sourceMap);
+
+                    return info;
+                });
+
+        if (info.description.empty()) {
             return nullptr;
         }
 
-        return PrimitiveToRefract(NodeInfo<std::string>(&description, &sourceMap));
+        return PrimitiveToRefract(NodeInfo<std::string>(&info.description, &info.sourceMap));
     }
 
     // FIXME: refactoring - description is not used while calling from
@@ -1094,12 +1081,9 @@ namespace
 
     bool ValueHasMembers(const mson::ValueMember* value)
     {
-        for (mson::TypeSections::const_iterator it = value->sections.begin(); it != value->sections.end(); ++it) {
-            if (it->klass == mson::TypeSection::MemberTypeClass) {
-                return true;
-            }
-        }
-        return false;
+        return std::find_if(value->sections.cbegin(), value->sections.cend(), [](typename mson::TypeSections::const_reference item) {
+                return item.klass == mson::TypeSection::MemberTypeClass;
+                }) != value->sections.cend();
     }
 
     bool ValueHasChildren(const mson::ValueMember* value)
