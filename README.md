@@ -159,13 +159,13 @@ known to work:
 
 The following steps can be used to build and install Drafter:
 
-1. Download a Drafter (release tarballs can be found in [GitHub
-   Releases](https://github.com/apiaryio/drafter/releases)):
+1. Download a stable release of Drafter (release tarballs can be found
+   in [GitHub Releases](https://github.com/apiaryio/drafter/releases)):
 
     ```sh
-    $ curl -OL https://github.com/apiaryio/drafter/releases/download/v4.0.0/drafter-4.0.0.tar.gz
-    $ tar xvf drafter-4.0.0
-    $ cd drafter-4.0.0
+    $ curl -OL <url to drafter release from GitHub releases>
+    $ tar xvf drafter.tar.gz
+    $ cd drafter
     ```
 
     Alternatively, you can clone the source repository, for example:
