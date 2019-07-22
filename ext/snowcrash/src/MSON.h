@@ -421,7 +421,7 @@ namespace mson
 
         bool empty() const noexcept
         {
-            return mpark::get_if<Empty>(&content);
+            return nullptr != mpark::get_if<Empty>(&content);
         }
 
         template <typename F>
