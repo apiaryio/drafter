@@ -254,7 +254,6 @@ void MarkdownParser::renderHTML(const ByteBuffer& text)
     if (!m_workingNode)
         throw NO_WORKING_NODE_ERR;
 
-    MarkdownNode node();
     m_workingNode->children().emplace_back(HTMLMarkdownNodeType, m_workingNode, text);
 }
 
