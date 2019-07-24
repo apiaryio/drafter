@@ -14,14 +14,13 @@ using namespace mdp;
 TEST_CASE("Multi-byte characters Czech", "[bytebuffer][sourcemap]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src
         = "\x50\xC5\x99\xC3\xAD\xC5\xA1\x65\x72\x6E\xC4\x9B\x20\xC5\xBE\x6C\x75\xC5\xA5\x6F\x75\xC4\x8D\x6B\xC3\xBD\x20"
           "\x6B\xC5\xAF\xC5\x88\x20\xC3\xBA\x70\xC4\x9B\x6C\x20\xC4\x8F\xC3\xA1\x62\x65\x6C\x73\x6B\xC3\xA9\x20\xC3\xB3"
           "\x64\x79\n";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -43,12 +42,11 @@ TEST_CASE("Multi-byte characters Czech", "[bytebuffer][sourcemap]")
 TEST_CASE("Multi-byte characters in blockquote", "[bytebuffer][sourcemap]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     // "> Ni Hao"
     ByteBuffer src = "> \xE4\xBD\xA0\xE5\xA5\xBD\n";
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     REQUIRE(ast.type == RootMarkdownNodeType);
     REQUIRE(ast.text.empty());
@@ -122,7 +120,6 @@ TEST_CASE("Character index")
 TEST_CASE("Byte buffer and Index should provide equal information", "[bytebuffer][sourcemap]")
 {
     MarkdownParser parser;
-    MarkdownNode ast;
 
     ByteBuffer src
         = "\x50\xC5\x99\xC3\xAD\xC5\xA1\x65\x72\x6E\xC4\x9B\x20\xC5\xBE\x6C\x75\xC5\xA5\x6F\x75\xC4\x8D\x6B\xC3\xBD\x20"
@@ -132,7 +129,7 @@ TEST_CASE("Byte buffer and Index should provide equal information", "[bytebuffer
     ByteBufferCharacterIndex index;
     mdp::BuildCharacterIndex(index, src);
 
-    parser.parse(src, ast);
+    MarkdownNode ast = parser.parse(src);
 
     CharactersRangeSet charMap = BytesRangeSetToCharactersRangeSet(ast.sourceMap, src);
     CharactersRangeSet indexMap = BytesRangeSetToCharactersRangeSet(ast.sourceMap, index);

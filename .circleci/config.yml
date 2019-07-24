@@ -61,6 +61,12 @@ aliases:
       command: |
           ctest -VV -j4 -S cmake/unix-ubsan.cmake -DCTEST_BUILD_TYPE=Release -DCTEST_BUILD_NAME="gcc $(c++ -dumpversion)"
 
+  - &asan
+    run:
+      name: Build drafter/release with gcc
+      command: |
+          ctest -VV -j4 -S cmake/unix-asan.cmake -DCTEST_BUILD_TYPE=Release -DCTEST_BUILD_NAME="gcc $(c++ -dumpversion)"
+
   - &update-submodules
     run:
       name: Update submodules
@@ -86,6 +92,7 @@ workflows:
       - test-valgrind: *tag-filter
       - test-coverage: *tag-filter
       - test-ubsan: *tag-filter
+      - test-asan: *tag-filter
       - release:
           requires:
             - test-gcc-49-debug
@@ -204,6 +211,15 @@ jobs:
       - checkout
       - <<: *update-submodules
       - <<: *ubsan
+    docker:
+      - image: apiaryio/drafter-ci:clang-latest
+
+  test-asan:
+    <<: *test-base
+    steps:
+      - checkout
+      - <<: *update-submodules
+      - <<: *asan
     docker:
       - image: apiaryio/drafter-ci:clang-latest
 

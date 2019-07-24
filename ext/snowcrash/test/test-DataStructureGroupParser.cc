@@ -17,9 +17,8 @@ const mdp::ByteBuffer DataStructuresFixture = "# Data structure";
 TEST_CASE("Recognize explicit data structures signature", "[data_structure_group]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    markdownParser.parse(DataStructuresFixture, markdownAST);
+    mdp::MarkdownNode markdownAST = markdownParser.parse(DataStructuresFixture);
 
     REQUIRE(!markdownAST.children().empty());
     sectionType = SectionProcessor<DataStructureGroup>::sectionType(markdownAST.children().begin());
