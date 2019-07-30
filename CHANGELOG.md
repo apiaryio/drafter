@@ -1,5 +1,12 @@
 # Drafter Changelog
 
+## 4.0.0 (2019-07-30)
+
+### Bug Fixes
+
+* Avoid duplication in `enumerations` for same elements with different description
+  [#718](https://github.com/apiaryio/drafter/issues/719)
+
 ## 4.0.0-pre.8 (2019-07-01)
 
 ### Enhancements
@@ -9,9 +16,6 @@
   [#664](https://github.com/apiaryio/drafter/issues/664)
 
 ### Bug Fixes
-
-* Avoid duplication in `enumerations` for same elements with different description
-  [#718](https://github.com/apiaryio/drafter/issues/719)
 
 * Fix escaping keys in generated JSON/JSON-Scheme in generated assets
   [#719](https://github.com/apiaryio/drafter/issues/719)
