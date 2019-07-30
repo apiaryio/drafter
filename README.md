@@ -177,6 +177,8 @@ The following steps can be used to build and install Drafter:
 
 2. Build & Install Drafter:
 
+    POSIX (macOS/Linux):
+
     ```sh
     $ mkdir build
     $ cd build
@@ -187,6 +189,17 @@ The following steps can be used to build and install Drafter:
 
     NOTE: You can use `cmake -DCMAKE_INSTALL_PREFIX="$HOME/.local ..` if you
     don't want a system wide install.
+
+    Windows:
+
+    ```sh
+    > mkdir build
+    > cd build
+    > cmake ..
+    > cmake --build . --target drafter --config Release
+    ```
+
+    On Windows, `drafter.exe` can be found inside `src\Release`
 
 3. You can now use Drafter CLI and library:
 
