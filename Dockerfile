@@ -1,10 +1,25 @@
-FROM gcc
+FROM alpine:3.10 as build
 MAINTAINER Apiary "sre@apiary.io"
 
-ADD . /usr/src/drafter
 WORKDIR /usr/src/drafter
 
-RUN ./configure
+ADD CMakeLists.txt DefaultBuildType.cmake ./
+ADD src src
+ADD ext ext
+ADD test test
+
+WORKDIR /tmp/drafter
+
+RUN apk add --no-cache cmake make g++
+RUN cmake /usr/src/drafter
+
+RUN make drafter-cli
 RUN make install
 
-CMD /usr/local/bin/drafter
+FROM alpine:3.10
+
+RUN apk add --no-cache gcc
+COPY --from=build /usr/local/bin/drafter /usr/local/bin/drafter
+ADD LICENSE /usr/local/share/licenses/drafter/LICENSE
+
+CMD drafter
