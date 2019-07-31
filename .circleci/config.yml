@@ -78,6 +78,7 @@ workflows:
   drafter:
     jobs:
       - lint
+      - build: *tag-filter
       - test-gcc-49-debug: *tag-filter
       - test-gcc-49-release: *tag-filter
       - test-gcc-latest-debug: *tag-filter
@@ -95,6 +96,7 @@ workflows:
       - test-asan: *tag-filter
       - release:
           requires:
+            - build
             - test-gcc-49-debug
             - test-gcc-49-release
             - test-gcc-latest-debug
@@ -127,6 +129,17 @@ jobs:
           name: Verify THIRD_PARTY_LICENSES.txt
           command: |
             ./tools/third-party-licenses-check.sh
+
+  build:
+    docker:
+      - image: circleci/python:3.7
+
+    steps:
+      - checkout
+      - run: git submodule update --init --recursive
+      - setup_remote_docker
+      - run: docker build -t drafter .
+      - run: echo '# My API' | docker run -i drafter
 
   test-gyp:
     <<: *test-base-legacy
