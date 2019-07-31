@@ -2,6 +2,7 @@ version: '{build}'
 clone_folder: c:\projects\drafter
 image:
 - Visual Studio 2015
+- Visual Studio 2019
 configuration:
 - Release
 platform:
