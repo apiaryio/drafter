@@ -94,7 +94,7 @@ target_link_libraries(drafter
         snowcrash::snowcrash
         Boost::container
         mpark_variant
-        taocpp::pegtl
+        pegtl
     )
 
 target_include_directories(drafter PUBLIC
@@ -122,7 +122,7 @@ target_link_libraries(drafter-cli
         drafter::drafter
         cmdline::cmdline
         mpark_variant
-        taocpp::pegtl
+        pegtl
     )
 
 set_target_properties(drafter-cli PROPERTIES OUTPUT_NAME drafter)

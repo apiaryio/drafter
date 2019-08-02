@@ -16,7 +16,8 @@ set(as_subproject
     Catch2
     dtl
     BoostContainer
-    MPark.Variant)
+    MPark.Variant
+    pegtl)
 
 macro(find_package)
     if(NOT "${ARGV0}" IN_LIST as_subproject)
