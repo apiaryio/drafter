@@ -5,7 +5,7 @@
 using namespace parser::mediatype;
 using namespace tao;
 
-using G = pegtl::seq<grammar, pegtl::ascii::eolf>;
+using G = match_grammar;
 
 TEST_CASE("test comparators") {
 

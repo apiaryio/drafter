@@ -31,9 +31,9 @@ namespace drafter
     RenderFormat findRenderFormat(const std::string& contentType)
     {
 
-        if (RegexMatch(contentType, JSONSchemaRegex)) {
+        if (IsJSONSchemaContentType(contentType)) {
             return JSONSchemaRenderFormat;
-        } else if (RegexMatch(contentType, JSONRegex)) {
+        } else if (IsJSONContentType(contentType)) {
             return JSONRenderFormat;
         }
 

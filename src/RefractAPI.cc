@@ -407,7 +407,7 @@ std::unique_ptr<IElement> PayloadToRefract( //
     if (!payloadSchema.first.empty()) {
         content.push_back(AssetToRefract( //
             NodeInfo<snowcrash::Asset>(payloadSchema),
-            snowcrash::RegexMatch(contentType, JSONRegex) ? JSONSchemaContentType : contentType,
+            IsJSONContentType(contentType) ? JSONSchemaContentType : contentType,
             SerializeKey::MessageBodySchema));
     }
 

@@ -48,6 +48,7 @@ add_executable(drafter-test
     test-Serialize.cc
     test-sourceMapToLineColumn.cc
     parser/test-Mediatype.cc
+    test-ContentTypeMatcher.cc
     )
 
 target_link_libraries(drafter-test

@@ -67,7 +67,7 @@ namespace parser
         // special case - if we do not want to throw on bad type definition like 'type/sub/type'
         struct bad_slash : pegtl::not_at<slash> {};
 
-        // mime
+        // mime - main grammar to parsing
         struct grammar : pegtl::seq<
                              pegtl::must<
                                  type,
@@ -83,6 +83,10 @@ namespace parser
                              >
                          > {};
 
+
+        // mime - grammar to check text (not intendet to use in other grammars)
+        struct match_grammar : pegtl::seq<OWS, grammar, OWS, pegtl::ascii::eolf>{};
+
         // state
         struct state {
             std::string type;
@@ -91,7 +95,7 @@ namespace parser
             std::map<std::string, std::string> parameters;
         };
 
-        bool operator==(const state& lhs, const state& rhs) {
+        inline bool operator==(const state& lhs, const state& rhs) {
             return lhs.type == rhs.type
                 && lhs.subtype == rhs.subtype
                 && lhs.suffix == rhs.suffix
@@ -101,11 +105,11 @@ namespace parser
             ;
         }
 
-        bool operator!=(const state& lhs, const state& rhs) {
+        inline bool operator!=(const state& lhs, const state& rhs) {
             return !(lhs == rhs);
         }
 
-        bool operator==(const state& lhs, const std::string& rhs) {
+        inline bool operator==(const state& lhs, const std::string& rhs) {
             std::string s;
 
             s.reserve(lhs.type.length() + lhs.subtype.length() + lhs.suffix.length() + 2);
@@ -120,15 +124,15 @@ namespace parser
             return s == rhs;
         }
 
-        bool operator!=(const state& lhs, const std::string& rhs) {
+        inline bool operator!=(const state& lhs, const std::string& rhs) {
             return !(lhs == rhs);
         }
 
-        bool operator==(const std::string& lhs, const state& rhs) {
+        inline bool operator==(const std::string& lhs, const state& rhs) {
             return operator==(rhs, lhs);
         }
 
-        bool operator!=(const std::string& lhs, const state& rhs) {
+        inline bool operator!=(const std::string& lhs, const state& rhs) {
             return !operator==(rhs, lhs);
         }
 
