@@ -297,9 +297,17 @@ namespace mson
         {
             return mpark::get_if<BlockDescription>(&content);
         }
+        BlockDescription* description() noexcept
+        {
+            return mpark::get_if<BlockDescription>(&content);
+        }
 
         /** OR Member Type Group */
         const MemberTypeGroup* members() const noexcept
+        {
+            return mpark::get_if<MemberTypeGroup>(&content);
+        }
+        MemberTypeGroup* members() noexcept
         {
             return mpark::get_if<MemberTypeGroup>(&content);
         }
@@ -309,9 +317,17 @@ namespace mson
         {
             return mpark::get_if<SampleSection>(&content);
         }
+        SampleSection* sample() noexcept
+        {
+            return mpark::get_if<SampleSection>(&content);
+        }
 
         /** OR DefaultSection */
         const DefaultSection* dfault() const noexcept
+        {
+            return mpark::get_if<DefaultSection>(&content);
+        }
+        DefaultSection* dfault() noexcept
         {
             return mpark::get_if<DefaultSection>(&content);
         }
