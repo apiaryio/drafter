@@ -201,4 +201,115 @@ namespace snowcrash
 
         return MSONSectionType;
     }
+
+    MarkdownNodeIterator SectionProcessor<mson::TypeSection>::finalizeSignature(const MarkdownNodeIterator& node,
+        SectionParserData& pd,
+        const Signature& signature,
+        const ParseResultRef<mson::TypeSection>& out)
+    {
+
+        bool assignValues = false;
+
+        if (iequal(signature.identifier, "Default")) {
+
+            out.node.klass = mson::TypeSection::DefaultClass;
+            assignValues = true;
+        } else if (iequal(signature.identifier, "Sample")) {
+
+            out.node.klass = mson::TypeSection::SampleClass;
+            assignValues = true;
+        } else if (iequal(signature.identifier, "Items") || iequal(signature.identifier, "Members")) {
+
+            if (out.node.baseType != mson::ValueBaseType && out.node.baseType != mson::ImplicitValueBaseType) {
+
+                // WARN: Items/Members should only be allowed for value types
+                std::stringstream ss;
+
+                ss << "type section `" << signature.identifier;
+                ss << "` not allowed for a type sub-typed from a primitive or object type";
+
+                mdp::CharactersRangeSet sourceMap
+                    = mdp::BytesRangeSetToCharactersRangeSet(node->sourceMap, pd.sourceCharacterIndex);
+                out.report.warnings.push_back(Warning(ss.str(), LogicalErrorWarning, sourceMap));
+
+                return node;
+            }
+
+            out.node.klass = mson::TypeSection::MemberTypeClass;
+        } else if (iequal(signature.identifier, "Properties")) {
+
+            if (out.node.baseType != mson::ObjectBaseType && out.node.baseType != mson::ImplicitObjectBaseType) {
+
+                // WARN: Properties should only be allowed for object types
+                std::stringstream ss;
+
+                ss << "type section `" << signature.identifier;
+                ss << "` is only allowed for a type sub-typed from an object type";
+
+                mdp::CharactersRangeSet sourceMap
+                    = mdp::BytesRangeSetToCharactersRangeSet(node->sourceMap, pd.sourceCharacterIndex);
+                out.report.warnings.push_back(Warning(ss.str(), LogicalErrorWarning, sourceMap));
+
+                return node;
+            }
+
+            out.node.klass = mson::TypeSection::MemberTypeClass;
+        }
+
+        if (assignValues && (!signature.values.empty() || !signature.value.empty())) {
+
+            if (out.node.baseType == mson::PrimitiveBaseType || out.node.baseType == mson::ImplicitPrimitiveBaseType) {
+
+                out.node.content.value = signature.value;
+
+                if (pd.exportSourceMap()) {
+                    out.sourceMap.value.sourceMap = node->sourceMap;
+                }
+            } else if (out.node.baseType == mson::ValueBaseType || out.node.baseType == mson::ImplicitValueBaseType) {
+
+                for (size_t i = 0; i < signature.values.size(); i++) {
+
+                    mson::MemberType element;
+                    SourceMap<mson::MemberType> elementSM;
+
+                    {
+                        mson::ValueMember valueMember;
+                        valueMember.valueDefinition.values.emplace_back( //
+                            mson::parseValue(signature.values[i]));
+                        element = std::move(valueMember);
+                    }
+
+                    out.node.content.elements().push_back(element);
+
+                    if (pd.exportSourceMap()) {
+
+                        elementSM.value.valueDefinition.sourceMap = node->sourceMap;
+                        out.sourceMap.elements().collection.push_back(elementSM);
+                    }
+                }
+            } else if (out.node.baseType == mson::ObjectBaseType || out.node.baseType == mson::ImplicitObjectBaseType) {
+
+                // WARN: sample/default is for an object but it has values in signature
+                mdp::CharactersRangeSet sourceMap
+                    = mdp::BytesRangeSetToCharactersRangeSet(node->sourceMap, pd.sourceCharacterIndex);
+                out.report.warnings.push_back(
+                    Warning("a sample and/or default type section for a type which is sub-typed from an object "
+                            "cannot have value(s) beside the keyword",
+                        LogicalErrorWarning,
+                        sourceMap));
+            }
+        }
+
+        if (assignValues && !signature.remainingContent.empty()
+            && (out.node.baseType == mson::PrimitiveBaseType || out.node.baseType == mson::ImplicitPrimitiveBaseType)) {
+
+            out.node.content.value += signature.remainingContent;
+
+            if (pd.exportSourceMap()) {
+                out.sourceMap.value.sourceMap.append(node->sourceMap);
+            }
+        }
+
+        return ++MarkdownNodeIterator(node);
+    }
 }
