@@ -178,6 +178,14 @@ namespace snowcrash
         }
     };
 
+    struct equal_to {
+        template <typename T, typename U>
+        bool operator()(const T& lhs, const U& rhs) const noexcept
+        {
+            return lhs == rhs;
+        }
+    };
+
     /**
      *  \brief  compare containers equality
      *
@@ -191,29 +199,37 @@ namespace snowcrash
      *
      *  \return true if containers contains same content
      */
-
-    template <typename T1, typename T2, typename Predicate>
-    inline bool MatchContainers(const T1& arg1, const T2& arg2, const Predicate& predicate)
+    template <typename T, typename U, typename Predicate = equal_to>
+    bool equal(const T& lhs, const U& rhs, Predicate&& p)
     {
-        if (arg1.length() != arg2.length()) {
-            return false;
-        }
-        return std::equal(arg1.begin(), arg1.end(), arg2.begin(), predicate);
+        using std::begin;
+        using std::end;
+        return std::equal(begin(lhs), end(lhs), begin(rhs), std::forward<Predicate>(p));
     }
 
-    template <typename T>
-    struct Equal : std::binary_function<T, T, bool> {
-        bool operator()(const T& left, const T& right) const
+    template <typename T, typename U>
+    bool iequal(const T& lhs, const U& rhs)
+    {
+        using std::begin;
+        using std::end;
+        return std::equal(begin(lhs), end(lhs), begin(rhs), [](const auto& l, const auto& r) { //
+            return std::tolower(l) == std::tolower(r);
+        });
+    }
+
+    struct Equal {
+        template <typename T, typename U>
+        bool operator()(const T& left, const U& right) const
         {
-            return MatchContainers(left, right, IsEqual());
+            return equal(left, right);
         }
     };
 
-    template <typename T>
-    struct IEqual : std::binary_function<T, T, bool> {
-        bool operator()(const T& left, const T& right) const
+    struct IEqual {
+        template <typename T, typename U>
+        bool operator()(const T& left, const U& right) const
         {
-            return MatchContainers(left, right, IsIEqual());
+            return iequal(left, right);
         }
     };
 

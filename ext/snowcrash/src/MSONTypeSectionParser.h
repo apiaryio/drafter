@@ -51,16 +51,15 @@ namespace snowcrash
 
             bool assignValues = false;
 
-            if (IEqual<std::string>()(signature.identifier, "Default")) {
+            if (iequal(signature.identifier, "Default")) {
 
                 out.node.klass = mson::TypeSection::DefaultClass;
                 assignValues = true;
-            } else if (IEqual<std::string>()(signature.identifier, "Sample")) {
+            } else if (iequal(signature.identifier, "Sample")) {
 
                 out.node.klass = mson::TypeSection::SampleClass;
                 assignValues = true;
-            } else if (IEqual<std::string>()(signature.identifier, "Items")
-                || IEqual<std::string>()(signature.identifier, "Members")) {
+            } else if (iequal(signature.identifier, "Items") || iequal(signature.identifier, "Members")) {
 
                 if (out.node.baseType != mson::ValueBaseType && out.node.baseType != mson::ImplicitValueBaseType) {
 
@@ -78,7 +77,7 @@ namespace snowcrash
                 }
 
                 out.node.klass = mson::TypeSection::MemberTypeClass;
-            } else if (IEqual<std::string>()(signature.identifier, "Properties")) {
+            } else if (iequal(signature.identifier, "Properties")) {
 
                 if (out.node.baseType != mson::ObjectBaseType && out.node.baseType != mson::ImplicitObjectBaseType) {
 

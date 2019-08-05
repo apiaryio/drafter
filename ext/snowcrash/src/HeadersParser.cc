@@ -6,8 +6,7 @@ using namespace snowcrash;
 static HeaderIterator findHeader(const Headers& headers, const Header& header)
 {
 
-    return std::find_if(
-        headers.begin(), headers.end(), std::bind2nd(MatchFirsts<Header, IEqual<Header::first_type> >(), header));
+    return std::find_if(headers.begin(), headers.end(), std::bind2nd(MatchFirsts<Header, IEqual>(), header));
 }
 
 typedef std::vector<std::string> HeadersKeyCollection;
@@ -32,9 +31,7 @@ static bool isAllowedMultipleDefinition(const Header& header)
 
     const HeadersKeyCollection& keys = getAllowedMultipleDefinitions();
 
-    return std::find_if(keys.begin(),
-               keys.end(),
-               std::bind1st(MatchFirstWith<Header, std::string, IEqual<std::string> >(), header))
+    return std::find_if(keys.begin(), keys.end(), std::bind1st(MatchFirstWith<Header, std::string, IEqual>(), header))
         != keys.end();
 }
 
