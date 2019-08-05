@@ -212,10 +212,7 @@ namespace snowcrash
                 return;
             }
 
-            mson::TypeSection typeSection(mson::TypeSection::BlockDescriptionClass);
-
-            typeSection.content.description = remainingContent;
-            sections.push_back(typeSection);
+            sections.push_back(mson::TypeSection(mson::TypeSection::BlockDescription{ remainingContent }));
 
             if (pd.exportSourceMap()) {
 
@@ -239,30 +236,26 @@ namespace snowcrash
             mson::TypeSections& sections,
             SourceMap<mson::TypeSections>& sourceMap)
         {
+            if (sections.empty()) {
+                mdp::ByteBuffer content = mdp::MapBytesRangeSet(node->sourceMap, pd.sourceData);
+                TrimString(content);
+                sections.push_back(mson::TypeSection(mson::TypeSection::BlockDescription{ std::move(content) }));
+                return ++MarkdownNodeIterator(node);
+            }
 
-            if (sections.empty()
-                || (sections.size() == 1 && sections[0].klass == mson::TypeSection::BlockDescriptionClass)) {
+            if (sections.size() > 1) {
+                return node;
+            }
 
-                if (sections.empty()) {
+            if (auto* description = sections[0].description()) {
 
-                    mson::TypeSection typeSection(mson::TypeSection::BlockDescriptionClass);
-                    sections.push_back(typeSection);
-
-                    if (pd.exportSourceMap()) {
-
-                        SourceMap<mson::TypeSection> typeSectionSM;
-                        sourceMap.collection.push_back(typeSectionSM);
-                    }
-                }
-
-                if (!sections[0].content.description.empty()) {
-                    TwoNewLines(sections[0].content.description);
-                }
+                if (!description->empty())
+                    TwoNewLines(*description);
 
                 mdp::ByteBuffer content = mdp::MapBytesRangeSet(node->sourceMap, pd.sourceData);
                 TrimString(content);
 
-                sections[0].content.description += content;
+                *description += content;
 
                 if (pd.exportSourceMap() && !content.empty()) {
                     sourceMap.collection[0].description.sourceMap.append(node->sourceMap);
