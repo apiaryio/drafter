@@ -32,3 +32,13 @@ TEST_CASE("test matchers") {
     REQUIRE_FALSE(IsJSONContentType("dummy/hal+json"));
 }
 
+struct ThrowingComparator {
+    bool operator==(const parser::mediatype::state& other) const {
+        throw "dummy error";
+    }
+};
+
+TEST_CASE("throwing comparator") {
+    REQUIRE_THROWS_WITH((ContentTypeMatcher{}(ThrowingComparator{}, "a/b")), "dummy error");
+}
+

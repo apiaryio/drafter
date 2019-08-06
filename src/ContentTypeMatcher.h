@@ -36,7 +36,8 @@ namespace drafter
             pegtl::memory_input<> in(input,"");
             try {
               return pegtl::parse<match_grammar, action>(in, result) && mediaType == result;
-            } catch (...) {
+            } catch (pegtl::parse_error& e) {
+                // do nothing
             }
             return false;
         }
