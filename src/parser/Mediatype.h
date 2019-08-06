@@ -89,20 +89,36 @@ namespace parser
 
         // state
         struct state {
+            using parameters_type = std::map<std::string, std::string>;
             std::string type;
             std::string subtype;
             std::string suffix;
-            std::map<std::string, std::string> parameters;
+            parameters_type parameters;
         };
 
+        namespace {
+            bool iequal(const std::string& lhs, const std::string& rhs) {
+                using chr = typename std::string::value_type;
+                return (lhs.size() == rhs.size()) &&
+                    (std::equal(lhs.cbegin(), lhs.cend(),
+                                rhs.cbegin(), 
+                                [](const chr& lhs, const chr& rhs) {
+                                  return std::tolower(lhs) == std::tolower(rhs);
+                                }));
+            }
+        }
+
         inline bool operator==(const state& lhs, const state& rhs) {
-            return lhs.type == rhs.type
-                && lhs.subtype == rhs.subtype
-                && lhs.suffix == rhs.suffix
+            using parameter = typename state::parameters_type::value_type;
+            return iequal(lhs.type, rhs.type)
+                && iequal(lhs.subtype, rhs.subtype)
+                && iequal(lhs.suffix, rhs.suffix)
                 && lhs.parameters.size() == rhs.parameters.size()
                 && std::equal(lhs.parameters.cbegin(), lhs.parameters.cend(),
-                        rhs.parameters.cbegin());
-            ;
+                        rhs.parameters.cbegin(),
+                        [](const parameter& lhs, const parameter& rhs){
+                          return iequal(lhs.first, rhs.first) && (lhs.second == rhs.second);
+                        });
         }
 
         inline bool operator!=(const state& lhs, const state& rhs) {
@@ -121,7 +137,7 @@ namespace parser
                 s.append(lhs.suffix);
             }
 
-            return s == rhs;
+            return iequal(s, rhs);
         }
 
         inline bool operator!=(const state& lhs, const std::string& rhs) {
