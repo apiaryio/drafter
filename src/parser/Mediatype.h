@@ -10,6 +10,7 @@
 #define PARSER_MEDIATYPE_H
 
 #include "../PEGTL/include/tao/pegtl.hpp"
+#include "../PEGTL/include/tao/pegtl/contrib/abnf.hpp"
 
 #include <string>
 #include <map>
@@ -19,42 +20,53 @@
 namespace parser 
 {
 
+    //
+    // Parsed for Media Types
+    // - type, subtype, suffix, paramemters attributes conforms to https://tools.ietf.org/html/rfc6838#section-4.2
+    // - parameter values conforms to https://tools.ietf.org/html/rfc2616#section-3.7
+    //
+
     namespace mediatype {
 
         namespace pegtl = tao::pegtl;
 
         struct restricted : pegtl::one< '!', '#', '$', '&', '^',  '_', '-', '.' >  {};
 
-        using RWS = pegtl::plus<pegtl::blank>;
-        using OWS = pegtl::star<pegtl::blank>;
+        using WS = pegtl::abnf::WSP; // White Space
 
+        using RWS = pegtl::plus<WS>; // Required White Space
+        using OWS = pegtl::star<WS>; // Optional White Space
+
+        using obs_text = pegtl::not_range< 0x00, 0x7F >;
+
+        struct quoted_pair : pegtl::if_must<pegtl::one<'\\'>, pegtl::sor<pegtl::abnf::VCHAR, obs_text, pegtl::abnf::WSP>> {};
         // OPT: pegtl::if_must<> - if we want to throw on non-closed quotes
         struct quoted : pegtl::seq<
                             pegtl::one<'"'>,
-                            pegtl::plus<pegtl::not_at<pegtl::one<'"'>>, pegtl::any>,
+                            pegtl::star<pegtl::sor<quoted_pair, pegtl::not_one<'"'>>>,
                             pegtl::one<'"'>
                         > {};
-        struct ident : pegtl::seq<
+        struct name : pegtl::seq<
                            pegtl::ascii::alnum,
-                           pegtl::star<pegtl::sor<pegtl::ascii::alnum, restricted>>
+                           pegtl::rep_max<126, pegtl::sor<pegtl::ascii::alnum, restricted>>
                        > {};
+        struct nonquoted : name {}; // nonqouted is used in parameter value to allow action template specialization
 
         // parameters
-        struct key : ident {};
-        struct nonquoted : ident {};
+        struct attribute : name {};
         struct value : pegtl::sor<quoted, nonquoted>  {};
 
-        // OPT convert to if_must<> to force correct key=value pair required
-        struct parameter : pegtl::seq<key, pegtl::one<'='>, value> {}; 
+        // OPT convert to if_must<> to force correct attribute=value pair required
+        struct parameter : pegtl::seq<attribute, pegtl::one<'='>, value> {}; 
         struct parameters : pegtl::list<parameter, RWS> {};
 
         // type
-        struct type : ident {};
+        struct type : name {};
 
         // subtype 
-        struct subtype_nonprefixed : ident {};
-        struct subtype_prefix : pegtl::plus<ident, pegtl::one<'+'>> {};
-        struct subtype_suffix : ident {};
+        struct subtype_nonprefixed : name {};
+        struct subtype_prefix : pegtl::plus<name, pegtl::one<'+'>> {};
+        struct subtype_suffix : name {};
 
 
         struct subtype : pegtl::sor<
@@ -157,12 +169,12 @@ namespace parser
                 explicit param_state( const Input& /*unused*/, state&) {}
 
             // internal
-            std::string key;
+            std::string attribute;
             std::string value;
 
             template <typename Input>
                 void success(const Input& /*unused*/, state& c) {
-                    c.parameters.emplace(std::make_pair(std::move(key), std::move(value)));
+                    c.parameters.emplace(std::make_pair(std::move(attribute), std::move(value)));
                 }
 
         };
@@ -223,11 +235,11 @@ namespace parser
             struct action <parameter> : pegtl::change_state<param_state> {}; // converting between state and param_state is handled by param_state c-tor and success() member
 
         template <>
-            struct action <key> {
+            struct action <attribute> {
                 template< typename Input >
                     static void apply( const Input& in, param_state& s )
                     {
-                        s.key = in.string();
+                        s.attribute = in.string();
                     }
             };
 

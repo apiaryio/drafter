@@ -132,6 +132,14 @@ TEST_CASE("quoted value in param") {
     REQUIRE(result == state{"type", "sub", {}, {{"k"," "}}});
 }
 
+TEST_CASE("quoted-pairs in param valuem") {
+
+    state result;
+    pegtl::memory_input<> in("type/sub;k=\"\\\"\\ \"","");
+    REQUIRE(pegtl::parse<match_grammar, action/*, errors */>(in, result));
+    REQUIRE(result == state{"type", "sub", {}, {{"k","\\\"\\ "}}});
+}
+
 TEST_CASE("x-prefixed subtype") {
 
     state result;
