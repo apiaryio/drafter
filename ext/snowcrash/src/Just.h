@@ -18,7 +18,7 @@ namespace mson
 
         T content;
 
-        just() noexcept(T()) : content{} {}
+        just() : content{} {}
 
         explicit just(T&& c) noexcept : content{ std::move(c) } {}
         explicit just(const T& c) : content{ c } {}
