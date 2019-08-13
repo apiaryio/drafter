@@ -90,7 +90,7 @@ namespace mdp
         MarkdownNode& operator=(MarkdownNode&& rhs) = default;
 
         /** Destructor */
-        ~MarkdownNode() = default;
+        ~MarkdownNode();
 
 #ifdef DEBUG
         /** Prints the node to the stderr */

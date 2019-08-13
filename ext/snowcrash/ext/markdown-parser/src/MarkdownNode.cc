@@ -20,6 +20,8 @@ MarkdownNode::MarkdownNode(MarkdownNodeType type_, MarkdownNode* parent_, const 
     m_children.reset(::new MarkdownNodes);
 }
 
+MarkdownNode::~MarkdownNode() {}
+
 MarkdownNode& MarkdownNode::parent()
 {
     if (!hasParent())
