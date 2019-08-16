@@ -26,6 +26,7 @@ macro(find_package)
 endmacro()
 
 # add external dependencies living in `ext`
+option(PEGTL_BUILD_TESTS OFF)
 add_subdirectory(ext/snowcrash/ext/markdown-parser/ext/sundown EXCLUDE_FROM_ALL)
 add_subdirectory(ext/cmdline EXCLUDE_FROM_ALL)
 add_subdirectory(ext/boost EXCLUDE_FROM_ALL)
