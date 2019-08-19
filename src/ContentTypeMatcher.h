@@ -14,6 +14,8 @@
 namespace drafter
 {
 
+    namespace pegtl = tao::pegtl;
+
     const char* const JSONSchemaContentType = "application/schema+json";
 
     struct JSONContentTypeComparator {
