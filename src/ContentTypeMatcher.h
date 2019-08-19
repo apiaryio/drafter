@@ -18,26 +18,38 @@ namespace drafter
 
     const char* const JSONSchemaContentType = "application/schema+json";
 
+    namespace
+    {
+        bool iequal(const std::string& lhs, const std::string& rhs)
+        {
+            using chr = typename std::string::value_type;
+            return (lhs.size() == rhs.size())
+                && (std::equal(lhs.cbegin(), lhs.cend(), rhs.cbegin(), [](const chr& lhs, const chr& rhs) {
+                       return std::tolower(lhs) == std::tolower(rhs);
+                   }));
+        }
+    }
+
     struct JSONContentTypeComparator {
-        bool operator==(const parser::mediatype::state& other) const {
-            return other.type == "application" 
-                && (other.suffix == "json" 
-                        || (other.suffix.empty() && other.subtype == "json") 
-                   );
+        bool operator==(const parser::mediatype::state& other) const
+        {
+            return iequal(other.type, "application")
+                && ((other.suffix.empty() && iequal(other.subtype, "json"))
+                       || (iequal(other.suffix, "json") && !iequal(other.subtype, "schema")));
         }
     };
 
     struct ContentTypeMatcher {
-        template<typename Comparable>
-        bool operator()(const Comparable& mediaType, const std::string& input) const 
+        template <typename Comparable>
+        bool operator()(const Comparable& mediaType, const std::string& input) const
         {
             using namespace parser::mediatype;
             using namespace tao;
 
             state result;
-            pegtl::memory_input<> in(input,"");
+            pegtl::memory_input<> in(input, "");
             try {
-              return pegtl::parse<match_grammar, action>(in, result) && mediaType == result;
+                return pegtl::parse<match_grammar, action>(in, result) && mediaType == result;
             } catch (pegtl::parse_error& e) {
                 // do nothing
             }
@@ -45,13 +57,11 @@ namespace drafter
         }
     };
 
-    auto IsJSONSchemaContentType = [](const std::string& contentType) {
-        return ContentTypeMatcher{}(JSONSchemaContentType, contentType);
-    };
+    auto IsJSONSchemaContentType
+        = [](const std::string& contentType) { return ContentTypeMatcher{}(JSONSchemaContentType, contentType); };
 
-    auto IsJSONContentType = [](const std::string& contentType) {
-        return ContentTypeMatcher{}(JSONContentTypeComparator{}, contentType);
-    };
+    auto IsJSONContentType
+        = [](const std::string& contentType) { return ContentTypeMatcher{}(JSONContentTypeComparator{}, contentType); };
 }
 
 #endif // DRAFTER_CONTENTYPEMATCHER_H

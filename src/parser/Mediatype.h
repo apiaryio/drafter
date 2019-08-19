@@ -17,7 +17,7 @@
 
 #include <iostream>
 
-namespace parser 
+namespace parser
 {
 
     //
@@ -26,9 +26,12 @@ namespace parser
     // - parameter values conforms to https://tools.ietf.org/html/rfc2616#section-3.7
     //
 
-    namespace mediatype {
+    namespace mediatype
+    {
 
         namespace pegtl = tao::pegtl;
+
+        // clang-format off
 
         struct restricted : pegtl::one< '!', '#', '$', '&', '^',  '_', '-', '.' >  {};
 
@@ -39,16 +42,16 @@ namespace parser
 
         using obs_text = pegtl::not_range< 0x00, 0x7F >;
 
-        struct quoted_pair : pegtl::if_must<pegtl::one<'\\'>, pegtl::sor<pegtl::abnf::VCHAR, obs_text, pegtl::abnf::WSP>> {};
+        struct quoted_pair : pegtl::if_must<pegtl::one<'\\'>, pegtl::sor<pegtl::abnf::VCHAR, obs_text, pegtl::abnf::WSP> > {};
         // OPT: pegtl::if_must<> - if we want to throw on non-closed quotes
         struct quoted : pegtl::seq<
                             pegtl::one<'"'>,
-                            pegtl::star<pegtl::sor<quoted_pair, pegtl::not_one<'"'>>>,
+                            pegtl::star<pegtl::sor<quoted_pair, pegtl::not_one<'"'> >>,
                             pegtl::one<'"'>
                         > {};
         struct name : pegtl::seq<
                            pegtl::ascii::alnum,
-                           pegtl::rep_max<126, pegtl::sor<pegtl::ascii::alnum, restricted>>
+                           pegtl::rep_max<126, pegtl::sor<pegtl::ascii::alnum, restricted> >
                        > {};
         struct nonquoted : name {}; // nonqouted is used in parameter value to allow action template specialization
 
@@ -65,7 +68,7 @@ namespace parser
 
         // subtype 
         struct subtype_nonprefixed : name {};
-        struct subtype_prefix : pegtl::plus<name, pegtl::one<'+'>> {};
+        struct subtype_prefix : pegtl::plus<name, pegtl::one<'+'> > {};
         struct subtype_suffix : name {};
 
 
@@ -99,45 +102,50 @@ namespace parser
         // mime - grammar to check text (not intendet to use in other grammars)
         struct match_grammar : pegtl::seq<OWS, grammar, OWS, pegtl::ascii::eolf>{};
 
+        // clang-format on
+
         // state
         struct state {
             using parameters_type = std::map<std::string, std::string>;
+
             std::string type;
             std::string subtype;
             std::string suffix;
             parameters_type parameters;
         };
 
-        namespace {
-            bool iequal(const std::string& lhs, const std::string& rhs) {
+        namespace
+        {
+            bool iequal(const std::string& lhs, const std::string& rhs)
+            {
                 using chr = typename std::string::value_type;
-                return (lhs.size() == rhs.size()) &&
-                    (std::equal(lhs.cbegin(), lhs.cend(),
-                                rhs.cbegin(), 
-                                [](const chr& lhs, const chr& rhs) {
-                                  return std::tolower(lhs) == std::tolower(rhs);
-                                }));
+                return (lhs.size() == rhs.size())
+                    && (std::equal(lhs.cbegin(), lhs.cend(), rhs.cbegin(), [](const chr& lhs, const chr& rhs) {
+                           return std::tolower(lhs) == std::tolower(rhs);
+                       }));
             }
         }
 
-        inline bool operator==(const state& lhs, const state& rhs) {
+        inline bool operator==(const state& lhs, const state& rhs)
+        {
             using parameter = typename state::parameters_type::value_type;
-            return iequal(lhs.type, rhs.type)
-                && iequal(lhs.subtype, rhs.subtype)
-                && iequal(lhs.suffix, rhs.suffix)
+            return iequal(lhs.type, rhs.type) && iequal(lhs.subtype, rhs.subtype) && iequal(lhs.suffix, rhs.suffix)
                 && lhs.parameters.size() == rhs.parameters.size()
-                && std::equal(lhs.parameters.cbegin(), lhs.parameters.cend(),
-                        rhs.parameters.cbegin(),
-                        [](const parameter& lhs, const parameter& rhs){
-                          return iequal(lhs.first, rhs.first) && (lhs.second == rhs.second);
-                        });
+                && std::equal(lhs.parameters.cbegin(),
+                       lhs.parameters.cend(),
+                       rhs.parameters.cbegin(),
+                       [](const parameter& lhs, const parameter& rhs) {
+                           return iequal(lhs.first, rhs.first) && (lhs.second == rhs.second);
+                       });
         }
 
-        inline bool operator!=(const state& lhs, const state& rhs) {
+        inline bool operator!=(const state& lhs, const state& rhs)
+        {
             return !(lhs == rhs);
         }
 
-        inline bool operator==(const state& lhs, const std::string& rhs) {
+        inline bool operator==(const state& lhs, const std::string& rhs)
+        {
             std::string s;
 
             s.reserve(lhs.type.length() + lhs.subtype.length() + lhs.suffix.length() + 2);
@@ -152,114 +160,109 @@ namespace parser
             return iequal(s, rhs);
         }
 
-        inline bool operator!=(const state& lhs, const std::string& rhs) {
+        inline bool operator!=(const state& lhs, const std::string& rhs)
+        {
             return !(lhs == rhs);
         }
 
-        inline bool operator==(const std::string& lhs, const state& rhs) {
+        inline bool operator==(const std::string& lhs, const state& rhs)
+        {
             return operator==(rhs, lhs);
         }
 
-        inline bool operator!=(const std::string& lhs, const state& rhs) {
+        inline bool operator!=(const std::string& lhs, const state& rhs)
+        {
             return !operator==(rhs, lhs);
         }
 
         struct param_state {
-            template< typename Input >
-                explicit param_state( const Input& /*unused*/, state&) {}
+            template <typename Input>
+            explicit param_state(const Input& /*unused*/, state&)
+            {
+            }
 
             // internal
             std::string attribute;
             std::string value;
 
             template <typename Input>
-                void success(const Input& /*unused*/, state& c) {
-                    c.parameters.emplace(std::make_pair(std::move(attribute), std::move(value)));
-                }
-
+            void success(const Input& /*unused*/, state& c)
+            {
+                c.parameters.emplace(std::make_pair(std::move(attribute), std::move(value)));
+            }
         };
 
         // actions
-
-        template< std::string state::*Field >
-            struct bind_mediatype
-            {
-
-                template< typename Input >
-                    static void apply( const Input& in, state& s)
-                    {
-                        s.*Field = in.string();
-                    }
-            };
-
         template <typename Rule>
-            struct action : pegtl::nothing< Rule > {};
+        struct action : pegtl::nothing<Rule> {
+        };
 
         template <>
-            struct action <type> {
-                template< typename Input >
-                    static void apply( const Input& in, state& s )
-                    {
-                        s.type = in.string();
-                    }
-            };
+        struct action<type> {
+            template <typename Input>
+            static void apply(const Input& in, state& s)
+            {
+                s.type = in.string();
+            }
+        };
 
         template <>
-            struct action <subtype_nonprefixed> {
-                template< typename Input >
-                    static void apply( const Input& in, state& s )
-                    {
-                        s.subtype = in.string();
-                    }
-            };
+        struct action<subtype_nonprefixed> {
+            template <typename Input>
+            static void apply(const Input& in, state& s)
+            {
+                s.subtype = in.string();
+            }
+        };
 
         template <>
-            struct action <subtype_prefix> {
-                template< typename Input >
-                    static void apply( const Input& in, state& s )
-                    {
-                        s.subtype = std::string(in.begin(), in.end()-1) ;
-                    }
-            };
+        struct action<subtype_prefix> {
+            template <typename Input>
+            static void apply(const Input& in, state& s)
+            {
+                s.subtype = std::string(in.begin(), in.end() - 1);
+            }
+        };
 
         template <>
-            struct action <subtype_suffix> {
-                template< typename Input >
-                    static void apply( const Input& in, state& s )
-                    {
-                        s.suffix = in.string();
-                    }
-            };
+        struct action<subtype_suffix> {
+            template <typename Input>
+            static void apply(const Input& in, state& s)
+            {
+                s.suffix = in.string();
+            }
+        };
 
         template <>
-            struct action <parameter> : pegtl::change_state<param_state> {}; // converting between state and param_state is handled by param_state c-tor and success() member
+        struct action<parameter> : pegtl::change_state<param_state> {
+        }; // converting between state and param_state is handled by param_state c-tor and success() member
 
         template <>
-            struct action <attribute> {
-                template< typename Input >
-                    static void apply( const Input& in, param_state& s )
-                    {
-                        s.attribute = in.string();
-                    }
-            };
+        struct action<attribute> {
+            template <typename Input>
+            static void apply(const Input& in, param_state& s)
+            {
+                s.attribute = in.string();
+            }
+        };
 
         template <>
-            struct action <quoted> {
-                template< typename Input >
-                    static void apply( const Input& in, param_state& s )
-                    {
-                        s.value = std::string(in.begin()+1, in.end()-1) ;
-                    }
-            };
+        struct action<quoted> {
+            template <typename Input>
+            static void apply(const Input& in, param_state& s)
+            {
+                s.value = std::string(in.begin() + 1, in.end() - 1);
+            }
+        };
 
         template <>
-            struct action <nonquoted> {
-                template< typename Input >
-                    static void apply( const Input& in, param_state& s )
-                    {
-                        s.value = in.string();
-                    }
-            };
+        struct action<nonquoted> {
+            template <typename Input>
+            static void apply(const Input& in, param_state& s)
+            {
+                s.value = in.string();
+            }
+        };
 
         // FIXME: customize error messages
 #if 0
@@ -283,9 +286,7 @@ namespace parser
 
 #endif
 
-
     }; // namespace mediatype
-}; // namespace parsers
+};     // namespace parsers
 
 #endif // PARSER_MEDIATYPE_H
-

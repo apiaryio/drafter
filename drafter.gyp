@@ -237,11 +237,13 @@
           'src',
           'ext/boost',
           'ext/variant/include',
+          'ext/PEGTL/include',
         ],
       },
       'include_dirs' : [
         'ext/boost',
         'ext/variant/include',
+        'ext/PEGTL/include',
       ],
       'export_dependent_settings': [
         'libsnowcrash',
@@ -281,7 +283,7 @@
         "src/ConversionContext.h",
         "src/ElementInfoUtils.h",
         "src/ElementComparator.h",
-
+        "src/ContentTypeMatcher.h",
 
         "src/SourceMapUtils.h",
         "src/SourceMapUtils.cc",
@@ -372,6 +374,8 @@
         "src/refract/dsd/Ref.cc",
         "src/refract/dsd/Select.cc",
         "src/refract/dsd/String.cc",
+
+        "src/parser/Mediatype.h",
       ],
       "dependencies": [
         "libsnowcrash",
@@ -403,6 +407,7 @@
         "test/test-SyntaxIssuesTest.cc",
         "test/test-ElementDataTest.cc",
         "test/test-Serialize.cc",
+        "test/test-ContentTypeMatcher.cc",
 
         "test/utils/test-Utf8.cc",
         "test/utils/so/test-JsonIo.cc",
@@ -436,6 +441,8 @@
         "test/test-ElementComparator.cc",
         "test/test-VisitorUtils.cc",
         "test/test-sourceMapToLineColumn.cc",
+
+        "test/parser/test-MediaType.cc",
 
       ],
       'dependencies': [
