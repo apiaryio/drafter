@@ -117,7 +117,7 @@ workflows:
 jobs:
   lint:
     docker:
-      - image: apiaryio/clang:5
+      - image: apiaryio/clang:6
 
     steps:
       - checkout

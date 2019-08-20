@@ -21,7 +21,8 @@ namespace drafter
     class ConversionContext;
 }
 
-namespace drafter {
+namespace drafter
+{
     std::unique_ptr<refract::IElement> MsonMemberToApie( //
         const NodeInfo<mson::PropertyMember>& nodeInfo,
         ConversionContext&,

@@ -69,7 +69,7 @@ namespace snowcrash
             // Check for a description child element
             if (out.node.content.elements().empty()
                 || (!out.node.content.elements().empty()
-                       && out.node.content.elements().back().element != Element::CopyElement)) {
+                    && out.node.content.elements().back().element != Element::CopyElement)) {
 
                 Element description(Element::CopyElement);
                 out.node.content.elements().push_back(description);

@@ -89,12 +89,11 @@ namespace drafter
 
                 return l.size() == r.size()
                     && std::equal(l.begin(),
-                           l.end(),
-                           r.begin(),
-                           [](const SortedRef::InfoRef::value_type& l, const SortedRef::InfoRef::value_type& r) {
-                               return (l.get().first == r.get().first)
-                                   && (*l.get().second.get() == *r.get().second.get());
-                           });
+                        l.end(),
+                        r.begin(),
+                        [](const SortedRef::InfoRef::value_type& l, const SortedRef::InfoRef::value_type& r) {
+                            return (l.get().first == r.get().first) && (*l.get().second.get() == *r.get().second.get());
+                        });
             }
         };
 
@@ -113,15 +112,18 @@ namespace drafter
             const InfoElementsComparator<IgnoreMeta> ignoreMeta;
 
         public:
-            explicit ElementComparator(const refract::IElement& rhs_, const IgnoreAttrs& ignoreAttrs, const IgnoreMeta& ignoreMeta) : rhs(rhs_), ignoreAttrs(std::move(ignoreAttrs)), ignoreMeta(std::move(ignoreMeta)) {}
+            explicit ElementComparator(
+                const refract::IElement& rhs_, const IgnoreAttrs& ignoreAttrs, const IgnoreMeta& ignoreMeta)
+                : rhs(rhs_), ignoreAttrs(std::move(ignoreAttrs)), ignoreMeta(std::move(ignoreMeta))
+            {
+            }
 
         public:
             template <typename ElementT>
             bool operator()(const ElementT& lhs) const
             {
                 return (lhs.empty() == rhs.empty()) && (lhs.element() == rhs.element())
-                    && ignoreMeta(rhs.meta(), lhs.meta()) 
-                    && ignoreAttrs(rhs.attributes(), lhs.attributes()) 
+                    && ignoreMeta(rhs.meta(), lhs.meta()) && ignoreAttrs(rhs.attributes(), lhs.attributes())
                     && (lhs.empty() || (lhs.get() == dynamic_cast<const ElementT*>(&rhs)->get()));
             }
         };

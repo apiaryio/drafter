@@ -124,8 +124,7 @@ namespace snowcrash
 
                 if (cur != collection.end()
                     && (pd.sectionContext() != UndefinedSectionType
-                           || (cur->type != mdp::ParagraphMarkdownNodeType
-                                  && cur->type != mdp::CodeMarkdownNodeType))) {
+                        || (cur->type != mdp::ParagraphMarkdownNodeType && cur->type != mdp::CodeMarkdownNodeType))) {
 
                     lastSectionType = pd.sectionContext();
                 }

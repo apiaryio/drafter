@@ -204,8 +204,8 @@ namespace scpl
                 } else if ((traits.valuesTrait && subject[i] == traits.delimiters.valuesDelimiter)
                     || (traits.attributesTrait && subject[i] == Delimiters::AttributesBeginDelimiter)
                     || (traits.contentTrait
-                           && subject.substr(i, traits.delimiters.contentDelimiter.length())
-                               == traits.delimiters.contentDelimiter)) {
+                        && subject.substr(i, traits.delimiters.contentDelimiter.length())
+                            == traits.delimiters.contentDelimiter)) {
 
                     // If identifier ends, strip it from the subject
                     subject = subject.substr(i);
@@ -283,8 +283,8 @@ namespace scpl
                     i = 0;
                 } else if ((traits.attributesTrait && subject[i] == Delimiters::AttributesBeginDelimiter)
                     || (traits.contentTrait
-                           && subject.substr(i, traits.delimiters.contentDelimiter.length())
-                               == traits.delimiters.contentDelimiter)) {
+                        && subject.substr(i, traits.delimiters.contentDelimiter.length())
+                            == traits.delimiters.contentDelimiter)) {
 
                     // If values section ends, strip it from subject
                     subject = subject.substr(i);
