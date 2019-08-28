@@ -284,6 +284,7 @@
         "src/ElementInfoUtils.h",
         "src/ElementComparator.h",
         "src/ContentTypeMatcher.h",
+        "src/ContentTypeMatcher.cc",
 
         "src/SourceMapUtils.h",
         "src/SourceMapUtils.cc",
@@ -375,6 +376,7 @@
         "src/refract/dsd/Select.cc",
         "src/refract/dsd/String.cc",
 
+        "src/parser/Mediatype.cc",
         "src/parser/Mediatype.h",
       ],
       "dependencies": [

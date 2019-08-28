@@ -17,6 +17,7 @@ set(DRAFTER_SOURCES
     SerializeKey.cc
     SerializeResult.cc
     SourceMapUtils.cc
+    ContentTypeMatcher.cc
     drafter.cc
     refract/ComparableVisitor.cc
     refract/Element.cc
@@ -52,6 +53,7 @@ set(DRAFTER_SOURCES
     utils/so/JsonIo.cc
     utils/so/Value.cc
     utils/so/YamlIo.cc
+    parser/Mediatype.cc
     )
 
 set(DRAFTER_COMPILE_FEATURES

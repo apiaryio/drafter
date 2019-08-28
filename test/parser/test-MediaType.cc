@@ -2,8 +2,8 @@
 
 #include <catch2/catch.hpp>
 
-using namespace parser::mediatype;
-using state = parser::mediatype::state;
+using namespace apib::parser::mediatype;
+using state = apib::parser::mediatype::state;
 using params = state::parameters_type;
 
 
@@ -109,15 +109,6 @@ TEST_CASE("multiple params")
     REQUIRE(result == state{ "type", "sub", {}, { { "key", "value" }, { "x", "y" } } });
 }
 
-TEST_CASE("multiple params - order by alphaber")
-{
-
-    state result;
-    tao::pegtl::memory_input<> in("type/sub; b=c a=b", "");
-    REQUIRE(tao::pegtl::parse<match_grammar, action /*, errors */>(in, result));
-    REQUIRE(result == state{ "type", "sub", {}, { { "a", "b" }, { "b", "c" } } });
-}
-
 TEST_CASE("same params - with same key")
 { // is this correct? or there should be just one value pair with latest value?
 
@@ -174,7 +165,7 @@ TEST_CASE("Allow reserved chars in (sub)type definition")
 
 // Here follows non-fully parsed cases
 // we have two options how to solve:
-// - check for false value returned from `parse()` and use patially parsed result
+// - check for false value returned from `parse()` and/or use patially parsed result
 // - convert casses to `must<>` rule and throw, but then we will not receive result of of partially parsing
 
 TEST_CASE("missing subtype")
@@ -183,7 +174,7 @@ TEST_CASE("missing subtype")
     state result;
     tao::pegtl::memory_input<> in("type", "");
     REQUIRE_THROWS_WITH((tao::pegtl::parse<match_grammar, action /*, errors */>(in, result)),
-        ":1:4(4): parse error matching parser::mediatype::slash");
+        ":1:4(4): parse error matching apib::parser::mediatype::slash");
 }
 
 TEST_CASE("invalid char in type")
@@ -191,15 +182,14 @@ TEST_CASE("invalid char in type")
     state result;
     tao::pegtl::memory_input<> in("ty?pe/subtype", "");
     REQUIRE_THROWS_WITH((tao::pegtl::parse<match_grammar, action /*, errors */>(in, result)),
-        ":1:2(2): parse error matching parser::mediatype::slash");
+        ":1:2(2): parse error matching apib::parser::mediatype::slash");
 }
 
 TEST_CASE("double slash")
 {
     state result;
     tao::pegtl::memory_input<> in("type/sub/type", "");
-    REQUIRE_THROWS_WITH((tao::pegtl::parse<match_grammar, action /*, errors */>(in, result)),
-        ":1:8(8): parse error matching parser::mediatype::bad_slash");
+    REQUIRE_FALSE(tao::pegtl::parse<match_grammar, action>(in, result));
 }
 
 TEST_CASE("nonclosed quoted value in param")
