@@ -8,6 +8,7 @@
 
 #include "ContentTypeMatcher.h"
 #include "parser/Mediatype.h"
+#include <cctype>
 
 namespace drafter
 {

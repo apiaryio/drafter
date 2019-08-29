@@ -3,8 +3,8 @@
 #include <catch2/catch.hpp>
 
 using namespace apib::parser::mediatype;
-using state = apib::parser::mediatype::state;
-using params = state::parameters_type;
+using params = apib::parser::mediatype::state::parameters_type;
+using namespace Catch;
 
 
 TEST_CASE("test comparators")
@@ -174,7 +174,7 @@ TEST_CASE("missing subtype")
     state result;
     tao::pegtl::memory_input<> in("type", "");
     REQUIRE_THROWS_WITH((tao::pegtl::parse<match_grammar, action /*, errors */>(in, result)),
-        ":1:4(4): parse error matching apib::parser::mediatype::slash");
+        Contains(":1:4(4): parse error") && Contains("apib::parser::mediatype::slash"));
 }
 
 TEST_CASE("invalid char in type")
@@ -182,7 +182,7 @@ TEST_CASE("invalid char in type")
     state result;
     tao::pegtl::memory_input<> in("ty?pe/subtype", "");
     REQUIRE_THROWS_WITH((tao::pegtl::parse<match_grammar, action /*, errors */>(in, result)),
-        ":1:2(2): parse error matching apib::parser::mediatype::slash");
+        Contains(":1:2(2): parse error") && Contains("apib::parser::mediatype::slash"));
 }
 
 TEST_CASE("double slash")

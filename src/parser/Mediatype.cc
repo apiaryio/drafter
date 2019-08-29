@@ -7,6 +7,7 @@
 //
 
 #include "Mediatype.h"
+#include <cctype>
 
 namespace apib
 {
