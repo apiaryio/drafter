@@ -47,6 +47,8 @@ add_executable(drafter-test
     test-RenderTest.cc
     test-Serialize.cc
     test-sourceMapToLineColumn.cc
+    parser/test-MediaType.cc
+    test-ContentTypeMatcher.cc
     )
 
 target_link_libraries(drafter-test

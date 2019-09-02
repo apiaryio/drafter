@@ -31,9 +31,11 @@ namespace drafter
     RenderFormat findRenderFormat(const std::string& contentType)
     {
 
-        if (RegexMatch(contentType, JSONSchemaRegex)) {
+        apib::parser::mediatype::state mediaType = parseMediaType(contentType);
+
+        if (IsJSONSchemaContentType(mediaType)) {
             return JSONSchemaRenderFormat;
-        } else if (RegexMatch(contentType, JSONRegex)) {
+        } else if (IsJSONContentType(mediaType)) {
             return JSONRenderFormat;
         }
 

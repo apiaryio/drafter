@@ -404,10 +404,12 @@ std::unique_ptr<IElement> PayloadToRefract( //
             SerializeKey::MessageBody));
 
     // Render only if Body is JSON or Schema is defined
+    apib::parser::mediatype::state mediaType = parseMediaType(contentType);
+    bool wantRenderSchema = IsJSONContentType(mediaType) || IsJSONSchemaContentType(mediaType);
     if (!payloadSchema.first.empty()) {
         content.push_back(AssetToRefract( //
             NodeInfo<snowcrash::Asset>(payloadSchema),
-            snowcrash::RegexMatch(contentType, JSONRegex) ? JSONSchemaContentType : contentType,
+            wantRenderSchema ? JSONSchemaContentType : contentType,
             SerializeKey::MessageBodySchema));
     }
 

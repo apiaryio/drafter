@@ -16,7 +16,8 @@ set(as_subproject
     Catch2
     dtl
     BoostContainer
-    MPark.Variant)
+    MPark.Variant
+    pegtl)
 
 macro(find_package)
     if(NOT "${ARGV0}" IN_LIST as_subproject)
@@ -25,10 +26,12 @@ macro(find_package)
 endmacro()
 
 # add external dependencies living in `ext`
+option(PEGTL_BUILD_TESTS OFF)
 add_subdirectory(ext/snowcrash/ext/markdown-parser/ext/sundown EXCLUDE_FROM_ALL)
 add_subdirectory(ext/cmdline EXCLUDE_FROM_ALL)
 add_subdirectory(ext/boost EXCLUDE_FROM_ALL)
 add_subdirectory(ext/variant EXCLUDE_FROM_ALL)
+add_subdirectory(ext/PEGTL EXCLUDE_FROM_ALL)
 
 message(STATUS "Setting up tests for production...")
 add_subdirectory(test/vendor/Catch EXCLUDE_FROM_ALL)

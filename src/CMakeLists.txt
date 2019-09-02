@@ -17,6 +17,7 @@ set(DRAFTER_SOURCES
     SerializeKey.cc
     SerializeResult.cc
     SourceMapUtils.cc
+    ContentTypeMatcher.cc
     drafter.cc
     refract/ComparableVisitor.cc
     refract/Element.cc
@@ -52,6 +53,7 @@ set(DRAFTER_SOURCES
     utils/so/JsonIo.cc
     utils/so/Value.cc
     utils/so/YamlIo.cc
+    parser/Mediatype.cc
     )
 
 set(DRAFTER_COMPILE_FEATURES
@@ -87,12 +89,14 @@ find_package(snowcrash 1.0 REQUIRED)
 find_package(BoostContainer 1.66 REQUIRED)
 find_package(cmdline 1.0 REQUIRED)
 find_package(MPark.Variant 1.4 REQUIRED)
+find_package(pegtl 2.8 REQUIRED)
 
 target_link_libraries(drafter
     PRIVATE
         snowcrash::snowcrash
         Boost::container
         mpark_variant
+        pegtl
     )
 
 target_include_directories(drafter PUBLIC
@@ -120,6 +124,7 @@ target_link_libraries(drafter-cli
         drafter::drafter
         cmdline::cmdline
         mpark_variant
+        pegtl
     )
 
 set_target_properties(drafter-cli PROPERTIES OUTPUT_NAME drafter)
