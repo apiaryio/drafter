@@ -23,7 +23,8 @@ const mdp::ByteBuffer ParameterFixture
 TEST_CASE("Recognize parameter definition signature", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(ParameterFixture);
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse(ParameterFixture, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -33,7 +34,8 @@ TEST_CASE("Recognize parameter definition signature", "[parameter]")
 TEST_CASE("Recognize parameter with just parameter name", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse("+ id");
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse("+ id", markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -43,7 +45,8 @@ TEST_CASE("Recognize parameter with just parameter name", "[parameter]")
 TEST_CASE("Recognize parameter with escaped identifier for new syntax", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse("+ `user-name`");
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse("+ `user-name`", markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -53,7 +56,8 @@ TEST_CASE("Recognize parameter with escaped identifier for new syntax", "[parame
 TEST_CASE("Recognize parameter with parameter name and without any values or description", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse("+ id (optional, string)");
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse("+ id (optional, string)", markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -63,7 +67,8 @@ TEST_CASE("Recognize parameter with parameter name and without any values or des
 TEST_CASE("Recognize parameter with parameter type as first trait", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse("+ id (string, optional)");
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse("+ id (string, optional)", markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -73,7 +78,8 @@ TEST_CASE("Recognize parameter with parameter type as first trait", "[parameter]
 TEST_CASE("Recognize parameter with new syntax example value", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse("+ id : ``1`0`` (number)");
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse("+ id : ``1`0`` (number)", markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -83,7 +89,8 @@ TEST_CASE("Recognize parameter with new syntax example value", "[parameter]")
 TEST_CASE("Recognize parameter with only new syntax example value", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse("+ id: 10");
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse("+ id: 10", markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -93,7 +100,8 @@ TEST_CASE("Recognize parameter with only new syntax example value", "[parameter]
 TEST_CASE("Recognize parameter with new syntax description which has old description identifier", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse("+ id (string) - This is nice and ... awesome");
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse("+ id (string) - This is nice and ... awesome", markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -103,7 +111,8 @@ TEST_CASE("Recognize parameter with new syntax description which has old descrip
 TEST_CASE("Recognize parameter with new syntax description", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse("+ id (string) - This is nice and awesome");
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse("+ id (string) - This is nice and awesome", markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -113,7 +122,8 @@ TEST_CASE("Recognize parameter with new syntax description", "[parameter]")
 TEST_CASE("Recognize parameter with only old syntax description", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse("+ id ... The user id");
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse("+ id ... The user id", markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -123,7 +133,8 @@ TEST_CASE("Recognize parameter with only old syntax description", "[parameter]")
 TEST_CASE("Recognize parameter with brackets in old syntax example value", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse("+ id (optional, oData, `substringof('homer', id)`) ... test");
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse("+ id (optional, oData, `substringof('homer', id)`) ... test", markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -133,7 +144,8 @@ TEST_CASE("Recognize parameter with brackets in old syntax example value", "[par
 TEST_CASE("Recognize escaped parameter with brackets in old syntax example value", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse("+ `id` (optional, oData, `example`)");
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse("+ `id` (optional, oData, `example`)", markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -143,7 +155,8 @@ TEST_CASE("Recognize escaped parameter with brackets in old syntax example value
 TEST_CASE("Recognize parameter with old syntax description after attributes", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse("+ id (optional, string) ... test");
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse("+ id (optional, string) ... test", markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -153,7 +166,8 @@ TEST_CASE("Recognize parameter with old syntax description after attributes", "[
 TEST_CASE("Recognize parameter with sample value in attributes", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse("+ id (string, `10`)");
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse("+ id (string, `10`)", markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -163,7 +177,8 @@ TEST_CASE("Recognize parameter with sample value in attributes", "[parameter]")
 TEST_CASE("Recognize parameter with enum in attributes", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse("+ id (enum[string])");
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse("+ id (enum[string])", markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -173,7 +188,8 @@ TEST_CASE("Recognize parameter with enum in attributes", "[parameter]")
 TEST_CASE("Recognize parameter with both sample value and enum in attributes", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse("+ id (enum[string], `10`)");
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse("+ id (enum[string], `10`)", markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -183,7 +199,8 @@ TEST_CASE("Recognize parameter with both sample value and enum in attributes", "
 TEST_CASE("Recognize parameter with old syntax default value but have enum in attributes", "[parameter]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse("+ id = 10 (enum[number])");
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse("+ id = 10 (enum[number])", markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -197,7 +214,8 @@ TEST_CASE("Recognize parameter with ambiguous signature but uses MSON syntax for
           "    + Default: 1";
 
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse(source, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -211,7 +229,8 @@ TEST_CASE("Recognize parameter with ambiguous signature but uses MSON syntax for
           "    + Sample: 1";
 
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse(source, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -225,7 +244,8 @@ TEST_CASE("Recognize parameter with ambiguous signature but uses MSON syntax for
           "    + Members";
 
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse(source, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());
@@ -239,7 +259,8 @@ TEST_CASE("Recognize parameter with ambiguous signature but uses old syntax for 
           "    + Values";
 
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse(source, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Parameter>::sectionType(markdownAST.children().begin());

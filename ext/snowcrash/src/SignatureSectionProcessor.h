@@ -43,8 +43,7 @@ namespace scpl
         /**
          * \brief Process section signature markdown node (Default)
          */
-        template <typename It>
-        static It processSignature(It node,
+        static MarkdownNodeIterator processSignature(const MarkdownNodeIterator& node,
             const MarkdownNodes& siblings,
             snowcrash::SectionParserData& pd,
             snowcrash::SectionLayout& layout,
@@ -72,8 +71,7 @@ namespace scpl
          *
          * \return Signature data
          */
-        template <typename It>
-        static Signature parseSignature(It node,
+        static Signature parseSignature(const MarkdownNodeIterator& node,
             snowcrash::SectionParserData& pd,
             const SignatureTraits& traits,
             snowcrash::Report& report,

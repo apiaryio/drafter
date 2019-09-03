@@ -12,7 +12,6 @@
 #include <catch2/catch.hpp>
 #include "MarkdownParser.h"
 #include "SectionParser.h"
-#include "SignatureSectionProcessor.h"
 
 namespace snowcrashtest
 {
@@ -42,11 +41,12 @@ namespace snowcrashtest
         {
 
             mdp::MarkdownParser markdownParser;
+            mdp::MarkdownNode markdownAST;
 
             snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
             snowcrash::ParseResult<snowcrash::Blueprint>* bppointer;
 
-            mdp::MarkdownNode markdownAST = markdownParser.parse(source);
+            markdownParser.parse(source, markdownAST);
 
             REQUIRE(!markdownAST.children().empty());
 
@@ -118,17 +118,27 @@ namespace snowcrashtest
     /**
      * \brief Helper to test signature parsing. Uses Blueprint as dummy type.
      */
-    class SignatureParserHelper
-    {
+    struct SignatureParserHelper {
+
         static scpl::Signature parse(const mdp::ByteBuffer& source,
             const snowcrash::ParseResultRef<snowcrash::Blueprint>& out,
             const scpl::SignatureTraits::Traits traits,
-            const mdp::MarkdownNode& markdownAST)
+            const mdp::MarkdownNode* node = NULL)
         {
+
+            mdp::MarkdownParser markdownParser;
+            mdp::MarkdownNode markdownAST;
+
+            snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
+
+            if (node == NULL) {
+                markdownParser.parse(source, markdownAST);
+            } else {
+                markdownAST = *node;
+            }
 
             REQUIRE(!markdownAST.children().empty());
 
-            snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
             snowcrash::SectionParserData pd(0, source, blueprint.node);
 
             scpl::Signature signature;
@@ -138,21 +148,6 @@ namespace snowcrashtest
                 markdownAST.children().begin(), pd, signatureTraits, out.report);
 
             return signature;
-        }
-
-    public:
-        static scpl::Signature parse(const mdp::ByteBuffer& source,
-            const snowcrash::ParseResultRef<snowcrash::Blueprint>& out,
-            const scpl::SignatureTraits::Traits traits,
-            const mdp::MarkdownNode* node = NULL)
-        {
-            if (node)
-                return parse(source, out, traits, *node);
-
-            mdp::MarkdownParser markdownParser;
-            mdp::MarkdownNode markdown = markdownParser.parse(source);
-
-            return parse(source, out, traits, markdown);
         }
     };
 

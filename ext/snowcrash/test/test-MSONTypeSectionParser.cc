@@ -17,8 +17,9 @@ TEST_CASE("Type Section header block classifier", "[mson][type_section]")
     mdp::ByteBuffer source = "## Items";
 
     mdp::MarkdownParser markdownParser;
+    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
+    markdownParser.parse(source, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     REQUIRE(markdownAST.children().front().type == mdp::HeaderMarkdownNodeType);
@@ -48,8 +49,9 @@ TEST_CASE("Type Section list block classifier", "[mson][type_section]")
     mdp::ByteBuffer source = "- Items";
 
     mdp::MarkdownParser markdownParser;
+    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
+    markdownParser.parse(source, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     REQUIRE(markdownAST.children().front().type == mdp::ListItemMarkdownNodeType);

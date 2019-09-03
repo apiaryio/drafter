@@ -398,7 +398,9 @@ TEST_CASE("Property signature parsing without a value", "[signature]")
 TEST_CASE("Element signature parsing without value and attributes", "[signature]")
 {
     mdp::MarkdownNode source(mdp::RootMarkdownNodeType, NULL, "");
-    source.children().emplace_back(mdp::ParagraphMarkdownNodeType, &source, "- content is the king");
+    mdp::MarkdownNode paragraph(mdp::ParagraphMarkdownNodeType, &source, "- content is the king");
+
+    source.children().push_back(paragraph);
 
     ParseResult<Blueprint> blueprint;
     scpl::Signature signature = SignatureParserHelper::parse("", blueprint, ElementMemberTypeTraits, &source);

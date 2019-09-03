@@ -22,8 +22,9 @@ const mdp::ByteBuffer ActionFixture
 TEST_CASE("Method block classifier", "[action]")
 {
     mdp::MarkdownParser markdownParser;
+    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(ActionFixture);
+    markdownParser.parse(ActionFixture, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     sectionType = SectionProcessor<Action>::sectionType(markdownAST.children().begin());

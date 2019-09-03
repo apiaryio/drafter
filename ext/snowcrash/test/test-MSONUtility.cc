@@ -417,8 +417,9 @@ TEST_CASE("Parse canonical type definition", "[mson][utility]")
 
     mdp::ByteBuffer source = "+ (number, required)";
     mdp::MarkdownParser markdownParser;
+    mdp::MarkdownNode markdownAST;
 
-    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
+    markdownParser.parse(source, markdownAST);
     snowcrash::SectionParserData pd(0, source, blueprint);
 
     parseTypeDefinition(markdownAST.children().begin(), pd, attributes, typeDefinition.report, typeDefinition.node);
@@ -443,8 +444,9 @@ TEST_CASE("Parse type definition with non recognized type attribute", "[mson][ut
 
     mdp::ByteBuffer source = "+ ([Person][], optinal)";
     mdp::MarkdownParser markdownParser;
+    mdp::MarkdownNode markdownAST;
 
-    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
+    markdownParser.parse(source, markdownAST);
     snowcrash::SectionParserData pd(0, source, blueprint);
 
     pd.namedTypeBaseTable["Person"] = mson::ObjectBaseType;
@@ -471,8 +473,9 @@ TEST_CASE("Parse type definition when non-structure type has nested types", "[ms
 
     mdp::ByteBuffer source = "+ (Person[number, string])";
     mdp::MarkdownParser markdownParser;
+    mdp::MarkdownNode markdownAST;
 
-    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
+    markdownParser.parse(source, markdownAST);
     snowcrash::SectionParserData pd(0, source, blueprint);
 
     pd.namedTypeBaseTable["Person"] = mson::ObjectBaseType;
@@ -565,8 +568,9 @@ TEST_CASE("Parse canonical property name", "[mson][utility]")
 
     mdp::ByteBuffer source = "+ " + id;
     mdp::MarkdownParser markdownParser;
+    mdp::MarkdownNode markdownAST;
 
-    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
+    markdownParser.parse(source, markdownAST);
     snowcrash::SectionParserData pd(0, source, blueprint);
 
     parsePropertyName(markdownAST.children().begin(), pd, id, propertyName.report, propertyName.node);
@@ -586,8 +590,9 @@ TEST_CASE("Parse variable property name", "[mson][utility]")
 
     mdp::ByteBuffer source = "+ " + id;
     mdp::MarkdownParser markdownParser;
+    mdp::MarkdownNode markdownAST;
 
-    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
+    markdownParser.parse(source, markdownAST);
     snowcrash::SectionParserData pd(0, source, blueprint);
 
     parsePropertyName(markdownAST.children().begin(), pd, id, propertyName.report, propertyName.node);
@@ -613,8 +618,9 @@ TEST_CASE("Parse multi-value variable property name", "[mson][utility]")
 
     mdp::ByteBuffer source = "+ " + id;
     mdp::MarkdownParser markdownParser;
+    mdp::MarkdownNode markdownAST;
 
-    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
+    markdownParser.parse(source, markdownAST);
     snowcrash::SectionParserData pd(0, source, blueprint);
 
     pd.namedTypeBaseTable["Custom"] = mson::ValueBaseType;
