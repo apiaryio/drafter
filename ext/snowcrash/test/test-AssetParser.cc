@@ -25,7 +25,8 @@ const mdp::ByteBuffer SchemaAssetFixture
 TEST_CASE("Recognize explicit body signature", "[asset]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(BodyAssetFixture);
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse(BodyAssetFixture, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Asset>::sectionType(markdownAST.children().begin());
@@ -39,7 +40,8 @@ TEST_CASE("Recognize body with content on signature", "[asset]")
           "        Lorem Ipsum\n";
 
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(source);
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse(source, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Asset>::sectionType(markdownAST.children().begin());
@@ -49,7 +51,8 @@ TEST_CASE("Recognize body with content on signature", "[asset]")
 TEST_CASE("Recognize schema signature", "[asset]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(SchemaAssetFixture);
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse(SchemaAssetFixture, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Asset>::sectionType(markdownAST.children().begin());

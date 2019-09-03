@@ -17,8 +17,9 @@ const mdp::ByteBuffer AttributesFixture = "+ Attributes (array[[Coupon](#coupon)
 TEST_CASE("Recognize explicit attributes signature", "[attributes]")
 {
     mdp::MarkdownParser markdownParser;
+    mdp::MarkdownNode markdownAST;
     SectionType sectionType;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(AttributesFixture);
+    markdownParser.parse(AttributesFixture, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     sectionType = SectionProcessor<Attributes>::sectionType(markdownAST.children().begin());

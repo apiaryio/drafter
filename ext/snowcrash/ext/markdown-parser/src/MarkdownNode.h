@@ -82,15 +82,13 @@ namespace mdp
             const Data& data_ = Data());
 
         /** Copy constructor */
-        MarkdownNode(const MarkdownNode& rhs) = delete;
-        MarkdownNode(MarkdownNode&& rhs) = default;
+        MarkdownNode(const MarkdownNode& rhs);
 
         /** Assignment operator */
-        MarkdownNode& operator=(const MarkdownNode& rhs) = delete;
-        MarkdownNode& operator=(MarkdownNode&& rhs) = default;
+        MarkdownNode& operator=(const MarkdownNode& rhs);
 
         /** Destructor */
-        ~MarkdownNode() = default;
+        ~MarkdownNode();
 
 #ifdef DEBUG
         /** Prints the node to the stderr */

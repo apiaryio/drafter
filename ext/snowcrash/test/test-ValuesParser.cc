@@ -22,7 +22,8 @@ const mdp::ByteBuffer ValuesFixture
 TEST_CASE("Recognize values signature", "[values]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(ValuesFixture);
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse(ValuesFixture, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Values>::sectionType(markdownAST.children().begin());

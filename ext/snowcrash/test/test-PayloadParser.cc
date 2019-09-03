@@ -41,7 +41,8 @@ const mdp::ByteBuffer EmptyBodyFixture
 TEST_CASE("recognize request signature", "[payload]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(RequestFixture);
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse(RequestFixture, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Payload>::sectionType(markdownAST.children().begin());
@@ -51,7 +52,8 @@ TEST_CASE("recognize request signature", "[payload]")
 TEST_CASE("recognize abbreviated request signature", "[payload]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(RequestBodyFixture);
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse(RequestBodyFixture, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Payload>::sectionType(markdownAST.children().begin());
@@ -61,7 +63,8 @@ TEST_CASE("recognize abbreviated request signature", "[payload]")
 TEST_CASE("recognize abbreviated response signature", "[payload]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(ResponseBodyFixture);
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse(ResponseBodyFixture, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Payload>::sectionType(markdownAST.children().begin());
@@ -71,7 +74,8 @@ TEST_CASE("recognize abbreviated response signature", "[payload]")
 TEST_CASE("recognize empty body response signature as non-abbreviated", "[payload]")
 {
     mdp::MarkdownParser markdownParser;
-    mdp::MarkdownNode markdownAST = markdownParser.parse(EmptyBodyFixture);
+    mdp::MarkdownNode markdownAST;
+    markdownParser.parse(EmptyBodyFixture, markdownAST);
 
     REQUIRE(!markdownAST.children().empty());
     SectionType sectionType = SectionProcessor<Payload>::sectionType(markdownAST.children().begin());
