@@ -76,7 +76,7 @@ namespace snowcrash
             ss << level * 4 << " spaces or " << level << " tabs";
 
             mdp::CharactersRangeSet sourceMap
-                = mdp::BytesRangeSetToCharactersRangeSet(node->sourceMap, pd.sourceCharacterIndex);
+                = mdp::BytesRangeSetToConsecutiveCharactersRangeSet(node->sourceMap, pd.sourceCharacterIndex);
             report.warnings.push_back(Warning(ss.str(), IndentationWarning, sourceMap));
         }
 

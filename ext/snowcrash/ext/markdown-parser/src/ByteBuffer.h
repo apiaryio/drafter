@@ -81,6 +81,9 @@ namespace mdp
     CharactersRangeSet BytesRangeSetToCharactersRangeSet(
         const BytesRangeSet& rangeSet, const ByteBufferCharacterIndex& index);
 
+    CharactersRangeSet BytesRangeSetToConsecutiveCharactersRangeSet(
+        const BytesRangeSet& rangeSet, const ByteBufferCharacterIndex& index);
+
     /** Maps bytes range set to byte buffer */
     ByteBuffer MapBytesRangeSet(const BytesRangeSet& rangeSet, const ByteBuffer& byteBuffer);
 }
