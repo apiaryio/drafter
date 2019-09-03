@@ -133,6 +133,23 @@ CharactersRangeSet mdp::BytesRangeSetToCharactersRangeSet(
     return characterMap;
 }
 
+CharactersRangeSet mdp::BytesRangeSetToConsecutiveCharactersRangeSet(
+    const BytesRangeSet& rangeSet, const ByteBufferCharacterIndex& index)
+{
+    CharactersRangeSet characterMap;
+
+    BytesRangeSet::const_iterator begin = rangeSet.begin();
+    BytesRangeSet::const_reverse_iterator end = rangeSet.rbegin();
+
+    size_t location = (*begin).location;
+    size_t length = (*end).location + (*end).length;
+
+    CharactersRange characterRange = CharactersRange(location, length);
+    characterMap.push_back(characterRange);
+
+    return characterMap;
+}
+
 ByteBuffer mdp::MapBytesRangeSet(const BytesRangeSet& rangeSet, const ByteBuffer& byteBuffer)
 {
     if (byteBuffer.empty())
