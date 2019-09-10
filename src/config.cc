@@ -20,6 +20,8 @@ namespace config
     static const std::string Output = "output";
     static const std::string Format = "format";
     static const std::string Sourcemap = "sourcemap";
+    static const std::string MessageBody = "message-body";
+    static const std::string MessageBodySchema = "message-body-schema";
     static const std::string Help = "help";
     static const std::string Validate = "validate";
     static const std::string Version = "version";
@@ -39,6 +41,8 @@ void PrepareCommanLineParser(cmdline::parser& parser)
         "yaml",
         cmdline::oneof<std::string>("yaml", "json"));
     parser.add(config::Sourcemap, 's', "export sourcemap in the Parse Result");
+    parser.add(config::MessageBody, 'b', "generate message bodies in the Parse Result");
+    parser.add(config::MessageBodySchema, 'c', "generate message body schemas in the Parse Result");
     parser.add(config::Help, 'h', "display this help message");
     parser.add(config::Version, 'v', "print Drafter version");
     parser.add(config::Validate, 'l', "validate input only, do not output Parse Result");
@@ -90,6 +94,8 @@ void ParseCommadLineOptions(int argc, const char* argv[], /* out */ Config& conf
     conf.format = parser.get<std::string>(config::Format) == "json" ? drafter::JSONFormat : drafter::YAMLFormat;
     conf.output = parser.get<std::string>(config::Output);
     conf.sourceMap = parser.exist(config::Sourcemap);
+    conf.messageBody = parser.exist(config::MessageBody);
+    conf.messageBodySchema = parser.exist(config::MessageBodySchema);
     conf.enableLog = parser.exist(config::EnableLog);
 
     ValidateParsedCommandLine(parser, conf);

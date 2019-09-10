@@ -54,6 +54,8 @@ typedef enum
  */
 typedef struct {
     bool requireBlueprintName;
+    bool generateMessageBody;
+    bool generateMessageBodySchema;
 } drafter_parse_options;
 
 /* Serialization options

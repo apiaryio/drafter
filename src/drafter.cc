@@ -84,7 +84,7 @@ DRAFTER_API drafter_error drafter_parse_blueprint(
     sc::ParseResult<sc::Blueprint> blueprint;
     sc::parse(source, scOptions, blueprint);
 
-    drafter::WrapperOptions wrapperOptions;
+    drafter::WrapperOptions wrapperOptions(false, parse_opts.generateMessageBody, parse_opts.generateMessageBodySchema, false);
     drafter::ConversionContext context(source, wrapperOptions);
     auto result = WrapRefract(blueprint, context);
 

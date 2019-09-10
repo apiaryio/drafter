@@ -43,17 +43,19 @@ namespace drafter
 
     // Options struct for drafter
     struct WrapperOptions {
-        const bool generateSourceMap;
+        const bool exportSourceMap;
+        const bool generateMessageBody;
+        const bool generateMessageBodySchema;
         const bool expandMSON;
 
-        WrapperOptions(const bool generateSourceMap, const bool expandMSON)
-            : generateSourceMap(generateSourceMap), expandMSON(expandMSON)
+        WrapperOptions(const bool exportSourceMap, const bool generateMessageBody, const bool generateMessageBodySchema, const bool expandMSON)
+            : exportSourceMap(exportSourceMap), generateMessageBody(generateMessageBody), generateMessageBodySchema(generateMessageBodySchema), expandMSON(expandMSON)
         {
         }
 
-        WrapperOptions(const bool generateSourceMap) : generateSourceMap(generateSourceMap), expandMSON(false) {}
+        WrapperOptions(const bool exportSourceMap) : exportSourceMap(exportSourceMap), generateMessageBody(false), generateMessageBodySchema(false), expandMSON(false) {}
 
-        WrapperOptions() : generateSourceMap(false), expandMSON(false) {}
+        WrapperOptions() : exportSourceMap(false), generateMessageBody(false), generateMessageBodySchema(false), expandMSON(false) {}
     };
 
     template <typename T>

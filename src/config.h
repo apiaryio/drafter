@@ -19,6 +19,8 @@ struct Config {
     bool validate;
     drafter::SerializeFormat format;
     bool sourceMap;
+    bool messageBody;
+    bool messageBodySchema;
     std::string output;
     bool enableLog;
 };

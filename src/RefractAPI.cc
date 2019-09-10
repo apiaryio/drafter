@@ -348,23 +348,32 @@ std::unique_ptr<IElement> PayloadToRefract( //
         nullptr;
 
     const RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node->headers));
+    const bool shouldGenerateAsset = context.options.generateMessageBody || context.options.generateMessageBodySchema;
 
     auto payloadBody = NodeInfoByValue<snowcrash::Asset>{ payload.node->body, &payload.sourceMap->body };
     auto payloadSchema = NodeInfoByValue<snowcrash::Asset>{ payload.node->schema, &payload.sourceMap->schema };
 
     if (payload.node->attributes.empty() && !action.isNull() && !action.node->attributes.empty()) {
 
-        if ((payload.node->body.empty() && renderFormat != UndefinedRenderFormat)
-            || (payload.node->schema.empty() && renderFormat == JSONRenderFormat))
+        if (shouldGenerateAsset
+            && ((payload.node->body.empty() && renderFormat != UndefinedRenderFormat)
+                    || (payload.node->schema.empty() && renderFormat == JSONRenderFormat))) {
+
             if (auto mson = MSONToRefract(MAKE_NODE_INFO(action, attributes), context)) {
                 if (auto actionAttributeExpanded = ExpandRefract(std::move(mson), context)) {
-                    payloadBody = renderPayloadBody(payload, renderFormat, *actionAttributeExpanded);
-                    payloadSchema = renderPayloadSchema(payload, renderFormat, *actionAttributeExpanded);
+                    if (context.options.generateMessageBody) {
+                        payloadBody = renderPayloadBody(payload, renderFormat, *actionAttributeExpanded);
+                    }
+
+                    if (context.options.generateMessageBodySchema) {
+                        payloadSchema = renderPayloadSchema(payload, renderFormat, *actionAttributeExpanded);
+                    }
                 }
             }
-
+        }
     } else {
-        if (!payload.node->attributes.empty()
+        if (shouldGenerateAsset
+            && !payload.node->attributes.empty()
             && ((payload.node->body.empty() && renderFormat != UndefinedRenderFormat)
                    || (payload.node->schema.empty() && renderFormat == JSONRenderFormat))) {
 
@@ -374,8 +383,13 @@ std::unique_ptr<IElement> PayloadToRefract( //
                 payloadAttributeExpanded = ExpandRefract(clone(*payloadAttributeElement), context);
 
             if (payloadAttributeExpanded) {
-                payloadBody = renderPayloadBody(payload, renderFormat, *payloadAttributeExpanded);
-                payloadSchema = renderPayloadSchema(payload, renderFormat, *payloadAttributeExpanded);
+                if (context.options.generateMessageBody) {
+                    payloadBody = renderPayloadBody(payload, renderFormat, *payloadAttributeExpanded);
+                }
+
+                if (context.options.generateMessageBodySchema) {
+                    payloadSchema = renderPayloadSchema(payload, renderFormat, *payloadAttributeExpanded);
+                }
             }
         }
     }
@@ -406,6 +420,7 @@ std::unique_ptr<IElement> PayloadToRefract( //
     // Render only if Body is JSON or Schema is defined
     apib::parser::mediatype::state mediaType = parseMediaType(contentType);
     bool wantRenderSchema = IsJSONContentType(mediaType) || IsJSONSchemaContentType(mediaType);
+
     if (!payloadSchema.first.empty()) {
         content.push_back(AssetToRefract( //
             NodeInfo<snowcrash::Asset>(payloadSchema),

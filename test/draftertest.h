@@ -17,7 +17,9 @@
 #include "Serialize.h"
 #include "SerializeResult.h"
 
-static drafter::WrapperOptions MSONTestOptions(false, true);
+static drafter::WrapperOptions MSONTestOptions(false, true, true, true);
+static drafter::WrapperOptions NormalTestOptions(false, true, true, false);
+static drafter::WrapperOptions SourcemapTestOptions(true, true, true, false);
 
 #define TEST_MSON(name, mustBeOk)                                                                                      \
     TEST_CASE("Testing MSON serialization for " name, "[refract][MSON][" name "]")                                     \
@@ -28,14 +30,14 @@ static drafter::WrapperOptions MSONTestOptions(false, true);
 #define TEST_REFRACT(category, name)                                                                                   \
     TEST_CASE("Testing refract serialization for " category " " name, "[refract][" category "][" name "]")             \
     {                                                                                                                  \
-        FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, drafter::WrapperOptions(false));           \
+        FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, NormalTestOptions);                        \
     }
 
 #define TEST_REFRACT_SOURCE_MAP(category, name)                                                                        \
     TEST_CASE("Testing refract + source map serialization for " category " " name,                                     \
         "[refract_sourcemap][" category "][" name "]")                                                                 \
     {                                                                                                                  \
-        FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, drafter::WrapperOptions(true));            \
+        FixtureHelper::handleResultJSON("test/fixtures/" category "/" name, SourcemapTestOptions);                     \
     }
 
 namespace draftertest
@@ -133,7 +135,7 @@ namespace draftertest
         static std::string getFixtureExtension(const drafter::WrapperOptions& options)
         {
 
-            if (options.generateSourceMap) {
+            if (options.exportSourceMap) {
                 return ext::sourceMapJson;
             } else {
                 return ext::json;
@@ -158,7 +160,7 @@ namespace draftertest
             drafter::ConversionContext context(source.c_str(), options);
 
             if (auto parsed = WrapRefract(blueprint, context)) {
-                auto soValue = refract::serialize::renderSo(*parsed, options.generateSourceMap);
+                auto soValue = refract::serialize::renderSo(*parsed, options.exportSourceMap);
                 drafter::utils::so::serialize_json(outStream, soValue);
             }
 

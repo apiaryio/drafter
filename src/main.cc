@@ -31,23 +31,26 @@ int ProcessRefract(const Config& config, std::unique_ptr<std::istream>& in, std:
     std::stringstream inputStream;
     inputStream << in->rdbuf();
 
-    drafter_serialize_options options;
-    options.sourcemap = config.sourceMap;
-    options.format = config.format == drafter::YAMLFormat ? DRAFTER_SERIALIZE_YAML : DRAFTER_SERIALIZE_JSON;
+    drafter_serialize_options serialize_options;
+    drafter_parse_options parse_options;
+
+    parse_options.requireBlueprintName = false;
+    parse_options.generateMessageBody = config.messageBody;
+    parse_options.generateMessageBodySchema = config.messageBodySchema;
+
+    serialize_options.sourcemap = config.sourceMap;
+    serialize_options.format = config.format == drafter::YAMLFormat ? DRAFTER_SERIALIZE_YAML : DRAFTER_SERIALIZE_JSON;
 
     refract::IElement* result = nullptr;
 
-    // TODO: Read parse options from CLI
-    drafter_parse_options parseOptions = { false };
-
-    int ret = drafter_parse_blueprint(inputStream.str().c_str(), &result, parseOptions);
+    int ret = drafter_parse_blueprint(inputStream.str().c_str(), &result, parse_options);
 
     if (!result) {
         return -1;
     }
 
     if (!config.validate) { // If not validate, we serialize
-        char* output = drafter_serialize(result, options);
+        char* output = drafter_serialize(result, serialize_options);
 
         if (output) {
             *out << output << "\n" << std::flush;
