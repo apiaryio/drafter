@@ -70,3 +70,13 @@ file(
         ${CMAKE_CURRENT_BINARY_DIR}/test/fixtures/
     )
 
+add_executable(drafter-ctest
+    test-CAPI.c
+    )
+
+target_link_libraries(drafter-ctest
+    PRIVATE
+        drafter::drafter
+    )
+
+add_test(DrafterCTest drafter-ctest)
