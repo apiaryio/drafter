@@ -1,5 +1,13 @@
 # Drafter Changelog
 
+## 5.0.0 (2019-09-16)
+
+### Breaking
+
+* This release contains changes to the default parsing behaviour by switching off the
+  generation of the message bodies and message body schemas. Options have been added
+  to switch them back on for the C-API and CLI
+
 ## 4.0.0 (2019-07-30)
 
 ### Bug Fixes
@@ -94,7 +102,7 @@
 
 ### Enhancements
 
-* Add column/line info to anotations source maps 
+* Add column/line info to anotations source maps
 
 ## 4.0.0-pre.1
 
