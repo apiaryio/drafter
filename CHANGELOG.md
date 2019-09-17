@@ -1,5 +1,25 @@
 # Drafter Changelog
 
+## 4.0.1 (2019-09-17)
+
+### Bug Fixes
+
+* Resolves an incompatibility with Microsoft Visual Studio 2019 which
+  preventing Drafter from compiling. Resolves incompatibilities with older
+  versions of Microsoft Visual Studio which caused run-time crashes.
+
+* Numerous improvements to the correctness of the content type parsing which is
+  used to detect JSON and JSON Schema content types. This includes fixing the
+  detection of media types as case-insensitive, previously `application/JSON`
+  would not have been identified as a JSON type unlike the [naming requirements
+  for comparison in RFC 6838](https://tools.ietf.org/html/rfc6838#section-4.2).
+
+* Certain warnings and errors now contain more compact source maps in cases
+  where the annotation spanned multiple indented lines. This can improve the
+  parse result size and amount of memory used by the parser and surrounding
+  tooling when encountering warnings or errors which contain incorrectly
+  indented blocks.
+
 ## 4.0.0 (2019-07-30)
 
 ### Bug Fixes
