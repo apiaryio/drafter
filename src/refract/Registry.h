@@ -18,17 +18,21 @@ namespace refract
 {
     class Registry
     {
-        typedef std::map<std::string, std::unique_ptr<IElement> > Map;
-        Map registrated;
+    public:
+        using type_map = std::map<std::string, std::unique_ptr<IElement> >;
 
-        std::string getElementId(IElement& element);
+    private:
+        type_map types_;
+
+    public:
+        Registry();
 
     public:
         const IElement* find(const std::string& name) const;
 
         bool add(std::unique_ptr<IElement> element);
         bool remove(const std::string& name);
-        void clearAll(bool releaseElements = false);
+        void clear();
     };
 
     const IElement* FindRootAncestor(const std::string& name, const Registry& registry);

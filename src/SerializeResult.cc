@@ -59,7 +59,7 @@ std::unique_ptr<IElement> drafter::WrapRefract(
             error = e;
         }
 
-        context.GetNamedTypesRegistry().clearAll(true);
+        context.GetNamedTypesRegistry().clear();
 
         if (error.code != snowcrash::Error::OK) {
             blueprint.report.error = error;

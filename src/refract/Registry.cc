@@ -15,6 +15,24 @@
 
 using namespace refract;
 
+namespace
+{
+    Registry::type_map baseTypeMap()
+    {
+        Registry::type_map result;
+        result.emplace(std::make_pair("boolean", make_empty<BooleanElement>()));
+        result.emplace(std::make_pair("number", make_empty<NumberElement>()));
+        result.emplace(std::make_pair("string", make_empty<StringElement>()));
+        result.emplace(std::make_pair("array", make_empty<ArrayElement>()));
+        result.emplace(std::make_pair("object", make_empty<ObjectElement>()));
+        result.emplace(std::make_pair("enum", make_empty<EnumElement>()));
+        result.emplace(std::make_pair("null", make_empty<NullElement>()));
+        return result;
+    }
+}
+
+Registry::Registry() : types_{baseTypeMap()} {}
+
 const IElement* refract::FindRootAncestor(const std::string& name, const Registry& registry)
 {
     const IElement* parent = registry.find(name);
@@ -32,26 +50,29 @@ const IElement* refract::FindRootAncestor(const std::string& name, const Registr
     return parent;
 }
 
-std::string Registry::getElementId(IElement& element)
+namespace
 {
-    auto it = element.meta().find("id");
+    std::string getElementId(const IElement& element)
+    {
+        auto it = element.meta().find("id");
 
-    if (it == element.meta().end()) {
-        throw LogicError("Element has no ID");
+        if (it == element.meta().end()) {
+            throw LogicError("Element has no ID");
+        }
+
+        if (const StringElement* s = TypeQueryVisitor::as<const StringElement>(it->second.get())) {
+            return s->get();
+        }
+
+        throw LogicError("Value of element meta 'id' is not StringElement");
     }
-
-    if (const StringElement* s = TypeQueryVisitor::as<const StringElement>(it->second.get())) {
-        return s->get();
-    }
-
-    throw LogicError("Value of element meta 'id' is not StringElement");
 }
 
 const IElement* Registry::find(const std::string& name) const
 {
-    auto i = registrated.find(name);
+    auto i = types_.find(name);
 
-    if (i == registrated.end()) {
+    if (i == types_.end()) {
         return nullptr;
     }
 
@@ -79,23 +100,23 @@ bool Registry::add(std::unique_ptr<IElement> element)
         return false;
     }
 
-    registrated[id] = std::move(element);
+    types_[id] = std::move(element);
     return true;
 }
 
 bool Registry::remove(const std::string& name)
 {
-    auto i = registrated.find(name);
+    auto i = types_.find(name);
 
-    if (i == registrated.end()) {
+    if (i == types_.end()) {
         return false;
     }
 
-    registrated.erase(i);
+    types_.erase(i);
     return true;
 }
 
-void Registry::clearAll(bool releaseElements)
+void Registry::clear()
 {
-    registrated.clear();
+    types_.clear();
 }
