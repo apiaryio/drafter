@@ -570,14 +570,21 @@ namespace
         {
         }
 
+        static bool hasValueForObject(const NodeInfo<mson::ValueMember>& valueMember) {
+            return valueMember.node->valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType
+                || valueMember.node->valueDefinition.typeDefinition.baseType == mson::ObjectBaseType;
+        }
+
         void operator()(const NodeInfo<mson::ValueMember>& valueMember) const
         {
             // silently ignore "value" for ObjectElement e.g.
+            // ```
             // # A (array)
             // - key (object)
-            // warning is attached while creating ValueMember in snowcrash
-            if (valueMember.node->valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType
-                || valueMember.node->valueDefinition.typeDefinition.baseType == mson::ObjectBaseType) {
+            // ```
+            // `key` - value "defintion for object" warning is already created in snowcrash
+            //  so we can sillently ignore it
+            if (hasValueForObject(valueMember))  {
                 return;
             }
 
@@ -592,7 +599,8 @@ namespace
                 } else if ((attrs & mson::SampleTypeAttribute) || IsValueVariable<typename T::ValueType>()(value)) {
                     data.samples.push_back(fetch(valueMember, context));
                 } else {
-                    Store<T>()(data, fetch(valueMember, context));
+                    data.inlines.push_back(fetch(valueMember, context));
+                    //Store<T>()(data, fetch(valueMember, context));
                 }
             } else {
                 if (attrs & mson::DefaultTypeAttribute) {
@@ -674,19 +682,22 @@ namespace
     struct SaveValue<T, true> {
         void operator()(ElementData<T>& data, T& element, ConversionContext& /* context */) const
         {
-            if (data.values.empty()) {
+            if (data.inlines.empty() && data.values.empty()) {
                 return;
             }
 
-            auto info = Merge<T>()(std::move(data.values));
+            auto inlines = Merge<T>()(std::move(data.inlines));
+            auto values = Merge<T>()(std::move(data.values));
 
-            auto result = LiteralTo<typename T::ValueType>(info.value);
+            auto result = data.values.empty()
+                ? LiteralTo<typename T::ValueType>(inlines.value)
+                : LiteralTo<typename T::ValueType>(values.value);
 
             // if(result.first) // FIXME: @tjanc@ uncomment to be specification compliant
             element.set(result.second);
 
             // FIXME: refactoring adept - AttachSourceMap require NodeInfo, let it pass for now
-            AttachSourceMap(element, MakeNodeInfo(result.second, info.sourceMap));
+            AttachSourceMap(element, MakeNodeInfo(result.second, data.values.empty() ? inlines.sourceMap : values.sourceMap));
         }
     };
 
@@ -694,6 +705,7 @@ namespace
     struct SaveValue<T, false> {
         void operator()(ElementData<T>& data, T& element, ConversionContext& /* context */) const
         {
+            auto inlines = Merge<T>()(std::move(data.inlines));
             auto info = Merge<T>()(std::move(data.values));
             auto hint = Merge<T>()(std::move(data.hints));
 
@@ -701,6 +713,12 @@ namespace
                 if (element.empty())
                     element.set();
                 std::move(hint.value.begin(), hint.value.end(), std::back_inserter(element.get()));
+            }
+
+            if (!inlines.value.empty()) {
+                if (element.empty())
+                    element.set();
+                std::move(inlines.value.begin(), inlines.value.end(), std::back_inserter(element.get()));
             }
 
             if (!info.value.empty()) {
@@ -717,13 +735,17 @@ namespace
 
         void operator()(ElementData<T>& data, T& element, ConversionContext& context) const
         {
-
-            if ((data.values.size() >= 1) && (data.values.front().value.size() == 1)
+            if ((data.inlines.size() >= 1) && (data.inlines.front().value.size() == 1)
+                && !data.inlines.front().value.front()->empty()) {
+                auto content = data.inlines.front().value.front()->clone();
+                element.set(dsd::Enum{ std::move(content) });
+            } else if ((data.values.size() >= 1) && (data.values.front().value.size() == 1)
                 && !data.values.front().value.front()->empty()) {
                 auto content = data.values.front().value.front()->clone();
                 element.set(dsd::Enum{ std::move(content) });
             }
 
+            auto inlinesInfo = Merge<EnumElement>()(std::move(data.inlines));
             auto valuesInfo = Merge<EnumElement>()(std::move(data.values));
             auto hintsInfo = Merge<EnumElement>()(std::move(data.hints));
             auto samplesInfo = Merge<EnumElement>()(CloneElementInfoContainer<T>(data.samples));
@@ -753,6 +775,11 @@ namespace
                 }
             };
 
+            std::for_each(inlinesInfo.value.begin(),
+                inlinesInfo.value.end(),
+                [&inlinesInfo, &addToEnumerations, &enums, &context](std::unique_ptr<IElement>& info) {
+                    addToEnumerations(info, enums, context, inlinesInfo.sourceMap, true);
+                });
             std::for_each(valuesInfo.value.begin(),
                 valuesInfo.value.end(),
                 [&valuesInfo, &addToEnumerations, &enums, &context](std::unique_ptr<IElement>& info) {
@@ -889,6 +916,7 @@ namespace
             validate(val, context);
         };
 
+        std::for_each(data.inlines.begin(), data.inlines.end(), validate);
         std::for_each(data.values.begin(), data.values.end(), validate);
         std::for_each(data.samples.begin(), data.samples.end(), validate);
         std::for_each(data.defaults.begin(), data.defaults.end(), validate);
