@@ -106,13 +106,43 @@ std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
         defaultNestedType);
 }
 
+namespace
+{
+    std::string msonToApieSymbol(mson::BaseTypeName base)
+    {
+        switch (base) {
+            case mson::BooleanTypeName:
+                return "boolean";
+            case mson::StringTypeName:
+                return "string";
+            case mson::NumberTypeName:
+                return "number";
+            case mson::ArrayTypeName:
+                return "array";
+            case mson::EnumTypeName:
+                return "enum";
+            case mson::ObjectTypeName:
+                return "object";
+            default:
+                assert(false);
+        }
+        return "";
+    }
+
+    std::string msonToApieSymbol(const mson::TypeName& name)
+    {
+        assert(!name.empty());
+        return name.symbol.empty() ? msonToApieSymbol(name.base) : name.symbol.literal;
+    }
+}
+
 std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
     const mson::Element::MixinSection& section,
     const snowcrash::SourceMap<mson::Element>* sourceMap,
     ConversionContext&,
     const mson::BaseTypeName)
 {
-    auto ref = make_element<RefElement>(section.typeSpecification.name.symbol.literal);
+    auto ref = make_element<RefElement>(msonToApieSymbol(section.typeSpecification.name));
     ref->attributes().set(SerializeKey::Path, from_primitive(SerializeKey::Content));
     return std::move(ref);
 }

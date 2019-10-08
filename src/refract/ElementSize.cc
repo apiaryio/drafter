@@ -10,6 +10,7 @@
 
 #include "Element.h"
 #include "ElementUtils.h"
+#include "../utils/log/Trivial.h"
 #include <algorithm>
 #include <numeric>
 #include <limits>
@@ -158,8 +159,10 @@ cardinal refract::sizeOf(const ExtendElement& e, bool inheritsFixed)
 
 cardinal refract::sizeOf(const RefElement& e, bool inheritsFixed)
 {
-    const auto& resolved = resolve(e);
-    return sizeOf(resolved, inheritsFixed);
+    if (const IElement* resolved = resolve(e))
+        return sizeOf(*resolved, inheritsFixed);
+    LOG(warning) << "ignoring unresolved reference calculating type cardinality";
+    return cardinal::empty();
 }
 
 cardinal refract::sizeOf(const HolderElement& e, bool inheritsFixed)

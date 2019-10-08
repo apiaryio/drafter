@@ -294,15 +294,14 @@ bool refract::definesValue(const IElement& e)
     return nullptr != findValue(e);
 }
 
-const IElement& refract::resolve(const RefElement& element)
+const IElement* refract::resolve(const RefElement& element)
 {
-    const auto& resolvedEntry = element.attributes().find("resolved");
+    const auto resolvedEntry = element.attributes().find("resolved");
     if (resolvedEntry == element.attributes().end()) {
         LOG(error) << "expected all references to be resolved in backend";
         assert(false);
-        return element;
     }
 
     assert(resolvedEntry->second);
-    return *resolvedEntry->second;
+    return resolvedEntry->second.get();
 }

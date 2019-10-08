@@ -1,5 +1,13 @@
 # Drafter Changelog
 
+## master
+
+### Bug Fixes
+
+* Avoid crashes on unresolved references, especially when MSON mixins reference
+  primitive types (e.g. `Include (object)`).
+  [#752](https://github.com/apiaryio/drafter/issues/752)
+
 ## 4.0.1 (2019-09-17)
 
 ### Bug Fixes

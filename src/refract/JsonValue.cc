@@ -283,8 +283,10 @@ namespace
 
     so::Value renderValueSpecific(const RefElement& element, TypeAttributes options)
     {
-        const auto& resolved = resolve(element);
-        return renderValue(resolved, passFlags(options));
+        if (const IElement* resolved = resolve(element))
+            return renderValue(*resolved, passFlags(options));
+        LOG(warning) << "ignoring unresolved reference in json value backend";
+        return so::Null{};
     }
 
     struct RenderValueVisitor {
@@ -379,8 +381,10 @@ namespace
 
     void renderPropertySpecific(so::Object& obj, const RefElement& element, TypeAttributes options)
     {
-        const auto& resolved = resolve(element);
-        renderProperty(obj, resolved, passFlags(options));
+        if (const IElement* resolved = resolve(element))
+            renderProperty(obj, *resolved, passFlags(options));
+        else
+            LOG(warning) << "ignoring unresolved reference in json value backend";
     }
 
     void renderPropertySpecific(so::Object& value, const SelectElement& element, TypeAttributes options)
@@ -513,8 +517,10 @@ namespace
 
     void renderItemSpecific(so::Array& array, const RefElement& element, TypeAttributes options)
     {
-        const auto& resolved = resolve(element);
-        if (const auto& mixin = get<const ArrayElement>(&resolved)) {
+        const IElement* resolved = resolve(element);
+        if (!resolved) {
+            LOG(warning) << "ignoring unresolved reference in json value backend";
+        } else if (const auto& mixin = get<const ArrayElement>(resolved)) {
             // OPTIM @tjanc@ avoid temporary container
             so::Value mixinValue = renderValueSpecific(*mixin, passFlags(options));
             if (const so::Array* mixinValueArray = mpark::get_if<so::Array>(&mixinValue))

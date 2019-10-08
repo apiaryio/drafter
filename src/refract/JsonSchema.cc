@@ -360,7 +360,7 @@ namespace
     so::Object& errorByImpossibleSchema(so::Object& schema, const T& element)
     {
         LOG(error) << "invalid element, interpreting as unsatisfiable schema: " << element.element();
-        addOneOf(schema, so::Array{so::from_list{}, so::Object{}, so::Object{}});
+        addOneOf(schema, so::Array{ so::from_list{}, so::Object{}, so::Object{} });
         return schema;
     }
 
@@ -373,8 +373,10 @@ namespace
 
     so::Object& renderSchemaSpecific(so::Object& s, const RefElement& e, TypeAttributes options)
     {
-        const auto& resolved = resolve(e);
-        return renderSchema(s, resolved, passFlags(options));
+        if (const IElement* resolved = resolve(e))
+            return renderSchema(s, *resolved, passFlags(options));
+        LOG(warning) << "ignoring unresolved reference in backend";
+        return s;
     }
 
     so::Object& renderSchemaSpecific(so::Object& s, const ObjectElement& e, TypeAttributes options)
@@ -723,8 +725,9 @@ namespace
 
     void renderPropertySpecific(ObjectSchema& s, const RefElement& e, TypeAttributes options)
     {
-        const auto& resolved = resolve(e);
-        renderProperty(s, resolved, passFlags(options));
+        if (const IElement* resolved = resolve(e))
+            renderProperty(s, *resolved, passFlags(options));
+        LOG(warning) << "ignoring unresolved reference in json schema backend";
     }
 
     void renderPropertySpecific(ObjectSchema& s, const SelectElement& e, TypeAttributes options)

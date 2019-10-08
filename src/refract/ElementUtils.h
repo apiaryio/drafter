@@ -142,7 +142,7 @@ namespace refract
     ///
     /// Resolve a previously expanded reference
     ///
-    const IElement& resolve(const RefElement& element);
+    const IElement* resolve(const RefElement& element);
 }
 
 #endif
