@@ -138,6 +138,10 @@ CharactersRangeSet mdp::BytesRangeSetToConsecutiveCharactersRangeSet(
 {
     CharactersRangeSet characterMap;
 
+    if (rangeSet.empty()) {
+        return characterMap;
+    }
+
     BytesRangeSet::const_iterator begin = rangeSet.begin();
     BytesRangeSet::const_reverse_iterator end = rangeSet.rbegin();
 
