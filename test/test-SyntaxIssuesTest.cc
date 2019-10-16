@@ -13,3 +13,4 @@ using namespace draftertest;
 TEST_REFRACT("syntax", "issue-350");
 TEST_REFRACT("syntax", "undisclosed-listitem");
 TEST_REFRACT("syntax", "mixed-inheritance-and-mixin");
+TEST_REFRACT("syntax", "issue-755");
