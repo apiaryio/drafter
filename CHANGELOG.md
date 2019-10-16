@@ -8,6 +8,10 @@
   primitive types (e.g. `Include (object)`).
   [#752](https://github.com/apiaryio/drafter/issues/752)
 
+* Prevent crashes under some circumstances while handling incorrectly indented
+  blocks.
+  [#755](https://github.com/apiaryio/drafter/issues/755)
+
 ## 4.0.1 (2019-09-17)
 
 ### Bug Fixes
