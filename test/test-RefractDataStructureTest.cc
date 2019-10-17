@@ -66,6 +66,8 @@ TEST_REFRACT("mson", "issue-709-b");
 TEST_REFRACT("mson", "issue-713");
 TEST_REFRACT("mson", "issue-718");
 TEST_REFRACT("mson", "issue-752");
+TEST_REFRACT("mson", "issue-749-1");
+TEST_REFRACT("mson", "issue-749-2");
 
 #undef TEST_MSON_SUCCESS
 #undef TEST_MSON

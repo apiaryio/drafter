@@ -557,27 +557,27 @@ namespace
             }
         };
 
-        template <typename E, bool dummy = true>
-        struct Store {
-            void operator()(ElementData<E>& data, ElementInfo<E> info) const
-            {
-                data.values.push_back(std::move(info));
-            }
-        };
-
         ExtractValueMember(ElementData<T>& data, ConversionContext& context, const mson::BaseTypeName)
             : data(data), context(context)
         {
         }
 
+        static bool hasValueForObject(const NodeInfo<mson::ValueMember>& valueMember)
+        {
+            return valueMember.node->valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType
+                || valueMember.node->valueDefinition.typeDefinition.baseType == mson::ObjectBaseType;
+        }
+
         void operator()(const NodeInfo<mson::ValueMember>& valueMember) const
         {
             // silently ignore "value" for ObjectElement e.g.
+            // ```
             // # A (array)
             // - key (object)
-            // warning is attached while creating ValueMember in snowcrash
-            if (valueMember.node->valueDefinition.typeDefinition.baseType == mson::ImplicitObjectBaseType
-                || valueMember.node->valueDefinition.typeDefinition.baseType == mson::ObjectBaseType) {
+            // ```
+            // `key` - value "defintion for object" warning is already created in snowcrash
+            //  so we can sillently ignore it
+            if (hasValueForObject(valueMember)) {
                 return;
             }
 
@@ -592,7 +592,7 @@ namespace
                 } else if ((attrs & mson::SampleTypeAttribute) || IsValueVariable<typename T::ValueType>()(value)) {
                     data.samples.push_back(fetch(valueMember, context));
                 } else {
-                    Store<T>()(data, fetch(valueMember, context));
+                    data.inlines.push_back(fetch(valueMember, context));
                 }
             } else {
                 if (attrs & mson::DefaultTypeAttribute) {
@@ -674,19 +674,22 @@ namespace
     struct SaveValue<T, true> {
         void operator()(ElementData<T>& data, T& element, ConversionContext& /* context */) const
         {
-            if (data.values.empty()) {
+            if (data.inlines.empty() && data.values.empty()) {
                 return;
             }
 
-            auto info = Merge<T>()(std::move(data.values));
+            auto inlines = Merge<T>()(std::move(data.inlines));
+            auto values = Merge<T>()(std::move(data.values));
 
-            auto result = LiteralTo<typename T::ValueType>(info.value);
+            auto result = data.values.empty() ? LiteralTo<typename T::ValueType>(inlines.value) :
+                                                LiteralTo<typename T::ValueType>(values.value);
 
             // if(result.first) // FIXME: @tjanc@ uncomment to be specification compliant
             element.set(result.second);
 
             // FIXME: refactoring adept - AttachSourceMap require NodeInfo, let it pass for now
-            AttachSourceMap(element, MakeNodeInfo(result.second, info.sourceMap));
+            AttachSourceMap(
+                element, MakeNodeInfo(result.second, data.values.empty() ? inlines.sourceMap : values.sourceMap));
         }
     };
 
@@ -694,20 +697,17 @@ namespace
     struct SaveValue<T, false> {
         void operator()(ElementData<T>& data, T& element, ConversionContext& /* context */) const
         {
+            auto inlines = Merge<T>()(std::move(data.inlines));
             auto info = Merge<T>()(std::move(data.values));
             auto hint = Merge<T>()(std::move(data.hints));
 
-            if (!hint.value.empty()) {
-                if (element.empty())
-                    element.set();
-                std::move(hint.value.begin(), hint.value.end(), std::back_inserter(element.get()));
+            if (!(hint.value.empty() && inlines.value.empty() && info.value.empty()) && element.empty()) {
+                element.set();
             }
 
-            if (!info.value.empty()) {
-                if (element.empty())
-                    element.set();
-                std::move(info.value.begin(), info.value.end(), std::back_inserter(element.get()));
-            }
+            std::move(hint.value.begin(), hint.value.end(), std::back_inserter(element.get()));
+            std::move(inlines.value.begin(), inlines.value.end(), std::back_inserter(element.get()));
+            std::move(info.value.begin(), info.value.end(), std::back_inserter(element.get()));
         }
     };
 
@@ -717,17 +717,21 @@ namespace
 
         void operator()(ElementData<T>& data, T& element, ConversionContext& context) const
         {
-
-            if ((data.values.size() >= 1) && (data.values.front().value.size() == 1)
+            if ((data.inlines.size() >= 1) && (data.inlines.front().value.size() == 1)
+                && !data.inlines.front().value.front()->empty()) {
+                auto content = data.inlines.front().value.front()->clone();
+                element.set(dsd::Enum{ std::move(content) });
+            } else if ((data.values.size() >= 1) && (data.values.front().value.size() == 1)
                 && !data.values.front().value.front()->empty()) {
                 auto content = data.values.front().value.front()->clone();
                 element.set(dsd::Enum{ std::move(content) });
             }
 
-            auto valuesInfo = Merge<EnumElement>()(std::move(data.values));
-            auto hintsInfo = Merge<EnumElement>()(std::move(data.hints));
-            auto samplesInfo = Merge<EnumElement>()(CloneElementInfoContainer<T>(data.samples));
-            auto defaultInfo = Merge<EnumElement>()(CloneElementInfoContainer<T>(data.defaults));
+            auto inlines = Merge<EnumElement>()(std::move(data.inlines));
+            auto values = Merge<EnumElement>()(std::move(data.values));
+            auto hints = Merge<EnumElement>()(std::move(data.hints));
+            auto samples = Merge<EnumElement>()(CloneElementInfoContainer<T>(data.samples));
+            auto defaults = Merge<EnumElement>()(CloneElementInfoContainer<T>(data.defaults));
 
             dsd::Array enums;
 
@@ -753,29 +757,59 @@ namespace
                 }
             };
 
-            std::for_each(valuesInfo.value.begin(),
-                valuesInfo.value.end(),
-                [&valuesInfo, &addToEnumerations, &enums, &context](std::unique_ptr<IElement>& info) {
-                    addToEnumerations(info, enums, context, valuesInfo.sourceMap, true);
+            // clean `inlines` which are later defined in `values`
+            // to avoid reporting duplicity
+            // in definitions like
+            // ```
+            // - enumerable: a (enum)
+            // + Members
+            //   + a
+            //   + b
+            //   + c
+            // ```
+
+            inlines.value.erase(std::remove_if(inlines.value.begin(),
+                                    inlines.value.end(),
+                                    [&values](const std::unique_ptr<IElement>& in) {
+                                        return std::find_if(values.value.begin(),
+                                                   values.value.end(),
+                                                   [&in](const std::unique_ptr<IElement>& val) {
+                                                       return Equal<detail::IgnoreKeys>(*val,
+                                                           *in,
+                                                           detail::IgnoreKeys({ "sourceMap" }),
+                                                           detail::IgnoreKeys({ "description" }));
+                                                   })
+                                            != values.value.end();
+                                    }),
+                inlines.value.end());
+
+            std::for_each(inlines.value.begin(),
+                inlines.value.end(),
+                [&inlines, &addToEnumerations, &enums, &context](std::unique_ptr<IElement>& info) {
+                    addToEnumerations(info, enums, context, inlines.sourceMap, true);
                 });
-            std::for_each(samplesInfo.value.begin(),
-                samplesInfo.value.end(),
-                [&samplesInfo, &addToEnumerations, &enums, &context](std::unique_ptr<IElement>& info) {
-                    addToEnumerations(info, enums, context, samplesInfo.sourceMap, false);
+            std::for_each(values.value.begin(),
+                values.value.end(),
+                [&values, &addToEnumerations, &enums, &context](std::unique_ptr<IElement>& info) {
+                    addToEnumerations(info, enums, context, values.sourceMap, true);
                 });
-            std::for_each(defaultInfo.value.begin(),
-                defaultInfo.value.end(),
-                [&defaultInfo, &addToEnumerations, &enums, &context](std::unique_ptr<IElement>& info) {
-                    addToEnumerations(info, enums, context, defaultInfo.sourceMap, false);
+            std::for_each(samples.value.begin(),
+                samples.value.end(),
+                [&samples, &addToEnumerations, &enums, &context](std::unique_ptr<IElement>& info) {
+                    addToEnumerations(info, enums, context, samples.sourceMap, false);
                 });
-            std::for_each(hintsInfo.value.begin(),
-                hintsInfo.value.end(),
-                [&hintsInfo, &addToEnumerations, &enums, &context](std::unique_ptr<IElement>& info) {
-                    addToEnumerations(info, enums, context, hintsInfo.sourceMap, true);
+            std::for_each(defaults.value.begin(),
+                defaults.value.end(),
+                [&defaults, &addToEnumerations, &enums, &context](std::unique_ptr<IElement>& info) {
+                    addToEnumerations(info, enums, context, defaults.sourceMap, false);
+                });
+            std::for_each(hints.value.begin(),
+                hints.value.end(),
+                [&hints, &addToEnumerations, &enums, &context](std::unique_ptr<IElement>& info) {
+                    addToEnumerations(info, enums, context, hints.sourceMap, true);
                 });
 
             if (!enums.empty()) {
-
                 std::for_each(enums.begin(), enums.end(), [](std::unique_ptr<IElement>& info) {
                     if (IsLiteral(*info)) {
                         AppendInfoElement<ArrayElement>(info->attributes(), "typeAttributes", dsd::String{ "fixed" });
@@ -889,6 +923,7 @@ namespace
             validate(val, context);
         };
 
+        std::for_each(data.inlines.begin(), data.inlines.end(), validate);
         std::for_each(data.values.begin(), data.values.end(), validate);
         std::for_each(data.samples.begin(), data.samples.end(), validate);
         std::for_each(data.defaults.begin(), data.defaults.end(), validate);
@@ -905,19 +940,21 @@ namespace
             return nullptr;
         }
 
-        auto info = std::accumulate(descriptions.cbegin(), descriptions.cend(), DescriptionInfo(), 
-                [](DescriptionInfo& info, typename DescriptionInfoContainer::const_reference item) {
-                    if (item.description.empty())
-                      return info;
-
-                    if (!info.description.empty()) 
-                        info.description.append("\n");
-
-                    info.description.append(item.description);
-                    info.sourceMap.sourceMap.append(item.sourceMap.sourceMap);
-
+        auto info = std::accumulate(descriptions.cbegin(),
+            descriptions.cend(),
+            DescriptionInfo(),
+            [](DescriptionInfo& info, typename DescriptionInfoContainer::const_reference item) {
+                if (item.description.empty())
                     return info;
-                });
+
+                if (!info.description.empty())
+                    info.description.append("\n");
+
+                info.description.append(item.description);
+                info.sourceMap.sourceMap.append(item.sourceMap.sourceMap);
+
+                return info;
+            });
 
         if (info.description.empty()) {
             return nullptr;
@@ -1081,9 +1118,12 @@ namespace
 
     bool ValueHasMembers(const mson::ValueMember* value)
     {
-        return std::find_if(value->sections.cbegin(), value->sections.cend(), [](typename mson::TypeSections::const_reference item) {
-                return item.klass == mson::TypeSection::MemberTypeClass;
-                }) != value->sections.cend();
+        return std::find_if(value->sections.cbegin(),
+                   value->sections.cend(),
+                   [](typename mson::TypeSections::const_reference item) {
+                       return item.klass == mson::TypeSection::MemberTypeClass;
+                   })
+            != value->sections.cend();
     }
 
     bool ValueHasChildren(const mson::ValueMember* value)

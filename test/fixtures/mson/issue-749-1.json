@@ -1,0 +1,169 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": {
+          "element": "array",
+          "content": [
+            {
+              "element": "string",
+              "content": "api"
+            }
+          ]
+        },
+        "title": {
+          "element": "string",
+          "content": ""
+        }
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": {
+              "element": "array",
+              "content": [
+                {
+                  "element": "string",
+                  "content": "dataStructures"
+                }
+              ]
+            }
+          },
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": {
+                "element": "object",
+                "meta": {
+                  "id": {
+                    "element": "string",
+                    "content": "WaveRecord"
+                  }
+                },
+                "content": [
+                  {
+                    "element": "member",
+                    "meta": {
+                      "description": {
+                        "element": "string",
+                        "content": "The wave status."
+                      }
+                    },
+                    "attributes": {
+                      "typeAttributes": {
+                        "element": "array",
+                        "content": [
+                          {
+                            "element": "string",
+                            "content": "required"
+                          }
+                        ]
+                      }
+                    },
+                    "content": {
+                      "key": {
+                        "element": "string",
+                        "content": "status"
+                      },
+                      "value": {
+                        "element": "enum",
+                        "attributes": {
+                          "enumerations": {
+                            "element": "array",
+                            "content": [
+                              {
+                                "element": "string",
+                                "meta": {
+                                  "description": {
+                                    "element": "string",
+                                    "content": "The wave has been created but not queued."
+                                  }
+                                },
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "Draft"
+                              },
+                              {
+                                "element": "string",
+                                "meta": {
+                                  "description": {
+                                    "element": "string",
+                                    "content": "The wave has been processed."
+                                  }
+                                },
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "Processed"
+                              },
+                              {
+                                "element": "string",
+                                "meta": {
+                                  "description": {
+                                    "element": "string",
+                                    "content": "The wave has been queued but not processed."
+                                  }
+                                },
+                                "attributes": {
+                                  "typeAttributes": {
+                                    "element": "array",
+                                    "content": [
+                                      {
+                                        "element": "string",
+                                        "content": "fixed"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "content": "Queued"
+                              }
+                            ]
+                          }
+                        },
+                        "content": {
+                          "element": "string",
+                          "attributes": {
+                            "typeAttributes": {
+                              "element": "array",
+                              "content": [
+                                {
+                                  "element": "string",
+                                  "content": "fixed"
+                                }
+                              ]
+                            }
+                          },
+                          "content": "Processed"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

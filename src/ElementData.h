@@ -93,6 +93,7 @@ namespace drafter
     template <typename T>
     struct ElementData {
 
+        ElementInfoContainer<T> inlines;
         ElementInfoContainer<T> values;
         ElementInfoContainer<T> defaults;
         ElementInfoContainer<T> samples;
