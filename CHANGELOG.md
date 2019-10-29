@@ -1,6 +1,6 @@
 # Drafter Changelog
 
-## master
+## 4.0.2 (2019-10-29)
 
 ### Bug Fixes
 
@@ -11,6 +11,11 @@
 * Prevent crashes under some circumstances while handling incorrectly indented
   blocks.
   [#755](https://github.com/apiaryio/drafter/issues/755)
+
+* Fixed cases where an enum with a matching sample, default or enumeration
+  value would issue a duplication warning and the incorrect description may be
+  selected.
+  [#749](https://github.com/apiaryio/drafter/issues/749)
 
 ## 4.0.1 (2019-09-17)
 
