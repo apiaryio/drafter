@@ -79,11 +79,6 @@ set(DRAFTER_COMPILE_FEATURES
     cxx_variadic_templates
     )
 
-# libdrafter
-add_library(drafter ${DRAFTER_SOURCES})
-
-set_target_properties(drafter PROPERTIES PUBLIC_HEADER "drafter.h" WINDOWS_EXPORT_ALL_SYMBOLS 1)
-
 # production dependencies
 find_package(snowcrash 1.0 REQUIRED)
 find_package(BoostContainer 1.66 REQUIRED)
@@ -91,25 +86,37 @@ find_package(cmdline 1.0 REQUIRED)
 find_package(MPark.Variant 1.4 REQUIRED)
 find_package(pegtl 2.8 REQUIRED)
 
-target_link_libraries(drafter
-    PRIVATE
+# libdrafter
+add_library(drafter-obj OBJECT ${DRAFTER_SOURCES})
+set_property(TARGET drafter-obj PROPERTY POSITION_INDEPENDENT_CODE 1)
+
+target_link_libraries(drafter-obj
+    PUBLIC
         snowcrash::snowcrash
         Boost::container
         mpark_variant
         pegtl
     )
 
-target_include_directories(drafter PUBLIC
+target_include_directories(drafter-obj PUBLIC
     $<BUILD_INTERFACE:${Drafter_BINARY_DIR}>
     $<BUILD_INTERFACE:${Drafter_SOURCE_DIR}>
     $<INSTALL_INTERFACE:>
     )
 
-target_compile_definitions(drafter PRIVATE BUILDING_DRAFTER=1)
+target_compile_features(drafter-obj PUBLIC ${DRAFTER_COMPILE_FEATURES})
 
-target_compile_definitions(drafter PUBLIC DRAFTER_BUILD_STATIC=1)
+add_library(drafter-lib STATIC $<TARGET_OBJECTS:drafter-obj>)
+set_target_properties(drafter-lib PROPERTIES OUTPUT_NAME drafter)
+set_target_properties(drafter-lib PROPERTIES PUBLIC_HEADER "drafter.h" WINDOWS_EXPORT_ALL_SYMBOLS 1)
+target_link_libraries(drafter-lib
+    PUBLIC
+        drafter-obj
+    )
 
-target_compile_features(drafter PUBLIC ${DRAFTER_COMPILE_FEATURES})
+# FIXME: do we need this definitions
+target_compile_definitions(drafter-lib PRIVATE BUILDING_DRAFTER=1)
+target_compile_definitions(drafter-lib PUBLIC DRAFTER_BUILD_STATIC=1)
 
 # drafter-cli
 add_executable(drafter-cli
@@ -117,24 +124,30 @@ add_executable(drafter-cli
     reporting.cc
     config.cc
     )
-
+set_target_properties(drafter-cli PROPERTIES OUTPUT_NAME drafter)
 target_link_libraries(drafter-cli
     PRIVATE
-        snowcrash::snowcrash
-        drafter::drafter
+        drafter-lib
         cmdline::cmdline
-        mpark_variant
-        pegtl
     )
 
-set_target_properties(drafter-cli PROPERTIES OUTPUT_NAME drafter)
 
-install(TARGETS drafter drafter-cli EXPORT drafter-targets
+# drafter-so
+add_library(drafter-so SHARED $<TARGET_OBJECTS:drafter-obj>) 
+set_target_properties(drafter-so PROPERTIES OUTPUT_NAME drafter)
+set_target_properties(drafter-so PROPERTIES PUBLIC_HEADER "drafter.h" WINDOWS_EXPORT_ALL_SYMBOLS 1)
+target_link_libraries(drafter-so
+    PUBLIC
+        drafter-obj
+    )
+
+# install
+install(TARGETS drafter-obj drafter-lib drafter-cli drafter-so EXPORT drafter-targets
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
-    INCLUDES DESTINATION include
-    PUBLIC_HEADER DESTINATION include
+    INCLUDES DESTINATION include/drafer
+    PUBLIC_HEADER DESTINATION include/drafter
     )
 
 install(EXPORT drafter-targets
@@ -157,4 +170,4 @@ install(
         lib/cmake/drafter
     )
 
-add_library(drafter::drafter ALIAS drafter)
+add_library(drafter::drafter ALIAS drafter-lib)

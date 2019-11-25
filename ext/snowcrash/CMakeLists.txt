@@ -25,6 +25,7 @@ else()
 endif()
 
 add_library(snowcrash ${snowcrash_SOURCES})
+set_property(TARGET snowcrash PROPERTY POSITION_INDEPENDENT_CODE 1)
 
 find_package(markdown-parser 1.0 REQUIRED)
 
