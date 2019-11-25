@@ -141,6 +141,8 @@ target_link_libraries(drafter-so
         drafter-obj
     )
 
+add_custom_target(drafter DEPENDS drafter-cli drafter-so)
+
 # install
 install(TARGETS drafter-obj drafter-lib drafter-cli drafter-so EXPORT drafter-targets
     LIBRARY DESTINATION lib
@@ -171,3 +173,4 @@ install(
     )
 
 add_library(drafter::drafter ALIAS drafter-lib)
+
