@@ -59,6 +59,7 @@ target_link_libraries(drafter-test
         Boost::container
         mpark_variant
     )
+target_compile_definitions(drafter-test PUBLIC DRAFTER_BUILD_STATIC=1)
 
 add_test(DrafterTest drafter-test)
 
@@ -78,4 +79,5 @@ target_link_libraries(drafter-ctest
         drafter::drafter
     )
 
+target_compile_definitions(drafter-ctest PUBLIC DRAFTER_BUILD_STATIC=1)
 add_test(DrafterCTest drafter-ctest)

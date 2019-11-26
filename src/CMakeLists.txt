@@ -18,7 +18,6 @@ set(DRAFTER_SOURCES
     SerializeResult.cc
     SourceMapUtils.cc
     ContentTypeMatcher.cc
-    drafter.cc
     refract/ComparableVisitor.cc
     refract/Element.cc
     refract/ElementSize.cc
@@ -86,39 +85,51 @@ find_package(cmdline 1.0 REQUIRED)
 find_package(MPark.Variant 1.4 REQUIRED)
 find_package(pegtl 2.8 REQUIRED)
 
-# libdrafter
+# drafter-dep 
+# we need it to:
+# - expose INTERFACE_INCLUDE_DIRECTORIES for drafter-obj
+# - expose dependencies to drafter-lib, drafter-so, drafter-cli
+#
+# reason to have it, is drafter-obj does not allow to expose it via
+# target_link_libraries() and target_include_directories() in version cmake 3.5
+#
+add_library(drafter-dep INTERFACE)
+target_link_libraries(drafter-dep
+    INTERFACE
+    snowcrash::snowcrash
+    Boost::container
+    mpark_variant
+    pegtl
+    )
+target_include_directories(drafter-dep
+    INTERFACE 
+    $<BUILD_INTERFACE:${Drafter_BINARY_DIR}>
+    $<BUILD_INTERFACE:${Drafter_SOURCE_DIR}>
+    )
+
+# drafter-obj
 add_library(drafter-obj OBJECT ${DRAFTER_SOURCES})
 set_property(TARGET drafter-obj PROPERTY POSITION_INDEPENDENT_CODE 1)
 
-target_link_libraries(drafter-obj
-    PUBLIC
-        snowcrash::snowcrash
-        Boost::container
-        mpark_variant
-        pegtl
-    )
-
-target_include_directories(drafter-obj PUBLIC
+target_include_directories(drafter-obj
+    PRIVATE
+    $<TARGET_PROPERTY:drafter-dep,INTERFACE_INCLUDE_DIRECTORIES>
     $<BUILD_INTERFACE:${Drafter_BINARY_DIR}>
     $<BUILD_INTERFACE:${Drafter_SOURCE_DIR}>
-    $<INSTALL_INTERFACE:>
     )
 
 target_compile_features(drafter-obj PUBLIC ${DRAFTER_COMPILE_FEATURES})
 
-add_library(drafter-lib STATIC $<TARGET_OBJECTS:drafter-obj>)
+# drafter-lib
+add_library(drafter-lib STATIC drafter.cc $<TARGET_OBJECTS:drafter-obj>)
 set_target_properties(drafter-lib PROPERTIES OUTPUT_NAME drafter)
 set_target_properties(drafter-lib PROPERTIES PUBLIC_HEADER "drafter.h" WINDOWS_EXPORT_ALL_SYMBOLS 1)
-target_link_libraries(drafter-lib
-    PUBLIC
-        drafter-obj
-    )
+target_link_libraries(drafter-lib PUBLIC drafter-dep)
 
 # FIXME: do we need this definitions
-target_compile_definitions(drafter-lib PRIVATE BUILDING_DRAFTER=1)
-target_compile_definitions(drafter-lib PUBLIC DRAFTER_BUILD_STATIC=1)
+#target_compile_definitions(drafter-lib PRIVATE BUILDING_DRAFTER=1)
 
-# drafter-cli
+## drafter-cli
 add_executable(drafter-cli
     main.cc
     reporting.cc
@@ -127,24 +138,40 @@ add_executable(drafter-cli
 set_target_properties(drafter-cli PROPERTIES OUTPUT_NAME drafter)
 target_link_libraries(drafter-cli
     PRIVATE
-        drafter-lib
-        cmdline::cmdline
+    drafter-lib
+    cmdline::cmdline
     )
+#
+# Windows build
+# drafter.h -> 
+# -> usedll !defined (DRAFTER_BUILD_SHARED) && !defined(DRAFTER_BUILD_STATIC) 
+#
+target_compile_definitions(drafter-lib PUBLIC DRAFTER_BUILD_STATIC=1)
+#target_compile_definitions(drafter-cli PUBLIC DRAFTER_BUILD_STATIC=1)
 
+set(EXPORTED_TARGETS drafter-dep drafter-lib drafter-cli)
+set(DRAFTER_TARGETS drafter-cli)
 
-# drafter-so
-add_library(drafter-so SHARED $<TARGET_OBJECTS:drafter-obj>) 
+if(NOT MSVC)
+
+## drafter-so
+add_library(drafter-so SHARED drafter.cc $<TARGET_OBJECTS:drafter-obj>) 
 set_target_properties(drafter-so PROPERTIES OUTPUT_NAME drafter)
 set_target_properties(drafter-so PROPERTIES PUBLIC_HEADER "drafter.h" WINDOWS_EXPORT_ALL_SYMBOLS 1)
-target_link_libraries(drafter-so
-    PUBLIC
-        drafter-obj
-    )
+target_link_libraries(drafter-so PUBLIC drafter-dep)
+target_compile_definitions(drafter-so PUBLIC DRAFTER_BUILD_SHARED=1)
 
-add_custom_target(drafter DEPENDS drafter-cli drafter-so)
+list(APPEND EXPORTED_TARGETS drafter-so)
+list(APPEND DRAFTER_TARGETS drafter-so)
+
+#set_target_properties(drafter-so PROPERTIES SOVERSION 4.0)
+
+endif()
+
+add_custom_target(drafter DEPENDS ${DRAFTER_TARGETS})
 
 # install
-install(TARGETS drafter-obj drafter-lib drafter-cli drafter-so EXPORT drafter-targets
+install(TARGETS ${EXPORTED_TARGETS} EXPORT drafter-targets
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
@@ -172,5 +199,5 @@ install(
         lib/cmake/drafter
     )
 
+add_library(drafter ALIAS drafter-lib)
 add_library(drafter::drafter ALIAS drafter-lib)
-
