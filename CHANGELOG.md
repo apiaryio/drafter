@@ -1,5 +1,12 @@
 # Drafter Changelog
 
+## 4.1.0 (2019-12-28)
+
+### Enhancements
+
+- Added support for dynamically linking against Drafter. The installation of
+  Drafter will now install a dynamic library (dll/so/dylib) on the system.
+
 ## 4.0.2 (2019-10-29)
 
 ### Bug Fixes
