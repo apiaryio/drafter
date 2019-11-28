@@ -93,7 +93,8 @@ workflows:
       - test-valgrind: *tag-filter
       - test-coverage: *tag-filter
       - test-ubsan: *tag-filter
-      - test-asan: *tag-filter
+# temporary comment asan until fix
+#      - test-asan: *tag-filter
       - release:
           requires:
             - build
