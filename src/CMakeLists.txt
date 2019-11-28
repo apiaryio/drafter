@@ -18,7 +18,6 @@ set(DRAFTER_SOURCES
     SerializeResult.cc
     SourceMapUtils.cc
     ContentTypeMatcher.cc
-    drafter.cc
     refract/ComparableVisitor.cc
     refract/Element.cc
     refract/ElementSize.cc
@@ -79,11 +78,6 @@ set(DRAFTER_COMPILE_FEATURES
     cxx_variadic_templates
     )
 
-# libdrafter
-add_library(drafter ${DRAFTER_SOURCES})
-
-set_target_properties(drafter PROPERTIES PUBLIC_HEADER "drafter.h" WINDOWS_EXPORT_ALL_SYMBOLS 1)
-
 # production dependencies
 find_package(snowcrash 1.0 REQUIRED)
 find_package(BoostContainer 1.66 REQUIRED)
@@ -91,50 +85,98 @@ find_package(cmdline 1.0 REQUIRED)
 find_package(MPark.Variant 1.4 REQUIRED)
 find_package(pegtl 2.8 REQUIRED)
 
-target_link_libraries(drafter
-    PRIVATE
-        snowcrash::snowcrash
-        Boost::container
-        mpark_variant
-        pegtl
+# drafter-dep 
+# we need it to:
+# - expose INTERFACE_INCLUDE_DIRECTORIES for drafter-obj
+# - expose dependencies to drafter-lib, drafter-so, drafter-cli
+#
+# reason to have it, is drafter-obj does not allow to expose it via
+# target_link_libraries() and target_include_directories() in version cmake 3.5
+#
+add_library(drafter-dep INTERFACE)
+target_link_libraries(drafter-dep
+    INTERFACE
+    snowcrash::snowcrash
+    Boost::container
+    mpark_variant
+    pegtl
     )
-
-target_include_directories(drafter PUBLIC
+target_include_directories(drafter-dep
+    INTERFACE 
     $<BUILD_INTERFACE:${Drafter_BINARY_DIR}>
     $<BUILD_INTERFACE:${Drafter_SOURCE_DIR}>
-    $<INSTALL_INTERFACE:>
     )
 
-target_compile_definitions(drafter PRIVATE BUILDING_DRAFTER=1)
+# drafter-obj
+add_library(drafter-obj OBJECT ${DRAFTER_SOURCES})
+set_property(TARGET drafter-obj PROPERTY POSITION_INDEPENDENT_CODE 1)
 
-target_compile_definitions(drafter PUBLIC DRAFTER_BUILD_STATIC=1)
+target_include_directories(drafter-obj
+    PRIVATE
+    $<TARGET_PROPERTY:drafter-dep,INTERFACE_INCLUDE_DIRECTORIES>
+    $<BUILD_INTERFACE:${Drafter_BINARY_DIR}>
+    $<BUILD_INTERFACE:${Drafter_SOURCE_DIR}>
+    )
 
-target_compile_features(drafter PUBLIC ${DRAFTER_COMPILE_FEATURES})
+target_compile_features(drafter-obj PUBLIC ${DRAFTER_COMPILE_FEATURES})
 
-# drafter-cli
+# drafter-lib
+add_library(drafter-lib STATIC drafter.cc $<TARGET_OBJECTS:drafter-obj>)
+set_target_properties(drafter-lib PROPERTIES OUTPUT_NAME drafter)
+set_target_properties(drafter-lib PROPERTIES PUBLIC_HEADER "drafter.h" WINDOWS_EXPORT_ALL_SYMBOLS 1)
+target_link_libraries(drafter-lib PUBLIC drafter-dep)
+
+# FIXME: do we need this definitions
+#target_compile_definitions(drafter-lib PRIVATE BUILDING_DRAFTER=1)
+
+## drafter-cli
 add_executable(drafter-cli
     main.cc
     reporting.cc
     config.cc
     )
-
+set_target_properties(drafter-cli PROPERTIES OUTPUT_NAME drafter)
 target_link_libraries(drafter-cli
     PRIVATE
-        snowcrash::snowcrash
-        drafter::drafter
-        cmdline::cmdline
-        mpark_variant
-        pegtl
+    drafter-lib
+    cmdline::cmdline
     )
+#
+# Windows build
+# drafter.h -> 
+# -> usedll !defined (DRAFTER_BUILD_SHARED) && !defined(DRAFTER_BUILD_STATIC) 
+#
+target_compile_definitions(drafter-lib PUBLIC DRAFTER_BUILD_STATIC=1)
+#target_compile_definitions(drafter-cli PUBLIC DRAFTER_BUILD_STATIC=1)
 
-set_target_properties(drafter-cli PROPERTIES OUTPUT_NAME drafter)
+set(EXPORTED_TARGETS drafter-dep drafter-lib drafter-cli)
+set(DRAFTER_TARGETS drafter-cli)
 
-install(TARGETS drafter drafter-cli EXPORT drafter-targets
+if(NOT MSVC)
+
+## drafter-so
+add_library(drafter-so SHARED drafter.cc $<TARGET_OBJECTS:drafter-obj>) 
+set_target_properties(drafter-so PROPERTIES OUTPUT_NAME drafter)
+set_target_properties(drafter-so PROPERTIES PUBLIC_HEADER "drafter.h" WINDOWS_EXPORT_ALL_SYMBOLS 1)
+target_link_libraries(drafter-so PUBLIC drafter-dep)
+target_compile_definitions(drafter-so PUBLIC DRAFTER_BUILD_SHARED=1)
+
+list(APPEND EXPORTED_TARGETS drafter-so)
+list(APPEND DRAFTER_TARGETS drafter-so)
+
+#set_target_properties(drafter-so PROPERTIES SOVERSION 4.0)
+
+endif()
+
+add_custom_target(drafter DEPENDS ${DRAFTER_TARGETS})
+
+# install
+install(TARGETS ${EXPORTED_TARGETS} EXPORT drafter-targets
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
-    INCLUDES DESTINATION include
-    PUBLIC_HEADER DESTINATION include
+    INCLUDES DESTINATION include/drafter
+    PUBLIC_HEADER DESTINATION include/drafter
     )
 
 install(EXPORT drafter-targets
@@ -157,4 +199,5 @@ install(
         lib/cmake/drafter
     )
 
-add_library(drafter::drafter ALIAS drafter)
+add_library(drafter ALIAS drafter-lib)
+add_library(drafter::drafter ALIAS drafter-lib)

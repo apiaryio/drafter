@@ -13,7 +13,7 @@ WORKDIR /tmp/drafter
 RUN apk add --no-cache cmake make g++
 RUN cmake /usr/src/drafter
 
-RUN make drafter-cli
+RUN make drafter
 RUN make install
 
 FROM alpine:3.10

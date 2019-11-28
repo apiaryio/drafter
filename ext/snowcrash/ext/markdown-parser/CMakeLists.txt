@@ -53,6 +53,7 @@ set(MARKDOWN_PARSER_COMPILE_FEATURES
     )
 
 add_library(markdown-parser ${MARKDOWN_PARSER_SOURCES})
+set_property(TARGET markdown-parser PROPERTY POSITION_INDEPENDENT_CODE 1)
 
 find_package(Sundown 1.0 REQUIRED)
 find_package(MPark.Variant 1.4 REQUIRED)
