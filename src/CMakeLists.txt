@@ -175,7 +175,7 @@ install(TARGETS ${EXPORTED_TARGETS} EXPORT drafter-targets
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
-    INCLUDES DESTINATION include/drafer
+    INCLUDES DESTINATION include/drafter
     PUBLIC_HEADER DESTINATION include/drafter
     )
 
