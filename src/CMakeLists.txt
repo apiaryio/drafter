@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-project(Drafter VERSION 4.0 LANGUAGES CXX)
+project(Drafter VERSION 4.1.0 LANGUAGES CXX)
+
+set(DRAFTER_VERSION_IS_RELEASE 1)
+set(DRAFTER_PRE_RELEASE_VERSION 0)
+
+configure_file(Version.h.in Version.h)
+include_directories(${PROJECT_BINARY_BIN})
+
 
 set(DRAFTER_SOURCES
     ConversionContext.cc
@@ -164,7 +171,7 @@ target_compile_definitions(drafter-so PUBLIC DRAFTER_BUILD_SHARED=1)
 list(APPEND EXPORTED_TARGETS drafter-so)
 list(APPEND DRAFTER_TARGETS drafter-so)
 
-#set_target_properties(drafter-so PROPERTIES SOVERSION 4.0)
+set_target_properties(drafter-so PROPERTIES SOVERSION ${PROJECT_VERSION})
 
 endif()
 

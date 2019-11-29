@@ -9,8 +9,6 @@ Drafter is complex builder of [API Blueprint](http://apiblueprint.org). Internal
 
 API Blueprint is Web API documentation language. You can find API Blueprint documentation on the [API Blueprint site](http://apiblueprint.org).
 
-Additionally Drafter provide set of Wrappers for serialization, of parsing result, via  [SOS library](https://github.com/apiaryio/sos) into JSON and YAML format.
-
 Drafter also provides the user ability to select the type of the output. There are two possible values:
 
 * **API Elements Parse Result:** Parse Result is defined in API Elements according to [Parse Result Namespace](http://api-elements.readthedocs.io/en/latest/element-definitions/#parse-result-elements).
@@ -72,6 +70,8 @@ Please refer to
 [`drafter.h`](https://github.com/apiaryio/drafter/blob/master/src/drafter.h)
 for the full API documentation. See [Drafter bindings](#bindings) for using the
 library in **other languages**.
+
+You can also find additional info about CAPI usage in test file named [`test/test-CAPI.c`](https://github.com/apiaryio/drafter/blob/master/test/test-CAPI.c)
 
 #### Parsing a blueprint to a JSON or YAML string
 

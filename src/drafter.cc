@@ -23,7 +23,13 @@
 #include "ConversionContext.h"    // FIXME: remove - required by ConversionContext
 #include "RefractDataStructure.h" // FIXME: remove - required by SerializeRefract()
 
+#if defined CMAKE_BUILD_TYPE
+// we moved version management to cmake
+// but we still need to maintain gyp buld to allow npm protagonist build
+// version information is not exposed to public space in protagonist
+// so we can do hack and hide this API call
 #include "Version.h"
+#endif
 
 #include "reporting.h"
 
@@ -175,11 +181,13 @@ DRAFTER_API unsigned int drafter_version(void)
 {
     unsigned int version = 0;
 
+#if defined CMAKE_BUILD_TYPE
     version |= DRAFTER_MAJOR_VERSION;
     version <<= VERSION_SHIFT_STEP;
     version |= DRAFTER_MINOR_VERSION;
     version <<= VERSION_SHIFT_STEP;
     version |= DRAFTER_PATCH_VERSION;
+#endif
 
     return version;
 }
@@ -188,5 +196,10 @@ DRAFTER_API unsigned int drafter_version(void)
 
 DRAFTER_API const char* drafter_version_string(void)
 {
+#if defined CMAKE_BUILD_TYPE
     return DRAFTER_VERSION_STRING;
+#else
+
+    return "Non-oficial drafter gyp-based build";
+#endif
 }
