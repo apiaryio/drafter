@@ -11,7 +11,7 @@
 #include "config.h"
 #include "cmdline.h"
 
-#include "Version.h"
+#include "drafter.h"
 
 namespace config
 {
@@ -63,7 +63,7 @@ void ValidateParsedCommandLine(const cmdline::parser& parser, const Config& conf
     }
 
     if (parser.exist(config::Version)) {
-        std::cout << DRAFTER_VERSION_STRING << std::endl;
+        std::cout << drafter_version_string() << std::endl;
         exit(EXIT_SUCCESS);
     }
 

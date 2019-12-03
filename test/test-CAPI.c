@@ -5,7 +5,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#if defined CMAKE_BUILD_TYPE
 #include "../src/Version.h"
+#endif
 
 const char* source = "# My API\n## GET /message\n + Response 200 (text/plain)\n\n        Hello World\n";
 
@@ -67,8 +69,10 @@ int test_parse_to_string()
 
 int test_version()
 {
+#if defined CMAKE_BUILD_TYPE
     assert(drafter_version() != 0);
     assert(strcmp(drafter_version_string(), DRAFTER_VERSION_STRING) == 0);
+#endif
     return 0;
 }
 
