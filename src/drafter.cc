@@ -35,10 +35,54 @@
 
 #include <string.h>
 
+struct drafter_parse_options {
+    bool requireBlueprintName;
+};
+
+DRAFTER_API drafter_parse_options* drafter_init_parse_options()
+{
+    return new drafter_parse_options{ false };
+}
+
+DRAFTER_API void drafter_free_parse_options(drafter_parse_options* opts)
+{
+    delete opts;
+}
+
+DRAFTER_API void drafter_set_name_required(drafter_parse_options* opts)
+{
+    opts->requireBlueprintName = true;
+}
+
+struct drafter_serialize_options {
+    bool sourcemap;
+    drafter_format format;
+};
+
+DRAFTER_API drafter_serialize_options* drafter_init_serialize_options()
+{
+    return new drafter_serialize_options{ false, DRAFTER_SERIALIZE_YAML };
+}
+
+DRAFTER_API void drafter_free_serialize_options(drafter_serialize_options* opts)
+{
+    delete opts;
+}
+
+DRAFTER_API void drafter_set_sourcemaps_included(drafter_serialize_options* opts)
+{
+    opts->sourcemap = true;
+}
+
+DRAFTER_API void drafter_set_format(drafter_serialize_options* opts, drafter_format fmt)
+{
+    opts->format = fmt;
+}
+
 DRAFTER_API drafter_error drafter_parse_blueprint_to(const char* source,
     char** out,
-    const drafter_parse_options parse_opts,
-    const drafter_serialize_options serialize_opts)
+    const drafter_parse_options* parse_opts,
+    const drafter_serialize_options* serialize_opts)
 {
 
     if (!source) {
@@ -70,7 +114,7 @@ namespace sc = snowcrash;
 /* Parse API Bleuprint and return result, which is a opaque handle for
  * later use*/
 DRAFTER_API drafter_error drafter_parse_blueprint(
-    const char* source, drafter_result** out, const drafter_parse_options parse_opts)
+    const char* source, drafter_result** out, const drafter_parse_options* parse_opts)
 {
 
     if (!source) {
@@ -83,7 +127,7 @@ DRAFTER_API drafter_error drafter_parse_blueprint(
 
     sc::BlueprintParserOptions scOptions = sc::ExportSourcemapOption;
 
-    if (parse_opts.requireBlueprintName) {
+    if (parse_opts->requireBlueprintName) {
         scOptions |= sc::RequireBlueprintNameOption;
     }
 
@@ -100,7 +144,7 @@ DRAFTER_API drafter_error drafter_parse_blueprint(
 }
 
 /* Serialize result to given format*/
-DRAFTER_API char* drafter_serialize(drafter_result* res, const drafter_serialize_options serialize_opts)
+DRAFTER_API char* drafter_serialize(drafter_result* res, const drafter_serialize_options* serialize_opts)
 {
     if (!res) {
         return nullptr;
@@ -108,14 +152,14 @@ DRAFTER_API char* drafter_serialize(drafter_result* res, const drafter_serialize
 
     std::ostringstream out;
 
-    switch (serialize_opts.format) {
+    switch (serialize_opts->format) {
         case DRAFTER_SERIALIZE_JSON: {
-            auto soValue = refract::serialize::renderSo(*res, serialize_opts.sourcemap);
+            auto soValue = refract::serialize::renderSo(*res, serialize_opts->sourcemap);
             drafter::utils::so::serialize_json(out, soValue);
             break;
         }
         case DRAFTER_SERIALIZE_YAML: {
-            auto soValue = refract::serialize::renderSo(*res, serialize_opts.sourcemap);
+            auto soValue = refract::serialize::renderSo(*res, serialize_opts->sourcemap);
             drafter::utils::so::serialize_yaml(out, soValue);
             break;
         }
@@ -130,7 +174,7 @@ DRAFTER_API char* drafter_serialize(drafter_result* res, const drafter_serialize
 /* Parse API Blueprint and return only annotations, if NULL than
  * document is error and warning free.*/
 DRAFTER_API drafter_error drafter_check_blueprint(
-    const char* source, drafter_result** res, const drafter_parse_options parse_opts)
+    const char* source, drafter_result** res, const drafter_parse_options* parse_opts)
 {
 
     if (!source) {
