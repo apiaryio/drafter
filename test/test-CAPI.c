@@ -9,6 +9,16 @@
 #include "../src/Version.h"
 #endif
 
+#define REQUIRE(expr) _test_assert(expr, #expr, __FILE__, __LINE__)
+
+void _test_assert(bool a, const char* expr, const char* file, size_t line)
+{
+    if (!a) {
+        fprintf(stderr, "Assertion `%s` failed at %s:%d", expr, file, line);
+        abort();
+    }
+}
+
 const char* source = "# My API\n## GET /message\n + Response 200 (text/plain)\n\n        Hello World\n";
 
 /* Just partial we need no check full string */
@@ -24,19 +34,19 @@ int test_parse_and_serialize()
 
     int status = drafter_parse_blueprint(source, &result, parseOptions);
 
-    assert(status == 0);
-    assert(result);
+    REQUIRE(status == 0);
+    REQUIRE(result);
 
     drafter_serialize_options serializeOptions;
     serializeOptions.sourcemap = false;
     serializeOptions.format = DRAFTER_SERIALIZE_YAML;
 
     char* out = drafter_serialize(result, serializeOptions);
-    assert(out);
+    REQUIRE(out);
 
     size_t len = strlen(expected);
 
-    assert(strncmp(out, expected, len) == 0);
+    REQUIRE(strncmp(out, expected, len) == 0);
 
     drafter_free_result(result);
     free(out);
@@ -56,11 +66,11 @@ int test_parse_to_string()
 
     int status = drafter_parse_blueprint_to(source, &result, parseOptions, options);
 
-    assert(status == 0);
-    assert(result);
+    REQUIRE(status == 0);
+    REQUIRE(result);
 
     size_t len = strlen(expected);
-    assert(strncmp(result, expected, len) == 0);
+    REQUIRE(strncmp(result, expected, len) == 0);
 
     free(result);
 
@@ -70,8 +80,8 @@ int test_parse_to_string()
 int test_version()
 {
 #if defined CMAKE_BUILD_TYPE
-    assert(drafter_version() != 0);
-    assert(strcmp(drafter_version_string(), DRAFTER_VERSION_STRING) == 0);
+    REQUIRE(drafter_version() != 0);
+    REQUIRE(strcmp(drafter_version_string(), DRAFTER_VERSION_STRING) == 0);
 #endif
     return 0;
 }
@@ -86,21 +96,21 @@ int test_validation()
     drafter_parse_options parseOptions = { false };
     drafter_result* result = NULL;
 
-    assert(drafter_check_blueprint(source, &result, parseOptions) == 0);
+    REQUIRE(drafter_check_blueprint(source, &result, parseOptions) == 0);
 
     int status = drafter_check_blueprint(source_warning, &result, parseOptions);
-    assert(status == 0);
-    assert(result != 0);
+    REQUIRE(status == 0);
+    REQUIRE(result != 0);
 
     drafter_serialize_options options;
     options.sourcemap = false;
     options.format = DRAFTER_SERIALIZE_YAML;
 
     char* out = drafter_serialize(result, options);
-    assert(out);
+    REQUIRE(out);
 
     /* check if output contains required warning message */
-    assert(strstr(out, warning) != 0);
+    REQUIRE(strstr(out, warning) != 0);
 
     drafter_free_result(result);
     free(out);
@@ -122,10 +132,10 @@ int test_parse_to_string_requiring_name()
 
     int status = drafter_parse_blueprint_to(source_without_name, &result, parseOptions, options);
 
-    assert(status != 0);
-    assert(result);
+    REQUIRE(status != 0);
+    REQUIRE(result);
 
-    assert(strstr(result, expected_without_name) != 0);
+    REQUIRE(strstr(result, expected_without_name) != 0);
 
     free(result);
 
@@ -134,10 +144,10 @@ int test_parse_to_string_requiring_name()
 
 int main()
 {
-    assert(test_parse_and_serialize() == 0);
-    assert(test_parse_to_string() == 0);
-    assert(test_version() == 0);
-    assert(test_validation() == 0);
-    assert(test_parse_to_string_requiring_name() == 0);
+    REQUIRE(test_parse_and_serialize() == 0);
+    REQUIRE(test_parse_to_string() == 0);
+    REQUIRE(test_version() == 0);
+    REQUIRE(test_validation() == 0);
+    REQUIRE(test_parse_to_string_requiring_name() == 0);
     return 0;
 }
