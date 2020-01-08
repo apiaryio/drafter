@@ -31,16 +31,18 @@ int ProcessRefract(const Config& config, std::unique_ptr<std::istream>& in, std:
     std::stringstream inputStream;
     inputStream << in->rdbuf();
 
-    drafter_serialize_options options;
-    options.sourcemap = config.sourceMap;
-    options.format = config.format == drafter::YAMLFormat ? DRAFTER_SERIALIZE_YAML : DRAFTER_SERIALIZE_JSON;
+    drafter_serialize_options* options = drafter_init_serialize_options();
+    if (config.sourceMap)
+        drafter_set_sourcemaps_included(options);
+    if (config.format == drafter::JSONFormat)
+        drafter_set_format(options, DRAFTER_SERIALIZE_JSON);
 
     refract::IElement* result = nullptr;
 
     // TODO: Read parse options from CLI
-    drafter_parse_options parseOptions = { false };
-
+    drafter_parse_options* parseOptions = drafter_init_parse_options();
     int ret = drafter_parse_blueprint(inputStream.str().c_str(), &result, parseOptions);
+    drafter_free_parse_options(parseOptions);
 
     if (!result) {
         return -1;
@@ -55,6 +57,8 @@ int ProcessRefract(const Config& config, std::unique_ptr<std::istream>& in, std:
             free(output);
         }
     }
+
+    drafter_free_serialize_options(options);
 
     PrintReport(result, inputStream.str(), config.lineNumbers, ret);
 
