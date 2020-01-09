@@ -57,19 +57,14 @@ int test_parse_and_serialize()
 int test_parse_to_string()
 {
 
-    drafter_parse_options* parseOptions = drafter_init_parse_options();
-    drafter_serialize_options* options = drafter_init_serialize_options();
+    char* result = NULL;
 
-    char* result = 0;
-
-    int status = drafter_parse_blueprint_to(source, &result, parseOptions, options);
-    drafter_free_parse_options(parseOptions);
-    drafter_free_serialize_options(options);
+    const int status = drafter_parse_blueprint_to(source, &result, NULL, NULL);
 
     REQUIRE(status == 0);
     REQUIRE(result);
 
-    size_t len = strlen(expected);
+    const size_t len = strlen(expected);
     REQUIRE(strncmp(result, expected, len) == 0);
 
     free(result);

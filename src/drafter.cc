@@ -36,12 +36,23 @@
 #include <string.h>
 
 struct drafter_parse_options {
-    bool requireBlueprintName;
+    bool requireBlueprintName = false;
 };
+
+struct drafter_serialize_options {
+    bool sourcemap = false;
+    drafter_format format = DRAFTER_SERIALIZE_YAML;
+};
+
+namespace
+{
+    static const drafter_parse_options default_parse_opts = {};
+    static const drafter_serialize_options default_serialize_opts = {};
+}
 
 DRAFTER_API drafter_parse_options* drafter_init_parse_options()
 {
-    return new drafter_parse_options{ false };
+    return new drafter_parse_options{};
 }
 
 DRAFTER_API void drafter_free_parse_options(drafter_parse_options* opts)
@@ -54,14 +65,9 @@ DRAFTER_API void drafter_set_name_required(drafter_parse_options* opts)
     opts->requireBlueprintName = true;
 }
 
-struct drafter_serialize_options {
-    bool sourcemap;
-    drafter_format format;
-};
-
 DRAFTER_API drafter_serialize_options* drafter_init_serialize_options()
 {
-    return new drafter_serialize_options{ false, DRAFTER_SERIALIZE_YAML };
+    return new drafter_serialize_options{};
 }
 
 DRAFTER_API void drafter_free_serialize_options(drafter_serialize_options* opts)
@@ -84,13 +90,20 @@ DRAFTER_API drafter_error drafter_parse_blueprint_to(const char* source,
     const drafter_parse_options* parse_opts,
     const drafter_serialize_options* serialize_opts)
 {
-
     if (!source) {
         return DRAFTER_EINVALID_INPUT;
     }
 
     if (!out) {
         return DRAFTER_EINVALID_OUTPUT;
+    }
+
+    if (!parse_opts) {
+        parse_opts = &default_parse_opts;
+    }
+
+    if (!serialize_opts) {
+        serialize_opts = &default_serialize_opts;
     }
 
     drafter_result* result = nullptr;
@@ -116,13 +129,16 @@ namespace sc = snowcrash;
 DRAFTER_API drafter_error drafter_parse_blueprint(
     const char* source, drafter_result** out, const drafter_parse_options* parse_opts)
 {
-
     if (!source) {
         return DRAFTER_EINVALID_INPUT;
     }
 
     if (!out) {
         return DRAFTER_EINVALID_OUTPUT;
+    }
+
+    if (!parse_opts) {
+        parse_opts = &default_parse_opts;
     }
 
     sc::BlueprintParserOptions scOptions = sc::ExportSourcemapOption;
@@ -148,6 +164,10 @@ DRAFTER_API char* drafter_serialize(drafter_result* res, const drafter_serialize
 {
     if (!res) {
         return nullptr;
+    }
+
+    if (!serialize_opts) {
+        serialize_opts = &default_serialize_opts;
     }
 
     std::ostringstream out;
@@ -176,9 +196,12 @@ DRAFTER_API char* drafter_serialize(drafter_result* res, const drafter_serialize
 DRAFTER_API drafter_error drafter_check_blueprint(
     const char* source, drafter_result** res, const drafter_parse_options* parse_opts)
 {
-
     if (!source) {
         return DRAFTER_EINVALID_INPUT;
+    }
+
+    if (!parse_opts) {
+        parse_opts = &default_parse_opts;
     }
 
     drafter_result* result = nullptr;
