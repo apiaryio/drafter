@@ -25,6 +25,7 @@ set(DRAFTER_SOURCES
     SerializeResult.cc
     SourceMapUtils.cc
     ContentTypeMatcher.cc
+    options.cc
     refract/ComparableVisitor.cc
     refract/Element.cc
     refract/ElementSize.cc

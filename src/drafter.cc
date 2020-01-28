@@ -32,58 +32,10 @@
 #endif
 
 #include "reporting.h"
+#include "options.h"
 
-#include <string.h>
-
-struct drafter_parse_options {
-    bool requireBlueprintName = false;
-};
-
-struct drafter_serialize_options {
-    bool sourcemap = false;
-    drafter_format format = DRAFTER_SERIALIZE_YAML;
-};
-
-namespace
-{
-    static const drafter_parse_options default_parse_opts = {};
-    static const drafter_serialize_options default_serialize_opts = {};
-}
-
-DRAFTER_API drafter_parse_options* drafter_init_parse_options()
-{
-    return new drafter_parse_options{};
-}
-
-DRAFTER_API void drafter_free_parse_options(drafter_parse_options* opts)
-{
-    delete opts;
-}
-
-DRAFTER_API void drafter_set_name_required(drafter_parse_options* opts)
-{
-    opts->requireBlueprintName = true;
-}
-
-DRAFTER_API drafter_serialize_options* drafter_init_serialize_options()
-{
-    return new drafter_serialize_options{};
-}
-
-DRAFTER_API void drafter_free_serialize_options(drafter_serialize_options* opts)
-{
-    delete opts;
-}
-
-DRAFTER_API void drafter_set_sourcemaps_included(drafter_serialize_options* opts)
-{
-    opts->sourcemap = true;
-}
-
-DRAFTER_API void drafter_set_format(drafter_serialize_options* opts, drafter_format fmt)
-{
-    opts->format = fmt;
-}
+#include <cstring>
+#include <cassert>
 
 DRAFTER_API drafter_error drafter_parse_blueprint_to(const char* source,
     char** out,
@@ -96,14 +48,6 @@ DRAFTER_API drafter_error drafter_parse_blueprint_to(const char* source,
 
     if (!out) {
         return DRAFTER_EINVALID_OUTPUT;
-    }
-
-    if (!parse_opts) {
-        parse_opts = &default_parse_opts;
-    }
-
-    if (!serialize_opts) {
-        serialize_opts = &default_serialize_opts;
     }
 
     drafter_result* result = nullptr;
@@ -137,13 +81,9 @@ DRAFTER_API drafter_error drafter_parse_blueprint(
         return DRAFTER_EINVALID_OUTPUT;
     }
 
-    if (!parse_opts) {
-        parse_opts = &default_parse_opts;
-    }
-
     sc::BlueprintParserOptions scOptions = sc::ExportSourcemapOption;
 
-    if (parse_opts->requireBlueprintName) {
+    if (drafter::is_name_required(parse_opts)) {
         scOptions |= sc::RequireBlueprintNameOption;
     }
 
@@ -166,20 +106,16 @@ DRAFTER_API char* drafter_serialize(drafter_result* res, const drafter_serialize
         return nullptr;
     }
 
-    if (!serialize_opts) {
-        serialize_opts = &default_serialize_opts;
-    }
-
     std::ostringstream out;
 
-    switch (serialize_opts->format) {
+    switch (drafter::get_format(serialize_opts)) {
         case DRAFTER_SERIALIZE_JSON: {
-            auto soValue = refract::serialize::renderSo(*res, serialize_opts->sourcemap);
+            auto soValue = refract::serialize::renderSo(*res, drafter::are_sourcemaps_included(serialize_opts));
             drafter::utils::so::serialize_json(out, soValue);
             break;
         }
         case DRAFTER_SERIALIZE_YAML: {
-            auto soValue = refract::serialize::renderSo(*res, serialize_opts->sourcemap);
+            auto soValue = refract::serialize::renderSo(*res, drafter::are_sourcemaps_included(serialize_opts));
             drafter::utils::so::serialize_yaml(out, soValue);
             break;
         }
@@ -198,10 +134,6 @@ DRAFTER_API drafter_error drafter_check_blueprint(
 {
     if (!source) {
         return DRAFTER_EINVALID_INPUT;
-    }
-
-    if (!parse_opts) {
-        parse_opts = &default_parse_opts;
     }
 
     drafter_result* result = nullptr;
@@ -240,6 +172,44 @@ DRAFTER_API drafter_error drafter_check_blueprint(
 DRAFTER_API void drafter_free_result(drafter_result* result)
 {
     delete result;
+}
+
+DRAFTER_API drafter_parse_options* drafter_init_parse_options()
+{
+    return new drafter_parse_options{};
+}
+
+DRAFTER_API void drafter_free_parse_options(drafter_parse_options* opts)
+{
+    delete opts;
+}
+
+DRAFTER_API void drafter_set_name_required(drafter_parse_options* opts)
+{
+    assert(opts);
+    opts->requireBlueprintName = true;
+}
+
+DRAFTER_API drafter_serialize_options* drafter_init_serialize_options()
+{
+    return new drafter_serialize_options{};
+}
+
+DRAFTER_API void drafter_free_serialize_options(drafter_serialize_options* opts)
+{
+    delete opts;
+}
+
+DRAFTER_API void drafter_set_sourcemaps_included(drafter_serialize_options* opts)
+{
+    assert(opts);
+    opts->sourcemap = true;
+}
+
+DRAFTER_API void drafter_set_format(drafter_serialize_options* opts, drafter_format fmt)
+{
+    assert(opts);
+    opts->format = fmt;
 }
 
 #define VERSION_SHIFT_STEP 8
