@@ -1,5 +1,12 @@
 # Drafter Changelog
 
+## 5.0.0 (2020-02-04)
+
+### Enhancements
+
+- [breaking] Modified C API so that drafter options can be added without
+  breaking the interface in the future.
+
 ## 4.1.0 (2019-12-28)
 
 ### Enhancements
