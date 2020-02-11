@@ -250,7 +250,9 @@
       ],
       "sources": [
         "src/drafter.h",
+        "src/options.h",
         "src/drafter.cc",
+        "src/options.cc",
         "src/stream.h",
         "src/Version.h",
 

@@ -30,18 +30,18 @@ const char* expected
 int test_parse_and_serialize()
 {
     drafter_result* result = NULL;
-    drafter_parse_options parseOptions = { false };
 
+    drafter_parse_options* parseOptions = drafter_init_parse_options();
     int status = drafter_parse_blueprint(source, &result, parseOptions);
+    drafter_free_parse_options(parseOptions);
 
     REQUIRE(status == 0);
     REQUIRE(result);
 
-    drafter_serialize_options serializeOptions;
-    serializeOptions.sourcemap = false;
-    serializeOptions.format = DRAFTER_SERIALIZE_YAML;
-
+    drafter_serialize_options* serializeOptions = drafter_init_serialize_options();
     char* out = drafter_serialize(result, serializeOptions);
+    drafter_free_serialize_options(serializeOptions);
+
     REQUIRE(out);
 
     size_t len = strlen(expected);
@@ -57,19 +57,14 @@ int test_parse_and_serialize()
 int test_parse_to_string()
 {
 
-    drafter_parse_options parseOptions = { false };
-    drafter_serialize_options options;
-    options.sourcemap = false;
-    options.format = DRAFTER_SERIALIZE_YAML;
+    char* result = NULL;
 
-    char* result = 0;
-
-    int status = drafter_parse_blueprint_to(source, &result, parseOptions, options);
+    const int status = drafter_parse_blueprint_to(source, &result, NULL, NULL);
 
     REQUIRE(status == 0);
     REQUIRE(result);
 
-    size_t len = strlen(expected);
+    const size_t len = strlen(expected);
     REQUIRE(strncmp(result, expected, len) == 0);
 
     free(result);
@@ -93,20 +88,21 @@ const char* warning
 
 int test_validation()
 {
-    drafter_parse_options parseOptions = { false };
+    drafter_parse_options* parseOptions = drafter_init_parse_options();
     drafter_result* result = NULL;
 
     REQUIRE(drafter_check_blueprint(source, &result, parseOptions) == 0);
 
     int status = drafter_check_blueprint(source_warning, &result, parseOptions);
+    drafter_free_parse_options(parseOptions);
+
     REQUIRE(status == 0);
     REQUIRE(result != 0);
 
-    drafter_serialize_options options;
-    options.sourcemap = false;
-    options.format = DRAFTER_SERIALIZE_YAML;
-
+    drafter_serialize_options* options = drafter_init_serialize_options();
     char* out = drafter_serialize(result, options);
+    drafter_free_serialize_options(options);
+
     REQUIRE(out);
 
     /* check if output contains required warning message */
@@ -122,15 +118,17 @@ const char* expected_without_name = "expected API name, e.g. '# <API Name>'";
 
 int test_parse_to_string_requiring_name()
 {
-
-    drafter_parse_options parseOptions = { true };
-    drafter_serialize_options options;
-    options.sourcemap = false;
-    options.format = DRAFTER_SERIALIZE_YAML;
-
     char* result = 0;
 
+    drafter_parse_options* parseOptions = drafter_init_parse_options();
+    drafter_set_name_required(parseOptions);
+
+    drafter_serialize_options* options = drafter_init_serialize_options();
+
     int status = drafter_parse_blueprint_to(source_without_name, &result, parseOptions, options);
+
+    drafter_free_serialize_options(options);
+    drafter_free_parse_options(parseOptions);
 
     REQUIRE(status != 0);
     REQUIRE(result);

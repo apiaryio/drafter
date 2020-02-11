@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-project(Drafter VERSION 4.1.0 LANGUAGES CXX)
+project(Drafter VERSION 5.0.0 LANGUAGES CXX)
 
 set(DRAFTER_VERSION_IS_RELEASE 1)
 set(DRAFTER_PRE_RELEASE_VERSION 0)
@@ -25,6 +25,7 @@ set(DRAFTER_SOURCES
     SerializeResult.cc
     SourceMapUtils.cc
     ContentTypeMatcher.cc
+    options.cc
     refract/ComparableVisitor.cc
     refract/Element.cc
     refract/ElementSize.cc
