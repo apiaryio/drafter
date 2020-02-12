@@ -425,7 +425,7 @@ namespace drafter
             element->meta().set("id", from_primitive(name));
 
             try {
-                context.GetNamedTypesRegistry().add(std::move(element));
+                context.typeRegistry().add(std::move(element));
             } catch (LogicError& e) {
                 std::ostringstream out;
                 out << name << " is a reserved keyword and cannot be used.";
@@ -447,10 +447,10 @@ namespace drafter
 #endif /* DEBUG_DEPENDENCIES */
 
                 // remove preregistrated element
-                context.GetNamedTypesRegistry().remove(name);
+                context.typeRegistry().remove(name);
 
                 try {
-                    context.GetNamedTypesRegistry().add(std::move(element));
+                    context.typeRegistry().add(std::move(element));
                 } catch (LogicError& e) {
                     std::ostringstream out;
                     out << name << " is a reserved keyword and cannot be used.";

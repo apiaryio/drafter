@@ -143,7 +143,7 @@ std::unique_ptr<IElement> drafter::DataStructureToRefract(
     // which is a breaking change. Once we remove APIB AST code, we can move forward with this.
     auto msonElement = MSONToRefract(dataStructure, context);
 
-    if (context.options.expandMSON) {
+    if (context.expandMson()) {
         auto msonExpanded = ExpandRefract(std::move(msonElement), context);
         msonElement = std::move(msonExpanded);
     }
@@ -343,7 +343,7 @@ std::unique_ptr<IElement> PayloadToRefract( //
         nullptr :
         MSONToRefract(MAKE_NODE_INFO(payload, attributes), context);
 
-    std::unique_ptr<IElement> payloadAttributeExpanded = payloadAttributeElement && context.options.expandMSON ? //
+    std::unique_ptr<IElement> payloadAttributeExpanded = payloadAttributeElement && context.expandMson() ? //
         ExpandRefract(std::move(payloadAttributeElement), context) :
         nullptr;
 
@@ -366,7 +366,7 @@ std::unique_ptr<IElement> PayloadToRefract( //
     } else {
         if (!payload.node->attributes.empty()
             && ((payload.node->body.empty() && renderFormat != UndefinedRenderFormat)
-                   || (payload.node->schema.empty() && renderFormat == JSONRenderFormat))) {
+                || (payload.node->schema.empty() && renderFormat == JSONRenderFormat))) {
 
             if (!payloadAttributeElement)
                 payloadAttributeElement = MSONToRefract(MAKE_NODE_INFO(payload, attributes), context);
@@ -381,7 +381,7 @@ std::unique_ptr<IElement> PayloadToRefract( //
     }
 
     // Push dataStructure
-    if (context.options.expandMSON) {
+    if (context.expandMson()) {
         if (payloadAttributeExpanded) {
             content.push_back(refract::make_unique<HolderElement>(
                 SerializeKey::DataStructure, dsd::Holder(std::move(payloadAttributeExpanded))));

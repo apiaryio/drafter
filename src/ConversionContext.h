@@ -8,42 +8,42 @@
 #ifndef DRAFTER_CONVERSIONCONTEXT_H
 #define DRAFTER_CONVERSIONCONTEXT_H
 
+#include <boost/container/vector.hpp>
+
 #include "refract/Registry.h"
-#include "snowcrash.h"
 #include "SourceMapUtils.h"
+
+namespace snowcrash
+{
+    struct SourceAnnotation;
+}
 
 namespace drafter
 {
-
-    struct WrapperOptions;
-
     class ConversionContext
     {
-        refract::Registry registry;
-        const NewLinesIndex newLinesIndex;
+    public:
+        using Warnings = boost::container::vector<snowcrash::SourceAnnotation>;
+
+    private:
+        const NewLinesIndex newline_indices_;
+        const bool expand_mson_;
+
+        refract::Registry registry_;
+        Warnings warnings_;
 
     public:
-        ConversionContext(const char* source, const WrapperOptions& options);
+        explicit ConversionContext(const char*, bool expandMson = false) noexcept;
 
-        const WrapperOptions& options;
-        std::vector<snowcrash::Warning> warnings;
+        const NewLinesIndex& newlineIndices() const noexcept;
 
-        inline refract::Registry& GetNamedTypesRegistry()
-        {
-            return registry;
-        }
+        bool expandMson() const noexcept;
 
-        inline const refract::Registry& GetNamedTypesRegistry() const
-        {
-            return registry;
-        }
+        refract::Registry& typeRegistry() noexcept;
+        const refract::Registry& typeRegistry() const noexcept;
 
-        inline const NewLinesIndex& GetNewLinesIndex() const
-        {
-            return newLinesIndex;
-        }
-
+        const Warnings& warnings() const noexcept;
         void warn(const snowcrash::Warning& warning);
     };
 }
-#endif // #ifndef DRAFTER_CONVERSIONCONTEXT_H
+#endif

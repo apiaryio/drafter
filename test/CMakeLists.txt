@@ -30,6 +30,7 @@ add_executable(drafter-test
     refract/test-JsonSchema.cc
     refract/test-JsonValue.cc
     refract/test-Utils.cc
+    draftertest.cc
     test-VisitorUtils.cc
     test-SyntaxIssuesTest.cc
     test-ApplyVisitorTest.cc

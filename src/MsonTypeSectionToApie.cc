@@ -61,7 +61,7 @@ mson::BaseTypeName drafter::ResolveType(const mson::TypeSpecification& spec, Con
     const std::string& parent = spec.name.symbol.literal;
 
     if (nameType == mson::UndefinedTypeName && !parent.empty()) {
-        const IElement* base = FindRootAncestor(parent, context.GetNamedTypesRegistry());
+        const IElement* base = FindRootAncestor(parent, context.typeRegistry());
         if (base) {
             nameType = NamedTypeFromElement(*base);
         }
