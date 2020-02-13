@@ -163,7 +163,7 @@
           ]
         }
       },
-      "content": "The URI template contains square brackets, please percent encode square brackets as %5B and %5D"
+      "content": "URI template contains invalid character '['. You probably will need to repace invalid chars by percent encoded character."
     }
   ]
 }

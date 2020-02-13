@@ -48,6 +48,8 @@ add_executable(drafter-test
     test-Serialize.cc
     test-sourceMapToLineColumn.cc
     parser/test-MediaType.cc
+    parser/test-UriTemplate.cc
+    parser/test-Recover.cc
     test-ContentTypeMatcher.cc
     )
 

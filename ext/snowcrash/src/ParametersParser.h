@@ -16,6 +16,8 @@
 #include "StringUtility.h"
 #include "BlueprintUtility.h"
 
+#include "../../../src/parser/Uritemplate.h"
+
 namespace snowcrash
 {
 
@@ -167,29 +169,24 @@ namespace snowcrash
             }
         }
     };
-
-    /**
-     * \brief Check Parameter validity in URI template
-     */
-
-    // It must either be in path "{param" or at the beginning
-    // "?param" or in the list ",param". And any of the params
-    // must end either with "}" or ",".
-
-    // FIXME: The implementation is very naive and can be sped up.
-    static bool isValidUriTemplateParam(const std::string& uriTemplate, const std::string& param)
+    
+    template <typename T>
+    static void reportParameterIsNotFound(const Parameter& param,
+        const MarkdownNodeIterator& node,
+        const SectionParserData& pd,
+        const ParseResultRef<T>& out)
     {
+        std::stringstream ss;
+        ss << "parameter '" << param.name << "' is not found within the URI template '" << out.node.uriTemplate
+           << "'";
 
-        if (uriTemplate.find("{" + param) == std::string::npos && uriTemplate.find("?" + param) == std::string::npos
-            && uriTemplate.find("," + param) == std::string::npos) {
-            return false;
+        if (!out.node.name.empty()) {
+            ss << " for '" << out.node.name << "' ";
         }
 
-        if (uriTemplate.find(param + "}") == std::string::npos && uriTemplate.find(param + ",") == std::string::npos) {
-            return false;
-        }
-
-        return true;
+        mdp::CharactersRangeSet sourceMap
+            = mdp::BytesRangeSetToCharactersRangeSet(node->sourceMap, pd.sourceCharacterIndex);
+        out.report.warnings.push_back(Warning(ss.str(), LogicalErrorWarning, sourceMap));
     }
 
     /**
@@ -200,28 +197,49 @@ namespace snowcrash
     template <typename T>
     static void checkParametersEligibility(const MarkdownNodeIterator& node,
         const SectionParserData& pd,
-        Parameters& parameters,
+        const Parameters& parameters,
         const ParseResultRef<T>& out)
     {
 
-        for (ParameterIterator it = parameters.begin(); it != parameters.end(); ++it) {
+        using namespace apib::parser::uritemplate;
+        state::uritemplate result;
 
-            if (!isValidUriTemplateParam(out.node.uriTemplate, it->name)) {
+        tao::pegtl::memory_input<> in(out.node.uriTemplate, "");
+        tao::pegtl::parse<match_grammar, action>(in, result);
 
-                // WARN: parameter name not present
-                std::stringstream ss;
-                ss << "parameter '" << it->name << "' is not found within the URI template '" << out.node.uriTemplate
-                   << "'";
+        // extract names of all variables
+        using Vars = std::vector<std::string>;
+        Vars variables;
+        auto collect = std::back_inserter(variables);
 
-                if (!out.node.name.empty()) {
-                    ss << " for '" << out.node.name << "' ";
+        std::for_each(result.begin(), result.end(), 
+            [&collect](const state::part& part) {
+                if (const auto expression = mpark::get_if<state::expression>(&part)) {
+                  std::transform(expression->variables.begin(), expression->variables.end(),
+                      collect,
+                      [](const state::expression::variable_type& var){
+                        if (const auto valid = mpark::get_if<state::variable>(&var)) {
+                          return valid->name;
+                        } else if (const auto invalid = mpark::get_if<state::invalid>(&var)) {
+                          // FIXME: what to do with invalid variable names? Shouldn't we ignore them?
+                          return invalid->content;
+                        }
+                        assert(0);
+                        return std::string{};
+                    });
                 }
+        });
 
-                mdp::CharactersRangeSet sourceMap
-                    = mdp::BytesRangeSetToCharactersRangeSet(node->sourceMap, pd.sourceCharacterIndex);
-                out.report.warnings.push_back(Warning(ss.str(), LogicalErrorWarning, sourceMap));
-            }
-        }
+        std::for_each(parameters.begin(), parameters.end(),
+            [&variables, &out, &node, &pd](const Parameter& param){
+                if (variables.end() == std::find_if(variables.begin(), variables.end(),
+                    [&param](const std::string& var) {
+                        return param.name == var;
+                    })) {
+                    reportParameterIsNotFound<T>(param, node, pd, out);
+                }
+            });
+
     }
 
     /** Parameters Section parser */
