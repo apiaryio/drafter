@@ -131,7 +131,7 @@ namespace refract
 
         std::unique_ptr<IElement> clone(int flags = IElement::cAll) const override
         {
-            auto el = make_unique<Element>();
+            auto el = refract::make_unique<Element>();
 
             if (flags & IElement::cElement)
                 el->element(name_);
@@ -163,7 +163,7 @@ namespace refract
     template <typename ElementT>
     std::unique_ptr<ElementT> make_empty()
     {
-        return make_unique<ElementT>();
+        return refract::make_unique<ElementT>();
     }
 
     ///
@@ -174,13 +174,19 @@ namespace refract
     std::unique_ptr<ElementT> make_element(Args&&... args)
     {
         using DataT = typename ElementT::ValueType;
-        return make_unique<ElementT>(DataT{ std::forward<Args>(args)... });
+        return refract::make_unique<ElementT>(DataT{ std::forward<Args>(args)... });
     }
 
     template <typename Primitive, typename DataT = typename dsd::data_of<Primitive>::type>
     std::unique_ptr<Element<DataT> > from_primitive(const Primitive& p)
     {
         return make_element<Element<DataT> >(p);
+    }
+
+    template <typename Primitive, typename DataT = typename dsd::data_of<Primitive>::type>
+    std::unique_ptr<Element<DataT> > from_primitive_t(std::string name, const Primitive& p)
+    {
+        return refract::make_unique<Element<DataT> >(std::move(name), DataT{ p });
     }
 
     template <typename ElementT, typename ContentVisitor, typename... Args>
