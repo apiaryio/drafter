@@ -20,6 +20,8 @@
 #include "utils/log/Trivial.h"
 #include "utils/so/JsonIo.h"
 
+#include "backend/Mediatype.h"
+
 #include <iterator>
 #include <set>
 
@@ -98,39 +100,13 @@ namespace
         return !action.isNull() && !action.node->method.empty();
     }
 
-    NodeInfoByValue<snowcrash::Asset> renderPayloadBody(
-        const NodeInfo<snowcrash::Payload>& payload, RenderFormat format, const IElement& expanded)
+    NodeInfoByValue<snowcrash::Asset> renderPayloadBody(const NodeInfo<snowcrash::Payload>& payload)
     {
-        if (payload.node->body.empty() && format != UndefinedRenderFormat) {
-            std::stringstream ss{};
-            switch (format) {
-                case JSONRenderFormat: {
-                    drafter::utils::so::serialize_json(ss, refract::generateJsonValue(expanded));
-                    break;
-                }
-
-                case JSONSchemaRenderFormat: {
-                    drafter::utils::so::serialize_json(ss, refract::schema::generateJsonSchema(expanded));
-                    break;
-                }
-
-                default:
-                    assert(false);
-            }
-            return NodeInfoByValue<snowcrash::Asset>{ ss.str(), NodeInfo<snowcrash::Asset>::NullSourceMap() };
-        }
         return NodeInfoByValue<snowcrash::Asset>{ payload.node->body, &payload.sourceMap->body };
     }
 
-    NodeInfoByValue<snowcrash::Asset> renderPayloadSchema(
-        const NodeInfo<snowcrash::Payload>& payload, RenderFormat format, const IElement& expanded)
+    NodeInfoByValue<snowcrash::Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload)
     {
-        if (payload.node->schema.empty() && !payload.node->attributes.empty() && format == JSONRenderFormat) {
-            std::stringstream ss{};
-            drafter::utils::so::serialize_json(ss, refract::schema::generateJsonSchema(expanded));
-
-            return NodeInfoByValue<snowcrash::Asset>{ ss.str(), NodeInfo<snowcrash::Asset>::NullSourceMap() };
-        }
         return NodeInfoByValue<snowcrash::Asset>{ payload.node->schema, &payload.sourceMap->schema };
     }
 } // namespace
@@ -289,6 +265,86 @@ std::unique_ptr<IElement> AssetToRefract(
     return element;
 }
 
+std::unique_ptr<StringElement> wrapAttachment(std::string content, std::string klass, std::string contentType)
+{
+    auto result = from_primitive_t(SerializeKey::Asset, std::move(content));
+
+    result->meta().set(SerializeKey::Classes, //
+        make_element<ArrayElement>(from_primitive(std::move(klass))));
+
+    result->attributes().set(SerializeKey::ContentType, //
+        from_primitive(std::move(contentType)));
+
+    return result;
+}
+
+namespace
+{
+    std::string serialize(const apib::parser::mediatype::state& obj)
+    {
+        using namespace apib::backend;
+
+        std::ostringstream s;
+        s << obj;
+        return s.str();
+    }
+}
+
+namespace
+{
+    using MediaType = apib::parser::mediatype::state;
+
+    apib::parser::mediatype::state addSchemaSubtype(apib::parser::mediatype::state m)
+    {
+        if (m.suffix.empty())
+            m.suffix = m.subtype;
+        m.subtype = "schema";
+        return m;
+    }
+
+    void generateAttachments(const IElement& expanded,   //
+        const apib::parser::mediatype::state& mediaType, //
+        ArrayElement::ValueType& out)
+    {
+        if (IsJSONContentType(mediaType)) {
+            std::stringstream ss{};
+            drafter::utils::so::serialize_json(ss, refract::generateJsonValue(expanded));
+            out.push_back(wrapAttachment(ss.str(), SerializeKey::MessageBody, serialize(mediaType)));
+        }
+        if (IsJSONContentType(mediaType) || IsJSONSchemaContentType(mediaType)) {
+            std::stringstream ss{};
+            drafter::utils::so::serialize_json(ss, refract::schema::generateJsonSchema(expanded));
+            out.push_back(wrapAttachment(ss.str(),
+                SerializeKey::MessageBodySchema,
+                IsJSONSchemaContentType(mediaType) ? serialize(mediaType) : serialize(addSchemaSubtype(mediaType))));
+        }
+    }
+
+    void generateAttachments(ConversionContext& context, //
+        const NodeInfo<snowcrash::DataStructure>& ds,    //
+        const apib::parser::mediatype::state& mediaType, //
+        ArrayElement::ValueType& out)
+    {
+        assert(!ds.empty());
+
+        auto unexpanded = MSONToRefract(ds, context);
+
+        if (!unexpanded)
+            return;
+
+        auto expanded = ExpandRefract(std::move(unexpanded), context);
+
+        if (expanded)
+            generateAttachments(*expanded, mediaType, out);
+    }
+
+    void attachDataStructure(std::unique_ptr<IElement> ds, ArrayElement::ValueType& out)
+    {
+        out.push_back(refract::make_unique<HolderElement>(SerializeKey::DataStructure, dsd::Holder(std::move(ds))));
+    }
+
+}
+
 std::unique_ptr<IElement> PayloadToRefract( //
     const NodeInfo<snowcrash::Payload>& payload,
     const NodeInfo<snowcrash::Action>& action,
@@ -339,81 +395,44 @@ std::unique_ptr<IElement> PayloadToRefract( //
     if (!payload.node->description.empty())
         content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
 
-    std::unique_ptr<IElement> payloadAttributeElement = payload.node->attributes.empty() ? //
-        nullptr :
-        MSONToRefract(MAKE_NODE_INFO(payload, attributes), context);
-
-    std::unique_ptr<IElement> payloadAttributeExpanded = payloadAttributeElement && context.expandMson() ? //
-        ExpandRefract(std::move(payloadAttributeElement), context) :
-        nullptr;
-
-    const RenderFormat renderFormat = findRenderFormat(getContentTypeFromHeaders(payload.node->headers));
-
-    auto payloadBody = NodeInfoByValue<snowcrash::Asset>{ payload.node->body, &payload.sourceMap->body };
-    auto payloadSchema = NodeInfoByValue<snowcrash::Asset>{ payload.node->schema, &payload.sourceMap->schema };
-
-    if (payload.node->attributes.empty() && !action.isNull() && !action.node->attributes.empty()) {
-
-        if ((payload.node->body.empty() && renderFormat != UndefinedRenderFormat)
-            || (payload.node->schema.empty() && renderFormat == JSONRenderFormat))
-            if (auto mson = MSONToRefract(MAKE_NODE_INFO(action, attributes), context)) {
-                if (auto actionAttributeExpanded = ExpandRefract(std::move(mson), context)) {
-                    payloadBody = renderPayloadBody(payload, renderFormat, *actionAttributeExpanded);
-                    payloadSchema = renderPayloadSchema(payload, renderFormat, *actionAttributeExpanded);
-                }
-            }
-
-    } else {
-        if (!payload.node->attributes.empty()
-            && ((payload.node->body.empty() && renderFormat != UndefinedRenderFormat)
-                || (payload.node->schema.empty() && renderFormat == JSONRenderFormat))) {
-
-            if (!payloadAttributeElement)
-                payloadAttributeElement = MSONToRefract(MAKE_NODE_INFO(payload, attributes), context);
-            if (!payloadAttributeExpanded)
-                payloadAttributeExpanded = ExpandRefract(clone(*payloadAttributeElement), context);
-
-            if (payloadAttributeExpanded) {
-                payloadBody = renderPayloadBody(payload, renderFormat, *payloadAttributeExpanded);
-                payloadSchema = renderPayloadSchema(payload, renderFormat, *payloadAttributeExpanded);
-            }
-        }
-    }
-
     // Push dataStructure
-    if (context.expandMson()) {
-        if (payloadAttributeExpanded) {
-            content.push_back(refract::make_unique<HolderElement>(
-                SerializeKey::DataStructure, dsd::Holder(std::move(payloadAttributeExpanded))));
-        }
-    } else {
-        if (payloadAttributeElement) {
-            content.push_back(refract::make_unique<HolderElement>(
-                SerializeKey::DataStructure, dsd::Holder(std::move(payloadAttributeElement))));
-        }
-    }
+    if (!payload.node->attributes.empty())
+        if (auto unexpanded = MSONToRefract(MAKE_NODE_INFO(payload, attributes), context))
+            if (context.expandMson()) { // TODO: remove/avoid, only used for unit tests
+                if (auto expanded = ExpandRefract(std::move(unexpanded), context))
+                    attachDataStructure(std::move(expanded), content);
+            } else
+                attachDataStructure(std::move(unexpanded), content);
 
     // Get content type
     const std::string contentType = getContentTypeFromHeaders(payload.node->headers);
+    const RenderFormat renderFormat = findRenderFormat(contentType);
+
+    apib::parser::mediatype::state mediaType = parseMediaType(contentType);
 
     // Push Body Asset
-    if (!payloadBody.first.empty())
+    if (!payload.node->body.empty()) {
+        auto payloadBody = NodeInfoByValue<snowcrash::Asset>{ payload.node->body, &payload.sourceMap->body };
         content.push_back(AssetToRefract( //
             NodeInfo<snowcrash::Asset>(payloadBody),
-            contentType,
+            serialize(mediaType),
             SerializeKey::MessageBody));
+    }
 
-    // Render only if Body is JSON or Schema is defined
-    apib::parser::mediatype::state mediaType = parseMediaType(contentType);
-    bool wantRenderSchema = IsJSONContentType(mediaType) || IsJSONSchemaContentType(mediaType);
-    if (!payloadSchema.first.empty()) {
+    // Push Schema Asset
+    if (!payload.node->schema.empty()) {
         content.push_back(AssetToRefract( //
-            NodeInfo<snowcrash::Asset>(payloadSchema),
-            wantRenderSchema ? JSONSchemaContentType : contentType,
+            NodeInfo<snowcrash::Asset>(
+                NodeInfoByValue<snowcrash::Asset>{ payload.node->schema, &payload.sourceMap->schema }),
+            serialize(addSchemaSubtype(mediaType)),
             SerializeKey::MessageBodySchema));
     }
 
-    RemoveEmptyElements(content);
+    if (payload.node->attributes.empty() && !action.isNull() && !action.node->attributes.empty()) {
+        generateAttachments(context, MAKE_NODE_INFO(action, attributes), mediaType, content);
+    } else if (!payload.node->attributes.empty()) {
+        generateAttachments(context, MAKE_NODE_INFO(payload, attributes), mediaType, content);
+    }
 
     return std::move(result);
 }

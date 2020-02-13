@@ -61,6 +61,7 @@ set(DRAFTER_SOURCES
     utils/so/Value.cc
     utils/so/YamlIo.cc
     parser/Mediatype.cc
+    backend/Mediatype.cc
     )
 
 set(DRAFTER_COMPILE_FEATURES

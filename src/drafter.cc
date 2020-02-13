@@ -188,6 +188,18 @@ DRAFTER_API void drafter_set_name_required(drafter_parse_options* opts)
     opts->requireBlueprintName = true;
 }
 
+DRAFTER_API void drafter_set_generate_bodies(drafter_parse_options* opts)
+{
+    assert(opts);
+    opts->generateBodies = true;
+}
+
+DRAFTER_API void drafter_set_generate_schemas(drafter_parse_options* opts)
+{
+    assert(opts);
+    opts->generateSchemas = true;
+}
+
 DRAFTER_API drafter_serialize_options* drafter_init_serialize_options()
 {
     return new drafter_serialize_options{};

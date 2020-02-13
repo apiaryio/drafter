@@ -380,6 +380,9 @@
 
         "src/parser/Mediatype.cc",
         "src/parser/Mediatype.h",
+
+        "src/backend/Mediatype.cc",
+        "src/backend/Mediatype.h",
       ],
       "dependencies": [
         "libsnowcrash",
