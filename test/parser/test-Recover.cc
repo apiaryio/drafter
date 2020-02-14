@@ -31,7 +31,7 @@ template<> struct A< G1::item > {
    static void apply( const Input& in, S& s, E& e)
    {
        s.emplace_back(in.string());
-       e.emplace_back(true);
+       e.push_back(true);
    }
 };
 
@@ -40,7 +40,7 @@ template<> struct A< G1::invalid > {
    static void apply( const Input& in, S& s, E& e)
    {
        s.emplace_back(in.string());
-       e.emplace_back(false);
+       e.push_back(false);
    }
 };
 
@@ -217,7 +217,7 @@ template<> struct A< G2::item > {
    static void apply( const Input& in, S& s, E& e)
    {
        s.emplace_back(in.string());
-       e.emplace_back(true);
+       e.push_back(true);
    }
 };
 
@@ -226,7 +226,7 @@ template<> struct A< G2::invalid > {
    static void apply( const Input& in, S& s, E& e)
    {
        s.emplace_back(in.string());
-       e.emplace_back(false);
+       e.push_back(false);
    }
 };
 
@@ -330,7 +330,7 @@ template<> struct A< G3::content > {
    static void apply( const Input& in, S& s, E& e)
    {
        s.emplace_back(in.string());
-       e.emplace_back(true);
+       e.push_back(true);
    }
 };
 
@@ -339,7 +339,7 @@ template<> struct A< G3::invalid > {
    static void apply( const Input& in, S& s, E& e)
    {
        s.emplace_back(in.string());
-       e.emplace_back(false);
+       e.push_back(false);
    }
 };
 
