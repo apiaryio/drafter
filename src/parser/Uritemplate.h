@@ -129,6 +129,11 @@ namespace apib
                                      >
                                    > {};
 
+            /**
+             * dummy token to handle missing close bracket and avoid global failure while parsing
+             */
+            struct missing_expression_close : pegtl::seq<> {};
+
           /**
            * close bracket is in current version reported via global failure
            * so we do not receive info obout other parts
@@ -144,7 +149,9 @@ namespace apib
                                   expression_open,
                                   pegtl::opt<operator_>,
                                   variable_list,
-                                  expression_close
+                                  pegtl::sor<
+                                    expression_close, missing_expression_close
+                                  >
                                 > {};
 
             /**
@@ -252,14 +259,22 @@ namespace apib
                     size_t position = 0;
                 };
 
+
                 struct expression {
                     using variable_type = mpark::variant<variable, invalid>;
 
                     expression_type type = expression_type::noop;
                     std::vector<variable_type> variables;
+                    bool missing_expression_close = false;
                 };
 
-                using part = mpark::variant<mpark::monostate, literals, expression, invalid>;
+
+                using part = mpark::variant<
+                    mpark::monostate,
+                    literals,
+                    expression,
+                    invalid
+                >;
 
                 using uritemplate = std::vector<state::part>;
             };
@@ -375,6 +390,13 @@ namespace apib
             template<> struct action<op_query_param> : set_operator<op_query_param, state::expression_type::query_param> {};
             template<> struct action<op_query_continue> : set_operator<op_query_continue, state::expression_type::query_continue> {};
             template<> struct action<op_reserved> : set_operator<op_reserved, state::expression_type::reserved> {};
+
+            template <>
+            struct action<missing_expression_close> {
+                static void apply0(state::expression& s) {
+                    s.missing_expression_close = true;
+                };
+            }; 
 
 
 

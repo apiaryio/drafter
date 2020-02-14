@@ -24,26 +24,10 @@ namespace error_locator {
         size_t length = 0;
     };
 
-    template< typename Rule >
-    struct control
-       : tao::pegtl::normal< Rule > 
-    {};
-
-    template<>
-    struct control<expression_close>
-       : tao::pegtl::normal<expression_close>
-    {
-        template< typename Input, typename... States >
-        static void raise( const Input& in, States&&... )
-        {
-           throw error_locator::state{ "URI Template expression is missing closing bracket '}'", in.position().byte};
-        }
-
-    };
-
-    /* FIXME: shoud we send warning for partial pct-triplets like `abc%2`
-     * we can report it as invalid char `%` 
-     * or as invalit pct-triplet `%2`
+    /* FIXME: should we report warning for partial pct-triplets like `abc%2`?
+     * we can report it:
+     * - as invalid char `%` 
+     * - as invalit pct-triplet `%2`
      */
     struct pct_triplet : pegtl::seq<
                                    pegtl::one<'%'>,
@@ -63,13 +47,13 @@ namespace error_locator {
 
     template <typename R>
     struct grammar : pegtl::seq<
-                                pegtl::sor<R, pegtl::seq<>>,
-                                  pegtl::sor<
-                                    pct_triplet,
-                                    continuous_dots,
-                                    invalid_char
-                                 >
-                            > {};
+                       pegtl::sor<R, pegtl::seq<>>,
+                       pegtl::sor<
+                         pct_triplet,
+                         continuous_dots,
+                         invalid_char
+                       >
+                     > {};
 
     template <typename Rule>
     struct report_action : pegtl::nothing<Rule> {
@@ -152,6 +136,7 @@ struct VariableValidityChecker {
 #endif
         result.report.warnings.push_back(Warning(ss.str(), URIWarning, sourceBlock));
     }
+
 };
 
 struct TemplateValidityChecker {
@@ -198,6 +183,13 @@ struct TemplateValidityChecker {
         for (const auto& variable: s.variables) {
             mpark::visit(VariableValidityChecker{ result, sourceBlock }, variable);
         }
+
+        if (s.missing_expression_close) {
+            std::stringstream ss;
+            ss <<  "URI Template expression is missing closing bracket '}'";
+            result.report.warnings.push_back(Warning(ss.str(), URIWarning, sourceBlock));
+        }
+
     }
 
     void operator()(const mpark::monostate& s) const {
@@ -256,7 +248,7 @@ void URITemplateParser::parse(
     tao::pegtl::memory_input<> in(uri, "");
 
     try {
-        tao::pegtl::parse<match_grammar, action, error_locator::control>(in, state);
+        tao::pegtl::parse<match_grammar, action>(in, state);
     } catch (const pegtl::parse_error& e) {
         result.report.warnings.push_back(Warning(e.what(), URIWarning, sourceBlock));
     } catch (const error_locator::state& e) {

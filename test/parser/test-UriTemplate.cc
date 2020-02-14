@@ -14,6 +14,7 @@ TEST_CASE("most simple template")
     REQUIRE(result.size() == 1);
 
     auto e = mpark::get<state::expression>(result[0]);
+    REQUIRE_FALSE(e.missing_expression_close);
     REQUIRE(e.variables.size() == 1);
 
     auto v = mpark::get<state::variable>(e.variables[0]);
@@ -49,6 +50,7 @@ TEST_CASE("mod level 4")
 
     auto e = mpark::get<state::expression>(result[0]);
     REQUIRE(e.type == state::expression_type::noop);
+    REQUIRE_FALSE(e.missing_expression_close);
 
     REQUIRE(e.variables.size() == 4);
 
@@ -273,20 +275,19 @@ TEST_CASE("unknown operator")
 TEST_CASE("unclosed template operator")
 { 
     state::uritemplate result;
-    tao::pegtl::memory_input<> in("{v1,v2", "");
-    REQUIRE_THROWS_AS( (tao::pegtl::parse<match_grammar, action>(in, result)), pegtl::parse_error);
-    REQUIRE(result.size() == 0);
+    tao::pegtl::memory_input<> in("{v1,v-2", "");
+    REQUIRE(tao::pegtl::parse<match_grammar, action>(in, result));
+    REQUIRE(result.size() == 1);
 
-    /*
     auto e = mpark::get<state::expression>(result[0]);
+    REQUIRE(e.missing_expression_close);
     REQUIRE(e.variables.size() == 2);
 
     auto v = mpark::get<state::variable>(e.variables[0]);
     REQUIRE(v.name == "v1");
 
-    v = mpark::get<state::variable>(e.variables[1]);
-    REQUIRE(v.name == "v2");
-    */
+    auto i = mpark::get<state::invalid>(e.variables[1]);
+    REQUIRE(i.content == "v-2");
 }
 
 TEST_CASE("inner template try")
