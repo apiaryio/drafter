@@ -251,8 +251,6 @@ void URITemplateParser::parse(
         tao::pegtl::parse<match_grammar, action>(in, state);
     } catch (const pegtl::parse_error& e) {
         result.report.warnings.push_back(Warning(e.what(), URIWarning, sourceBlock));
-    } catch (const error_locator::state& e) {
-        result.report.warnings.push_back(Warning(e.message, URIWarning, sourceBlock));
     }
 
     for (const auto& part: state) {

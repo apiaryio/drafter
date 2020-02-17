@@ -134,17 +134,6 @@ namespace apib
              */
             struct missing_expression_close : pegtl::seq<> {};
 
-          /**
-           * close bracket is in current version reported via global failure
-           * so we do not receive info obout other parts
-           * it should be possible report it via "fake expression"
-           * by following way:
-           *
-           *    pegtl::sor<
-           *      expression_close, pegtl::raise<missing_close_bracket>
-           *    >
-           *
-           */
             struct expression : pegtl::if_must<
                                   expression_open,
                                   pegtl::opt<operator_>,
