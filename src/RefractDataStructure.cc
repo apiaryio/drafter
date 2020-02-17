@@ -373,7 +373,7 @@ namespace
 
     mson::BaseTypeName GetMsonTypeFromName(const std::string& name, const ConversionContext& context)
     {
-        const IElement* e = FindRootAncestor(name, context.GetNamedTypesRegistry());
+        const IElement* e = FindRootAncestor(name, context.typeRegistry());
         if (!e) {
             return mson::UndefinedTypeName;
         }
@@ -998,7 +998,7 @@ namespace
         }
 
         if (TypeQueryVisitor::as<StringElement>(FindRootAncestor(
-                variable.typeDefinition.typeSpecification.name.symbol.literal, context.GetNamedTypesRegistry()))) {
+                variable.typeDefinition.typeSpecification.name.symbol.literal, context.typeRegistry()))) {
             return true;
         }
 
@@ -1333,7 +1333,7 @@ std::unique_ptr<IElement> drafter::ExpandRefract(std::unique_ptr<IElement> eleme
         return nullptr;
     }
 
-    ExpandVisitor expander(context.GetNamedTypesRegistry());
+    ExpandVisitor expander(context.typeRegistry());
     Visit(expander, *element);
 
     if (auto expanded = expander.get()) {

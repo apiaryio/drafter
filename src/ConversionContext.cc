@@ -3,42 +3,70 @@
 //  drafter
 //
 //  Created by Pavan Kumar Sunkara on 18/08/16.
-//  Copyright © 2016 Apiary. All rights reserved.
+//  Copyright (c) 2016 Apiary. All rights reserved.
 //
 
 #include "ConversionContext.h"
 
-namespace drafter
+#include "snowcrash.h"
+
+using namespace drafter;
+
+ConversionContext::ConversionContext(const char* src, bool expandMson) noexcept
+    : newline_indices_(GetLinesEndIndex(src)),
+      expand_mson_{ expandMson },
+      registry_{},
+      warnings_{}
 {
+}
 
-    ConversionContext::ConversionContext(const char* source, const WrapperOptions& options)
-        : newLinesIndex(GetLinesEndIndex(source)), options(options)
-    {
-    }
+refract::Registry& ConversionContext::typeRegistry() noexcept
+{
+    return registry_;
+}
 
-    void ConversionContext::warn(const snowcrash::Warning& warning)
-    {
-        for (auto& item : warnings) {
-            bool equalSourceMap = true;
+const refract::Registry& ConversionContext::typeRegistry() const noexcept
+{
+    return registry_;
+}
 
-            // Compare sourcemap
-            if (item.location.size() == warning.location.size()) {
-                for (size_t i = 0; i < item.location.size(); i++) {
-                    if (item.location.at(i).length != warning.location.at(i).length
-                        || item.location.at(i).location != warning.location.at(i).location) {
+const NewLinesIndex& ConversionContext::newlineIndices() const noexcept
+{
+    return newline_indices_;
+}
 
-                        equalSourceMap = false;
-                    }
+bool ConversionContext::expandMson() const noexcept
+{
+    return expand_mson_;
+}
+
+void ConversionContext::warn(const snowcrash::Warning& warning)
+{
+    for (auto& item : warnings_) {
+        bool equalSourceMap = true;
+
+        // Compare sourcemap
+        if (item.location.size() == warning.location.size()) {
+            for (size_t i = 0; i < item.location.size(); i++) {
+                if (item.location.at(i).length != warning.location.at(i).length
+                    || item.location.at(i).location != warning.location.at(i).location) {
+
+                    equalSourceMap = false;
                 }
-            } else {
-                equalSourceMap = false;
             }
-
-            if (equalSourceMap && item.code == warning.code && item.message == warning.message) {
-                return;
-            }
+        } else {
+            equalSourceMap = false;
         }
 
-        warnings.push_back(warning);
+        if (equalSourceMap && item.code == warning.code && item.message == warning.message) {
+            return;
+        }
     }
+
+    warnings_.push_back(warning);
+}
+
+const ConversionContext::Warnings& ConversionContext::warnings() const noexcept
+{
+    return warnings_;
 }

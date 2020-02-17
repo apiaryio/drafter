@@ -39,7 +39,7 @@ std::unique_ptr<IElement> drafter::SourceMapToRefractWithColumnLineInfo(
         sourceMap.end(),
         std::back_inserter(sourceMapElement->get()),
         [&context](const mdp::CharactersRange& sourceMap) {
-            auto position = GetLineFromMap(context.GetNewLinesIndex(), sourceMap);
+            auto position = GetLineFromMap(context.newlineIndices(), sourceMap);
 
             auto location = make_element<NumberElement>(sourceMap.location);
             location->attributes().set("line", from_primitive(position.fromLine));

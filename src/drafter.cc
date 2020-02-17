@@ -18,9 +18,8 @@
 #include "refract/Iterate.h"
 #include "refract/SerializeSo.h"
 
-#include "SerializeResult.h"      // FIXME: remove - actualy required by WrapParseResultRefract()
-#include "Serialize.h"            // FIXME: remove - actualy required by WrapperOptions
-#include "ConversionContext.h"    // FIXME: remove - required by ConversionContext
+#include "SerializeResult.h" // FIXME: remove - actualy required by WrapParseResultRefract()
+#include "ConversionContext.h"
 #include "RefractDataStructure.h" // FIXME: remove - required by SerializeRefract()
 
 #if defined CMAKE_BUILD_TYPE
@@ -90,8 +89,7 @@ DRAFTER_API drafter_error drafter_parse_blueprint(
     sc::ParseResult<sc::Blueprint> blueprint;
     sc::parse(source, scOptions, blueprint);
 
-    drafter::WrapperOptions wrapperOptions;
-    drafter::ConversionContext context(source, wrapperOptions);
+    drafter::ConversionContext context(source);
     auto result = WrapRefract(blueprint, context);
 
     *out = result.release();

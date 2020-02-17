@@ -396,6 +396,7 @@
         'src/refract',
       ],
       'sources': [
+        "test/draftertest.cc",
         "test/test-drafter.cc",
         "test/test-RefractDataStructureTest.cc",
         "test/test-RefractAPITest.cc",

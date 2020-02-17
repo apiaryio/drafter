@@ -33,27 +33,11 @@ namespace snowcrash
 
 namespace drafter
 {
-
     enum SerializeFormat
     {
         JSONFormat = 0, // JSON Format
         YAMLFormat,     // YAML Format
         UnknownFormat = -1
-    };
-
-    // Options struct for drafter
-    struct WrapperOptions {
-        const bool generateSourceMap;
-        const bool expandMSON;
-
-        WrapperOptions(const bool generateSourceMap, const bool expandMSON)
-            : generateSourceMap(generateSourceMap), expandMSON(expandMSON)
-        {
-        }
-
-        WrapperOptions(const bool generateSourceMap) : generateSourceMap(generateSourceMap), expandMSON(false) {}
-
-        WrapperOptions() : generateSourceMap(false), expandMSON(false) {}
     };
 
     template <typename T>
