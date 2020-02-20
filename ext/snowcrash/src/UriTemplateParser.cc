@@ -16,7 +16,8 @@ using namespace snowcrash;
 
 using namespace apib::parser::uritemplate;
 
-namespace error_locator {
+namespace error_locator
+{
 
     struct state {
         std::string message;
@@ -56,12 +57,11 @@ namespace error_locator {
                      > {};
 
     template <typename Rule>
-    struct report_action : pegtl::nothing<Rule> {
-    };
+    struct report_action : pegtl::nothing<Rule> {};
 
     template <>
-    struct report_action<invalid_char> {
-
+    struct report_action<invalid_char>
+    {
         template<typename Input>
         static void apply(const Input& in, state& s)
         {
@@ -78,8 +78,8 @@ namespace error_locator {
     };
 
     template <>
-    struct report_action<continuous_dots> {
-
+    struct report_action<continuous_dots>
+    {
         template<typename Input>
         static void apply(const Input& in, state& s)
         {
@@ -90,8 +90,8 @@ namespace error_locator {
     };
 
     template <>
-    struct report_action<pct_triplet> {
-
+    struct report_action<pct_triplet>
+    {
         template<typename Input>
         static void apply(const Input& in, state& s)
         {
@@ -103,15 +103,15 @@ namespace error_locator {
 
 }
 
-struct VariableValidityChecker {
-    ParsedURITemplate& result;
-    const mdp::CharactersRangeSet& sourceBlock;
+namespace
+{
 
-    void operator()(const state::variable& s) const {
-        // do nothing - variable is parsed correctly, so there is nothing to report
+    static void checkVariableValidity(const state::variable&, ParsedURITemplate&, const mdp::CharactersRangeSet&)
+    {
+            // do nothing - variable is parsed correctly, so there is nothing to report
     }
 
-    void operator()(const state::invalid& s) const {
+    static void checkVariableValidity(const state::invalid& s, ParsedURITemplate& result, const mdp::CharactersRangeSet& sourceBlock) {
 
         tao::pegtl::memory_input<> in(s.content, "");
         error_locator::state state;
@@ -137,17 +137,45 @@ struct VariableValidityChecker {
         result.report.warnings.push_back(Warning(ss.str(), URIWarning, sourceBlock));
     }
 
-};
+    struct VariableValidityChecker {
+        ParsedURITemplate& result;
+        const mdp::CharactersRangeSet& sourceBlock;
 
-struct TemplateValidityChecker {
-    ParsedURITemplate& result;
-    const mdp::CharactersRangeSet& sourceBlock;
+        template <typename T>
+        void operator()(const T& s) {
+            checkVariableValidity(s, result, sourceBlock);
+        }
+    };
 
-    void operator()(const state::literals& s) const {
+    static bool isSupportedOperator(const state::expression_type type) {
+        return type == state::expression_type::noop ||
+            type == state::expression_type::reserved_chars ||
+            type == state::expression_type::fragment ||
+            type == state::expression_type::query_param ||
+            type == state::expression_type::query_continue;
+    }
+
+    static std::string operatorToText(const state::expression_type type) {
+        // identify unsupported is good enough,
+        // it is intended just for reports
+        switch (type) {
+            case state::expression_type::label:
+                return "label";
+            case state::expression_type::path:
+                return "path segment";
+            case state::expression_type::path_param:
+                return "path segment parameter";
+            default:
+                break;
+        }
+        return "reserved operator";
+    }
+
+    void checkTemplateValidity(const state::literals& s, ParsedURITemplate& result, const mdp::CharactersRangeSet& sourceBlock) {
         // do nothing literal is parsed correctly, so there is nothing to report
     }
 
-    void operator()(const state::invalid& s) const {
+    void checkTemplateValidity(const state::invalid& s, ParsedURITemplate& result, const mdp::CharactersRangeSet& sourceBlock) {
 
         tao::pegtl::memory_input<> in(s.content, "");
         error_locator::state state;
@@ -172,7 +200,7 @@ struct TemplateValidityChecker {
         result.report.warnings.push_back(Warning(ss.str(), URIWarning, sourceBlock));
     }
 
-    void operator()(const state::expression& s) const {
+    void checkTemplateValidity(const state::expression& s, ParsedURITemplate& result, const mdp::CharactersRangeSet& sourceBlock) {
         if (!isSupportedOperator(s.type)) {
             std::stringstream ss;
             ss <<  "URI template '" <<  operatorToText(s.type) << "' expansion is not supported";
@@ -181,7 +209,7 @@ struct TemplateValidityChecker {
         }
 
         for (const auto& variable: s.variables) {
-            mpark::visit(VariableValidityChecker{ result, sourceBlock }, variable);
+            mpark::visit(VariableValidityChecker{ result, sourceBlock}, variable);
         }
 
         if (s.missing_expression_close) {
@@ -192,35 +220,22 @@ struct TemplateValidityChecker {
 
     }
 
-    void operator()(const mpark::monostate& s) const {
+    void checkTemplateValidity(const mpark::monostate& s, ParsedURITemplate& result, const mdp::CharactersRangeSet& sourceBlock) {
         assert(0);
     }
 
-    static bool isSupportedOperator(const state::expression_type type) {
-        return type == state::expression_type::noop ||
-            type == state::expression_type::reserved_chars ||
-            type == state::expression_type::fragment ||
-            type == state::expression_type::query_param ||
-            type == state::expression_type::query_continue;
-    }
 
-    static std::string operatorToText(const state::expression_type type) {
-        // identify unsupported is good enough,
-        // it is intended just for reports
-        switch (type) {
-            case state::expression_type::label:
-                return "label";
-            case state::expression_type::path:
-                return "path segment";
-            case state::expression_type::path_param:
-                return "path segment parameter";
-            default:
-                return "reserved operator";
+    struct TemplateValidityChecker {
+        ParsedURITemplate& result;
+        const mdp::CharactersRangeSet& sourceBlock;
+
+        template <typename T>
+        void operator()(const T& s) {
+            checkTemplateValidity(s, result, sourceBlock);
         }
-        assert(0);
-        return std::string{};
-    }
-};
+    };
+
+}
 
 void URITemplateParser::parse(
     const URITemplate& uri, const mdp::CharactersRangeSet& sourceBlock, ParsedURITemplate& result)
