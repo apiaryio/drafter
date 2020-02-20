@@ -144,7 +144,7 @@ namespace apib
                                 > {};
 
             /**
-             *FIXME: character set allowed by RFC 5670 for literals:
+             *FIXME: character set allowed by RFC 6570 for literals:
              *         %x21 / %x23-24 / %x26 / %x28-3B / %x3D / %x3F-5B
              *      /  %x5D / %x5F / %x61-7A / %x7E / ucschar / iprivate
              *      /  pct-encoded
@@ -159,9 +159,9 @@ namespace apib
              *  Coded as in RFC5760:
              *  %x7B / %x7D / %x7C / %x5C / %x5E / %x7E / %x5B / %x5D / %x60
              *
-             *  So we modify original literal set from RFC5670 and remove them from allowed chars.
+             *  So we modify original literal set from RFC6570 and remove them from allowed chars.
              *
-             *  Original set is named `rfc_5670_ascii_allowed`
+             *  Original set is named `rfc_6570_ascii_allowed`
              *  while modified is named `ascii_allowed`
              *
              *  From `ascii_allowed` are removed chars to be RFC1738 compatible
@@ -170,7 +170,7 @@ namespace apib
              *
              */
 
-            struct rfc_5670_ascii_allowed : pegtl::sor<
+            struct rfc_6570_ascii_allowed : pegtl::sor<
                                      pegtl::one<0x21>,
                                      pegtl::range<0x23, 0x24>,
                                      pegtl::one<0x26>,

@@ -23,7 +23,7 @@ namespace apib
 
         //
         // recovery parsing of list
-        // if list item is wrong defined it allows continue to prsing with next item 
+        // if list item is wrong defined it allows continue to parsing with next item 
         // based on idea https://github.com/taocpp/PEGTL/blob/2.x/src/example/pegtl/recover.cpp
         //
 

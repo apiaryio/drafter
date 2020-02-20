@@ -69,7 +69,7 @@ namespace error_locator
             s.length = in.string().length();
 
             if (in.string() == "{") { // special case
-                s.message = std::string{"nested expression bracket '{'"};
+                s.message = std::string{"nested expression brace '{'"};
             } else {
                 s.message = std::string{"character '"} + in.string() + std::string{"'"};
             }
@@ -182,8 +182,8 @@ namespace
         tao::pegtl::parse<error_locator::grammar<literals_>, error_locator::report_action>(in, state);
 
         std::stringstream ss;
-        ss << "URI template contains invalid " << state.message
-           << ". You probably will need to repace invalid chars by percent encoded character.";
+        ss << "URI template contains disallowed " << state.message
+           << ". Disallowed characters must be percent encoded.";
 
 #if 0
         /**
@@ -258,8 +258,6 @@ void URITemplateParser::parse(
     result.path = groups[4];
 
     state::uritemplate state;
-
-    //tao::pegtl::memory_input<> in(result.path, "");
     tao::pegtl::memory_input<> in(uri, "");
 
     try {
