@@ -55,8 +55,8 @@ TEST_CASE("Parse uri template for invalid format curly brackets (nested brackets
     parser.parse(uri, sourceBlock, result);
 
     REQUIRE(result.report.warnings.size() == 2);
-    CHECK(result.report.warnings[0].message == "URI template variable 'id{' contains invalid nested expression bracket '{'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
-    CHECK(result.report.warnings[1].message == "URI template contains invalid character '}'. You probably will need to repace invalid chars by percent encoded character.");
+    CHECK(result.report.warnings[0].message == "URI template variable 'id{' contains invalid nested expression brace '{'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
+    CHECK(result.report.warnings[1].message == "URI template contains disallowed character '}'. Disallowed characters must be percent encoded.");
 }
 
 TEST_CASE("Parse uri template for invalid format curly brackets (missing end bracket)",

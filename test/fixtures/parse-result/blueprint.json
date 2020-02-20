@@ -163,7 +163,7 @@
           ]
         }
       },
-      "content": "URI template contains invalid character '['. You probably will need to repace invalid chars by percent encoded character."
+      "content": "URI template contains disallowed character '['. Disallowed characters must be percent encoded."
     }
   ]
 }
