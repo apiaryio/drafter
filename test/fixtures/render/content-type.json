@@ -159,7 +159,7 @@
                               "attributes": {
                                 "contentType": {
                                   "element": "string",
-                                  "content": "application/schema+json"
+                                  "content": "application/schema+json; charset=utf-8"
                                 }
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"user\": {\n      \"type\": \"string\"\n    }\n  }\n}"
