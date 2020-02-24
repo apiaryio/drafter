@@ -130,7 +130,7 @@
                                   "content": [
                                     {
                                       "element": "string",
-                                      "content": "messageBody"
+                                      "content": "messageBodySchema"
                                     }
                                   ]
                                 }
@@ -138,7 +138,7 @@
                               "attributes": {
                                 "contentType": {
                                   "element": "string",
-                                  "content": "application/schema+json ; hello=world"
+                                  "content": "application/schema+json; hello=world"
                                 }
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"username\": {\n      \"type\": \"string\"\n    }\n  }\n}"
