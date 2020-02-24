@@ -68,16 +68,6 @@ DRAFTER_API void drafter_free_parse_options(drafter_parse_options*);
  */
 DRAFTER_API void drafter_set_name_required(drafter_parse_options*);
 
-/* Set generate_bodies option
- *   @remark generate_bodies: message bodies are generated
- */
-DRAFTER_API void drafter_set_generate_bodies(drafter_parse_options*);
-
-/* Set generate_schemas option
- *   @remark generate_schemas: message schemas are generated
- */
-DRAFTER_API void drafter_set_generate_schemas(drafter_parse_options*);
-
 /* Serialisation options
  */
 typedef struct drafter_serialize_options drafter_serialize_options;
