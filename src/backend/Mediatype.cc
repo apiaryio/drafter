@@ -46,7 +46,7 @@ namespace
         if (!std::isalnum(v.front()))
             return serialize_quoted(out, v);
 
-        if (end(v) == find_if(begin(v), end(v), [](const auto& c) { //
+        if (end(v) == find_if(begin(v), end(v), [](const char c) { //
                 return !std::isalnum(c) && !is_restricted(c);
             }))
             return (out << v);
