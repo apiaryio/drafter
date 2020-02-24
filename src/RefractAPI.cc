@@ -401,8 +401,9 @@ std::unique_ptr<IElement> PayloadToRefract( //
             if (context.expandMson()) { // TODO: remove/avoid, only used for unit tests
                 if (auto expanded = ExpandRefract(std::move(unexpanded), context))
                     attachDataStructure(std::move(expanded), content);
-            } else
+            } else {
                 attachDataStructure(std::move(unexpanded), content);
+            }
 
     // Get content type
     const std::string contentType = getContentTypeFromHeaders(payload.node->headers);
