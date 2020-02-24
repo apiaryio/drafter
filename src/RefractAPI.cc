@@ -399,8 +399,9 @@ std::unique_ptr<IElement> PayloadToRefract( //
     if (!payload.node->attributes.empty())
         if (auto unexpanded = MSONToRefract(MAKE_NODE_INFO(payload, attributes), context))
             if (context.expandMson()) { // TODO: remove/avoid, only used for unit tests
-                if (auto expanded = ExpandRefract(std::move(unexpanded), context))
+                if (auto expanded = ExpandRefract(std::move(unexpanded), context)) {
                     attachDataStructure(std::move(expanded), content);
+                }
             } else {
                 attachDataStructure(std::move(unexpanded), content);
             }
