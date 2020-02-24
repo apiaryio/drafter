@@ -27,7 +27,7 @@ namespace
         return serialize_quote_escaped(out << '"', v) << '"';
     }
 
-    constexpr bool is_restricted(char c)
+    bool is_restricted(char c) noexcept
     {
         for (const auto& r : { '!', '#', '$', '&', '^', '_', '-', '.' })
             if (c == r)
