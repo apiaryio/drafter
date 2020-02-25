@@ -20,7 +20,7 @@
 #include "utils/log/Trivial.h"
 #include "utils/so/JsonIo.h"
 
-#include "backend/Mediatype.h"
+#include "backend/MediatypeS11n.h"
 
 #include <iterator>
 #include <set>
