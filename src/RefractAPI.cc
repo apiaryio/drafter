@@ -307,6 +307,20 @@ namespace
     }
 
     void generateAttachments(ConversionContext& context, //
+        std::unique_ptr<IElement> unexpanded,            //
+        const apib::parser::mediatype::state& mediaType, //
+        ArrayElement::ValueType& out)
+    {
+        if (!unexpanded)
+            return;
+
+        auto expanded = ExpandRefract(std::move(unexpanded), context);
+
+        if (expanded)
+            generateAttachments(*expanded, mediaType, out);
+    }
+
+    void generateAttachments(ConversionContext& context, //
         const NodeInfo<snowcrash::DataStructure>& ds,    //
         const apib::parser::mediatype::state& mediaType, //
         ArrayElement::ValueType& out)
@@ -382,24 +396,23 @@ std::unique_ptr<IElement> PayloadToRefract( //
     if (!payload.node->description.empty())
         content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
 
+    auto unexpandedAttrs = payload.node->attributes.empty() ? //
+        nullptr :                                             //
+        MSONToRefract(MAKE_NODE_INFO(payload, attributes), context);
+
     // Push dataStructure
-    if (!payload.node->attributes.empty()) {
-        if (auto unexpanded = MSONToRefract(MAKE_NODE_INFO(payload, attributes), context)) {
-            if (context.expandMson()) { // TODO: remove/avoid, only used for unit tests
-                if (auto expanded = ExpandRefract(std::move(unexpanded), context)) {
-                    attachDataStructure(std::move(expanded), content);
-                }
-            } else {
-                attachDataStructure(std::move(unexpanded), content);
+    if (unexpandedAttrs) {
+        if (context.expandMson()) { // TODO: remove/avoid, only used for unit tests
+            if (auto expanded = ExpandRefract(clone(*unexpandedAttrs), context)) {
+                attachDataStructure(std::move(expanded), content);
             }
+        } else {
+            attachDataStructure(clone(*unexpandedAttrs), content);
         }
     }
 
     // Get content type
-    const std::string contentType = getContentTypeFromHeaders(payload.node->headers);
-    const RenderFormat renderFormat = findRenderFormat(contentType);
-
-    const apib::parser::mediatype::state mediaType = parseMediaType(contentType);
+    const auto mediaType = parseMediaType(getContentTypeFromHeaders(payload.node->headers));
 
     // Push Body Asset
     if (!payload.node->body.empty()) {
@@ -420,22 +433,22 @@ std::unique_ptr<IElement> PayloadToRefract( //
     }
 
     // Generate Assets
-    if (payload.node->attributes.empty() //
-        && !action.isNull()              //
-        && !action.node->attributes.empty()) {
+    if (!unexpandedAttrs && !action.isNull() && !action.node->attributes.empty()) {
 
+        // If no payload attributes, try generating from action attributes
         generateAttachments(                    //
             context,                            //
             MAKE_NODE_INFO(action, attributes), //
             mediaType,                          //
             content);
 
-    } else if (!payload.node->attributes.empty()) {
+    } else {
 
-        generateAttachments(                     //
-            context,                             //
-            MAKE_NODE_INFO(payload, attributes), //
-            mediaType,                           //
+        // else use already translated
+        generateAttachments(            //
+            context,                    //
+            std::move(unexpandedAttrs), //
+            mediaType,                  //
             content);
     }
 
