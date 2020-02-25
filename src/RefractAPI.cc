@@ -21,6 +21,7 @@
 #include "utils/so/JsonIo.h"
 
 #include "backend/MediatypeS11n.h"
+#include "backend/Backend.h"
 
 #include <iterator>
 #include <set>
@@ -245,48 +246,31 @@ std::unique_ptr<IElement> HeaderToRefract(const NodeInfo<snowcrash::Header>& hea
     return std::move(element);
 }
 
-std::unique_ptr<IElement> AssetToRefract(
-    const NodeInfo<snowcrash::Asset>& asset, const std::string& contentType, const std::string& metaClass)
-{
-    if (asset.node->empty()) {
-        return nullptr;
-    }
-
-    auto element = PrimitiveToRefract(asset);
-
-    element->element(SerializeKey::Asset);
-    element->meta().set(SerializeKey::Classes, make_element<ArrayElement>(from_primitive(metaClass)));
-
-    if (!contentType.empty()) {
-        // FIXME: "contentType" has no sourceMap?
-        element->attributes().set(SerializeKey::ContentType, from_primitive(contentType));
-    }
-
-    return element;
-}
-
-std::unique_ptr<StringElement> wrapAttachment(std::string content, std::string klass, std::string contentType)
-{
-    auto result = from_primitive_t(SerializeKey::Asset, std::move(content));
-
-    result->meta().set(SerializeKey::Classes, //
-        make_element<ArrayElement>(from_primitive(std::move(klass))));
-
-    result->attributes().set(SerializeKey::ContentType, //
-        from_primitive(std::move(contentType)));
-
-    return result;
-}
-
 namespace
 {
-    std::string serialize(const apib::parser::mediatype::state& obj)
+    std::unique_ptr<StringElement> make_asset_element( //
+        std::string content,                           //
+        std::string klass,                             //
+        std::string contentType,                       //
+        const mdp::CharactersRangeSet* sourceMap = nullptr)
     {
-        using namespace apib::backend;
+        auto result = from_primitive_t(SerializeKey::Asset, std::move(content));
 
-        std::ostringstream s;
-        s << obj;
-        return s.str();
+        if (!klass.empty())
+            result->meta().set(SerializeKey::Classes, //
+                make_element<ArrayElement>(from_primitive(std::move(klass))));
+
+        if (sourceMap && !sourceMap->empty())
+            result->attributes().set(          //
+                SerializeKey::SourceMap,       //
+                SourceMapToRefract(*sourceMap) //
+            );
+
+        if (!contentType.empty())
+            result->attributes().set(SerializeKey::ContentType, //
+                from_primitive(std::move(contentType)));
+
+        return result;
     }
 }
 
@@ -306,15 +290,17 @@ namespace
         const apib::parser::mediatype::state& mediaType, //
         ArrayElement::ValueType& out)
     {
+        using apib::backend::serialize;
+
         if (IsJSONContentType(mediaType)) {
             std::stringstream ss{};
             drafter::utils::so::serialize_json(ss, refract::generateJsonValue(expanded));
-            out.push_back(wrapAttachment(ss.str(), SerializeKey::MessageBody, serialize(mediaType)));
+            out.push_back(make_asset_element(ss.str(), SerializeKey::MessageBody, serialize(mediaType)));
         }
         if (IsJSONContentType(mediaType) || IsJSONSchemaContentType(mediaType)) {
             std::stringstream ss{};
             drafter::utils::so::serialize_json(ss, refract::schema::generateJsonSchema(expanded));
-            out.push_back(wrapAttachment(ss.str(),
+            out.push_back(make_asset_element(ss.str(),
                 SerializeKey::MessageBodySchema,
                 IsJSONSchemaContentType(mediaType) ? serialize(mediaType) : serialize(addSchemaSubtype(mediaType))));
         }
@@ -351,6 +337,7 @@ std::unique_ptr<IElement> PayloadToRefract( //
     ConversionContext& context)
 {
     using namespace snowcrash;
+    using apib::backend::serialize;
 
     auto result = make_element<ArrayElement>();
 
@@ -396,8 +383,8 @@ std::unique_ptr<IElement> PayloadToRefract( //
         content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
 
     // Push dataStructure
-    if (!payload.node->attributes.empty())
-        if (auto unexpanded = MSONToRefract(MAKE_NODE_INFO(payload, attributes), context))
+    if (!payload.node->attributes.empty()) {
+        if (auto unexpanded = MSONToRefract(MAKE_NODE_INFO(payload, attributes), context)) {
             if (context.expandMson()) { // TODO: remove/avoid, only used for unit tests
                 if (auto expanded = ExpandRefract(std::move(unexpanded), context)) {
                     attachDataStructure(std::move(expanded), content);
@@ -405,35 +392,51 @@ std::unique_ptr<IElement> PayloadToRefract( //
             } else {
                 attachDataStructure(std::move(unexpanded), content);
             }
+        }
+    }
 
     // Get content type
     const std::string contentType = getContentTypeFromHeaders(payload.node->headers);
     const RenderFormat renderFormat = findRenderFormat(contentType);
 
-    apib::parser::mediatype::state mediaType = parseMediaType(contentType);
+    const apib::parser::mediatype::state mediaType = parseMediaType(contentType);
 
     // Push Body Asset
     if (!payload.node->body.empty()) {
-        auto payloadBody = NodeInfoByValue<snowcrash::Asset>{ payload.node->body, &payload.sourceMap->body };
-        content.push_back(AssetToRefract( //
-            NodeInfo<snowcrash::Asset>(payloadBody),
-            serialize(mediaType),
-            SerializeKey::MessageBody));
+        content.push_back(make_asset_element( //
+            payload.node->body,               //
+            SerializeKey::MessageBody,        //
+            serialize(mediaType),             //
+            &payload.sourceMap->body.sourceMap));
     }
 
     // Push Schema Asset
     if (!payload.node->schema.empty()) {
-        content.push_back(AssetToRefract( //
-            NodeInfo<snowcrash::Asset>(
-                NodeInfoByValue<snowcrash::Asset>{ payload.node->schema, &payload.sourceMap->schema }),
-            serialize(addSchemaSubtype(mediaType)),
-            SerializeKey::MessageBodySchema));
+        content.push_back(make_asset_element(       //
+            payload.node->schema,                   //
+            SerializeKey::MessageBodySchema,        //
+            serialize(addSchemaSubtype(mediaType)), //
+            &payload.sourceMap->schema.sourceMap));
     }
 
-    if (payload.node->attributes.empty() && !action.isNull() && !action.node->attributes.empty()) {
-        generateAttachments(context, MAKE_NODE_INFO(action, attributes), mediaType, content);
+    // Generate Assets
+    if (payload.node->attributes.empty() //
+        && !action.isNull()              //
+        && !action.node->attributes.empty()) {
+
+        generateAttachments(                    //
+            context,                            //
+            MAKE_NODE_INFO(action, attributes), //
+            mediaType,                          //
+            content);
+
     } else if (!payload.node->attributes.empty()) {
-        generateAttachments(context, MAKE_NODE_INFO(payload, attributes), mediaType, content);
+
+        generateAttachments(                     //
+            context,                             //
+            MAKE_NODE_INFO(payload, attributes), //
+            mediaType,                           //
+            content);
     }
 
     return std::move(result);
