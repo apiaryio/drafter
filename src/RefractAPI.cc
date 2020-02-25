@@ -343,116 +343,124 @@ namespace
         out.push_back(refract::make_unique<HolderElement>(SerializeKey::DataStructure, dsd::Holder(std::move(ds))));
     }
 
-}
+    void payloadContentToApie(                       //
+        const NodeInfo<snowcrash::Payload>& payload, //
+        const NodeInfo<snowcrash::Action>& action,   //
+        ConversionContext& context,                  //
+        ArrayElement::ValueType& content)
+    {
+        using apib::backend::serialize;
 
-std::unique_ptr<IElement> PayloadToRefract( //
-    const NodeInfo<snowcrash::Payload>& payload,
-    const NodeInfo<snowcrash::Action>& action,
-    ConversionContext& context)
-{
-    using namespace snowcrash;
-    using apib::backend::serialize;
+        if (!payload.node->description.empty())
+            content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
 
-    auto result = make_element<ArrayElement>();
+        auto unexpandedAttrs = payload.node->attributes.empty() ? //
+            nullptr :                                             //
+            MSONToRefract(MAKE_NODE_INFO(payload, attributes), context);
 
-    if (isRequest(action)) {
-        result->element(SerializeKey::HTTPRequest);
-        result->attributes().set(SerializeKey::Method, PrimitiveToRefract(MAKE_NODE_INFO(action, method)));
-
-        if (!payload.isNull() && !payload.node->name.empty()) {
-            result->meta().set(SerializeKey::Title, PrimitiveToRefract(MAKE_NODE_INFO(payload, name)));
+        // Push dataStructure
+        if (unexpandedAttrs) {
+            // TODO: avoid expandMson branch, only used in unit tests
+            if (context.expandMson()) {
+                if (auto expanded = ExpandRefract(clone(*unexpandedAttrs), context)) {
+                    attachDataStructure(std::move(expanded), content);
+                }
+            } else {
+                attachDataStructure(clone(*unexpandedAttrs), content);
+            }
         }
-    } else {
-        result->element(SerializeKey::HTTPResponse);
 
-        // FIXME: tests pass without commented out part of condition
-        // delivery test to see this part is required else remove it
-        // related discussion: https://github.com/apiaryio/drafter/pull/148/files#r42275194
-        if (!payload.isNull() /* && !payload.node->name.empty() */) {
-            result->attributes().set(SerializeKey::StatusCode, PrimitiveToRefract(MAKE_NODE_INFO(payload, name)));
+        // Get content type
+        const auto mediaType = parseMediaType(getContentTypeFromHeaders(payload.node->headers));
+
+        // Push Body Asset
+        if (!payload.node->body.empty()) {
+            content.push_back(make_asset_element( //
+                payload.node->body,               //
+                SerializeKey::MessageBody,        //
+                serialize(mediaType),             //
+                &payload.sourceMap->body.sourceMap));
+        }
+
+        // Push Schema Asset
+        if (!payload.node->schema.empty()) {
+            content.push_back(make_asset_element(       //
+                payload.node->schema,                   //
+                SerializeKey::MessageBodySchema,        //
+                serialize(addSchemaSubtype(mediaType)), //
+                &payload.sourceMap->schema.sourceMap));
+        }
+
+        // Generate Assets
+        if (!unexpandedAttrs && !action.isNull() && !action.node->attributes.empty()) {
+
+            // If no payload attributes, try generating from action attributes
+            generateAttachments(                    //
+                context,                            //
+                MAKE_NODE_INFO(action, attributes), //
+                mediaType,                          //
+                content);
+
+        } else {
+
+            // else use already translated
+            generateAttachments(            //
+                context,                    //
+                std::move(unexpandedAttrs), //
+                mediaType,                  //
+                content);
         }
     }
 
-    AttachSourceMap(*result, payload);
+    std::unique_ptr<IElement> PayloadToRefract( //
+        const NodeInfo<snowcrash::Payload>& payload,
+        const NodeInfo<snowcrash::Action>& action,
+        ConversionContext& context)
+    {
+        using namespace snowcrash;
 
-    // If no payload, return immediately
-    if (payload.isNull()) {
-        return std::move(result);
-    }
+        auto result = make_element<ArrayElement>();
 
-    if (!payload.node->parameters.empty()) {
-        result->attributes().set(
-            SerializeKey::HrefVariables, ParametersToRefract(MAKE_NODE_INFO(payload, parameters), context));
-    }
+        if (isRequest(action)) {
+            result->element(SerializeKey::HTTPRequest);
+            result->attributes().set(SerializeKey::Method, PrimitiveToRefract(MAKE_NODE_INFO(action, method)));
 
-    if (!payload.node->headers.empty()) {
-        result->attributes().set(SerializeKey::Headers,
-            CollectionToRefract<ArrayElement>(
-                MAKE_NODE_INFO(payload, headers), context, HeaderToRefract, SerializeKey::HTTPHeaders));
-    }
-
-    auto& content = result->get();
-
-    if (!payload.node->description.empty())
-        content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
-
-    auto unexpandedAttrs = payload.node->attributes.empty() ? //
-        nullptr :                                             //
-        MSONToRefract(MAKE_NODE_INFO(payload, attributes), context);
-
-    // Push dataStructure
-    if (unexpandedAttrs) {
-        if (context.expandMson()) { // TODO: remove/avoid, only used for unit tests
-            if (auto expanded = ExpandRefract(clone(*unexpandedAttrs), context)) {
-                attachDataStructure(std::move(expanded), content);
+            if (!payload.isNull() && !payload.node->name.empty()) {
+                result->meta().set(SerializeKey::Title, PrimitiveToRefract(MAKE_NODE_INFO(payload, name)));
             }
         } else {
-            attachDataStructure(clone(*unexpandedAttrs), content);
+            result->element(SerializeKey::HTTPResponse);
+
+            // FIXME: tests pass without commented out part of condition
+            // delivery test to see this part is required else remove it
+            // related discussion: https://github.com/apiaryio/drafter/pull/148/files#r42275194
+            if (!payload.isNull() /* && !payload.node->name.empty() */) {
+                result->attributes().set(SerializeKey::StatusCode, PrimitiveToRefract(MAKE_NODE_INFO(payload, name)));
+            }
         }
+
+        AttachSourceMap(*result, payload);
+
+        // If no payload, return immediately
+        if (payload.isNull()) {
+            return std::move(result);
+        }
+
+        if (!payload.node->parameters.empty()) {
+            result->attributes().set(
+                SerializeKey::HrefVariables, ParametersToRefract(MAKE_NODE_INFO(payload, parameters), context));
+        }
+
+        if (!payload.node->headers.empty()) {
+            result->attributes().set(SerializeKey::Headers,
+                CollectionToRefract<ArrayElement>(
+                    MAKE_NODE_INFO(payload, headers), context, HeaderToRefract, SerializeKey::HTTPHeaders));
+        }
+
+        payloadContentToApie(payload, action, context, result->get());
+
+        return std::move(result);
     }
-
-    // Get content type
-    const auto mediaType = parseMediaType(getContentTypeFromHeaders(payload.node->headers));
-
-    // Push Body Asset
-    if (!payload.node->body.empty()) {
-        content.push_back(make_asset_element( //
-            payload.node->body,               //
-            SerializeKey::MessageBody,        //
-            serialize(mediaType),             //
-            &payload.sourceMap->body.sourceMap));
-    }
-
-    // Push Schema Asset
-    if (!payload.node->schema.empty()) {
-        content.push_back(make_asset_element(       //
-            payload.node->schema,                   //
-            SerializeKey::MessageBodySchema,        //
-            serialize(addSchemaSubtype(mediaType)), //
-            &payload.sourceMap->schema.sourceMap));
-    }
-
-    // Generate Assets
-    if (!unexpandedAttrs && !action.isNull() && !action.node->attributes.empty()) {
-
-        // If no payload attributes, try generating from action attributes
-        generateAttachments(                    //
-            context,                            //
-            MAKE_NODE_INFO(action, attributes), //
-            mediaType,                          //
-            content);
-
-    } else {
-
-        // else use already translated
-        generateAttachments(            //
-            context,                    //
-            std::move(unexpandedAttrs), //
-            mediaType,                  //
-            content);
-    }
-
-    return std::move(result);
 }
 
 std::unique_ptr<ArrayElement> TransactionToRefract(const NodeInfo<snowcrash::TransactionExample>& transaction,
