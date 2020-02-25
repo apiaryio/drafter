@@ -385,6 +385,7 @@
 
         "src/backend/MediatypeS11n.cc",
         "src/backend/MediatypeS11n.h",
+        "src/backend/Backend.h",
       ],
       "dependencies": [
         "libsnowcrash",
