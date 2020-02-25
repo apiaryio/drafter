@@ -1,12 +1,16 @@
 //
-//  backend/Mediatype.cc
+//  backend/MediatypeS11n.cc
 //  apib::backend
 //
 //  Created by Thomas Jandecka on 02/21/2020
 //  Copyright (c) 2020 Apiary Inc. All rights reserved.
 //
 
-#include "Mediatype.h"
+#include "MediatypeS11n.h"
+
+// FIXME: avoid relative, cross-modular include by setting up build environment
+//          to search for includes in `src`; then `#include <parser/Mediatype.h>`
+#include "../parser/Mediatype.h"
 
 using namespace apib::backend;
 
@@ -79,5 +83,6 @@ std::ostream& apib::backend::operator<<(std::ostream& out, const apib::parser::m
             serialize_sanitized(out, std::get<1>(p));
         }
     }
+
     return out;
 }
