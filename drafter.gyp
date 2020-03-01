@@ -381,9 +381,14 @@
         "src/parser/Mediatype.cc",
         "src/parser/Mediatype.h",
 
-        "src/backend/MediatypeS11n.cc",
-        "src/backend/MediatypeS11n.h",
-        "src/backend/Backend.h",
+        "src/format/MediatypeFmt.cc",
+        "src/format/MediatypeFmt.h",
+        "src/format/Format.h",
+
+        "src/apib2apie/PayloadToApie.h",
+        "src/apib2apie/PayloadToApie.cc",
+        "src/apib2apie/ParametersToApie.h",
+        "src/apib2apie/ParametersToApie.cc",
       ],
       "dependencies": [
         "libsnowcrash",

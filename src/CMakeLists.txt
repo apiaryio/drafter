@@ -61,7 +61,10 @@ set(DRAFTER_SOURCES
     utils/so/Value.cc
     utils/so/YamlIo.cc
     parser/Mediatype.cc
-    backend/MediatypeS11n.cc
+    format/MediatypeFmt.cc
+    apib2apie/PayloadToApie.cc
+    apib2apie/CopyToApie.cc
+    apib2apie/ParametersToApie.cc
     )
 
 set(DRAFTER_COMPILE_FEATURES

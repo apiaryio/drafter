@@ -157,8 +157,7 @@ namespace refract
     };
 
     ///
-    /// Create an empty Element of given type
-    /// @remark an empty Element has an empty data structure definition (DSD)
+    /// Create an Element of given type without a value
     ///
     template <typename ElementT>
     std::unique_ptr<ElementT> make_empty()
@@ -168,7 +167,7 @@ namespace refract
 
     ///
     /// Create an Element of given type forwarding arguments to the constructor
-    /// of its data structure definition (DSD)
+    /// its value
     ///
     template <typename ElementT, typename... Args>
     std::unique_ptr<ElementT> make_element(Args&&... args)
@@ -177,15 +176,38 @@ namespace refract
         return refract::make_unique<ElementT>(DataT{ std::forward<Args>(args)... });
     }
 
+    ///
+    /// Create an Element of given type and name, forwarding remaining arguments
+    /// to the constructor of its value
+    ///
+    template <typename ElementT, typename... Args>
+    std::unique_ptr<ElementT> make_element_t(std::string name, Args&&... args)
+    {
+        using DataT = typename ElementT::ValueType;
+        if (name.empty())
+            return make_element<ElementT>(std::forward<Args>(args)...);
+        return refract::make_unique<ElementT>(std::move(name), DataT{ std::forward<Args>(args)... });
+    }
+
+    ///
+    /// Create an Element of type based on the C type of given value;
+    /// Element type deduced via @ref dsd::data_of
+    ///
     template <typename Primitive, typename DataT = typename dsd::data_of<Primitive>::type>
     std::unique_ptr<Element<DataT> > from_primitive(const Primitive& p)
     {
         return make_element<Element<DataT> >(p);
     }
 
+    ///
+    /// Create an Element of given name, with type based on the C type
+    /// of given value; Element type deduced via @ref dsd::data_of
+    ///
     template <typename Primitive, typename DataT = typename dsd::data_of<Primitive>::type>
     std::unique_ptr<Element<DataT> > from_primitive_t(std::string name, const Primitive& p)
     {
+        if (name.empty())
+            return from_primitive(p);
         return refract::make_unique<Element<DataT> >(std::move(name), DataT{ p });
     }
 

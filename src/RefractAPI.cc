@@ -20,8 +20,10 @@
 #include "utils/log/Trivial.h"
 #include "utils/so/JsonIo.h"
 
-#include "backend/MediatypeS11n.h"
-#include "backend/Backend.h"
+#include "apib2apie/CollectionToApie.h"
+#include "apib2apie/CopyToApie.h"
+#include "apib2apie/ParametersToApie.h"
+#include "apib2apie/PayloadToApie.h"
 
 #include <iterator>
 #include <set>
@@ -59,57 +61,18 @@ namespace
     }
 
     template <typename T, typename DataT, typename Functor>
-    void NodeInfoToElements(
-        const NodeInfo<T>& nodeInfo, const Functor& transformFunctor, DataT& content, ConversionContext& context)
+    void NodeInfoToElements(const NodeInfo<T>& nodeInfo, const Functor& f, DataT& content, ConversionContext& context)
     {
         NodeInfoCollection<T> nodeInfoCollection(nodeInfo);
 
         std::transform(nodeInfoCollection.begin(),
             nodeInfoCollection.end(),
             std::back_inserter(content),
-            [&transformFunctor, &context](const typename NodeInfoCollection<T>::value_type& nodeInfo) { //
-                return transformFunctor(nodeInfo, context);
+            [&f, &context](const typename NodeInfoCollection<T>::value_type& nodeInfo) { //
+                return f(nodeInfo, context);
             });
     }
 
-    // TODO make generator out of this?
-    template <typename T, typename C, typename F>
-    std::unique_ptr<T> CollectionToRefract(const NodeInfo<C>& collection,
-        ConversionContext& context,
-        const F& transformFunctor,
-        const std::string& key = std::string())
-    {
-        auto element = make_element<T>();
-
-        if (!key.empty()) {
-            element->element(key);
-        }
-
-        {
-            auto& content = element->get();
-
-            NodeInfoToElements(collection, transformFunctor, content, context);
-
-            RemoveEmptyElements(content);
-        }
-
-        return element;
-    }
-
-    bool isRequest(const NodeInfo<snowcrash::Action>& action)
-    {
-        return !action.isNull() && !action.node->method.empty();
-    }
-
-    NodeInfoByValue<snowcrash::Asset> renderPayloadBody(const NodeInfo<snowcrash::Payload>& payload)
-    {
-        return NodeInfoByValue<snowcrash::Asset>{ payload.node->body, &payload.sourceMap->body };
-    }
-
-    NodeInfoByValue<snowcrash::Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload)
-    {
-        return NodeInfoByValue<snowcrash::Asset>{ payload.node->schema, &payload.sourceMap->schema };
-    }
 } // namespace
 
 std::unique_ptr<IElement> drafter::DataStructureToRefract(
@@ -147,322 +110,6 @@ std::unique_ptr<IElement> MetadataToRefract(const NodeInfo<snowcrash::Metadata>&
     return std::move(element);
 }
 
-std::unique_ptr<IElement> CopyToRefract(const NodeInfo<std::string>& copy)
-{
-    if (copy.node->empty()) {
-        return nullptr;
-    }
-
-    auto element = PrimitiveToRefract(copy);
-    element->element(SerializeKey::Copy);
-
-    return element;
-}
-
-std::unique_ptr<IElement> ParameterValuesToRefract(
-    const NodeInfo<snowcrash::Parameter>& parameter, ConversionContext& context)
-{
-    // Add sample value
-    auto element = parameter.node->exampleValue.empty() ? //
-        make_empty<EnumElement>() :
-        make_element<EnumElement>(LiteralToRefract(MAKE_NODE_INFO(parameter, exampleValue), context));
-
-    // Add default value
-    if (!parameter.node->defaultValue.empty()) {
-        element->attributes().set(SerializeKey::Default,
-            make_element<EnumElement>(LiteralToRefract(MAKE_NODE_INFO(parameter, defaultValue), context)));
-    }
-
-    // Add enumerations
-    element->attributes().set(SerializeKey::Enumerations,
-        CollectionToRefract<ArrayElement>(MAKE_NODE_INFO(parameter, values), context, LiteralToRefract));
-
-    return std::move(element);
-}
-
-// NOTE: We removed type specific templates from here in https://github.com/apiaryio/drafter/pull/447
-std::unique_ptr<IElement> ExtractParameter(const NodeInfo<snowcrash::Parameter>& parameter, ConversionContext& context)
-{
-    std::unique_ptr<IElement> element = nullptr;
-
-    if (parameter.node->values.empty()) {
-        auto element = parameter.node->exampleValue.empty() ? //
-            make_empty<StringElement>() :
-            LiteralToRefract(MAKE_NODE_INFO(parameter, exampleValue), context);
-
-        if (!parameter.node->defaultValue.empty()) {
-            element->attributes().set(
-                SerializeKey::Default, PrimitiveToRefract(MAKE_NODE_INFO(parameter, defaultValue)));
-        }
-
-        return std::move(element);
-    } else {
-        return ParameterValuesToRefract(parameter, context);
-    }
-}
-
-std::unique_ptr<IElement> ParameterToRefract(
-    const NodeInfo<snowcrash::Parameter>& parameter, ConversionContext& context)
-{
-    auto element = make_element<MemberElement>(
-        PrimitiveToRefract(MAKE_NODE_INFO(parameter, name)), ExtractParameter(parameter, context));
-
-    // Description
-    if (!parameter.node->description.empty()) {
-        element->meta().set(SerializeKey::Description, PrimitiveToRefract(MAKE_NODE_INFO(parameter, description)));
-    }
-
-    if (!parameter.node->type.empty()) {
-        element->meta().set(SerializeKey::Title, PrimitiveToRefract(MAKE_NODE_INFO(parameter, type)));
-    }
-
-    // Parameter use
-    {
-
-        std::string use = SerializeKey::Required;
-
-        if (parameter.node->use == snowcrash::OptionalParameterUse) {
-            use = SerializeKey::Optional;
-        }
-
-        element->attributes().set(SerializeKey::TypeAttributes, make_element<ArrayElement>(from_primitive(use)));
-    }
-
-    return std::move(element);
-}
-
-std::unique_ptr<IElement> ParametersToRefract(
-    const NodeInfo<snowcrash::Parameters>& parameters, ConversionContext& context)
-{
-    return CollectionToRefract<ObjectElement>(parameters, context, ParameterToRefract, SerializeKey::HrefVariables);
-}
-
-std::unique_ptr<IElement> HeaderToRefract(const NodeInfo<snowcrash::Header>& header, ConversionContext& context)
-{
-    auto element = make_element<MemberElement>(from_primitive(header.node->first), from_primitive(header.node->second));
-
-    AttachSourceMap(*element, header);
-
-    return std::move(element);
-}
-
-namespace
-{
-    std::unique_ptr<StringElement> make_asset_element( //
-        std::string content,                           //
-        std::string klass,                             //
-        std::string contentType,                       //
-        const mdp::CharactersRangeSet* sourceMap = nullptr)
-    {
-        auto result = from_primitive_t(SerializeKey::Asset, std::move(content));
-
-        if (!klass.empty())
-            result->meta().set(SerializeKey::Classes, //
-                make_element<ArrayElement>(from_primitive(std::move(klass))));
-
-        if (sourceMap && !sourceMap->empty())
-            result->attributes().set(          //
-                SerializeKey::SourceMap,       //
-                SourceMapToRefract(*sourceMap) //
-            );
-
-        if (!contentType.empty())
-            result->attributes().set(SerializeKey::ContentType, //
-                from_primitive(std::move(contentType)));
-
-        return result;
-    }
-}
-
-namespace
-{
-    using MediaType = apib::parser::mediatype::state;
-
-    apib::parser::mediatype::state addSchemaSubtype(apib::parser::mediatype::state m)
-    {
-        if (m.suffix.empty())
-            m.suffix = m.subtype;
-        m.subtype = "schema";
-        return m;
-    }
-
-    void generateAttachments(const IElement& expanded,   //
-        const apib::parser::mediatype::state& mediaType, //
-        ArrayElement::ValueType& out)
-    {
-        using apib::backend::serialize;
-
-        if (IsJSONContentType(mediaType)) {
-            std::stringstream ss{};
-            drafter::utils::so::serialize_json(ss, refract::generateJsonValue(expanded));
-            out.push_back(make_asset_element(ss.str(), SerializeKey::MessageBody, serialize(mediaType)));
-        }
-        if (IsJSONContentType(mediaType) || IsJSONSchemaContentType(mediaType)) {
-            std::stringstream ss{};
-            drafter::utils::so::serialize_json(ss, refract::schema::generateJsonSchema(expanded));
-            out.push_back(make_asset_element(ss.str(),
-                SerializeKey::MessageBodySchema,
-                IsJSONSchemaContentType(mediaType) ? serialize(mediaType) : serialize(addSchemaSubtype(mediaType))));
-        }
-    }
-
-    void generateAttachments(ConversionContext& context, //
-        std::unique_ptr<IElement> unexpanded,            //
-        const apib::parser::mediatype::state& mediaType, //
-        ArrayElement::ValueType& out)
-    {
-        if (!unexpanded)
-            return;
-
-        auto expanded = ExpandRefract(std::move(unexpanded), context);
-
-        if (expanded)
-            generateAttachments(*expanded, mediaType, out);
-    }
-
-    void generateAttachments(ConversionContext& context, //
-        const NodeInfo<snowcrash::DataStructure>& ds,    //
-        const apib::parser::mediatype::state& mediaType, //
-        ArrayElement::ValueType& out)
-    {
-        assert(!ds.empty());
-
-        auto unexpanded = MSONToRefract(ds, context);
-
-        if (!unexpanded)
-            return;
-
-        auto expanded = ExpandRefract(std::move(unexpanded), context);
-
-        if (expanded)
-            generateAttachments(*expanded, mediaType, out);
-    }
-
-    void attachDataStructure(std::unique_ptr<IElement> ds, ArrayElement::ValueType& out)
-    {
-        out.push_back(refract::make_unique<HolderElement>(SerializeKey::DataStructure, dsd::Holder(std::move(ds))));
-    }
-
-    void payloadContentToApie(                       //
-        const NodeInfo<snowcrash::Payload>& payload, //
-        const NodeInfo<snowcrash::Action>& action,   //
-        ConversionContext& context,                  //
-        ArrayElement::ValueType& content)
-    {
-        using apib::backend::serialize;
-
-        if (!payload.node->description.empty())
-            content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
-
-        auto unexpandedAttrs = payload.node->attributes.empty() ? //
-            nullptr :                                             //
-            MSONToRefract(MAKE_NODE_INFO(payload, attributes), context);
-
-        // Push dataStructure
-        if (unexpandedAttrs) {
-            // TODO: avoid expandMson branch, only used in unit tests
-            if (context.expandMson()) {
-                if (auto expanded = ExpandRefract(clone(*unexpandedAttrs), context)) {
-                    attachDataStructure(std::move(expanded), content);
-                }
-            } else {
-                attachDataStructure(clone(*unexpandedAttrs), content);
-            }
-        }
-
-        // Get content type
-        const auto mediaType = parseMediaType(getContentTypeFromHeaders(payload.node->headers));
-
-        // Push Body Asset
-        if (!payload.node->body.empty()) {
-            content.push_back(make_asset_element( //
-                payload.node->body,               //
-                SerializeKey::MessageBody,        //
-                serialize(mediaType),             //
-                &payload.sourceMap->body.sourceMap));
-        }
-
-        // Push Schema Asset
-        if (!payload.node->schema.empty()) {
-            content.push_back(make_asset_element(       //
-                payload.node->schema,                   //
-                SerializeKey::MessageBodySchema,        //
-                serialize(addSchemaSubtype(mediaType)), //
-                &payload.sourceMap->schema.sourceMap));
-        }
-
-        // Generate Assets
-        if (!unexpandedAttrs && !action.isNull() && !action.node->attributes.empty()) {
-
-            // If no payload attributes, try generating from action attributes
-            generateAttachments(                    //
-                context,                            //
-                MAKE_NODE_INFO(action, attributes), //
-                mediaType,                          //
-                content);
-
-        } else {
-
-            // else use already translated
-            generateAttachments(            //
-                context,                    //
-                std::move(unexpandedAttrs), //
-                mediaType,                  //
-                content);
-        }
-    }
-
-    std::unique_ptr<IElement> PayloadToRefract( //
-        const NodeInfo<snowcrash::Payload>& payload,
-        const NodeInfo<snowcrash::Action>& action,
-        ConversionContext& context)
-    {
-        using namespace snowcrash;
-
-        auto result = make_element<ArrayElement>();
-
-        if (isRequest(action)) {
-            result->element(SerializeKey::HTTPRequest);
-            result->attributes().set(SerializeKey::Method, PrimitiveToRefract(MAKE_NODE_INFO(action, method)));
-
-            if (!payload.isNull() && !payload.node->name.empty()) {
-                result->meta().set(SerializeKey::Title, PrimitiveToRefract(MAKE_NODE_INFO(payload, name)));
-            }
-        } else {
-            result->element(SerializeKey::HTTPResponse);
-
-            // FIXME: tests pass without commented out part of condition
-            // delivery test to see this part is required else remove it
-            // related discussion: https://github.com/apiaryio/drafter/pull/148/files#r42275194
-            if (!payload.isNull() /* && !payload.node->name.empty() */) {
-                result->attributes().set(SerializeKey::StatusCode, PrimitiveToRefract(MAKE_NODE_INFO(payload, name)));
-            }
-        }
-
-        AttachSourceMap(*result, payload);
-
-        // If no payload, return immediately
-        if (payload.isNull()) {
-            return std::move(result);
-        }
-
-        if (!payload.node->parameters.empty()) {
-            result->attributes().set(
-                SerializeKey::HrefVariables, ParametersToRefract(MAKE_NODE_INFO(payload, parameters), context));
-        }
-
-        if (!payload.node->headers.empty()) {
-            result->attributes().set(SerializeKey::Headers,
-                CollectionToRefract<ArrayElement>(
-                    MAKE_NODE_INFO(payload, headers), context, HeaderToRefract, SerializeKey::HTTPHeaders));
-        }
-
-        payloadContentToApie(payload, action, context, result->get());
-
-        return std::move(result);
-    }
-}
-
 std::unique_ptr<ArrayElement> TransactionToRefract(const NodeInfo<snowcrash::TransactionExample>& transaction,
     const NodeInfo<snowcrash::Action>& action,
     const NodeInfo<snowcrash::Request>& request,
@@ -475,9 +122,9 @@ std::unique_ptr<ArrayElement> TransactionToRefract(const NodeInfo<snowcrash::Tra
     element->element(SerializeKey::HTTPTransaction);
 
     if (!transaction.node->description.empty())
-        content.push_back(CopyToRefract(MAKE_NODE_INFO(transaction, description)));
-    content.push_back(PayloadToRefract(request, action, context));
-    content.push_back(PayloadToRefract(response, NodeInfo<snowcrash::Action>(), context));
+        content.push_back(apib2apie::CopyToApie(MAKE_NODE_INFO(transaction, description)));
+    content.push_back(apib2apie::PayloadToApie(request, action, context));
+    content.push_back(apib2apie::PayloadToApie(response, NodeInfo<snowcrash::Action>(), context));
 
     RemoveEmptyElements(content);
 
@@ -503,8 +150,9 @@ std::unique_ptr<ArrayElement> ActionToRefract(const NodeInfo<snowcrash::Action>&
     }
 
     if (!action.node->parameters.empty()) {
-        element->attributes().set(
-            SerializeKey::HrefVariables, ParametersToRefract(MAKE_NODE_INFO(action, parameters), context));
+        element->attributes().set( //
+            SerializeKey::HrefVariables,
+            apib2apie::ParametersToApie(MAKE_NODE_INFO(action, parameters), context));
     }
 
     if (!action.node->attributes.empty()) {
@@ -515,7 +163,7 @@ std::unique_ptr<ArrayElement> ActionToRefract(const NodeInfo<snowcrash::Action>&
     auto& content = element->get();
 
     if (!action.node->description.empty())
-        content.push_back(CopyToRefract(MAKE_NODE_INFO(action, description)));
+        content.push_back(apib2apie::CopyToApie(MAKE_NODE_INFO(action, description)));
 
     typedef NodeInfoCollection<snowcrash::TransactionExamples> ExamplesType;
     ExamplesType examples(MAKE_NODE_INFO(action, examples));
@@ -570,14 +218,15 @@ std::unique_ptr<ArrayElement> ResourceToRefract(
     element->attributes().set(SerializeKey::Href, PrimitiveToRefract(MAKE_NODE_INFO(resource, uriTemplate)));
 
     if (!resource.node->parameters.empty()) {
-        element->attributes().set(
-            SerializeKey::HrefVariables, ParametersToRefract(MAKE_NODE_INFO(resource, parameters), context));
+        element->attributes().set( //
+            SerializeKey::HrefVariables,
+            apib2apie::ParametersToApie(MAKE_NODE_INFO(resource, parameters), context));
     }
 
     auto& content = element->get();
 
     if (!resource.node->description.empty())
-        content.push_back(CopyToRefract(MAKE_NODE_INFO(resource, description)));
+        content.push_back(apib2apie::CopyToApie(MAKE_NODE_INFO(resource, description)));
 
     if (!resource.node->attributes.empty()) {
         content.push_back(DataStructureToRefract(MAKE_NODE_INFO(resource, attributes), context));
@@ -633,7 +282,7 @@ std::unique_ptr<IElement> ElementToRefract(const NodeInfo<snowcrash::Element>& e
         case snowcrash::Element::DataStructureElement:
             return DataStructureToRefract(MAKE_NODE_INFO(element, content.dataStructure), context);
         case snowcrash::Element::CopyElement:
-            return CopyToRefract(MAKE_NODE_INFO(element, content.copy));
+            return apib2apie::CopyToApie(MAKE_NODE_INFO(element, content.copy));
         case snowcrash::Element::CategoryElement:
             return CategoryToRefract(element, context);
         default:
@@ -658,11 +307,11 @@ std::unique_ptr<IElement> drafter::BlueprintToRefract(
     auto& content = ast->get();
 
     if (!blueprint.node->description.empty())
-        content.push_back(CopyToRefract(MAKE_NODE_INFO(blueprint, description)));
+        content.push_back(apib2apie::CopyToApie(MAKE_NODE_INFO(blueprint, description)));
 
     if (!blueprint.node->metadata.empty()) {
         ast->attributes().set(SerializeKey::Metadata,
-            CollectionToRefract<ArrayElement>(MAKE_NODE_INFO(blueprint, metadata), context, MetadataToRefract));
+            apib2apie::CollectionToApie<ArrayElement>(MAKE_NODE_INFO(blueprint, metadata), context, MetadataToRefract));
     }
 
     NodeInfoToElements(MAKE_NODE_INFO(blueprint, content.elements()), ElementToRefract, content, context);
