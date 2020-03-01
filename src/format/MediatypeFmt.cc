@@ -1,18 +1,18 @@
 //
-//  backend/MediatypeS11n.cc
-//  apib::backend
+//  format/MediatypeFmt.cc
+//  apib::format
 //
 //  Created by Thomas Jandecka on 02/21/2020
 //  Copyright (c) 2020 Apiary Inc. All rights reserved.
 //
 
-#include "MediatypeS11n.h"
+#include "MediatypeFmt.h"
 
 // FIXME: avoid relative, cross-modular include by setting up build environment
 //          to search for includes in `src`; then `#include <parser/Mediatype.h>`
 #include "../parser/Mediatype.h"
 
-using namespace apib::backend;
+using namespace apib::format;
 
 namespace
 {
@@ -59,7 +59,7 @@ namespace
     }
 }
 
-std::ostream& apib::backend::operator<<(std::ostream& out, const apib::parser::mediatype::state& obj)
+std::ostream& apib::format::operator<<(std::ostream& out, const apib::parser::mediatype::state& obj)
 {
     if (obj.type.empty())
         return out;

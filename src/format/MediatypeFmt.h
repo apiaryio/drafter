@@ -1,6 +1,6 @@
 //
-//  backend/MediatypeS11n.h
-//  apib::backend
+//  format/MediatypeFmt.h
+//  apib::format
 //
 //  Created by Thomas Jandecka on 02/21/2020
 //  Copyright (c) 2020 Apiary Inc. All rights reserved.
@@ -13,7 +13,7 @@
 
 namespace apib
 {
-    // FIXME: avoid depending on parser from backend by isolating MediaType
+    // FIXME: avoid depending on parser from format by isolating MediaType
     //          definition; then forward declare as, e. g., `apib::mediatype`
     namespace parser
     {
@@ -23,7 +23,7 @@ namespace apib
         }
     }
 
-    namespace backend
+    namespace format
     {
         std::ostream& operator<<(std::ostream&, const apib::parser::mediatype::state&);
     }
