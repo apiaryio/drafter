@@ -20,7 +20,5 @@ std::unique_ptr<StringElement> apib2apie::CopyToApie(const NodeInfo<std::string>
     if (copy.node->empty())
         return nullptr;
 
-    auto element = PrimitiveToApie(SerializeKey::Copy, copy);
-
-    return element;
+    return PrimitiveToApie(SerializeKey::Copy, copy);
 }

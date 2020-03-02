@@ -2,32 +2,31 @@
 //  PayloadToApie.cc
 //  apib2apie
 //
-//  Created by Thomas Jandecka on 02/25/2020
+//  Created by Thomas Jandecka on 02/25/20.
 //  Copyright (c) 2020 Apiary Inc. All rights reserved.
 //
+//  Note @tjanc: moved from RefractAPI.cc
 
 #include "PayloadToApie.h"
-
-#include <iterator>
 
 #include <SourceAnnotation.h>
 
 #include "../RefractDataStructure.h"
 #include "../Render.h"
 
-#include "../refract/JsonValue.h"
 #include "../refract/JsonSchema.h"
+#include "../refract/JsonValue.h"
 
 #include "../utils/so/JsonIo.h"
 
-#include "../format/MediatypeFmt.h"
 #include "../format/Format.h"
+#include "../format/MediatypeFmt.h"
 
 #include "../ConversionContext.h"
 
-#include "ParametersToApie.h"
-#include "CopyToApie.h"
 #include "CollectionToApie.h"
+#include "CopyToApie.h"
+#include "ParametersToApie.h"
 #include "PrimitiveToApie.h"
 #include "SourceMapToApie.h"
 
@@ -218,7 +217,7 @@ namespace
     }
 }
 
-std::unique_ptr<IElement> apib2apie::PayloadToApie( //
+std::unique_ptr<ArrayElement> apib2apie::PayloadToApie( //
     const NodeInfo<snowcrash::Payload>& payload,
     const NodeInfo<snowcrash::Action>& action,
     ConversionContext& context)

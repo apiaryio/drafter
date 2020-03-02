@@ -2,7 +2,7 @@
 //  apib2apie/CollectionToApie.h
 //  apib2apie
 //
-//  Created by Thomas Jandecka on 02/21/2020
+//  Created by Thomas Jandecka on 02/21/20.
 //  Copyright (c) 2020 Apiary Inc. All rights reserved.
 //
 //  Note @tjanc: moved from RefractAPI.cc, changed to run without buffering
@@ -11,7 +11,6 @@
 #ifndef APIB2APIE_COLLECTION_TO_APIE_H
 #define APIB2APIE_COLLECTION_TO_APIE_H
 
-#include <memory>
 #include <string>
 
 #include "../NodeInfo.h"

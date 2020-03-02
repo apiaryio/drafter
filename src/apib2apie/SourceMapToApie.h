@@ -10,8 +10,8 @@
 #ifndef APIB2APIE_SOURCE_MAP_TO_APIE_H
 #define APIB2APIE_SOURCE_MAP_TO_APIE_H
 
-#include <memory>
 #include <ByteBuffer.h>
+
 #include "../SerializeKey.h"
 #include "../refract/Element.h"
 
@@ -29,8 +29,8 @@ namespace apib2apie
         const mdp::CharactersRangeSet&,
         const drafter::ConversionContext&);
 
-    template <typename T>
-    void AttachSourceMap(refract::IElement& element, const T& nodeInfo)
+    template <typename T, typename Element>
+    void AttachSourceMap(Element& element, const T& nodeInfo)
     {
         if (!nodeInfo.sourceMap->sourceMap.empty()) {
             element.attributes().set( //

@@ -9,23 +9,18 @@
 #ifndef APIB2APIE_PAYLOAD_TO_APIE_H
 #define APIB2APIE_PAYLOAD_TO_APIE_H
 
-#include <memory>
 #include <Blueprint.h>
 #include "../NodeInfo.h"
+#include "../refract/Element.h"
 
 namespace drafter
 {
     class ConversionContext;
 }
 
-namespace refract
-{
-    class IElement;
-}
-
 namespace apib2apie
 {
-    std::unique_ptr<refract::IElement> PayloadToApie( //
+    std::unique_ptr<refract::ArrayElement> PayloadToApie( //
         const drafter::NodeInfo<snowcrash::Payload>&,
         const drafter::NodeInfo<snowcrash::Action>&,
         drafter::ConversionContext&);
