@@ -10,8 +10,8 @@
 #define APIB2APIE_COPY_TO_APIE_H
 
 #include <memory>
-#include <Blueprint.h>
 #include "../NodeInfo.h"
+#include "../refract/Element.h"
 
 namespace refract
 {
@@ -20,7 +20,7 @@ namespace refract
 
 namespace apib2apie
 {
-    std::unique_ptr<refract::IElement> CopyToApie(const drafter::NodeInfo<std::string>&);
+    std::unique_ptr<refract::StringElement> CopyToApie(const drafter::NodeInfo<std::string>&);
 }
 
 #endif

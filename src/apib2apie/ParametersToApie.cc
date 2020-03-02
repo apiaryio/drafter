@@ -2,22 +2,18 @@
 //  ParametersToApie.cc
 //  apib2apie
 //
-//  Created by Thomas Jandecka on 25/02/20.
+//  Created by Thomas Jandecka on 02/25/2020
 //  Copyright (c) 2020 Apiary Inc. All rights reserved.
 //
 //  Note @tjanc: moved from RefractAPI.cc
 
 #include "ParametersToApie.h"
 
-#include <SourceAnnotation.h>
-
-#include "../RefractDataStructure.h"
-#include "../Render.h"
-#include "../RefractSourceMap.h"
-
 #include "../ConversionContext.h"
 
 #include "CollectionToApie.h"
+#include "LiteralToApie.h"
+#include "PrimitiveToApie.h"
 
 using namespace drafter;
 using namespace refract;
@@ -25,23 +21,23 @@ using namespace apib2apie;
 
 namespace
 {
-    std::unique_ptr<IElement> ParameterValuesToRefract(
+    std::unique_ptr<EnumElement> ParameterValuesToRefract(
         const NodeInfo<snowcrash::Parameter>& parameter, ConversionContext& context)
     {
         // Add sample value
         auto element = parameter.node->exampleValue.empty() ? //
             make_empty<EnumElement>() :
-            make_element<EnumElement>(LiteralToRefract(MAKE_NODE_INFO(parameter, exampleValue), context));
+            make_element<EnumElement>(LiteralToApie(MAKE_NODE_INFO(parameter, exampleValue)));
 
         // Add default value
         if (!parameter.node->defaultValue.empty()) {
             element->attributes().set(SerializeKey::Default,
-                make_element<EnumElement>(LiteralToRefract(MAKE_NODE_INFO(parameter, defaultValue), context)));
+                make_element<EnumElement>(LiteralToApie(MAKE_NODE_INFO(parameter, defaultValue))));
         }
 
         // Add enumerations
         element->attributes().set(SerializeKey::Enumerations,
-            CollectionToApie<ArrayElement>(MAKE_NODE_INFO(parameter, values), context, LiteralToRefract));
+            CollectionToApie<ArrayElement>(MAKE_NODE_INFO(parameter, values), LiteralToApie));
 
         return std::move(element);
     }
@@ -55,11 +51,11 @@ namespace
         if (parameter.node->values.empty()) {
             auto element = parameter.node->exampleValue.empty() ? //
                 make_empty<StringElement>() :
-                LiteralToRefract(MAKE_NODE_INFO(parameter, exampleValue), context);
+                LiteralToApie(MAKE_NODE_INFO(parameter, exampleValue));
 
             if (!parameter.node->defaultValue.empty()) {
                 element->attributes().set(
-                    SerializeKey::Default, PrimitiveToRefract(MAKE_NODE_INFO(parameter, defaultValue)));
+                    SerializeKey::Default, PrimitiveToApie(MAKE_NODE_INFO(parameter, defaultValue)));
             }
 
             return std::move(element);
@@ -72,15 +68,15 @@ namespace
         const NodeInfo<snowcrash::Parameter>& parameter, ConversionContext& context)
     {
         auto element = make_element<MemberElement>(
-            PrimitiveToRefract(MAKE_NODE_INFO(parameter, name)), ExtractParameter(parameter, context));
+            PrimitiveToApie(MAKE_NODE_INFO(parameter, name)), ExtractParameter(parameter, context));
 
         // Description
         if (!parameter.node->description.empty()) {
-            element->meta().set(SerializeKey::Description, PrimitiveToRefract(MAKE_NODE_INFO(parameter, description)));
+            element->meta().set(SerializeKey::Description, PrimitiveToApie(MAKE_NODE_INFO(parameter, description)));
         }
 
         if (!parameter.node->type.empty()) {
-            element->meta().set(SerializeKey::Title, PrimitiveToRefract(MAKE_NODE_INFO(parameter, type)));
+            element->meta().set(SerializeKey::Title, PrimitiveToApie(MAKE_NODE_INFO(parameter, type)));
         }
 
         // Parameter use

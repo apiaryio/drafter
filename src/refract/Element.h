@@ -156,6 +156,9 @@ namespace refract
         }
     };
 
+    template <typename T>
+    using PrimitiveElement = Element<typename dsd::data_of<T>::type>;
+
     ///
     /// Create an Element of given type without a value
     ///
@@ -193,22 +196,20 @@ namespace refract
     /// Create an Element of type based on the C type of given value;
     /// Element type deduced via @ref dsd::data_of
     ///
-    template <typename Primitive, typename DataT = typename dsd::data_of<Primitive>::type>
-    std::unique_ptr<Element<DataT> > from_primitive(const Primitive& p)
+    template <typename T>
+    std::unique_ptr<PrimitiveElement<T> > from_primitive(const T& p)
     {
-        return make_element<Element<DataT> >(p);
+        return make_element<PrimitiveElement<T> >(p);
     }
 
     ///
     /// Create an Element of given name, with type based on the C type
     /// of given value; Element type deduced via @ref dsd::data_of
     ///
-    template <typename Primitive, typename DataT = typename dsd::data_of<Primitive>::type>
-    std::unique_ptr<Element<DataT> > from_primitive_t(std::string name, const Primitive& p)
+    template <typename T>
+    std::unique_ptr<PrimitiveElement<T> > from_primitive_t(std::string name, const T& p)
     {
-        if (name.empty())
-            return from_primitive(p);
-        return refract::make_unique<Element<DataT> >(std::move(name), DataT{ p });
+        return make_element_t<PrimitiveElement<T> >(std::move(name), p);
     }
 
     template <typename ElementT, typename ContentVisitor, typename... Args>

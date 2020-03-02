@@ -14,8 +14,6 @@
 #include <memory>
 #include <string>
 
-#include <Blueprint.h>
-
 #include "../NodeInfo.h"
 #include "../refract/Element.h"
 #include "../ConversionContext.h"
@@ -43,6 +41,33 @@ namespace apib2apie
                 content.push_back(f(node, nullptr));
             }
         }
+    }
+
+    template <typename T, typename C, typename F>
+    std::unique_ptr<T> CollectionToApie(        //
+        const drafter::NodeInfo<C>& collection, //
+        F& f,                                   //
+        const std::string& key = {})
+    {
+        assert(collection.node);
+
+        using refract::make_element;
+        using refract::make_element_t;
+
+        auto element = key.empty() ? make_element<T>() : make_element_t<T>(std::move(key));
+
+        using NodeInfoT = drafter::NodeInfo<typename C::value_type>;
+        using SmPtr = decltype(NodeInfoT::NullSourceMap());
+
+        AccumulateToApie( //
+            *element,
+            *collection.node,
+            collection.sourceMap,
+            [&f](const auto& item, const SmPtr sm) { //
+                return f(NodeInfoT(&item, sm ? sm : NodeInfoT::NullSourceMap()));
+            });
+
+        return element;
     }
 
     template <typename T, typename C, typename F>

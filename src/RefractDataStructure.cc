@@ -8,35 +8,34 @@
 
 #include "RefractDataStructure.h"
 
-#include "SourceAnnotation.h"
+#include <fstream>
+#include <functional>
+#include <numeric>
 
-#include "RefractSourceMap.h"
-#include "refract/VisitorUtils.h"
-#include "refract/ExpandVisitor.h"
-#include "refract/PrintVisitor.h"
-#include "refract/InfoElementsUtils.h"
-
+#include "ConversionContext.h"
+#include "ElementComparator.h"
+#include "ElementData.h"
+#include "ElementInfoUtils.h"
+#include "MsonMemberToApie.h"
+#include "MsonTypeSectionToApie.h"
 #include "NamedTypesRegistry.h"
 #include "RefractElementFactory.h"
-#include "ConversionContext.h"
+#include "Serialize.h"
+#include "SourceAnnotation.h"
 
-#include "ElementData.h"
+#include "apib2apie/PrimitiveToApie.h"
+
 #include "refract/ElementUtils.h"
-#include "ElementInfoUtils.h"
-#include "ElementComparator.h"
-#include "MsonTypeSectionToApie.h"
-#include "MsonMemberToApie.h"
-
+#include "refract/ExpandVisitor.h"
+#include "refract/InfoElementsUtils.h"
+#include "refract/PrintVisitor.h"
 #include "refract/VisitorUtils.h"
 
 #include "utils/log/Trivial.h"
 
-#include <fstream>
-#include <functional>
-#include <numeric> // accumulate
-
 using namespace refract;
 using namespace drafter;
+using namespace apib2apie;
 using namespace drafter::utils::log;
 
 namespace
@@ -960,7 +959,7 @@ namespace
             return nullptr;
         }
 
-        return PrimitiveToRefract(NodeInfo<std::string>(&info.description, &info.sourceMap));
+        return PrimitiveToApie(NodeInfo<std::string>(&info.description, &info.sourceMap));
     }
 
     // FIXME: refactoring - description is not used while calling from
@@ -1270,7 +1269,7 @@ namespace
             snowcrash::SourceMap<mson::Literal> sourceMap = *NodeInfo<mson::Literal>::NullSourceMap();
             sourceMap.sourceMap.append(ds.sourceMap->name.sourceMap);
             element->meta().set(
-                SerializeKey::Id, PrimitiveToRefract(MakeNodeInfo(ds.node->name.symbol.literal, sourceMap)));
+                SerializeKey::Id, PrimitiveToApie(MakeNodeInfo(ds.node->name.symbol.literal, sourceMap)));
         }
 
         AttachSourceMap(*element, MakeNodeInfo(ds.node, ds.sourceMap));

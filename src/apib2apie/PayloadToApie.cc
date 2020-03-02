@@ -2,7 +2,7 @@
 //  PayloadToApie.cc
 //  apib2apie
 //
-//  Created by Thomas Jandecka on 25/02/20.
+//  Created by Thomas Jandecka on 02/25/2020
 //  Copyright (c) 2020 Apiary Inc. All rights reserved.
 //
 
@@ -14,7 +14,6 @@
 
 #include "../RefractDataStructure.h"
 #include "../Render.h"
-#include "../RefractSourceMap.h"
 
 #include "../refract/JsonValue.h"
 #include "../refract/JsonSchema.h"
@@ -29,6 +28,8 @@
 #include "ParametersToApie.h"
 #include "CopyToApie.h"
 #include "CollectionToApie.h"
+#include "PrimitiveToApie.h"
+#include "SourceMapToApie.h"
 
 using namespace drafter;
 using namespace refract;
@@ -67,9 +68,9 @@ namespace
                 make_element<ArrayElement>(from_primitive(std::move(klass))));
 
         if (sourceMap && !sourceMap->empty())
-            result->attributes().set(          //
-                SerializeKey::SourceMap,       //
-                SourceMapToRefract(*sourceMap) //
+            result->attributes().set(       //
+                SerializeKey::SourceMap,    //
+                SourceMapToApie(*sourceMap) //
             );
 
         if (!contentType.empty())
@@ -228,10 +229,10 @@ std::unique_ptr<IElement> apib2apie::PayloadToApie( //
 
     if (isRequest(action)) {
         result->element(SerializeKey::HTTPRequest);
-        result->attributes().set(SerializeKey::Method, PrimitiveToRefract(MAKE_NODE_INFO(action, method)));
+        result->attributes().set(SerializeKey::Method, PrimitiveToApie(MAKE_NODE_INFO(action, method)));
 
         if (!payload.isNull() && !payload.node->name.empty()) {
-            result->meta().set(SerializeKey::Title, PrimitiveToRefract(MAKE_NODE_INFO(payload, name)));
+            result->meta().set(SerializeKey::Title, PrimitiveToApie(MAKE_NODE_INFO(payload, name)));
         }
     } else {
         result->element(SerializeKey::HTTPResponse);
@@ -240,7 +241,7 @@ std::unique_ptr<IElement> apib2apie::PayloadToApie( //
         // delivery test to see this part is required else remove it
         // related discussion: https://github.com/apiaryio/drafter/pull/148/files#r42275194
         if (!payload.isNull() /* && !payload.node->name.empty() */) {
-            result->attributes().set(SerializeKey::StatusCode, PrimitiveToRefract(MAKE_NODE_INFO(payload, name)));
+            result->attributes().set(SerializeKey::StatusCode, PrimitiveToApie(MAKE_NODE_INFO(payload, name)));
         }
     }
 

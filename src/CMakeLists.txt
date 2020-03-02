@@ -62,9 +62,13 @@ set(DRAFTER_SOURCES
     utils/so/YamlIo.cc
     parser/Mediatype.cc
     format/MediatypeFmt.cc
-    apib2apie/PayloadToApie.cc
+    apib2apie/CollectionToApie.cc
     apib2apie/CopyToApie.cc
+    apib2apie/LiteralToApie.cc
     apib2apie/ParametersToApie.cc
+    apib2apie/PayloadToApie.cc
+    apib2apie/PrimitiveToApie.cc
+    apib2apie/SourceMapToApie.cc
     )
 
 set(DRAFTER_COMPILE_FEATURES

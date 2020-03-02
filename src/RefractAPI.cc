@@ -33,6 +33,7 @@
 
 using namespace drafter;
 using namespace refract;
+using namespace apib2apie;
 using namespace drafter::utils::log;
 
 // Forward Declarations
@@ -122,9 +123,9 @@ std::unique_ptr<ArrayElement> TransactionToRefract(const NodeInfo<snowcrash::Tra
     element->element(SerializeKey::HTTPTransaction);
 
     if (!transaction.node->description.empty())
-        content.push_back(apib2apie::CopyToApie(MAKE_NODE_INFO(transaction, description)));
-    content.push_back(apib2apie::PayloadToApie(request, action, context));
-    content.push_back(apib2apie::PayloadToApie(response, NodeInfo<snowcrash::Action>(), context));
+        content.push_back(CopyToApie(MAKE_NODE_INFO(transaction, description)));
+    content.push_back(PayloadToApie(request, action, context));
+    content.push_back(PayloadToApie(response, NodeInfo<snowcrash::Action>(), context));
 
     RemoveEmptyElements(content);
 
@@ -136,23 +137,23 @@ std::unique_ptr<ArrayElement> ActionToRefract(const NodeInfo<snowcrash::Action>&
     auto element = make_element<ArrayElement>();
 
     element->element(SerializeKey::Transition);
-    element->meta().set(SerializeKey::Title, PrimitiveToRefract(MAKE_NODE_INFO(action, name)));
+    element->meta().set(SerializeKey::Title, PrimitiveToApie(MAKE_NODE_INFO(action, name)));
 
     if (!action.node->relation.str.empty()) {
-        // We can't use PrimitiveToRefract() because `action.node->relation` here is a struct Relation
+        // We can't use PrimitiveToApie() because `action.node->relation` here is a struct Relation
         auto relation = from_primitive(action.node->relation.str);
         AttachSourceMap(*relation, MAKE_NODE_INFO(action, relation));
         element->attributes().set(SerializeKey::Relation, std::move(relation));
     }
 
     if (!action.node->uriTemplate.empty()) {
-        element->attributes().set(SerializeKey::Href, PrimitiveToRefract(MAKE_NODE_INFO(action, uriTemplate)));
+        element->attributes().set(SerializeKey::Href, PrimitiveToApie(MAKE_NODE_INFO(action, uriTemplate)));
     }
 
     if (!action.node->parameters.empty()) {
         element->attributes().set( //
             SerializeKey::HrefVariables,
-            apib2apie::ParametersToApie(MAKE_NODE_INFO(action, parameters), context));
+            ParametersToApie(MAKE_NODE_INFO(action, parameters), context));
     }
 
     if (!action.node->attributes.empty()) {
@@ -163,7 +164,7 @@ std::unique_ptr<ArrayElement> ActionToRefract(const NodeInfo<snowcrash::Action>&
     auto& content = element->get();
 
     if (!action.node->description.empty())
-        content.push_back(apib2apie::CopyToApie(MAKE_NODE_INFO(action, description)));
+        content.push_back(CopyToApie(MAKE_NODE_INFO(action, description)));
 
     typedef NodeInfoCollection<snowcrash::TransactionExamples> ExamplesType;
     ExamplesType examples(MAKE_NODE_INFO(action, examples));
@@ -214,19 +215,19 @@ std::unique_ptr<ArrayElement> ResourceToRefract(
 
     element->element(SerializeKey::Resource);
 
-    element->meta().set(SerializeKey::Title, PrimitiveToRefract(MAKE_NODE_INFO(resource, name)));
-    element->attributes().set(SerializeKey::Href, PrimitiveToRefract(MAKE_NODE_INFO(resource, uriTemplate)));
+    element->meta().set(SerializeKey::Title, PrimitiveToApie(MAKE_NODE_INFO(resource, name)));
+    element->attributes().set(SerializeKey::Href, PrimitiveToApie(MAKE_NODE_INFO(resource, uriTemplate)));
 
     if (!resource.node->parameters.empty()) {
         element->attributes().set( //
             SerializeKey::HrefVariables,
-            apib2apie::ParametersToApie(MAKE_NODE_INFO(resource, parameters), context));
+            ParametersToApie(MAKE_NODE_INFO(resource, parameters), context));
     }
 
     auto& content = element->get();
 
     if (!resource.node->description.empty())
-        content.push_back(apib2apie::CopyToApie(MAKE_NODE_INFO(resource, description)));
+        content.push_back(CopyToApie(MAKE_NODE_INFO(resource, description)));
 
     if (!resource.node->attributes.empty()) {
         content.push_back(DataStructureToRefract(MAKE_NODE_INFO(resource, attributes), context));
@@ -254,7 +255,7 @@ std::unique_ptr<ArrayElement> CategoryToRefract(const NodeInfo<snowcrash::Elemen
     if (element.node->category == snowcrash::Element::ResourceGroupCategory) {
         category->meta().set(
             SerializeKey::Classes, make_element<ArrayElement>(from_primitive(SerializeKey::ResourceGroup)));
-        category->meta().set(SerializeKey::Title, PrimitiveToRefract(MAKE_NODE_INFO(element, attributes.name)));
+        category->meta().set(SerializeKey::Title, PrimitiveToApie(MAKE_NODE_INFO(element, attributes.name)));
     } else if (element.node->category == snowcrash::Element::DataStructureGroupCategory) {
         category->meta().set(
             SerializeKey::Classes, make_element<ArrayElement>(from_primitive(SerializeKey::DataStructures)));
@@ -282,7 +283,7 @@ std::unique_ptr<IElement> ElementToRefract(const NodeInfo<snowcrash::Element>& e
         case snowcrash::Element::DataStructureElement:
             return DataStructureToRefract(MAKE_NODE_INFO(element, content.dataStructure), context);
         case snowcrash::Element::CopyElement:
-            return apib2apie::CopyToApie(MAKE_NODE_INFO(element, content.copy));
+            return CopyToApie(MAKE_NODE_INFO(element, content.copy));
         case snowcrash::Element::CategoryElement:
             return CategoryToRefract(element, context);
         default:
@@ -302,16 +303,16 @@ std::unique_ptr<IElement> drafter::BlueprintToRefract(
     ast->element(SerializeKey::Category);
 
     ast->meta().set(SerializeKey::Classes, make_element<ArrayElement>(from_primitive(SerializeKey::API)));
-    ast->meta().set(SerializeKey::Title, PrimitiveToRefract(MAKE_NODE_INFO(blueprint, name)));
+    ast->meta().set(SerializeKey::Title, PrimitiveToApie(MAKE_NODE_INFO(blueprint, name)));
 
     auto& content = ast->get();
 
     if (!blueprint.node->description.empty())
-        content.push_back(apib2apie::CopyToApie(MAKE_NODE_INFO(blueprint, description)));
+        content.push_back(CopyToApie(MAKE_NODE_INFO(blueprint, description)));
 
     if (!blueprint.node->metadata.empty()) {
         ast->attributes().set(SerializeKey::Metadata,
-            apib2apie::CollectionToApie<ArrayElement>(MAKE_NODE_INFO(blueprint, metadata), context, MetadataToRefract));
+            CollectionToApie<ArrayElement>(MAKE_NODE_INFO(blueprint, metadata), context, MetadataToRefract));
     }
 
     NodeInfoToElements(MAKE_NODE_INFO(blueprint, content.elements()), ElementToRefract, content, context);
@@ -331,8 +332,7 @@ std::unique_ptr<IElement> drafter::AnnotationToRefract(
     element->meta().set(SerializeKey::Classes, make_element<ArrayElement>(from_primitive(key)));
 
     element->attributes().set(SerializeKey::AnnotationCode, from_primitive(annotation.code));
-    element->attributes().set(
-        SerializeKey::SourceMap, SourceMapToRefractWithColumnLineInfo(annotation.location, context));
+    element->attributes().set(SerializeKey::SourceMap, SourceMapToApieWithColumnLineInfo(annotation.location, context));
 
     return std::move(element);
 }
