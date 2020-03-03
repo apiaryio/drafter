@@ -13,17 +13,21 @@
 #include <MSONSourcemap.h>
 #include <memory>
 
-#include "refract/ElementIfc.h"
+#include "../refract/ElementIfc.h"
 #include "NodeInfo.h"
 
 namespace drafter
 {
     class ConversionContext;
+}
+
+namespace apib2apie
+{
 
     std::unique_ptr<refract::IElement> MsonOneOfSectionToApie( //
         const mson::OneOf&,
         const snowcrash::SourceMap<mson::OneOf>*,
-        ConversionContext&);
+        drafter::ConversionContext&);
 }
 
 #endif

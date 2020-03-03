@@ -37,16 +37,18 @@ using namespace apib2apie;
 namespace
 {
     std::unique_ptr<IElement> HeaderToApie( //
-        const NodeInfo<snowcrash::Header>& header,
+        const mson::Header& header,
+        const snowcrash::SourceMap<mson::Header>* sm,
         ConversionContext& context)
     {
         auto element = make_element<MemberElement>( //
-            from_primitive(header.node->first),
-            from_primitive(header.node->second));
+            from_primitive(header.first),
+            from_primitive(header.second));
 
-        AttachSourceMap(*element, header);
+        if (sm)
+            AttachSourceMap(*element, *sm);
 
-        return std::move(element);
+        return element;
     }
 
     bool isRequest(const NodeInfo<snowcrash::Action>& action)
@@ -258,8 +260,13 @@ std::unique_ptr<ArrayElement> apib2apie::PayloadToApie( //
 
     if (!payload.node->headers.empty()) {
         result->attributes().set(SerializeKey::Headers,
-            CollectionToApie<ArrayElement>(
-                MAKE_NODE_INFO(payload, headers), context, HeaderToApie, SerializeKey::HTTPHeaders));
+            CollectionToApie<ArrayElement>( //
+                SerializeKey::HTTPHeaders,  //
+                payload.node->headers,      //
+                payload.sourceMap ? payload.sourceMap->headers :
+                                    nullptr           //
+                                        HeaderToApie, //
+                context));
     }
 
     PayloadContentToApie(payload, action, context, result->get());

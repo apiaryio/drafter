@@ -20,7 +20,7 @@
 namespace apib2apie
 {
     template <typename Element, typename Collection, typename SM, typename F, typename... Args>
-    void AccumulateToApie(Element& out, const Collection& collection, const SM* sm, F f)
+    void AccumulateToApie(Element& out, const Collection& collection, const SM* sm, F& f, Args&&... args)
     {
         auto& content = out.get();
 
@@ -29,70 +29,56 @@ namespace apib2apie
             const auto smEnd = sm->collection.end();
             for (const auto& node : collection) {
                 if (smIt == smEnd) {
-                    content.push_back(f(node, nullptr));
+                    content.push_back(f(node, nullptr, std::forward<Args>(args)...));
                 } else {
-                    content.push_back(f(node, &*smIt));
+                    content.push_back(f(node, &*smIt, std::forward<Args>(args)...));
                     ++smIt;
                 }
             }
         } else {
             for (const auto& node : collection) {
-                content.push_back(f(node, nullptr));
+                content.push_back(f(node, nullptr, std::forward<Args>(args)...));
             }
         }
     }
 
-    template <typename T, typename C, typename F>
-    std::unique_ptr<T> CollectionToApie(        //
+    template <typename T, typename C, typename F, typename... Args>
+    std::unique_ptr<T> CollectionToApie( //
+        std::string key,
         const drafter::NodeInfo<C>& collection, //
         F& f,                                   //
-        const std::string& key = {})
+        Args&&... args)
     {
         assert(collection.node);
 
-        using refract::make_element;
-        using refract::make_element_t;
-
-        auto element = key.empty() ? make_element<T>() : make_element_t<T>(std::move(key));
-
-        using NodeInfoT = drafter::NodeInfo<typename C::value_type>;
-        using SmPtr = decltype(NodeInfoT::NullSourceMap());
+        auto element = refract::make_element_t<T>(std::move(key));
 
         AccumulateToApie( //
             *element,
             *collection.node,
             collection.sourceMap,
-            [&f](const auto& item, const SmPtr sm) { //
-                return f(NodeInfoT(&item, sm ? sm : NodeInfoT::NullSourceMap()));
-            });
+            f,
+            std::forward<Args>(args)...);
 
         return element;
     }
 
-    template <typename T, typename C, typename F>
+    template <typename T, typename C, typename F, typename... Args>
     std::unique_ptr<T> CollectionToApie(        //
         const drafter::NodeInfo<C>& collection, //
-        drafter::ConversionContext& context,    //
         F& f,                                   //
-        const std::string& key = {})
+        Args&&... args)
     {
         assert(collection.node);
 
-        using refract::make_element;
-        using refract::make_element_t;
-
-        auto element = key.empty() ? make_element<T>() : make_element_t<T>(std::move(key));
-
-        using NodeInfoT = drafter::NodeInfo<typename C::value_type>;
-        using SmPtr = decltype(NodeInfoT::NullSourceMap());
+        auto element = refract::make_element<T>();
 
         AccumulateToApie( //
             *element,
             *collection.node,
             collection.sourceMap,
-            [&context, &f](const auto& item, const SmPtr sm) { //
-                return f(NodeInfoT(&item, sm ? sm : NodeInfoT::NullSourceMap()), context);
-            });
+            f,
+            std::forward<Args>(args)...);
 
         return element;
     }

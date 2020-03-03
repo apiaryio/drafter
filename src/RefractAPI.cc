@@ -312,7 +312,7 @@ std::unique_ptr<IElement> drafter::BlueprintToRefract(
 
     if (!blueprint.node->metadata.empty()) {
         ast->attributes().set(SerializeKey::Metadata,
-            CollectionToApie<ArrayElement>(MAKE_NODE_INFO(blueprint, metadata), context, MetadataToRefract));
+            CollectionToApie<ArrayElement>(MAKE_NODE_INFO(blueprint, metadata), MetadataToRefract, context));
     }
 
     NodeInfoToElements(MAKE_NODE_INFO(blueprint, content.elements()), ElementToRefract, content, context);

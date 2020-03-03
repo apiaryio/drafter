@@ -99,5 +99,5 @@ std::unique_ptr<IElement> apib2apie::ParametersToApie( //
     const NodeInfo<snowcrash::Parameters>& parameters, //
     ConversionContext& context)
 {
-    return CollectionToApie<ObjectElement>(parameters, context, ParameterToRefract, SerializeKey::HrefVariables);
+    return CollectionToApie<ObjectElement>(SerializeKey::HrefVariables, parameters, ParameterToRefract, context);
 }

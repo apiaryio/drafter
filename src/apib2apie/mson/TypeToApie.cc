@@ -8,16 +8,19 @@
 
 #include "MsonTypeSectionToApie.h"
 
-#include "ConversionContext.h"
-#include "MsonMemberToApie.h"
-#include "MsonOneOfSectionToApie.h"
-#include "SerializeKey.h"
-#include "SourceAnnotation.h" // snowcrash::Error
-#include "refract/Element.h"
-#include "refract/TypeQueryVisitor.h" // NamedTypeFromElement
+#include <SourceAnnotation.h> 
+
+#include "../ConversionContext.h"
+#include "../SerializeKey.h"
+#include "../refract/Element.h"
+#include "../refract/TypeQueryVisitor.h" // NamedTypeFromElement
+
+#include "../MsonMemberToApie.h"
+#include "OneOfToApie.h"
 
 using namespace refract;
 using namespace drafter;
+using namespace apib2apie;
 
 namespace
 {
@@ -54,7 +57,7 @@ namespace
     }
 }
 
-mson::BaseTypeName drafter::ResolveType(const mson::TypeSpecification& spec, ConversionContext& context)
+mson::BaseTypeName apib2apie::ResolveType(const mson::TypeSpecification& spec, ConversionContext& context)
 {
     // OPTIM @tjanc@ make nameType const
     mson::BaseTypeName nameType = spec.name.base;
@@ -70,7 +73,7 @@ mson::BaseTypeName drafter::ResolveType(const mson::TypeSpecification& spec, Con
     return nameType;
 }
 
-std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
+std::unique_ptr<IElement> apib2apie::MsonTypeSectionToApie( //
     const mson::Element::Empty&,
     const snowcrash::SourceMap<mson::Element>*,
     ConversionContext&,
@@ -80,7 +83,7 @@ std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
     throw snowcrash::Error("unknown type of mson element", snowcrash::ApplicationError);
 }
 
-std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
+std::unique_ptr<IElement> apib2apie::MsonTypeSectionToApie( //
     const mson::Element::PropertyMemberSection& section,
     const snowcrash::SourceMap<mson::Element>* sourceMap,
     ConversionContext& context,
@@ -93,7 +96,7 @@ std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
         defaultNestedType);
 }
 
-std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
+std::unique_ptr<IElement> apib2apie::MsonTypeSectionToApie( //
     const mson::Element::ValueMemberSection& section,
     const snowcrash::SourceMap<mson::Element>* sourceMap,
     ConversionContext& context,
@@ -136,7 +139,7 @@ namespace
     }
 }
 
-std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
+std::unique_ptr<IElement> apib2apie::MsonTypeSectionToApie( //
     const mson::Element::MixinSection& section,
     const snowcrash::SourceMap<mson::Element>* sourceMap,
     ConversionContext&,
@@ -147,13 +150,13 @@ std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
     return std::move(ref);
 }
 
-std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
+std::unique_ptr<IElement> apib2apie::MsonTypeSectionToApie( //
     const mson::Element::OneOfSection& section,
     const snowcrash::SourceMap<mson::Element>* sourceMap,
     ConversionContext& context,
     const mson::BaseTypeName);
 
-std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
+std::unique_ptr<IElement> apib2apie::MsonTypeSectionToApie( //
     const mson::Element::OneOfSection& section,
     const snowcrash::SourceMap<mson::Element>* sourceMap,
     ConversionContext& context,
@@ -162,7 +165,7 @@ std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
     return MsonOneOfSectionToApie(*section, sourceMap ? &sourceMap->oneOf() : nullptr, context);
 }
 
-std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
+std::unique_ptr<IElement> apib2apie::MsonTypeSectionToApie( //
     const mson::Element::GroupSection&,
     const snowcrash::SourceMap<mson::Element>*,
     ConversionContext& context,
@@ -185,7 +188,7 @@ struct MsonTypeSectionToElementsLambda {
     }
 };
 
-std::unique_ptr<IElement> drafter::MsonTypeSectionToApie( //
+std::unique_ptr<IElement> apib2apie::MsonTypeSectionToApie( //
     const mson::Element& element,
     const snowcrash::SourceMap<mson::Element>* sourceMap,
     ConversionContext& context,

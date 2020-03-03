@@ -1,13 +1,13 @@
 //
-//  MsonTypeSectionToApie.h
-//  drafter
+//  apib2apie/mson/TypeToApie.h
+//  apib2apie
 //
 //  Created by Thomas Jandecka on 11/07/19.
 //  Copyright (c) 2019 Apiary Inc. All rights reserved.
 //
 
-#ifndef DRAFTER_MSONTYPESECTIONTOAPIE_H
-#define DRAFTER_MSONTYPESECTIONTOAPIE_H
+#ifndef APIB2APIE_MSON_TYPE_TO_APIE_H
+#define APIB2APIE_MSON_TYPE_TO_APIE_H
 
 #include <MSON.h>
 #include <MSONSourcemap.h>
@@ -20,13 +20,10 @@ namespace drafter
     class ConversionContext;
 }
 
-namespace drafter
+namespace apib2apie
 {
     mson::BaseTypeName ResolveType(const mson::TypeSpecification& spec, ConversionContext& context);
-}
 
-namespace drafter
-{
     std::unique_ptr<refract::IElement> MsonTypeSectionToApie( //
         const mson::Element::Empty&,
         const snowcrash::SourceMap<mson::Element>*,
@@ -76,7 +73,7 @@ namespace drafter
         const mson::BaseTypeName);
 }
 
-namespace drafter
+namespace apib2apie
 {
     template <typename WhereTo>
     void MsonTypeSectionsToApie(const NodeInfo<mson::Elements>& elements,

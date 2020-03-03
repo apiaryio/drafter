@@ -12,8 +12,6 @@ include_directories(${PROJECT_BINARY_BIN})
 set(DRAFTER_SOURCES
     ConversionContext.cc
     MsonMemberToApie.cc
-    MsonOneOfSectionToApie.cc
-    MsonTypeSectionToApie.cc
     NamedTypesRegistry.cc
     RefractAPI.cc
     RefractDataStructure.cc
@@ -69,6 +67,8 @@ set(DRAFTER_SOURCES
     apib2apie/PayloadToApie.cc
     apib2apie/PrimitiveToApie.cc
     apib2apie/SourceMapToApie.cc
+    apib2apie/mson/OneOfToApie.cc
+    apib2apie/mson/TypeToApie.cc
     )
 
 set(DRAFTER_COMPILE_FEATURES

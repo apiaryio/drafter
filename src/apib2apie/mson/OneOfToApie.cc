@@ -1,6 +1,6 @@
 //
-//  MsonOneOfSectionToApie.cc
-//  drafter
+//  OneOfToApie.cc
+//  apib2apie
 //
 //  Created by Thomas Jandecka on 11/07/19.
 //  Copyright (c) 2019 Apiary Inc. All rights reserved.
@@ -8,12 +8,14 @@
 
 #include "MsonOneOfSectionToApie.h"
 
-#include "ConversionContext.h"
-#include "MsonTypeSectionToApie.h"
-#include "refract/Element.h"
+#include "../ConversionContext.h"
+#include "../refract/Element.h"
+
+#include "TypeToApie.h"
 
 using namespace refract;
 using namespace drafter;
+using namespace apib2apie;
 
 namespace
 {
@@ -89,7 +91,7 @@ namespace
     };
 }
 
-std::unique_ptr<refract::IElement> drafter::MsonOneOfSectionToApie( //
+std::unique_ptr<refract::IElement> apib2apie::MsonOneOfSectionToApie( //
     const mson::OneOf& section,
     const snowcrash::SourceMap<mson::OneOf>* sourceMap,
     ConversionContext& context)
