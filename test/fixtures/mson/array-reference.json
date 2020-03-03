@@ -274,7 +274,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"data\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"users\": {\n          \"type\": \"array\"\n        }\n      },\n      \"required\": [\n        \"users\"\n      ]\n    }\n  },\n  \"required\": [\n    \"data\"\n  ]\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"data\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"users\": {\n          \"type\": \"array\"\n        }\n      },\n      \"required\": [\n        \"users\"\n      ]\n    }\n  },\n  \"required\": [\n    \"data\"\n  ]\n}"
                             }
                           ]
                         }

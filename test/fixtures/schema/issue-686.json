@@ -168,7 +168,7 @@
                               "content": "application/schema+json"
                             }
                           },
-                          "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"obj_member\": {\n          \"type\": \"object\",\n          \"additionalProperties\": false\n        }\n      },\n      \"required\": [\n        \"obj_member\"\n      ],\n      \"additionalProperties\": false\n    }\n  }\n}"
+                          "content": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"result\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"obj_member\": {\n          \"type\": \"object\",\n          \"additionalProperties\": false\n        }\n      },\n      \"required\": [\n        \"obj_member\"\n      ],\n      \"additionalProperties\": false\n    }\n  }\n}"
                         }
                       ]
                     }

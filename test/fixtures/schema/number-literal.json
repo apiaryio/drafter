@@ -189,7 +189,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"street\": {\n      \"type\": \"array\",\n      \"minItems\": 4,\n      \"items\": [\n        {\n          \"type\": \"number\"\n        },\n        {\n          \"const\": 0\n        },\n        {\n          \"const\": 1.5\n        },\n        {\n          \"const\": 340\n        }\n      ],\n      \"additionalItems\": false\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"street\": {\n      \"type\": \"array\",\n      \"minItems\": 4,\n      \"items\": [\n        {\n          \"type\": \"number\"\n        },\n        {\n          \"const\": 0\n        },\n        {\n          \"const\": 1.5\n        },\n        {\n          \"const\": 340\n        }\n      ],\n      \"additionalItems\": false\n    }\n  }\n}"
                             }
                           ]
                         }

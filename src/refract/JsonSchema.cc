@@ -98,7 +98,7 @@ namespace
 { // JSON Schema tools
     so::Object& addSchemaVersion(so::Object& schema)
     {
-        schema.data.emplace_back("$schema", so::String{ "http://json-schema.org/draft-04/schema#" });
+        schema.data.emplace_back("$schema", so::String{ "http://json-schema.org/draft-07/schema#" });
         return schema;
     }
 

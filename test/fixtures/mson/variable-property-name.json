@@ -147,7 +147,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"s\": {\n      \"type\": \"string\"\n    },\n    \"e\": {\n      \"type\": \"string\"\n    }\n  },\n  \"patternProperties\": {\n    \"(?:)\": {\n      \"type\": \"string\"\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"s\": {\n      \"type\": \"string\"\n    },\n    \"e\": {\n      \"type\": \"string\"\n    }\n  },\n  \"patternProperties\": {\n    \"(?:)\": {\n      \"type\": \"string\"\n    }\n  }\n}"
                             }
                           ]
                         }
