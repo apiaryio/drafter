@@ -122,7 +122,7 @@ SCENARIO("JSON Schema serialization of BooleanElement", "[json-schema]")
 
             THEN("the schema matches true")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","enum":[true]})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","const":true})");
             }
         }
     }
@@ -187,7 +187,7 @@ SCENARIO("JSON Schema serialization of NumberElement", "[json-schema]")
 
             THEN("the schema matches the number 42")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","enum":[42]})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","const":42})");
             }
         }
     }
@@ -252,7 +252,7 @@ SCENARIO("JSON Schema serialization of StringElement", "[json-schema]")
 
             THEN("the schema matches the string \"foo\"")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","enum":["foo"]})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","const":"foo"})");
             }
         }
     }
@@ -380,7 +380,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
 
             THEN("the schema matches [\"Hello world!\"] literals")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","minItems":1,"items":[{"enum":["Hello world!"]}],"additionalItems":false})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","minItems":1,"items":[{"const":"Hello world!"}],"additionalItems":false})");
             }
         }
     }
@@ -440,7 +440,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
                 "the schema matches arrays of size 3 containing \"Hello world!\", a number and arrays of size 2 "
                 "containing a string and true")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","minItems":3,"items":[{"enum":["Hello world!"]},{"type":"number"},{"type":"array","minItems":2,"items":[{"type":"string"},{"enum":[true]}],"additionalItems":false}],"additionalItems":false})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","type":"array","minItems":3,"items":[{"const":"Hello world!"},{"type":"number"},{"type":"array","minItems":2,"items":[{"type":"string"},{"const":true}],"additionalItems":false}],"additionalItems":false})");
             }
         }
     }
@@ -543,7 +543,7 @@ SCENARIO("JSON Schema serialization of EnumElement", "[json-schema]")
 
             THEN("the schema matches \"Hello world!\", a number and arrays of size 2 containing a string and true")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","anyOf":[{"type":"number"},{"type":"array","minItems":2,"items":[{"type":"string"},{"enum":[true]}],"additionalItems":false},{"enum":["Hello world!"]}]})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","anyOf":[{"const":"Hello world!"},{"type":"number"},{"type":"array","minItems":2,"items":[{"type":"string"},{"const":true}],"additionalItems":false}]})");
             }
         }
     }
@@ -575,7 +575,7 @@ SCENARIO("JSON Schema anyOf reduction", "[json-schema][anyOf]")
 
             THEN("the schema matches a booleans, numbers, string, null and arrays")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","anyOf":[{"type":"boolean"},{"type":"number"},{"type":"string"},{"type":"array"},{"enum":[null]}]})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-04/schema#","anyOf":[{"type":"boolean"},{"type":"number"},{"type":"string"},{"type":"array"},{"const":null}]})");
             }
         }
     }
