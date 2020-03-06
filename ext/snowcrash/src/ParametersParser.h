@@ -210,23 +210,18 @@ namespace snowcrash
         // extract names of all variables
         using Vars = std::vector<std::string>;
         Vars variables;
-        auto collect = std::back_inserter(variables);
 
+        // extraxt just __valid__ variable names
         std::for_each(result.begin(), result.end(), 
-            [&collect](const state::part& part) {
+            [&variables](const state::part& part) {
                 if (const auto expression = mpark::get_if<state::expression>(&part)) {
-                  std::transform(expression->variables.begin(), expression->variables.end(),
-                      collect,
-                      [](const state::expression::variable_type& var){
-                        if (const auto valid = mpark::get_if<state::variable>(&var)) {
-                          return valid->name;
-                        } else if (const auto invalid = mpark::get_if<state::invalid>(&var)) {
-                          // FIXME: what to do with invalid variable names? Shouldn't we ignore them?
-                          return invalid->content;
+                    std::for_each(expression->variables.begin(), expression->variables.end(),
+                        [&variables](const auto& var) {
+                            if (const auto valid = mpark::get_if<state::variable>(&var)) {
+                              variables.push_back(valid->name);
+                            } 
                         }
-                        assert(0);
-                        return std::string{};
-                    });
+                    );
                 }
         });
 
