@@ -263,7 +263,7 @@
           ]
         }
       },
-      "content": "URI template variable 'instance-id' contains invalid character '-'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters"
+      "content": "URI template variable 'instance-id' contains invalid character '-'. Please encode it as '%2D'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters"
     },
     {
       "element": "annotation",

@@ -251,7 +251,7 @@
           ]
         }
       },
-      "content": "URI template variable 'a&b' contains invalid character '&'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters"
+      "content": "URI template variable 'a&b' contains invalid character '&'. Please encode it as '%26'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters"
     }
   ]
 }
