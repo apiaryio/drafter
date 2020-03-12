@@ -212,18 +212,15 @@ namespace snowcrash
         Vars variables;
 
         // extraxt just __valid__ variable names
-        std::for_each(result.begin(), result.end(), 
-            [&variables](const state::part& part) {
-                if (const auto expression = mpark::get_if<state::expression>(&part)) {
-                    std::for_each(expression->variables.begin(), expression->variables.end(),
-                        [&variables](const auto& var) {
-                            if (const auto valid = mpark::get_if<state::variable>(&var)) {
-                              variables.push_back(valid->name);
-                            } 
-                        }
-                    );
+        for (const auto& part : result) {
+            if (const auto expression = mpark::get_if<state::expression>(&part)) {
+                for(const auto& var : expression->variables) {
+                    if (const auto valid = mpark::get_if<state::variable>(&var)) {
+                        variables.push_back(valid->name);
+                    } 
                 }
-        });
+            }
+        };
 
         std::for_each(parameters.begin(), parameters.end(),
             [&variables, &out, &node, &pd](const Parameter& param){
