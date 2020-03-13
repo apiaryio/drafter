@@ -378,8 +378,10 @@
         "src/refract/dsd/Select.cc",
         "src/refract/dsd/String.cc",
 
-        "src/parser/Mediatype.cc",
         "src/parser/Mediatype.h",
+        "src/parser/Mediatype.cc",
+        "src/parser/recover.h",
+        "src/parser/UriTemplateParser.h",
       ],
       "dependencies": [
         "libsnowcrash",
@@ -448,6 +450,8 @@
         "test/test-sourceMapToLineColumn.cc",
 
         "test/parser/test-MediaType.cc",
+        "test/parser/test-Recover.cc",
+        "test/parser/test-UriTemplate.cc",
 
       ],
       'dependencies': [

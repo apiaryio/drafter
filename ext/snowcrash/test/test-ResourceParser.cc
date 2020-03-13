@@ -1012,6 +1012,30 @@ TEST_CASE("Parameters for action should consider action's uri template", "[resou
     REQUIRE(resource.report.warnings.empty());
 }
 
+TEST_CASE("Parameters with invalid names are not considered", "[resource]")
+{
+    mdp::ByteBuffer source
+        = "## Users [/users]\n"
+          "\n"
+          "### Create [POST]\n"
+          "\n"
+          "+ Response 204\n"
+          "\n"
+          "### Add a friend [POST /users/{user-name}/friends/{friend}]\n"
+          "\n"
+          "+ Parameters\n"
+          "    + user-name\n"
+          "    + friend\n"
+          "\n"
+          "+ Response 204";
+
+    ParseResult<Resource> resource;
+    SectionParserHelper<Resource, ResourceParser>::parse(source, ResourceSectionType, resource, ExportSourcemapOption);
+
+    REQUIRE(resource.report.error.code == Error::OK);
+    REQUIRE(resource.report.warnings.size() == 1);
+    REQUIRE(resource.report.warnings[0].message == "parameter 'user' is not found within the URI template '/users/{user-name}/friends/{friend}' for 'Add a friend' "); }
+
 TEST_CASE("Relation identifiers should be unique for a resource", "[resource]")
 {
     mdp::ByteBuffer source
