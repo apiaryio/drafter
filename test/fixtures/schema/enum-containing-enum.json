@@ -268,7 +268,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"enum\": {\n      \"enum\": [\n        1,\n        2,\n        3,\n        4,\n        \"something\",\n        \"anything\"\n      ]\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"enum\": {\n      \"enum\": [\n        1,\n        2,\n        3,\n        4,\n        \"something\",\n        \"anything\"\n      ]\n    }\n  }\n}"
                             }
                           ]
                         }

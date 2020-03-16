@@ -240,7 +240,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"data\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"anyOf\": [\n          {\n            \"type\": \"object\",\n            \"properties\": {\n              \"field\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"field\"\n            ]\n          }\n        ]\n      }\n    }\n  },\n  \"required\": [\n    \"data\"\n  ]\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"data\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"anyOf\": [\n          {\n            \"type\": \"object\",\n            \"properties\": {\n              \"field\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"field\"\n            ]\n          }\n        ]\n      }\n    }\n  },\n  \"required\": [\n    \"data\"\n  ]\n}"
                             }
                           ]
                         }

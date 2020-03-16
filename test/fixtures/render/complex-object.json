@@ -255,7 +255,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"number\"\n    },\n    \"user\": {\n      \"type\": \"string\"\n    },\n    \"active\": {\n      \"type\": \"boolean\"\n    },\n    \"social\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"github\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"active\": {\n              \"type\": \"boolean\"\n            },\n            \"id\": {\n              \"type\": \"number\"\n            },\n            \"uri\": {\n              \"type\": \"string\"\n            }\n          }\n        }\n      }\n    }\n  }\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"number\"\n    },\n    \"user\": {\n      \"type\": \"string\"\n    },\n    \"active\": {\n      \"type\": \"boolean\"\n    },\n    \"social\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"github\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"active\": {\n              \"type\": \"boolean\"\n            },\n            \"id\": {\n              \"type\": \"number\"\n            },\n            \"uri\": {\n              \"type\": \"string\"\n            }\n          }\n        }\n      }\n    }\n  }\n}"
                             }
                           ]
                         }

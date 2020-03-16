@@ -98,7 +98,7 @@ namespace
 { // JSON Schema tools
     so::Object& addSchemaVersion(so::Object& schema)
     {
-        schema.data.emplace_back("$schema", so::String{ "http://json-schema.org/draft-04/schema#" });
+        schema.data.emplace_back("$schema", so::String{ "http://json-schema.org/draft-07/schema#" });
         return schema;
     }
 
@@ -138,9 +138,19 @@ namespace
         return schema;
     }
 
+    so::Object& addConst(so::Object& schema, so::Value value)
+    {
+        schema.data.emplace_back("const", value);
+        return schema;
+    }
+
     so::Object& addEnum(so::Object& schema, so::Array value)
     {
-        schema.data.emplace_back("enum", std::move(value));
+        if (value.data.size() == 1) {
+            addConst(schema, std::move(value.data.front()));
+        } else {
+            schema.data.emplace_back("enum", std::move(value));
+        }
         return schema;
     }
 
