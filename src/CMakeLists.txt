@@ -93,6 +93,8 @@ find_package(cmdline 1.0 REQUIRED)
 find_package(MPark.Variant 1.4 REQUIRED)
 find_package(pegtl 2.8 REQUIRED)
 
+add_definitions( -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} )
+
 # drafter-dep 
 # we need it to:
 # - expose INTERFACE_INCLUDE_DIRECTORIES for drafter-obj

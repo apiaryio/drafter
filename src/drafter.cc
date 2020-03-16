@@ -234,7 +234,6 @@ DRAFTER_API const char* drafter_version_string(void)
 #if defined CMAKE_BUILD_TYPE
     return DRAFTER_VERSION_STRING;
 #else
-
     return "Non-oficial drafter gyp-based build";
 #endif
 }
