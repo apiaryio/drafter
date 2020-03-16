@@ -21,6 +21,7 @@ namespace error_locator
 
     struct state {
         std::string message;
+        std::string encoded;
         size_t position = 0;
         size_t length = 0;
     };
@@ -59,6 +60,15 @@ namespace error_locator
     template <typename Rule>
     struct report_action : pegtl::nothing<Rule> {};
 
+    std::string encodeString(const std::string& in) {
+        std::stringstream encoded;
+        encoded << std::hex << std::uppercase;
+        for (const unsigned char chr : in) {
+            encoded << "%" << int(chr);
+        }
+        return encoded.str();
+    }
+
     template <>
     struct report_action<invalid_char>
     {
@@ -74,6 +84,7 @@ namespace error_locator
                 s.message = std::string{"character '"} + in.string() + std::string{"'"};
             }
 
+            s.encoded = std::move(encodeString(in.string()));
         }
     };
 
@@ -119,8 +130,13 @@ namespace
 
         std::stringstream ss;
         ss << "URI template variable '" << s.content
-           << "' contains invalid " << state.message
-           <<". Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters";
+           << "' contains invalid " << state.message;
+
+        if (!state.encoded.empty()) {
+            ss << ", which should be encoded as '" << state.encoded << "'";
+        }
+
+        ss <<". Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters";
 
 #if 0
         /**
