@@ -1,11 +1,28 @@
 # Drafter Changelog
 
-## 5.0.0 (2020-02-04)
+## 5.0.0-rc.1 (2020-03-16)
+
+### Breaking
+
+* Parsing and serialisation options in the C API of Drafter contain breaking
+  changes. Direct access to the option structures are no longer possible, a new
+  API layer has been added for the options. See `drafter_init_parse_options`
+  and `drafter_serialize_options` respectively.
 
 ### Enhancements
 
-- [breaking] Modified C API so that drafter options can be added without
-  breaking the interface in the future.
+* Improved support for URI Template. Drafter supports up to, and including
+  [level 4 of URI Template](https://tools.ietf.org/html/rfc6570#section-1.2).
+  This includes support for the URI Template explode (`*`) modifier, and
+  reserved value operator (`+`), and others.
+
+  [#553](https://github.com/apiaryio/drafter/issues/553)
+  [#456](https://github.com/apiaryio/drafter/issues/456)
+  [#630](https://github.com/apiaryio/drafter/issues/630)
+  [#666](https://github.com/apiaryio/drafter/issues/666)
+
+* Added support for JSON Schema Draft 7 in schema generation from MSON.
+  JSON Schemas are now generated using Draft 7 instead of Draft 4.
 
 ## 4.1.0 (2019-12-28)
 
