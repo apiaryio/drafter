@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 project(Drafter VERSION 5.0.0 LANGUAGES CXX)
 
-set(DRAFTER_VERSION_IS_RELEASE 1)
-set(DRAFTER_PRE_RELEASE_VERSION 0)
+set(DRAFTER_VERSION_IS_RELEASE 0)
+set(DRAFTER_PRE_RELEASE_VERSION beta.1)
 
 configure_file(Version.h.in Version.h)
 include_directories(${PROJECT_BINARY_BIN})
