@@ -133,7 +133,7 @@ namespace
            << "' contains invalid " << state.message;
 
         if (!state.encoded.empty()) {
-            ss << ". Please encode it as '" << state.encoded << "'";
+            ss << ", which should be encoded as '" << state.encoded << "'";
         }
 
         ss <<". Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters";

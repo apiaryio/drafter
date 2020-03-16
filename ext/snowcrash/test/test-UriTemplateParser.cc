@@ -55,7 +55,7 @@ TEST_CASE("Parse uri template for invalid format curly brackets (nested brackets
     parser.parse(uri, sourceBlock, result);
 
     REQUIRE(result.report.warnings.size() == 2);
-    CHECK(result.report.warnings[0].message == "URI template variable 'id{' contains invalid nested expression brace '{'. Please encode it as '%7B'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
+    CHECK(result.report.warnings[0].message == "URI template variable 'id{' contains invalid nested expression brace '{', which should be encoded as '%7B'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
     CHECK(result.report.warnings[1].message == "URI template contains disallowed character '}'. Disallowed characters must be percent encoded.");
 }
 
@@ -238,7 +238,7 @@ TEST_CASE(
     parser.parse(uri, sourceBlock, result);
 
     REQUIRE(result.report.warnings.size() == 1);
-    REQUIRE(result.report.warnings[0].message == "URI template variable ' vartwo' contains invalid character ' '. Please encode it as '%20'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
+    REQUIRE(result.report.warnings[0].message == "URI template variable ' vartwo' contains invalid character ' ', which should be encoded as '%20'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
 }
 
 TEST_CASE("Parse uri template for invalid variable name, contains hyphens",
@@ -253,8 +253,8 @@ TEST_CASE("Parse uri template for invalid variable name, contains hyphens",
     parser.parse(uri, sourceBlock, result);
 
     REQUIRE(result.report.warnings.size() == 2);
-    REQUIRE(result.report.warnings[0].message == "URI template variable 'var-one' contains invalid character '-'. Please encode it as '%2D'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
-    REQUIRE(result.report.warnings[1].message == "URI template variable 'var-two' contains invalid character '-'. Please encode it as '%2D'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
+    REQUIRE(result.report.warnings[0].message == "URI template variable 'var-one' contains invalid character '-', which should be encoded as '%2D'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
+    REQUIRE(result.report.warnings[1].message == "URI template variable 'var-two' contains invalid character '-', which should be encoded as '%2D'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
 }
 
 TEST_CASE("Parse uri template for invalid variable name, contains assignment",
@@ -269,7 +269,7 @@ TEST_CASE("Parse uri template for invalid variable name, contains assignment",
     parser.parse(uri, sourceBlock, result);
 
     REQUIRE(result.report.warnings.size() == 1);
-    REQUIRE(result.report.warnings[0].message == "URI template variable 'varone=vartwo' contains invalid character '='. Please encode it as '%3D'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
+    REQUIRE(result.report.warnings[0].message == "URI template variable 'varone=vartwo' contains invalid character '=', which should be encoded as '%3D'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
 }
 
 TEST_CASE("Parse uri template for invalid variable name, invalid % encoded",
@@ -299,7 +299,7 @@ TEST_CASE("Parse uri template for invalid variable name, invalid % encoded with 
     parser.parse(uri, sourceBlock, result);
 
     REQUIRE(result.report.warnings.size() == 1);
-    REQUIRE(result.report.warnings[0].message == "URI template variable 'varone%2' contains invalid character '%'. Please encode it as '%25'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
+    REQUIRE(result.report.warnings[0].message == "URI template variable 'varone%2' contains invalid character '%', which should be encoded as '%25'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
 }
 
 TEST_CASE("Parse uri template for variable name containing dot", "[validvariablenamecontainingdot][issue][78]")
@@ -343,7 +343,7 @@ TEST_CASE("Parse uri template for consistent invalid character warning",
     parser.parse(urione, sourceBlock, result);
 
     REQUIRE(result.report.warnings.size() == 1);
-    REQUIRE(result.report.warnings[0].message == "URI template variable '$a' contains invalid character '$'. Please encode it as '%24'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
+    REQUIRE(result.report.warnings[0].message == "URI template variable '$a' contains invalid character '$', which should be encoded as '%24'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
 
 }
 
@@ -358,5 +358,5 @@ TEST_CASE("Parse uri template for variable name containing multibyte utf-8 char"
     parser.parse(uri, sourceBlock, result);
 
     REQUIRE(result.report.warnings.size() == 1);
-    REQUIRE(result.report.warnings[0].message == "URI template variable 'var荒data' contains invalid character '荒'. Please encode it as '%E8%8D%92'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
+    REQUIRE(result.report.warnings[0].message == "URI template variable 'var荒data' contains invalid character '荒', which should be encoded as '%E8%8D%92'. Allowed characters for expressions are A-Z a-z 0-9 _ and percent encoded characters");
 }
