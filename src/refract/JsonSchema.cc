@@ -138,17 +138,16 @@ namespace
         return schema;
     }
 
-    so::Object& addConst(so::Object& schema, so::Array value)
+    so::Object& addConst(so::Object& schema, so::Value value)
     {
-        assert(value.data.size() == 1);
-        schema.data.emplace_back("const", std::move(value.data.front()));
+        schema.data.emplace_back("const", value);
         return schema;
     }
 
     so::Object& addEnum(so::Object& schema, so::Array value)
     {
         if (value.data.size() == 1) {
-            addConst(schema, value);
+            addConst(schema, std::move(value.data.front()));
         } else {
             schema.data.emplace_back("enum", std::move(value));
         }
