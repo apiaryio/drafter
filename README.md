@@ -66,84 +66,117 @@ See [parse feature](features/parse.feature) for the details on using the `drafte
 
 ### C/C++ API
 
-Please refer to
-[`drafter.h`](https://github.com/apiaryio/drafter/blob/master/src/drafter.h)
-for the full API documentation. See [Drafter bindings](#bindings) for using the
-library in **other languages**.
-
-You can also find additional info about CAPI usage in test file named [`test/test-CAPI.c`](https://github.com/apiaryio/drafter/blob/master/test/test-CAPI.c)
-
-#### Parsing a blueprint to a JSON or YAML string
-
-The `drafter_parse_blueprint_to` takes a source blueprint and returns the given
-blueprint parsed and serialized as [API
-Elements](http://api-elements.readthedocs.io) in YAML or JSON.
-
-```c
-int drafter_parse_blueprint_to(const char* source, char ** out, const drafter_options options);
-```
-
 ```c
 #include <drafter/drafter.h>
+```
 
+The [header](https://github.com/apiaryio/drafter/blob/master/src/drafter.h) itself is annotated with comments. [C API unit tests](https://github.com/apiaryio/drafter/blob/master/test/test-CAPI.c) provide more examples.
+
+#### Parse API Blueprint into API Elements
+
+The `drafter_parse_blueprint_to` function translates a buffered API blueprint into [API
+Elements](http://api-elements.readthedocs.io), serialized into one of its supported serialization formats.
+
+```c
+drafter_error drafter_parse_blueprint_to(
+    const char* source,
+    char** out,
+    const drafter_parse_options* parse_opts,
+    const drafter_serialize_options* serialize_opts);
+);
+```
+
+Given a pointer to a UTF-8 encoded c-string,
+
+```c
 const char* blueprint =
   "# My API\n"
   "## GET /message\n"
   "+ Response 200 (text/plain)\n"
   "\n"
   "      Hello World!\n";
+```
 
-drafter_options options;
-options.format = DRAFTER_SERIALIZE_JSON;
-options.sourcemap = true;
+##### Serialized as YAML
 
-char* result = NULL;
-if (drafter_parse_blueprint_to(blueprint, &result, options) == 0) {
-    printf("%s\n", result);
-    free(result);
+Without options, the resulting API Elements is serialized as YAML.
+
+```c
+char* yamlApie = NULL;
+if (drafter_parse_blueprint_to(blueprint, &yamlApie, NULL, NULL) == 0) {
+    printf("%s\n", yamlApie);
 }
+
+free(yamlApie);
 ```
 
-#### Checking the validity of a blueprint
+##### Serialized as JSON
 
-The `drafter_check_blueprint` function allows checking the validity of a
-blueprint. This function will return a `drafter_result` when the blueprint
-produces warnings and/or errors.  With a `drafter_result`, the
-`drafter_serialize` function can be used to serialized the result as [API
-Elements](http://api-elements.readthedocs.io) in YAML or JSON.
-
+Tweaking `drafter_serialize_options` allows serialization into JSON.
 
 ```c
-drafter_result* drafter_check_blueprint(const char* source);
+drafter_serialize_options* options = drafter_init_serialize_options();
+drafter_set_format(options, DRAFTER_SERIALIZE_JSON);
+
+char* jsonApie = NULL;
+if (0 == drafter_parse_blueprint_to(blueprint, &jsonApie, NULL, NULL)) {
+    printf("%s\n", jsonApie);
+}
+
+free(jsonApie);
+drafter_free_options(options);
 ```
 
+#### Validate API Blueprint
+
+API Blueprint can be validated via `drafter_check_blueprint`. 
+
 ```c
-#include <drafter/drafter.h>
+drafter_error drafter_check_blueprint(
+    const char* source,
+    drafter_result** res,
+    const drafter_parse_options* parse_opts);
+```
 
-const char* blueprint =
-  "# My API\n"
-  "## GET /message\n"
-  "+ Response 200 (text/plain)\n"
-  "\n"
-  "      Hello World!\n";
+##### Simple validation
 
-drafter_result* result = drafter_check_blueprint(blueprint);
-if (result) {
-    // Serialize the result to print the warnings/errors
+The return value of `drafter_check_blueprint` indicates validation success.
 
-    drafter_options options;
-    options.format = DRAFTER_SERIALIZE_JSON;
-    options.sourcemap = true;
+```c
+drafter_result* result = NULL;
 
-    char* out = drafter_serialize(result, options);
-    printf("The blueprint produces warnings or errors:\n\n%s\n", out);
-    free(out);
-
-    drafter_free_result(result);
+if (0 == drafter_check_blueprint(blueprint, result)) {
+    print("Understood.\n");
 } else {
-    printf("The given blueprint was valid.\n");
+    print("Invalid API Blueprint.?\n");
 }
+
+drafter_free_result(result);
 ```
+
+##### Access warnings and errors
+
+After running `drafter_check_blueprint`, the `result` parameter is set to
+reference an API Element containing validation warnings or errors.
+
+Because the result is an API Element - `drafter_result` - it can be serialized
+as such.
+
+```c
+drafter_result* result = NULL;
+drafter_check_blueprint(blueprint, result);
+
+if(result) {
+    char* yamlApie = drafter_serialize(result, NULL);
+    printf("%s\n", yamlApie);
+    free(yamlApie);
+}
+
+drafter_free_result(result);
+```
+
+Serialization of API Elements as JSON is achieved by tweaking
+`drafter_serialize_options` as discussed [here](#Serialized-as-JSON).
 
 ## Installation
 
