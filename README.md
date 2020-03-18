@@ -75,7 +75,7 @@ The [header](https://github.com/apiaryio/drafter/blob/master/src/drafter.h) itse
 #### Parse API Blueprint into API Elements
 
 The `drafter_parse_blueprint_to` function translates a buffered API blueprint into [API
-Elements](http://api-elements.readthedocs.io), serialized into one of its supported serialization formats.
+Elements](https://apielements.org/), serialized into one of its supported serialization formats.
 
 ```c
 drafter_error drafter_parse_blueprint_to(
@@ -103,7 +103,7 @@ Without options, the resulting API Elements is serialized as YAML.
 
 ```c
 char* yamlApie = NULL;
-if (drafter_parse_blueprint_to(blueprint, &yamlApie, NULL, NULL) == 0) {
+if (DRAFTER_OK == drafter_parse_blueprint_to(blueprint, &yamlApie, NULL, NULL)) {
     printf("%s\n", yamlApie);
 }
 
@@ -119,7 +119,7 @@ drafter_serialize_options* options = drafter_init_serialize_options();
 drafter_set_format(options, DRAFTER_SERIALIZE_JSON);
 
 char* jsonApie = NULL;
-if (0 == drafter_parse_blueprint_to(blueprint, &jsonApie, NULL, NULL)) {
+if (DRAFTER_OK == drafter_parse_blueprint_to(blueprint, &jsonApie, NULL, NULL)) {
     printf("%s\n", jsonApie);
 }
 
@@ -145,7 +145,7 @@ The return value of `drafter_check_blueprint` indicates validation success.
 ```c
 drafter_result* result = NULL;
 
-if (0 == drafter_check_blueprint(blueprint, result)) {
+if (DRAFTER_OK == drafter_check_blueprint(blueprint, result)) {
     print("Understood.\n");
 } else {
     print("Invalid API Blueprint.?\n");
