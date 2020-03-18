@@ -144,11 +144,8 @@ The return value of `drafter_check_blueprint` indicates validation success.
 
 ```c
 drafter_result* result = NULL;
-
 if (DRAFTER_OK == drafter_check_blueprint(blueprint, result)) {
-    print("Understood.\n");
-} else {
-    print("Invalid API Blueprint.?\n");
+    printf("Understood.\n");
 }
 
 drafter_free_result(result);
