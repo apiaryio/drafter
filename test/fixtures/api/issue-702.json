@@ -164,27 +164,6 @@
                                   "content": [
                                     {
                                       "element": "string",
-                                      "content": "messageBody"
-                                    }
-                                  ]
-                                }
-                              },
-                              "attributes": {
-                                "contentType": {
-                                  "element": "string",
-                                  "content": "application/json"
-                                }
-                              },
-                              "content": "{}"
-                            },
-                            {
-                              "element": "asset",
-                              "meta": {
-                                "classes": {
-                                  "element": "array",
-                                  "content": [
-                                    {
-                                      "element": "string",
                                       "content": "messageBodySchema"
                                     }
                                   ]
@@ -196,7 +175,7 @@
                                   "content": "application/schema+json"
                                 }
                               },
-                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\"\n}"
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\"\n}"
                             }
                           ]
                         },

@@ -130,7 +130,7 @@
                                   "content": [
                                     {
                                       "element": "string",
-                                      "content": "messageBodySchema"
+                                      "content": "messageBody"
                                     }
                                   ]
                                 }
@@ -139,6 +139,27 @@
                                 "contentType": {
                                   "element": "string",
                                   "content": "application/schema+json; hello=world"
+                                }
+                              },
+                              "content": "{\n  \"username\": \"pavan\"\n}"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
+                              },
+                              "attributes": {
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/schema+json"
                                 }
                               },
                               "content": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"username\": {\n      \"type\": \"string\"\n    }\n  }\n}"

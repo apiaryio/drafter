@@ -278,64 +278,47 @@ namespace
 {
     using MediaType = apib::parser::mediatype::state;
 
-    apib::parser::mediatype::state addSchemaSubtype(apib::parser::mediatype::state m)
+    apib::parser::mediatype::state jsonSchemaType()
     {
-        if (m.suffix.empty())
-            m.suffix = m.subtype;
-        m.subtype = "schema";
-        return m;
+        return apib::parser::mediatype::state{ "application", "schema", "json" };
     }
 
-    void generateAttachments(const IElement& expanded,   //
-        const apib::parser::mediatype::state& mediaType, //
-        ArrayElement::ValueType& out)
+    apib::parser::mediatype::state textPlainType()
+    {
+        return apib::parser::mediatype::state{ "text", "plain", "" };
+    }
+
+    bool IsAnyJSONContentType(const apib::parser::mediatype::state& t)
+    {
+        return IsJSONContentType(t) || IsJSONSchemaContentType(t);
+    }
+
+    void generateValueAsset( //
+        ArrayElement::ValueType& out,
+        const ConversionContext& context,
+        const IElement& expanded,
+        const apib::parser::mediatype::state& mediaType)
     {
         using apib::backend::serialize;
-
-        if (IsJSONContentType(mediaType)) {
+        if (IsAnyJSONContentType(mediaType)) {
             std::stringstream ss{};
             drafter::utils::so::serialize_json(ss, refract::generateJsonValue(expanded));
             out.push_back(make_asset_element(ss.str(), SerializeKey::MessageBody, serialize(mediaType)));
         }
-        if (IsJSONContentType(mediaType) || IsJSONSchemaContentType(mediaType)) {
+    }
+
+    void generateSchemaAsset( //
+        ArrayElement::ValueType& out,
+        const ConversionContext& context,
+        const IElement& expanded,
+        const apib::parser::mediatype::state& mediaType)
+    {
+        using apib::backend::serialize;
+        if (IsAnyJSONContentType(mediaType)) {
             std::stringstream ss{};
             drafter::utils::so::serialize_json(ss, refract::schema::generateJsonSchema(expanded));
-            out.push_back(make_asset_element(ss.str(),
-                SerializeKey::MessageBodySchema,
-                IsJSONSchemaContentType(mediaType) ? serialize(mediaType) : serialize(addSchemaSubtype(mediaType))));
+            out.push_back(make_asset_element(ss.str(), SerializeKey::MessageBodySchema, serialize(jsonSchemaType())));
         }
-    }
-
-    void generateAttachments(ConversionContext& context, //
-        std::unique_ptr<IElement> unexpanded,            //
-        const apib::parser::mediatype::state& mediaType, //
-        ArrayElement::ValueType& out)
-    {
-        if (!unexpanded)
-            return;
-
-        auto expanded = ExpandRefract(std::move(unexpanded), context);
-
-        if (expanded)
-            generateAttachments(*expanded, mediaType, out);
-    }
-
-    void generateAttachments(ConversionContext& context, //
-        const NodeInfo<snowcrash::DataStructure>& ds,    //
-        const apib::parser::mediatype::state& mediaType, //
-        ArrayElement::ValueType& out)
-    {
-        assert(!ds.empty());
-
-        auto unexpanded = MSONToRefract(ds, context);
-
-        if (!unexpanded)
-            return;
-
-        auto expanded = ExpandRefract(std::move(unexpanded), context);
-
-        if (expanded)
-            generateAttachments(*expanded, mediaType, out);
     }
 
     void attachDataStructure(std::unique_ptr<IElement> ds, ArrayElement::ValueType& out)
@@ -414,6 +397,11 @@ std::unique_ptr<IElement> PayloadToRefract( //
     // Get content type
     const auto mediaType = parseMediaType(getContentTypeFromHeaders(payload.node->headers));
 
+    // Determine any MSON to generate value/schema
+    if (!unexpandedAttrs && !action.isNull() && !action.node->attributes.empty())
+        unexpandedAttrs = MSONToRefract(MAKE_NODE_INFO(action, attributes), context);
+    auto expandedAttrs = unexpandedAttrs ? ExpandRefract(std::move(unexpandedAttrs), context) : nullptr;
+
     // Push Body Asset
     if (!payload.node->body.empty()) {
         content.push_back(make_asset_element( //
@@ -421,35 +409,21 @@ std::unique_ptr<IElement> PayloadToRefract( //
             SerializeKey::MessageBody,        //
             serialize(mediaType),             //
             &payload.sourceMap->body.sourceMap));
+    } else if (expandedAttrs) {
+        // otherwise, generate one from attributes
+        generateValueAsset(content, context, *expandedAttrs, mediaType);
     }
 
     // Push Schema Asset
     if (!payload.node->schema.empty()) {
-        content.push_back(make_asset_element(       //
-            payload.node->schema,                   //
-            SerializeKey::MessageBodySchema,        //
-            serialize(addSchemaSubtype(mediaType)), //
+        content.push_back(make_asset_element(                                                //
+            payload.node->schema,                                                            //
+            SerializeKey::MessageBodySchema,                                                 //
+            serialize(IsAnyJSONContentType(mediaType) ? jsonSchemaType() : textPlainType()), //
             &payload.sourceMap->schema.sourceMap));
-    }
-
-    // Generate Assets
-    if (!unexpandedAttrs && !action.isNull() && !action.node->attributes.empty()) {
-
-        // If no payload attributes, try generating from action attributes
-        generateAttachments(                    //
-            context,                            //
-            MAKE_NODE_INFO(action, attributes), //
-            mediaType,                          //
-            content);
-
-    } else {
-
-        // else use already translated
-        generateAttachments(            //
-            context,                    //
-            std::move(unexpandedAttrs), //
-            mediaType,                  //
-            content);
+    } else if (expandedAttrs) {
+        // otherwise, generate one from attributes
+        generateSchemaAsset(content, context, *expandedAttrs, mediaType);
     }
 
     return std::move(result);
