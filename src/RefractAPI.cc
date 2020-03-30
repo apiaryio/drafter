@@ -280,12 +280,12 @@ namespace
 
     apib::parser::mediatype::state jsonSchemaType()
     {
-        return apib::parser::mediatype::state{ "application", "schema", "json" };
+        return apib::parser::mediatype::state{ "application", "schema", "json", {} };
     }
 
     apib::parser::mediatype::state textPlainType()
     {
-        return apib::parser::mediatype::state{ "text", "plain", "" };
+        return apib::parser::mediatype::state{ "text", "plain", "", {} };
     }
 
     bool IsAnyJSONContentType(const apib::parser::mediatype::state& t)
