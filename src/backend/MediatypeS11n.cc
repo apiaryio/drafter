@@ -8,6 +8,7 @@
 
 #include "MediatypeS11n.h"
 
+#include <cctype>
 // FIXME: avoid relative, cross-modular include by setting up build environment
 //          to search for includes in `src`; then `#include <parser/Mediatype.h>`
 #include "../parser/Mediatype.h"
