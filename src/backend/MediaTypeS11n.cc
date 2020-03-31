@@ -76,9 +76,8 @@ std::ostream& apib::backend::operator<<(std::ostream& out, const apib::parser::m
     }
 
     if (!obj.parameters.empty()) {
-        out << ';';
         for (const auto& p : obj.parameters) {
-            out << ' ';
+            out << "; ";
             serialize_sanitized(out, std::get<0>(p));
             out << '=';
             serialize_sanitized(out, std::get<1>(p));
