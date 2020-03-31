@@ -34,7 +34,7 @@ namespace
 
     bool is_restricted(char c) noexcept
     {
-        for (const auto& r : { '!', '#', '$', '&', '^', '_', '-', '.' })
+        for (const auto& r : { '!', '#', '$', '&', '^', '_', '-', '.', '+' })
             if (c == r)
                 return true;
         return false;
