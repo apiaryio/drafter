@@ -53,8 +53,9 @@ DRAFTER_API drafter_error drafter_parse_blueprint_to(const char* source,
         return ret;
     }
 
-    if(out)
+    if (out) {
         *out = drafter_serialize(result, serialize_opts);
+    }
 
     drafter_free_result(result);
 
@@ -84,8 +85,9 @@ DRAFTER_API drafter_error drafter_parse_blueprint(
     drafter::ConversionContext context(source);
     auto result = WrapRefract(blueprint, context);
 
-    if(out)
+    if (out) {
         *out = result.release();
+    }
 
     return (drafter_error)blueprint.report.error.code;
 }
