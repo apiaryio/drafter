@@ -1,5 +1,5 @@
 //
-//  backend/MediatypeS11n.h
+//  backend/MediaTypeS11n.h
 //  apib::backend
 //
 //  Created by Thomas Jandecka on 02/21/2020

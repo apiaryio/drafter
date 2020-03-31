@@ -1,12 +1,12 @@
 //
-//  backend/MediatypeS11n.cc
+//  backend/MediaTypeS11n.cc
 //  apib::backend
 //
 //  Created by Thomas Jandecka on 02/21/2020
 //  Copyright (c) 2020 Apiary Inc. All rights reserved.
 //
 
-#include "MediatypeS11n.h"
+#include "MediaTypeS11n.h"
 
 #include <cctype>
 // FIXME: avoid relative, cross-modular include by setting up build environment
