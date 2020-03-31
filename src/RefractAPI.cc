@@ -100,16 +100,6 @@ namespace
     {
         return !action.isNull() && !action.node->method.empty();
     }
-
-    NodeInfoByValue<snowcrash::Asset> renderPayloadBody(const NodeInfo<snowcrash::Payload>& payload)
-    {
-        return NodeInfoByValue<snowcrash::Asset>{ payload.node->body, &payload.sourceMap->body };
-    }
-
-    NodeInfoByValue<snowcrash::Asset> renderPayloadSchema(const NodeInfo<snowcrash::Payload>& payload)
-    {
-        return NodeInfoByValue<snowcrash::Asset>{ payload.node->schema, &payload.sourceMap->schema };
-    }
 } // namespace
 
 std::unique_ptr<IElement> drafter::DataStructureToRefract(
