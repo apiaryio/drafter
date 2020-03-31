@@ -62,7 +62,7 @@ namespace
 
 std::ostream& apib::backend::operator<<(std::ostream& out, const apib::parser::mediatype::state& obj)
 {
-    if (obj.type.empty())
+    if (obj.type.empty() || obj.subtype.empty())
         return out;
 
     serialize_sanitized(out, obj.type);
