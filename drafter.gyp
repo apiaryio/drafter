@@ -457,6 +457,7 @@
         "test/parser/test-Recover.cc",
         "test/parser/test-UriTemplate.cc",
 
+        "test/backend/test-MediaTypeS11.cc",
       ],
       'dependencies': [
         "libdrafter",
