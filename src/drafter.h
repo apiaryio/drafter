@@ -68,6 +68,18 @@ DRAFTER_API void drafter_free_parse_options(drafter_parse_options*);
  */
 DRAFTER_API void drafter_set_name_required(drafter_parse_options*);
 
+/* Access omit_generated_values option
+ *   @remark omit_generated_values: do not attempt generating payloads where
+ *     none are provided
+ */
+DRAFTER_API void set_omit_generated_values(drafter_parse_options*);
+
+/* Access omit_generated_schemas option
+ *   @remark omit_generated_schemas: do not attempt generating payload
+ *     schemas where none are provided
+ */
+DRAFTER_API void set_omit_generated_schemas(drafter_parse_options*);
+
 /* Serialisation options
  */
 typedef struct drafter_serialize_options drafter_serialize_options;

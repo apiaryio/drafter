@@ -12,6 +12,7 @@
 
 #include "refract/Registry.h"
 #include "SourceMapUtils.h"
+#include "options.h"
 
 namespace snowcrash
 {
@@ -28,12 +29,17 @@ namespace drafter
     private:
         const NewLinesIndex newline_indices_;
         const bool expand_mson_;
+        const drafter_parse_options* const options_;
 
         refract::Registry registry_;
         Warnings warnings_;
 
     public:
-        explicit ConversionContext(const char*, bool expandMson = false) noexcept;
+        explicit ConversionContext( //
+            const char*,
+            const drafter_parse_options* opts = nullptr,
+            bool expandMson = false // TODO avoid, only used in unit tests
+            ) noexcept;
 
         const NewLinesIndex& newlineIndices() const noexcept;
 
@@ -44,6 +50,8 @@ namespace drafter
 
         const Warnings& warnings() const noexcept;
         void warn(const snowcrash::Warning& warning);
+
+        const drafter_parse_options* options() const noexcept;
     };
 }
 #endif
