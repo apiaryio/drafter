@@ -395,23 +395,25 @@ std::unique_ptr<IElement> PayloadToRefract( //
     // Push Body Asset
     if (!payload.node->body.empty()) {
         content.push_back(make_asset_element( //
-            payload.node->body,               //
-            SerializeKey::MessageBody,        //
-            serialize(mediaType),             //
+            payload.node->body,
+            SerializeKey::MessageBody,
+            serialize(mediaType),
             &payload.sourceMap->body.sourceMap));
-    } else if (dataStructureExpanded) {
+
+    } else if (dataStructureExpanded && !is_omit_generated_values(context.options())) {
         // otherwise, generate one from attributes
         generateValueAsset(content, context, *dataStructureExpanded, mediaType);
     }
 
     // Push Schema Asset
     if (!payload.node->schema.empty()) {
-        content.push_back(make_asset_element(                                                //
-            payload.node->schema,                                                            //
-            SerializeKey::MessageBodySchema,                                                 //
-            serialize(IsAnyJSONContentType(mediaType) ? jsonSchemaType() : textPlainType()), //
+        content.push_back(make_asset_element( //
+            payload.node->schema,
+            SerializeKey::MessageBodySchema,
+            serialize(IsAnyJSONContentType(mediaType) ? jsonSchemaType() : textPlainType()),
             &payload.sourceMap->schema.sourceMap));
-    } else if (dataStructureExpanded) {
+
+    } else if (dataStructureExpanded && !is_omit_generated_schemas(context.options())) {
         // otherwise, generate one from attributes
         generateSchemaAsset(content, context, *dataStructureExpanded, mediaType);
     }
