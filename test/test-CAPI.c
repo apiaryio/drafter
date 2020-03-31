@@ -113,6 +113,24 @@ int test_validation()
     return 0;
 }
 
+int test_validation_default()
+{
+    REQUIRE(DRAFTER_OK == drafter_check_blueprint(source, NULL, NULL));
+    return 0;
+}
+
+int test_blueprint_to_serialized_elements_default()
+{
+    REQUIRE(DRAFTER_OK == drafter_parse_blueprint_to(source, NULL, NULL, NULL));
+    return 0;
+}
+
+int test_blueprint_to_elements_default()
+{
+    REQUIRE(DRAFTER_OK == drafter_parse_blueprint(source, NULL, NULL));
+    return 0;
+}
+
 const char* source_without_name = "# GET /\n+ Response 204\n";
 const char* expected_without_name = "expected API name, e.g. '# <API Name>'";
 
@@ -147,5 +165,9 @@ int main()
     REQUIRE(test_version() == 0);
     REQUIRE(test_validation() == 0);
     REQUIRE(test_parse_to_string_requiring_name() == 0);
+    REQUIRE(test_validation_default() == 0);
+    REQUIRE(test_blueprint_to_serialized_elements_default() == 0);
+    REQUIRE(test_blueprint_to_elements_default() == 0);
+
     return 0;
 }

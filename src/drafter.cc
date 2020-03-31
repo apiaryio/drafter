@@ -45,12 +45,7 @@ DRAFTER_API drafter_error drafter_parse_blueprint_to(const char* source,
         return DRAFTER_EINVALID_INPUT;
     }
 
-    if (!out) {
-        return DRAFTER_EINVALID_OUTPUT;
-    }
-
     drafter_result* result = nullptr;
-    *out = nullptr;
 
     drafter_error ret = drafter_parse_blueprint(source, &result, parse_opts);
 
@@ -58,7 +53,9 @@ DRAFTER_API drafter_error drafter_parse_blueprint_to(const char* source,
         return ret;
     }
 
-    *out = drafter_serialize(result, serialize_opts);
+    if (out) {
+        *out = drafter_serialize(result, serialize_opts);
+    }
 
     drafter_free_result(result);
 
@@ -76,10 +73,6 @@ DRAFTER_API drafter_error drafter_parse_blueprint(
         return DRAFTER_EINVALID_INPUT;
     }
 
-    if (!out) {
-        return DRAFTER_EINVALID_OUTPUT;
-    }
-
     sc::BlueprintParserOptions scOptions = sc::ExportSourcemapOption;
 
     if (drafter::is_name_required(parse_opts)) {
@@ -92,7 +85,9 @@ DRAFTER_API drafter_error drafter_parse_blueprint(
     drafter::ConversionContext context(source);
     auto result = WrapRefract(blueprint, context);
 
-    *out = result.release();
+    if (out) {
+        *out = result.release();
+    }
 
     return (drafter_error)blueprint.report.error.code;
 }
@@ -136,7 +131,8 @@ DRAFTER_API drafter_error drafter_check_blueprint(
 
     drafter_result* result = nullptr;
 
-    drafter_error ret = drafter_parse_blueprint(source, &result, parse_opts);
+    drafter_error ret = res ? drafter_parse_blueprint(source, &result, parse_opts) :
+                              drafter_parse_blueprint(source, nullptr, parse_opts);
 
     if (!result) {
         return ret;
