@@ -379,18 +379,18 @@ std::unique_ptr<IElement> PayloadToRefract( //
     if (!payload.node->description.empty())
         content.push_back(CopyToRefract(MAKE_NODE_INFO(payload, description)));
 
-    auto unexpandedAttrs = payload.node->attributes.empty() ? //
-        nullptr :                                             //
+    auto dataStructure = payload.node->attributes.empty() ? //
+        nullptr :                                           //
         MSONToRefract(MAKE_NODE_INFO(payload, attributes), context);
 
     // Push dataStructure
-    if (unexpandedAttrs) {
+    if (dataStructure) {
         if (context.expandMson()) { // TODO: remove/avoid, only used for unit tests
-            if (auto expanded = ExpandRefract(clone(*unexpandedAttrs), context)) {
+            if (auto expanded = ExpandRefract(clone(*dataStructure), context)) {
                 attachDataStructure(std::move(expanded), content);
             }
         } else {
-            attachDataStructure(clone(*unexpandedAttrs), content);
+            attachDataStructure(clone(*dataStructure), content);
         }
     }
 
@@ -398,9 +398,9 @@ std::unique_ptr<IElement> PayloadToRefract( //
     const auto mediaType = parseMediaType(getContentTypeFromHeaders(payload.node->headers));
 
     // Determine any MSON to generate value/schema
-    if (!unexpandedAttrs && !action.isNull() && !action.node->attributes.empty())
-        unexpandedAttrs = MSONToRefract(MAKE_NODE_INFO(action, attributes), context);
-    auto expandedAttrs = unexpandedAttrs ? ExpandRefract(std::move(unexpandedAttrs), context) : nullptr;
+    if (!dataStructure && !action.isNull() && !action.node->attributes.empty())
+        dataStructure = MSONToRefract(MAKE_NODE_INFO(action, attributes), context);
+    auto dataStructureExpanded = dataStructure ? ExpandRefract(std::move(dataStructure), context) : nullptr;
 
     // Push Body Asset
     if (!payload.node->body.empty()) {
@@ -409,9 +409,9 @@ std::unique_ptr<IElement> PayloadToRefract( //
             SerializeKey::MessageBody,        //
             serialize(mediaType),             //
             &payload.sourceMap->body.sourceMap));
-    } else if (expandedAttrs) {
+    } else if (dataStructureExpanded) {
         // otherwise, generate one from attributes
-        generateValueAsset(content, context, *expandedAttrs, mediaType);
+        generateValueAsset(content, context, *dataStructureExpanded, mediaType);
     }
 
     // Push Schema Asset
@@ -421,9 +421,9 @@ std::unique_ptr<IElement> PayloadToRefract( //
             SerializeKey::MessageBodySchema,                                                 //
             serialize(IsAnyJSONContentType(mediaType) ? jsonSchemaType() : textPlainType()), //
             &payload.sourceMap->schema.sourceMap));
-    } else if (expandedAttrs) {
+    } else if (dataStructureExpanded) {
         // otherwise, generate one from attributes
-        generateSchemaAsset(content, context, *expandedAttrs, mediaType);
+        generateSchemaAsset(content, context, *dataStructureExpanded, mediaType);
     }
 
     return std::move(result);
