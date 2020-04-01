@@ -69,7 +69,7 @@ SCENARIO("Representations of media type are serialized", "[backend][serialize][m
         WHEN("it is serialialized")
         {
             const std::string result = serialize(tested);
-            THEN("the result is `application/json`")
+            THEN("the result is `application/schema+json`")
             {
                 REQUIRE(result == "application/schema+json");
             }
