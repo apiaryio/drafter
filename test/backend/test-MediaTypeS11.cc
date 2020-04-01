@@ -76,45 +76,6 @@ SCENARIO("Representations of media type are serialized", "[backend][serialize][m
         }
     }
 
-    GIVEN("a media type with restricted characters in its type")
-    {
-        const auto tested = media_type{ "!application", "schema", "json", {} };
-        WHEN("it is serialialized")
-        {
-            const std::string result = serialize(tested);
-            THEN("the result is escaped")
-            {
-                REQUIRE(result == "\"!application\"/schema+json");
-            }
-        }
-    }
-
-    GIVEN("a media type with restricted characters in its subtype")
-    {
-        const auto tested = media_type{ "application", "*schema", "json", {} };
-        WHEN("it is serialialized")
-        {
-            const std::string result = serialize(tested);
-            THEN("the result is escaped")
-            {
-                REQUIRE(result == "application/\"*schema\"+json");
-            }
-        }
-    }
-
-    GIVEN("a media type with restricted characters in its suffix")
-    {
-        const auto tested = media_type{ "application", "schema", "+json", {} };
-        WHEN("it is serialialized")
-        {
-            const std::string result = serialize(tested);
-            THEN("the result is escaped")
-            {
-                REQUIRE(result == "application/schema+\"+json\"");
-            }
-        }
-    }
-
     GIVEN("a media type with parameters")
     {
         const auto tested = media_type{ //
@@ -136,35 +97,14 @@ SCENARIO("Representations of media type are serialized", "[backend][serialize][m
         }
     }
 
-    GIVEN("a media type with restricted characters in parameter name")
+    GIVEN("a media type with carriage return in parameter value")
     {
         const auto tested = media_type{ //
             "application",              //
             "schema",                   //
             "json",                     //
             {
-                { "+charset", "utf-8" }, //
-                { "c", "5930" }          //
-            }
-        };
-        WHEN("it is serialialized")
-        {
-            const std::string result = serialize(tested);
-            THEN("the result is escaped")
-            {
-                REQUIRE(result == "application/schema+json; \"+charset\"=utf-8; c=5930");
-            }
-        }
-    }
-
-    GIVEN("a media type with tspecial characters in parameter value")
-    {
-        const auto tested = media_type{ //
-            "application",              //
-            "schema",                   //
-            "json",                     //
-            {
-                { "charset", "utf?8" }, //
+                { "charset", "utf-8" }, //
                 { "c", "59\r30" }       //
             }
         };
@@ -173,7 +113,7 @@ SCENARIO("Representations of media type are serialized", "[backend][serialize][m
             const std::string result = serialize(tested);
             THEN("the result is escaped")
             {
-                REQUIRE(result == "application/schema+json; charset=\"utf?8\"; c=\"59\\r30\"");
+                REQUIRE(result == "application/schema+json; charset=utf-8; c=\"59\\r30\"");
             }
         }
     }

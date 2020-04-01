@@ -34,15 +34,6 @@ namespace
         return s8_qtext(out << '"', v) << '"';
     }
 
-    bool is_restricted(char c) noexcept
-    {
-        for (const auto& r : { '!', '#', '$', '&', '^', '_', '-', '.', '+' }) {
-            if (c == r)
-                return true;
-        }
-        return false;
-    }
-
     bool is_tspecial(char c) noexcept
     {
         for (const auto& r : { '(', ')', '<', '>', '@', ',', ';', ':', '\\', '"', '/', '[', ']', '?', '=' }) {
@@ -57,30 +48,8 @@ namespace
         using std::begin;
         using std::end;
 
-        if (v.empty())
-            return out;
-
         if (end(v) == find_if(begin(v), end(v), [](const char c) { //
                 return is_tspecial(c) || std::isspace(c) || std::iscntrl(c);
-            }))
-            return (out << v);
-
-        return s8_quoted_string(out, v);
-    }
-
-    std::ostream& s8_restricted_name(std::ostream& out, const std::string& v)
-    {
-        using std::begin;
-        using std::end;
-
-        if (v.empty())
-            return out;
-
-        if (!std::isalnum(v.front()))
-            return s8_quoted_string(out, v);
-
-        if (end(v) == find_if(begin(v), end(v), [](const char c) { //
-                return !std::isalnum(c) && !is_restricted(c);
             }))
             return (out << v);
 
@@ -93,22 +62,19 @@ std::ostream& apib::backend::operator<<(std::ostream& out, const apib::parser::m
     if (obj.type.empty() || obj.subtype.empty())
         return out;
 
-    s8_restricted_name(out, obj.type);
-    out << '/';
-
-    s8_restricted_name(out, obj.subtype);
+    out << obj.type << '/' << obj.subtype;
 
     if (!obj.suffix.empty()) {
-        out << '+';
-        s8_restricted_name(out, obj.suffix);
+        out << '+' << obj.suffix;
     }
 
     if (!obj.parameters.empty()) {
         for (const auto& p : obj.parameters) {
-            out << "; ";
-            s8_restricted_name(out, std::get<0>(p));
-            out << '=';
-            s8_value(out, std::get<1>(p));
+            const auto& key = std::get<0>(p);
+            if (!key.empty()) {
+                out << "; " << std::get<0>(p) << '=';
+                s8_value(out, std::get<1>(p));
+            }
         }
     }
 
