@@ -68,17 +68,15 @@ DRAFTER_API void drafter_free_parse_options(drafter_parse_options*);
  */
 DRAFTER_API void drafter_set_name_required(drafter_parse_options*);
 
-/* Access omit_generated_values option
- *   @remark omit_generated_values: do not attempt generating payloads where
- *     none are provided
+/* Set skip_gen_bodies option
+ *   @remark skip_gen_bodies: skip generating message body payloads
  */
-DRAFTER_API void set_omit_generated_values(drafter_parse_options*);
+DRAFTER_API void set_skip_gen_bodies(drafter_parse_options*);
 
-/* Access omit_generated_schemas option
- *   @remark omit_generated_schemas: do not attempt generating payload
- *     schemas where none are provided
+/* Set skip_gen_body_schemas option
+ *   @remark skip_gen_body_schemas: skip generating message body schema payloads
  */
-DRAFTER_API void set_omit_generated_schemas(drafter_parse_options*);
+DRAFTER_API void set_skip_gen_body_schemas(drafter_parse_options*);
 
 /* Serialisation options
  */

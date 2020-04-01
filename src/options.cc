@@ -22,12 +22,12 @@ drafter_format drafter::get_format(const drafter_serialize_options* opts) noexce
     return opts ? opts->format : DRAFTER_SERIALIZE_YAML;
 }
 
-bool drafter::is_omit_generated_values(const drafter_parse_options* opts) noexcept
+bool drafter::is_skip_gen_bodies(const drafter_parse_options* opts) noexcept
 {
-    return opts && opts->flags.test(drafter_parse_options::OMIT_GENERATED_VALUES);
+    return opts && opts->flags.test(drafter_parse_options::SKIP_GEN_BODIES);
 }
 
-bool drafter::is_omit_generated_schemas(const drafter_parse_options* opts) noexcept
+bool drafter::is_skip_gen_body_schemas(const drafter_parse_options* opts) noexcept
 {
-    return opts && opts->flags.test(drafter_parse_options::OMIT_GENERATED_SCHEMAS);
+    return opts && opts->flags.test(drafter_parse_options::SKIP_GEN_BODY_SCHEMAS);
 }

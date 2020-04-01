@@ -400,7 +400,7 @@ std::unique_ptr<IElement> PayloadToRefract( //
             serialize(mediaType),
             &payload.sourceMap->body.sourceMap));
 
-    } else if (dataStructureExpanded && !is_omit_generated_values(context.options())) {
+    } else if (dataStructureExpanded && !is_skip_gen_bodies(context.options())) {
         // otherwise, generate one from attributes
         generateValueAsset(content, context, *dataStructureExpanded, mediaType);
     }
@@ -413,7 +413,7 @@ std::unique_ptr<IElement> PayloadToRefract( //
             serialize(IsAnyJSONContentType(mediaType) ? jsonSchemaType() : textPlainType()),
             &payload.sourceMap->schema.sourceMap));
 
-    } else if (dataStructureExpanded && !is_omit_generated_schemas(context.options())) {
+    } else if (dataStructureExpanded && !is_skip_gen_body_schemas(context.options())) {
         // otherwise, generate one from attributes
         generateSchemaAsset(content, context, *dataStructureExpanded, mediaType);
     }
