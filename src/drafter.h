@@ -71,12 +71,12 @@ DRAFTER_API void drafter_set_name_required(drafter_parse_options*);
 /* Set skip_gen_bodies option
  *   @remark skip_gen_bodies: skip generating message body payloads
  */
-DRAFTER_API void set_skip_gen_bodies(drafter_parse_options*);
+DRAFTER_API void drafter_set_skip_gen_bodies(drafter_parse_options*);
 
 /* Set skip_gen_body_schemas option
  *   @remark skip_gen_body_schemas: skip generating message body schema payloads
  */
-DRAFTER_API void set_skip_gen_body_schemas(drafter_parse_options*);
+DRAFTER_API void drafter_set_skip_gen_body_schemas(drafter_parse_options*);
 
 /* Serialisation options
  */

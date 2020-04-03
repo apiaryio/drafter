@@ -184,13 +184,13 @@ DRAFTER_API void drafter_set_name_required(drafter_parse_options* opts)
     opts->flags.set(drafter_parse_options::NAME_REQUIRED);
 }
 
-DRAFTER_API void set_skip_gen_bodies(drafter_parse_options* opts)
+DRAFTER_API void drafter_set_skip_gen_bodies(drafter_parse_options* opts)
 {
     assert(opts);
     opts->flags.set(drafter_parse_options::SKIP_GEN_BODIES);
 }
 
-DRAFTER_API void set_skip_gen_body_schemas(drafter_parse_options* opts)
+DRAFTER_API void drafter_set_skip_gen_body_schemas(drafter_parse_options* opts)
 {
     assert(opts);
     opts->flags.set(drafter_parse_options::SKIP_GEN_BODY_SCHEMAS);
