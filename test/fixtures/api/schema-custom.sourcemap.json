@@ -384,7 +384,7 @@
                                 },
                                 "contentType": {
                                   "element": "string",
-                                  "content": "application/xml"
+                                  "content": "text/plain"
                                 }
                               },
                               "content": "<some XML schema>\n"

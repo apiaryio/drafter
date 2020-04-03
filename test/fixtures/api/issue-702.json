@@ -155,6 +155,27 @@
                                 }
                               },
                               "content": "+ Body\n\n        {}\n\n+ Schema \n\n        {}\n"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": {
+                                  "element": "array",
+                                  "content": [
+                                    {
+                                      "element": "string",
+                                      "content": "messageBodySchema"
+                                    }
+                                  ]
+                                }
+                              },
+                              "attributes": {
+                                "contentType": {
+                                  "element": "string",
+                                  "content": "application/schema+json"
+                                }
+                              },
+                              "content": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\"\n}"
                             }
                           ]
                         },

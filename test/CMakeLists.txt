@@ -4,6 +4,7 @@ find_package(Catch2 1.0 REQUIRED)
 find_package(MPark.Variant 1.4 REQUIRED)
 
 add_executable(drafter-test
+    backend/test-MediaTypeS11.cc
     utils/test-Utf8.cc
     utils/so/test-YamlIo.cc
     utils/so/test-JsonIo.cc

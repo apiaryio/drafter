@@ -382,6 +382,10 @@
         "src/parser/Mediatype.cc",
         "src/parser/recover.h",
         "src/parser/UriTemplateParser.h",
+
+        "src/backend/MediaTypeS11n.cc",
+        "src/backend/MediaTypeS11n.h",
+        "src/backend/Backend.h",
       ],
       "dependencies": [
         "libsnowcrash",
@@ -453,6 +457,7 @@
         "test/parser/test-Recover.cc",
         "test/parser/test-UriTemplate.cc",
 
+        "test/backend/test-MediaTypeS11.cc",
       ],
       'dependencies': [
         "libdrafter",
