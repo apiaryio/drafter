@@ -76,6 +76,7 @@ file(
 
 add_executable(drafter-ctest
     test-CAPI.c
+    ctesting.c
     )
 
 target_link_libraries(drafter-ctest
