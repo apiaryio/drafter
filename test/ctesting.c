@@ -3,16 +3,6 @@
 #include <string.h>
 #include <stdio.h>
 
-size_t strlen_until_nl(const char* str)
-{
-
-    size_t i = 0;
-    for (; str[i] != 0 && str[i] != '\n'; ++i)
-        ;
-
-    return i;
-}
-
 void drafter_ctest_fail(const char* expr, const char* file, size_t line)
 {
     fprintf(stderr, "Assertion `%s` failed at %s:%d\n", expr, file, line);
