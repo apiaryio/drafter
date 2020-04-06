@@ -12,9 +12,10 @@
 
 using namespace drafter;
 
-ConversionContext::ConversionContext(const char* src, bool expandMson) noexcept
+ConversionContext::ConversionContext(const char* src, const drafter_parse_options* opts, bool expandMson) noexcept
     : newline_indices_(GetLinesEndIndex(src)),
       expand_mson_{ expandMson },
+      options_{ opts },
       registry_{},
       warnings_{}
 {
@@ -69,4 +70,9 @@ void ConversionContext::warn(const snowcrash::Warning& warning)
 const ConversionContext::Warnings& ConversionContext::warnings() const noexcept
 {
     return warnings_;
+}
+
+const drafter_parse_options* ConversionContext::options() const noexcept
+{
+    return options_;
 }

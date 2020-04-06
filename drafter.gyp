@@ -498,7 +498,9 @@
         [ 'libdrafter_type=="static_library"', { 'defines' : [ 'DRAFTER_BUILD_STATIC' ] }],
       ],
       "sources": [
-        "test/test-CAPI.c"
+        "test/test-CAPI.c",
+        "test/ctesting.h",
+        "test/ctesting.c"
       ],
       "dependencies": [
         "libdrafter",

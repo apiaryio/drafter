@@ -117,7 +117,7 @@ bool draftertest::handleResultJSON(const std::string& fixturePath, test_options 
     int result = snowcrash::parse(source, snowcrash::ExportSourcemapOption, blueprint);
 
     std::ostringstream outStream;
-    drafter::ConversionContext context(source.c_str(), testOpts.test(TEST_OPTION_EXPAND_MSON));
+    drafter::ConversionContext context(source.c_str(), nullptr, testOpts.test(TEST_OPTION_EXPAND_MSON));
 
     if (auto parsed = WrapRefract(blueprint, context)) {
         auto soValue = refract::serialize::renderSo(*parsed, testOpts.test(TEST_OPTION_SOURCEMAPS));

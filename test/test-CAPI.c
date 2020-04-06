@@ -1,23 +1,13 @@
 #include "../src/drafter.h"
 
-#include <assert.h>
+#include "ctesting.h"
+
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 #if defined CMAKE_BUILD_TYPE
 #include "../src/Version.h"
 #endif
-
-#define REQUIRE(expr) _test_assert(expr, #expr, __FILE__, __LINE__)
-
-void _test_assert(bool a, const char* expr, const char* file, size_t line)
-{
-    if (!a) {
-        fprintf(stderr, "Assertion `%s` failed at %s:%d", expr, file, line);
-        abort();
-    }
-}
 
 const char* source = "# My API\n## GET /message\n + Response 200 (text/plain)\n\n        Hello World\n";
 
@@ -106,7 +96,7 @@ int test_validation()
     REQUIRE(out);
 
     /* check if output contains required warning message */
-    REQUIRE(strstr(out, warning) != 0);
+    REQUIRE_INCLUDES(warning, out);
 
     drafter_free_result(result);
     free(out);
@@ -151,12 +141,74 @@ int test_parse_to_string_requiring_name()
     REQUIRE(status != 0);
     REQUIRE(result);
 
-    REQUIRE(strstr(result, expected_without_name) != 0);
+    REQUIRE_INCLUDES(expected_without_name, result);
 
     free(result);
 
     return 0;
 };
+
+const char* apib_with_attrs_no_body_nor_schema
+    = "# Data Structures\n\
+## User\n\
++ username: pksunkara\n\
+\n\
+## Org\n\
++ name: Apiary\n\
+\n\
+# Group Example\n\
+# GET /\n\
++ Response 200 (application/json)\n\
+    + Attributes (array[User, Org])";
+
+int test_parse_to_string_skip_body_gen()
+{
+    char* result = 0;
+
+    drafter_parse_options* pOpts = drafter_init_parse_options();
+    drafter_set_skip_gen_bodies(pOpts);
+
+    int status = drafter_parse_blueprint_to( //
+        apib_with_attrs_no_body_nor_schema,
+        &result,
+        pOpts,
+        NULL);
+
+    drafter_free_parse_options(pOpts);
+
+    REQUIRE(result);
+
+    REQUIRE_EXCLUDES("\"messageBody\"", result);
+    REQUIRE_INCLUDES("\"messageBodySchema\"", result);
+    REQUIRE(status == 0);
+
+    free(result);
+}
+
+int test_parse_to_string_skip_body_schema_gen()
+{
+    char* result = 0;
+
+    drafter_parse_options* pOpts = drafter_init_parse_options();
+    drafter_set_skip_gen_body_schemas(pOpts);
+
+    int status = drafter_parse_blueprint_to( //
+        apib_with_attrs_no_body_nor_schema,
+        &result,
+        pOpts,
+        NULL);
+
+    drafter_free_parse_options(pOpts);
+
+    REQUIRE(result);
+
+    REQUIRE_INCLUDES("\"messageBody\"", result);
+    REQUIRE_EXCLUDES("\"messageBodySchema\"", result);
+
+    REQUIRE(status == 0);
+
+    free(result);
+}
 
 int main()
 {
@@ -168,6 +220,8 @@ int main()
     REQUIRE(test_validation_default() == 0);
     REQUIRE(test_blueprint_to_serialized_elements_default() == 0);
     REQUIRE(test_blueprint_to_elements_default() == 0);
+    test_parse_to_string_skip_body_gen();
+    test_parse_to_string_skip_body_schema_gen();
 
     return 0;
 }

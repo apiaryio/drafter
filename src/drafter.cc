@@ -82,7 +82,7 @@ DRAFTER_API drafter_error drafter_parse_blueprint(
     sc::ParseResult<sc::Blueprint> blueprint;
     sc::parse(source, scOptions, blueprint);
 
-    drafter::ConversionContext context(source);
+    drafter::ConversionContext context(source, parse_opts);
     auto result = WrapRefract(blueprint, context);
 
     if (out) {
@@ -181,7 +181,19 @@ DRAFTER_API void drafter_free_parse_options(drafter_parse_options* opts)
 DRAFTER_API void drafter_set_name_required(drafter_parse_options* opts)
 {
     assert(opts);
-    opts->requireBlueprintName = true;
+    opts->flags.set(drafter_parse_options::NAME_REQUIRED);
+}
+
+DRAFTER_API void drafter_set_skip_gen_bodies(drafter_parse_options* opts)
+{
+    assert(opts);
+    opts->flags.set(drafter_parse_options::SKIP_GEN_BODIES);
+}
+
+DRAFTER_API void drafter_set_skip_gen_body_schemas(drafter_parse_options* opts)
+{
+    assert(opts);
+    opts->flags.set(drafter_parse_options::SKIP_GEN_BODY_SCHEMAS);
 }
 
 DRAFTER_API drafter_serialize_options* drafter_init_serialize_options()
@@ -197,7 +209,7 @@ DRAFTER_API void drafter_free_serialize_options(drafter_serialize_options* opts)
 DRAFTER_API void drafter_set_sourcemaps_included(drafter_serialize_options* opts)
 {
     assert(opts);
-    opts->sourcemap = true;
+    opts->flags.set(drafter_serialize_options::SOURCEMAPS_INCLUDED);
 }
 
 DRAFTER_API void drafter_set_format(drafter_serialize_options* opts, drafter_format fmt)

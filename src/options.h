@@ -11,12 +11,24 @@
 
 #include "drafter.h"
 
+#include <bitset>
+
 struct drafter_parse_options {
-    bool requireBlueprintName = false;
+    using flags_type = std::bitset<3>;
+
+    static constexpr std::size_t NAME_REQUIRED = 0;
+    static constexpr std::size_t SKIP_GEN_BODIES = 1;
+    static constexpr std::size_t SKIP_GEN_BODY_SCHEMAS = 2;
+
+    flags_type flags = 0;
 };
 
 struct drafter_serialize_options {
-    bool sourcemap = false;
+    using flags_type = std::bitset<1>;
+
+    static constexpr std::size_t SOURCEMAPS_INCLUDED = 0;
+
+    flags_type flags = 0;
     drafter_format format = DRAFTER_SERIALIZE_YAML;
 };
 
@@ -31,6 +43,16 @@ namespace drafter
      *   @remark sourcemaps_included: source maps are not filtered from non-Annotations
      */
     bool are_sourcemaps_included(const drafter_serialize_options*) noexcept;
+
+    /* Access skip_gen_bodies option
+     *   @remark skip_gen_bodies: skip generating message body payloads
+     */
+    bool is_skip_gen_bodies(const drafter_parse_options*) noexcept;
+
+    /* Access skip_gen_body_schemas option
+     *   @remark skip_gen_body_schemas: skip generating message body schema payloads
+     */
+    bool is_skip_gen_body_schemas(const drafter_parse_options*) noexcept;
 
     /* Access format option
      *   @remark format: API Elements serialisation format (YAML|JSON)
