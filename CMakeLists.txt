@@ -27,35 +27,21 @@ endmacro()
 
 # add external dependencies living in `ext`
 option(PEGTL_BUILD_TESTS OFF)
-add_subdirectory(ext/snowcrash/ext/markdown-parser/ext/sundown EXCLUDE_FROM_ALL)
-add_subdirectory(ext/cmdline EXCLUDE_FROM_ALL)
-add_subdirectory(ext/boost EXCLUDE_FROM_ALL)
-add_subdirectory(ext/variant EXCLUDE_FROM_ALL)
-add_subdirectory(ext/PEGTL EXCLUDE_FROM_ALL)
+add_subdirectory(packages/sundown EXCLUDE_FROM_ALL)
+add_subdirectory(packages/cmdline EXCLUDE_FROM_ALL)
+add_subdirectory(packages/boost EXCLUDE_FROM_ALL)
+add_subdirectory(packages/variant EXCLUDE_FROM_ALL)
+add_subdirectory(packages/PEGTL EXCLUDE_FROM_ALL)
 
 message(STATUS "Setting up tests for production...")
-add_subdirectory(test/vendor/Catch EXCLUDE_FROM_ALL)
-add_subdirectory(test/vendor/dtl EXCLUDE_FROM_ALL)
+add_subdirectory(packages/Catch EXCLUDE_FROM_ALL)
+add_subdirectory(packages/dtl EXCLUDE_FROM_ALL)
 
 enable_testing()
 include(CTest)
-include(test/vendor/Catch/contrib/Catch.cmake)
+include(packages/Catch/contrib/Catch.cmake)
 
 # targets developed in this super project
-add_subdirectory(ext/snowcrash/ext/markdown-parser EXCLUDE_FROM_ALL)
-add_subdirectory(ext/snowcrash EXCLUDE_FROM_ALL)
-
-# drafter
-add_subdirectory(src)
-if(${BUILD_TESTING})
-    option(INTEGRATION_TESTS "Run integration tests" OFF)
-    add_subdirectory(test)
-    if(${INTEGRATION_TESTS})
-        include(integration.cmake)
-    endif()
-    add_custom_target(drafter-test-suite ALL)
-    add_dependencies(drafter-test-suite drafter-test markdown-parser-test snowcrash-test)
-endif()
-
-
-
+add_subdirectory(packages/markdown-parser EXCLUDE_FROM_ALL)
+add_subdirectory(packages/snowcrash EXCLUDE_FROM_ALL)
+add_subdirectory(packages/drafter)
