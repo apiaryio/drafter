@@ -49,10 +49,6 @@ add_executable(drafter-test
     test-RenderTest.cc
     test-Serialize.cc
     test-sourceMapToLineColumn.cc
-    parser/test-MediaType.cc
-    parser/test-UriTemplate.cc
-    parser/test-Recover.cc
-    test-ContentTypeMatcher.cc
     )
 
 target_link_libraries(drafter-test
@@ -63,7 +59,13 @@ target_link_libraries(drafter-test
         Boost::container
         mpark_variant
     )
-target_compile_definitions(drafter-test PUBLIC DRAFTER_BUILD_STATIC=1)
+target_include_directories(drafter-test PRIVATE src)
+target_compile_definitions(drafter-test
+    PUBLIC
+        DRAFTER_BUILD_STATIC=1
+    PRIVATE
+        DRAFTER_TEST_FIXTURES="${CMAKE_CURRENT_SOURCE_DIR}/fixtures/"
+    )
 
 add_test(DrafterTest drafter-test)
 

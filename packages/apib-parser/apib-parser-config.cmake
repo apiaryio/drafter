@@ -1,0 +1,7 @@
+include(CMakeFindDependencyMacro)
+find_dependency(apib 1.0)
+find_dependency(Sundown 1.0)
+find_dependency(pegtl 2.8)
+find_dependency(BoostContainer 1.66)
+find_dependency(MPark.Variant 1.3)
+include("${CMAKE_CURRENT_LIST_DIR}/apib-parser-targets.cmake")

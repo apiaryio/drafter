@@ -8,8 +8,8 @@ message(STATUS "Testing dependencies ${BUILD_TESTING_DEPENDENCIES}.")
 set(CMAKE_PREFIX_PATH "/prefix")
 set(CMAKE_SKIP_INSTALL_ALL_DEPENDENCY TRUE)
 set(as_subproject
-    markdown-parser
-    snowcrash
+    apib
+    apib-parser
     Sundown
     cmdline
     Drafter
@@ -42,6 +42,6 @@ include(CTest)
 include(packages/Catch/contrib/Catch.cmake)
 
 # targets developed in this super project
-add_subdirectory(packages/markdown-parser EXCLUDE_FROM_ALL)
-add_subdirectory(packages/snowcrash EXCLUDE_FROM_ALL)
+add_subdirectory(packages/apib EXCLUDE_FROM_ALL)
+add_subdirectory(packages/apib-parser EXCLUDE_FROM_ALL)
 add_subdirectory(packages/drafter)

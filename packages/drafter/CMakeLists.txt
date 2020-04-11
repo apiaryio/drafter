@@ -23,7 +23,6 @@ set(DRAFTER_SOURCES
     src/SerializeKey.cc
     src/SerializeResult.cc
     src/SourceMapUtils.cc
-    src/ContentTypeMatcher.cc
     src/options.cc
     src/refract/ComparableVisitor.cc
     src/refract/Element.cc
@@ -59,7 +58,6 @@ set(DRAFTER_SOURCES
     src/utils/so/JsonIo.cc
     src/utils/so/Value.cc
     src/utils/so/YamlIo.cc
-    src/parser/Mediatype.cc
     src/backend/MediaTypeS11n.cc
     )
 
@@ -87,11 +85,11 @@ set(DRAFTER_COMPILE_FEATURES
     )
 
 # production dependencies
-find_package(snowcrash 1.0 REQUIRED)
+find_package(apib 1.0 REQUIRED)
+find_package(apib-parser 1.0 REQUIRED)
 find_package(BoostContainer 1.66 REQUIRED)
 find_package(cmdline 1.0 REQUIRED)
 find_package(MPark.Variant 1.4 REQUIRED)
-find_package(pegtl 2.8 REQUIRED)
 
 add_definitions( -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} )
 
@@ -106,15 +104,15 @@ add_definitions( -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} )
 add_library(drafter-dep INTERFACE)
 target_link_libraries(drafter-dep
     INTERFACE
-    snowcrash::snowcrash
+    Apiary::apib
+    Apiary::apib-parser
     Boost::container
     mpark_variant
-    pegtl
     )
 target_include_directories(drafter-dep
     INTERFACE 
-    $<BUILD_INTERFACE:${Drafter_BINARY_DIR}>
-    $<BUILD_INTERFACE:${Drafter_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${Drafter_BINARY_DIR}/src>
+    $<BUILD_INTERFACE:${Drafter_SOURCE_DIR}/src>
     )
 
 # drafter-obj
@@ -124,8 +122,8 @@ set_property(TARGET drafter-obj PROPERTY POSITION_INDEPENDENT_CODE 1)
 target_include_directories(drafter-obj
     PRIVATE
     $<TARGET_PROPERTY:drafter-dep,INTERFACE_INCLUDE_DIRECTORIES>
-    $<BUILD_INTERFACE:${Drafter_BINARY_DIR}>
-    $<BUILD_INTERFACE:${Drafter_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${Drafter_BINARY_DIR}/src>
+    $<BUILD_INTERFACE:${Drafter_SOURCE_DIR}/src>
     )
 
 target_compile_features(drafter-obj PUBLIC ${DRAFTER_COMPILE_FEATURES})
@@ -219,5 +217,5 @@ if(${BUILD_TESTING})
         include(integration.cmake)
     endif()
     add_custom_target(drafter-test-suite ALL)
-    add_dependencies(drafter-test-suite drafter-test markdown-parser-test snowcrash-test)
+    add_dependencies(drafter-test-suite drafter-test apib-parser-test apib-test)
 endif()
