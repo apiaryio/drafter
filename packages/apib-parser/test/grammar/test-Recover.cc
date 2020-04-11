@@ -1,4 +1,4 @@
-#include "parser/recover.h"
+#include "grammar/recover.h"
 
 #include <catch2/catch.hpp>
 

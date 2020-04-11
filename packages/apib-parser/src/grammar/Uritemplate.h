@@ -9,8 +9,8 @@
 #ifndef PARSER_URITEMPLATE_H
 #define PARSER_URITEMPLATE_H
 
-#include "../PEGTL/include/tao/pegtl.hpp"
-#include "../PEGTL/include/tao/pegtl/contrib/abnf.hpp"
+#include <tao/pegtl.hpp>
+#include <tao/pegtl/contrib/abnf.hpp>
 
 #include "recover.h"
 

@@ -9,8 +9,10 @@
 #ifndef PARSER_MEDIATYPE_H
 #define PARSER_MEDIATYPE_H
 
-#include "../PEGTL/include/tao/pegtl.hpp"
-#include "../PEGTL/include/tao/pegtl/contrib/abnf.hpp"
+#include <tao/pegtl.hpp>
+#include <tao/pegtl/contrib/abnf.hpp>
+
+#include <apib/syntax/MediaType.h>
 
 #include <string>
 #include <map>
@@ -111,26 +113,9 @@ namespace apib
 
             // clang-format on
 
-            // state
-            struct state {
-                using parameters_type = std::vector<std::pair<std::string, std::string> >;
-
-                std::string type;
-                std::string subtype;
-                std::string suffix;
-                parameters_type parameters;
-            };
-
-            bool operator==(const state& lhs, const state& rhs);
-            bool operator!=(const state& lhs, const state& rhs);
-            bool operator==(const state& lhs, const std::string& rhs);
-            bool operator!=(const state& lhs, const std::string& rhs);
-            bool operator==(const std::string& lhs, const state& rhs);
-            bool operator!=(const std::string& lhs, const state& rhs);
-
             struct param_state {
                 template <typename Input>
-                explicit param_state(const Input& /*unused*/, state&)
+                explicit param_state(const Input& /*unused*/, apib::syntax::media_type&)
                 {
                 }
 
@@ -139,7 +124,7 @@ namespace apib
                 std::string value;
 
                 template <typename Input>
-                void success(const Input& /*unused*/, state& c)
+                void success(const Input& /*unused*/, apib::syntax::media_type& c)
                 {
                     c.parameters.emplace_back(std::make_pair(std::move(attribute), std::move(value)));
                 }
@@ -153,7 +138,7 @@ namespace apib
             template <>
             struct action<type> {
                 template <typename Input>
-                static void apply(const Input& in, state& s)
+                static void apply(const Input& in, apib::syntax::media_type& s)
                 {
                     s.type = in.string();
                 }
@@ -162,7 +147,7 @@ namespace apib
             template <>
             struct action<subtype_nonprefixed> {
                 template <typename Input>
-                static void apply(const Input& in, state& s)
+                static void apply(const Input& in, apib::syntax::media_type& s)
                 {
                     s.subtype = in.string();
                 }
@@ -171,7 +156,7 @@ namespace apib
             template <>
             struct action<subtype_prefix> {
                 template <typename Input>
-                static void apply(const Input& in, state& s)
+                static void apply(const Input& in, apib::syntax::media_type& s)
                 {
                     s.subtype = std::string(in.begin(), in.end() - 1);
                 }
@@ -180,7 +165,7 @@ namespace apib
             template <>
             struct action<subtype_suffix> {
                 template <typename Input>
-                static void apply(const Input& in, state& s)
+                static void apply(const Input& in, apib::syntax::media_type& s)
                 {
                     s.suffix = in.string();
                 }

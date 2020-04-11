@@ -1,4 +1,5 @@
-#include "parser/Uritemplate.h"
+#include "grammar/Uritemplate.h"
+
 #include <tao/pegtl/contrib/tracer.hpp>
 
 #include <catch2/catch.hpp>
