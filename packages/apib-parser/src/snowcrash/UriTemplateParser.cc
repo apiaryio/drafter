@@ -5,13 +5,16 @@
 //  Created by Carl Griffiths on 24/02/14.
 //  Copyright (c) 2014 Apiary Inc. All rights reserved.
 //
-#include <iomanip>
+
 #include "UriTemplateParser.h"
+
+#include <iomanip>
 #include "RegexMatch.h"
+#include "grammar/Uritemplate.h"
 
 #define URI_REGEX "^(http|https|ftp|file)?(://)?([^/]*)?(.*)$"
 
-#include "../../../src/parser/Uritemplate.h"
+
 using namespace snowcrash;
 
 using namespace apib::parser::uritemplate;

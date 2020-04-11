@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 Apiary Inc. All rights reserved.
 //
 
-#define CATCH_CONFIG_MAIN
 #include "snowcrashtest.h"
 #include "snowcrash.h"
 

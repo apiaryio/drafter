@@ -16,7 +16,7 @@
 #include "StringUtility.h"
 #include "BlueprintUtility.h"
 
-#include "../../../src/parser/Uritemplate.h"
+#include "grammar/Uritemplate.h"
 
 namespace snowcrash
 {
