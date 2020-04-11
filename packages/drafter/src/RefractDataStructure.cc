@@ -703,11 +703,10 @@ namespace
 
             if (!(hint.value.empty() && inlines.value.empty() && info.value.empty()) && element.empty()) {
                 element.set();
+                std::move(hint.value.begin(), hint.value.end(), std::back_inserter(element.get()));
+                std::move(inlines.value.begin(), inlines.value.end(), std::back_inserter(element.get()));
+                std::move(info.value.begin(), info.value.end(), std::back_inserter(element.get()));
             }
-
-            std::move(hint.value.begin(), hint.value.end(), std::back_inserter(element.get()));
-            std::move(inlines.value.begin(), inlines.value.end(), std::back_inserter(element.get()));
-            std::move(info.value.begin(), info.value.end(), std::back_inserter(element.get()));
         }
     };
 
