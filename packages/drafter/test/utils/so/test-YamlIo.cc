@@ -117,7 +117,7 @@ SCENARIO("Serialize strings from utf-8 fixtures as YAML", "[simple-object][yaml]
             for (const auto& file_name : utf8fixtures) {
 
                 std::ifstream input_is{ //
-                    std::string("test/fixtures/utf-8/") + file_name,
+                    std::string(DRAFTER_TEST_FIXTURES "utf-8/") + file_name,
                     std::ios_base::binary
                 };
                 REQUIRE(input_is);
@@ -136,7 +136,7 @@ SCENARIO("Serialize strings from utf-8 fixtures as YAML", "[simple-object][yaml]
                 THEN("the stringstream contains matching YAML from fixtures/utf-8/")
                 {
 
-                    const auto expected_file = std::string("test/fixtures/utf-8/") + file_name + ".yaml";
+                    const auto expected_file = std::string(DRAFTER_TEST_FIXTURES "utf-8/") + file_name + ".yaml";
                     std::ifstream expected_is{ //
                         expected_file,
                         std::ios_base::binary

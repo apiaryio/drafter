@@ -103,12 +103,18 @@ namespace // copied over from header @tjanc
 
         return output.str();
     }
+
+    std::string fixture_path(const std::string& name)
+    {
+        std::string result(DRAFTER_TEST_FIXTURES);
+        return result + name;
+    }
 }
 
 bool draftertest::handleResultJSON(const std::string& fixturePath, test_options testOpts, bool mustBeOk)
 {
     ENABLE_LOGGING;
-    ITFixtureFiles fixture = ITFixtureFiles(fixturePath);
+    ITFixtureFiles fixture = ITFixtureFiles(fixture_path(fixturePath));
 
     snowcrash::ParseResult<snowcrash::Blueprint> blueprint;
 

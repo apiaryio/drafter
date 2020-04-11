@@ -31,26 +31,26 @@ namespace draftertest
     constexpr test_options MSONTestOptions = test_options(0b01);
 
     bool handleResultJSON(const std::string& fixturePath, test_options testOpts, bool mustBeOk = false);
+
 }
 
 #define TEST_MSON(name, mustBeOk)                                                                                      \
     TEST_CASE("Testing MSON serialization for " name, "[refract][MSON][" name "]")                                     \
     {                                                                                                                  \
-        REQUIRE(::draftertest::handleResultJSON("test/fixtures/mson/" name, MSONTestOptions, mustBeOk));               \
+        REQUIRE(::draftertest::handleResultJSON("/mson/" name, MSONTestOptions, mustBeOk));                            \
     }
 
 #define TEST_REFRACT(category, name)                                                                                   \
     TEST_CASE("Testing refract serialization for " category " " name, "[refract][" category "][" name "]")             \
     {                                                                                                                  \
-        ::draftertest::handleResultJSON("test/fixtures/" category "/" name, test_options(0));                          \
+        ::draftertest::handleResultJSON(category "/" name, test_options(0));                                           \
     }
 
 #define TEST_REFRACT_SOURCE_MAP(category, name)                                                                        \
     TEST_CASE("Testing refract + source map serialization for " category " " name,                                     \
         "[refract_sourcemap][" category "][" name "]")                                                                 \
     {                                                                                                                  \
-        ::draftertest::handleResultJSON(                                                                               \
-            "test/fixtures/" category "/" name, test_options(0).set(TEST_OPTION_SOURCEMAPS));                          \
+        ::draftertest::handleResultJSON(category "/" name, test_options(0).set(TEST_OPTION_SOURCEMAPS));               \
     }
 
 #endif // #ifndef DRAFTER_DRAFTERTEST_H

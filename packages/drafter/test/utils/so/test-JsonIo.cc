@@ -142,7 +142,7 @@ SCENARIO("Serialize strings from utf-8 fixtures as JSON", "[simple-object][json]
             for (const auto& file_name : utf8fixtures) {
 
                 std::ifstream input_is{ //
-                    std::string("test/fixtures/utf-8/") + file_name,
+                    std::string(DRAFTER_TEST_FIXTURES "utf-8/") + file_name,
                     std::ios_base::binary
                 };
                 REQUIRE(input_is);
@@ -161,7 +161,7 @@ SCENARIO("Serialize strings from utf-8 fixtures as JSON", "[simple-object][json]
                 {
 
                     std::ifstream expected_is{ //
-                        std::string("test/fixtures/utf-8/") + file_name + ".json",
+                        std::string(DRAFTER_TEST_FIXTURES "utf-8/") + file_name + ".json",
                         std::ios_base::binary
                     };
                     REQUIRE(expected_is);

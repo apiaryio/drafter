@@ -131,7 +131,7 @@ SCENARIO("iteration over utf-8 fixtures", "[utf8]")
         for (const auto& file_entry : utf8fixtures) {
 
             std::ifstream input_is{ //
-                std::string("test/fixtures/utf-8/") + file_entry.second,
+                std::string(DRAFTER_TEST_FIXTURES "utf-8/") + file_entry.second,
                 std::ios_base::binary
             };
             REQUIRE(input_is);
