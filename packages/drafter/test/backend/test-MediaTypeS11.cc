@@ -1,13 +1,13 @@
 #include <backend/MediaTypeS11n.h>
 
-#include <backend/Backend.h>
 #include <catch2/catch.hpp>
-#include <parser/Mediatype.h>
-
 #include <string>
+#include <apib/syntax/MediaType.h>
+
+#include <backend/Backend.h>
 
 using namespace apib::backend;
-using media_type = apib::parser::mediatype::state;
+using media_type = apib::syntax::media_type;
 
 SCENARIO("Representations of media type are serialized", "[backend][serialize][media-type]")
 {

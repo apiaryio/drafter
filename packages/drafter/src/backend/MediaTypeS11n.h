@@ -15,17 +15,14 @@ namespace apib
 {
     // FIXME: avoid depending on parser from backend by isolating MediaType
     //          definition; then forward declare as, e. g., `apib::mediatype`
-    namespace parser
+    namespace syntax
     {
-        namespace mediatype
-        {
-            struct state;
-        }
+        struct media_type;
     }
 
     namespace backend
     {
-        std::ostream& operator<<(std::ostream&, const apib::parser::mediatype::state&);
+        std::ostream& operator<<(std::ostream&, const apib::syntax::media_type&);
     }
 }
 #endif

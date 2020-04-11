@@ -11,8 +11,6 @@
 
 #include "Serialize.h"
 
-#include "ContentTypeMatcher.h"
-
 namespace drafter
 {
 

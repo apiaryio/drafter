@@ -20,6 +20,9 @@
 #include "utils/log/Trivial.h"
 #include "utils/so/JsonIo.h"
 
+#include <apib/syntax/MediaType.h>
+#include <apib/parser/MediaTypeParser.h>
+
 #include "backend/MediaTypeS11n.h"
 #include "backend/Backend.h"
 
@@ -266,31 +269,26 @@ namespace
 
 namespace
 {
-    using MediaType = apib::parser::mediatype::state;
+    using namespace apib::syntax;
 
-    apib::parser::mediatype::state jsonSchemaType()
+    media_type jsonSchemaType()
     {
-        return apib::parser::mediatype::state{ "application", "schema", "json", {} };
+        return media_type{ "application", "schema", "json", {} };
     }
 
-    apib::parser::mediatype::state textPlainType()
+    media_type textPlainType()
     {
-        return apib::parser::mediatype::state{ "text", "plain", "", {} };
-    }
-
-    bool IsAnyJSONContentType(const apib::parser::mediatype::state& t)
-    {
-        return IsJSONContentType(t) || IsJSONSchemaContentType(t);
+        return media_type{ "text", "plain", "", {} };
     }
 
     void generateValueAsset( //
         ArrayElement::ValueType& out,
         const ConversionContext& context,
         const IElement& expanded,
-        const apib::parser::mediatype::state& mediaType)
+        const media_type& mediaType)
     {
         using apib::backend::serialize;
-        if (IsAnyJSONContentType(mediaType)) {
+        if (apib::isJSON(mediaType)) {
             std::stringstream ss{};
             drafter::utils::so::serialize_json(ss, refract::generateJsonValue(expanded));
             out.push_back(make_asset_element(ss.str(), SerializeKey::MessageBody, serialize(mediaType)));
@@ -301,10 +299,10 @@ namespace
         ArrayElement::ValueType& out,
         const ConversionContext& context,
         const IElement& expanded,
-        const apib::parser::mediatype::state& mediaType)
+        const media_type& mediaType)
     {
         using apib::backend::serialize;
-        if (IsAnyJSONContentType(mediaType)) {
+        if (apib::isJSON(mediaType)) {
             std::stringstream ss{};
             drafter::utils::so::serialize_json(ss, refract::schema::generateJsonSchema(expanded));
             out.push_back(make_asset_element(ss.str(), SerializeKey::MessageBodySchema, serialize(jsonSchemaType())));
@@ -385,7 +383,9 @@ std::unique_ptr<IElement> PayloadToRefract( //
     }
 
     // Get content type
-    const auto mediaType = parseMediaType(getContentTypeFromHeaders(payload.node->headers));
+    const auto mediaType = apib::parser::parseMediaType( //
+        getContentTypeFromHeaders(payload.node->headers) //
+    );
 
     // Determine any MSON to generate value/schema
     if (!dataStructure && !action.isNull() && !action.node->attributes.empty())
@@ -410,7 +410,7 @@ std::unique_ptr<IElement> PayloadToRefract( //
         content.push_back(make_asset_element( //
             payload.node->schema,
             SerializeKey::MessageBodySchema,
-            serialize(IsAnyJSONContentType(mediaType) ? jsonSchemaType() : textPlainType()),
+            serialize(apib::isJSON(mediaType) ? jsonSchemaType() : textPlainType()),
             &payload.sourceMap->schema.sourceMap));
 
     } else if (dataStructureExpanded && !is_skip_gen_body_schemas(context.options())) {

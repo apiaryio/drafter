@@ -9,9 +9,8 @@
 #include "MediaTypeS11n.h"
 
 #include <cctype>
-// FIXME: avoid relative, cross-modular include by setting up build environment
-//          to search for includes in `src`; then `#include <parser/Mediatype.h>`
-#include "../parser/Mediatype.h"
+#include <algorithm>
+#include <apib/syntax/MediaType.h>
 
 using namespace apib::backend;
 
@@ -48,7 +47,7 @@ namespace
         using std::begin;
         using std::end;
 
-        if (end(v) == find_if(begin(v), end(v), [](const char c) { //
+        if (end(v) == std::find_if(begin(v), end(v), [](const char c) { //
                 return is_tspecial(c) || std::isspace(c) || std::iscntrl(c);
             }))
             return (out << v);
@@ -57,7 +56,7 @@ namespace
     }
 }
 
-std::ostream& apib::backend::operator<<(std::ostream& out, const apib::parser::mediatype::state& obj)
+std::ostream& apib::backend::operator<<(std::ostream& out, const apib::syntax::media_type& obj)
 {
     if (obj.type.empty() || obj.subtype.empty())
         return out;

@@ -6,8 +6,10 @@
 //  Copyright (c) 2015 Apiary. All rights reserved.
 //
 
-#include "RefractDataStructure.h"
 #include "Render.h"
+
+#include <apib/parser/MediaTypeParser.h>
+#include "RefractDataStructure.h"
 
 #include "BlueprintUtility.h"
 #include "RegexMatch.h"
@@ -31,11 +33,11 @@ namespace drafter
     RenderFormat findRenderFormat(const std::string& contentType)
     {
 
-        apib::parser::mediatype::state mediaType = parseMediaType(contentType);
+        const auto mediaType = apib::parser::parseMediaType(contentType);
 
-        if (IsJSONSchemaContentType(mediaType)) {
+        if (apib::isJSONSchema(mediaType)) {
             return JSONSchemaRenderFormat;
-        } else if (IsJSONContentType(mediaType)) {
+        } else if (apib::isJSON(mediaType)) {
             return JSONRenderFormat;
         }
 
