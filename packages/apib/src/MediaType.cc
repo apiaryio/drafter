@@ -8,6 +8,8 @@
 
 #include <apib/syntax/MediaType.h>
 
+#include <cctype>
+
 using namespace apib::syntax;
 
 namespace
