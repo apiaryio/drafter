@@ -188,6 +188,7 @@
       'type': 'executable',
       'include_dirs': [
         'packages/Catch/single_include',
+        'packages/PEGTL/include',
       ],
       'sources': [
         "packages/apib-parser/test/grammar/test-MediaType.cc",
