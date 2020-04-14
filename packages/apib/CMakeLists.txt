@@ -18,6 +18,30 @@ target_link_libraries(apib
         mpark_variant
       )
 
+target_compile_features(apib
+    PUBLIC 
+        cxx_alignas
+        cxx_alignof
+        cxx_auto_type
+        cxx_constexpr
+        cxx_decltype
+        cxx_defaulted_functions
+        cxx_defaulted_move_initializers
+        cxx_delegating_constructors
+        cxx_deleted_functions
+        cxx_final
+        cxx_lambdas
+        cxx_noexcept
+        cxx_nullptr
+        cxx_override
+        cxx_range_for
+        cxx_raw_string_literals
+        cxx_rvalue_references
+        cxx_static_assert
+        cxx_trailing_return_types
+        cxx_variadic_templates
+    )
+
 target_include_directories(apib
     PUBLIC
         $<BUILD_INTERFACE:${apib_BINARY_DIR}/include>
