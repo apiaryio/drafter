@@ -5,19 +5,47 @@ set -e
 DESTINATION=THIRD_PARTY_LICENSES.txt
 SEPARATOR="---------separator---------"
 
-echo "libdrafter" > $DESTINATION
+echo "libapib" > $DESTINATION
 echo $SEPARATOR >> $DESTINATION
 (
-    echo "Boost $(cat ext/boost/VERSION)" >> $DESTINATION
-    cat ext/boost/LICENSE_1_0.txt >> $DESTINATION
+    echo "Boost $(cat packages/boost/VERSION)" >> $DESTINATION
+    cat packages/boost/LICENSE_1_0.txt >> $DESTINATION
     echo $SEPARATOR >> $DESTINATION
 
     echo "variant" >> $DESTINATION
-    cat ext/variant/LICENSE.md >> $DESTINATION
+    cat packages/variant/LICENSE.md >> $DESTINATION
+    echo $SEPARATOR >> $DESTINATION
+)
+
+echo "libapib-parser" > $DESTINATION
+echo $SEPARATOR >> $DESTINATION
+(
+    echo "Boost $(cat packages/boost/VERSION)" >> $DESTINATION
+    cat packages/boost/LICENSE_1_0.txt >> $DESTINATION
+    echo $SEPARATOR >> $DESTINATION
+
+    echo "variant" >> $DESTINATION
+    cat packages/variant/LICENSE.md >> $DESTINATION
     echo $SEPARATOR >> $DESTINATION
 
     echo "Sundown" >> $DESTINATION
-    cat ext/snowcrash/ext/markdown-parser/ext/sundown/LICENSE >> $DESTINATION
+    cat packages/sundown/LICENSE >> $DESTINATION
+    echo $SEPARATOR >> $DESTINATION
+
+    echo "PEGTL" >> $DESTINATION
+    cat packages/PEGTL/LICENSE >> $DESTINATION
+    echo $SEPARATOR >> $DESTINATION
+)
+
+echo "libdrafter" > $DESTINATION
+echo $SEPARATOR >> $DESTINATION
+(
+    echo "Boost $(cat packages/boost/VERSION)" >> $DESTINATION
+    cat packages/boost/LICENSE_1_0.txt >> $DESTINATION
+    echo $SEPARATOR >> $DESTINATION
+
+    echo "variant" >> $DESTINATION
+    cat packages/variant/LICENSE.md >> $DESTINATION
     echo $SEPARATOR >> $DESTINATION
 )
 
@@ -26,6 +54,6 @@ echo "drafter-cli" >> $DESTINATION
 echo $SEPARATOR >> $DESTINATION
 (
     echo "cmdline" >> $DESTINATION
-    cat ext/cmdline/LICENSE >> $DESTINATION
+    cat packages/cmdline/LICENSE >> $DESTINATION
     echo $SEPARATOR >> $DESTINATION
 )
