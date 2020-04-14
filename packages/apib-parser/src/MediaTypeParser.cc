@@ -14,13 +14,10 @@
 using namespace apib::syntax;
 using namespace apib::parser::mediatype;
 
-namespace pegtl = tao::pegtl;
-
 media_type apib::parser::parseMediaType(const std::string& input)
 {
-
     media_type result;
-    pegtl::memory_input<> in(input, "");
-    pegtl::parse<pegtl::try_catch<match_grammar>, action>(in, result);
+    tao::pegtl::memory_input<> in(input, "");
+    tao::pegtl::parse<tao::pegtl::try_catch<match_grammar>, action>(in, result);
     return result;
 }
