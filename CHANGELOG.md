@@ -1,5 +1,13 @@
 # Drafter Changelog
 
+## 5.0.0 (2020-04-20)
+
+### Enhancements
+
+* Drafter contains two new options for disabling messageBody and
+  messageBodySchema generation from MSON. See the APIs `skip_gen_bodies` and
+  `skip_gen_body_schemas` respectively.
+
 ## 5.0.0-rc.1 (2020-03-16)
 
 ### Breaking
