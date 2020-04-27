@@ -1,18 +1,18 @@
 [submodule "ext/snowcrash/ext/markdown-parser/ext/sundown"]
-	path = ext/snowcrash/ext/markdown-parser/ext/sundown
+	path = packages/sundown
 	url = https://github.com/apiaryio/sundown.git
 [submodule "test/vendor/Catch"]
-	path = test/vendor/Catch
+	path = packages/Catch
 	url = https://github.com/catchorg/Catch2.git
 [submodule "ext/cmdline"]
-	path = ext/cmdline
+	path = packages/cmdline
 	url = https://github.com/apiaryio/cmdline.git
 [submodule "test/vendor/dtl"]
-	path = test/vendor/dtl
+	path = packages/dtl
 	url = https://github.com/apiaryio/dtl
 [submodule "ext/variant"]
-	path = ext/variant
+	path = packages/variant
 	url = https://github.com/mpark/variant.git
 [submodule "ext/PEGTL"]
-	path = ext/PEGTL
+	path = packages/PEGTL
 	url = https://github.com/taocpp/PEGTL.git

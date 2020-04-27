@@ -1,0 +1,7 @@
+include(CMakeFindDependencyMacro)
+find_dependency(apib 1.0)
+find_dependency(apib-parser 1.0)
+find_dependency(BoostContainer 1.66)
+find_dependency(cmdline 1.0)
+find_dependency(MPark.Variant 1.4)
+include("${CMAKE_CURRENT_LIST_DIR}/drafter-targets.cmake")

@@ -4,9 +4,7 @@ MAINTAINER Apiary "sre@apiary.io"
 WORKDIR /usr/src/drafter
 
 ADD CMakeLists.txt DefaultBuildType.cmake ./
-ADD src src
-ADD ext ext
-ADD test test
+ADD packages packages
 
 WORKDIR /tmp/drafter
 

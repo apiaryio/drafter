@@ -13,23 +13,23 @@ V ?= 1
 # Targets
 all: drafter
 
-libmarkdownparser: config.gypi $(BUILD_DIR)/Makefile
+libapib: config.gypi $(BUILD_DIR)/Makefile
 	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
 
-test-libmarkdownparser: config.gypi $(BUILD_DIR)/Makefile
-	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
-	mkdir -p ./bin
-	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/$@ ./bin/$@
-
-libsnowcrash: config.gypi $(BUILD_DIR)/Makefile
-	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
-
-test-libsnowcrash: config.gypi $(BUILD_DIR)/Makefile
+test-libapib: config.gypi $(BUILD_DIR)/Makefile
 	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
 	mkdir -p ./bin
 	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/$@ ./bin/$@
 
-perf-libsnowcrash: config.gypi $(BUILD_DIR)/Makefile
+libapib-parser: config.gypi $(BUILD_DIR)/Makefile
+	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
+
+test-libapib-parser: config.gypi $(BUILD_DIR)/Makefile
+	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
+	mkdir -p ./bin
+	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/$@ ./bin/$@
+
+test-libapib-parser-perf: config.gypi $(BUILD_DIR)/Makefile
 	$(MAKE) -C $(BUILD_DIR) V=$(V) $@
 	mkdir -p ./bin
 	cp -f $(BUILD_DIR)/out/$(BUILDTYPE)/$@ ./bin/$@
@@ -72,9 +72,9 @@ distclean:
 	rm -f ./config.gypi
 	rm -rf ./bin
 
-test: libmarkdownparser test-libmarkdownparser libsnowcrash test-libsnowcrash libdrafter test-libdrafter test-capi drafter
-	./bin/test-libmarkdownparser
-	./bin/test-libsnowcrash
+test: libapib test-libapib libapib-parser test-libapib-parser libdrafter test-libdrafter test-capi drafter
+	./bin/test-libapib
+	./bin/test-libapib-parser
 	./bin/test-libdrafter
 	./bin/test-capi
 
@@ -82,7 +82,7 @@ ifdef INTEGRATION_TESTS
 	bundle exec cucumber
 endif
 
-perf: libsnowcrash perf-libsnowcrash
-	./bin/perf-libsnowcrash ./ext/snowcrash/test/performance/fixtures/fixture-1.apib
+perf: libapib-parser test-libapib-parser-perf
+	./bin/test-libapib-parser-perf ./packages/apib-parser/test/snowcrash/performance/fixtures/fixture-1.apib
 
-.PHONY: all libmarkdownparser test-libmarkdownparser libsnowcrash libdrafter drafter test test-libsnowcrash test-libdrafter perf perf-libsnowcrash install
+.PHONY: all libapib test-libapib libapib-parser libdrafter drafter test test-libapib-parser test-libdrafter perf test-libapib-parser-perf install
