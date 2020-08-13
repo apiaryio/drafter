@@ -70,7 +70,7 @@ See [parse feature](features/parse.feature) for the details on using the `drafte
 #include <drafter/drafter.h>
 ```
 
-The [header](https://github.com/apiaryio/drafter/blob/master/src/drafter.h) itself is annotated with comments. [C API unit tests](https://github.com/apiaryio/drafter/blob/master/test/test-CAPI.c) provide more examples.
+The [header](https://github.com/apiaryio/drafter/blob/master/packages/drafter/src/drafter.h) itself is annotated with comments. [C API unit tests](https://github.com/apiaryio/drafter/blob/master/packages/drafter/test/test-CAPI.c) provide more examples.
 
 #### Parse API Blueprint into API Elements
 
@@ -115,21 +115,22 @@ free(yamlApie);
 Tweaking `drafter_serialize_options` allows serialization into JSON.
 
 ```c
-drafter_serialize_options* options = drafter_init_serialize_options();
-drafter_set_format(options, DRAFTER_SERIALIZE_JSON);
+
+drafter_serialize_options* serialize_options = drafter_init_serialize_options();
+drafter_set_format(serialize_options, DRAFTER_SERIALIZE_JSON);
 
 char* jsonApie = NULL;
-if (DRAFTER_OK == drafter_parse_blueprint_to(blueprint, &jsonApie, NULL, NULL)) {
+if (DRAFTER_OK == drafter_parse_blueprint_to(blueprint, &jsonApie, NULL, serialize_options)) {
     printf("%s\n", jsonApie);
 }
 
 free(jsonApie);
-drafter_free_options(options);
+drafter_free_serialize_options(serialize_options);
 ```
 
 #### Validate API Blueprint
 
-API Blueprint can be validated via `drafter_check_blueprint`. 
+API Blueprint can be validated via `drafter_check_blueprint`.
 
 ```c
 drafter_error drafter_check_blueprint(
