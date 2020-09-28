@@ -1,5 +1,20 @@
 # Drafter Changelog
 
+## TBD
+
+### Enhancements
+
+- JSON Schemas generated for `fixed-type` arrays with a single sub-type will
+  no longer be wrapped in an `anyOf` schema. Thus `array[Object]` as
+  `fixed-type` will now result in the following schema:
+
+  ```json
+  {
+    "type": "array",
+    "items": { "type": "object" }
+  }
+  ```
+
 ## 5.0.0 (2020-04-20)
 
 ### Enhancements

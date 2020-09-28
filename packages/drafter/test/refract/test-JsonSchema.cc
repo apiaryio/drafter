@@ -349,7 +349,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
 
             THEN("the schema matches arrays of strings")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-07/schema#","type":"array","items":{"anyOf":[{"type":"string"}]}})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-07/schema#","type":"array","items":{"type":"string"}})");
             }
         }
     }
@@ -396,7 +396,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
 
             THEN("the schema matches arrays of strings")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-07/schema#","type":"array","items":{"anyOf":[{"type":"string"}]}})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-07/schema#","type":"array","items":{"type":"string"}})");
             }
         }
     }
