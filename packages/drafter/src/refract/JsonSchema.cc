@@ -114,6 +114,12 @@ namespace
         return schema;
     }
 
+    so::Object& addMaxItems(so::Object& schema, size_t maxItems)
+    {
+        schema.data.emplace_back("maxItems", so::Number { maxItems });
+        return schema;
+    }
+
     so::Object& addProperties(so::Object& schema, so::Object value)
     {
         schema.data.emplace_back("properties", std::move(value));
@@ -432,8 +438,7 @@ namespace
             addType(schema, TYPE_NAME);
 
             if (e.empty()) {
-                so::Array items{};
-                addItems(schema, so::Object{ so::from_list{}, std::make_pair("anyOf", std::move(items)) });
+                addMaxItems(schema, 0);
             } else if (e.get().size() == 1) {
                 const auto& entry = *e.get().begin();
                 so::Object items = makeSchema(*entry, inheritOrPassFlags(options, *entry));

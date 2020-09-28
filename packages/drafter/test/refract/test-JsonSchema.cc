@@ -302,7 +302,7 @@ SCENARIO("JSON Schema serialization of ArrayElement", "[json-schema]")
 
             THEN("the schema matches an empty array")
             {
-                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-07/schema#","type":"array","items":{"anyOf":[]}})");
+                REQUIRE(to_string(result) == R"({"$schema":"http://json-schema.org/draft-07/schema#","type":"array","maxItems":0})");
             }
         }
     }
