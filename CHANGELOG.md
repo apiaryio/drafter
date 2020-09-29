@@ -1,5 +1,27 @@
 # Drafter Changelog
 
+## TBD
+
+### Enhancements
+
+- JSON Schemas generated for `fixed-type` arrays with a single sub-type will
+  no longer be wrapped in an `anyOf` schema. Thus `array[Object]` as
+  `fixed-type` will now result in the following schema:
+
+  ```json
+  {
+    "type": "array",
+    "items": { "type": "object" }
+  }
+  ```
+
+### Bug Fixes
+
+- JSON Schemas generated for `fixed-type` arrays with no types will no longer
+  produce an empty `anyOf` subschema.
+  [`anyOf`](https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.2)
+  must be a non-empty array in JSON Schema.
+
 ## 5.0.0 (2020-04-20)
 
 ### Enhancements

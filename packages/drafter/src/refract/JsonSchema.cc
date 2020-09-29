@@ -114,6 +114,12 @@ namespace
         return schema;
     }
 
+    so::Object& addMaxItems(so::Object& schema, size_t maxItems)
+    {
+        schema.data.emplace_back("maxItems", so::Number { maxItems });
+        return schema;
+    }
+
     so::Object& addProperties(so::Object& schema, so::Object value)
     {
         schema.data.emplace_back("properties", std::move(value));
@@ -428,16 +434,24 @@ namespace
 
         if (options.test(FIXED_TYPE_FLAG)) { // array of any of types
 
-            so::Array items{};
-            if (!e.empty())
+            auto& schema = wrapNullable(s, options);
+            addType(schema, TYPE_NAME);
+
+            if (e.empty()) {
+                addMaxItems(schema, 0);
+            } else if (e.get().size() == 1) {
+                const auto& entry = *e.get().begin();
+                so::Object items = makeSchema(*entry, inheritOrPassFlags(options, *entry));
+                addItems(schema, std::move(items));
+            } else {
+                so::Array items{};
                 for (const auto& entry : e.get()) {
                     assert(entry);
                     so::emplace_unique(items, makeSchema(*entry, inheritOrPassFlags(options, *entry)));
                 }
 
-            auto& schema = wrapNullable(s, options);
-            addType(schema, TYPE_NAME);
-            addItems(schema, so::Object{ so::from_list{}, std::make_pair("anyOf", std::move(items)) });
+                addItems(schema, so::Object{ so::from_list{}, std::make_pair("anyOf", std::move(items)) });
+            }
 
         } else if (options.test(FIXED_FLAG)) { // tuple of N constants/types
 
