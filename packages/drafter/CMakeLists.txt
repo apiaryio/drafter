@@ -10,7 +10,6 @@ include_directories(${PROJECT_BINARY_BIN})
 
 set(DRAFTER_SOURCES
     src/ConversionContext.cc
-    src/MsonMemberToApie.cc
     src/MsonOneOfSectionToApie.cc
     src/MsonTypeSectionToApie.cc
     src/NamedTypesRegistry.cc
