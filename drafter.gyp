@@ -291,7 +291,6 @@
         "packages/drafter/src/MsonTypeSectionToApie.h",
         "packages/drafter/src/MsonTypeSectionToApie.cc",
         "packages/drafter/src/MsonMemberToApie.h",
-        "packages/drafter/src/MsonMemberToApie.cc",
         "packages/drafter/src/MsonOneOfSectionToApie.h",
         "packages/drafter/src/MsonOneOfSectionToApie.cc",
         "packages/drafter/src/RefractDataStructure.h",
