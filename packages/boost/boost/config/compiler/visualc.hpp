@@ -43,6 +43,9 @@
 #  error "Compiler not supported or configured - please reconfigure"
 #endif
 
+// VS2005 (VC8) docs: __assume has been in Visual C++ for multiple releases
+#define BOOST_UNREACHABLE_RETURN(x) __assume(0);
+
 #if _MSC_FULL_VER < 180020827
 #  define BOOST_NO_FENV_H
 #endif
@@ -104,12 +107,20 @@
 #  define BOOST_NO_RTTI
 #endif
 
+// Deprecated symbol markup
+#if (_MSC_VER >= 1400)
+#define BOOST_DEPRECATED(msg) __declspec(deprecated(msg))
+#else
+// MSVC 7.1 only supports the attribute without a message
+#define BOOST_DEPRECATED(msg) __declspec(deprecated)
+#endif
+
 //
 // TR1 features:
 //
 #if (_MSC_VER >= 1700) && defined(_HAS_CXX17) && (_HAS_CXX17 > 0)
-// # define BOOST_HAS_TR1_HASH			// don't know if this is true yet.
-// # define BOOST_HAS_TR1_TYPE_TRAITS	// don't know if this is true yet.
+// # define BOOST_HAS_TR1_HASH          // don't know if this is true yet.
+// # define BOOST_HAS_TR1_TYPE_TRAITS   // don't know if this is true yet.
 # define BOOST_HAS_TR1_UNORDERED_MAP
 # define BOOST_HAS_TR1_UNORDERED_SET
 #endif
@@ -141,6 +152,7 @@
 #  define BOOST_NO_CXX11_FINAL
 #  define BOOST_NO_CXX11_RANGE_BASED_FOR
 #  define BOOST_NO_CXX11_SCOPED_ENUMS
+#  define BOOST_NO_CXX11_OVERRIDE
 #endif // _MSC_VER < 1700
 
 // C++11 features supported by VC++ 12 (aka 2013).
@@ -171,6 +183,7 @@
 #  define BOOST_NO_CXX11_REF_QUALIFIERS
 #  define BOOST_NO_CXX11_USER_DEFINED_LITERALS
 #  define BOOST_NO_CXX11_ALIGNAS
+#  define BOOST_NO_CXX11_ALIGNOF
 #  define BOOST_NO_CXX11_INLINE_NAMESPACES
 #  define BOOST_NO_CXX11_CHAR16_T
 #  define BOOST_NO_CXX11_CHAR32_T
@@ -182,6 +195,7 @@
 #  define BOOST_NO_CXX14_GENERIC_LAMBDAS
 #  define BOOST_NO_CXX14_DIGIT_SEPARATORS
 #  define BOOST_NO_CXX11_THREAD_LOCAL
+#  define BOOST_NO_CXX11_UNRESTRICTED_UNION
 #endif
 // C++11 features supported by VC++ 14 update 3 (aka 2015)
 //
@@ -202,8 +216,9 @@
 #if (_MSC_VER < 1911) || (_MSVC_LANG < 201703)
 #  define BOOST_NO_CXX17_STRUCTURED_BINDINGS
 #  define BOOST_NO_CXX17_IF_CONSTEXPR
-#  define BOOST_NO_CXX17_HDR_OPTIONAL
-#  define BOOST_NO_CXX17_HDR_STRING_VIEW
+// Let the defaults handle these now:
+//#  define BOOST_NO_CXX17_HDR_OPTIONAL
+//#  define BOOST_NO_CXX17_HDR_STRING_VIEW
 #endif
 
 // MSVC including version 14 has not yet completely
@@ -230,7 +245,9 @@
 // if this is in effect or not, in any case nothing in Boost is currently using this, so we'll just go
 // on defining it for now:
 //
+#if (_MSC_FULL_VER < 193030705)  || (_MSVC_LANG < 202004)
 #  define BOOST_NO_TWO_PHASE_NAME_LOOKUP
+#endif
 
 #if (_MSC_VER < 1912) || (_MSVC_LANG < 201402)
 // Supported from msvc-15.5 onwards:
@@ -254,7 +271,7 @@
 #ifndef BOOST_NO_CXX11_THREAD_LOCAL
 #  define BOOST_NO_CXX11_THREAD_LOCAL
 #endif
-#ifndef BOOST_NO_SFINAE_EXPR
+#if !defined(BOOST_NO_SFINAE_EXPR) && !defined(_MSVC_LANG)
 #  define BOOST_NO_SFINAE_EXPR
 #endif
 #ifndef BOOST_NO_CXX11_REF_QUALIFIERS
@@ -275,6 +292,17 @@
 #endif
 #ifndef BOOST_ABI_SUFFIX
 #  define BOOST_ABI_SUFFIX "boost/config/abi/msvc_suffix.hpp"
+#endif
+
+//
+// Approximate compiler conformance version
+//
+#ifdef _MSVC_LANG
+#  define BOOST_CXX_VERSION _MSVC_LANG
+#elif defined(_HAS_CXX17)
+#  define BOOST_CXX_VERSION 201703L
+#elif BOOST_MSVC >= 1916
+#  define BOOST_CXX_VERSION 201402L
 #endif
 
 #ifndef BOOST_COMPILER
@@ -313,7 +341,7 @@
 #   endif
 # else
 #   if _MSC_VER < 1200
-      // Note: Versions up to 7.0 aren't supported.
+      // Note: Versions up to 10.0 aren't supported.
 #     define BOOST_COMPILER_VERSION 5.0
 #   elif _MSC_VER < 1300
 #     define BOOST_COMPILER_VERSION 6.0
@@ -335,6 +363,10 @@
 #     define BOOST_COMPILER_VERSION 14.0
 #   elif _MSC_VER < 1920
 #     define BOOST_COMPILER_VERSION 14.1
+#   elif _MSC_VER < 1930
+#     define BOOST_COMPILER_VERSION 14.2
+#   elif _MSC_VER < 1940
+#     define BOOST_COMPILER_VERSION 14.3
 #   else
 #     define BOOST_COMPILER_VERSION _MSC_VER
 #   endif
@@ -346,8 +378,8 @@
 #include <boost/config/pragma_message.hpp>
 
 //
-// last known and checked version is 19.12.25830.2 (VC++ 2017.3):
-#if (_MSC_VER > 1912)
+// last known and checked version is 19.3x (VS2022):
+#if (_MSC_VER >= 1940)
 #  if defined(BOOST_ASSERT_CONFIG)
 #     error "Boost.Config is older than your current compiler version."
 #  elif !defined(BOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE)
