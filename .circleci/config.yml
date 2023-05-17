@@ -246,7 +246,7 @@ jobs:
       - run: brew install cmake
       - <<: *clang-debug
     macos:
-      xcode: "11.2.1"
+      xcode: "14.2.0"
 
   test-osx-release:
     <<: *test-base
@@ -257,7 +257,7 @@ jobs:
       - run: brew install cmake
       - <<: *clang-release
     macos:
-      xcode: "11.2.1"
+      xcode: "14.2.0"
 
   test-valgrind:
     <<: *test-base-legacy
