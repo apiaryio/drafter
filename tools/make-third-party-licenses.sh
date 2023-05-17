@@ -8,7 +8,7 @@ SEPARATOR="---------separator---------"
 echo "libapib" > $DESTINATION
 echo $SEPARATOR >> $DESTINATION
 (
-    echo "Boost $(cat packages/boost/VERSION)" >> $DESTINATION
+    echo "Boost $(cat packages/boost/VERSION.txt)" >> $DESTINATION
     cat packages/boost/LICENSE_1_0.txt >> $DESTINATION
     echo $SEPARATOR >> $DESTINATION
 
@@ -20,7 +20,7 @@ echo $SEPARATOR >> $DESTINATION
 echo "libapib-parser" > $DESTINATION
 echo $SEPARATOR >> $DESTINATION
 (
-    echo "Boost $(cat packages/boost/VERSION)" >> $DESTINATION
+    echo "Boost $(cat packages/boost/VERSION.txt)" >> $DESTINATION
     cat packages/boost/LICENSE_1_0.txt >> $DESTINATION
     echo $SEPARATOR >> $DESTINATION
 
@@ -40,7 +40,7 @@ echo $SEPARATOR >> $DESTINATION
 echo "libdrafter" > $DESTINATION
 echo $SEPARATOR >> $DESTINATION
 (
-    echo "Boost $(cat packages/boost/VERSION)" >> $DESTINATION
+    echo "Boost $(cat packages/boost/VERSION.txt)" >> $DESTINATION
     cat packages/boost/LICENSE_1_0.txt >> $DESTINATION
     echo $SEPARATOR >> $DESTINATION
 
