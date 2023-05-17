@@ -145,7 +145,7 @@ jobs:
   test-gyp:
     <<: *test-base-legacy
     docker:
-      - image: gcc:4.8.5
+      - image: gcc:7
 
   test-gcc-49-debug:
     <<: *test-base
