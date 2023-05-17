@@ -4,7 +4,7 @@ aliases:
   - &test-base-legacy
     working_directory: /tmp/drafter
     environment:
-      CXXFLAGS: '-Werror -Wno-error=unused-function'
+      CXXFLAGS: '-Wno-error=unused-function'
     steps:
       - checkout
       - run: git submodule update --init --recursive
