@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-project(Drafter VERSION 5.0.0 LANGUAGES CXX)
+project(Drafter VERSION 5.1.0 LANGUAGES CXX)
 
 set(DRAFTER_VERSION_IS_RELEASE 1)
 
