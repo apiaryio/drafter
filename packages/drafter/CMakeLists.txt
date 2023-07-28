@@ -179,17 +179,17 @@ add_custom_target(drafter DEPENDS ${DRAFTER_TARGETS})
 
 # install
 install(TARGETS ${EXPORTED_TARGETS} EXPORT drafter-targets
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-    RUNTIME DESTINATION bin
-    INCLUDES DESTINATION include/drafter
-    PUBLIC_HEADER DESTINATION include/drafter
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/drafter
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/drafter
     )
 
 install(EXPORT drafter-targets
     FILE drafter-targets.cmake
     NAMESPACE drafter::
-    DESTINATION lib/cmake/drafter
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/drafter
     )
 
 include(CMakePackageConfigHelpers)
@@ -203,7 +203,7 @@ install(
         "drafter-config.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/drafter-config-version.cmake"
     DESTINATION
-        lib/cmake/drafter
+        ${CMAKE_INSTALL_LIBDIR}/cmake/drafter
     )
 
 add_library(drafter ALIAS drafter-lib)
