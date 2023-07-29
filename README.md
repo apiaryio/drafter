@@ -22,7 +22,7 @@ Both the types of Parse Results are available in two different serialization for
 - [Format 1A9](https://github.com/apiaryio/api-blueprint/releases/tag/format-1A9) fully implemented
 
 ## Install
-OS X using Homebrew:
+If you are a [Homebrew](https://brew.sh/) user, you can install [drafter](https://formulae.brew.sh/formula/drafter) on macOS/Linux via:
 
 ```sh
 $ brew install drafter
