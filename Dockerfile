@@ -1,23 +1,18 @@
-FROM alpine:3.10 as build
+FROM debian:bullseye-slim AS drafter-build
 MAINTAINER Apiary "sre@apiary.io"
+
+COPY . /usr/src/drafter
 
 WORKDIR /usr/src/drafter
 
-ADD CMakeLists.txt DefaultBuildType.cmake ./
-ADD packages packages
+RUN apt-get install --yes cmake g++
 
-WORKDIR /tmp/drafter
+RUN cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+RUN cmake --build build
+RUN cmake --install build
 
-RUN apk add --no-cache cmake make g++
-RUN cmake /usr/src/drafter
-
-RUN make drafter
-RUN make install
-
-FROM alpine:3.10
-
-RUN apk add --no-cache gcc
-COPY --from=build /usr/local/bin/drafter /usr/local/bin/drafter
+FROM debian:bullseye-slim AS drafter
+COPY --from=drafter-build /usr/local/bin/drafter /usr/local/bin/drafter
 ADD LICENSE /usr/local/share/licenses/drafter/LICENSE
 
 CMD drafter
