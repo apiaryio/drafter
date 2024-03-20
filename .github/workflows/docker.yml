@@ -1,0 +1,43 @@
+name: Create and publish a Docker image
+on:
+  push:
+    branches: 
+      - 'master'
+    tags:
+      - ".*"
+  pull_request:
+    paths:
+      - Dockerfile
+      - .github/workflows/docker.yml
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Log in to the Container registry
+        uses: docker/login-action@master
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels)
+        id: meta-drafter
+        uses: docker/metadata-action@master
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/drafter
+
+      - name: Build and push drafter Docker image
+        uses: docker/build-push-action@master
+        with:
+          push: true
+          tags: ${{ steps.meta-drafter.outputs.tags }}
+          labels: ${{ steps.meta-drafter.outputs.labels }}
+          target: drafter
+          no-cache-filters: drafter-build,drafter
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ github.repository }}:latest
